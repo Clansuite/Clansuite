@@ -34,8 +34,7 @@
 namespace Koch\Config\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -45,31 +44,27 @@ class Csv
      * Read the config array from csv file
      *
      * @param   string  The filename
-     * @return  mixed array | boolean false
+     * @return mixed array | boolean false
      */
     public static function readConfig($file)
     {
-        if(is_file($file) === false or is_readable($file) === false)
-        {
+        if (is_file($file) === false or is_readable($file) === false) {
             throw new Clansuite_Exception('JSON Config File not existing or not readable.');
         }
 
         $csvarray = array();
 
         # read file
-        if(($handle = fopen($file, "r+")) !== false)
-        {
+        if (($handle = fopen($file, "r+")) !== false) {
             # set the parent multidimensional array key to 0
             $key = 0;
 
-            while(($data = fgetcsv($handle, 1000, ",")) !== false)
-            {
+            while (($data = fgetcsv($handle, 1000, ",")) !== false) {
                 # count the total keys in the row
                 $c = count($data);
 
                 # populate the multidimensional array
-                for($x = 0; $x < $c; $x++)
-                {
+                for ($x = 0; $x < $c; $x++) {
                     $csvarray[$key][$x] = $data[$x];
                 }
                 $key++;
@@ -90,21 +85,18 @@ class Csv
      */
     public function writeConfig($file, array $array)
     {
-        if(($handle = fopen($file, "r+")) !== false)
-        {
+        if (($handle = fopen($file, "r+")) !== false) {
             # transform array to csv notation
-            foreach ($array as $key => $value)
-            {
-                if (is_string($value))
-                {
+            foreach ($array as $key => $value) {
+                if (is_string($value)) {
                     $value = explode(',', $value);
                     $value = array_map('trim', $value);
                 }
             }
 
             # write to csv to file
+
             return fputcsv($handle, $value, ',', '"');
         }
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Datagrid\Columnrenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -69,19 +68,16 @@ class Link extends ColumnRenderer implements ColumnRendererInterface
         $this->link = parent::getColumn()->getBaseURL();
 
         # validate
-        if( false == isset($values['name']) )
-        {
+        if ( false == isset($values['name']) ) {
             throw new Clansuite_Exception(_('A link needs a name. Please define "name" in the ResultKeys'));
-        }
-        else
-        {
-            if( mb_strlen($values['name']) > $this->nameWrapLength )
-            {
+        } else {
+            if ( mb_strlen($values['name']) > $this->nameWrapLength ) {
                 $values['name'] = mb_substr($values['name'], 0, $this->nameWrapLength-3) . '...';
             }
         }
 
         # render
+
         return $this->_replacePlaceholders( $values,
                                             Clansuite_HTML::renderElement(  'a',
                                                                             $this->nameFormat,
@@ -90,4 +86,3 @@ class Link extends ColumnRenderer implements ColumnRendererInterface
                                                                                     'title' => $this->linkTitle )));
     }
 }
-?>

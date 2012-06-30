@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -57,8 +56,7 @@ class Wysiwygtinymce extends Textarea implements FormelementInterface
      */
     public static function checkDependencies()
     {
-        if (!is_file(ROOT_THEMES_CORE . 'javascript/tiny_mce/tiny_mce.js'))
-        {
+        if (!is_file(ROOT_THEMES_CORE . 'javascript/tiny_mce/tiny_mce.js')) {
             exit('TinyMCE Library missing!');
         }
     }
@@ -89,4 +87,3 @@ class Wysiwygtinymce extends Textarea implements FormelementInterface
         return $javascript;
     }
 }
-?>

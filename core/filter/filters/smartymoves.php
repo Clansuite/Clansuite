@@ -37,8 +37,7 @@ use \Koch\MVC\HttpRequestInterface;
 use \Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -73,8 +72,7 @@ class SmartyMoves implements FilterInterface
         /**
          * If the renderer is not smarty, then bypass the filter.
          */
-        if($request->getRoute()->getRenderEngine() != 'smarty')
-        {
+        if ($request->getRoute()->getRenderEngine() != 'smarty') {
             return;
         }
 
@@ -91,8 +89,7 @@ class SmartyMoves implements FilterInterface
         preg_match_all('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', $content, $matches);
         $content = preg_replace('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', '', $content);
         $matches = array_keys(array_flip($matches[1]));
-        foreach($matches as $value)
-        {
+        foreach ($matches as $value) {
             $content = str_replace('</head>', $value."\n".'</head>', $content);
         }
 
@@ -104,8 +101,7 @@ class SmartyMoves implements FilterInterface
         preg_match_all('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', $content, $matches);
         $content = preg_replace('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', '', $content);
         $matches = array_keys(array_flip($matches[1]));
-        foreach($matches as $values)
-        {
+        foreach ($matches as $values) {
             $content = str_replace('<body>', '<body>'."\n".$value, $content);
         }
 
@@ -117,8 +113,7 @@ class SmartyMoves implements FilterInterface
         preg_match_all('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', $content, $matches);
         $content = preg_replace('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', '', $content);
         $matches = array_keys(array_flip($matches[1]));
-        foreach($matches as $values)
-        {
+        foreach ($matches as $values) {
             $content = str_replace('</body>', $value."\n".'</body>', $content);
         }
 
@@ -128,4 +123,3 @@ class SmartyMoves implements FilterInterface
         $response->setContent($content, true);
     }
 }
-?>

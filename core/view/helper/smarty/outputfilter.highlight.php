@@ -1,8 +1,7 @@
 <?php
 // $Id$
 //this script may only be included - so its better to die if called directly.
-if (mb_strpos($_SERVER['SCRIPT_NAME'],basename(__FILE__)) !== false)
-{
+if (mb_strpos($_SERVER['SCRIPT_NAME'],basename(__FILE__)) !== false) {
     header('location: index.php');
     exit;
 }
@@ -34,23 +33,18 @@ function smarty_outputfilter_highlight($source, $smarty)
     $highlight = $_REQUEST['highlight'];
     $feature_referer_highlight = $GLOBALS['feature_referer_highlight']; # @todo remove globals
 
-    if(isset($feature_referer_highlight) && $$feature_referer_highlight == 'y')
-    {
+    if (isset($feature_referer_highlight) && $$feature_referer_highlight == 'y') {
         $refererhi = _refererhi();
-        if(isset($refererhi) && !empty($refererhi))
-        {
-            if(isset($highlight) && !empty($highlight))
-            {
+        if (isset($refererhi) && !empty($refererhi)) {
+            if (isset($highlight) && !empty($highlight)) {
                 $highlight = $highlight." ".$refererhi;
-            } else
-            {
+            } else {
                 $highlight = $refererhi;
             }
         }
     }
 
-    if (!isset($highlight) || empty($highlight))
-    {
+    if (!isset($highlight) || empty($highlight)) {
         return $source;
     }
 
@@ -69,8 +63,7 @@ function smarty_outputfilter_highlight($source, $smarty)
 function _enlightColor($matches)
 {
     static $colword = array();
-    if (is_string($matches))
-    { // just to set the color array
+    if (is_string($matches)) { // just to set the color array
         // This array is used to choose colors for supplied highlight terms
         $colorArr = array('#ffff66','#ff9999','#A0FFFF','#ff66ff','#99ff99');
 
@@ -79,8 +72,7 @@ function _enlightColor($matches)
         $i = 0;
         $seaword = $seasep = '';
         $wordArr = preg_split('~%20|\+|\s+~', $matches);
-        foreach($wordArr as $word)
-        {
+        foreach ($wordArr as $word) {
             if ($word == '')
                 continue;
             $seaword .= $seasep.preg_quote($word, '~');
@@ -88,14 +80,15 @@ function _enlightColor($matches)
             $colword[mb_strtolower($word)] = $colorArr[$i%5];
             $i++;
         }
+
         return $seaword;
     }
     // actual replacement callback
-    if (isset($matches[1]))
-    {
+    if (isset($matches[1])) {
         return '<span style="color:black; background-color:'
                 . $colword[mb_strtolower($matches[1])] . ';">' . $matches[1] . '</span>';
     }
+
     return $matches[0];
 }
 
@@ -105,13 +98,10 @@ function _refererhi()
 {
     $referer = parse_url($_SERVER['HTTP_REFERER']);
     parse_str($referer['query'],$vars);
-    if (isset($vars['q']))
-    {
+    if (isset($vars['q'])) {
         return $vars['q'];
-    }
-    else if (isset($vars['p']))
-    {
+    } else { if (isset($vars['p']))
+
         return $vars['p'];
     }
 }
-?>

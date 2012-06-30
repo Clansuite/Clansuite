@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -65,8 +64,7 @@ class Radiolist extends Radio implements FormelementInterface
 
         $i=0;
         $html = '';
-        while ( list($key, $value) = each($this->options))
-        {
+        while ( list($key, $value) = each($this->options)) {
             # setup a new radio formelement
             $radio = new Koch_Formelement_Radio();
             $radio->setValue($key)
@@ -75,8 +73,7 @@ class Radiolist extends Radio implements FormelementInterface
                   ->setLabel($value);
 
             # check the element, if value is "active"
-            if( $this->value == $key)
-            {
+            if ($this->value == $key) {
                 $radio->setChecked();
             }
 
@@ -86,12 +83,11 @@ class Radiolist extends Radio implements FormelementInterface
             #Koch_Debug::printR($html);
 
             # if we have more options comming up, add a seperator
-            if (++$i!=count($this->options))
-            {
+            if (++$i!=count($this->options)) {
                 $html .= $this->separator;
             }
         }
+
         return $html;
     }
 }
-?>

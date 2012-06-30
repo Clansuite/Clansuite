@@ -33,8 +33,7 @@
 namespace Koch\Form\Generator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -43,7 +42,7 @@ if(defined('IN_CS') === false)
  *
  * Purpose:
  * 1) form generation (html representation) from an xml description file (xml->form(html))
- * 2) xml generation from an array description of the form (form(array)->xml).
+ * 2) xml generation from an array description of the form (form(array) ->xml).
  */
 class XML extends Koch_Form implements FormGeneratorInterface
 {
@@ -58,7 +57,7 @@ class XML extends Koch_Form implements FormGeneratorInterface
     /**
      * Generates a formular from a XML description file.
      *
-     * @param string $filename XML file with formular description.
+     * @param  string                    $filename XML file with formular description.
      * @return \Koch_Array_Formgenerator
      */
     public function generateFormByXML($filename)
@@ -77,8 +76,6 @@ class XML extends Koch_Form implements FormGeneratorInterface
         return $form;
     }
 
-
-
     /**
      * Generates a XML Form Description File from an form describing array
      *
@@ -94,4 +91,3 @@ class XML extends Koch_Form implements FormGeneratorInterface
     }
 
 }
-?>

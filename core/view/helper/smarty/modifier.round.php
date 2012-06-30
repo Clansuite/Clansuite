@@ -19,4 +19,3 @@ function smarty_modifier_round($float, $precision = 0)
 {
     return round((float) $float, $precision);
 }
-?>

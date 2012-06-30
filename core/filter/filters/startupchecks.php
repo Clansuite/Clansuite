@@ -38,8 +38,7 @@ use Koch\MVC\HttpResponseInterface;
 use Koch\Exception\Exception;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -83,4 +82,3 @@ class StartupChecks implements FilterInterface
         }
     }
 }
-?>

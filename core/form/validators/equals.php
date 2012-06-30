@@ -35,8 +35,7 @@ namespace Koch\Form\Validators;
 use Koch\Form\Validator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -81,14 +80,10 @@ class Equals extends Validator
 
     protected function processValidationLogic($value)
     {
-        if ($this->equalsTo == $value) # $this->element->getValue())
-        {
+        if ($this->equalsTo == $value) # $this->element->getValue()) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 }
-?>

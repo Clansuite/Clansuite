@@ -33,8 +33,7 @@
 namespace Koch\Form\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -77,7 +76,7 @@ class Formelement extends Decorator
      *
      * <strong>WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE DECORATOR.</strong>
      *
-     * @param string $formelementname Name of the new formelement (B) to decorate the existing formelement (A) with.
+     * @param  string $formelementname Name of the new formelement (B) to decorate the existing formelement (A) with.
      * @return object Instance of formelement.
      */
     public function newFormelement($formelementname)
@@ -86,6 +85,7 @@ class Formelement extends Decorator
         $this->formelementname = $formelementname;
 
         # instantiate, set to class and return formelement object
+
         return $this->formelement_object = Koch_Form::formelementFactory($formelementname);
     }
 
@@ -94,12 +94,11 @@ class Formelement extends Decorator
      */
     public function render($html_formelement)
     {
-        if(is_object($this->formelement_object))
-        {
+        if (is_object($this->formelement_object)) {
             # WATCH THE DOT to render after formelement (A)
             $html_formelement .= CR . $this->formelement_object->render();
+
             return $html_formelement;
         }
     }
 }
-?>

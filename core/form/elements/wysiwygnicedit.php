@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -56,8 +55,7 @@ class Wysiwygnicedit extends Textarea implements FormelementInterface
      */
     public static function checkDependencies()
     {
-        if (!is_file(ROOT_THEMES_CORE . 'javascript/nicedit/nicedit.js'))
-        {
+        if (!is_file(ROOT_THEMES_CORE . 'javascript/nicedit/nicedit.js')) {
             exit('NicEdit Javascript Library missing!');
         }
     }
@@ -107,10 +105,8 @@ class Wysiwygnicedit extends Textarea implements FormelementInterface
                     }'.CR.'
                 </style>';
 
-
         # if we are in inheritance mode, skip this, the parent class handles this already
 
         return $javascript.$html;
     }
 }
-?>

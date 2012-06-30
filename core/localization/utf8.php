@@ -33,8 +33,7 @@
 namespace Koch\Localization;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -58,11 +57,9 @@ class UTF8
         define('UTF8_MBSTRING', extension_loaded('mbstring'));
 
         # mbstring extension is loaded
-        if(UTF8_MBSTRING === true)
-        {
+        if (UTF8_MBSTRING === true) {
             # we do not accept mbstring function overloading set in php.ini
-            if(ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING)
-            {
+            if (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING) {
                 trigger_error('The string functions are overloaded by mbstring. Please stop that.
                                Check php.ini - setting: mbstring.func_overload.', E_USER_ERROR);
             }
@@ -70,9 +67,7 @@ class UTF8
             # if not already set, the internal encoding is now UTF-8
             mb_internal_encoding('UTF-8');
 
-        }
-        else # mbstring extension is NOT loaded
-        {
+        } else { # mbstring extension is NOT loaded
             # load functional replacements for mbstring functions
             include ROOT_CORE . 'utf8/mbstring.wrapper.php';
 
@@ -84,4 +79,3 @@ class UTF8
         }
     }
 }
-?>

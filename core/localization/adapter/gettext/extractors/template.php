@@ -33,8 +33,7 @@
 namespace Koch\Localization\Gettext;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -84,14 +83,12 @@ class Template extends Base implements Extractor
         $filecontent = file($file);
 
         # ensure we got the filecontent
-        if(empty($filecontent))
-        {
+        if (empty($filecontent)) {
             return;
         }
 
         # ensure we got defined some tags to scan for
-        if(false === count($this->tags_to_scan))
-        {
+        if (false === count($this->tags_to_scan)) {
             return;
         }
 
@@ -114,22 +111,19 @@ class Template extends Base implements Extractor
         $pattern = str_replace($search, $replace, self::REGEXP);
 
         # parse file by lines
-        foreach($filecontent as $line => $line_content)
-        {
+        foreach ($filecontent as $line => $line_content) {
             # grab the prefixed tags
             preg_match_all($pattern, $line_content, $matches);
 
             # no match
-            if(empty($matches))
-            {
+            if (empty($matches)) {
                 continue;
             }
 
             # correct line number, because file[line1] = array[0]
             $calc_line = 1 + $line;
 
-            foreach($matches[3] as $match)
-            {
+            foreach ($matches[3] as $match) {
                 /**
                  *  $data array has the following structure
                  *  array('language-string') => array([0] => 'file:line')
@@ -144,4 +138,3 @@ class Template extends Base implements Extractor
         return $data;
     }
 }
-?>

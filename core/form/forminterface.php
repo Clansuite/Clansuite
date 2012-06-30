@@ -33,8 +33,7 @@
 namespace Koch\Form;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -65,4 +64,3 @@ interface FormInterface
     # callback for validation on the whole form (all formelements)
     #public function processForm();
 }
-?>

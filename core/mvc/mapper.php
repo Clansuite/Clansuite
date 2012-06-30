@@ -33,8 +33,7 @@
 namespace Koch\MVC;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -66,8 +65,8 @@ class Mapper extends \ArrayObject
     /**
      * Maps the controller and subcontroller (optional) to filename
      *
-     * @param string $controller Name of Controller
-     * @param string $subcontroller Name of SubController (optional)
+     * @param  string $controller    Name of Controller
+     * @param  string $subcontroller Name of SubController (optional)
      * @return string filename
      */
     public static function mapControllerToFilename($module_path, $controller, $subcontroller = null)
@@ -79,16 +78,12 @@ class Mapper extends \ArrayObject
         $module_path = $module_path . 'controller' . DS;
 
         # subcontroller
-        if(isset($subcontroller) and 'admin' == $subcontroller)
-        {
+        if (isset($subcontroller) and 'admin' == $subcontroller) {
             $filename_postfix = '.admin.php';
-        }
-        elseif(isset($subcontroller) and $subcontroller != 'admin') # any subcontroller name as postfix
+        } elseif(isset($subcontroller) and $subcontroller != 'admin') # any subcontroller name as postfix
         {
             $filename_postfix = '.'.$subcontroller.'.php';
-        }
-        else # apply standard postfix
-        {
+        } else { # apply standard postfix
             $filename_postfix = '.module.php';
         }
 
@@ -102,8 +97,8 @@ class Mapper extends \ArrayObject
     /**
      * Maps Controller and SubController (optional)
      *
-     * @param string $controller Name of Controller
-     * @param string $subcontroller Name of SubController (optional)
+     * @param  string $controller    Name of Controller
+     * @param  string $subcontroller Name of SubController (optional)
      * @return string classname
      */
     public static function mapControllerToClassname($controller, $subcontroller = null)
@@ -114,8 +109,7 @@ class Mapper extends \ArrayObject
         $classname .= '\\' . ucfirst($controller);
 
         # attach subcontroller to classname
-        if(isset($subcontroller))
-        {
+        if (isset($subcontroller)) {
             $classname .= '\\' . ucfirst($subcontroller);
         }
 
@@ -131,26 +125,24 @@ class Mapper extends \ArrayObject
      * The use of submodules like News_Admin is also supported.
      * In this case the actionname is action_admin_show().
      *
-     * @param  string $action the action
+     * @param  string $action    the action
      * @param  string $submodule the submodule
      * @return string the mapped method name
      */
     public static function mapActionToActioname($action, $submodule = null)
     {
         # set default value for action, when not set by URL
-        if(false === isset($action))
-        {
+        if (false === isset($action)) {
             $action = self::DEFAULT_ACTION;
         }
 
         # if a $submodule is set, use it as a PREFIX on $action
-        if(isset($submodule))
-        {
+        if (isset($submodule)) {
             $action = $submodule . '_' . $action;
         }
 
         # all clansuite actions are prefixed with 'action_'
+
         return self::METHOD_PREFIX . '_' . $action;
     }
 }
-?>

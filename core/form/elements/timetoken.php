@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -56,4 +55,3 @@ class Timetoken extends Formelement implements FormelementInterface
         return '<input type="hidden" name="'.$this->generateToken().'" value="1" />';
     }
 }
-?>

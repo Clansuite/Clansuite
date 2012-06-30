@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -129,4 +128,3 @@ class Checkbox extends Input implements FormelementInterface
         return parent::render() . $this->getLabel();
     }
 }
-?>

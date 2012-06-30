@@ -33,8 +33,7 @@
 namespace Koch\View\Helper;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -51,7 +50,7 @@ class Partials extends Layout
     private $_blockObjects = array();
 
     # no constructor
-    function __construct()
+    public function __construct()
     {
 
     }
@@ -65,8 +64,7 @@ class Partials extends Layout
     # execute each block in the container
     public function execute()
     {
-        foreach($this->_blockObjects as $block)
-        {
+        foreach ($this->_blockObjects as $block) {
             $block->execute(); # $_blocks[] = $smarty->fetch("blockTemplate.tpl");
         }
     }
@@ -77,8 +75,7 @@ class Partials extends Layout
     public function render($params, $smarty)
     {
         # Set Smarty as View to each Block
-        foreach($this->_blockObjects as $block)
-        {
+        foreach ($this->_blockObjects as $block) {
             $block->setView($smarty);
         }
 
@@ -98,4 +95,3 @@ class Partials extends Layout
         return $this->_blockObjects;
     }
 }
-?>

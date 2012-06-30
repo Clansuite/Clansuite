@@ -5,7 +5,6 @@
  * @subpackage plugins
  */
 
-
 /**
  * Smarty plugin
  *
@@ -27,4 +26,3 @@ function smarty_modifier_formatseconds($seconds)
     return Koch_Functions::format_seconds_to_shortstring($seconds);
 }
 /* vim: set expandtab: */
-?>

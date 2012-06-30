@@ -34,11 +34,9 @@ namespace Koch\Cache;
 
 use Koch\Cache\AbstractCache;
 use Koch\Cache\CacheInterface;
-use Koch\Exception\Exception;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -56,62 +54,59 @@ class File extends AbstractCache implements CacheInterface
     /**
      * Contains checks if a key exists in the cache
      *
-     * @param string $key Identifier for the data
+     * @param  string  $key Identifier for the data
      * @return boolean true|false
      */
     public function contains($key)
     {
         $filepath = $this->filesystemKey($key);
-        if (is_file($filepath))
-        {
+        if (is_file($filepath)) {
             return true;
         }
+
         return false;
     }
 
     /**
      * Read a key from the cache
      *
-     * @param string $key Identifier for the data
-     * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
+     * @param  string $key Identifier for the data
+     * @return mixed  boolean FALSE if the data was not fetched from the cache, DATA on success
      */
     public function fetch($key)
     {
         $file = $this->filesystemKey($key);
 
         # try to open file, read-only
-        if ((is_file($file)) and fopen($file, 'r'))
-        {
+        if ((is_file($file)) and fopen($file, 'r')) {
             # get the expiration time stamp
             $expires = (int) fread($file, 10);
             # if expiration time exceeds the current time, return the cache
-            if (!$expires || $expires > time())
-            {
+            if (!$expires || $expires > time()) {
                 $realsize = filesize($block) - 10;
                 $cache = '';
                 # read in a loop, because fread returns after 8192 bytes
-                while ($chunk = fread($file, $realsize))
-                {
+                while ($chunk = fread($file, $realsize)) {
                     $cache .= $chunk;
                 }
                 fclose($block);
+
                 return unserialize($cache);
-            }
-            else
-            {
+            } else {
                 # close and delete the expired cache
                 fclose($block);
                 $this->delete($key);
             }
         }
+
         return false;
     }
 
     /**
      * Stores data by key into cache
      *
-     * @param string $key Identifier for the data
-     * @param mixed $data Data to be cached
+     * @param string  $key            Identifier for the data
+     * @param mixed   $data           Data to be cached
      * @param integer $cache_lifetime How long to cache the data, in minutes
      *
      * @return boolean True if the data was successfully cached, false on failure
@@ -126,10 +121,10 @@ class File extends AbstractCache implements CacheInterface
         $success = (bool) file_put_contents($file, $cache_lifetime * 60, FILE_EX);
 
         # append serialized value to file
-        if ( $success )
-        {
+        if ($success) {
             return (bool) file_put_contents($file, serialize($data), FILE_EX | FILE_APPEND);
         }
+
         return false;
     }
 
@@ -143,10 +138,10 @@ class File extends AbstractCache implements CacheInterface
     public function delete($key)
     {
         $filepath = $this->filesystemKey($key);
-        if (is_file($filepath))
-        {
+        if (is_file($filepath)) {
             return unlink($filepath);
         }
+
         return true;
     }
 
@@ -156,6 +151,7 @@ class File extends AbstractCache implements CacheInterface
     public function stats()
     {
         # @todo implement statistics for file cache usage
+
         return;
     }
 
@@ -171,4 +167,3 @@ class File extends AbstractCache implements CacheInterface
         return ROOT_CACHE . md5($key);
     }
 }
-?>

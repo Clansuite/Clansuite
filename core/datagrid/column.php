@@ -33,8 +33,7 @@
 namespace Koch\Datagrid;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -79,14 +78,12 @@ class Column extends Base
      */
     private $_position = 0;
 
-
     /**
      * Renderer for the cell
      *
      * @var object Clansuite_Datagrid_Column_Renderer
      */
     private $_renderer;
-
 
     /**
      * Boolean datagrid column values for configuration, wrapped into an array
@@ -129,12 +126,9 @@ class Column extends Base
      */
     public function setRenderer($_Renderer)
     {
-        if( $_Renderer instanceof Clansuite_Datagrid_Column_Renderer_Base )
-        {
+        if ($_Renderer instanceof Clansuite_Datagrid_Column_Renderer_Base) {
             $this->_renderer = $_Renderer;
-        }
-        else
-        {
+        } else {
             $this->_renderer = $this->loadColumnRenderer($_Renderer);
         }
     }
@@ -211,17 +205,14 @@ class Column extends Base
      * Check for datagrid column features
      *
      * @see $this->_features
-     * @param string $feature
+     * @param  string  $feature
      * @return boolean
      */
     public function isEnabled($feature)
     {
-        if( !isset($this->_features[$feature]) )
-        {
+        if ( !isset($this->_features[$feature]) ) {
             throw new Clansuite_Exception(_('There is no such feature in this datagrid column: ') . $feature);
-        }
-        else
-        {
+        } else {
             return $this->_features[$feature];
         }
     }
@@ -230,18 +221,16 @@ class Column extends Base
      * Enable datagrid column features and return true if it succeeded, false if not
      *
      * @see $this->_features
-     * @param string $feature
+     * @param  string  $feature
      * @return boolean
      */
     public function enableFeature($feature)
     {
-        if( false == isset($this->_features[$feature]) )
-        {
+        if ( false == isset($this->_features[$feature]) ) {
             return false;
-        }
-        else
-        {
+        } else {
             $this->_features[$feature] = true;
+
             return true;
         }
     }
@@ -251,22 +240,19 @@ class Column extends Base
      * Return true if succeeded, false if not
      *
      * @see $this->_features
-     * @param mixed $feature
+     * @param  mixed   $feature
      * @return boolean
      */
     public function disableFeature($feature)
     {
-        if( false == isset($this->_features[$feature]) )
-        {
+        if ( false == isset($this->_features[$feature]) ) {
             return false;
-        }
-        else
-        {
+        } else {
             $this->_features[$feature] = false;
+
             return true;
         }
     }
-
 
     /**
      * Add a cell reference to the col
@@ -290,21 +276,16 @@ class Column extends Base
 
         $className = 'Clansuite_Datagrid_Column_Renderer_' . ucfirst($rendererName);
 
-        if(false == class_exists($className, false))
-        {
+        if (false == class_exists($className, false)) {
             $file = ROOT_CORE . 'viewhelper/datagrid/columns/' . $rendererName . '.php';
 
-            if( is_file($file) )
-            {
+            if ( is_file($file) ) {
                 include $file;
 
-                if(false == class_exists($className, false))
-                {
+                if (false == class_exists($className, false)) {
                     throw new Clansuite_Exception(_('The column renderer class does not exist: ') . $className);
                 }
-            }
-            else
-            {
+            } else {
                 throw new Clansuite_Exception(_('The column renderer file does not exist: ') . $file);
             }
         }
@@ -324,5 +305,3 @@ class Column extends Base
         return $this->getRenderer()->renderCell($oCell);
     }
 }
-
-?>

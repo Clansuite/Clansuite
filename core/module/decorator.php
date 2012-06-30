@@ -33,8 +33,7 @@
 namespace Koch\Module;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -68,20 +67,21 @@ class ControllerDecorator
     public function hasMethod($methodname)
     {
         # is the method provided by this decorator?
-        if(method_exists($this, $methodname))
-        {
+        if (method_exists($this, $methodname)) {
             # yes
+
             return true;
         }
 
         # is the method provided by an encapsulated decorator?
-        if($this->_moduleController instanceof Koch_Module_ControllerDecorator)
-        {
+        if ($this->_moduleController instanceof Koch_Module_ControllerDecorator) {
             # dig into the encapsulated controller and ask for the method
+
             return $this->_moduleController->hasMethod($methodname);
         }
 
         # there was no method found
+
         return false;
     }
 
@@ -103,4 +103,3 @@ class ControllerDecorator
         return call_user_func_array($method, $arguments);
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Autoload;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -50,8 +49,8 @@ class MapBuilder
     /**
      * Builds a class map file.
      *
-     * @param array|string $dirs One or multiple directories to scan for PHP files.
-     * @param string $mapfile Path to the classmap file to be written.
+     * @param array|string $dirs    One or multiple directories to scan for PHP files.
+     * @param string       $mapfile Path to the classmap file to be written.
      */
     public static function build($dirs, $mapfile)
     {
@@ -59,8 +58,7 @@ class MapBuilder
 
         $files = self::getPHPFiles($dirs);
 
-        foreach($files as $file)
-        {
+        foreach ($files as $file) {
             $classname = self::extractClassname($file);
 
             $classmap[$classname] = $file;
@@ -72,21 +70,18 @@ class MapBuilder
     /**
      * Iterates over all PHP files in a directory and returns array with filenames.
      *
-     * @param array|string $dirs One or multiple directories to scan for PHP files.
-     * @return array Array with PHP files.
+     * @param  array|string $dirs One or multiple directories to scan for PHP files.
+     * @return array        Array with PHP files.
      */
     public static function getPHPFiles($dirs)
     {
-        if(is_array($dirs))
-        {
-            foreach($dirs as $dir)
-            {
+        if (is_array($dirs)) {
+            foreach ($dirs as $dir) {
                 self::getPHPFiles();
             }
         }
 
-        if(is_string($dir))
-        {
+        if (is_string($dir)) {
             $dir = new \RecursiveIteratorIterator(
                             new \RecursiveDirectoryIterator($dir)
             );
@@ -94,19 +89,16 @@ class MapBuilder
 
         $php_files = array();
 
-        foreach($dir as $file)
-        {
+        foreach ($dir as $file) {
             # skip dirs
-            if(!$file->isFile())
-            {
+            if (!$file->isFile()) {
                 continue;
             }
 
             $file = $file->getRealPath();
 
             # skip non PHP files
-            if(pathinfo($file, PATHINFO_EXTENSION) !== 'php')
-            {
+            if (pathinfo($file, PATHINFO_EXTENSION) !== 'php') {
                 continue;
             }
 
@@ -119,8 +111,8 @@ class MapBuilder
     /**
      * Extract classname and namespace of the given file.
      *
-     * @param string $file The file to extract the classname from.
-     * @return array Found classnames.
+     * @param  string $file The file to extract the classname from.
+     * @return array  Found classnames.
      */
     public static function extractClassname($file)
     {
@@ -132,26 +124,21 @@ class MapBuilder
         $namespace = '';
         $total_num_tokens = count($tokens);
 
-        for($i = 0, $max = $total_num_tokens; $i < $max; $i++)
-        {
+        for ($i = 0, $max = $total_num_tokens; $i < $max; $i++) {
             $token = $tokens[$i];
 
-            if(is_string($token) === true)
-            {
+            if (is_string($token) === true) {
                 continue;
             }
 
             $classname = '';
 
-            if($token[0] === T_NAMESPACE)
-            {
+            if ($token[0] === T_NAMESPACE) {
                 $namespace = '';
 
                 // extract the namespace
-                while(($t = $tokens[++$i]) and (is_array($t) === true))
-                {
-                    if(in_array($t[0], array(T_STRING, T_NS_SEPARATOR)) === true)
-                    {
+                while (($t = $tokens[++$i]) and (is_array($t) === true)) {
+                    if (in_array($t[0], array(T_STRING, T_NS_SEPARATOR)) === true) {
                         $namespace .= $t[1];
                     }
                 }
@@ -159,16 +146,12 @@ class MapBuilder
                 $namespace .= '\\';
             }
 
-            if(($token[0] === T_CLASS) or ($token[0] === T_INTERFACE))
-            {
+            if (($token[0] === T_CLASS) or ($token[0] === T_INTERFACE)) {
                 // extract the classname
-                while(($t = $tokens[++$i]) and (is_array($t) === true))
-                {
-                    if(T_STRING === $t[0])
-                    {
+                while (($t = $tokens[++$i]) and (is_array($t) === true)) {
+                    if (T_STRING === $t[0]) {
                         $classname .= $t[1];
-                    }
-                    elseif($classname !== '' and T_WHITESPACE == $t[0])
+                    } elseif($classname !== '' and T_WHITESPACE == $t[0])
                     {
                         break;
                     }
@@ -183,8 +166,8 @@ class MapBuilder
 
     /**
      * Writes the classmap array to file
-     * @param array $classmap Array containing the classname to file relation.
-     * @param string $mapfile Path to the classmap file to be written.
+     * @param array  $classmap Array containing the classname to file relation.
+     * @param string $mapfile  Path to the classmap file to be written.
      */
     public static function writeMapFile($classmap, $mapfile)
     {
@@ -196,5 +179,3 @@ class MapBuilder
     }
 
 }
-
-?>

@@ -30,18 +30,17 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Datatype;
+namespace Koch\datatype;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
  * Koch Framework - Class for advanced Datatype Conversions.
  */
-class Conversion
+class conversion
 {
     public static function XMLToArray($xml, $recursionDepth = 0)
     {
@@ -71,6 +70,7 @@ class Conversion
         $xml->endElement();
 
         # dump memory
+
         return $xml->outputMemory(true);
     }
 
@@ -85,10 +85,8 @@ class Conversion
      */
     public static function writeArray(XMLWriter $xml, array $array)
     {
-        foreach($array as $key => $value)
-        {
-            if(is_array($value))
-            {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
                 $xml->startElement($key);
 
                 # recursive call
@@ -107,35 +105,28 @@ class Conversion
      * Converts a SimpleXML String recursivly to an Array
      *
      * @author Jason Sheets <jsheets at shadonet dot com>
-     * @param string $xml SimpleXML String
+     * @param  string $xml SimpleXML String
      * @return Array
      */
     public static function simpleXMLToArrayLight($simplexml)
     {
         $array = array();
 
-        if($simplexml === true)
-        {
-            foreach($simplexml as $k => $v)
-            {
-                if($simplexml['list'] === true)
-                {
+        if ($simplexml === true) {
+            foreach ($simplexml as $k => $v) {
+                if ($simplexml['list'] === true) {
                     $array[] = self::SimpleXMLToArrayLight($v);
-                }
-                else
-                {
+                } else {
                     $array[$k] = self::SimpleXMLToArrayLight($v);
                 }
             }
         }
 
-        if(count($array) > 0)
-        {
+        if (count($array) > 0) {
             return $array;
-        }
-        else
-        {
+        } else {
             # WARNING! Type Conversion drops childs and attributes.
+
             return (string) $simplexml;
         }
     }
@@ -149,21 +140,17 @@ class Conversion
     public static function object2array($object)
     {
         $array = null;
-        if(is_object($object) === true)
-        {
+        if (is_object($object) === true) {
             $array = array();
-            foreach(get_object_vars($object) as $key => $value)
-            {
-                if(is_object($value) === true)
-                {
+            foreach (get_object_vars($object) as $key => $value) {
+                if (is_object($value) === true) {
                     $array[$key] = self::object2Array($value);
-                }
-                else
-                {
+                } else {
                     $array[$key] = $value;
                 }
             }
         }
+
         return $array;
     }
 
@@ -175,32 +162,25 @@ class Conversion
      */
     public function array2object($array)
     {
-        if(is_array($array) === false)
-        {
+        if (is_array($array) === false) {
             return $array;
         }
 
         $object = new stdClass();
 
-        if(is_array($array) and count($array) > 0)
-        {
-            foreach($array as $name => $value)
-            {
+        if (is_array($array) and count($array) > 0) {
+            foreach ($array as $name => $value) {
                 $name = mb_strtolower(trim($name));
 
-                if(empty($name) === false)
-                {
+                if (empty($name) === false) {
                     # WATCH OUT ! Recursion.
                     $object->$name = self::array2Object($value);
                 }
             }
 
             return $object;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 }
-?>

@@ -24,13 +24,11 @@
 function smarty_block_tabpage($params, $content, $smarty, &$repeat)
 {
     # check for name
-    if(isset($params['name']))
-    {
+    if (isset($params['name'])) {
         $name = _($params['name']);
-    }
-    else
-    {
+    } else {
         trigger_error("Tabpage Name not set! Please add Parameter 'name=tabpagename'!");
+
         return;
     }
 
@@ -48,10 +46,9 @@ function smarty_block_tabpage($params, $content, $smarty, &$repeat)
      * To prevent this, we need to check that the content is oCRy rendered when the inner block (content)
      * is present.
      */
-    if(isset($content))
-    {
+    if (isset($content)) {
         # Construct content for whole BLOCK
+
         return $start_tabpage . $content . $end_tabpage;
     }
 }
-?>

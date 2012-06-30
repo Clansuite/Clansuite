@@ -31,8 +31,7 @@
     */
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -69,12 +68,9 @@ if (defined('IN_CS') === false)
  */
 function mb_convert_encoding($str, $to_encoding, $from_encoding = null)
 {
-    if(null === $from_encoding)
-    {
+    if (null === $from_encoding) {
         return utf8_convert_encoding($str, $to_encoding);
-    }
-    else
-    {
+    } else {
         return utf8_convert_encoding($str, $to_encoding, $from_encoding);
     }
 }
@@ -92,12 +88,9 @@ function mb_detect_encoding($str)
  */
 function mb_stripos($haystack, $needle, $offset=null)
 {
-    if(null === $offset)
-    {
+    if (null === $offset) {
         return stripos($haystack, $needle);
-    }
-    else
-    {
+    } else {
         return stripos($haystack, $needle, $offset);
     }
 }
@@ -123,12 +116,9 @@ function mb_strlen($str)
  */
 function mb_strpos($haystack, $needle, $offset=null)
 {
-    if(null === $offset)
-    {
+    if (null === $offset) {
         return utf8_strpos($haystack, $needle);
-    }
-    else
-    {
+    } else {
         return utf8_strpos($haystack, $needle, $offset);
     }
 }
@@ -178,12 +168,9 @@ function mb_strtoupper($str)
  */
 function mb_substr($str, $start, $length=null)
 {
-    if(null === $length)
-    {
+    if (null === $length) {
         return utf8_substr($str, $start);
-    }
-    else
-    {
+    } else {
         return utf8_substr($str, $start, $length);
     }
 }
@@ -193,13 +180,9 @@ function mb_substr($str, $start, $length=null)
  */
 function mb_substr_count($haystack, $needle, $offset=null)
 {
-    if(null === $offset)
-    {
+    if (null === $offset) {
         return substr_count($haystack, $needle);
-    }
-    else
-    {
+    } else {
         return substr_count($haystack, $needle, $offset);
     }
 }
-?>

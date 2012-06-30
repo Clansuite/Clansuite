@@ -35,8 +35,7 @@ namespace Koch\Form\Decorators\Form;
 use Koch\Form\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -64,14 +63,12 @@ class Div extends Decorator
         $html_deco = CR . '<div ';
 
         # add class
-        if( mb_strlen($this->getClass()) > 0 )
-        {
+        if ( mb_strlen($this->getClass()) > 0 ) {
              $html_deco .= 'class="' . $this->getClass() .'" ';
         }
 
         # add class
-        if( mb_strlen($this->getId()) > 0 )
-        {
+        if ( mb_strlen($this->getId()) > 0 ) {
              $html_deco .= 'id="' . $this->getId() .'" ';
         }
 
@@ -81,4 +78,3 @@ class Div extends Decorator
         return  $html_deco . $html_form_content . '</div>' . CR;
     }
 }
-?>

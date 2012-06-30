@@ -33,8 +33,7 @@
 namespace Koch\Datatype;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -63,8 +62,7 @@ class XML
      */
     public static function toJson($xml)
     {
-        if($xml == null)
-        {
+        if ($xml == null) {
             return false;
         }
 
@@ -75,8 +73,7 @@ class XML
         # convert the XML structure into PHP array structure.
         $array = Koch_XML::toArray($xml);
 
-        if(($array != null) and (sizeof($array) > 0))
-        {
+        if (($array != null) and (sizeof($array) > 0)) {
             $json = json_encode($array);
         }
 
@@ -100,29 +97,23 @@ class XML
     public static function toArray($xml, $recursionDepth=0)
     {
         # Keep an eye on how deeply we are involved in recursion.
-        if($recursionDepth > self::MAX_RECURSION_DEPTH_ALLOWED)
-        {
+        if ($recursionDepth > self::MAX_RECURSION_DEPTH_ALLOWED) {
             return null;
         }
 
         # we are at top/root level
-        if($recursionDepth == 0)
-        {
+        if ($recursionDepth == 0) {
             # If the external caller doesn't call this function initially
             # with a SimpleXMLElement object just return
-            if(get_class($xml) != 'SimpleXMLElement')
-            {
+            if (get_class($xml) != 'SimpleXMLElement') {
                 return null;
-            }
-            else # store original SimpleXmlElementObject sent by the caller.
-            {
+            } else { # store original SimpleXmlElementObject sent by the caller.
                 $provided_xml_object = $xml;
             }
         }
 
         if( is_a($xml, 'SimpleXMLElement') ) # works (no longer deprecated as of php 5.3.0)
-        #if($xml instanceof SimpleXMLElement)  <= fails with php 5.3.5
-        {
+        #if ($xml instanceof SimpleXMLElement) {  <= fails with php 5.3.5
             # Get a copy of the simpleXmlElementObject
             $copy_of_xml_object = $xml;
             # Get the object variables in the SimpleXmlElement object for us to iterate.
@@ -130,29 +121,25 @@ class XML
         }
 
         // It needs to be an array of object variables.
-        if(is_array($xml))
-        {
+        if (is_array($xml)) {
             # Initialize the result array.
             $resultArray = array();
 
             # Is the input array size 0? Then, we reached the rare CDATA text if any.
-            if(count($xml) == 0)
-            {
+            if (count($xml) == 0) {
                 # return the lonely CDATA. It could even be whitespaces.
+
                 return (string) $copy_of_xml_object;
             }
 
             # walk through the child elements now.
-            foreach($xml as $key => $value)
-            {
+            foreach ($xml as $key => $value) {
                 /**
                  * Add Attributes to the results array ?
                  */
-                if(self::FETCH_ATTRIBUTES === false)
-                {
+                if (self::FETCH_ATTRIBUTES === false) {
                     # check KEY - is it an attribute?
-                    if((is_string($key)) && ($key == '@attributes'))
-                    {
+                    if ((is_string($key)) && ($key == '@attributes')) {
                         # yes, don't add, just continue with next element of foreach
                         continue;
                     }
@@ -170,8 +157,7 @@ class XML
             }
 
             # we are reaching the top/root level
-            if($recursionDepth == 0)
-            {
+            if ($recursionDepth == 0) {
                 /**
                  * Set the XML root element name as the root [top-level] key of
                  * the associative array that we are going to return to the caller of this
@@ -185,14 +171,11 @@ class XML
             /**
              * Shifts every key/value pair of @attributes one level up and removes @attributes
              */
-            if(self::FETCH_ATTRIBUTES === true and self::REMOVE_ATTRIBUTES_SUBLEVEL === true)
-            {
+            if (self::FETCH_ATTRIBUTES === true and self::REMOVE_ATTRIBUTES_SUBLEVEL === true) {
                 # ok, add attributes
-                if(isset($resultArray['@attributes']))
-                {
+                if (isset($resultArray['@attributes'])) {
                     # but as key => value elements
-                    foreach($resultArray['@attributes'] as $key => $value)
-                    {
+                    foreach ($resultArray['@attributes'] as $key => $value) {
                         $resultArray[$key] = $value;
                     }
                     # removing @attributes
@@ -201,12 +184,10 @@ class XML
             }
 
             return $resultArray;
-        }
-        else
-        {
+        } else {
             # it's is either the XML attribute text or text between XML tags
+
             return (string) $xml;
         }
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -69,16 +68,12 @@ class SelectDate extends Input implements FormelementInterface
     {
         $types = array('date', 'month', 'week', 'time', 'datetime', 'datetime-local');
 
-        if(in_array($type, $types) === true)
-        {
+        if (in_array($type, $types) === true) {
             $this->type = $type;
-        }
-        else
-        {
+        } else {
             throw new Koch_Exception('Invalid formfield type specified. Choose one of ' . explode(',', $types));
         }
 
         return $this;
     }
 }
-?>

@@ -26,8 +26,8 @@
  */
 function smarty_function_columnsort($params, $smarty)
 {
-    static $selected_class = null;
-    static $current_id = 0;
+    public static $selected_class = null;
+    public static $current_id = 0;
 
     //static $sort_asc_image = null;
     //static $sort_desc_image = null;
@@ -35,12 +35,10 @@ function smarty_function_columnsort($params, $smarty)
     $sort_asc_image  = WWW_ROOT_THEMES_CORE . 'images/icons/asc.png';
     $sort_desc_image = WWW_ROOT_THEMES_CORE . 'images/icons/desc.png';
 
-    static $SMCS_id = 'default';
+    public static $SMCS_id = 'default';
 
-    if(isset($params['cid']))
-    {
-        if ($SMCS_id != $params['cid'])
-        {
+    if (isset($params['cid'])) {
+        if ($SMCS_id != $params['cid']) {
             $current_id = 0;
         }
 
@@ -48,96 +46,81 @@ function smarty_function_columnsort($params, $smarty)
     }
 
     // Retrieve the $_SESSION columnsort object.
-    if(!isset($_SESSION['SmartyColumnSort'][$SMCS_id]))
-    {
+    if (!isset($_SESSION['SmartyColumnSort'][$SMCS_id])) {
         trigger_error('columnsort: SmartyColumnSort.class.php needs to be included for columnsort to work.');
+
         return;
     }
     $columnsort = $_SESSION['SmartyColumnSort'][$SMCS_id];
 
     // HTML
-    if(!isset($params['html']))
-    {
+    if (!isset($params['html'])) {
         trigger_error('columnsort: missing "html" parameter.');
+
         return;
     }
 
     /*
-    if($params['translate'] != 0)
-    {
+    if ($params['translate'] != 0) {
        $params['html'] = _($params['html']);
     }*/
     $html = $params['html'];
 
-
     // selected_class
-    if(isset($params['selected_class']))
-    {
+    if (isset($params['selected_class'])) {
         $selected_class = $params['selected_class'];
     }
 
     // ID for column table
-    if(isset($params['id']))
-    {
+    if (isset($params['id'])) {
         $id = $params['id'];
 
         // Increase current id with 1 to prepare for next value
         $current_id = $id + 1;
-    }
-    else
-    {
+    } else {
         $id = $current_id++;
     }
 
     /* disabled
-    if(isset($params['asc_image']) && isset($params['desc_image'])) {
+    if (isset($params['asc_image']) && isset($params['desc_image'])) {
         // Set asc and desc sort images (will be placed after the sorted column)
         $sort_asc_image = $params['asc_image'];
         $sort_desc_image = $params['desc_image'];
-    } else if(isset($params['asc_image']) || isset($params['desc_image']))    {
+    } elseif (isset($params['asc_image']) || isset($params['desc_image'])) {
         trigger_error('columnsort: Both "asc_image" and "desc_image" needs to be present, or none of them.');
     }
     */
 
     // alt for image
-    if(isset($params['img_alt']))
-    {
+    if (isset($params['img_alt'])) {
         $img_alt = $params['img_alt'];
-    }
-    else
-    {
+    } else {
         $img_alt = '';
     }
-
 
     // Get current sort order for current column id
     $sort_order = _smarty_columnsort_sort_order($id, $columnsort['column_array'], $columnsort['default_sort'], $smarty);
 
-    if($sort_order === false)
-    {
+    if ($sort_order === false) {
         trigger_error('columnsort: too few columns in translate table!');
+
         return;
     }
 
     // The column is selected if the get vars exists and is the current column OR
     // if the get vars does not exist and the current column is default.
-    if($columnsort['current_column'] !== null and $columnsort['current_column'] == $id)
-    {
+    if ($columnsort['current_column'] !== null and $columnsort['current_column'] == $id) {
         $selected = true;
 
         // Reverse sort order for the output.
         if($columnsort['current_sort'])
             $sort_order = mb_strtolower($columnsort['current_sort']) == 'asc' ? 'desc' : 'asc';
-    }
-    else if($columnsort['current_column'] === null and $id == $columnsort['default_column'])
-    {
+    } else { if($columnsort['current_column'] === null and $id == $columnsort['default_column'])
         $selected = true;
 
         // Reverse sort order for the output.
         $sort_order = $sort_order == 'asc' ? 'desc' : 'asc';
-    }
-    else
-    {
+    } else {
         $selected = false;
     }
 
@@ -151,13 +134,10 @@ function smarty_function_columnsort($params, $smarty)
     $class = $selected && $selected_class ? "class=\"$selected_class\"" : '';
 
     // If asc/desc image exists, append it.
-    if($selected && $sort_asc_image !== null)
-    {
+    if ($selected && $sort_asc_image !== null) {
         $image_src = $sort_order == 'asc' ? $sort_desc_image : $sort_asc_image;
         $image = " <img src=\"$image_src\" alt=\"$img_alt\" border=\"0\" />";
-    }
-    else
-    {
+    } else {
         $image = '';
     }
 
@@ -170,12 +150,11 @@ function _smarty_columnsort_sort_order($id, $columns, $default_sort, $smarty)
 
     if(!is_array($columns[$id])) return $default_sort;
 
-    if(count($columns[$id]) != 2)
-    {
+    if (count($columns[$id]) != 2) {
         trigger_error('columnsort: column array must be array("value", "asc|desc")');
+
         return false;
     }
 
     return $columns[$id][1];
 }
-?>

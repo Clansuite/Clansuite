@@ -32,14 +32,10 @@
 
 namespace Koch\View\Renderer;
 
-use Koch\View\AbstractRenderer;
-
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
 
 /**
  * Koch Framework - View Renderer for PHPTAL templates.
@@ -82,15 +78,11 @@ class Phptal extends Renderer_Base
     public function initializeEngine()
     {
         # prevent redeclaration
-        if(class_exists('PHPTAL', false) === false)
-        {
+        if (class_exists('PHPTAL', false) === false) {
             # check if Smarty library exists
-            if(is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') === true)
-            {
+            if (is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') === true) {
                 include ROOT_LIBRARIES . 'phptal/PHPTAL.php';
-            }
-            else
-            {
+            } else {
                 throw new Koch_Exception('PHPTal Library missing!');
             }
         }
@@ -103,21 +95,16 @@ class Phptal extends Renderer_Base
      * Add data to the PHPTAL view
      *
      * @param mixed $tpl_parameter The placeholder.
-     * @param mixed $value The value.
+     * @param mixed $value         The value.
      */
     public function assign($tpl_parameter, $value = null)
     {
-        if(is_array($tpl_parameter))
-        {
-            foreach($tpl_parameter as $param => $val)
-            {
+        if (is_array($tpl_parameter)) {
+            foreach ($tpl_parameter as $param => $val) {
                 $this->renderer->$param = $val;
             }
-        }
-        else
-        {
-            if ($tpl_parameter != null)
-            {
+        } else {
+            if ($tpl_parameter != null) {
                 $this->renderer->$tpl_parameter = $value;
             }
         }
@@ -132,9 +119,9 @@ class Phptal extends Renderer_Base
      * Render Engine Configuration
      * Configures the PHPTAL Object
      *
-     * @param int $outputMode (optional) output mode (XML, XHTML, HTML5 (see PHPTAL constants). Default XHTML.
-     * @param string $encoding (optional) charset encoding for template. Default UTF-8.
-     * @param int $lifetime (optional) count of days to cache templates. Default 1 day.
+     * @param int    $outputMode (optional) output mode (XML, XHTML, HTML5 (see PHPTAL constants). Default XHTML.
+     * @param string $encoding   (optional) charset encoding for template. Default UTF-8.
+     * @param int    $lifetime   (optional) count of days to cache templates. Default 1 day.
      */
     public function configureEngine($outputMode = PHPTAL::XHTML, $encoding = 'UTF-8', $cache_lifetime_days = 1)
     {
@@ -145,8 +132,7 @@ class Phptal extends Renderer_Base
         $this->renderer->setTemplateRepository(dirname(__FILE__).'/../view/');
         $this->tenderer->setPhpCodeDestination(dirname(__FILE__).'/../viewc/');
 
-        if(DEBUG == true)
-        {
+        if (DEBUG == true) {
             $this->tpl->setForceReparse(true);
         }
     }
@@ -161,6 +147,7 @@ class Phptal extends Renderer_Base
         $this->renderer = $phptal;
         # @todo check, if $this should be injected into phptal?
         #$this->renderer->set('this', $this);
+
         return $this;
     }
 
@@ -174,7 +161,6 @@ class Phptal extends Renderer_Base
         return $this->renderer;
     }
 
-
     /**
      * Display template
      *
@@ -185,30 +171,23 @@ class Phptal extends Renderer_Base
     protected function render($template = null, $returnContent = false)
     {
         # get the template from the parent class
-        if($template === null)
-        {
+        if ($template === null) {
             $template = $this->getTemplate();
         }
 
         $this->renderer->setTemplate($template);
 
-        try
-        {
+        try {
             # let PHPTAL process the template
             $output = $this->renderer->execute();
 
             # return or echo the content
-            if ($returnContent === true)
-            {
+            if ($returnContent === true) {
                 return $content;
-            }
-            else
-            {
+            } else {
                 echo $content;
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             throw new Koch_Exception($e);
         }
     }
@@ -256,7 +235,7 @@ class Phptal extends Renderer_Base
     /**
      * Set PHPTAL variables
      *
-     * @param string $key variable name
+     * @param string $key   variable name
      * @param string $value variable value
      */
     public function __set($key, $value)
@@ -267,8 +246,8 @@ class Phptal extends Renderer_Base
     /**
      * Get PHPTAL Variable Value
      *
-     * @param string $key variable name
-     * @return mixed variable value
+     * @param  string $key variable name
+     * @return mixed  variable value
      */
     public function __get($key)
     {
@@ -292,8 +271,7 @@ class Phptal extends Renderer_Base
      */
     public function __unset($key)
     {
-        if (isset($this->renderer->$key))
-        {
+        if (isset($this->renderer->$key)) {
             unset($this->renderer->$key);
         }
     }
@@ -310,4 +288,3 @@ class Phptal extends Renderer_Base
     }
     */
 }
-?>

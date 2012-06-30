@@ -26,4 +26,3 @@ function smarty_function_currentmodule()
 {
     return Koch_TargetRoute::getModuleName();
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Cache;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -52,37 +51,29 @@ class Factory
     /**
      * Returns the instance of the requested cache_adapter
      *
-     * @param string $adapter A Cache Engine Name like "apc", "xcache", "memcache" or "file"
+     * @param  string $adapter A Cache Engine Name like "apc", "xcache", "memcache" or "file"
      * @return object Cache_Engine
      */
     public static function getCache($adapter)
     {
         $file = ROOT_CORE . 'cache/' . strtolower($adapter) . '.cache.php';
 
-        if(is_file($file) === true)
-        {
+        if (is_file($file) === true) {
             $class = 'Koch_Cache_' . $adapter;
 
-            if(false === class_exists($class, false))
-            {
+            if (false === class_exists($class, false)) {
                 include $file;
             }
 
-            if(true === class_exists($class, false))
-            {
+            if (true === class_exists($class, false)) {
                 $cache = new $class();
+
                 return $cache;
-            }
-            else
-            {
+            } else {
                 throw new Koch_Exception('Cache_Factory -> Class not found: ' . $class, 30);
             }
-        }
-        else
-        {
+        } else {
             throw new Koch_Exception('Cache_Factory -> File not found: ' . $file, 31);
         }
     }
 }
-
-?>

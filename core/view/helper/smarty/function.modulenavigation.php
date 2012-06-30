@@ -30,8 +30,7 @@ function smarty_function_modulenavigation($params, $smarty)
 
     $file = ROOT_MOD. $module . DS . $module . '.menu.php';
 
-    if( is_file($file) )
-    {
+    if ( is_file($file) ) {
         # this includes the file, which contains a php array name $modulenavigation
         include $file;
 
@@ -42,10 +41,9 @@ function smarty_function_modulenavigation($params, $smarty)
         $smarty->assign('modulenavigation', $modulenavigation);
 
         # The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
+
         return $smarty->fetch('modulenavigation-generic.tpl');
-    }
-    else # the module menu navigation file is missing
-    {
+    } else { # the module menu navigation file is missing
         $smarty->assign('modulename', $module);
         $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
         trigger_error($errormessage);
@@ -77,8 +75,7 @@ function applyCallbacks(array $modulenavigation)
      * If the condition of the menu item is not met,
      * then condition is set to false, otherwise true.
      */
-    if(isset($modulenavigation['condition']) === true)
-    {
+    if (isset($modulenavigation['condition']) === true) {
         /**
          * the if statement evaluates the content of the key condition
          * and compares it to false, then reassigns the boolean value as
@@ -88,12 +85,9 @@ function applyCallbacks(array $modulenavigation)
          *
          * @todo check usage of closures
          */
-        if($modulenavigation['condition'] === false)
-        {
+        if ($modulenavigation['condition'] === false) {
             $modulenavigation['condition'] = false;
-        }
-        else
-        {
+        } else {
             $modulenavigation['condition'] = true;
         }
     }
@@ -101,11 +95,9 @@ function applyCallbacks(array $modulenavigation)
     /**
      * 3) use name as title, if title is not defined
      */
-    if($modulenavigation['title'] == '')
-    {
+    if ($modulenavigation['title'] == '') {
         $modulenavigation['title'] = $modulenavigation['name'];
     }
 
     return $modulenavigation;
 }
-?>

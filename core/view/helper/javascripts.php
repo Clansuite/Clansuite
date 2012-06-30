@@ -33,8 +33,7 @@
 namespace Koch\View\Helper;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -114,28 +113,21 @@ class Javascripts extends Layout
     public static function addJS_JQuery_Service($version = null, $service = 'google')
     {
         # determine service
-        if($service == 'jquery')
-        {
+        if ($service == 'jquery') {
             # load from jquery.com
-            if($version === null)
-            {
+            if ($version === null) {
                 self::addJS('http://code.jquery.com/jquery-latest.pack.js');
-            }
-            else
-            {
+            } else {
                 /**
                  * JQuery version whitelist ensures a certain compatibilty frame
                  */
                 $jquery_version_whitelist = array( '1.4.2', '1.4.1' ); # not 'latest'
 
-                if( in_array($version, $jquery_version_whitelist) )
-                {
+                if ( in_array($version, $jquery_version_whitelist) ) {
                     self::addJS('http://code.jquery.com/jquery-'.$version.'.pack.js');
                 }
             }
-        }
-        else
-        {
+        } else {
             # load from google.com
             self::addJS_JQuery_GoogleCDN_Service($version);
         }
@@ -154,19 +146,15 @@ class Javascripts extends Layout
      */
     public static function addJS_JQuery_GoogleCDN_Service($version = null)
     {
-        if($version === null)
-        {
+        if ($version === null) {
             $version = 'latest';
-        }
-        else
-        {
+        } else {
             /**
              * JQuery version whitelist ensures a certain compatibilty frame
              */
             $jquery_version_whitelist = array( '1.4.2', '1.4.1' ); # not 'latest'
 
-            if( in_array($version, $jquery_version_whitelist) )
-            {
+            if ( in_array($version, $jquery_version_whitelist) ) {
                 $this->jquery_initscript  = '';
                 $this->jquery_initscript .= "    <script src=\"http://www.google.com/jsapi\"></script>\n";
                 $this->jquery_initscript .= "    <script>\n";
@@ -189,10 +177,8 @@ class Javascripts extends Layout
      */
     public static function addMultipleJS($filenames)
     {
-        if(is_array($filenames))
-        {
-            foreach($filenames as $filename)
-            {
+        if (is_array($filenames)) {
+            foreach ($filenames as $filename) {
                 $js_file = WWW_ROOT_THEMES_CORE . 'javascript/'.$filename.'.js';
 
                 return '<script src="'.$js_file.'" type="text/javascript"></script>'.CR;
@@ -241,14 +227,10 @@ class Javascripts extends Layout
     {
         $html = '<style type="text/css"> @import "' . WWW_ROOT_THEMES_CORE . 'css/' . $filename . '.css"; </style>';
 
-        if($iehack === true)
-        {
+        if ($iehack === true) {
             return '<!--[if IE]>' . CR . $html . CR . '<![endif]-->' . CR;
-        }
-        else
-        {
+        } else {
             return $html . CR;
         }
     }
 }
-?>

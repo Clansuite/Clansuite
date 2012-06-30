@@ -29,9 +29,9 @@
  */
 function smarty_function_skype($params, $smarty)
 {
-    if(empty($params['username']))
-    {
+    if (empty($params['username'])) {
         trigger_error("skype: missing skype parameter");
+
         return;
     }
 
@@ -45,8 +45,7 @@ function smarty_function_skype($params, $smarty)
 
     $status_code = intval($status_code);
 
-    switch ($status_code)
-    {
+    switch ($status_code) {
         case 0:
             return 'unknown';
         case 1:
@@ -65,4 +64,3 @@ function smarty_function_skype($params, $smarty)
             return 'skype_me';
     }
 }
-?>

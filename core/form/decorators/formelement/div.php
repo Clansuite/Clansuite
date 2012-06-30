@@ -35,8 +35,7 @@ namespace Koch\Form\Decorators\Formelement;
 use Koch\Formelement\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -63,4 +62,3 @@ class Div extends Decorator
         return CR . '<div class="' . $this->getClass() . '">' . $html_formelement_content . '</div>' . CR;
     }
 }
-?>

@@ -34,11 +34,9 @@ namespace Koch\Cache;
 
 use Koch\Cache\AbstractCache;
 use Koch\Cache\CacheInterface;
-use Koch\Exception\Exception;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -64,7 +62,7 @@ class Xcache extends AbstractCache implements CacheInterface
     /**
      * Contains checks if a key exists in the cache
      *
-     * @param string $key Identifier for the data
+     * @param  string  $key Identifier for the data
      * @return boolean true|false
      */
     public function contains($key)
@@ -75,8 +73,8 @@ class Xcache extends AbstractCache implements CacheInterface
     /**
      * Read a key from the cache
      *
-     * @param string $key Identifier for the data
-     * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
+     * @param  string $key Identifier for the data
+     * @return mixed  boolean FALSE if the data was not fetched from the cache, DATA on success
      */
     public function fetch($key)
     {
@@ -86,9 +84,9 @@ class Xcache extends AbstractCache implements CacheInterface
     /**
      * Stores data by key into cache
      *
-     * @param string $key Identifier for the data
-     * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in minutes
+     * @param  string  $key            Identifier for the data
+     * @param  mixed   $data           Data to be cached
+     * @param  integer $cache_lifetime How long to cache the data, in minutes
      * @return boolean True if the data was successfully cached, false on failure
      */
     public function store($key, $data, $cache_lifetime = 0)
@@ -99,7 +97,7 @@ class Xcache extends AbstractCache implements CacheInterface
     /**
      * Delete data by key from cache
      *
-     * @param string $key Identifier for the data
+     * @param  string  $key Identifier for the data
      * @return boolean True if the data was successfully removed, false on failure
      */
     public function delete($key)
@@ -118,4 +116,3 @@ class Xcache extends AbstractCache implements CacheInterface
     {
     }
 }
-?>

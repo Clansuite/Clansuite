@@ -200,8 +200,7 @@ class Cronjobs
     {
         $cronjobs = '';
 
-        if($this->loadCronjobsFrom == 'FILE')
-        {
+        if ($this->loadCronjobsFrom == 'FILE') {
             $cronjobs = $this->parseCronFile($this->cronTabFile);
         }
         # else { get cronjobs from alternative resource: database, etc. }
@@ -218,10 +217,8 @@ class Cronjobs
         #var_dump($cronjobs);
 
         $jobsRun = 0;
-        foreach($cronjobs as $cronjob)
-        {
-            if($this->runMaximalJobs == 0 or $jobsRun < $this->runMaximalJobs)
-            {
+        foreach ($cronjobs as $cronjob) {
+            if ($this->runMaximalJobs == 0 or $jobsRun < $this->runMaximalJobs) {
                 #echo "Executing $cronjob";
                 $this->runJob($cronjob);
             }
@@ -240,29 +237,23 @@ class Cronjobs
     {
         $subelements = explode(',', $element);
 
-        for($i = 0; $i < $numberOfElements; $i++)
-        {
+        for ($i = 0; $i < $numberOfElements; $i++) {
             $targetArray[$i] = $subelements[0] == '*';
         }
 
         $nr_subelements = 0;
         $nr_subelements = count($subelements);
-        for($i = 0; $i < $nr_subelements; $i++)
-        {
-            if(preg_match('~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~', $subelements[$i], $matches))
-            {
-                if($matches[1] == '*')
-                {
+        for ($i = 0; $i < $nr_subelements; $i++) {
+            if (preg_match('~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~', $subelements[$i], $matches)) {
+                if ($matches[1] == '*') {
                     $matches[2] = 0;                    # from
                     $matches[4] = $numberOfElements;    #to
-                }
-                elseif($matches[4] == '')
+                } elseif($matches[4] == '')
                 {
                     $matches[4] = $matches[2];
                 }
 
-                if($matches[5][0] != '/')
-                {
+                if ($matches[5][0] != '/') {
                     $matches[6] = 1;        # step
                 }
 
@@ -270,8 +261,7 @@ class Cronjobs
                 $b = $this->leftTrimZeros($matches[4]);
                 $c = $this->leftTrimZeros($matches[6]);
 
-                for($j = $a; $j<=$b; $j+=$c)
-                {
+                for ($j = $a; $j<=$b; $j+=$c) {
                     $targetArray[$j] = true;
                 }
             }
@@ -283,19 +273,15 @@ class Cronjobs
      */
     private function multisort(&$array, $sortby, $order='asc')
     {
-        foreach($array as $val)
-        {
+        foreach ($array as $val) {
             $sortarray[] = $val[$sortby];
         }
 
         $c = $array;
 
-        if($order == 'asc')
-        {
+        if ($order == 'asc') {
             $const = SORT_ASC;
-        }
-        else
-        {
+        } else {
             $const = SORT_DESC;
         }
 
@@ -310,30 +296,27 @@ class Cronjobs
      */
     private function leftTrimZeros($number)
     {
-        while($number[0] == '0')
-        {
+        while ($number[0] == '0') {
             $number = mb_substr($number, 1);
         }
+
         return $number;
     }
 
     private function incrementDate(&$dateArr, $amount, $unit)
     {
-        /* if ($debug)
-         {
+        /* if ($debug) {
          * cho sprintf('Increasing from %02d.%02d. %02d:%02d by %d %6s ',
          * dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes],$amount,$unit);
          } */
 
-        if($unit == 'mday')
-        {
+        if ($unit == 'mday') {
             $dateArr['hours'] = 0;
             $dateArr['minutes'] = 0;
             $dateArr['seconds'] = 0;
             $dateArr['mday'] += $amount;
             $dateArr['wday'] += $amount % 7;
-            if($dateArr['wday'] > 6)
-            {
+            if ($dateArr['wday'] > 6) {
                 $dateArr['wday']-=7;
             }
 
@@ -350,28 +333,20 @@ class Cronjobs
                 $dateArr['mon']++;
                 $dateArr['mday'] = 1;
             }
-        }
-        elseif($unit == 'hour')
+        } elseif($unit == 'hour')
         {
-            if($dateArr['hours']==23)
-            {
+            if ($dateArr['hours']==23) {
                 $this->incrementDate($dateArr, 1, 'mday');
-            }
-            else
-            {
+            } else {
                 $dateArr['minutes'] = 0;
                 $dateArr['seconds'] = 0;
                 $dateArr['hours']++;
             }
-        }
-        elseif($unit == 'minute')
+        } elseif($unit == 'minute')
         {
-            if($dateArr['minutes']==59)
-            {
+            if ($dateArr['minutes']==59) {
                 $this->incrementDate($dateArr, 1, 'hour');
-            }
-            else
-            {
+            } else {
                 $dateArr['seconds'] = 0;
                 $dateArr['minutes']++;
             }
@@ -391,8 +366,7 @@ class Cronjobs
         $lastActual = $job['lastActual'];
         $lastScheduled = $job['lastScheduled'];
 
-        if($lastScheduled < time())
-        {
+        if ($lastScheduled < time()) {
             #echo '<br>Running     '.$job[self::const_PC_CRONLINE];
             #echo '<br> Last run:       '.date('r',$lastActual);
             #echo '<br> Last scheduled: '.date('r',$lastScheduled);
@@ -400,8 +374,7 @@ class Cronjobs
             #Koch_Logger::writeLog('  Last run:       '.date('r',$lastActual));
             #Koch_Logger::writeLog('  Last scheduled: '.date('r',$lastScheduled));
 
-            /* if ($debug)
-             {
+            /* if ($debug) {
              */
             include __DIR__ . '/' . $job[self::const_PC_CMD];
 
@@ -433,11 +406,8 @@ class Cronjobs
              */
 
             return true;
-        }
-        else
-        {
-            if($debug)
-            {
+        } else {
+            if ($debug) {
                 Koch_Logger::writeLog('Skipping     ' . $job[self::const_PC_CRONLINE]);
                 Koch_Logger::writeLog('  Last run:       ' . date('r', $lastActual));
                 Koch_Logger::writeLog('  Last scheduled: ' . date('r', $lastScheduled));
@@ -466,18 +436,14 @@ class Cronjobs
 
         $file_count = count($file);
 
-        for($i = 0; $i < $file_count; $i++)
-        {
-            if($file[$i][0]!='#')
-            {
+        for ($i = 0; $i < $file_count; $i++) {
+            if ($file[$i][0]!='#') {
                 #old regex, without dow abbreviations:
                 #if (preg_match("~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|Sun|Mon|Tue|Wen|Thu|Fri|Sat)\\s+([^#]*)(#.*)?$~i",$file[$i],$job)) {
-                if(preg_match('~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)\\s*(#.*)?$~i', $file[$i], $job))
-                {
+                if (preg_match('~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)\\s*(#.*)?$~i', $file[$i], $job)) {
                     $jobNumber = count($jobs);
                     $jobs[$jobNumber] = $job;
-                    if($jobs[$jobNumber][self::const_PC_DOW][0]!='*' and ! is_numeric($jobs[$jobNumber][self::const_PC_DOW]))
-                    {
+                    if ($jobs[$jobNumber][self::const_PC_DOW][0]!='*' and ! is_numeric($jobs[$jobNumber][self::const_PC_DOW])) {
                         $jobs[$jobNumber][self::const_PC_DOW] = str_replace(
                                         array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
                                         array(0, 1, 2, 3, 4, 5, 6),
@@ -498,15 +464,14 @@ class Cronjobs
         $this->multisort($jobs, 'lastScheduled');
 
         # Debug Display
-        /* if (defined('DEBUG') and DEBUG == true)
-         {
+        /* if (defined('DEBUG') and DEBUG == true) {
          * ar_dump($jobs);
          } */
 
         return $jobs;
     }
 
-    function getLastScheduledRunTime($job)
+    public function getLastScheduledRunTime($job)
     {
         $extjob = Array();
 
@@ -527,22 +492,19 @@ class Cronjobs
         )
         {
 
-            if(!$extjob[self::const_PC_DOM][$dateArr['mday']] or ! $extjob[self::const_PC_DOW][$dateArr['wday']])
-            {
+            if (!$extjob[self::const_PC_DOM][$dateArr['mday']] or ! $extjob[self::const_PC_DOW][$dateArr['wday']]) {
                 $this->incrementDate($dateArr, 1, 'mday');
                 $minutesAhead+=1440;
                 continue;
             }
 
-            if(!$extjob[self::const_PC_HOUR][$dateArr['hours']])
-            {
+            if (!$extjob[self::const_PC_HOUR][$dateArr['hours']]) {
                 $this->incrementDate($dateArr, 1, 'hour');
                 $minutesAhead+=60;
                 continue;
             }
 
-            if(!$extjob[self::const_PC_MINUTE][$dateArr['minutes']])
-            {
+            if (!$extjob[self::const_PC_MINUTE][$dateArr['minutes']]) {
                 $this->incrementDate($dateArr, 1, 'minute');
                 $minutesAhead++;
                 continue;
@@ -557,16 +519,17 @@ class Cronjobs
     private function getJobFileName($jobname)
     {
         $jobfile = $this->writeDirectory . urlencode($jobname) . '.job';
+
         return $jobfile;
     }
 
     private function getLastActualRunTime($jobname)
     {
         $jobfile = $this->getJobFileName($jobname);
-        if(is_file($jobfile) === true)
-        {
+        if (is_file($jobfile) === true) {
             return filemtime($jobfile);
         }
+
         return 0;
     }
 
@@ -583,6 +546,5 @@ class Cronjobs
  */
 interface Cronjob
 {
-    function execute();
+    public function execute();
 }
-?>

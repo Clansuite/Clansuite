@@ -20,13 +20,12 @@
 class Smarty_CacheResource_APC
 {
 
-    function __construct($smarty)
+    public function __construct($smarty)
     {
         $this->smarty = $smarty;
 
         # test if APC is present
-        if(!function_exists('apc_cache_info'))
-        {
+        if (!function_exists('apc_cache_info')) {
             throw new Exception('APC Template Caching Error: APC is not installed');
         }
     }
@@ -34,7 +33,7 @@ class Smarty_CacheResource_APC
     /**
      * Returns the filepath of the cached template output
      *
-     * @param object $_template current template
+     * @param  object $_template current template
      * @return string the cache filepath
      */
     public function getCachedFilepath($_template)
@@ -45,19 +44,20 @@ class Smarty_CacheResource_APC
     /**
      * Returns the timpestamp of the cached template output
      *
-     * @param object $_template current template
+     * @param  object  $_template current template
      * @return integer |booelan the template timestamp or false if the file does not exist
      */
     public function getCachedTimestamp($_template)
     {
         apc_fetch($this->getCachedFilepath($_template), $success);
+
         return $success ? time() : false;
     }
 
     /**
      * Returns the cached template output
      *
-     * @param object $_template current template
+     * @param  object $_template current template
      * @return string |booelan the template content or false if the file does not exist
      */
     public function getCachedContents($_template)
@@ -66,13 +66,14 @@ class Smarty_CacheResource_APC
         $_smarty_tpl = $_template;
         ob_start();
         eval("?>" . $_cache_content);
+
         return ob_get_clean();
     }
 
     /**
      * Writes the rendered template output to cache file
      *
-     * @param object $_template current template
+     * @param  object  $_template current template
      * @return boolean status
      */
     public function writeCachedContent($_template, $content)
@@ -83,7 +84,7 @@ class Smarty_CacheResource_APC
     /**
      * Empty cache folder
      *
-     * @param integer $exp_time expiration time
+     * @param  integer $exp_time expiration time
      * @return integer number of cache files deleted
      */
     public function clearAll($exp_time = null)
@@ -94,10 +95,10 @@ class Smarty_CacheResource_APC
     /**
      * Empty cache for a specific template
      *
-     * @param string $resource_name template name
-     * @param string $cache_id cache id
-     * @param string $compile_id compile id
-     * @param integer $exp_time expiration time
+     * @param  string  $resource_name template name
+     * @param  string  $cache_id      cache id
+     * @param  string  $compile_id    compile id
+     * @param  integer $exp_time      expiration time
      * @return integer number of cache files deleted
      */
     public function clear($resource_name, $cache_id, $compile_id, $exp_time)
@@ -106,5 +107,3 @@ class Smarty_CacheResource_APC
     }
 
 }
-
-?>

@@ -33,8 +33,7 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -58,7 +57,7 @@ class Download
      * Constructor and convenience/proxy method for sending a file as a download to the browser
      *
      * @param string $file The filepath as string
-     * @param int $rate The speedlimit in KB/s
+     * @param int    $rate The speedlimit in KB/s
      */
     public function __construct($file, $rate)
     {
@@ -72,13 +71,12 @@ class Download
      *
      *
      * @param string $filePath The filepath as string
-     * @param int $rate The speedlimit in KB/s
+     * @param int    $rate     The speedlimit in KB/s
      */
     private static function sendRated($filePath, $rate = 0)
     {
         # Check if file exists
-        if (is_file($filePath) == false)
-        {
+        if (is_file($filePath) == false) {
             throw new Koch_Exception('File not found.');
         }
 
@@ -97,15 +95,13 @@ class Download
          * check if only a specific part of the file should be sent
          * multipart-download and resume-download
          */
-        if(isset($_SERVER['HTTP_RANGE']))
-        {
+        if (isset($_SERVER['HTTP_RANGE'])) {
             # calculate the range to use
             $range = explode('-', mb_substr($_SERVER['HTTP_RANGE'], 6));
 
             $seekStart = intval($range[0]);
 
-            if ($range[1] > 0)
-            {
+            if ($range[1] > 0) {
                 $seekEnd = intval($range[1]);
             }
 
@@ -115,9 +111,7 @@ class Download
             # Set headers including the range info
             header('HTTP/1.1 206 Partial Content');
             header(sprintf('Content-Range: bytes %d-%d/%d', $seekStart, $seekEnd, $size));
-        }
-        else
-        {
+        } else {
             # Set headers for full file
             header('HTTP/1.1 200 OK');
         }
@@ -135,8 +129,7 @@ class Download
         $block = 1024;
 
         # limit download speed
-        if($rate > 0)
-        {
+        if ($rate > 0) {
             $block *= $rate;
         }
 
@@ -144,16 +137,14 @@ class Download
         set_time_limit(0);
 
         # Send file until end is reached
-        while(feof($fp) == false)
-        {
+        while (feof($fp) == false) {
             $timeStart = microtime(true);
             echo fread($fp, $block);
             flush();
             $wait = (microtime(true) - $timeStart) * 1000000;
 
             # if speedlimit is defined, make sure to only send specified bytes per second
-            if($rate > 0)
-            {
+            if ($rate > 0) {
                 usleep(1000000 - $wait);
             }
         }
@@ -165,7 +156,7 @@ class Download
     /**
      * Returns the MimeType of the file.
      *
-     * @param string $file Full path to file.
+     * @param  string $file Full path to file.
      * @return string MimeType of File.
      */
     public static function getMimeType($file)
@@ -173,6 +164,7 @@ class Download
         $finfo = finfo_open(FILEINFO_MIME);
         $mimetype = finfo_file($finfo, realpath($file));
         finfo_close($finfo);
+
         return $mimetype;
     }
 
@@ -180,16 +172,13 @@ class Download
      * Send a file as a download to the browser
      *
      * @param string $filePath
-     * @param int $rate speedlimit in KB/s
+     * @param int    $rate     speedlimit in KB/s
      */
     public static function send($filePath, $rate = 3)
     {
-        try
-        {
+        try {
             self::sendRated($filePath, $rate);
-        }
-        catch (Koch_Exception $e)
-        {
+        } catch (Koch_Exception $e) {
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');
 
@@ -200,19 +189,15 @@ class Download
      * Send a file as a download to the browser
      *
      * @param string $filePath
-     * @param int $rate speedlimit in KB/s
+     * @param int    $rate     speedlimit in KB/s
      */
     public function sendFile($filePath, $rate = 3)
     {
-        try
-        {
+        try {
             self::sendRated($filePath, $rate);
-        }
-        catch (Koch_Exception $e)
-        {
+        } catch (Koch_Exception $e) {
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');
         }
     }
 }
-?>

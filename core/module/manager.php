@@ -30,11 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Module;
+namespace Koch\module;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -51,7 +50,7 @@ if(defined('IN_CS') === false)
  * You might select the module with selectModule() or
  * via constructor injection.
  */
-class Manager
+class manager
 {
     public function __construct($module)
     {
@@ -59,6 +58,7 @@ class Manager
         # $this->config = loadRelevantStuff($module);
 
         # allow fluent chaining
+
         return this;
     }
 
@@ -114,4 +114,3 @@ class Manager
         return false;
     }
 }
-?>

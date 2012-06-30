@@ -41,17 +41,13 @@
  */
 function smarty_block_move_to($params, $content, $smarty, &$repeat)
 {
-    if ( empty($content) )
-    {
+    if ( empty($content) ) {
         return;
     }
 
-    if( isset($params['target']) )
-    {
+    if ( isset($params['target']) ) {
         $target = mb_strtoupper($params['target']);
-    }
-    else
-    {
+    } else {
         /**
          * the full errormessage is created by appending the first string
          * (one line would be over 130 chars long and the whitespaces matter)
@@ -61,6 +57,7 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
         $errormessage .= ' <font color="#66CC00">target="pre_head_close" , target="post_body_open" , target="pre_body_close"</font>.';
         trigger_error($errormessage);
         unset($errormessage);
+
         return;
     }
 
@@ -73,9 +70,9 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
                                       'PRE_BODY_CLOSE'); #  x</body>
 
     # whitelist: check if tag is a valid movement position
-    if( !in_array($target, $valid_movement_positions) )
-    {
+    if ( !in_array($target, $valid_movement_positions) ) {
         trigger_error("Parameter 'target' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
+
         return;
     }
 
@@ -93,4 +90,3 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
 
     return $content;
 }
-?>

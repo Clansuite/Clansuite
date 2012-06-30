@@ -33,8 +33,7 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -50,28 +49,24 @@ class Functions
     /**
      * @var array This array contains the names of the loaded functions from directory /core/functions.
      */
-    static $already_loaded = array();
+    public static $already_loaded = array();
 
     public static function get_server_load()
     {
-        if(stristr(PHP_OS, 'win'))
-        {
+        if (stristr(PHP_OS, 'win')) {
             $wmi = new COM("Winmgmts://");
             $cpus = $wmi->execquery("SELECT LoadPercentage FROM Win32_Processor");
 
             $cpu_num = 0;
             $load_total = 0;
 
-            foreach($cpus as $cpu)
-            {
+            foreach ($cpus as $cpu) {
                 $cpu_num++;
                 $load_total += $cpu->loadpercentage;
             }
 
             $load = round($load_total / $cpu_num);
-        }
-        else
-        {
+        } else {
             $sys_load = sys_getloadavg();
             $load = $sys_load[0];
         }
@@ -81,12 +76,9 @@ class Functions
 
     public static function in_string($needle, $haystack, $insensitive = false)
     {
-        if ($insensitive === true)
-        {
+        if ($insensitive === true) {
             return (false !== stristr($haystack, $needle)) ? true : false;
-        }
-        else
-        {
+        } else {
             return (false !== strpos($haystack, $needle)) ? true : false;
         }
     }
@@ -94,8 +86,8 @@ class Functions
     /**
      * Checks a string for a certain prefix or adds it, if missing.
      *
-     * @param string $string
-     * @param string $prefix
+     * @param  string $string
+     * @param  string $prefix
      * @return string prefixed classname
      */
     public static function ensurePrefixedWith($string, $prefix)
@@ -105,16 +97,15 @@ class Functions
         $spos = mb_strpos($string, $prefix);
 
         # when prefix starts at string position 0,
-        if(is_int($spos) and ($spos == 0))
-        {
+        if (is_int($spos) and ($spos == 0)) {
             # ok, prefixed, do nothing
             unset($spos);
             # just return the string
+
             return $string;
-        }
-        else # add the prefix
-        {
+        } else { # add the prefix
             unset($spos);
+
             return $prefix . $string;
         }
     }
@@ -128,6 +119,7 @@ class Functions
     public static function toUnderscoredUpperCamelCase($string)
     {
         $upperCamelCase = str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($string))));
+
         return $upperCamelCase;
     }
 
@@ -146,17 +138,13 @@ class Functions
 
         $pr_bits = null;
         $fp = fopen('/dev/urandom', 'rb');
-        if($fp !== false)
-        {
+        if ($fp !== false) {
             $pr_bits .= @ fread($fp, 16);
             fclose($fp);
-        }
-        else
-        {
+        } else {
             # If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
             $pr_bits = '';
-            for($cnt = 0; $cnt < 16; $cnt++)
-            {
+            for ($cnt = 0; $cnt < 16; $cnt++) {
                 $pr_bits .= chr(mt_rand(0, 255));
             }
         }
@@ -201,30 +189,24 @@ class Functions
      */
     public static function dirsize($dir)
     {
-        if(is_dir($dir) === false)
-        {
+        if (is_dir($dir) === false) {
             return false;
         }
 
         $size = 0;
         $dh = opendir($dir);
-        while(($entry = readdir($dh)) !== false)
-        {
+        while (($entry = readdir($dh)) !== false) {
             # exclude ./..
-            if($entry == '.' or $entry == '..')
-            {
+            if ($entry == '.' or $entry == '..') {
                 continue;
             }
 
             $direntry = $dir . '/' . $entry;
 
-            if(is_dir($direntry) === false)
-            {
+            if (is_dir($direntry) === false) {
                 # recursion
                 $size += self::dirsize($direntry);
-            }
-            else
-            {
+            } else {
                 $size += filesize($direntry);
             }
 
@@ -232,6 +214,7 @@ class Functions
         }
 
         closedir($dh);
+
         return $size;
     }
 
@@ -253,10 +236,10 @@ class Functions
     {
         $needle_length = mb_strlen($needle);
 
-        if(($i = mb_strpos($haystack, $needle) !== false))
-        {
+        if (($i = mb_strpos($haystack, $needle) !== false)) {
             return mb_substr($haystack, 0, -$needle_length);
         }
+
         return $haystack;
     }
 
@@ -264,7 +247,7 @@ class Functions
      * @param string $haystack
      * @param string $replace
      * @param string $needle
-     * @param int $times
+     * @param int    $times
      * @return $needle
      */
     public static function str_replace_count($haystack, $replace, $needle, $times)
@@ -273,19 +256,15 @@ class Functions
         $length = mb_strlen($haystack);
         $pos = 0;
 
-        for($i = 1; $i<=$times; $i++)
-        {
+        for ($i = 1; $i<=$times; $i++) {
             $pos = mb_strpos($needle, $haystack, $pos);
 
-            if($pos !== false)
-            {
+            if ($pos !== false) {
                 $needle = mb_substr($subject_original, 0, $pos);
                 $needle .= $replace;
                 $needle .= mb_substr($subject_original, $pos + $length);
                 $subject_original = $needle;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
@@ -296,27 +275,26 @@ class Functions
     /**
      * Takes a needle and multi-dimensional haystack array and does a search on it's values.
      *
-     * @param string $needle Needle to find
-     * @param array $haystack Haystack to look through
+     * @param string $needle   Needle to find
+     * @param array  $haystack Haystack to look through
      * @result array Returns the elements that the $string was found in
      *
      * array_values_recursive
      */
-    static function array_find_element_by_key($needle, array $haystack)
+    public static function array_find_element_by_key($needle, array $haystack)
     {
         # take a look for the needle
-        if((isset($haystack[$needle]) === true) or (array_key_exists($needle, $haystack)))
-        {
+        if ((isset($haystack[$needle]) === true) or (array_key_exists($needle, $haystack))) {
             # if found, return it
+
             return $haystack[$needle];
         }
 
         # dig a little bit deeper in the array structure
-        foreach($haystack as $k => $v)
-        {
-            if(is_array($v))
-            {
+        foreach ($haystack as $k => $v) {
+            if (is_array($v)) {
                 # recursion
+
                 return self::array_find_element_by_key($needle, $v);
             }
         }
@@ -338,33 +316,25 @@ class Functions
         $diff = false;
 
         # Left-to-right
-        foreach($array1 as $key => $value)
-        {
-            if(array_key_exists($key, $array2) === false)
-            {
+        foreach ($array1 as $key => $value) {
+            if (array_key_exists($key, $array2) === false) {
                 $diff[0][$key] = $value;
-            }
-            elseif(is_array($value))
+            } elseif(is_array($value))
             {
-                if(is_array($array2[$key]) === false)
-                {
+                if (is_array($array2[$key]) === false) {
                     $diff[0][$key] = $value;
                     $diff[1][$key] = $array2[$key];
-                }
-                else
-                {
+                } else {
                     $new = self::array_compare($value, $array2[$key]);
 
-                    if($new !== false)
-                    {
+                    if ($new !== false) {
                         if(isset($new[0]))
                             $diff[0][$key] = $new[0];
                         if(isset($new[1]))
                             $diff[1][$key] = $new[1];
                     }
                 }
-            }
-            elseif($array2[$key] !== $value)
+            } elseif($array2[$key] !== $value)
             {
                 $diff[0][$key] = $value;
                 $diff[1][$key] = $array2[$key];
@@ -372,10 +342,8 @@ class Functions
         }
 
         # Right-to-left
-        foreach($array2 as $key => $value)
-        {
-            if(array_key_exists($key, $array1) === false)
-            {
+        foreach ($array2 as $key => $value) {
+            if (array_key_exists($key, $array1) === false) {
                 $diff[1][$key] = $value;
             }
 
@@ -402,8 +370,8 @@ class Functions
      * $combined = self::array_unequal_combine($keys, $values);
      * Results in: array('mod'=>'news', 'sub'=>'admin');
      *
-     * @param array $keyArray
-     * @param array $valueArray
+     * @param  array $keyArray
+     * @param  array $valueArray
      * @return array Combined Array
      */
     public static function array_unequal_combine($keyArray, $valueArray)
@@ -413,18 +381,15 @@ class Functions
         $index = 0;
 
         # more keys than values, reduce keys array
-        while(count($keyArray) > count($valueArray))
-        {
+        while (count($keyArray) > count($valueArray)) {
             array_pop($keyArray);
         }
 
         # @todo more values than keys ?
         # add pseudo keys a la "key-0"
 
-        foreach($keyArray as $key)
-        {
-            if(isset($valueArray[$index]))
-            {
+        foreach ($keyArray as $key) {
+            if (isset($valueArray[$index])) {
                 # index is used, then incremented for the next turn in foreach (post-increment-operator)
                 $returnArray[$key] = $valueArray[$index++];
             }
@@ -438,34 +403,34 @@ class Functions
      * The array might have several keys, so you might map value of key2 to value of key5 ;)
      * Simple, but impressive!
      *
-     * @param type $array
-     * @param type $map_value_of_key1
-     * @param type $to_value_of_key2
+     * @param  type $array
+     * @param  type $map_value_of_key1
+     * @param  type $to_value_of_key2
      * @return type array
      */
     public static function map_array_keys_to_values($array, $map_value_of_key1, $to_value_of_key2)
     {
         $new_array = array();
-        foreach($array as $inner_array)
-        {
+        foreach ($array as $inner_array) {
            $new_array[$inner_array[$map_value_of_key1]] = $inner_array[$to_value_of_key2];
         }
+
         return $new_array;
     }
 
     /**
      * flatten multi-dimensional array
      *
-     * @param array $array
+     * @param  array $array
      * @return array
      */
     public static function array_flatten(array $array)
     {
         $flatened_array = array();
-        foreach(new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array)) as $value)
-        {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array)) as $value) {
             $flatened_array[] = $value;
         }
+
         return $flatened_array;
     }
 
@@ -485,67 +450,51 @@ class Functions
         $distanceInSeconds = round(abs($toTime - $fromTime));
         $distanceInMinutes = round($distanceInSeconds / 60);
 
-        if($distanceInMinutes <= 1)
-        {
-            if($showLessThanAMinute == false)
-            {
+        if ($distanceInMinutes <= 1) {
+            if ($showLessThanAMinute == false) {
                 return ($distanceInMinutes == 0) ? 'less than a minute' : '1 minute';
-            }
-            else
-            {
-                if($distanceInSeconds < 5)
-                {
+            } else {
+                if ($distanceInSeconds < 5) {
                     return 'less than 5 seconds';
                 }
-                if($distanceInSeconds < 10)
-                {
+                if ($distanceInSeconds < 10) {
                     return 'less than 10 seconds';
                 }
-                if($distanceInSeconds < 20)
-                {
+                if ($distanceInSeconds < 20) {
                     return 'less than 20 seconds';
                 }
-                if($distanceInSeconds < 40)
-                {
+                if ($distanceInSeconds < 40) {
                     return 'about half a minute';
                 }
-                if($distanceInSeconds < 60)
-                {
+                if ($distanceInSeconds < 60) {
                     return 'less than a minute';
                 }
+
                 return '1 minute';
             }
         }
-        if($distanceInMinutes < 45)
-        {
+        if ($distanceInMinutes < 45) {
             return $distanceInMinutes . ' minutes';
         }
-        if($distanceInMinutes < 90)
-        {
+        if ($distanceInMinutes < 90) {
             return 'about 1 hour';
         }
-        if($distanceInMinutes < 1440)
-        {
+        if ($distanceInMinutes < 1440) {
             return 'about ' . round(floatval($distanceInMinutes) / 60.0) . ' hours';
         }
-        if($distanceInMinutes < 2880)
-        {
+        if ($distanceInMinutes < 2880) {
             return '1 day';
         }
-        if($distanceInMinutes < 43200)
-        {
+        if ($distanceInMinutes < 43200) {
             return 'about ' . round(floatval($distanceInMinutes) / 1440) . ' days';
         }
-        if($distanceInMinutes < 86400)
-        {
+        if ($distanceInMinutes < 86400) {
             return 'about 1 month';
         }
-        if($distanceInMinutes < 525600)
-        {
+        if ($distanceInMinutes < 525600) {
             return round(floatval($distanceInMinutes) / 43200) . ' months';
         }
-        if($distanceInMinutes < 1051199)
-        {
+        if ($distanceInMinutes < 1051199) {
             return 'about 1 year';
         }
 
@@ -557,52 +506,49 @@ class Functions
      * uses idate() to format a local time/date as integer and gettext functions _n(), _t()
      * @see http://www.php.net/idate
      *
-     * @param string $from
-     * @param string $now
+     * @param  string $from
+     * @param  string $now
      * @return string Word representation of
      */
     public static function dateToWord($from, $now = null)
     {
-        if($now === null)
-        {
+        if ($now === null) {
             $now = time();
         }
 
         $between = $now - $from;
 
-        if($between < 86400 and idate('d', $from) == idate('d', $now))
-        {
+        if ($between < 86400 and idate('d', $from) == idate('d', $now)) {
 
-            if($between < 3600 and idate('H', $from) == idate('H', $now))
-            {
+            if ($between < 3600 and idate('H', $from) == idate('H', $now)) {
 
-                if($between < 60 and idate('i', $from) == idate('i', $now))
-                {
+                if ($between < 60 and idate('i', $from) == idate('i', $now)) {
                     $second = idate('s', $now) - idate('s', $from);
+
                     return sprintf(_n('%d', '%d', $second), $second);
                 }
 
                 $min = idate('i', $now) - idate('i', $from);
+
                 return sprintf(_n('%d', '%d', $min), $min);
             }
 
             $hour = idate('H', $now) - idate('H', $from);
+
             return sprintf(_n('%d', '%d', $hour), $hour);
         }
 
-        if($between < 172800 and ( idate('z', $from) + 1 == idate('z', $now) or idate('z', $from) > 2 + idate('z', $now)))
-        {
+        if ($between < 172800 and ( idate('z', $from) + 1 == idate('z', $now) or idate('z', $from) > 2 + idate('z', $now))) {
             return _t('.. %s', date('H:i', $from));
         }
 
-        if($between < 604800 and idate('W', $from) == idate('W', $now))
-        {
+        if ($between < 604800 and idate('W', $from) == idate('W', $now)) {
             $day = intval($between / (3600 * 24));
+
             return sprintf(_n('...', '...', $day), $day);
         }
 
-        if($between < 31622400 and idate('Y', $from) == idate('Y', $now))
-        {
+        if ($between < 31622400 and idate('Y', $from) == idate('Y', $now)) {
             return date(_t('...'), $from);
         }
 
@@ -621,7 +567,8 @@ class Functions
     public static function getsize($bytes)
     {
         static $s = array('B', 'KB', 'MB', 'GB', 'TB'); #  'PB', 'EB', 'ZB', 'YB');
-        $e = (int)(log($bytes) / (M_LN2 * 10));
+        $e = (int) (log($bytes) / (M_LN2 * 10));
+
         return sprintf('%.2f' . $s[$e], $bytes / pow(1024, $e));
     }
 
@@ -637,8 +584,7 @@ class Functions
     {
         $values = '';
 
-        if($scope === true)
-        {
+        if ($scope === true) {
             $values = $scope;
         }
 
@@ -646,10 +592,8 @@ class Functions
         $var = $new = $prefix . rand() . $suffix;
         $vname = false;
 
-        foreach($values as $key => $val)
-        {
-            if($val === $new)
-            {
+        foreach ($values as $key => $val) {
+            if ($val === $new) {
                 $vname = $key;
             }
         }
@@ -667,12 +611,9 @@ class Functions
     public static function format_seconds_to_shortstring($seconds = 0)
     {
         $time = '';
-        if(isset($seconds))
-        {
+        if (isset($seconds)) {
             $time = sprintf('%dD %02d:%02d:%02dh', $seconds / 60 / 60 / 24, ($seconds / 60 / 60) % 24, ($seconds / 60) % 60, $seconds % 60);
-        }
-        else
-        {
+        } else {
             return '00:00:00';
         }
 
@@ -686,49 +627,36 @@ class Functions
      * @param $chmod
      * @param $recursive
      */
-    function chmod($path = '', $chmod = '755', $recursive = false )
+    public function chmod($path = '', $chmod = '755', $recursive = false )
     {
-        if(is_dir($path) === false)
-        {
+        if (is_dir($path) === false) {
             $file_mode = '0' . $chmod;
             $file_mode = octdec($file_mode);
 
-            if(chmod($path, $file_mode) === false)
-            {
+            if (chmod($path, $file_mode) === false) {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             $dir_mode_r = '0' . $chmod;
             $dir_mode_r = octdec($dir_mode_r);
 
-            if(chmod($path, $dir_mode_r) === false)
-            {
+            if (chmod($path, $dir_mode_r) === false) {
                 return false;
             }
 
-            if($recursive === false)
-            {
+            if ($recursive === false) {
                 $dh = opendir($path);
-                while($file = readdir($dh))
-                {
-                    if(mb_substr($file, 0, 1) != '.')
-                    {
+                while ($file = readdir($dh)) {
+                    if (mb_substr($file, 0, 1) != '.') {
                         $fullpath = $path . '/' . $file;
-                        if(!is_dir($fullpath))
-                        {
+                        if (!is_dir($fullpath)) {
                             $mode = '0' . $chmod;
                             $mode = octdec($mode);
-                            if(chmod($fullpath, $mode) === false)
-                            {
+                            if (chmod($fullpath, $mode) === false) {
                                 return false;
                             }
-                        }
-                        else
-                        {
-                            if($this->chmod($fullpath, $chmod, true) === false)
-                            {
+                        } else {
+                            if ($this->chmod($fullpath, $chmod, true) === false) {
                                 return false;
                             }
                         }
@@ -737,6 +665,7 @@ class Functions
                 closedir($dh);
             }
         }
+
         return true;
     }
 
@@ -746,7 +675,7 @@ class Functions
      * @param $html A String with HTML Comments.
      * @return string $html String without Comments.
      */
-    function remove_tpl_comments($html )
+    public function remove_tpl_comments($html )
     {
         return preg_replace('/<!--.*-->/U', '', $html);
     }
@@ -758,29 +687,22 @@ class Functions
      * @param $destination
      * @param $overwrite boolean
      */
-    function dir_copy($source, $destination, $overwrite = true )
+    public function dir_copy($source, $destination, $overwrite = true )
     {
         $folder_path = '';
 
         $handle = opendir($source);
 
-        if($handle === true)
-        {
-            while(false !== ( $file = readdir($handle)))
-            {
-                if(mb_substr($file, 0, 1) != '.')
-                {
+        if ($handle === true) {
+            while (false !== ( $file = readdir($handle))) {
+                if (mb_substr($file, 0, 1) != '.') {
                     $source_path = $source . $file;
                     $target_path = $destination . $file;
 
-                    if(is_file($target_path) === false or $overwrite)
-                    {
-                        if(array(mb_strstr($target_path, '.') == true))
-                        {
+                    if (is_file($target_path) === false or $overwrite) {
+                        if (array(mb_strstr($target_path, '.') == true)) {
                             $folder_path = dirname($target_path);
-                        }
-                        else
-                        {
+                        } else {
                             $folder_path = $target_path;
                         }
 
@@ -793,25 +715,20 @@ class Functions
                             array_push($folder_path, dirname(end($folder_path)));
                         }
 
-                        while($parent_folder_path = array_pop($folder_path))
-                        {
-                            if(false === is_dir($parent_folder_path) and false === @mkdir($parent_folder_path, fileperms($parent_folder_path)))
-                            {
+                        while ($parent_folder_path = array_pop($folder_path)) {
+                            if (false === is_dir($parent_folder_path) and false === @mkdir($parent_folder_path, fileperms($parent_folder_path))) {
                                 die(_('Could not create the directory that should be copied (destination). Probably a permission problem.'));
                             }
                         }
 
                         $old = ini_set('error_reporting', 0);
-                        if(copy($source_path, $target_path) == false)
-                        {
+                        if (copy($source_path, $target_path) == false) {
                             die(_('Could not copy the directory. Probably a permission problem.'));
                         }
                         ini_set('error_reporting', $old);
-                    }
-                    elseif(is_dir($source_path) === true)
+                    } elseif(is_dir($source_path) === true)
                     {
-                        if(is_dir($target_path) === false)
-                        {
+                        if (is_dir($target_path) === false) {
                             if(@mkdir($target_path, fileperms($source_path)) == false
                                 );
                         }
@@ -831,38 +748,28 @@ class Functions
      */
     public static function delete_dir_content($directory, $delete_dir_itself = false)
     {
-        if(substr($directory, -1) == '/')
-        {
+        if (substr($directory, -1) == '/') {
             $directory = substr($directory, 0, -1);
         }
 
-        if(!is_file($directory) or !is_dir($directory))
+        if (!is_file($directory) or !is_dir($directory)) {
+            return false;
+        } elseif(!is_readable($directory))
         {
             return false;
-        }
-        elseif(!is_readable($directory))
-        {
-            return false;
-        }
-        else
-        {
+        } else {
             # loop over all elements in that directory
             $handle = opendir($directory);
-            while(false !== ( $item = readdir($handle)))
-            {
-                if($item != '.' and $item != '..')
-                {
+            while (false !== ( $item = readdir($handle))) {
+                if ($item != '.' and $item != '..') {
                     # path of that element (dir/file)
                     $path = $directory . '/' . $item;
 
                     # delete dir
-                    if(is_dir($path) === true)
-                    {
+                    if (is_dir($path) === true) {
                         # remove the content and the directory itself
                         self::delete_dir_content($path, true);
-                    }
-                    else # delete file
-                    {
+                    } else { # delete file
                        unlink($path);
                     }
                 }
@@ -870,10 +777,8 @@ class Functions
             closedir($handle);
 
             # remove that subdir
-            if($delete_dir_itself === true)
-            {
-                if(rmdir($directory) == false)
-                {
+            if ($delete_dir_itself === true) {
+                if (rmdir($directory) == false) {
                     return false;
                 }
             }
@@ -884,7 +789,7 @@ class Functions
         return false;
     }
 
-	/**
+    /**
      * Converts a UTF8-string into HTML entities
      *
      * When using UTF-8 as a charset you want to convert multi-byte characters.
@@ -902,8 +807,7 @@ class Functions
     public static function UTF8_to_HTML($utf8, $encodeTags = false)
     {
         # check if this function was aleady loaded
-        if(isset(self::$already_loaded[__FUNCTION__]) === false)
-        {
+        if (isset(self::$already_loaded[__FUNCTION__]) === false) {
             # if not, load function
             include KOCH . 'functions' . DS . mb_strtolower(__FUNCTION__) . '.php';
 
@@ -912,6 +816,7 @@ class Functions
         }
 
         # calling the loaded function
+
         return UTF8_to_HTML($utf8, $encodeTags);
     }
 
@@ -935,15 +840,12 @@ class Functions
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
-        if(is_file($filename) === true and is_readable($filename) === true)
-        {
+        if (is_file($filename) === true and is_readable($filename) === true) {
             # dynamically include the command
             include_once $filename;
 
             return call_user_func_array($method, $arguments);
-        }
-        else
-        {
+        } else {
             trigger_error('Koch Framework Function not found: "' . $filename . '".');
         }
     }
@@ -972,18 +874,14 @@ class Functions
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
-        if(is_file($filename) === true and is_readable($filename) === true)
-        {
+        if (is_file($filename) === true and is_readable($filename) === true) {
             # dynamically include the command
             include_once $filename;
 
             return call_user_func_array($method, $arguments);
-        }
-        else
-        {
+        } else {
             trigger_error('Koch Framework Function not found: "' . $filename . '".');
         }
     }
 
 }
-?>

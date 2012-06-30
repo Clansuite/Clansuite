@@ -33,11 +33,9 @@
 namespace Koch\Router;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
 
 /**
  * Interface for Koch_Router(s)
@@ -50,11 +48,10 @@ if(defined('IN_CS') === false)
  */
 interface RouterInterface
 {
-    function addRoute($url_pattern, array $route_options = null);
-    function addRoutes(array $routes);
-    function getRoutes();
-    function delRoute($name);
-    function generateURL($url_pattern, array $params = null, $absolute = false);
-    function route();
+    public function addRoute($url_pattern, array $route_options = null);
+    public function addRoutes(array $routes);
+    public function getRoutes();
+    public function delRoute($name);
+    public function generateURL($url_pattern, array $params = null, $absolute = false);
+    public function route();
 }
-?>

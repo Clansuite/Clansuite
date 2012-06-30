@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -55,8 +54,7 @@ class Uploadapc extends File implements FormelementInterface
     public function render()
     {
         # APC RFC1867 File Upload Progress Hook check
-        if(ini_get('apc.rfc1867') == false)
-        {
+        if (ini_get('apc.rfc1867') == false) {
             echo 'No Upload with APC possible.';
         }
 
@@ -66,12 +64,12 @@ class Uploadapc extends File implements FormelementInterface
          */
         $javascript = "<script type=\"text/javascript\"> //<![CDATA[
 
-                            $(document).ready(function()
-                            {
+                            $(document).ready(function() {
                                 $(\"#progressbar\").progressbar({ value: 0 });
                             });
 
-                            function getUploadProgress(uniqueID) {
+                            function getUploadProgress(uniqueID)
+                            {
                                 var req;
                                 try {
                                     req = window.XMLHttpRequest?new XMLHttpRequest():
@@ -95,12 +93,9 @@ class Uploadapc extends File implements FormelementInterface
                             function updateDisplay(status)
                             {
                                 var rate = parseInt(status['rate']/1024);
-                                if(status['cancel_upload'])
-                                {
+                                if (status['cancel_upload']) {
                                     txt='Upload was cancelled after '+resp['current']+' bytes!';
-                                }
-                                else
-                                {
+                                } else {
                                     txt=status['total']+' bytes uploaded!';
                                 }
                                 txt += '<br>Upload rate was '+rate+' kbps.';
@@ -144,8 +139,7 @@ class Uploadapc extends File implements FormelementInterface
          * b) with a unique tracking id for the file
          * c) placed before the input file element.
          */
-        if (false === class_exists('Koch_Formelement_Hidden',false))
-        {
+        if (false === class_exists('Koch_Formelement_Hidden',false)) {
             include __DIR__ . '/hidden.form.php';
         }
         $uniqueID = md5(uniqid(mt_rand(), true));
@@ -157,8 +151,7 @@ class Uploadapc extends File implements FormelementInterface
         $html .= '<input name="uploadfile" size="30" type="file">';
 
         # add a submit button
-        if (false === class_exists('Koch_Formelement_Submitbutton',false))
-        {
+        if (false === class_exists('Koch_Formelement_Submitbutton',false)) {
             include __DIR__ . '/submitbutton.php';
         }
         $submit = new Koch_Formelement_Submitbutton();
@@ -169,4 +162,3 @@ class Uploadapc extends File implements FormelementInterface
         return $javascript.$html;
     }
 }
-?>

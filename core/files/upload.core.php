@@ -33,8 +33,7 @@
 namespace  Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -62,15 +61,12 @@ class Upload implements ArrayAccess, IteratorAggregate, Countable
      */
     protected function parseFiles($files)
     {
-        foreach ($files as $formId => $fileInfo)
-        {
-            if (is_array($fileInfo['name']))
-            {
+        foreach ($files as $formId => $fileInfo) {
+            if (is_array($fileInfo['name'])) {
                 $this->files[$formId] = array();
 
                 $filecounter = count($files);
-                for ($i = 0; $i < $filecounter; $i++)
-                {
+                for ($i = 0; $i < $filecounter; $i++) {
                     $this->files[$formId][$i] = new Koch_File(
                             $fileInfo['name'][$i],
                             $fileInfo['type'][$i],
@@ -79,9 +75,7 @@ class Upload implements ArrayAccess, IteratorAggregate, Countable
                             $fileInfo['error'][$i]
                     );
                 }
-            }
-            else
-            {
+            } else {
                 $this->files[$formId] = new Koch_File(
                         $fileInfo['name'],
                         $fileInfo['type'],
@@ -108,12 +102,11 @@ class Upload implements ArrayAccess, IteratorAggregate, Countable
      * Returns the uploaded files that have the specified form name.
      *
      * @param $offset string  form name of file upload
-     * @return Koch_Upload_File|array  an uploaded file object or an array of them
+     * @return Koch_Upload_File|array an uploaded file object or an array of them
      */
     public function offsetGet($offset)
     {
-        if ($this->offsetExists($offset))
-        {
+        if ($this->offsetExists($offset)) {
             return $this->files[$offset];
         }
     }
@@ -158,4 +151,3 @@ class Upload implements ArrayAccess, IteratorAggregate, Countable
         return count($this->files);
     }
 }
-?>

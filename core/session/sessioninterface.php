@@ -33,8 +33,7 @@
 namespace Koch\Session;
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -54,4 +53,3 @@ interface SessionInterface
     public function session_destroy($id);
     public function session_gc($maxlifetime);
 }
-?>

@@ -47,4 +47,3 @@ function smarty_outputfilter_moveit($tpl_output, $smarty)
 
     return $tpl_output;
 }
-?>

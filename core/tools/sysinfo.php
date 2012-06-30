@@ -33,8 +33,7 @@
 namespace Koch\Tools;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -56,8 +55,7 @@ class SystemInfo
 
     public static function getLoadedExtensions()
     {
-        if(null === self::$extensions)
-        {
+        if (null === self::$extensions) {
             self::$extensions = get_loaded_extensions();
         }
     }
@@ -167,4 +165,3 @@ class SystemInfo_Cache
         return Koch_SystemInfo::isLoadedExtension('phpexpress');
     }
 }
-?>

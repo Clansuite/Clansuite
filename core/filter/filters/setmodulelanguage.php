@@ -39,8 +39,7 @@ use Koch\Localization\Localization;
 use Koch\Router\TargetRoute;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -71,4 +70,3 @@ class SetModuleLanguage implements FilterInterface
         $this->locale->loadTextDomain('LC_ALL', $modulename, $this->locale->getLocale(), $modulename);
     }
 }
-?>

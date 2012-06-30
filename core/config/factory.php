@@ -31,8 +31,7 @@
 namespace Koch\Config;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -76,20 +75,15 @@ class Factory
 
         # the fileextensions .config.php means it's an .ini file
         # the content of the file IS NOT a php-array as you might think
-        if($extension == '.config.php' or $extension == '.info.php')
-        {
+        if ($extension == '.config.php' or $extension == '.info.php') {
             $adapter = 'ini'; # @todo change this to 'php' (read/write of php-array)
-        }
-        elseif($extension == '.config.xml')
+        } elseif($extension == '.config.xml')
         {
             $adapter = 'xml';
-        }
-        elseif($extension == '.config.yaml')
+        } elseif($extension == '.config.yaml')
         {
             $adapter = 'yaml';
-        }
-        else
-        {
+        } else {
             throw new Koch_Exception('No handler for that type of configuration file found (' . $extension .')');
         }
 
@@ -116,7 +110,7 @@ class Factory
     /**
      * Get Configuration Handler
      *
-     * @param string $configfile
+     * @param  string $configfile
      * @return object Configuration Handler Object
      */
     public static function getHandler($configfile)
@@ -131,7 +125,7 @@ class Factory
     /**
      * getConfiguration
      *
-     * @param string $adapter a configuration filename type like "php", "xml", "yaml", "ini"
+     * @param  string        $adapter a configuration filename type like "php", "xml", "yaml", "ini"
      * @return Configuration Handler Object with confighandler and array of configfile.
      */
     public static function getConfigurationHandler($adapter)
@@ -139,29 +133,22 @@ class Factory
         # path to configuration handler classes
         $file = ROOT_CORE . 'config' . DS . strtolower($adapter) . '.config.php';
 
-        if(is_file($file) === true)
-        {
+        if (is_file($file) === true) {
             $class = 'Koch\Config_' . strtoupper($adapter);
 
-            if(false === class_exists($class, false))
-            {
+            if (false === class_exists($class, false)) {
                 include $file;
             }
 
-            if(true === class_exists($class, false))
-            {
+            if (true === class_exists($class, false)) {
                 # instantiate and return the specific confighandler with the $configfile to read
+
                 return $class::getInstance();
-            }
-            else
-            {
+            } else {
                 throw new Koch_Exception('Config_Factory -> Class not found: ' . $class, 40);
             }
-        }
-        else
-        {
+        } else {
             throw new Koch_Exception('Config_Factory -> File not found: ' . $file, 41);
         }
     }
 }
-?>

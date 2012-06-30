@@ -33,8 +33,7 @@
 namespace Koch\Config;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -65,11 +64,10 @@ class Config extends AbstractConfig
      * The depending object needs a version of the config.
      * We fetch it from Clansuite_CMS.
      */
-    function __construct()
+    public function __construct()
     {
         # if empty get from Clansuite_CMS
-        if(empty($this->config))
-        {
+        if (empty($this->config)) {
             $this->config = \Clansuite\CMS::getClansuiteConfig();
         }
     }
@@ -77,13 +75,12 @@ class Config extends AbstractConfig
     /**
      * Reads a configuration file
      *
-     * @param string $configfile
+     * @param  string $configfile
      * @return object $this->config
      */
     public function readConfig($configfile)
     {
-        if(false === is_object($this->config))
-        {
+        if (false === is_object($this->config)) {
             $this->config = Factory::getConfiguration($configfile);
         }
 
@@ -99,19 +96,16 @@ class Config extends AbstractConfig
     public function readModuleConfig($modulename = null)
     {
         # if no modulename is set, determine the name of the current module
-        if($modulename === null)
-        {
+        if ($modulename === null) {
             $modulename = Koch\Router\TargetRoute::getModuleName();
         }
 
         $file = ROOT_MOD . $modulename . DS . $modulename . '.config.php';
 
-        if(is_file($file))
-        {
+        if (is_file($file)) {
             return Factory::getConfiguration($configfile);
-        }
-        else # module has no configuration file
-        {
+        } else { # module has no configuration file
+
             return array();
         }
     }
@@ -129,8 +123,7 @@ class Config extends AbstractConfig
      */
     public function writeModuleConfig($array, $modulename = null)
     {
-        if(null == $modulename)
-        {
+        if (null == $modulename) {
             $modulename = Koch\Router\TargetRoute::getModuleName();
         }
         $this->writeConfig(ROOT_MOD . $modulename . DS . $modulename . '.config.php', $array);
@@ -147,12 +140,10 @@ class Config extends AbstractConfig
      */
     public function writeConfig($filename, $array = null)
     {
-        if($array === null)
-        {
+        if ($array === null) {
             $array = array();
         }
 
         Factory::getHandler($filename)->writeConfig($filename, $array);
     }
 }
-?>

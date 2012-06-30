@@ -40,4 +40,3 @@ function smarty_function_ajax_call($params)
     '\', \'' . $parameters . '\', ' . $callback . ', ' .
     $params_func . '); return false;';
 }
-?>

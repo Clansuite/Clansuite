@@ -33,8 +33,7 @@
 namespace Koch\Cron;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -45,4 +44,3 @@ class Dump implements Cronjob
         echo "It's just me, a dumb example of a cronjump. <br/> My name is 'dump.cronjob.php'.";
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Datagrid;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -258,7 +257,7 @@ class Datagrid extends Base
     /**
      * Set the hook for the resultset manipulation
      *
-     * @param Object $class
+     * @param Object     $class
      * @param Methodname $methodname
     */
     public function modifyResultSetViaHook($class, $methodname)
@@ -295,7 +294,7 @@ class Datagrid extends Base
     /**
      * Get a column depending on its alias
      *
-     * @param string $sColumnKey Name of the Column
+     * @param  string                    $sColumnKey Name of the Column
      * @return Clansuite_Datagrid_Column
      */
     public function getColumn($sColumnKey)
@@ -331,7 +330,7 @@ class Datagrid extends Base
      *
      * @see $_requestParameterAliasMap
      *
-     * @param string $_internalKey
+     * @param  string $_internalKey
      * @return string $this->_requestParameterAliasMap[$_InternalKey];
      */
     public function getParameterAlias($_internalKey)
@@ -359,16 +358,12 @@ class Datagrid extends Base
         $resultsPerPage = null;
 
         # $resultsPerPage is incomming via Session, URL GET or Set to 1 as default
-        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage']) )
-        {
+        if ( isset($_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage']) ) {
             $resultsPerPage = $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'];
-        }
-        elseif( isset($_REQUEST[$this->getParameterAlias('ResultsPerPage')]) )
+        } elseif( isset($_REQUEST[$this->getParameterAlias('ResultsPerPage')]) )
         {
             $resultsPerPage = (int) $_REQUEST[$this->getParameterAlias('ResultsPerPage')];
-        }
-        else # if page is not inside session or request, we are on the first page
-        {
+        } else { # if page is not inside session or request, we are on the first page
             $resultsPerPage = $this->_resultsPerPage; # default via setResultsPerPage / config
         }
 
@@ -440,10 +435,8 @@ class Datagrid extends Base
          * Ensure Datagrid gets some valid options passed
          */
         $acceptedOptions = array( 'Entity', 'ColumnSets', 'Url');
-        foreach($acceptedOptions as $value)
-        {
-            if(false === isset($options[$value]))
-            {
+        foreach ($acceptedOptions as $value) {
+            if (false === isset($options[$value])) {
                 throw new Clansuite_Exception('Datagrid Option(s) missing. Valid options are: '. var_export($acceptedOptions, true));
             }
         }
@@ -452,8 +445,7 @@ class Datagrid extends Base
         # sets the doctrine entity to use for the datagrid
         # set manually        'Entity'        => 'Entities\News',
         # or automatically    getEntityNameFromClassname()
-        if(isset($options['Entity']))
-        {
+        if (isset($options['Entity'])) {
             $this->setDoctrineEntityName($options['Entity']);
         }
 
@@ -472,8 +464,7 @@ class Datagrid extends Base
         $this->setAlias( $this->getDoctrineEntityName() );
 
         # reset session?
-        if( isset($_REQUEST[$this->getParameterAlias('Reset')]) )
-        {
+        if ( isset($_REQUEST[$this->getParameterAlias('Reset')]) ) {
                $_SESSION['Datagrid_' . $this->getAlias()] = '';
         }
 
@@ -570,17 +561,14 @@ class Datagrid extends Base
      * Check, if a datagrid feature is enabled.
      *
      * @see $this->_features
-     * @param string $feature Name of the feature.
+     * @param  string  $feature Name of the feature.
      * @return boolean True if enabled, false if disabled.
      */
     public function isEnabled($feature)
     {
-        if( isset($this->_features[$feature]) === false )
-        {
+        if ( isset($this->_features[$feature]) === false ) {
             throw new Clansuite_Exception(_('There is no such feature in this datagrid: ') . $feature);
-        }
-        else
-        {
+        } else {
             return $this->_features[$feature];
         }
     }
@@ -597,8 +585,7 @@ class Datagrid extends Base
         # if $features is only one feature; then it's just a string, so we typecast
         $features = (array) $features;
 
-        foreach($features as $feature)
-        {
+        foreach ($features as $feature) {
             $this->_features[$feature] = true;
         }
     }
@@ -608,7 +595,7 @@ class Datagrid extends Base
      * Returns true on success, false otherwise
      *
      * @see $this->_features
-     * @param mixed(string|array) $features
+     * @param  mixed(string|array) $features
      * @return boolean
      */
     public function disableFeature($features)
@@ -617,8 +604,7 @@ class Datagrid extends Base
         $features = (array) $features;
 
         # disable several datagrid features
-        foreach($features as $feature)
-        {
+        foreach ($features as $feature) {
             $this->_features[$feature] = false;
         }
     }
@@ -650,8 +636,7 @@ class Datagrid extends Base
         #$columnKey = ucfirst($columnKey);
 
         # No alias given
-        if( (isset($columnSet[$columnKey]) == false) or ($columnSet[$columnKey] == '') )
-        {
+        if ( (isset($columnSet[$columnKey]) == false) or ($columnSet[$columnKey] == '') ) {
             # define exception message string for usage with sprintf + gettext
             $exception_sprintf = _('The datagrid columnset has an error. The array key "%s" is missing.)');
 
@@ -668,8 +653,7 @@ class Datagrid extends Base
     {
         #Clansuite_Debug::firebug($_columnSets);
 
-        foreach( $_columnSets as $key => $columnSet )
-        {
+        foreach ($_columnSets as $key => $columnSet) {
             #Clansuite_Debug::firebug($key);
             # No alias given
             self::checkColumnKeyExist($columnSet, 'Alias');
@@ -679,14 +663,12 @@ class Datagrid extends Base
             self::checkColumnKeyExist($columnSet, 'Name');
 
             # No SortCol although sorting is enabled
-            if( isset($columnSet['Sort']) and !isset($columnSet['SortCol']) )
-            {
+            if ( isset($columnSet['Sort']) and !isset($columnSet['SortCol']) ) {
                 throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (sorting is enabled but "SortCol" is missing)'), $key));
             }
 
             # Default type: String
-            if( !isset($columnSet['Type']) || $columnSet['Type'] == '')
-            {
+            if ( !isset($columnSet['Type']) || $columnSet['Type'] == '') {
                 $columnSet['Type'] = 'String';
             }
         }
@@ -712,26 +694,19 @@ class Datagrid extends Base
     {
         $colSet = null;
 
-        foreach( $this->_columnSets as $colKey => &$colSet )
-        {
+        foreach ($this->_columnSets as $colKey => &$colSet) {
             $oCol = new Clansuite_Datagrid_Column();
             $oCol->setAlias($colSet['Alias']);
             $oCol->setId($colSet['Alias']);
             $oCol->setName($colSet['Name']);
 
-            if( false == isset($colSet['Sort']) )
-            {
+            if ( false == isset($colSet['Sort']) ) {
                 $oCol->disableFeature('Sorting');
-            }
-            else
-            {
+            } else {
                 $oCol->setSortOrder($colSet['Sort']);
-                if( isset($colSet['SortCol']) )
-                {
+                if ( isset($colSet['SortCol']) ) {
                     $oCol->setSortField($colSet['SortCol']);
-                }
-                else
-                {
+                } else {
                     $oCol->setSortField($colSet['ResultSet']);
                 }
             }
@@ -750,12 +725,11 @@ class Datagrid extends Base
      * The modifying method works directly on the resultset,
      * so we use the reference operator.
      *
-     * @param array $resultset  Results Array from Doctrine Query
+     * @param array $resultset Results Array from Doctrine Query
      */
     private function triggerDataModificationHook(&$resultset)
     {
-        if(isset($this->dataModifyHook['method']))
-        {
+        if (isset($this->dataModifyHook['method'])) {
             $this->dataModifyHook['class']->{$this->dataModifyHook['method']}($resultset);
         }
     }
@@ -767,8 +741,7 @@ class Datagrid extends Base
      */
     private function _generateRows($data)
     {
-        foreach( $data as $rowKey => $rowValues )
-        {
+        foreach ($data as $rowKey => $rowValues) {
             /**
              *  Trigger the Hook and pass dataSet for modification
              */
@@ -781,8 +754,7 @@ class Datagrid extends Base
             $oRow->setName('RowName_' . $rowKey);
             $oRow->setPosition($rowKey);
 
-            foreach( $this->_columnSets as $columnKey => $columnSet )
-            {
+            foreach ($this->_columnSets as $columnKey => $columnSet) {
                 $oCell = new Clansuite_Datagrid_Cell();
                 $oRow->addCell($oCell);
                 $this->rowObjects[$rowKey] = $oRow;
@@ -812,18 +784,14 @@ class Datagrid extends Base
     {
         $aResultSet = null;
 
-        if(false === is_array($_ColumnSet))
-        {
+        if (false === is_array($_ColumnSet)) {
             throw new Clansuite_Exception(_('You have not supplied any columnset to validate.'));
         }
 
         # Standard for ResultSets is an array
-        if( false === is_array($_ColumnSet['ResultSet']))
-        {
+        if ( false === is_array($_ColumnSet['ResultSet'])) {
             $aResultSet = array($_ColumnSet['ResultSet']);
-        }
-        else
-        {
+        } else {
             $aResultSet = $_ColumnSet['ResultSet'];
         }
 
@@ -831,16 +799,13 @@ class Datagrid extends Base
         $i = 0;
         $values = array();
 
-        foreach($aResultSet as $ResultKey => $ResultValue)
-        {
+        foreach ($aResultSet as $ResultKey => $ResultValue) {
             $_ArrayStructure = explode('.', $ResultValue);
 
             $_TmpArrayHandler = $_Dataset;
 
-            foreach( $_ArrayStructure as $_LevelKey )
-            {
-                if( false === is_array($_TmpArrayHandler) or false === isset($_TmpArrayHandler[$_LevelKey]) )
-                {
+            foreach ($_ArrayStructure as $_LevelKey) {
+                if ( false === is_array($_TmpArrayHandler) or false === isset($_TmpArrayHandler[$_LevelKey]) ) {
                     #Clansuite_Debug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
                     $_TmpArrayHandler = '';
                     break;
@@ -857,8 +822,6 @@ class Datagrid extends Base
         return $values;
     }
 
-
-
     /**
      * Generate the Sorts for a query
      *
@@ -872,15 +835,13 @@ class Datagrid extends Base
         $SortOrder  = '';
 
         # Set SortColumn and sortorder if in session
-        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['SortColumn']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SortOrder']) )
-        {
+        if ( isset($_SESSION['Datagrid_' . $this->getAlias()]['SortColumn']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SortOrder']) ) {
             $SortColumn = $_SESSION['Datagrid_' . $this->getAlias()]['SortColumn'];
             $SortOrder  = $_SESSION['Datagrid_' . $this->getAlias()]['SortOrder'];
         }
 
         # Prefer requests
-        if( isset($_REQUEST[$this->getParameterAlias('SortColumn')]) and isset($_REQUEST[$this->getParameterAlias('SortOrder')]) )
-        {
+        if ( isset($_REQUEST[$this->getParameterAlias('SortColumn')]) and isset($_REQUEST[$this->getParameterAlias('SortOrder')]) ) {
             $SortColumn = $_REQUEST[$this->getParameterAlias('SortColumn')];
             $SortOrder  = $_REQUEST[$this->getParameterAlias('SortOrder')];
         }
@@ -903,9 +864,7 @@ class Datagrid extends Base
             $this->queryBuilder->add('orderBy', 'a.' . $oCol->getSortField() . ' ' . $SortOrder);
 
             $oCol->setSortOrder($SortOrder);
-        }
-        else
-        {
+        } else {
             $_SESSION['Datagrid_' . $this->getAlias()]['SortColumn']   = '';
             $_SESSION['Datagrid_' . $this->getAlias()]['SortOrder'] = '';
         }
@@ -921,14 +880,12 @@ class Datagrid extends Base
         $SearchColumn    = '';
         $SearchForValue  = '';
 
-        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchColumn']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchForValue']) )
-        {
+        if ( isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchColumn']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchForValue']) ) {
             $SearchColumn    = $_SESSION['Datagrid_' . $this->getAlias()]['SearchColumn'];
             $SearchForValue  = $_SESSION['Datagrid_' . $this->getAlias()]['SearchForValue'];
         }
 
-        if( isset($_REQUEST[$this->getParameterAlias('SearchColumn')]) and isset($_REQUEST[$this->getParameterAlias('SearchForValue')]) )
-        {
+        if ( isset($_REQUEST[$this->getParameterAlias('SearchColumn')]) and isset($_REQUEST[$this->getParameterAlias('SearchForValue')]) ) {
             $SearchColumn    = $_REQUEST[$this->getParameterAlias('SearchColumn')];
             $SearchForValue  = $_REQUEST[$this->getParameterAlias('SearchForValue')];
         }
@@ -940,8 +897,7 @@ class Datagrid extends Base
         # var_dump( $this->queryBuilder->getDQL() ); exit;
 
         # Check for valid formats of key and value
-        if( ($SearchColumn != '' and $SearchForValue != '') )
-        {
+        if ( ($SearchColumn != '' and $SearchForValue != '') ) {
             $this->queryBuilder->add('andWhere',
                     # string = ANDWHERE a.fieldname LIKE :SearchForValue
                     $this->queryBuilder->expr()->like(
@@ -960,16 +916,12 @@ class Datagrid extends Base
         $page = null;
 
         # Page is incomming via Session, URL GET or Set to 1 as default
-        if(isset($_SESSION['Datagrid_' . $this->getAlias()]['Page']))
-        {
+        if (isset($_SESSION['Datagrid_' . $this->getAlias()]['Page'])) {
             $page = $_SESSION['Datagrid_' . $this->getAlias()]['Page'];
-        }
-        elseif(isset($_REQUEST[$this->getParameterAlias('Page')]))
+        } elseif(isset($_REQUEST[$this->getParameterAlias('Page')]))
         {
             $page = (int) $_REQUEST[$this->getParameterAlias('Page')];
-        }
-        else
-        {
+        } else {
             # default value: first page
             $page = 1;
         }
@@ -1018,4 +970,3 @@ class Datagrid extends Base
         return $paginateQuery;
     }
 }
-?>

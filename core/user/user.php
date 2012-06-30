@@ -33,8 +33,7 @@
 namespace Koch\User;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -64,7 +63,7 @@ class User
     /**
      * Constructor
      */
-    function __construct(\Koch\Config\Config $config)
+    public function __construct(\Koch\Config\Config $config)
     {
         $this->config = $config;
     }
@@ -72,19 +71,16 @@ class User
     /**
      * getUser by user_id
      *
-     * @param integer $user_id The ID of the User. Defaults to the user_id from session.
-     * @return array $userdata (Dataset of CsUsers + CsProfile)
+     * @param  integer $user_id The ID of the User. Defaults to the user_id from session.
+     * @return array   $userdata (Dataset of CsUsers + CsProfile)
      */
     public function getUser($user_id = null)
     {
         # init user_id
-        if($user_id == null and $_SESSION['user']['user_id'] > 0)
-        {
+        if ($user_id == null and $_SESSION['user']['user_id'] > 0) {
             # incomming via session
             $user_id = $_SESSION['user']['user_id'];
-        }
-        else
-        {
+        } else {
             # incomming via method parameter
             $user_id = (int) $user_id;
         }
@@ -95,12 +91,9 @@ class User
                         ->where('u.user_id = ?')
                         ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
 
-        if(is_array($userdata))
-        {
+        if (is_array($userdata)) {
             return $userdata;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -125,8 +118,7 @@ class User
          * 3) nick
          */
 
-        if( empty($user_id) === false )
-        {
+        if ( empty($user_id) === false ) {
             # Get the user from the user_id
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
@@ -135,8 +127,7 @@ class User
                     #->leftJoin('u.CsGroups g')
                     ->where('u.user_id = ?')
                     ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
-        }
-        elseif( empty($email) === false )
+        } elseif( empty($email) === false )
         {
             # Get the user from the email
             $this->user = Doctrine_Query::create()
@@ -146,8 +137,7 @@ class User
                     #->leftJoin('u.CsGroups g')
                     ->where('u.email = ?')
                     ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
-        }
-        elseif( empty($nick) === false )
+        } elseif( empty($nick) === false )
         {
             # Get the user from the nick
             $this->user = Doctrine_Query::create()
@@ -164,8 +154,7 @@ class User
          * Check if this user is activated,
          * else reset cookie, session and redirect
          */
-        if(is_array($this->user) and $this->user['activated'] == 0)
-        {
+        if (is_array($this->user) and $this->user['activated'] == 0) {
             $this->logoutUser();
 
             # redirect
@@ -177,8 +166,7 @@ class User
         /**
          * Create $_SESSION['user'] array, containing user data
          */
-        if ( is_array($this->user) )
-        {
+        if ( is_array($this->user) ) {
             /**
              * Transfer User Data into Session
              */
@@ -206,14 +194,10 @@ class User
              * a) user['language'] from database / personal user setting
              * b) standard language / fallback as defined by $this->config['language']['default']
              */
-            if (false === isset($_SESSION['user']['language_via_url']))
-            {
-                if(false === empty($this->user['language']))
-                {
+            if (false === isset($_SESSION['user']['language_via_url'])) {
+                if (false === empty($this->user['language'])) {
                     $_SESSION['user']['language'] = $this->user['language'];
-                }
-                else
-                {
+                } else {
                     $_SESSION['user']['language'] = $this->config['language']['default'];
                 }
             }
@@ -224,20 +208,16 @@ class User
              * first take standard theme as defined by $config->theme
              * @todo remove $_REQUEST, frontend theme is selectable via frontend
              */
-            if (false === isset($_REQUEST['theme']))
-            {
+            if (false === isset($_REQUEST['theme'])) {
                 $_SESSION['user']['frontend_theme'] = (!empty($this->user['frontend_theme']) ? $this->user['frontend_theme'] : $this->config['template']['frontend_theme']);
             }
 
             /**
              * Backend-Theme
              */
-            if(empty($this->user['backend_theme']) === false)
-            {
+            if (empty($this->user['backend_theme']) === false) {
                 $_SESSION['user']['backend_theme'] = $this->user['backend_theme'];
-            }
-            else
-            {
+            } else {
                 $_SESSION['user']['backend_theme'] = $this->config['template']['backend_theme'];
             }
 
@@ -265,8 +245,7 @@ class User
             $_SESSION['user']['group'] = '';
             $_SESSION['user']['rights'] = '';
 
-            if ( false === empty($this->user['CsGroups']))
-            {
+            if ( false === empty($this->user['CsGroups'])) {
                 $_SESSION['user']['group']  = $this->user['CsGroups'][0]['group_id'];
                 $_SESSION['user']['role']   = $this->user['CsGroups'][0]['role_id'];
                 $_SESSION['user']['rights'] = Koch\ACL::createRightSession(
@@ -275,9 +254,7 @@ class User
             }
 
             #Koch_Debug::firebug($_SESSION);
-        }
-        else
-        {
+        } else {
             # this resets the $_SESSION['user'] array
             GuestUser::instantiate();
 
@@ -295,8 +272,8 @@ class User
      * 2. compare password from login form with database
      *
      * @param string $login_method contains the login_method ('nick' or 'email')
-     * @param string $value contains nick or email string to look for
-     * @param string $password contains password string
+     * @param string $value        contains nick or email string to look for
+     * @param string $password     contains password string
      *
      * @return int ID of User. If the user is found, the $user_id - otherwise false.
      */
@@ -305,8 +282,7 @@ class User
         $user = null;
 
         # check if a given nick or email exists
-        if( $login_method == 'nick' )
-        {
+        if ($login_method == 'nick') {
             # get user_id and passwordhash with the nick
             $user = Doctrine_Query::create()
                     ->select('u.user_id, u.passwordhash, u.salt')
@@ -316,8 +292,7 @@ class User
         }
 
         # check if a given email exists
-        if( $login_method == 'email' )
-        {
+        if ($login_method == 'email') {
             # get user_id and passwordhash with the email
             $user = Doctrine_Query::create()
                     ->select('u.user_id, u.passwordhash, u.salt')
@@ -336,11 +311,11 @@ class User
             $this->moduleconfig['login']['hash_algorithm']))
         {
             # ok, the user with nick or email exists and the passwords matched, then return the user_id
+
             return $user['user_id'];
-        }
-        else
-        {
+        } else {
             # no user was found with this combination of either nick and password or email and password
+
             return false;
         }
     }
@@ -348,9 +323,9 @@ class User
     /**
      * Login
      *
-     * @param integer $user_id contains user_id
+     * @param integer $user_id     contains user_id
      * @param integer $remember_me contains remember_me setting
-     * @param string $password contains password string
+     * @param string  $password    contains password string
      */
     public function loginUser($user_id, $remember_me, $passwordhash)
     {
@@ -362,8 +337,7 @@ class User
         /**
          * 2. Remember-Me ( set Logindata via Cookie )
          */
-        if ( $remember_me === true )
-        {
+        if ($remember_me === true) {
             $this->setRememberMeCookie($user_id, $passwordhash);
         }
 
@@ -388,8 +362,8 @@ class User
      * Set the remember me cookie
      * If this cookie is found, the user is re-logged in automatically
      *
-     * @param integer $user_id contains user_id
-     * @param string $password contains password string
+     * @param integer $user_id  contains user_id
+     * @param string  $password contains password string
      */
     private function setRememberMeCookie($user_id, $passwordhash)
     {
@@ -420,8 +394,7 @@ class User
     public function checkLoginCookie()
     {
         # Check for login cookie
-        if ( isset($_COOKIE['cs_cookie']) )
-        {
+        if ( isset($_COOKIE['cs_cookie']) ) {
             $cookie_array = explode('#', $_COOKIE['cs_cookie']);
             $cookie_user_id = (int) $cookie_array['0'];
             $cookie_password = (string) $cookie_array['1'];
@@ -455,8 +428,7 @@ class User
 
                 # Update Session in DB
                 $this->sessionSetUserId($this->user['user_id']);
-            }
-            else # Delete cookies, if no match
+            } else # Delete cookies, if no match
 
             {
                 setcookie('cs_cookie_user_id', false );
@@ -481,12 +453,13 @@ class User
         /**
          * Update Session, because we know that session_id already exists
          */
-        if ( $result )
-        {
+        if ($result) {
             $result->user_id = $user_id;
             $result->save();
+
             return true;
         }
+
         return false;
     }
 
@@ -528,12 +501,10 @@ class User
     public function isUserAuthed()
     {
         if(true === isset($_SESSION['user']['authed']) and
-           true === (bool)$_SESSION['user']['authed'])
+           true === (bool) $_SESSION['user']['authed'])
         {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -548,4 +519,3 @@ class User
         return $_SESSION['user']['user_id'];
     }
 }
-?>

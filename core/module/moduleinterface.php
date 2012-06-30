@@ -1,5 +1,5 @@
 <?php
-namespace Koch\Module;
+namespace Koch\module;
 
 /**
  * Interface for all modules which implement a specific action structure.
@@ -11,7 +11,7 @@ namespace Koch\Module;
  * @package     Core
  * @subpackage  Module
  */
-interface ModuleInterface
+interface moduleinterface
 {
     public function action_list();     # GET     /foos
     public function action_show();     # GET     /foos/:foo_id
@@ -21,4 +21,3 @@ interface ModuleInterface
     public function action_update();   # PUT     /foos/:foo_id
     public function action_destroy();  # DELETE  /foos/:foo_id
 }
-?>

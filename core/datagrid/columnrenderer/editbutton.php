@@ -33,8 +33,7 @@
 namespace Koch\Datagrid\Columnrenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -66,5 +65,3 @@ class Editbutton extends ColumnRenderer implements ColumnRendererInterface
         #return sprintf('<input type="button" value="EditButton" id="EditButton-%s" name="EditButton" />', $oCell->getValue());
     }
 }
-
-?>

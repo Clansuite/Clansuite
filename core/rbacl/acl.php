@@ -33,10 +33,9 @@
 namespace  Koch\RBACL;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
-} 
+}
 
 /**
  * Koch Framework Class for Role and User Based Access Control Management
@@ -107,12 +106,9 @@ class ACL
     public static function checkPermission( $module_name, $permission_name )
     {
         # if we got no modulname or permission, we have no access
-        if( $module_name == '' or $permission_name == '' )
-        {
+        if ($module_name == '' or $permission_name == '') {
             return false;
-        }
-        else
-        {
+        } else {
             # combine the module and permission name to a string
             $permission = '';
             $permission = $module_name .'.'. $permission_name;
@@ -120,19 +116,15 @@ class ACL
 
         $permissions = self::extractRightsFromSession();
 
-        if(count($permissions) > 0)
-        {
-            foreach($permissions as $key => $value)
-            {
-                if($value == $permission)
-                {
+        if (count($permissions) > 0) {
+            foreach ($permissions as $key => $value) {
+                if ($value == $permission) {
                     return true;
                 }
             }
+
             return false;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -148,17 +140,14 @@ class ACL
         $permstring = self::getPermissions( $roleid, $userid );
 
         # return compressed permission string
-        if( $permstring !== '' and self::$compress_permissions === true)
-        {
+        if ($permstring !== '' and self::$compress_permissions === true) {
             return strtr(base64_encode(addslashes(gzcompress(serialize($permstring),9))), '+/=', '-_,');
         }
         # return uncompress permission string
         elseif( $permstring !== '')
         {
             return $permstring;
-        }
-        else
-        {
+        } else {
             return '';
         }
     }
@@ -178,11 +167,9 @@ class ACL
      */
     public static function extractRightsFromSession()
     {
-        if(empty($_SESSION['user']['rights']))
-        {
+        if (empty($_SESSION['user']['rights'])) {
             return array();
-        }
-        elseif(self::$compress_permissions === true)
+        } elseif(self::$compress_permissions === true)
         {
 
             # revert the session permission string to a proper array
@@ -191,13 +178,10 @@ class ACL
             $permstring = explode(',', $permstring);
 
             return $permstring;
-        }
-        else
-        {
+        } else {
             return $_SESSION['user']['rights'];
         }
     }
-
 
     /*
      * ----------------------------------------------------------------------------
@@ -220,16 +204,13 @@ class ACL
      */
     public static function getRoleList( $title = false)
     {
-        if(false === $title )
-        {
+        if (false === $title) {
             $field = 'name';
-        }
-        else {
+        } else {
             $field = 'title';
         }
 
-        foreach( self::$_roles as $role )
-        {
+        foreach (self::$_roles as $role) {
             $alist[] = $role[$field];
         }
 
@@ -243,8 +224,7 @@ class ACL
      */
     private static function getPermissions($roleid, $userid = 0)
     {
-        if( $roleid == '' )
-        {
+        if ($roleid == '') {
             return '';
         }
 
@@ -255,40 +235,32 @@ class ACL
         # --- read acl-data ---
         $Actions = self::getAclDataActions();
         $Rules = self::getAclDataRules();
-        if( $userid >0 )
-        {
+        if ($userid >0) {
             $uRules = self::getAclDataURules($userid);
         }
 
         # --- prepare actions ---
-        foreach( $Actions as $act )
-        {
+        foreach ($Actions as $act) {
             $_actions[$act['action_id']] = $act['modulname'] . '.' . $act['action'];
         }
 
         # --- create permission array only for the given role_id ---
-        foreach( $Rules as $rule )
-        {
-            if( $rule['role_id'] == $roleid )
-            {
+        foreach ($Rules as $rule) {
+            if ($rule['role_id'] == $roleid) {
                 $_perms[ $_actions[$rule['action_id']] ] = 1;
             }
         }
 
         # --- create/overide group-permissions width user-permissions ---
-        if( $userid >0 )
-        {
-            if( count( $uRules ) >0 )
-            {
+        if ($userid >0) {
+            if ( count( $uRules ) >0 ) {
                 // @todo
 
             }
         }
 
-
         # prepare permissionstring for session
-        foreach( $_perms as $key => $value )
-        {
+        foreach ($_perms as $key => $value) {
             $permstring .= $key.',';
         }
 
@@ -297,7 +269,6 @@ class ACL
 
         return $permstring;
     }
-
 
     /*
      * ----------------------------------------------------------------------------
@@ -369,4 +340,3 @@ class ACL
     }
 
 }
-?>

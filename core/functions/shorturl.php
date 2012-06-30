@@ -31,8 +31,7 @@
     */
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -49,20 +48,15 @@ function shortTinyUrl($long_url)
     $handle = '';
     $handle = fopen('http://tinyurl.com/api-create.php?url=' . $long_url , 'rb');
 
-    if($handle)
-    {
+    if ($handle) {
         $short_url = '';
-        while(false == feof($handle))
-        {
+        while (false == feof($handle)) {
             $short_url .= fgets($handle, 2000);
         }
         fclose($handle);
-    }
-    else
-    {
+    } else {
         throw new Koch_Exception('Unable to shorten the link.');
     }
 
     return $short_url;
 }
-?>

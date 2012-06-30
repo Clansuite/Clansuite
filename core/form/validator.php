@@ -33,8 +33,7 @@
 namespace Koch\Form;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -141,8 +140,7 @@ abstract class Validator
      */
     public function setProperties(array $properties)
     {
-        foreach($properties as $property_name => $value)
-        {
+        foreach ($properties as $property_name => $value) {
             $setter_method = 'set' . $property_name;
 
             # Set the value via a Setter Method
@@ -153,15 +151,14 @@ abstract class Validator
     /**
      * Main method for the validation of this formelement.
      *
-	 * @param boolean True if formelement validates, false if not.
-	 */
-	public function validate($value)
-	{
-		$valid = false;
+     * @param boolean True if formelement validates, false if not.
+     */
+    public function validate($value)
+    {
+        $valid = false;
 
         $valid = $this->processValidationLogic($value);
 
-		return ($valid === true) ? true : false;
-	}
+        return ($valid === true) ? true : false;
+    }
 }
-?>

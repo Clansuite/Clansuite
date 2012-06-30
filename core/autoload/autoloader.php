@@ -33,8 +33,7 @@
 namespace Koch\Autoload;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -85,13 +84,12 @@ class Loader
     /**
      * Autoloads a Class
      *
-     * @param string $classname The name of the class
+     * @param  string  $classname The name of the class
      * @return boolean True on successful class loading, false otherwise.
      */
     public static function autoload($classname)
     {
-        if(true === class_exists($classname, false) or true === interface_exists($classname, false))
-        {
+        if (true === class_exists($classname, false) or true === interface_exists($classname, false)) {
             return false;
         }
 
@@ -100,8 +98,7 @@ class Loader
          * 1) stop autoloading immediately by
          * returning false, to save any pointless processing
          */
-        if(true === self::autoloadExclusions($classname))
-        {
+        if (true === self::autoloadExclusions($classname)) {
             return false;
         }
 
@@ -111,8 +108,7 @@ class Loader
          *
          * Note: autoloadInclusions returns true if classname was included
          */
-        if(true === self::autoloadInclusions($classname))
-        {
+        if (true === self::autoloadInclusions($classname)) {
             return true;
         }
 
@@ -122,8 +118,7 @@ class Loader
          *
          * Note: the mapping table is loaded from APC or file.
          */
-        if(true === self::autoloadByApcOrFileMap($classname))
-        {
+        if (true === self::autoloadByApcOrFileMap($classname)) {
             return true;
         }
 
@@ -135,8 +130,7 @@ class Loader
          * The next time the file is requested, it will be loaded
          * via the method above (3)!
          */
-        if(true === self::autoloadIncludePath($classname))
-        {
+        if (true === self::autoloadIncludePath($classname)) {
             return true;
         }
 
@@ -144,6 +138,7 @@ class Loader
          * if classname was not found by any of the above methods
          * 6) Autoloading Fail
          */
+
         return false;
     }
 
@@ -154,16 +149,14 @@ class Loader
      * In these cases Koch Framework has the first autoloader in the stack,
      * but is not responsible for loading.
      *
-     * @param string $classname Classname to check for exclusion.
+     * @param  string  $classname Classname to check for exclusion.
      * @return Returns true, if the class is to exclude.
      */
     public static function autoloadExclusions($classname)
     {
         # define parts of classnames for exclusion
-        foreach(array('Smarty_Internal') as $classname_to_exclude)
-        {
-            if (false !== strpos($classname, $classname_to_exclude))
-            {
+        foreach (array('Smarty_Internal') as $classname_to_exclude) {
+            if (false !== strpos($classname, $classname_to_exclude)) {
                 return true;
             }
         }
@@ -174,8 +167,7 @@ class Loader
          */
 
         # this means if 'Doctrine" is found, but not 'Koch\Doctrine', exclude from our autoloading
-        if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch\Doctrine'))
-        {
+        if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch\Doctrine')) {
             return true;
         }
 
@@ -191,8 +183,8 @@ class Loader
     /**
      * Includes a certain classname by using a manually maintained autoloading map.
      *
-     * @param string $classname Classname to check for inclusion.
-     * @return true if classname was included
+     * @param  string $classname Classname to check for inclusion.
+     * @return true   if classname was included
      */
     public static function autoloadInclusions($classname)
     {
@@ -202,13 +194,11 @@ class Loader
         );
 
         # check if classname is in autoloading map
-        if(isset(self::$inclusions_map[$classname]) === true)
-        {
+        if (isset(self::$inclusions_map[$classname]) === true) {
             include self::$inclusions_map[$classname];
+
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -221,25 +211,19 @@ class Loader
      */
     public static function autoloadByApcOrFileMap($classname)
     {
-        if(empty(self::$autoloader_map) === true)
-        {
-            if(self::$use_apc === true)
-            {
+        if (empty(self::$autoloader_map) === true) {
+            if (self::$use_apc === true) {
                 self::$autoloader_map = self::readAutoloadingMapApc();
-            }
-            else # load the mapping from file
-            {
+            } else { # load the mapping from file
                 self::$autoloader_map = self::readAutoloadingMapFile();
             }
         }
 
-        if(isset(self::$autoloader_map[$classname]) === true)
-        {
+        if (isset(self::$autoloader_map[$classname]) === true) {
             include self::$autoloader_map[$classname];
+
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -267,8 +251,7 @@ class Loader
         $namespace = '';
 
         # determine position of last namespace separator
-        if (false !== ($lastNsPos = strripos($classname, '\\')))
-        {
+        if (false !== ($lastNsPos = strripos($classname, '\\'))) {
             # everything before it, is the namespace
             $namespace = substr($classname, 0, $lastNsPos);
             # everything after it, is the classname
@@ -290,12 +273,9 @@ class Loader
 
         #echo "$classname => $filename <br>";
 
-        if(is_string($filename) === true)
-        {
+        if (is_string($filename) === true) {
             return self::includeFileAndMap($filename, $classname);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -306,8 +286,8 @@ class Loader
      * This procedure ensures, that the autoload mapping array dataset
      * is increased stepwise resulting in a decreasing number of autoloading tries.
      *
-     * @param string $filename The file to be required
-     * @return bool True on success of require, false otherwise.
+     * @param  string $filename The file to be required
+     * @return bool   True on success of require, false otherwise.
      */
     public static function includeFileAndMap($filename, $classname)
     {
@@ -325,33 +305,27 @@ class Loader
     /**
      * Require File if file found
      *
-     * @param string $filename The file to be required
-     * @param string $classname The classname (hopefully) inside this file.
+     * @param  string $filename  The file to be required
+     * @param  string $classname The classname (hopefully) inside this file.
      * @return bool
      */
     public static function requireFile($filename, $classname = null)
     {
         $filename = realpath($filename);
 
-        if(is_file($filename) === true)
-        {
+        if (is_file($filename) === true) {
             include $filename;
 
-            if(null === $classname) # just a file include, classname unimportant
+            if (null === $classname) { # just a file include, classname unimportant
+
+                return true;
+            } elseif(class_exists($classname, false) === true)
             {
                 return true;
-            }
-            elseif(class_exists($classname, false) === true)
-            {
-                return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -368,21 +342,15 @@ class Loader
     {
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
 
-        if(is_writable($mapfile) === true)
-        {
+        if (is_writable($mapfile) === true) {
             $bytes_written = file_put_contents($mapfile, serialize($array), LOCK_EX);
 
-            if($bytes_written === false)
-            {
+            if ($bytes_written === false) {
                 trigger_error('Autoloader could not write the map cache file: ' . $mapfile, E_USER_ERROR);
-            }
-            else
-            {
+            } else {
                 return true;
             }
-        }
-        else
-        {
+        } else {
             trigger_error('Autoload cache file not writable: ' . $mapfile, E_USER_ERROR);
         }
     }
@@ -398,17 +366,15 @@ class Loader
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
 
         # create file, if not existant
-        if(is_file($mapfile) === false)
-        {
+        if (is_file($mapfile) === false) {
             $file_resource = fopen($mapfile, 'a', false);
             fclose($file_resource);
             unset($file_resource);
 
             return array();
-        }
-        else # load map from file
-        {
+        } else { # load map from file
             # Note: delete the autoloader.config.php file, if you get an unserialization error like "error at offset xy"
+
             return unserialize(file_get_contents($mapfile));
         }
     }
@@ -426,7 +392,7 @@ class Loader
     /**
      * Writes the autoload mapping array to APC.
      *
-     * @return array automatically generated classmap
+     * @return array   automatically generated classmap
      * @return boolean True if stored.
      */
     public static function writeAutoloadingMapApc($array)
@@ -446,12 +412,9 @@ class Loader
     {
         self::$autoloader_map = array_merge( (array) self::$autoloader_map, array( $classname => $filename ));
 
-        if(self::$use_apc === true)
-        {
+        if (self::$use_apc === true) {
             return self::writeAutoloadingMapApc(self::$autoloader_map);
-        }
-        else
-        {
+        } else {
             return self::writeAutoloadingMapFile(self::$autoloader_map);
         }
     }
@@ -466,26 +429,22 @@ class Loader
      * You can also pass a custom map, like so:
      * loadLibrary('xtemplate', ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php' )
      *
-     * @param string $classname Library classname to load.
-     * @param string $path Path to the class.
-     * @return true if classname was included
+     * @param  string $classname Library classname to load.
+     * @param  string $path      Path to the class.
+     * @return true   if classname was included
      */
     public static function loadLibrary($classname, $path = null)
     {
         # check if class was already loaded
-        if (true === class_exists($classname, false))
-        {
+        if (true === class_exists($classname, false)) {
             return true;
         }
 
         $classname = strtolower($classname);
 
-        if(isset($path))
-        {
+        if (isset($path)) {
             $map = array($classname, $path);
-        }
-        else
-        {
+        } else {
             # autoloading map - ROOT_LIBRARIES/..
             $map = array(
                 'snoopy'        => ROOT_LIBRARIES . 'snoopy/Snoopy.class.php',
@@ -500,18 +459,14 @@ class Loader
         }
 
         # check if classname is in autoloading map
-        if(isset($map[$classname]) === true)
-        {
+        if (isset($map[$classname]) === true) {
             # get filename for that classname
             $filename = $map[$classname];
 
             # and include that one
-            if(true === self::requireFile($filename, $classname))
-            {
+            if (true === self::requireFile($filename, $classname)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
@@ -527,4 +482,3 @@ class Loader
         return self::$autoloader_map;
     }
 }
-?>

@@ -39,8 +39,7 @@ use Koch\Config\Config;
 use Koch\Validation\Inputfilter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -70,14 +69,12 @@ class ThemeViaGet implements FilterInterface
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # themeswitching must is enabled in configuration
-        if($this->config['themeswitch_via_url'] == 1)
-        {
+        if ($this->config['themeswitch_via_url'] == 1) {
             return;
         }
 
         # check for "?theme=mytheme" URL parameter
-        if(false === $request->issetParameter('theme', 'GET'))
-        {
+        if (false === $request->issetParameter('theme', 'GET')) {
             return;
         }
 
@@ -88,8 +85,7 @@ class ThemeViaGet implements FilterInterface
          * Inputfilter for $_GET['theme']. Allowed Chars are: az, 0-9, underscore.
          *
          */
-        if(false === $this->input->check( $theme, 'is_abc|is_int|is_custom', '_' ) )
-        {
+        if (false === $this->input->check( $theme, 'is_abc|is_int|is_custom', '_' ) ) {
             throw new InvalidArgumentException('Please provide a proper theme name.');
         }
 
@@ -97,12 +93,10 @@ class ThemeViaGet implements FilterInterface
         $themedir = ROOT_THEMES_FRONTEND . $theme . DS;
 
         # theme exists, set it as session-user-theme
-        if(is_dir($themedir) and is_file($themedir . 'theme_info.xml'))
-        {
+        if (is_dir($themedir) and is_file($themedir . 'theme_info.xml')) {
             $_SESSION['user']['frontend_theme'] = $theme;
         }
 
         unset($theme, $themedir);
     }
 }
-?>

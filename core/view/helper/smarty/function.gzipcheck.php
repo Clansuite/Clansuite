@@ -10,16 +10,11 @@
  */
 function smarty_function_gzipcheck($params, $smarty)
 {
-    if (ini_get('zlib.output_compression') == 1)
-    {
+    if (ini_get('zlib.output_compression') == 1) {
         echo 'Enabled (zlib)';
-    }
-    else
-    {
+    } else {
         echo 'Disabled';
     }
 }
 
 /* vim: set expandtab: */
-
-?>

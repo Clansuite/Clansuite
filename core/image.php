@@ -33,8 +33,7 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -174,6 +173,7 @@ class Image
     protected function getOriginalImageResource()
     {
         $method = 'createImageFrom' . $this->imageExtension;
+
         return $this->$method($this->imageSource);
     }
 
@@ -194,12 +194,9 @@ class Image
 
     public function getWorkImageResource($width, $height)
     {
-        if(function_exists("ImageCreateTrueColor"))
-        {
+        if (function_exists("ImageCreateTrueColor")) {
             return imagecreatetruecolor($width, $height);
-        }
-        else
-        {
+        } else {
             return imagecreate($width, $height);
         }
     }
@@ -261,8 +258,7 @@ class Koch_Watermark extends Koch_Image
 
     public function __construct($function, $config)
     {
-        if($function == 'image')
-        {
+        if ($function == 'image') {
             $watermark = imagecreatefrompng($config['file']);
 
             imagecopy($this->workImage, $watermark, $config['pos_x'], $config['pos_y'], 0, 0, imagesx($watermark), imagesy($watermark)
@@ -300,17 +296,17 @@ class Koch_Thumbnail extends Koch_Image
 
     public function calcAspectRatio()
     {
-        if($this->object->newWidth != 0)
-        {
+        if ($this->object->newWidth != 0) {
             $ratio = $this->object->originalWidth / $this->object->newWidth;
             $this->object->newHeight = ((int) round($this->object->originalHeight / $ratio));
+
             return $ratio;
         }
 
-        if($this->object->newHeight != 0)
-        {
+        if ($this->object->newHeight != 0) {
             $ratio = $this->object->originalHeight / $this->object->newHeight;
             $this->object->newWidth((int) round($this->object->originalWidth / $ratio));
+
             return $ratio;
         }
     }
@@ -343,5 +339,3 @@ class Koch_Crop extends Koch_Image
     }
 
 }
-
-?>

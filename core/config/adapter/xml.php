@@ -33,8 +33,7 @@
 namespace Koch\Config\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -60,15 +59,14 @@ class XML
     /**
      * Koch\Config_XML is a Singleton
      *
-     * @param object $file Filename
+     * @param  object   $file Filename
      * @return instance of Config_XMLHandler class
      */
     public static function getInstance($file = null)
     {
         static $instance;
 
-        if(isset($instance) === false)
-        {
+        if (isset($instance) === false) {
             $instance = new XML($file);
         }
 
@@ -80,7 +78,7 @@ class XML
      *
      * @param string The filename
      * @param array  Array to transform and write as xml
-     * @return  mixed array | boolean false
+     * @return mixed array | boolean false
      */
     public static function writeConfig($file, $array)
     {
@@ -95,20 +93,19 @@ class XML
      * Read the config array from xml file
      *
      * @param   string  The filename
-     * @return  mixed array | boolean false
+     * @return mixed array | boolean false
      */
     public static function readConfig($file)
     {
-        if(is_file($file) === false or is_readable($file) === false)
-        {
+        if (is_file($file) === false or is_readable($file) === false) {
             throw new \Exception('XML File not existing or not readable.');
         }
 
         # read file
         $xml = simplexml_load_file($file);
 
-        # transform XML to PHP Array
-        return \Koch\Datatype\Conversion::XMLtoArray($xml);
+        # transform (SimpleXMLElement or XML) to PHP Array
+
+        return \Koch\Datatype\XML::toArray($xml);
     }
 }
-?>

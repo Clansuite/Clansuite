@@ -33,8 +33,7 @@
 namespace Koch\Logger\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -69,10 +68,10 @@ class File implements Logger
      */
     public static function getInstance()
     {
-        if (self::$instance == 0)
-        {
+        if (self::$instance == 0) {
             self::$instance = new Koch_Logger_File();
         }
+
         return self::$instance;
     }
 
@@ -111,8 +110,7 @@ class File implements Logger
         # errorlog filename as set bei ini_set('error_log')
         #$logfilename = ini_get('error_log');
 
-        if($logfilename == null)
-        {
+        if ($logfilename == null) {
             # hardcoded errorlog filename
             $logfilename = 'logs/clansuite_errorlog.txt';
         }
@@ -121,8 +119,7 @@ class File implements Logger
         $logfilesize = filesize($logfilename);
 
         # size greater zero, means we have entries in that file
-        if($logfilesize > 0)
-        {
+        if ($logfilesize > 0) {
             # so open and read till eof
             $logfile = fopen($logfilename, 'r');
             $logfile_content = fread($logfile, $logfilesize);
@@ -132,6 +129,7 @@ class File implements Logger
 
             # returns the complete logfile
             #return printf("<pre>%s</pre>", $logfile_content);
+
             return $logfile_content;
         }
     }
@@ -147,13 +145,10 @@ class File implements Logger
         $filename = ROOT_LOGS . 'error';
 
         # if rotation is active we add a date to the filename
-        if($this->config['log']['rotation'] == true)
-        {
+        if ($this->config['log']['rotation'] == true) {
             # construct name of the log file ( FILENAME_log_DATE.txt )
             $filename =  $filename . '_log_' . date('m-d-y') . '.txt';
-        }
-        else
-        {
+        } else {
             # construct name of the log file ( FILENAME_log.txt )
             $filename = $filename . '_log.txt';
         }
@@ -164,28 +159,25 @@ class File implements Logger
     /**
      * Returns a specific number of logfile entries (last ones first)
      *
-     * @param int $entriesToFetch
-     * @param string $logfilename
+     * @param  int    $entriesToFetch
+     * @param  string $logfilename
      * @return string HTML representation of logfile entries
      */
     public static function returnEntriesFromLogfile($entriesToFetch = 5, $logfilename = null)
     {
         # setup default logfilename
-        if($logfilename == null)
-        {
+        if ($logfilename == null) {
             $logfilename = ROOT_LOGS . 'clansuite_errorlog.txt.php';
         }
 
          $logEntries = '';
 
-        if(true === is_file($logfilename))
-        {
+        if (true === is_file($logfilename)) {
             # get logfile as array
             $logfile_array = file($logfilename);
             $logfile_cnt = count($logfile_array);
 
-            if($logfile_cnt > 0)
-            {
+            if ($logfile_cnt > 0) {
                 # count array elements = total number of logfile entries
                 $i = $logfile_cnt - 1;
 
@@ -193,8 +185,7 @@ class File implements Logger
                 $max_entries = max(0, $i - $entriesToFetch);
 
                 # reverse for loop over the logfile_array
-                for($i; $i > $max_entries; $i--)
-                {
+                for ($i; $i > $max_entries; $i--) {
                     # remove linebreaks
                     $entry = str_replace(array('\r', '\n'), '', $logfile_array[$i]);
 
@@ -204,18 +195,13 @@ class File implements Logger
 
                 # cleanup
                 unset($logfilename, $logfile_array, $i, $max_entries, $entry);
-            }
-            else
-            {
+            } else {
                 $logEntries .= '<b>No Entries</b>';
             }
-        }
-        else
-        {
+        } else {
             $logEntries .= '<b>No Logfile found. No entries yet.</b>';
         }
 
         return $logEntries;
     }
 }
-?>

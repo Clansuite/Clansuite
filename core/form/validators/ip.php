@@ -35,8 +35,7 @@ namespace Koch\Form\Validators;
 use Koch\Form\Validator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -67,19 +66,14 @@ class Ip extends Validator
          * The INTL extension provides the method idn_to_ascii().
          * It converts a mbyte URL to a punycode ASCII string.
          */
-        if(function_exists('idn_to_ascii'))
-        {
+        if (function_exists('idn_to_ascii')) {
             $value = idn_to_ascii($value);
         }
 
-        if(true === (bool) filter_var( $value, FILTER_VALIDATE_IP, $this->getOptions() ))
-        {
+        if (true === (bool) filter_var( $value, FILTER_VALIDATE_IP, $this->getOptions() )) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 }
-?>

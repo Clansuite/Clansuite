@@ -35,8 +35,7 @@ namespace Koch\Form\Validators;
 use Koch\Form\Validator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -59,8 +58,7 @@ class Minvalue extends Validator
      */
     public function setMinValue($minvalue)
     {
-        if(is_string($minvalue) === true)
-        {
+        if (is_string($minvalue) === true) {
             $msg = _('Parameter Minvalue must be numeric (int|float) and not %s.');
             $msg = sprintf($msg, gettype($minvalue));
 
@@ -86,8 +84,7 @@ class Minvalue extends Validator
 
     protected function processValidationLogic($value)
     {
-        if($value < $this->getMinValue())
-        {
+        if ($value < $this->getMinValue()) {
             return false;
         }
 
@@ -95,5 +92,3 @@ class Minvalue extends Validator
     }
 
 }
-
-?>

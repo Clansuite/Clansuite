@@ -33,8 +33,7 @@
 namespace Koch\Localization\Gettext;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -63,7 +62,7 @@ class MOFile
      * @param $hash
      * @param $file mo file to write.
      */
-    function write($hash, $file)
+    public function write($hash, $file)
     {
         # sort by msgid
         ksort($hash, SORT_STRING);
@@ -76,18 +75,15 @@ class MOFile
         $ids = '';
         $strings = '';
 
-        foreach($hash as $entry)
-        {
+        foreach ($hash as $entry) {
             $id = $entry['msgid'];
 
-            if(isset($entry['msgid_plural']))
-            {
+            if (isset($entry['msgid_plural'])) {
                 $id .= "\x00" . $entry['msgid_plural'];
             }
 
             # context is merged into id, separated by EOT (\x04)
-            if((isset($entry['msgctxt']) === true) or (array_key_exists('msgctxt', $entry) === true))
-            {
+            if ((isset($entry['msgctxt']) === true) or (array_key_exists('msgctxt', $entry) === true)) {
                 $id = $entry['msgctxt'] . "\x04" . $id;
             }
 
@@ -115,8 +111,7 @@ class MOFile
         $value_offsets = array();
 
         # calculate
-        foreach($offsets as $v)
-        {
+        foreach ($offsets as $v) {
             list ($o1, $l1, $o2, $l2) = $v;
             $key_offsets[] = $l1;
             $key_offsets[] = $o1 + $key_start;
@@ -137,8 +132,7 @@ class MOFile
         );
 
         # offsets
-        foreach($offsets as $offset)
-        {
+        foreach ($offsets as $offset) {
             $mo .= pack('i', $offset);
         }
 
@@ -151,4 +145,3 @@ class MOFile
         file_put_contents($file, $mo);
     }
 }
-?>

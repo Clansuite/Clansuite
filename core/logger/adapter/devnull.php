@@ -33,8 +33,7 @@
 namespace Koch\Logger\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -68,10 +67,10 @@ class Devnull implements Logger
      */
     public static function getInstance()
     {
-        if (self::$instance == 0)
-        {
+        if (self::$instance == 0) {
             self::$instance = new Koch_Logger_Devnull();
         }
+
         return self::$instance;
     }
 
@@ -87,4 +86,3 @@ class Devnull implements Logger
         unset($string);
     }
 }
-?>

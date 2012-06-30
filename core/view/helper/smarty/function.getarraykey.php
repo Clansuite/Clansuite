@@ -21,22 +21,17 @@ function smarty_function_getarraykey($params)
 
 function array_search_key( $needle_key, $array )
 {
-    foreach($array as $key => $value)
-    {
-        if($key == $needle_key)
-        { 
+    foreach ($array as $key => $value) {
+        if ($key == $needle_key) {
             return $value;
         }
-        
-        if(true === is_array($value))
-        {
-            if( ($result = array_search_key($needle_key,$value)) !== false)
-            {
+
+        if (true === is_array($value)) {
+            if ( ($result = array_search_key($needle_key,$value)) !== false) {
                 return $result;
             }
         }
     }
-  
+
     return false;
-} 
-?>
+}

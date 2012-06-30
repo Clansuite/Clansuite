@@ -37,38 +37,31 @@ function smarty_function_png_image($params, $smarty)
 
     extract($params);
 
-    if (empty($src))
-    {
+    if (empty($src)) {
         trigger_error("assign_array: missing 'src' parameter");
+
         return;
     }
 
-    if (empty($height))
-    {
+    if (empty($height)) {
         $height = 0;
     }
 
-    if (empty($width))
-    {
+    if (empty($width)) {
         $width = 0;
     }
 
-    if (($height == 0) or ($width == 0))
-    {
+    if (($height == 0) or ($width == 0)) {
         $currentimagesize = getimagesize($src);
         $width = $currentimagesize[0];
         $height= $currentimagesize[1];
     }
 
-    if (false == (stristr( $_SERVER['HTTP_USER_AGENT'], 'MSIE')))
-    {
+    if (false == (stristr( $_SERVER['HTTP_USER_AGENT'], 'MSIE'))) {
         $html = "<img src='$src' height='$height' width='$width' alt='$alt' $extra />";
-    }
-    else
-    {
+    } else {
         $html = "<SPAN $extra STYLE='position:relative;height:$height;width:$width;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\"$src\",sizingMethod=\"scale\");'></SPAN>";
     }
 
     return $html;
 }
-?>

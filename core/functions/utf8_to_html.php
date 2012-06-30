@@ -31,8 +31,7 @@
     */
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -56,28 +55,23 @@ function UTF8_to_HTML($utf8, $encodeTags = false)
     $result = '';
     $utf8_strlen = strlen($utf8);
 
-    for ($i = 0; $i < $utf8_strlen; $i++)
-    {
+    for ($i = 0; $i < $utf8_strlen; $i++) {
         $char = $utf8[$i];
         $ascii = ord($char);
 
-        if ($ascii < 128)
-        {
+        if ($ascii < 128) {
             # one-byte character
             $result .= ($encodeTags) ? htmlentities($char) : $char;
-        }
-        elseif ($ascii < 192)
+        } elseif ($ascii < 192)
         {
             # non-utf8 character or not a start byte
             $result .= ''; # leave this. would else be an empty elseif statement.
-        }
-        elseif ($ascii < 224)
+        } elseif ($ascii < 224)
         {
             # two-byte character
             $result .= htmlentities(substr($utf8, $i, 2), ENT_QUOTES, 'UTF-8');
             $i++;
-        }
-        elseif ($ascii < 240)
+        } elseif ($ascii < 240)
         {
             # three-byte character
             $ascii1 = ord($utf8[$i+1]);
@@ -87,8 +81,7 @@ function UTF8_to_HTML($utf8, $encodeTags = false)
                        (63 & $ascii2);
             $result .= '&#'.$unicode;
             $i += 2;
-        }
-        elseif ($ascii < 248)
+        } elseif ($ascii < 248)
         {
             # four-byte character
             $ascii1 = ord($utf8[$i+1]);
@@ -105,4 +98,3 @@ function UTF8_to_HTML($utf8, $encodeTags = false)
 
     return $result;
 }
-?>

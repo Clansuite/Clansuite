@@ -45,9 +45,7 @@ function smarty_function_openflashchart($params)
 
     open_flash_chart_object($params['width'], $params['height'], $params['url'], $params['swfobject'], $params['baseurl']);
 
-    if(isset($params['debug']) and $params['debug'] == true or DEBUG == true)
-    {
+    if (isset($params['debug']) and $params['debug'] == true or DEBUG == true) {
         echo '<br /> The source for the dynamic data is: <a target="_blank" href="'. $params['url'].'">'. $params['url'] .'</a>';
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Event;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -75,4 +74,3 @@ class AuthenticationLogging implements Interface
         $this->logger->log($logdata);
     }
 }
-?>

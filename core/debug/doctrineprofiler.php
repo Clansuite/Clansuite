@@ -33,8 +33,7 @@
 namespace Koch\Debug;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -133,15 +132,13 @@ class DoctrineProfiler
                 <th>Parameters</th>
               </tr>';
 
-        foreach(self::getProfiler() as $event)
-        {
+        foreach (self::getProfiler() as $event) {
             /**
              * By activiating the following lines, only the "execute" queries are shown.
              * It's usefull for debugging a certain type of database statement.
              */
             /*
-            if ($event->getName() != 'execute')
-            {
+            if ($event->getName() != 'execute') {
                 continue;
             }
             */
@@ -159,14 +156,11 @@ class DoctrineProfiler
             $html .= '<td>' . $event->getQuery() . '</td>';
 
             $params = $event->getParams();
-            if(empty($params) == false)
-            {
+            if (empty($params) == false) {
                 $html .= '<td>';
                 $html .= wordwrap(join(', ', $params), 150, "\n", true);
                 $html .= '</td>';
-            }
-            else
-            {
+            } else {
                 $html .= '<td>';
                 $html .= '&nbsp;';
                 $html .= '</td>';
@@ -191,4 +185,3 @@ class DoctrineProfiler
         self::displayProfilingHTML();
     }
 }
-?>

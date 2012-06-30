@@ -36,8 +36,7 @@ use Koch\Form\Formelement;
 use Koch\Form\FormelementInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -83,14 +82,13 @@ class Select extends Formelement implements FormelementInterface
     /**
      * Sets the array with options for the dropdown element.
      *
-     * @param array $options
-     * @param boolean $addSelectText Adds " - Select -" as first entry to the options array. Default true.
+     * @param  array                    $options
+     * @param  boolean                  $addSelectText Adds " - Select -" as first entry to the options array. Default true.
      * @return \Koch_Formelement_Select
      */
     public function setOptions($options, $addSelectText = true)
     {
-        if($addSelectText === true)
-        {
+        if ($addSelectText === true) {
             # add one entry on top for the dropdown
             array_unshift($options, _('Select...'));
         }
@@ -163,29 +161,21 @@ class Select extends Formelement implements FormelementInterface
          * Note: If the options array is incomming via a formgenerator: the generator has already performed this step!
          * $this->setDefault(options['selected']);
          */
-        if(isset($this->options['selected']) and empty($this->default))
-        {
+        if (isset($this->options['selected']) and empty($this->default)) {
             $this->default = $this->options['selected'];
             unset($this->options['selected']);
         }
 
-        if(empty($this->options) === false)
-        {
+        if (empty($this->options) === false) {
             # loop over all selectfield options
-            foreach ($this->options as $key => $value)
-            {
-                if($this->withValuesAsKeys === true)
-                {
+            foreach ($this->options as $key => $value) {
+                if ($this->withValuesAsKeys === true) {
                     $html .= $this->renderOptionTag($value, $value);
-                }
-                else
-                {
+                } else {
                     $html .= $this->renderOptionTag($key, $value);
                 }
             }
-        }
-        else
-        {
+        } else {
             $html .= '<option value="0">No Options given.</option>';
         }
 
@@ -202,21 +192,17 @@ class Select extends Formelement implements FormelementInterface
          * in order to be able to use empty() on the incomming post array variables,
          * we need to remove it. this makes it just a select helper, without data.
          */
-        if($key == 'Select...')
-        {
+        if ($key == 'Select...') {
             $key = '';
         }
 
         # check if the value is the default one and in case it is, add html "selected"
-        if($key == $this->default)
-        {
+        if ($key == $this->default) {
             return '<option value="' . $key . '" selected="selected">' . $value . '</option>';
-        }
-        else # a normal select element is rendered
-        {
+        } else { # a normal select element is rendered
+
             return '<option value="' . $key . '">' . $value . '</option>';
         }
     }
 
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -55,8 +54,7 @@ class Selectlocale extends Select implements FormelementInterface
          */
         $options = array();
 
-        foreach($l10n_sys_locales as $locale => $locale_array)
-        {
+        foreach ($l10n_sys_locales as $locale => $locale_array) {
             /**
              * Key is the locale name.
              *
@@ -89,4 +87,3 @@ class Selectlocale extends Select implements FormelementInterface
         $this->setName('locale');
     }
 }
-?>

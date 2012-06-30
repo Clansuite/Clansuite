@@ -35,8 +35,7 @@ namespace Koch\View\Renderer;
 use Koch\View\AbstractRenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -67,4 +66,3 @@ class Serialized extends AbstractRenderer
         return serialize($this->viewdata);
     }
 }
-?>

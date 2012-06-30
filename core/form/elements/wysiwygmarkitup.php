@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -55,8 +54,7 @@ class Wysiwygmarkitup extends Textarea implements FormelementInterface
      */
     public static function checkDependencies()
     {
-        if (!is_file(ROOT_THEMES_CORE . 'javascript/markitup/jquery.markitup.js'))
-        {
+        if (!is_file(ROOT_THEMES_CORE . 'javascript/markitup/jquery.markitup.js')) {
             exit('MarkitUp Javascript Library missing!');
         }
     }
@@ -87,4 +85,3 @@ class Wysiwygmarkitup extends Textarea implements FormelementInterface
         return $javascript.$css;
     }
 }
-?>

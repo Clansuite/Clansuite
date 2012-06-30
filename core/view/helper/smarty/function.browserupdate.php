@@ -43,4 +43,3 @@ EOD;
 
 return $str;
 }
-?>

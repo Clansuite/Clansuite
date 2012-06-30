@@ -34,8 +34,7 @@
 namespace Koch\Config\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -77,15 +76,14 @@ class YAML
     /**
      * Koch\Config_YAML is a Singleton
      *
-     * @param string $file Filename
+     * @param  string   $file Filename
      * @return instance of Config_YAML class
      */
     public static function getInstance($file = null)
     {
         static $instance;
 
-        if(isset($instance) === false)
-        {
+        if (isset($instance) === false) {
             $instance = new Koch\Config_YAML($file);
         }
 
@@ -96,7 +94,7 @@ class YAML
      * Write the config array to a yaml file
      *
      * @param   string  The filename
-     * @return  array | boolean false
+     * @return array | boolean false
      * @todo fix this return true/false thingy
      */
     public static function writeConfig($file, array $array)
@@ -106,8 +104,7 @@ class YAML
          */
 
         # take syck, as the faster one first
-        if( extension_loaded('syck') )
-        {
+        if ( extension_loaded('syck') ) {
             # convert to YAML via SYCK
             $yaml = syck_dump($data);
         }
@@ -115,8 +112,7 @@ class YAML
         elseif(is_file(ROOT_LIBRARIES . '/spyc/Spyc.class.php') === true)
         {
             # ok, load spyc
-            if(false === class_exists('Spyc', false))
-            {
+            if (false === class_exists('Spyc', false)) {
                 include ROOT_LIBRARIES . '/spyc/Spyc.class.php';
             }
 
@@ -124,9 +120,7 @@ class YAML
 
             # convert to YAML via SPYC
             $yaml = $spyc->dump($array);
-        }
-        else # we have no YAML Parser - too bad :(
-        {
+        } else { # we have no YAML Parser - too bad :(
             throw new Koch_Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
@@ -142,13 +136,12 @@ class YAML
      *  Read the complete config file *.yaml
      *
      * @param   string  The yaml filename
-     * @return  array
+     * @return array
      */
     public static function readConfig($file)
     {
         # check if the filename exists
-        if(is_file($file) === false or is_readable($file) === false)
-        {
+        if (is_file($file) === false or is_readable($file) === false) {
             throw new Koch_Exception('YAML File ' . $file . ' not existing or not readable.');
         }
 
@@ -163,8 +156,7 @@ class YAML
          * check if the php extension SYCK is available as parser
          * SYCK is written in C, so it's implementation is faster then SPYC, which is pure PHP.
          */
-        if(extension_loaded('syck')) # take the faster one first
-        {
+        if (extension_loaded('syck')) { # take the faster one first
             # syck_load accepts a YAML string as input and converts it into a PHP data structure
             $array = syck_load($yaml_content);
         }
@@ -172,8 +164,7 @@ class YAML
         elseif(is_file(ROOT_LIBRARIES . '/spyc/Spyc.class.php') === true)
         {
             # ok, load spyc
-            if(false === class_exists('Spyc', false))
-            {
+            if (false === class_exists('Spyc', false)) {
                 include ROOT_LIBRARIES . '/spyc/Spyc.class.php';
             }
 
@@ -182,13 +173,10 @@ class YAML
 
             # parse the yaml content with spyc
             $array = $spyc->load($yaml_content);
-        }
-        else # we have no YAML Parser - too bad :(
-        {
+        } else { # we have no YAML Parser - too bad :(
             throw new Koch_Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
         return $array;
     }
 }
-?>

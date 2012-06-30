@@ -33,15 +33,15 @@
  */
 function smarty_function_doctype($params, $smarty)
 {
-    if( !isset( $params['doctype'] ))
-    {
+    if ( !isset( $params['doctype'] )) {
         trigger_error("Parameter 'familiy' not specified! familiy=HTML or XHTML.");
+
         return;
     }
 
-    if( !isset( $params['level'] ))
-    {
+    if ( !isset( $params['level'] )) {
         trigger_error("Parameter 'level' or 'htmlTemplate' not specified!");
+
         return;
     }
 
@@ -85,11 +85,9 @@ function smarty_function_doctype($params, $smarty)
         )
     );
 
-    if (array_key_exists($params['doctype'], $DTDS) && array_key_exists($params['level'], $DTDS[$params['doctype']]))
-    {
+    if (array_key_exists($params['doctype'], $DTDS) && array_key_exists($params['level'], $DTDS[$params['doctype']])) {
         $dtd = $DTDS[$params['doctype']][$params['level']]['signature'];
     }
 
     return $dtd."\n";
 }
-?>

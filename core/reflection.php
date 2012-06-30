@@ -33,8 +33,7 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -96,26 +95,21 @@ class Reflection
         $exclude_classnames = (array) $exclude_classnames;
 
         # check if the class to reflect is available
-        if(class_exists($this->getClassName()))
-        {
+        if (class_exists($this->getClassName())) {
             $class = new ReflectionClass($this->getClassName());
-        }
-        else
-        {
+        } else {
             echo 'Class not existing.';
         }
 
         # get all methods of that class
         $methods = $class->getMethods();
 
-        foreach($methods as $method)
-        {
+        foreach ($methods as $method) {
             # get the declaring classname, might be the parent class
             $className = $method->getDeclaringClass()->getName();
 
             # if the classname is not excluded
-            if(false === in_array($className, $exclude_classnames))
-            {
+            if (false === in_array($className, $exclude_classnames)) {
                 # add the method name to the array
                 $methods_array[$className][] = $method->getName();
 
@@ -130,4 +124,3 @@ class Reflection
         return $methods_array;
     }
 }
-?>

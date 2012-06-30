@@ -67,9 +67,7 @@ EOF;
      * To prevent this, we need to check that the content is oCRy rendered when the inner block (content)
      * is present.
      */
-    if(isset($content))
-    {
+    if (isset($content)) {
         return $start_tabpane . $content . $end_tabpane;
     }
 }
-?>

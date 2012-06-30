@@ -34,8 +34,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -108,8 +107,7 @@ class ReCaptcha extends Captcha implements FormelementInterface
                                             $this->request->getParameterFromPost('recaptcha_response_field')
                                           );
 
-        if ($response->is_valid == false)
-        {
+        if ($response->is_valid == false) {
             return _('The reCAPTCHA was not entered correctly. Go back and try again. (reCAPTCHA said: ' . $resp->error . ')');
         }
     }
@@ -122,4 +120,3 @@ class ReCaptcha extends Captcha implements FormelementInterface
         return recaptcha_get_signup_url();
     }
 }
-?>

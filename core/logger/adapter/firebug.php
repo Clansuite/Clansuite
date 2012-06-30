@@ -33,8 +33,7 @@
 namespace Koch\Logger\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -79,10 +78,10 @@ class Firebug implements Logger
      */
     public static function instantiateFirePHP()
     {
-        if (self::$firephp == 0)
-        {
+        if (self::$firephp == 0) {
             self::$firephp = FirePHP::getInstance(true);
         }
+
         return self::$firephp;
     }
 
@@ -94,8 +93,7 @@ class Firebug implements Logger
      */
     public function getFirePHPLoglevel($level)
     {
-        switch (strtoupper($level))
-        {
+        switch (strtoupper($level)) {
             case 'LOG':
                 return FirePHP::LOG;
             case 'INFO':
@@ -132,4 +130,3 @@ class Firebug implements Logger
         self::$firephp->fb($data['message'], $data['label'], $this->getFirePHPLoglevel($data['level']) );
     }
 }
-?>

@@ -33,11 +33,9 @@
 namespace Koch\Tools;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
 
 /**
  * Koch Framework - Class for Browser information
@@ -159,8 +157,7 @@ class Browserinfo
      */
     public function __construct($userAgentString = null, UserAgentParser $userAgentParser = null)
     {
-        if($userAgentParser == null)
-        {
+        if ($userAgentParser == null) {
             $userAgentParser = new UserAgentParser();
         }
         $this->setUserAgentString($userAgentString);
@@ -651,8 +648,7 @@ class UserAgentParser
      */
     public function parse($userAgentString = null)
     {
-        if(!$userAgentString)
-        {
+        if (!$userAgentString) {
             $userAgentString = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
         }
 
@@ -693,8 +689,7 @@ class UserAgentParser
 
         $userAgent['user_agent'] = $userAgent['string'];
 
-        if(empty($userAgent['string']))
-        {
+        if (empty($userAgent['string'])) {
             return $userAgent;
         }
 
@@ -702,26 +697,21 @@ class UserAgentParser
         $found = false;
         $tmp_array = array();
 
-        foreach ($this->getListBrowsers() as $name => $elements)
-        {
+        foreach ($this->getListBrowsers() as $name => $elements) {
             # ----- read browser ----
             $exprReg = $elements['search'];
-            foreach ($exprReg as $expr)
-            {
-                if(preg_match($expr, $userAgent['string'], $tmp_array))
-                {
+            foreach ($exprReg as $expr) {
+                if (preg_match($expr, $userAgent['string'], $tmp_array)) {
                     $userAgent['browser_name'] = $name;
 
                     $userAgent['browser_typ'] = $elements['type'];
-                    if (isset($elements['subtype']))
-                    {
+                    if (isset($elements['subtype'])) {
                         $userAgent['browser_typ_sub'] = $elements['subtype'];
                     }
                     $found = true;
 
                     # ----- read version ----
-                    if (isset($elements['vparam']))
-                    {
+                    if (isset($elements['vparam'])) {
                         $pattern = '';
                         $pv = $elements['vparam'];
                         $pattern = '|.+\s'.$pv.'([0-9a-z\+\-\.]+).*|';
@@ -731,94 +721,69 @@ class UserAgentParser
                         $userAgent['browser_version_minor'] = $tVer[1];
                         if( isset($tVer[2])) $userAgent['browser_version_release'] = $tVer[2];
                         if( isset($tVer[3])) $userAgent['browser_version_build'] = $tVer[3];
-                    }
-                    else
-                    {
+                    } else {
                         $userAgent['browser_version'] = self::TYPE_UNKNOW;
                     }
 
                     # ----- read engine ----
-                    if (isset($elements['engine']))
-                    {
+                    if (isset($elements['engine'])) {
                         $userAgent['engine'] = $elements['engine'];
-                    }
-                    else
-                    {
+                    } else {
                         $userAgent['engine'] = self::TYPE_UNKNOW;
                     }
 
                     # ----- read engine version -----
                     $pattern = '';
-                    if (isset($elements['eparam']))
-                    {
+                    if (isset($elements['eparam'])) {
                         $pe = $elements['eparam'];
                         $pattern = '|.+\s'.$pe.'([0-9\.]+)(.*).*|';
                         $userAgent['engine_version'] = preg_replace($pattern, '$1', $userAgent['string']);
-                    }
-                    else
-                    {
+                    } else {
                         $userAgent['engine_version'] = self::TYPE_UNKNOW;
                     }
                 }
             }
         }
 
-        if(false === $found)
-        {
+        if (false === $found) {
             $userAgent['browser_typ'] = self::TYPE_UNKNOW;
         }
-
 
         # --------------- Parse Operating System ---------------
         $found = false;
         $tmp_array = array();
-        foreach ($this->getListOperatingSystems() as $name => $elements)
-        {
+        foreach ($this->getListOperatingSystems() as $name => $elements) {
             $exprReg = $elements['search'];
 
-            foreach ($exprReg as $expr)
-            {
-                if(preg_match($expr, $userAgent['string'], $tmp_array))
-                {
+            foreach ($exprReg as $expr) {
+                if (preg_match($expr, $userAgent['string'], $tmp_array)) {
                     $userAgent['operating_system'] = $name;
-                    if (isset($tmp_array) && isset($tmp_array[1]))
-                    {
-                        if (isset($elements['subsearch']))
-                        {
-                            foreach ($elements['subsearch'] as $sub => $expr)
-                            {
-                                if(preg_match($expr, $tmp_array[1]))
-                                {
+                    if (isset($tmp_array) && isset($tmp_array[1])) {
+                        if (isset($elements['subsearch'])) {
+                            foreach ($elements['subsearch'] as $sub => $expr) {
+                                if (preg_match($expr, $tmp_array[1])) {
                                     $userAgent['operating_system_name'] = $sub;
                                 }
                             }
                         }
-                        if($userAgent['operating_system_name'] === null)
-                        {
+                        if ($userAgent['operating_system_name'] === null) {
                             $userAgent['operating_system_name'] = (string) $tmp_array[1];
                         }
-                    }
-                    elseif (isset($elements['addsearch']))
+                    } elseif (isset($elements['addsearch']))
                     {
-                        foreach ($elements['addsearch'] as $sub => $expr)
-                        {
-                            if(preg_match($expr, $userAgent['string']))
-                            {
+                        foreach ($elements['addsearch'] as $sub => $expr) {
+                            if (preg_match($expr, $userAgent['string'])) {
                                 $userAgent['operating_system_name'] = $sub;
                             }
                         }
                     }
-                    if (isset($elements['type']))
-                    {
+                    if (isset($elements['type'])) {
                         $userAgent['operating_system_typ'] = $elements['type'];
-                    }
-                    else
-                    {
+                    } else {
                         $userAgent['operating_system_typ'] = self::TYPE_UNKNOW;
                     }
 
-                    if (isset($elements['subtype']))
-                    {
+                    if (isset($elements['subtype'])) {
                         $userAgent['operating_system_typ_sub'] = $elements['subtype'];
                     }
 
@@ -827,8 +792,7 @@ class UserAgentParser
             }
         }
 
-        if(false === $found)
-        {
+        if (false === $found) {
             $userAgent['operating_system_typ'] = self::TYPE_UNKNOW;
         }
 
@@ -872,28 +836,24 @@ class UserAgentParser
 
         include 'browser/bot.php';
 
-        foreach( $bot as $name =>$row )
-        {
+        foreach ($bot as $name =>$row) {
             $aList[$name] = $row;
         }
 
         include 'browser/browser.php';
 
-        foreach( $browser as $name =>$row )
-        {
+        foreach ($browser as $name =>$row) {
             $aList[$name] = $row;
         }
 
 /*
         include 'browser/mobile.php';
-        foreach( $mobile as $name =>$row )
-        {
+        foreach ($mobile as $name =>$row) {
             $aList[$name] = $row;
         }
 
         include 'browser/console.php';
-        foreach( $console as $name =>$row )
-        {
+        foreach ($console as $name =>$row) {
             $aList[$name] = $row;
         }
 */
@@ -915,8 +875,7 @@ class UserAgentParser
 
         include 'browser/os.php';
 
-        foreach( $os as $name =>$row )
-        {
+        foreach ($os as $name =>$row) {
             $aList[$name] = $row;
         }
 
@@ -926,4 +885,3 @@ class UserAgentParser
     }
 
 }
-?>

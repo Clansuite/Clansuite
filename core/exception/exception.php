@@ -33,8 +33,7 @@
 namespace Koch\Exception;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -128,14 +127,12 @@ class Exception extends \Exception
         $this->trace = $exception->getTrace();
 
         # if no errorcode is set, say that it's an rethrow
-        if($this->code === '0')
-        {
+        if ($this->code === '0') {
             $this->code = '0 (This exception is uncatched and rethrown.)';
         }
 
         # fetch exceptionTemplates, but not for $code = 0
-        if( $this->code > 0 )
-        {
+        if ($this->code > 0) {
             self::fetchExceptionTemplates($this->code);
         }
 
@@ -167,8 +164,7 @@ class Exception extends \Exception
         self::fetchExceptionTemplate($code);
 
         # development template
-        if(defined('DEVELOPMENT') and DEVELOPMENT == 1)
-        {
+        if (defined('DEVELOPMENT') and DEVELOPMENT == 1) {
             self::fetchExceptionDevelopmentTemplate($code);
         }
     }
@@ -191,8 +187,7 @@ class Exception extends \Exception
     {
         $file = ROOT . 'themes/core/exceptions/exception-' . $code . '.html';
 
-        if(is_file($file) === true)
-        {
+        if (is_file($file) === true) {
             self::$exception_template = file_get_contents($file);
         }
     }
@@ -217,15 +212,13 @@ class Exception extends \Exception
         # construct filename with code
         $file = ROOT . 'themes/core/exceptions/exception-dev-' . $code . '.html';
 
-        if(is_file($file) === true)
-        {
+        if (is_file($file) === true) {
             self::$exception_dev_template = file_get_contents($file);
 
             define('RAPIDDEVTPL', true);
         }
         /*
-        else
-        {
+        else {
            # @todo propose to create a new rapid development template via tpleditor
         }
         */
@@ -241,18 +234,15 @@ class Exception extends \Exception
         $original_file_content = self::$exception_dev_template;
         $replaced_content = '';
 
-        if(isset($placeholders['modulename']))
-        {
+        if (isset($placeholders['modulename'])) {
             $replaced_content = str_replace('{$modulename}', $placeholders['modulename'], $original_file_content);
         }
 
-        if(isset($placeholders['classname']))
-        {
+        if (isset($placeholders['classname'])) {
             $replaced_content = str_replace('{$classname}', $placeholders['classname'], $replaced_content);
         }
 
-        if(isset($placeholders['actionname']))
-        {
+        if (isset($placeholders['actionname'])) {
             $replaced_content = str_replace('{$actionname}', $placeholders['actionname'], $replaced_content);
         }
 
@@ -269,12 +259,9 @@ class Exception extends \Exception
         /**
          * @todo add backlink to the exception codes list
          */
-        if($this->code > 0)
-        {
+        if ($this->code > 0) {
             $code = '(# ' . $this->code . ')';
-        }
-        else
-        {
+        } else {
             $code = '';
         }
 
@@ -319,8 +306,7 @@ class Exception extends \Exception
          *
          * Debug Backtrace
          */
-        if(defined('DEBUG') and DEBUG == 1)
-        {
+        if (defined('DEBUG') and DEBUG == 1) {
             # lets get the backtrace as html table
             $html .= Errorhandler::getDebugBacktrace($this->trace);
         }
@@ -330,8 +316,7 @@ class Exception extends \Exception
          *
          * Server Environment Informations
          */
-        if(defined('DEBUG') and DEBUG == 1)
-        {
+        if (defined('DEBUG') and DEBUG == 1) {
             $html .= '<div id="panel3" class="panel">';
             $html .= '<h3>Server Environment</h3>';
             $html .= '<table width="95%">';
@@ -351,8 +336,7 @@ class Exception extends \Exception
          *
          * Additional Information
          */
-        if(empty(self::$exception_template) === false)
-        {
+        if (empty(self::$exception_template) === false) {
             $html .= '<div id="panel4" class="panel">';
             $html .= '<h3>Additional Information & Solution Suggestion</h3>';
             $html .= self::$exception_template . '</div>';
@@ -365,27 +349,21 @@ class Exception extends \Exception
          */
         $placeholders = array();
         # assign placeholders for replacements in the html
-        if(mb_strpos($this->message, 'action_'))
-        {
+        if (mb_strpos($this->message, 'action_')) {
             $placeholders['actionname'] = mb_substr($this->message, mb_strpos($this->message, 'action_'));
-        }
-        elseif(mb_strpos($this->message, 'module_'))
+        } elseif(mb_strpos($this->message, 'module_'))
         {
             $placeholders['classname'] = mb_substr($this->message, mb_strpos($this->message, 'module_'));
         }
 
-        if(empty($_GET['mod']) == false)
-        {
+        if (empty($_GET['mod']) == false) {
             $placeholders['modulename'] = (string) stripslashes($_GET['mod']);
-        }
-        else
-        {
+        } else {
             $placeholders['modulename'] = '';
         }
 
         # add development helper template to exceptions
-        if(defined('DEVELOPMENT') and DEVELOPMENT == 1 and defined('RAPIDDEVTPL') and RAPIDDEVTPL == 1)
-        {
+        if (defined('DEVELOPMENT') and DEVELOPMENT == 1 and defined('RAPIDDEVTPL') and RAPIDDEVTPL == 1) {
             $html .= '<div id="panel5" class="panel">';
             $html .= '<h3>Rapid Application Development</h3>';
             $html .= self::getExceptionDevelopmentTemplate($placeholders).'</div>';
@@ -414,18 +392,17 @@ class Exception extends \Exception
         $html   .= '</body></html>';
 
         # save session before exit
-        if((bool) session_id())
-        {
+        if ((bool) session_id()) {
             session_write_close();
         }
 
         # clear all output buffers
-        if( ob_get_length() )
-        {
+        if ( ob_get_length() ) {
             ob_end_clean();
         }
 
         # Output the errormessage
+
         return $html;
     }
 
@@ -442,6 +419,7 @@ class Exception extends \Exception
         $string  = str_replace($search, $replace, $string);
         $string  = ltrim($string, '<br/>');
         unset($search, $replace);
+
         return $string;
     }
 
@@ -457,4 +435,3 @@ class Exception extends \Exception
         return $this->yellowScreenOfDeath();
     }
 }
-?>

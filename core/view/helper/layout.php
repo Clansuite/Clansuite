@@ -33,8 +33,7 @@
 namespace Koch\View\Helper;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -145,6 +144,7 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
     public function current()
     {
         $key = key( $this->composite );
+
         return $this->offsetGet( $key );
     }
 
@@ -253,16 +253,14 @@ class ViewLayout implements ViewNodeInterface
     /**
      * Loops over all components / nodes and renders
      */
-    function render($response)
+    public function render($response)
     {
         $subview = '';
-        
-        foreach($this->components as $child)
-        {
+
+        foreach ($this->components as $child) {
             $subview .=  $child->render($response);
         }
 
         return $subview;
     }
 }
-?>

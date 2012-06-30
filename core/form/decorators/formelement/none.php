@@ -33,8 +33,7 @@
 namespace Koch\Form\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -55,7 +54,7 @@ class None extends Decorator
     public function render($html_form_content)
     {
         # return $html_form_content;
+
         return CR . $html_form_content . CR;
     }
 }
-?>

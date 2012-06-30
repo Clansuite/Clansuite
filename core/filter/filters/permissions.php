@@ -36,8 +36,7 @@ use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -64,11 +63,9 @@ class Permissions implements FilterInterface
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        if (false === $rbacl->isAuthorized($actionname, $this->user->getUserId()))
-        {
+        if (false === $rbacl->isAuthorized($actionname, $this->user->getUserId())) {
             # @todo errorpage, no permission to perform this action. access denied.
             $response->redirect();
         }
     }
 }
-?>

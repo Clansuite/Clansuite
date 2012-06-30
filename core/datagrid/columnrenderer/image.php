@@ -33,8 +33,7 @@
 namespace Koch\Datagrid\Columnrenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -58,12 +57,10 @@ class Image extends ColumnRenderer implements ColumnRendererInterface
         $image_alt = $value = $oCell->getValue();
 
         # build an image name for the alt-tag
-        if( mb_strlen($value) > $this->nameWrapLength )
-        {
+        if ( mb_strlen($value) > $this->nameWrapLength ) {
             $image_alt = mb_substr($value, 0, $this->nameWrapLength - 5) . 'Image';
         }
 
         return $this->_replacePlaceholders($value, Clansuite_HTML::img( $value, array( 'alt'  => $image_alt)));
     }
 }
-?>

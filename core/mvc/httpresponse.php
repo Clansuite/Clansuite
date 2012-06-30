@@ -30,11 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\MVC;
+namespace Koch\mvc;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -47,7 +46,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  HttpResponse
  */
-class HttpResponse implements HttpResponseInterface
+class httpresponse implements HttpResponseInterface
 {
     /**
      * Status of the response as integer value.
@@ -77,7 +76,7 @@ class HttpResponse implements HttpResponseInterface
      * This method is also used to set the return status code when there
      * is no error (for example for the status codes 200 (OK) or 301 (Moved permanently) ).
      *
-     * @param  integer $statusCode The status code to set
+     * @param integer $statusCode The status code to set
      */
     public static function setStatusCode($statusCode)
     {
@@ -147,19 +146,16 @@ class HttpResponse implements HttpResponseInterface
      * appends content to the response body.
      * when $replace is true, the bodycontent is replaced.
      *
-     * @param string $content Content to store in the buffer
+     * @param string  $content Content to store in the buffer
      * @param boolean $replace Toggle between append or replace.
      */
     public static function setContent($content, $replace = false)
     {
         # check, if the content should be replaced
-        if($replace === false)
-        {
+        if ($replace === false) {
             # no, just append the content
             self::$content .= $content;
-        }
-        else
-        {
+        } else {
             # replace the body with the content
             self::$content = $content;
         }
@@ -176,7 +172,7 @@ class HttpResponse implements HttpResponseInterface
     /**
      * Set the content type
      *
-     * @param string $type Content type: html, txt, xml, json.
+     * @param  string $type Content type: html, txt, xml, json.
      * @return string
      */
     public static function setContentType($type = 'html', $charset = 'UTF-8')
@@ -191,8 +187,7 @@ class HttpResponse implements HttpResponseInterface
             'js'   => 'application/javascript',
         );
 
-        if(isset($types[$type]) === false)
-        {
+        if (isset($types[$type]) === false) {
             throw new InvalidArgumentException('Specified type not valid. Use: html, txt, xml or json.');
         }
 
@@ -207,8 +202,7 @@ class HttpResponse implements HttpResponseInterface
      */
     public static function getContentType()
     {
-        if(empty(self::$content_type) === true)
-        {
+        if (empty(self::$content_type) === true) {
             self::setContentType('html');
         }
 
@@ -221,14 +215,12 @@ class HttpResponse implements HttpResponseInterface
     public static function sendResponse()
     {
         # save session before exit
-        if((bool) session_id())
-        {
+        if ((bool) session_id()) {
             session_write_close();
         }
 
         # activateOutputCompression when not in debugging mode
-        if( XDEBUG === false and DEBUG === false)
-        {
+        if (XDEBUG === false and DEBUG === false) {
             Koch_ResponseEncode::start_outputbuffering('7');
         }
 
@@ -245,10 +237,8 @@ class HttpResponse implements HttpResponseInterface
         self::addHeader('Content-Type', self::getContentType(). '; charset=UTF-8');
 
         # Send user specificed headers from self::$headers array
-        if(false === headers_sent())
-        {
-            foreach(self::$headers as $name => $value)
-            {
+        if (false === headers_sent()) {
+            foreach (self::$headers as $name => $value) {
                 $header = $name . ': ' . $value;
                 $header = str_replace(array("\n", "\r"), '', $header); # header injection
                 header($header, false);
@@ -262,13 +252,11 @@ class HttpResponse implements HttpResponseInterface
         echo self::getContent();
 
         // Flush Compressed Buffer
-        if( XDEBUG === false and DEBUG === false)
-        {
+        if (XDEBUG === false and DEBUG === false) {
             \Koch\MVC\ResponseEncode::end_outputbuffering();
 
             # send response and do some more php processing afterwards
-            if(is_callable('fastcgi_finish_request') === true)
-            {
+            if (is_callable('fastcgi_finish_request') === true) {
                 fastcgi_finish_request();
             }
         }
@@ -307,30 +295,25 @@ class HttpResponse implements HttpResponseInterface
         $ob = ini_get('output_buffering');
 
         # Abort the method if headers have already been sent, except when output buffering has been enabled
-        if ( headers_sent() and (bool) $ob === false or mb_strtolower($ob) == 'off' )
-        {
+        if ( headers_sent() and (bool) $ob === false or mb_strtolower($ob) == 'off' ) {
             return false;
         }
 
-        if (false === empty($domain) )
-        {
+        if (false === empty($domain) ) {
             # Fix the domain to accept domains with and without 'www.'.
-            if ( mb_strtolower( mb_substr($domain, 0, 4) ) === 'www.' )
-            {
+            if ( mb_strtolower( mb_substr($domain, 0, 4) ) === 'www.' ) {
                 $domain = mb_substr($domain, 4);
             }
 
             # Add the dot prefix to ensure compatibility with subdomains
-            if ( mb_substr($domain, 0, 1) !== '.' )
-            {
+            if ( mb_substr($domain, 0, 1) !== '.' ) {
                 $domain = '.'.$domain;
             }
 
             # Remove port information.
             $port = mb_strpos($domain, ':');
 
-            if ( $port !== false )
-            {
+            if ($port !== false) {
                 $domain = mb_substr($domain, 0, $port);
             }
         }
@@ -341,14 +324,15 @@ class HttpResponse implements HttpResponseInterface
                                     .(true === empty($path) ? '' : '; Path='.$path)
                                     .(false === $secure ? '' : '; Secure')
                                     .(false === $HTTPOnly ? '' : '; HttpOnly'), false);
+
         return true;
     }
 
     /**
      * Deletes a cookie
      *
-     * @param string $name Name of the cookie
-     * @param string $path Path where the cookie is used
+     * @param string $name   Name of the cookie
+     * @param string $path   Path where the cookie is used
      * @param string $domain Domain of the cookie
      * @param bool Secure mode?
      * @param bool Only allow HTTP usage? (PHP 5.2)
@@ -387,13 +371,13 @@ class HttpResponse implements HttpResponseInterface
     public static function detectTypeAndSetFlashmessage($message)
     {
         # detect if a flashmessage is tunneled
-        if(true === isset($message) and true === (bool) strpos($message, '#'))
-        {
+        if (true === isset($message) and true === (bool) strpos($message, '#')) {
             #  split at tunneling separator
             $array = explode('#', $message);
             # results in: array[0] = type and array[1] = message)
             Koch_Flashmessages::setMessage($array[0], $array[1]);
             # return the message
+
             return $array[1];
         }
     }
@@ -443,8 +427,7 @@ class HttpResponse implements HttpResponseInterface
         $redirect_html = '';
 
         # redirect only, if headers are NOT already send
-        if (headers_sent($filename, $linenum) === false)
-        {
+        if (headers_sent($filename, $linenum) === false) {
             # clear all output buffers
             #while(@ob_end_clean());
 
@@ -455,8 +438,7 @@ class HttpResponse implements HttpResponseInterface
             # fetch message from "type#message"
             $message = self::detectTypeAndSetFlashmessage($message);
 
-            switch($mode)
-            {
+            switch ($mode) {
                 default:
                 case 'LOCATION':
                     header('LOCATION: '. $url);
@@ -478,17 +460,14 @@ class HttpResponse implements HttpResponseInterface
                     break;
             }
 
-            if(empty($redirect_html) === false)
-            {
+            if (empty($redirect_html) === false) {
                 #self::addHeader('Location', $url);
                 self::setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
             }
 
             # Flush the content on the normal way!
             self::sendResponse();
-        }
-        else # headers already send!
-        {
+        } else { # headers already send!
             $msg  = _('Header already send in file %s in line %s. Redirecting impossible.');
             $msg .= _('You might click this link instead to redirect yourself to the <a href="%s">target url</a> an');
             sprintf($msg, $filename, $linenum, $url);
@@ -496,4 +475,3 @@ class HttpResponse implements HttpResponseInterface
         }
     }
 }
-?>

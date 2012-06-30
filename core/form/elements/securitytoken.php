@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -53,12 +52,9 @@ class Securitytoken extends Hidden implements FormelementInterface
     {
         $session = $this->getSession();
 
-        if (isset($session->hash))
-        {
+        if (isset($session->hash)) {
             $validHash = $session->hash;
-        }
-        else
-        {
+        } else {
             $validHash = null;
         }
 
@@ -77,4 +73,3 @@ class Securitytoken extends Hidden implements FormelementInterface
 
     }
 }
-?>

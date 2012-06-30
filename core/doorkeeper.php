@@ -31,8 +31,7 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -74,8 +73,7 @@ class DoorKeeper
     public function runIDS()
     {
         // prevent redeclaration
-        if(false === class_exists('IDS_Monitor', false))
-        {
+        if (false === class_exists('IDS_Monitor', false)) {
             # load ids init
             include ROOT_LIBRARIES . 'IDS/Init.php';
 
@@ -94,10 +92,8 @@ class DoorKeeper
 
             # the following lines have to remain, till PHP_IDS team fixes their lib
             # in order to create the cache file automatically
-            if(false === is_file(IDS_CACHE_PATH))
-            {
-                if(false === file_put_contents(IDS_CACHE_PATH, ''))
-                {
+            if (false === is_file(IDS_CACHE_PATH)) {
+                if (false === file_put_contents(IDS_CACHE_PATH, '')) {
                     throw new Koch_Exception('PHP IDS Cache file couldn\'t be created.', 11);
                 }
             }
@@ -116,12 +112,10 @@ class DoorKeeper
 
             #var_dump($monitoring_result);
             # if no results, everything is fine
-            if(( $monitoring_result->isEmpty() === false ) or ( $monitoring_result->getImpact() > 1 ))
-            {
+            if (( $monitoring_result->isEmpty() === false ) or ( $monitoring_result->getImpact() > 1 )) {
                 $access_block_message = 'Access Violation Detected by IDS! Execution stopped!';
 
-                if(DEBUG == true)
-                {
+                if (DEBUG == true) {
                     $access_block_message .= ' <br /> Monitor:' . $monitoring_result;
                 }
 
@@ -138,5 +132,3 @@ class DoorKeeper
     }
 
 }
-
-?>

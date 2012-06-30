@@ -31,8 +31,7 @@
     */
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -68,4 +67,4 @@ class SimpleCaptcha extends Captcha implements FormelementInterface
     }
 }
 <<<<<<< .mine
-=======>>>>>>> .theirs?>
+=======>>>>>>> .theirs

@@ -41,37 +41,31 @@ function smarty_function_gravatar($params, $smarty)
     $email = $defaultImage = $size = $rating = '';
 
     # check for email adress
-    if(isset($params['email']) === true)
-    {
+    if (isset($params['email']) === true) {
         $email = trim(mb_strtolower($params['email']));
-    }
-    else
-    {
+    } else {
         trigger_error("Gravatar Image couldn't be loaded! Parameter 'email' not specified!");
+
         return;
     }
 
     # default avatar
-    if(isset($params['default']) === true)
-    {
+    if (isset($params['default']) === true) {
         $defaultImage = urlencode($params['default']);
     }
 
     # size
-    if(isset($params['size']) === true)
-    {
+    if (isset($params['size']) === true) {
         $size = $params['size'];
     }
 
     # rating
-    if(isset($params['rating']) === true)
-    {
+    if (isset($params['rating']) === true) {
         $rating = $params['rating'];
     }
 
     # initialize gravatar library
-    if(false === class_exists('clansuite_gravatar', false))
-    {
+    if (false === class_exists('clansuite_gravatar', false)) {
         include ROOT_CORE . 'viewhelper/gravatar.core.php';
     }
 

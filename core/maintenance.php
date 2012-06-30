@@ -33,8 +33,7 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -48,7 +47,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Maintenance
  */
-class Maintenance
+class maintenance
 {
     private static $language;
     private static $reason = '1';
@@ -83,27 +82,22 @@ class Maintenance
         )
     );
 
-
     public function configure(array $config, $filePath = null)
     {
         # set language for maintenance msg via $config value
         self::$language = $config['language']['default'];
 
         # fetch reason integer from $config
-        if($config['mainteance']['reason'] > 0)
-        {
+        if ($config['mainteance']['reason'] > 0) {
             self::$reason = $config['mainteance']['reason'];
         }
 
         # read timeout value from $config
         self::$timeout = $config['mainteance']['timeout'];
 
-        if(isset($filePath) === true)
-        {
+        if (isset($filePath) === true) {
             self::$filePath = $filePath;
-        }
-        else # use the default maintenance template
-        {
+        } else { # use the default maintenance template
             self::$filePath = ROOT_THEMES_CORE . 'view/smarty/maintenance.tpl';
         }
     }
@@ -111,7 +105,7 @@ class Maintenance
     /**
      * output maintenance display
      *
-     * @param array $config The Config Array.
+     * @param array  $config   The Config Array.
      * @param string $filePath FQFP for the maintenance template.
      */
     public function show(array $config, $filePath = null)
@@ -139,4 +133,3 @@ class Maintenance
     }
 
 }
-?>

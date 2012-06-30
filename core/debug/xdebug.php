@@ -33,8 +33,7 @@
 namespace Koch\Debug;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -76,11 +75,9 @@ class Xdebug
 
     public static function configure()
     {
-        if(static::$initialized === false)
-        {
+        if (static::$initialized === false) {
             # loop over all settings and set them
-            foreach(static::$initSettings as $key => $value)
-            {
+            foreach (static::$initSettings as $key => $value) {
                 ini_set("xdebug.{$key}", $value);
             }
         }
@@ -94,10 +91,10 @@ class Xdebug
      */
     public static function is_xdebug_active()
     {
-        if (extension_loaded('xdebug') and xdebug_is_enabled())
-        {
+        if (extension_loaded('xdebug') and xdebug_is_enabled()) {
             return true;
         }
+
         return false;
     }
 
@@ -107,8 +104,7 @@ class Xdebug
     public static function start_xdebug()
     {
         # Start XDEBUG Tracing and Coverage
-        if (self::is_xdebug_active())
-        {
+        if (self::is_xdebug_active()) {
             # do some xdebug configuration
             self::configure();
 
@@ -133,8 +129,7 @@ class Xdebug
     public static function render()
     {
         # Start XDEBUG Tracing and Coverage
-        if (self::is_xdebug_active())
-        {
+        if (self::is_xdebug_active()) {
             /**
              * This is the CSS for XDebug Fatal Error
              */
@@ -183,10 +178,9 @@ class Xdebug
              */
             echo "<script type=\"text/javascript\">
                   var xdebugErrorTable = document.getElementsByClassName('xdebug-error');
-                  if(xdebugErrorTable.length > 0)
-                  {
+                  if (xdebugErrorTable.length > 0) {
                     var xdebugErrorTableTds = document.getElementsByClassName('xdebug-error')[0].getElementsByTagName('td');
-                    for (var i = 0; i < xdebugErrorTableTds.length; i++){xdebugErrorTableTds[i].setAttribute('bgcolor', '');}
+                    for (var i = 0; i < xdebugErrorTableTds.length; i++) {xdebugErrorTableTds[i].setAttribute('bgcolor', '');}
                   }";
 
             /**
@@ -322,7 +316,7 @@ class Xdebug
              */
             echo "<script type=\"text/javascript\">
                   var xdebugTds = document.getElementsByClassName('xdebug-superglobals')[0].getElementsByTagName('td');
-                  for (var i = 0; i < xdebugTds.length; i++){xdebugTds[i].setAttribute('bgcolor', '');}
+                  for (var i = 0; i < xdebugTds.length; i++) {xdebugTds[i].setAttribute('bgcolor', '');}
                   xdebugTds[0].setAttribute('width', '30%');
                   </script>";
         }
@@ -349,33 +343,24 @@ class Xdebug
 
         echo '<table class="xdebug-console" id="table-konstanten" style="display:none;">';
 
-        foreach ($aCategoriesToShow as $category)
-        {
+        foreach ($aCategoriesToShow as $category) {
             # display only the categories to show / whitelist
-            if (isset($aConsts[$category]) === true)
-            {
+            if (isset($aConsts[$category]) === true) {
                 # adjust headline
-                if ($category == 'user')
-                {
+                if ($category == 'user') {
                     echo '<tr><th colspan="2">Application Constants</th></tr>';
-                }
-                else
-                {
+                } else {
                     echo '<tr><th colspan="2">Constants for [' . $category . ']</th></tr>';
                 }
 
                 # table row for the constant
-                foreach ($aConsts[$category] as $name => $value)
-                {
+                foreach ($aConsts[$category] as $name => $value) {
                     echo '<tr><td class="td1">' . $name . '</td>';
 
                     # handle true and false
-                    if(gettype($value) === 'boolean')
-                    {
+                    if (gettype($value) === 'boolean') {
                         echo '<td class="td2">' . (int) $value . '</td></tr>';
-                    }
-                    else
-                    {
+                    } else {
                         echo '<td class="td2">' . self::formatter($value) . '</td></tr>';
                     }
                 }
@@ -386,8 +371,7 @@ class Xdebug
 
     public static function showBrowserInfo()
     {
-        if(false === class_exists('Koch_Browserinfo', false))
-        {
+        if (false === class_exists('Koch_Browserinfo', false)) {
             include ROOT_CORE . 'tools/browserinfo.core.php';
         }
         $browserinfo = new Koch_Browserinfo();
@@ -414,8 +398,7 @@ class Xdebug
         echo '<tr><th>Name</th><th>Value</th></tr>';
 
         $headers = xdebug_get_headers();
-        foreach ($headers as $header)
-        {
+        foreach ($headers as $header) {
             /**
              * a header like "Expires: Thu, 19 Nov 1981 08:52:00 GMT" has several doublecolons (:)
              * we split the string by exploding it, at the first colon and returning a limited result set (2 items):
@@ -433,14 +416,13 @@ class Xdebug
     /**
      * Rounds a $value to MegaBytes
      *
-     * @param integer $value The Value to round to megabytes.
+     * @param  integer $value The Value to round to megabytes.
      * @return Returns the $value rounded to megabytes, like: 1,44MB.
      */
     public static function roundMB($value)
     {
         return round(($value/1048576),2);
     }
-
 
     /**
      * @param mixed $variable The variable to debug display.
@@ -481,6 +463,7 @@ class Xdebug
         $buffer = str_replace("\t", "\\t", $buffer);
         $buffer = str_replace('<', '&lt;', $buffer);
         $buffer = str_replace('>', '&gt;', $buffer);
+
         return $buffer;
     }
 
@@ -515,4 +498,3 @@ class Xdebug
     }
 
 }
-?>

@@ -35,8 +35,7 @@ namespace Koch\Form\Decorators\Form;
 use Koch\Form\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -71,60 +70,53 @@ class Form extends Decorator
         # init var
         $html_form = '';
 
-        if( mb_strlen($this->getID()) > 0 )
-        {
+        if ( mb_strlen($this->getID()) > 0 ) {
             $html_form .= 'id="'.$this->getID().'" ';
         }
 
-        if( mb_strlen($this->getAction()) > 0 )
-        {
+        if ( mb_strlen($this->getAction()) > 0 ) {
             $html_form .= 'action="'.$this->getAction().'" ';
         }
 
-        if( mb_strlen($this->getMethod()) > 0 )
-        {
+        if ( mb_strlen($this->getMethod()) > 0 ) {
             $html_form .= 'method="'.$this->getMethod().'" ';
         }
 
-        if( mb_strlen($this->getEncoding()) > 0 )
-        {
+        if ( mb_strlen($this->getEncoding()) > 0 ) {
             $html_form .= 'enctype="'.$this->getEncoding().'" ';
         }
 
-        if( mb_strlen($this->getTarget()) > 0 )
-        {
+        if ( mb_strlen($this->getTarget()) > 0 ) {
             $html_form .= 'target="'.$this->getTarget().'" ';
         }
 
-        if( mb_strlen($this->getName()) > 0 )
-        {
+        if ( mb_strlen($this->getName()) > 0 ) {
              $html_form .= 'name="'.$this->getName().'" ';
         }
 
-        if( mb_strlen($this->getAcceptCharset()) > 0 )
-        {
+        if ( mb_strlen($this->getAcceptCharset()) > 0 ) {
              $html_form .= 'accept-charset="'.$this->getAcceptCharset().'" ';
         }
 
-        if( $this->getAcceptCharset() === true )
-        {
+        if ( $this->getAcceptCharset() === true ) {
              $html_form .= ' autocomplete ';
         }
 
-        if( $this->getNoValidation() === true )
-        {
+        if ( $this->getNoValidation() === true ) {
              $html_form .= ' novalidation ';
         }
 
         $html_form .= 'class="form '.$this->getClass().'"';
 
         # return the attributes inside the opening form tag
+
         return $html_form;
     }
 
     public function closeOpenFormTag()
     {
         # close the opened form tag
+
         return '>' . CR;
     }
 
@@ -133,8 +125,7 @@ class Form extends Decorator
         $html_form = '';
 
         # add heading
-        if( mb_strlen($this->getHeading()) > 0 )
-        {
+        if ( mb_strlen($this->getHeading()) > 0 ) {
              $html_form = '<h2>'.$this->getHeading().'</h2>' . CR;
         }
 
@@ -146,8 +137,7 @@ class Form extends Decorator
          $html_form = '';
 
         # add description
-        if( mb_strlen($this->getDescription()) > 0 )
-        {
+        if ( mb_strlen($this->getDescription()) > 0 ) {
              $html_form = '<p>'.$this->getDescription().'</p>' . CR;
         }
 
@@ -157,6 +147,7 @@ class Form extends Decorator
     public function closeFormTag()
     {
         # close form
+
         return CR . '</form>' . CR . '<!--- End of Form "'. $this->getName() .'" -->' . CR;
     }
 
@@ -174,4 +165,3 @@ class Form extends Decorator
         return $html_form_content;
     }
 }
-?>

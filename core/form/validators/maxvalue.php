@@ -35,8 +35,7 @@ namespace Koch\Form\Validators;
 use Koch\Form\Validator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -59,8 +58,7 @@ class Maxvalue extends Validator
      */
     public function setMaxValue($maxvalue)
     {
-        if(is_string($maxvalue) === true)
-        {
+        if (is_string($maxvalue) === true) {
             $msg = _('Parameter Maxvalue must be numeric (int|float) and not %s.');
             $msg = sprintf($msg, gettype($maxvalue));
 
@@ -86,12 +84,10 @@ class Maxvalue extends Validator
 
     protected function processValidationLogic($value)
     {
-        if($value > $this->getMaxValue())
-        {
+        if ($value > $this->getMaxValue()) {
             return false;
         }
 
         return true;
     }
 }
-?>

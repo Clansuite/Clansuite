@@ -33,8 +33,7 @@
 namespace Koch\Router;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -74,11 +73,9 @@ class Manager
         $routes_count = count($this->routes);
 
         # loop over all routes
-        for($i == 0; $i < $routes_count; $i++)
-        {
+        for ($i == 0; $i < $routes_count; $i++) {
             # check if there is a route with the given name
-            if($this->routes[$i]['name'] == $route_name)
-            {
+            if ($this->routes[$i]['name'] == $route_name) {
                 # got one? then remove it from the routes array and stop
                 array_splice($this->routes, $i, 1);
                 break;
@@ -97,17 +94,13 @@ class Manager
     {
         $activated_modules = array();
 
-        if($modulename === null)
-        {
+        if ($modulename === null) {
             $activated_modules[] = array($modulename);
-        }
-        else # get all activated modules
-        {
+        } else { # get all activated modules
             # $activated_modules =
         }
 
-        foreach($activated_modules as $modulename)
-        {
+        foreach ($activated_modules as $modulename) {
             # load module routing file
             $module_routes_file = ROOT_MOD . $modulename . '/' . $modulename . '.routes.php';
             $module_routes = $this->loadRoutesFromConfig($module_routes_file);
@@ -133,14 +126,11 @@ class Manager
     {
         $routes = array();
 
-        if($routes_config_file === null)
-        {
+        if ($routes_config_file === null) {
             # load common routes configuration
             # includes array $routes
             include ROOT_CONFIG . 'routes.php';
-        }
-        else
-        {
+        } else {
             # load specific routes config file
             include ROOT . $routes_config_file;
         }
@@ -148,4 +138,3 @@ class Manager
         return (array) $routes;
     }
 }
-?>

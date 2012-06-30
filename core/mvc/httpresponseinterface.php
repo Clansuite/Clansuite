@@ -33,8 +33,7 @@
 namespace Koch\MVC;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -57,4 +56,3 @@ interface HttpResponseInterface
     public static function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
     public static function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null);
 }
-?>

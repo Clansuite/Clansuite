@@ -33,11 +33,9 @@
 namespace Koch\Captcha;
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
 
 /**
  * Koch Framework - just a simple Captcha Class.
@@ -89,8 +87,7 @@ class Koch_Captcha
      */
     public function __construct()
     {
-        if(extension_loaded('gd') === false)
-        {
+        if (extension_loaded('gd') === false) {
             throw new Koch_Exception(_('GD Library missing.'));
         }
 
@@ -108,16 +105,15 @@ class Koch_Captcha
         # build the fonts array by detecting all font files
         $iterator = new DirectoryIterator($fonts_dir);
 
-        foreach($iterator as $file)
-        {
+        foreach ($iterator as $file) {
             # if a fontfile.ttf is found add it to the array
-            if($file->isFile() and (strrchr($file->getPathname(), '.') == '.ttf'))
-            {
+            if ($file->isFile() and (strrchr($file->getPathname(), '.') == '.ttf')) {
                 self::$fonts = $fonts_dir . $file->getPathname();
             }
         }
 
         # return a random font file
+
         return self::$fonts[array_rand(self::$fonts)];
     }
 
@@ -134,8 +130,7 @@ class Koch_Captcha
 
         $string = '';
 
-        while(mb_strlen($string) < $length)
-        {
+        while (mb_strlen($string) < $length) {
             # a random char between 48 and 122
             $random = mt_rand(48, 122);
 
@@ -169,8 +164,7 @@ class Koch_Captcha
         $this->captcha = imagecreatetruecolor($this->image_width, $this->image_height);
 
         # switch between captcha types
-        switch(1)# rand(1,2))
-        {
+        switch (1)# rand(1,2)) {
             case 1: # captcha with some effects
                 # create backgroundcolor from random RGB colors
                 $background_color = imagecolorallocate($this->captcha, rand(100, 255), rand(100, 255), rand(0, 255));
@@ -178,8 +172,7 @@ class Koch_Captcha
                 /**
                  * Background Fill Effects
                  */
-                switch(rand(1, 2))
-                {
+                switch (rand(1, 2)) {
                     case 1: # Solid Fill
 
                         imagefill($this->captcha, 0, 0, $background_color);
@@ -187,8 +180,7 @@ class Koch_Captcha
 
                     case 2: # Gradient Fill
 
-                        for($i = 0, $rd = mt_rand(0, 100), $gr = mt_rand(0, 100), $bl = mt_rand(0, 100); $i <= $this->image_height; $i++)
-                        {
+                        for ($i = 0, $rd = mt_rand(0, 100), $gr = mt_rand(0, 100), $bl = mt_rand(0, 100); $i <= $this->image_height; $i++) {
                             $g = imagecolorallocate($this->captcha, $rd+=2, $gr+=2, $bl+=2);
                             imageline($this->captcha, 0, $i, $this->image_width, $i, $g);
                         }
@@ -199,25 +191,21 @@ class Koch_Captcha
                 $text_color = imagecolorallocate($this->captcha, mt_rand(50, 240), mt_rand(50, 240), mt_rand(0, 255));
 
                 # add some noise
-                for($i = 1; $i <= 4; $i++)
-                {
+                for ($i = 1; $i <= 4; $i++) {
                     imageellipse($this->captcha, mt_rand(1, 200), mt_rand(1, 50), mt_rand(50, 100), mt_rand(12, 25), $text_color);
                 }
 
-                for($i = 1; $i <= 4; $i++)
-                {
+                for ($i = 1; $i <= 4; $i++) {
                     imageellipse($this->captcha, mt_rand(1, 200), mt_rand(1, 50), mt_rand(50, 100), mt_rand(12, 25), $background_color);
                 }
 
                 #Koch_Debug::firebug($string_length);
                 # loop charwise through $captcha_string and apply a random font-effect
-                for($i = 0; $i < $string_length; $i++)
-                {
+                for ($i = 0; $i < $string_length; $i++) {
                     /**
                      * Font Rotation Effect
                      */
-                    switch(mt_rand(1, 2))
-                    {
+                    switch (mt_rand(1, 2)) {
                         case 1: # Clock-Rotation (->)
                             $angle = mt_rand(0, 15);
                             break;
@@ -261,8 +249,7 @@ class Koch_Captcha
                 # $this->interlace($captcha);
                 # add rotation
                 /**
-                  if(function_exists('imagerotate'))
-                  {
+                  if (function_exists('imagerotate')) {
                   #$im2 = imagerotate($captcha,rand(-20,30),$background_color);
                   # imagedestroy($captcha);
                   # $captcha = $im2;
@@ -277,8 +264,7 @@ class Koch_Captcha
               imagefill($captcha, 1, 1, $white );
 
               # loop through $captcha_str and apply a random font-effect to every char
-              for ($i=0; $i >= $string_length; $i++)
-              {
+              for ($i=0; $i >= $string_length; $i++) {
               imagettftext($captcha, rand(28,35),
               rand(-5,5),
               25+($i*17),
@@ -294,14 +280,13 @@ class Koch_Captcha
     /**
      * Render the Captcha Image on various ways
      *
-     * @param string $render_type Types: html_embedded, direct_png. Defaults to html_embedded.
-     * @return mixed Renders the image directly or returns html string.
+     * @param  string $render_type Types: html_embedded, direct_png. Defaults to html_embedded.
+     * @return mixed  Renders the image directly or returns html string.
      */
     public function render($render_type = 'html_embedded')
     {
         # PNG direct via header
-        if($render_type == 'direct_png')
-        {
+        if ($render_type == 'direct_png') {
             header("Content-type: image/png");
             imagepng($this->captcha);
             imagedestroy($this->captcha);
@@ -320,15 +305,16 @@ class Koch_Captcha
             imagedestroy($this->captcha);
 
             # we apply some html magic here => output the image by send it as inlined data ;)
+
             return sprintf('<img alt="Embedded Captcha Image" src="data:image/png;base64,%s" />', base64_encode($imagesource));
-        }
-        elseif($render_type == 'file_html')
+        } elseif($render_type == 'file_html')
         {
             # remove outdated captcha images
             self::garbage_collection();
             # write png to file
             imagepng($this->captcha, $this->options['image_dir'] . '/' . $this->_id . '.png');
             # return html img tag which points to the image file
+
             return '<img alt="Captcha Image from File" src="' . $this->options['image_url'] . '/' . $this->_id . '.png" alt="' . $this->options['imgage_alt'] . '" />';
         }
     }
@@ -341,14 +327,11 @@ class Koch_Captcha
     public static function garbage_collection()
     {
         # perform the garbage_collection in 10 % of all calls
-        if(mt_rand(0, 9) == 0)
-        {
+        if (mt_rand(0, 9) == 0) {
             $iterator = new DirectoryIterator($this->options['image_dir']);
-            foreach($iterator as $file)
-            {
+            foreach ($iterator as $file) {
                 # delete all png files
-                if($file->isFile() and (strrchr($file->getPathname(), '.') == '.png'))
-                {
+                if ($file->isFile() and (strrchr($file->getPathname(), '.') == '.png')) {
                     unlink($file->getPathname());
                 }
             }
@@ -366,10 +349,8 @@ class Koch_Captcha
         $imagex = imagesx($image);
         $imagey = imagesy($image);
         $black = imagecolorallocate($image, 255, 255, 255);
-        for ($y = 0; $y < $imagey; $y += 2)
-        {
+        for ($y = 0; $y < $imagey; $y += 2) {
             imageline($image, 0, $y, $imagex, $y, $black);
         }
     }
 }
-?>

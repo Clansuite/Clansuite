@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -57,8 +56,7 @@ class Wysiwygckeditor extends Textarea implements FormelementInterface
      */
     public static function checkDependencies()
     {
-        if (!is_file(ROOT_THEMES_CORE . 'javascript/ckeditor/ckeditor.js'))
-        {
+        if (!is_file(ROOT_THEMES_CORE . 'javascript/ckeditor/ckeditor.js')) {
             exit('Ckeditor Javascript Library missing!');
         }
     }
@@ -78,7 +76,7 @@ class Wysiwygckeditor extends Textarea implements FormelementInterface
                         </script>';
 
         # Watch out! Serve html elements first, before javascript dom selections are applied on them!
+
         return $javascript;
     }
 }
-?>

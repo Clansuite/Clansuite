@@ -33,8 +33,7 @@
 namespace Koch\Logger;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -60,32 +59,29 @@ class Compositum implements Logger
     /**
      * Iterates over all registered loggers and writes the log entry.
      *
-     * @param mixed|array|string $data array('message', 'label', 'priority') or message
-     * @param string $label label
-     * @param string $level priority level (LOG, INFO, WARNING, ERROR...)
+     * @param mixed|array|string $data  array('message', 'label', 'priority') or message
+     * @param string             $label label
+     * @param string             $level priority level (LOG, INFO, WARNING, ERROR...)
      */
     public function writeLog($data_or_msg, $label = null, $level = null)
     {
         $data = array();
 
         # first parameter might be an array or an string
-        if(is_array($data_or_msg))
-        {
+        if (is_array($data_or_msg)) {
             $data = $data_or_msg;
             $data['message'] = $data['0'];
             $data['label'] = $data['1'];
             $data['level'] = $data['2'];
         }
         # first parameter is string
-        else
-        {
+        else {
             $data['message'] = $data_or_msg;
             $data['label'] = $label;
             $data['level'] = $level;
         }
 
-        foreach($this->loggers as $logger)
-        {
+        foreach ($this->loggers as $logger) {
             $logger->writeLog($data);
         }
     }
@@ -100,10 +96,8 @@ class Compositum implements Logger
         # loggers might be an object, so it's typecasted to array, because of foreach
         $loggers = array($loggers);
 
-        foreach($loggers as $logger)
-        {
-            if((in_array($logger, $this->loggers) == false) and ($logger instanceof Koch_Logger_Interface))
-            {
+        foreach ($loggers as $logger) {
+            if ((in_array($logger, $this->loggers) == false) and ($logger instanceof Koch_Logger_Interface)) {
                 $this->loggers[] = $logger;
             }
         }
@@ -116,19 +110,15 @@ class Compositum implements Logger
      */
     public function removeLogger($loggers)
     {
-        foreach($loggers as $logger)
-        {
-            if((in_array($logger, $this->loggers) == true))
-            {
+        foreach ($loggers as $logger) {
+            if ((in_array($logger, $this->loggers) == true)) {
                 unset($this->loggers[$logger]);
+
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
     }
-    
+
 }
-?>

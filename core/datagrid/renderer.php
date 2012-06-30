@@ -33,8 +33,7 @@
 namespace Koch\Datagrid;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -213,8 +212,7 @@ class Renderer
     {
         $number_of_pages = (self::getDatagrid()->getTotalResultsCount() / self::getDatagrid()->getResultsPerPage());
 
-        if($number_of_pages > (int) $number_of_pages)
-        {
+        if ($number_of_pages > (int) $number_of_pages) {
             $number_of_pages = (int) ($number_of_pages) + 1;
         }
 
@@ -231,22 +229,19 @@ class Renderer
         $min_page_number = (int) ($selected_page - 5);
         $max_page_number = (int) ($selected_page + 5);
 
-        if($min_page_number < 1)
-        {
+        if ($min_page_number < 1) {
             $min_page_number = 1;
             $max_page_number = 11;
             $max_page_number = ($max_page_number > $number_of_pages) ? $number_of_pages : 11;
         }
 
-        if($max_page_number > $number_of_pages)
-        {
+        if ($max_page_number > $number_of_pages) {
             $max_page_number = $number_of_pages;
             $min_page_number = $max_page_number - 10;
             $min_page_number = ($min_page_number < 1) ? 1 : $max_page_number - 10;
         }
 
-        if($results_count <= $results_per_page)
-        {
+        if ($results_count <= $results_per_page) {
             $min_page_number = 1;
             $max_page_number = $number_of_pages;
         }
@@ -259,8 +254,7 @@ class Renderer
         # b) first [1][2][3][4][5] last
         # c) first prev [1][2][3][4][5] next last
 
-        if($selected_page > 1 and $number_of_pages > 1)
-        {
+        if ($selected_page > 1 and $number_of_pages > 1) {
             $url = self::getURLForPageInRange(self::getFirstPage());
             $first = '<li class="previous"><a href="' . $url . '" title="First Page">&laquo First Page</a></li>';
 
@@ -270,8 +264,7 @@ class Renderer
 
         $pages = self::renderPageRangeAroundPage($selected_page, $min_page_number, $max_page_number);
 
-        if($selected_page < $number_of_pages and $number_of_pages > 1)
-        {
+        if ($selected_page < $number_of_pages and $number_of_pages > 1) {
 
             $url = self::getURLForPageInRange(self::getNextPage());
             $next = '<li class="next"><a href="' . $url . '" title="Next Page">Next &raquo;</a></li>';
@@ -316,6 +309,7 @@ class Renderer
                        href: "themes/core/css/pagination.css"
                     }).appendTo("head");';
         $html .= '});</script>';
+
         return $html;
     }
 
@@ -327,17 +321,14 @@ class Renderer
         $url = self::getURLForPageInRange($selected_page);
 
         $html = '';
-        for($p = $min_page_number; $p <= $max_page_number; $p++)
-        {
-            if($p != $selected_page)
-            {
+        for ($p = $min_page_number; $p <= $max_page_number; $p++) {
+            if ($p != $selected_page) {
                 $html .= str_replace(array('{$url}', '{$page}'), array($url, $p), $PageInRangeString);
-            }
-            else # render the current page
-            {
+            } else { # render the current page
                 $html .= str_replace('{$page}', $p, $currentPageString);
             }
         }
+
         return $html;
     }
 
@@ -346,12 +337,9 @@ class Renderer
         $url = self::getDatagrid()->getBaseURL();
         $alias = self::getDatagrid()->getParameterAlias('Page');
 
-        if(defined('MOD_REWRITE'))
-        {
+        if (defined('MOD_REWRITE')) {
             $url .= '/' . $alias . '/' . $page;
-        }
-        else
-        {
+        } else {
             $url .= '&' . $alias . '=' . $page;
         }
 
@@ -400,8 +388,7 @@ class Renderer
      */
     private static function renderLabel()
     {
-        if(self::getDatagrid()->isEnabled('Label'))
-        {
+        if (self::getDatagrid()->isEnabled('Label')) {
             return '<div class="DatagridLabel DatagridLabel-' . self::getDatagrid()->getAlias() . '">' . CR . self::getDatagrid()->getLabel() . CR . '</div>';
         }
     }
@@ -413,8 +400,7 @@ class Renderer
      */
     private static function renderDescription()
     {
-        if(self::getDatagrid()->isEnabled('Description'))
-        {
+        if (self::getDatagrid()->isEnabled('Description')) {
             return '<div class="DatagridDescription DatagridDescription-' . self::getDatagrid()->getAlias() . '">' . CR . self::getDatagrid()->getDescription() . CR . '</div>';
         }
     }
@@ -428,8 +414,7 @@ class Renderer
     {
         $html = '';
 
-        if(self::getDatagrid()->isEnabled('Caption'))
-        {
+        if (self::getDatagrid()->isEnabled('Caption')) {
             $html .= '<caption>';
             #$html .= self::getDatagrid()->getCaption();
             $html .= self::renderLabel();
@@ -464,8 +449,7 @@ class Renderer
     {
         $html = '';
 
-        if(self::getDatagrid()->isEnabled('Header'))
-        {
+        if (self::getDatagrid()->isEnabled('Header')) {
             $html .= '<tbody>' . CR; # @todo OH MY GODDON! <thead> is not working here
             $html .= '<tr>' . CR;
             $html .= self::renderTableRowsHeader();
@@ -485,8 +469,7 @@ class Renderer
     {
         $html = '';
 
-        foreach(self::getDatagrid()->getColumns() as $column)
-        {
+        foreach (self::getDatagrid()->getColumns() as $column) {
             $html .= self::renderTableColumn($column);
         }
 
@@ -496,39 +479,33 @@ class Renderer
     /**
      * Render the pagination for the datagrid
      *
-     * @param boolean $_ShowResultsPerPage If true, the drop-down for maximal results per page is shown. Otherwise the total number of items.
-     * @return string Returns the html-code for the pagination row
+     * @param  boolean $_ShowResultsPerPage If true, the drop-down for maximal results per page is shown. Otherwise the total number of items.
+     * @return string  Returns the html-code for the pagination row
      */
     private static function renderTablePagination($_ShowResultsPerPage = true)
     {
         #Clansuite_Debug::printR('Pagination: ' . self::renderPager());
         $html = '';
-        if(self::getDatagrid()->isEnabled('Pagination'))
-        {
+        if (self::getDatagrid()->isEnabled('Pagination')) {
             $html .= '<tr>';
             #$html .= '<td colspan="1">';
             #$html .= _('Page: ');
             #$html .= '</td>';
             $html .= '<td colspan="' . (self::getDatagrid()->getColumnCount()) . '">';
 
-
             $html .= self::renderPager();
 
             # results per page drop down
-            if($_ShowResultsPerPage)
-            {
+            if ($_ShowResultsPerPage) {
                 $html .= '<div class="ResultsPerPage">';
                 $html .= '<select name="' . self::getDatagrid()->getParameterAlias('ResultsPerPage') . '" onchange="this.form.submit();">';
                 $_ResultsPerPageItems = self::getResultsPerPageItems();
-                foreach($_ResultsPerPageItems as $item)
-                {
+                foreach ($_ResultsPerPageItems as $item) {
                     $html .= '<option value="' . $item . '" ' . ((self::getDatagrid()->getResultsPerPage() == $item) ? 'selected="selected"' : '') . '>' . $item . '</option>';
                 }
                 $html .= '</select>';
                 $html .= '</div>';
-            }
-            else # show total number of items in results set
-            {
+            } else { # show total number of items in results set
                 $html .= '<div class="ResultsPerPage">';
                 $html .= self::getDatagrid()->getTotalResultsCount() . _(' items');
                 $html .= '</div>';
@@ -536,6 +513,7 @@ class Renderer
 
             $html .= '</td></tr>';
         }
+
         return $html;
     }
 
@@ -555,25 +533,21 @@ class Renderer
     {
         $html = '';
 
-        if($type == 'one')
-        {
+        if ($type == 'one') {
             #$html .= self::renderTableActions();
             $html .= self::renderTableSearch();
             $html .= self::renderTablePagination();
         }
 
-        if($type == 'two' or $type == 'three')
-        {
+        if ($type == 'two' or $type == 'three') {
             $html .= '<tbody>';
 
-            if($type == 'two')
-            {
+            if ($type == 'two') {
                 #$html .= self::renderTableActions();
                 $html .= self::renderTableRows();
             }
 
-            if($type == 'three')
-            {
+            if ($type == 'three') {
                 $html .= self::renderTableBatchActions();
                 $html .= self::renderTablePagination(false);
             }
@@ -594,8 +568,7 @@ class Renderer
         $_BatchActions = self::getDatagrid()->getBatchActions();
         $html = '';
 
-        if(count($_BatchActions) > 0 && self::getDatagrid()->isEnabled('BatchActions'))
-        {
+        if (count($_BatchActions) > 0 && self::getDatagrid()->isEnabled('BatchActions')) {
             $config = null;
             $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->toArray();
 
@@ -605,8 +578,7 @@ class Renderer
             $html .= '<td colspan=' . (self::getDatagrid()->getColumnCount() - 1) . '>';
             $html .= '<select name="action" id="BatchActionId">';
             $html .= '<option value="' . $config['defaults']['action'] . '">' . _('(Choose an action)') . '</option>';
-            foreach($_BatchActions as $BatchAction)
-            {
+            foreach ($_BatchActions as $BatchAction) {
                 $html .= '<option value="' . $BatchAction['Action'] . '">' . $BatchAction['Name'] . '</option>';
             }
             $html .= '</select>';
@@ -632,16 +604,14 @@ class Renderer
         $rows = self::getDatagrid()->getRows();
 
         $i = 0;
-        foreach($rows as $rowKey => $row)
-        {
+        foreach ($rows as $rowKey => $row) {
             $i++;
             # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
             $html .= self::renderTableRow($row, !($i % 2));
         }
 
         # render a "no results" row
-        if($html == '')
-        {
+        if ($html == '') {
             $html .= '<tr class="DatagridRow DatagridRow-NoResults">';
             $html .= '<td class="DatagridCell DatagridCell-NoResults" colspan="' . self::getDatagrid()->getColumnCount() . '">';
             $html .= _('No Results');
@@ -666,8 +636,7 @@ class Renderer
     {
         $_alternateClass = '';
 
-        if($alternate === true)
-        {
+        if ($alternate === true) {
             $_alternateClass = 'Alternate';
         }
 
@@ -676,8 +645,7 @@ class Renderer
         $html = '<tr class="DatagridRow DatagridRow-' . $row->getAlias() . ' ' . $_alternateClass . '">';
 
         $cells = $row->getCells();
-        foreach($cells as $oCell)
-        {
+        foreach ($cells as $oCell) {
             $html .= self::renderTableCell($oCell);
         }
 
@@ -724,8 +692,7 @@ class Renderer
         $html .= '<th id="ColHeaderId-' . $columnObject->getAlias() . '" class="ColHeader ColHeader-' . $columnObject->getAlias() . '">';
         $html .= $columnObject->getName();
 
-        if($columnObject->isEnabled('Sorting'))
-        {
+        if ($columnObject->isEnabled('Sorting')) {
             $html .= '&nbsp;<a href="';
             $html .= self::getURLStringWithSorting($columnObject->getAlias(), self::getDatagrid()->getSortDirectionOpposite($columnObject->getSortOrder()));
             $html .= '">';
@@ -745,16 +712,14 @@ class Renderer
      */
     private static function renderTableFooter()
     {
-        if(self::getDatagrid()->isEnabled('Footer'))
-        {
+        if (self::getDatagrid()->isEnabled('Footer')) {
             $html = '';
             $html .= '<tfoot>' . CR;
             # @todo getter for footer html
             $html .= '</tfoot>' . CR;
+
             return $html;
-        }
-        else
-        {
+        } else {
             return; #'<tfoot>&nsbp;</tfoot>';
         }
     }
@@ -767,20 +732,16 @@ class Renderer
     private static function renderTableSearch()
     {
         $html = '';
-        if(self::getDatagrid()->isEnabled('Search'))
-        {
+        if (self::getDatagrid()->isEnabled('Search')) {
             $html .= '<tr><td colspan="' . self::getDatagrid()->getColumnCount() . '">';
             $html .= _('Search: ');
             $html .= '<input type="text" value="' . htmlentities($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchForValue']) . '" name="' . self::getDatagrid()->getParameterAlias('SearchForValue') . '" />';
             $html .= ' <select name="' . self::getDatagrid()->getParameterAlias('SearchColumn') . '">';
             $columnsArray = self::getDatagrid()->getColumns();
-            foreach($columnsArray as $columnObject)
-            {
-                if($columnObject->isEnabled('Search'))
-                {
+            foreach ($columnsArray as $columnObject) {
+                if ($columnObject->isEnabled('Search')) {
                     $selected = '';
-                    if($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchColumn'] == $columnObject->getAlias())
-                    {
+                    if ($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchColumn'] == $columnObject->getAlias()) {
                         $selected = ' selected="selected"';
                     }
                     $html .= '<option value="' . $columnObject->getAlias() . '"' . $selected . '>' . $columnObject->getName() . '</option>';
@@ -842,5 +803,3 @@ class Renderer
     }
 
 }
-
-?>

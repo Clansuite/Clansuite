@@ -35,8 +35,7 @@ namespace Koch\View;
 use Koch\MVC\HttpRequest;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -113,7 +112,7 @@ abstract class AbstractRenderer
     /**
      * Initialize the render engine object
      *
-     * @param string $template Template Name for "Frontloader" Rendering Engines (xtpl).
+     * @param  string $template Template Name for "Frontloader" Rendering Engines (xtpl).
      * @return Engine Object
      */
     abstract public function initializeEngine($template = null);
@@ -143,15 +142,15 @@ abstract class AbstractRenderer
      * Assigns a value to a template parameter.
      *
      * @param string $tpl_parameter The template parameter name
-     * @param mixed $value The value to assign
+     * @param mixed  $value         The value to assign
      */
     abstract public function assign($tpl_parameter, $value = null);
 
     /**
      * Executes the template rendering and returns the result.
      *
-     * @param string $template Template Filename
-     * @param mixed $data Additional data to process
+     * @param  string $template Template Filename
+     * @param  mixed  $data     Additional data to process
      * @return string
      */
     abstract public function fetch($template, $data = null);
@@ -159,8 +158,8 @@ abstract class AbstractRenderer
     /**
      * Executes the template rendering and displays the result.
      *
-     * @param string $template Template Filename
-     * @param mixed $data Additional data to process
+     * @param  string $template Template Filename
+     * @param  mixed  $data     Additional data to process
      * @return string
      */
     abstract public function display($template, $data = null);
@@ -183,9 +182,9 @@ abstract class AbstractRenderer
     /**
      * Checks if a template is cached.
      *
-     * @param string $template the resource handle of the template file or template object
-     * @param mixed $cache_id cache id to be used with this template
-     * @param mixed $compile_id compile id to be used with this template
+     * @param  string  $template   the resource handle of the template file or template object
+     * @param  mixed   $cache_id   cache id to be used with this template
+     * @param  mixed   $compile_id compile id to be used with this template
      * @return boolean Returns true in case the template is cached, false otherwise.
      */
     abstract public function isCached($template, $cache_id = null, $compile_id = null);
@@ -325,8 +324,7 @@ abstract class AbstractRenderer
      */
     public function getLayoutTemplate()
     {
-        if($this->layoutTemplate == null)
-        {
+        if ($this->layoutTemplate == null) {
             $this->setLayoutTemplate( $this->getTheme()->getLayoutFile() );
         }
 
@@ -340,8 +338,7 @@ abstract class AbstractRenderer
      */
     public function getTheme()
     {
-        if($this->theme === null)
-        {
+        if ($this->theme === null) {
             $themename = HttpRequest::getRoute()->getThemeName();
 
             $this->theme = new \Koch\View\Helper\Theme($themename);
@@ -360,24 +357,20 @@ abstract class AbstractRenderer
      *
      * @todo: do we need a config toggle for this?
      *
-     * @param string $key The variable name.
-     * @param mixed $val The variable value.
+     * @param  string  $key The variable name.
+     * @param  mixed   $val The variable value.
      * @return boolean True if data was assigned to view; false if not.
      */
     public function autoEscape($key, $value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $clean = array();
-            foreach ($value as $key2 => $value2)
-            {
+            foreach ($value as $key2 => $value2) {
                 $clean[$key2] = htmlentities($value2, ENT_QUOTES, 'utf-8');
             }
 
             return $this->assign($clean);
-        }
-        else
-        {
+        } else {
             $clean = htmlentities($value2, ENT_QUOTES, 'utf-8');
 
             return $this->assign($key, $clean);
@@ -392,20 +385,17 @@ abstract class AbstractRenderer
      * Purpose: We don't have to rebuild all methods in the specific renderEngine Wrapper/Adapter
      * or pull out the renderEngine Object itself. We just pass things to it.
      *
-     * @param string $method Name of the Method
-     * @param array $arguments Array with Arguments
+     * @param string $method    Name of the Method
+     * @param array  $arguments Array with Arguments
      *
      * @return Function Call to Method
      */
     public function __call($method, $arguments)
     {
         #echo'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
-        if(method_exists($this->renderer, $method))
-        {
+        if (method_exists($this->renderer, $method)) {
             return call_user_func_array(array($this->renderer, $method), $arguments);
-        }
-        else
-        {
+        } else {
             throw new Exception('Method "'. $method .'()" not existant in Render Engine "' . get_class($this->renderer) .'"!', 1);
         }
     }
@@ -416,4 +406,3 @@ abstract class AbstractRenderer
         return;
     }
 }
-?>

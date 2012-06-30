@@ -32,8 +32,7 @@
 namespace Koch\Validation;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -53,7 +52,7 @@ class Inputfilter
     /**
      * Modifies a given String
      *
-     * @param string $string String to modify
+     * @param string $string       String to modify
      * @param string $modificators One OR Multiple Modificators to use on the String
      */
     public function modify($string='', $modificators='' )
@@ -61,10 +60,8 @@ class Inputfilter
         $mods = array();
         $mods = mb_split('[|]' ,$modificators);
 
-        foreach ($mods as $key => $value)
-        {
-            switch ($value)
-            {
+        foreach ($mods as $key => $value) {
+            switch ($value) {
                 case 'add_slashes':
                     $string = addslashes($string);
                     break;
@@ -154,10 +151,10 @@ class Inputfilter
      *
      * ----------------------------------------
      *
-     * @param string $string The String to perform the check or checks on, Default empty
-     * @param string $types Check for a specific type, Default empty
+     * @param string $string  The String to perform the check or checks on, Default empty
+     * @param string $types   Check for a specific type, Default empty
      * @param string $pattern Check for a specific pattern, Default empty
-     * @param int $length Check for a specific string length, Default (int) 0
+     * @param int    $length  Check for a specific string length, Default (int) 0
      *
      * @return Returns boolean TRUE or FALSE.
      */
@@ -168,21 +165,17 @@ class Inputfilter
         $a_types = array();
         $a_types = mb_split('[|]' ,$types);
 
-        if(count($a_types) > 1)
-        {
+        if (count($a_types) > 1) {
             $reg_exp = '/^[';
 
-            foreach($a_types as $key => $type)
-            {
-                switch($type)
-                {
+            foreach ($a_types as $key => $type) {
+                switch ($type) {
                     // SPECIAL : set reg_exp to specific searchpattern
                     // give-trough
                     // @input : $pattern
                     case 'is_custom':
                         $incoming = str_split($pattern);
-                        foreach($incoming as $key => $value)
-                        {
+                        foreach ($incoming as $key => $value) {
                             $reg_exp .= '\\' . $value;
                         }
                         break;
@@ -201,20 +194,14 @@ class Inputfilter
                 }
             }
 
-            if($length == 0)
-            {
+            if ($length == 0) {
                 $reg_exp .= ']+$/';
-            }
-            else
-            {
+            } else {
                 $reg_exp .= ']{1,' . $length . '}$/';
             }
             $r_bool = preg_match($reg_exp, $string) ? true : false;
-        }
-        else
-        {
-            switch($a_types[0])
-            {
+        } else {
+            switch ($a_types[0]) {
                 // Different Checkconditions: Watch out!
                 // Does the password fits the minimum length?
                 case 'is_pass_length':
@@ -283,22 +270,19 @@ class Inputfilter
 
             $r_bool = preg_match($reg_exp, $string) ? true : false;
 
-            if($length != 0 and mb_strlen($string) > (int) $length)
-            {
+            if ($length != 0 and mb_strlen($string) > (int) $length) {
                 $r_bool = false;
             }
 
-            if(mb_strlen($string) == 0)
-            {
+            if (mb_strlen($string) == 0) {
                 $r_bool = false;
             }
         }
 
-        if($r_bool == false and $a_types[0] != 'is_violent')
-        {
+        if ($r_bool == false and $a_types[0] != 'is_violent') {
             $error->error_log['security']['checked_false'] = _('A variable is checked as "false":') . 'Type: ' . $a_types[0];
         }
+
         return $r_bool;
     }
 }
-?>

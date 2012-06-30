@@ -35,8 +35,7 @@ namespace Koch\View\Renderer;
 use Koch\View\AbstractRenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -65,15 +64,11 @@ class Xtemplate extends AbstractRenderer
     public function initializeEngine($template = null)
     {
         # prevent redeclaration
-        if(class_exists('XTemplate', false) == false)
-        {
+        if (class_exists('XTemplate', false) == false) {
             # check if library exists
-            if(is_file(ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php') === true)
-            {
+            if (is_file(ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php') === true) {
                 include ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php';
-            }
-            else
-            {
+            } else {
                 throw new Exception('XTemplate Library missing!');
             }
         }
@@ -83,6 +78,7 @@ class Xtemplate extends AbstractRenderer
         #Koch_Debug::firebug('Xtemplate loaded with Template: ' . $template);
 
         # Do it with XTemplate style > eat like a bird, poop like an elefant!
+
         return $this->renderer = new XTemplate($template);
     }
 
@@ -91,27 +87,27 @@ class Xtemplate extends AbstractRenderer
 
     }
 
-    function renderPartial($template)
+    public function renderPartial($template)
     {
 
     }
 
-    function clearVars()
+    public function clearVars()
     {
 
     }
 
-    function clearCache()
+    public function clearCache()
     {
 
     }
 
-    function fetch($template, $data = null)
+    public function fetch($template, $data = null)
     {
 
     }
 
-    function display($template, $data = null)
+    public function display($template, $data = null)
     {
 
     }
@@ -140,4 +136,3 @@ class Xtemplate extends AbstractRenderer
         $this->renderer->assign($tpl_parameter, $value);
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Logger\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -65,8 +64,7 @@ class Email implements Logger
         $this->config = $config;
 
         # mailing of critical errors makes only sense, if we have a email of the sysadmin
-        if ( $config['mail']['to_sysadmin'] == true)
-        {
+        if ($config['mail']['to_sysadmin'] == true) {
             $this->mailer = new Koch_Mailer($config);
         }
     }
@@ -78,10 +76,10 @@ class Email implements Logger
      */
     public static function getInstance()
     {
-        if (self::$instance == 0)
-        {
+        if (self::$instance == 0) {
             self::$instance = new Koch_Logger_Email;
         }
+
         return self::$instance;
     }
 
@@ -102,4 +100,3 @@ class Email implements Logger
         $this->sendmail($to_address, $from_address, $subject, $body);
     }
 }
-?>

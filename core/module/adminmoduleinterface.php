@@ -1,7 +1,7 @@
 <?php
-namespace Koch\Module;
+namespace Koch\module;
 
-interface AdminModuleInterface
+interface adminmoduleinterface
 {
     public function action_admin_list();     # GET     /foos
     public function action_admin_show();     # GET     /foos/:foo_id
@@ -11,4 +11,3 @@ interface AdminModuleInterface
     public function action_admin_update();   # PUT     /foos/:foo_id
     public function action_admin_delete();   # DELETE  /foos/:foo_id
 }
-?>

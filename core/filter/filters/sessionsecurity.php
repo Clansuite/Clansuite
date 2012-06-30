@@ -37,8 +37,7 @@ use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -62,7 +61,7 @@ class SessionSecurity implements FilterInterface
 {
     private $config     = null;
 
-    function __construct(Koch\Config $config)
+    public function __construct(Koch\Config $config)
     {
         $this->config     = $config;
     }
@@ -75,13 +74,10 @@ class SessionSecurity implements FilterInterface
          * 1. Check for IP
          */
 
-        if ($this->config['session']['check_ip'] == true)
-        {
-            if ( !isset($_SESSION['client_ip']) )
-            {
+        if ($this->config['session']['check_ip'] == true) {
+            if ( !isset($_SESSION['client_ip']) ) {
                 $_SESSION['client_ip'] = $_SERVER['REMOTE_ADDR'];
-            }
-            elseif ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
+            } elseif ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
             {
                 session_destroy(session_id());
 
@@ -93,13 +89,10 @@ class SessionSecurity implements FilterInterface
          * 2. Check for Browser
          */
 
-        if ($this->config['session']['check_browser'] == true)
-        {
-            if ( !isset($_SESSION['client_browser']) )
-            {
+        if ($this->config['session']['check_browser'] == true) {
+            if ( !isset($_SESSION['client_browser']) ) {
                 $_SESSION['client_browser'] = $_SERVER['HTTP_USER_AGENT'];
-            }
-            elseif ( $_SERVER['HTTP_USER_AGENT'] != $_SESSION['client_browser'] )
+            } elseif ( $_SERVER['HTTP_USER_AGENT'] != $_SESSION['client_browser'] )
             {
                 session_unset();
                 session_destroy();
@@ -112,14 +105,10 @@ class SessionSecurity implements FilterInterface
          * 3. Check for Host Address
          */
 
-        if ($this->config['session']['check_host'] == true)
-        {
-            if( !isset( $_SESSION['client_host'] ) )
-            {
+        if ($this->config['session']['check_host'] == true) {
+            if ( !isset( $_SESSION['client_host'] ) ) {
                 $_SESSION['client_host'] = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-            }
-            else if ( gethostbyaddr($_SERVER['REMOTE_ADDR']) != $_SESSION['client_host'] )
-            {
+            } else { if ( gethostbyaddr($_SERVER['REMOTE_ADDR']) != $_SESSION['client_host'] )
                 session_unset();
                 session_destroy();
 
@@ -133,31 +122,24 @@ class SessionSecurity implements FilterInterface
 
         # take the initiative, if maximal_password_tries is enabled (greater 0)in Koch\Config
         # or pass to the next filter / do nothing
-        /*if($this->config['session']['maximal_password_tries'] > 0)
-        {
+        /*if ($this->config['session']['maximal_password_tries'] > 0) {
             # if PW_TRIES is lower than the configvalue
-            if($_SESSION['PW_TRIES'] < $this->config['session']['maximal_password_tries'])
-            {
+            if ($_SESSION['PW_TRIES'] < $this->config['session']['maximal_password_tries']) {
                 # check, if a form field input $_POST['password'] exists
-                if(true == $this->request->issetParameter('POST','password'))
-                {
+                if (true == $this->request->issetParameter('POST','password')) {
                     # if PW_TRIES does not exist, it's the first try of a password
-                    if(!isset($_SESSION['PW_TRIES']))
-                    {
+                    if (!isset($_SESSION['PW_TRIES'])) {
                         $_SESSION['PW_TRIES'] = 1;
                     }
 
                     # if PW_TRIES exists, and is lower or equal to max_tries configvalue, then increase it
-                    if($_SESSION['PW_TRIES'] <= $this->config['session']['maximal_password_tries'])
-                    {
+                    if ($_SESSION['PW_TRIES'] <= $this->config['session']['maximal_password_tries']) {
                         $_SESSION['PW_TRIES']++;
                     }
 
                     # @todo
                     # EVENT => check the password provided, if invalid show the password form again here.
-                }
-                else
-                {
+                } else {
                     # reset our session variables.
                     unset($_SESSION['PW_TRIES']);
                 }
@@ -165,4 +147,3 @@ class SessionSecurity implements FilterInterface
         }// else => bypass */
     }
 }
-?>

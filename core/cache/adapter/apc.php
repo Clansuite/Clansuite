@@ -37,8 +37,7 @@ use Koch\Cache\CacheInterface;
 use Koch\Exception\Exception;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -58,8 +57,7 @@ class Apc extends AbstractCache implements CacheInterface
 
     public function __construct()
     {
-        if(extension_loaded('apc') === false)
-        {
+        if (extension_loaded('apc') === false) {
             throw new Exception('The PHP extension APC (Alternative PHP Cache) is not loaded. You may enable it in "php.ini"!', 300);
         }
     }
@@ -67,7 +65,7 @@ class Apc extends AbstractCache implements CacheInterface
     /**
      * Read a key from the cache
      *
-     * @param string $key Identifier for the data
+     * @param  string  $key Identifier for the data
      * @return boolean True if the data was successfully fetched from the cache, false on failure
      */
     public function fetch($key)
@@ -78,24 +76,21 @@ class Apc extends AbstractCache implements CacheInterface
     /**
      * Stores data by key into cache
      *
-     * @param string $key Identifier for the data
-     * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in minutes.
-     * @param boolean $overwrite If overwrite true, key will be overwritten.
+     * @param  string  $key            Identifier for the data
+     * @param  mixed   $data           Data to be cached
+     * @param  integer $cache_lifetime How long to cache the data, in minutes.
+     * @param  boolean $overwrite      If overwrite true, key will be overwritten.
      * @return boolean True if the data was successfully cached, false on failure
      */
     public function store($key, $data, $cache_lifetime = 0, $overwrite = false)
     {
-        if($key === null)
-        {
+        if ($key === null) {
             return false;
-        }
-        elseif($overwrite == false)
+        } elseif($overwrite == false)
         {
             return apc_add($key, $data, $cache_lifetime * 60);
-        }
-        else # overwrite
-        {
+        } else { # overwrite
+
             return apc_store($key, $data, $cache_lifetime * 60);
         }
     }
@@ -104,18 +99,16 @@ class Apc extends AbstractCache implements CacheInterface
      * Removes a stored variable from the
      *
      * @link http://php.net/manual/en/function.apc-delete.php
-     * @param string|array $key Identifier for the data
-     * @return int Number of keys deleted.
+     * @param  string|array $key Identifier for the data
+     * @return int          Number of keys deleted.
      */
     public function delete($keys)
     {
         $keys = (array) $keys;
         $keys_deleted = 0;
 
-        foreach($keys as $key)
-        {
-            if(true === apc_delete($key))
-            {
+        foreach ($keys as $key) {
+            if (true === apc_delete($key)) {
                 $keys_deleted++;
             }
         }
@@ -140,17 +133,14 @@ class Apc extends AbstractCache implements CacheInterface
     /**
      * Checks if a key exists in the cache
      *
-     * @param string $key Identifier for the data
+     * @param  string  $key Identifier for the data
      * @return boolean true|false
      */
     public function contains($key)
     {
-        if(true === apc_fetch($key))
-        {
+        if (true === apc_fetch($key)) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -172,8 +162,7 @@ class Apc extends AbstractCache implements CacheInterface
          *   Retrieves APC's Shared Memory Allocation information
          * ========================================================
          */
-        if(function_exists('apc_sma_info'))
-        {
+        if (function_exists('apc_sma_info')) {
 
         $apc_sysinfos['sma_info'] = apc_sma_info(); # set "false" for details
         # Calculate "APC Memory Size" (Number of Segments * Size of Segment)
@@ -186,8 +175,7 @@ class Apc extends AbstractCache implements CacheInterface
         $apc_sysinfos['sma_info']['mem_avail_percentage'] = sprintf('(%.1f%%)', $apc_sysinfos['sma_info']['avail_mem'] * 100 / $apc_sysinfos['sma_info']['mem_size']);
         }
 
-        if(function_exists('apc_cache_info') and false === extension_loaded('Zend Data Cache'))
-        {
+        if (function_exists('apc_cache_info') and false === extension_loaded('Zend Data Cache')) {
         # Retrieves cached information and meta-data from APC's data store
         $apc_sysinfos['cache_info'] = apc_cache_info();
         #Koch_Debug::printR(apc_cache_info());
@@ -204,8 +192,7 @@ class Apc extends AbstractCache implements CacheInterface
         $total_hits = ($apc_sysinfos['system_cache_info']['num_hits'] + $apc_sysinfos['system_cache_info']['num_misses']);
 
         # div by zero fix
-        if($total_hits == 0)
-        {
+        if ($total_hits == 0) {
             $total_hits = 1;
         }
 
@@ -234,29 +221,22 @@ class Apc extends AbstractCache implements CacheInterface
          * add the name of the PHP ACCESS CONSTANTS as 'accessname'
          * @todo: cleanup?
          */
-        foreach($apc_sysinfos['settings'] as $key => $value)
-        {
-            foreach($value as $key2 => $value2)
-            {
-                if($key2 == 'access')
-                {
+        foreach ($apc_sysinfos['settings'] as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+                if ($key2 == 'access') {
                     $name = '';
 
                     # accessvalue => constantname
-                    if($value2 == '1')
-                    {
+                    if ($value2 == '1') {
                         $name = 'PHP_INI_USER';
                     }
-                    if($value2 == '2')
-                    {
+                    if ($value2 == '2') {
                         $name = 'PHP_INI_PERDIR';
                     }
-                    if($value2 == '4')
-                    {
+                    if ($value2 == '4') {
                         $name = 'PHP_INI_SYSTEM';
                     }
-                    if($value2 == '7')
-                    {
+                    if ($value2 == '7') {
                         $name = 'PHP_INI_ALL';
                     }
 
@@ -276,8 +256,8 @@ class Apc extends AbstractCache implements CacheInterface
      * Stores a file in the bytecode cache, bypassing all filters
      *
      * @link http://www.php.net/manual/en/function.apc-compile-file.php
-     * @param string $filename
-     * @return bool success
+     * @param  string $filename
+     * @return bool   success
      */
     public function compile_file($filename)
     {
@@ -287,28 +267,25 @@ class Apc extends AbstractCache implements CacheInterface
     /**
      * Stores a directory in the bytecode cache, bypassing all filters
      *
-     * @param string $root
-     * @param bool   $recursively
-     * @return bool success
+     * @param  string $root
+     * @param  bool   $recursively
+     * @return bool   success
      */
     public function compile_dir($root, $recursively = true)
     {
         $compiled = true;
 
-        switch($recursively)
-        {
+        switch ($recursively) {
             # compile files in subdirectories
             # WATCH OUT ! RECURSION
             case true:
-                foreach(glob($root . DS . '*', GLOB_ONLYDIR) as $dir)
-                {
+                foreach (glob($root . DS . '*', GLOB_ONLYDIR) as $dir) {
                     $compiled = $compiled && $this->compile_dir($dir, $recursively);
                 }
 
             # compile files in root directory
             case false:
-                foreach(glob($root . DS . '*.php') as $filename)
-                {
+                foreach (glob($root . DS . '*.php') as $filename) {
                     $compiled = $compiled && $this->compile_file($filename);
                 }
                 break;
@@ -317,4 +294,3 @@ class Apc extends AbstractCache implements CacheInterface
         return $compiled;
     }
 }
-?>

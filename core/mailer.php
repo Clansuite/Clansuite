@@ -33,8 +33,7 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -62,7 +61,7 @@ class Koch_Mailer
     /**
      * Constructor.
      */
-    function __construct( Koch\Config $config )
+    public function __construct( Koch\Config $config )
     {
         $this->config = $config;
         $this->loadMailer();
@@ -79,13 +78,11 @@ class Koch_Mailer
         /**
          * Include the Swiftmailer Connection Class and Set $connection
          */
-        if($this->config['email']['mailmethod'] != 'smtp')
-        {
+        if ($this->config['email']['mailmethod'] != 'smtp') {
             include ROOT_LIBRARIES . 'swiftmailer/Swift/Connection/Sendmail.php';
         }
 
-        switch($this->config['email']['mailmethod'])
-        {
+        switch ($this->config['email']['mailmethod']) {
             case 'smtp':
                 include ROOT_LIBRARIES . 'swiftmailer/Swift/Connection/SMTP.php';
                 $connection = new Swift_Connection_SMTP($this->config['email']['mailerhost'], $this->config['email']['mailerport'], $this->config['email']['mailencryption']);
@@ -119,16 +116,15 @@ class Koch_Mailer
      * This is the sendmail command, it's a shortcut method to swiftmailer
      * Return true or false if successfully
      *
-     * @param string $to_address
-     * @param string $from_address
-     * @param string $subject
-     * @param string $body
+     * @param  string  $to_address
+     * @param  string  $from_address
+     * @param  string  $subject
+     * @param  string  $body
      * @return boolean true|false
      */
     public function sendmail($to_address, $from_address, $subject, $body)
     {
-        if($this->mailer->isConnected())
-        {
+        if ($this->mailer->isConnected()) {
             # sends a simple email via the instantiated mailer
             $this->mailer->send($to_address, $from_address, $subject, $body);
 
@@ -136,12 +132,11 @@ class Koch_Mailer
             $this->mailer->close();
 
             return true;
-        }
-        else
-        {
+        } else {
             trigger_error('The mailer failed to connect.
                            Errors: <br/>' . '<pre>' . print_r($this->mailer->errors, 1) . '</pre>' . '
                            Log: <pre>' . print_r($this->mailer->transactions, 1) . '</pre>', E_USER_NOTICE);
+
             return false;
         }
     }
@@ -153,12 +148,10 @@ class Koch_Mailer
      */
     public function getMailer()
     {
-        if($this->mailer === null)
-        {
+        if ($this->mailer === null) {
             $this->loadMailer();
         }
 
         return $this->mailer;
     }
 }
-?>

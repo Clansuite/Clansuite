@@ -37,8 +37,7 @@ use Koch\Cache\CacheInterface;
 use Koch\Exception\Exception;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -64,19 +63,15 @@ class Eaccelerator extends AbstractCache implements CacheInterface
      */
     public function __construct()
     {
-        if(extension_loaded('eaccelerator') === false)
-        {
+        if (extension_loaded('eaccelerator') === false) {
             throw new Exception('The PHP extension eAccelerator (cache) is not loaded! You may enable it in "php.ini!"', 300);
         }
 
         # @todo ensure eaccelerator 0.9.5 is in use
         # from 0.9.6 the user cache functions are removed
-        if(false === function_exists('eaccelerator_info'))
-        {
+        if (false === function_exists('eaccelerator_info')) {
             die('eAccelerator isn\'t compiled with info support!');
-        }
-        else
-        {
+        } else {
             $info = eaccelerator_info();
             $version = $info['name'];
         }
@@ -85,17 +80,14 @@ class Eaccelerator extends AbstractCache implements CacheInterface
     /**
      * Contains checks if a key exists in the cache
      *
-     * @param string $key Identifier for the data
+     * @param  string  $key Identifier for the data
      * @return boolean true|false
      */
     public function contains($key)
     {
-        if ( true === eaccelerator_get($key) )
-        {
+        if ( true === eaccelerator_get($key) ) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -103,37 +95,38 @@ class Eaccelerator extends AbstractCache implements CacheInterface
     /**
      * Read a key from the cache
      *
-     * @param string $key Identifier for the data
-     * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
+     * @param  string $key Identifier for the data
+     * @return mixed  boolean FALSE if the data was not fetched from the cache, DATA on success
      */
     public function fetch($key)
     {
         $data = eaccelerator_get($key);
-        if ($data == false)
-        {
+        if ($data == false) {
             return false;
         }
+
         return unserialize($data);
     }
 
     /**
      * Stores data by key into cache
      *
-     * @param string $key Identifier for the data
-     * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in minutes
+     * @param  string  $key            Identifier for the data
+     * @param  mixed   $data           Data to be cached
+     * @param  integer $cache_lifetime How long to cache the data, in minutes
      * @return boolean True if the data was successfully cached, false on failure
      */
     public function store($key, $data, $cache_lifetime = 0)
     {
         $data = serialize($data);
+
         return eaccelerator_put($key, $data, $cache_lifetime * 60);
     }
 
     /**
      * Delete data by key from cache
      *
-     * @param string $key Identifier for the data
+     * @param  string  $key Identifier for the data
      * @return boolean True if the data was successfully removed, false on failure
      */
     public function delete($key)
@@ -149,18 +142,15 @@ class Eaccelerator extends AbstractCache implements CacheInterface
         # get info Get info about eAccelerator
         $eac_sysinfos['infos'] = eaccelerator_info();
 
-
         # List cached keys
         $keys = eaccelerator_list_keys();
 
-        if (is_array($keys))
-        {
-            foreach ($keys as $key)
-            {
+        if (is_array($keys)) {
+            foreach ($keys as $key) {
                 $eac_sysinfo['keys'][] = $key;
             }
         }
+
         return null;
     }
 }
-?>

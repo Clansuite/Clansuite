@@ -33,8 +33,7 @@
 namespace Koch\Datagrid;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -99,8 +98,8 @@ class ColumnRenderer extends Renderer
     /**
      * Replace placeholders with values
      *
-     * @param array $values
-     * @param string $format
+     * @param  array  $values
+     * @param  string $format
      * @return string
      */
     public function _replacePlaceholders($values, $format)
@@ -115,19 +114,17 @@ class ColumnRenderer extends Renderer
         # @todo replace count() with check for first placeholder element: if(isset($_Placeholders[1][0]))
         #       and move count into the if
         $_PlacerholderCount = count($placeholders[1]);
-        if( $_PlacerholderCount > 0 )
-        {
+        if ($_PlacerholderCount > 0) {
             # loop over placeholders
-            for($i=0;$i<$_PlacerholderCount;$i++)
-            {
-                if( isset($values[$placeholders[1][$i]]) )
-                {
+            for ($i=0;$i<$_PlacerholderCount;$i++) {
+                if ( isset($values[$placeholders[1][$i]]) ) {
                     $replacements['%{' . $placeholders[1][$i] . '}'] = $values[$placeholders[1][$i]];
                 }
             }
         }
 
         # return substituted string
+
         return strtr($format, $replacements);
     }
 }

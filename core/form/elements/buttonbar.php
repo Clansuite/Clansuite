@@ -36,8 +36,7 @@ use Koch\Form\Formelement;
 use Koch\Form\FormelementInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -59,7 +58,7 @@ class Buttonbar extends Formelement implements FormelementInterface
      *
      * @return Koch_Formelement_Buttonbar
      */
-    function __construct()
+    public function __construct()
     {
         # apply CSS class attribute
         $this->setClass('buttonbar');
@@ -69,15 +68,13 @@ class Buttonbar extends Formelement implements FormelementInterface
 
     public function addButton($buttonname)
     {
-        if(is_string($buttonname))
-        {
+        if (is_string($buttonname)) {
             # fetch the formelement (the button)
             $formelement = Koch_Form::formelementFactory($buttonname);
         }
 
         # @todo use instanceof Koch_Formelement_Button
-        if(is_object($buttonname) and (!$buttonname instanceof Koch_Formelement_Input))
-        {
+        if (is_object($buttonname) and (!$buttonname instanceof Koch_Formelement_Input)) {
             throw new Koch_Exception('The button must a be formelement object.');
         }
 
@@ -90,24 +87,22 @@ class Buttonbar extends Formelement implements FormelementInterface
     /**
      * Gets a button
      *
-     * @param string $_buttonname
+     * @param  string                     $_buttonname
      * @return Koch_Formelement_Buttonbar
      */
     public function getButton($buttonname)
     {
         # return the button object
-        if(isset($this->_buttons[$buttonname]) and is_object($this->_buttons[$buttonname]))
-        {
+        if (isset($this->_buttons[$buttonname]) and is_object($this->_buttons[$buttonname])) {
             return $this->_buttons[$buttonname];
         }
         # instantiate the button object first and then return
         elseif(isset($this->_buttons[$buttonname]) and false === is_object($this->_buttons[$buttonname]))
         {
             $this->addButton($buttonname);
+
             return $this->_buttons[$buttonname];
-        }
-        else
-        {
+        } else {
             throw new Koch_Exception(_('This button does not exist, so its not in this buttonbar: ') . $buttonname);
         }
     }
@@ -115,15 +110,15 @@ class Buttonbar extends Formelement implements FormelementInterface
     /**
      * Remove a button from the stack
      *
-     * @param string $_buttonname
+     * @param  string                     $_buttonname
      * @return Koch_Formelement_Buttonbar
      */
     public function removeButton($_buttonname)
     {
-        if( isset($this->_buttons[$_buttonname]) )
-        {
+        if ( isset($this->_buttons[$_buttonname]) ) {
             unset($this->_buttons[$_buttonname]);
         }
+
         return $this;
     }
 
@@ -143,14 +138,10 @@ class Buttonbar extends Formelement implements FormelementInterface
     {
         $htmlString = '<div class="'.$this->getClass().'">';
 
-        foreach($this->_buttons as $buttonname => $buttonobject)
-        {
-            if(is_object($buttonobject))
-            {
+        foreach ($this->_buttons as $buttonname => $buttonobject) {
+            if (is_object($buttonobject)) {
                 $htmlString .= $buttonobject->render();
-            }
-            else # does this ever happen???, see addButton!
-            {
+            } else { # does this ever happen???, see addButton!
                 $formelement = Koch_Form::formelementFactory($buttonname);
                 $htmlString .= $formelement->render();
             }
@@ -161,4 +152,3 @@ class Buttonbar extends Formelement implements FormelementInterface
         return $htmlString;
     }
 }
-?>

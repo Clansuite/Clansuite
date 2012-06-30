@@ -36,8 +36,7 @@ use Koch\Form\Elements\Input;
 use Koch\Form\FormelementInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -83,28 +82,27 @@ class File extends Input implements FormelementInterface
 
     public function render()
     {
-        switch($this->uploadType)
-        {
+        switch ($this->uploadType) {
             default:
             case 'ajaxupload':
-                if(false === class_exists('Koch_Formelement_Uploadajax', false))
-                {
+                if (false === class_exists('Koch_Formelement_Uploadajax', false)) {
                     include __DIR__ . '/uploadajax.php';
                 }
+
                 return new \Koch\Form\Elements\Uploadajax();
                 break;
             case 'apc':
-                if(false === class_exists('Koch_Formelement_Uploadapc', false))
-                {
+                if (false === class_exists('Koch_Formelement_Uploadapc', false)) {
                     include __DIR__ . '/uploadapc.php';
                 }
+
                 return new \Koch\Form\Elements\Uploadapc();
                 break;
             case 'uploadify':
-                if(false === class_exists('Koch_Formelement_Uploadify', false))
-                {
+                if (false === class_exists('Koch_Formelement_Uploadify', false)) {
                     include __DIR__ . '/uploadify.php';
                 }
+
                 return new \Koch\Form\Elements\Uploadify();
                 break;
             case 'html':
@@ -113,6 +111,7 @@ class File extends Input implements FormelementInterface
                  * Currently not using the render method of the parent class
                  * return parent::render();
                  */
+
                 return '<input type="file" name="file[]" multiple="true">';
                 break;
         }
@@ -136,4 +135,3 @@ class File extends Input implements FormelementInterface
         return $this->render();
     }
 }
-?>

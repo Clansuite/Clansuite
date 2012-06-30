@@ -33,8 +33,7 @@
 namespace Koch\Datagrid\Columnrenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -66,4 +65,3 @@ class Checkbox extends ColumnRenderer implements ColumnRendererInterface
         #return sprintf('<input type="checkbox" value="%s" id="Checkbox-%s" name="Checkbox[]" />', $oCell->getValue(), $oCell->getValue());
     }
 }
-?>

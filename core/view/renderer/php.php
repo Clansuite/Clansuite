@@ -32,11 +32,8 @@
 
 namespace Koch\View\Renderer;
 
-use Koch\View\AbstractRenderer;
-
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -62,26 +59,22 @@ class Php extends Renderer_Base
     /**
      * Executes the template rendering and returns the result.
      *
-     * @param string $template Template Filename
-     * @param array $data Data to extract to the local scope.
+     * @param  string $template Template Filename
+     * @param  array  $data     Data to extract to the local scope.
      * @return string
      */
     public function fetch($filename = null, array $data = array())
     {
         $file = '';
 
-        if($filename === null)
-        {
+        if ($filename === null) {
             # @todo where does dir come from???
             $file = $directory . DS . $filename . '.tpl';
-        }
-        else
-        {
+        } else {
             $file = $this->file;
         }
 
-        if(is_file($file) === true)
-        {
+        if (is_file($file) === true) {
             /**
              * extract all template variables to local scope,
              * but do not overwrite an existing variable.
@@ -91,10 +84,9 @@ class Php extends Renderer_Base
 
             ob_start();
             include $file; # conditional include; not require !
+
             return ob_get_clean();
-        }
-        else
-        {
+        } else {
             throw new Koch_Excpetion('PHP Renderer Error: Template ' . $file . ' not found!', 99);
         }
     }
@@ -102,30 +94,24 @@ class Php extends Renderer_Base
     /**
      * Assign specific variable to the template
      *
-     * @param mixed $key Object with template vars (extraction method fetch), or array or key/value pair
-     * @param mixed $value Variable value
+     * @param  mixed             $key   Object with template vars (extraction method fetch), or array or key/value pair
+     * @param  mixed             $value Variable value
      * @return Koch_Renderer_PHP
      */
     public function assign($key, $value=null)
     {
-        if(is_object($key))
-        {
+        if (is_object($key)) {
             # @todo pull object props to array
             $this->data[$key] = $value->fetch();
-        }
-        elseif(is_array($key))
+        } elseif(is_array($key))
         {
             array_merge($this->data, $key);
-        }
-        else
-        {
+        } else {
             $this->data[$key] = $value;
         }
 
         return $this;
     }
-
-
 
     /**
      * Display the rendered template
@@ -145,11 +131,10 @@ class Php extends Renderer_Base
      * @example
      * echo new Koch_Renderer_PHP($file, array('title' => 'My title'));
      *
-     * @return string  HTML Representation
+     * @return string HTML Representation
      */
     public function __toString()
     {
         return $this->render();
     }
 }
-?>

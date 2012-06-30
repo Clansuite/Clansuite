@@ -28,34 +28,32 @@
 function smarty_function_array($params, $smarty)
 {
     // be sure array has a name
-    if( empty($params['name']) or is_string($params['name']) == false)
-    {
+    if ( empty($params['name']) or is_string($params['name']) == false) {
         trigger_error('array: name as parameter');
+
         return;
     }
 
     // be sure values parameter is present
-    if(empty($params['values']))
-    {
+    if (empty($params['values'])) {
         trigger_error('array: missing values as parameter');
+
         return;
     }
 
     // be sure explode parameter is present
-    if( empty($params['explode']))
-    {
+    if ( empty($params['explode'])) {
         trigger_error('array: missing explode (true, false) as parameter');
+
         return;
-    }
-    else
-    {
+    } else {
         (bool) $params['explode'];
     }
 
     // be sure delimiter parameter is present
-    if( empty($params['delimiter']))
-    {
+    if ( empty($params['delimiter'])) {
         trigger_error('array: missing delimiter definition as parameter');
+
         return;
     }
 
@@ -65,15 +63,11 @@ function smarty_function_array($params, $smarty)
     $temporary_array = explode($params['delimiter'], $params['values']);
 
     # ok, check the assigned template vars and see if a variable name exists and if it's an array
-    if (is_array($smarty->getTemplateVars($params['name'])))
-    {
+    if (is_array($smarty->getTemplateVars($params['name']))) {
         # if yes, we append our array to the existing one
         $smarty->append($params['name'], $temporary_array, true);
-    }
-    else
-    {
+    } else {
         # we assign the array with the given name
         $smarty->assign($params['name'], $temporary_array);
     }
 }
-?>

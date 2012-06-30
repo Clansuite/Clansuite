@@ -33,8 +33,7 @@
 namespace Koch\Form\Generator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -42,10 +41,9 @@ if(defined('IN_CS') === false)
  * Koch Framework - Form Generator from and to YAML form description file.
  *
  * 1) Form generation (html representation) from an yaml description file (html = $this->generate(yaml))
- * 2) YAML form description generation from an array description of the form (form(array)->xml).
+ * 2) YAML form description generation from an array description of the form (form(array) ->xml).
  */
-class YAML extends Koch_Form implements FormGeneratorInterface
+class yaml extends Koch_Form implements FormGeneratorInterface
 {
     // @todo
 }
-?>

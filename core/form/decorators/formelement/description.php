@@ -35,8 +35,7 @@ namespace Koch\Form\Decorators\Formelement;
 use Koch\Formelement\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -67,12 +66,11 @@ class Description extends Decorator
     public function render($html_formelement)
     {
         # add description
-        if ( isset($this->formelement->description) == true)
-        {
+        if ( isset($this->formelement->description) == true) {
             $html_formelement .= '<br />'. CR;
             $html_formelement .= '<span class="formdescription">' . $this->formelement->getDescription() . '</span>' . CR;
         }
+
         return $html_formelement;
     }
 }
-?>

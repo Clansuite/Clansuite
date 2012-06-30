@@ -35,8 +35,7 @@ namespace Koch\Session;
 use Koch\Exception\Exception;
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -92,13 +91,12 @@ class Session implements SessionInterface, \ArrayAccess
      * @param object Koch_HttpRequest
      */
 
-    function __construct(\Koch\Config\Config $config)
+    public function __construct(\Koch\Config\Config $config)
     {
         $this->config = $config;
 
         # session auto_start must be disabled
-        if(ini_get('session.auto_start') != 0)
-        {
+        if (ini_get('session.auto_start') != 0) {
             throw new Exception('PHP Setting session.auto_start must be disabled.');
         }
 
@@ -171,13 +169,10 @@ class Session implements SessionInterface, \ArrayAccess
         session_set_cookie_params($time);
 
         # START THE SESSION
-        if(true === session_start())
-        {
+        if (true === session_start()) {
             # Set Cookie + adjust the expiration time upon page load
             setcookie(self::session_name, session_id(), time() + $time, '/');
-        }
-        else
-        {
+        } else {
             throw new Koch_Exception('The session start failed!', 200);
         }
     }
@@ -193,8 +188,7 @@ class Session implements SessionInterface, \ArrayAccess
      */
     private static function validateAndSecureSession()
     {
-        if(mb_strlen(session_id()) != 32 or false === isset($_SESSION['application']['initiated']))
-        {
+        if (mb_strlen(session_id()) != 32 or false === isset($_SESSION['application']['initiated'])) {
             /**
              * Make a new session_id and destroy old session
              *
@@ -242,19 +236,19 @@ class Session implements SessionInterface, \ArrayAccess
     public function session_close()
     {
         session_write_close();
+
         return true;
     }
 
     /**
      * Reads a session
      *
-     * @param integer $id contains the session_id
-     * @return string string of the session data
+     * @param  integer $id contains the session_id
+     * @return string  string of the session data
      */
     public function session_read( $id )
     {
-        try
-        {
+        try {
             $em = \Clansuite\CMS::getEntityManager();
             $query = $em->createQuery('SELECT s.session_data, s.session_starttime
                                        FROM \Entities\Session s
@@ -263,17 +257,13 @@ class Session implements SessionInterface, \ArrayAccess
             $query->setParameters(array('name' => self::session_name, 'id' => $id));
             $result = $query->getResult();
 
-            if($result)
-            {
+            if ($result) {
                 return (string) $result[0]['session_data'];  # unserialize($result['session_data']);
             }
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             $msg = '';
 
-            if(defined('DEBUG') and DEBUG == true)
-            {
+            if (defined('DEBUG') and DEBUG == true) {
                 $msg .= get_class($e) . ' thrown within the session handler.';
                 $msg .= '<br /> Message: ' . $e->getMessage();
             }
@@ -297,8 +287,8 @@ class Session implements SessionInterface, \ArrayAccess
      *
      * This redefines php's session_write_close()
      *
-     * @param integer $id contains session_id
-     * @param array $data contains session_data
+     * @param  integer $id   contains session_id
+     * @param  array   $data contains session_data
      * @return bool
      */
     public function session_write($id, $data)
@@ -340,7 +330,7 @@ class Session implements SessionInterface, \ArrayAccess
      *
      * This redefines php's session_destroy()
      *
-     * @param  string $session_id
+     * @param string $session_id
      */
     public function session_destroy($session_id)
     {
@@ -348,8 +338,7 @@ class Session implements SessionInterface, \ArrayAccess
         $_SESSION = array();
 
         //  Unset Cookie Vars
-        if(isset($_COOKIE[self::session_name]))
-        {
+        if (isset($_COOKIE[self::session_name])) {
             setcookie(self::session_name, false);
         }
 
@@ -388,8 +377,7 @@ class Session implements SessionInterface, \ArrayAccess
      */
     public function session_gc($maxlifetime = 30)
     {
-        if($maxlifetime == 0 )
-        {
+        if ($maxlifetime == 0) {
             return;
         }
 
@@ -446,12 +434,9 @@ class Session implements SessionInterface, \ArrayAccess
      */
     public function get($key)
     {
-        if(isset($_SESSION[$key]))
-        {
+        if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -481,7 +466,7 @@ class Session implements SessionInterface, \ArrayAccess
     public function offsetUnset($offset)
     {
         unset($_SESSION[$offset]);
+
         return true;
     }
 }
-?>

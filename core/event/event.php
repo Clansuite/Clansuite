@@ -30,11 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Event;
+namespace Koch\event;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -45,7 +44,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Event
  */
-class Event implements \ArrayAccess
+class event implements \ArrayAccess
 {
     /**
      * @var Name of the event
@@ -154,8 +153,7 @@ class Event implements \ArrayAccess
      */
     public function offsetGet($name)
     {
-        if(false == array_key_exists($name, $this->context))
-        {
+        if (false == array_key_exists($name, $this->context)) {
             throw new Koch_Exception(sprintf(_('The event "%s" has no context parameter "%s" .'), $this->eventname, $name));
         }
 
@@ -183,4 +181,3 @@ class Event implements \ArrayAccess
         unset($this->context[$name]);
     }
 }
-?>

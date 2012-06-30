@@ -25,8 +25,7 @@
 
 function smarty_block_ajax_form($params, $content, $smarty, &$repeat)
 {
-    if ($content !== null)
-    {
+    if ($content !== null) {
         $url = isset($params['url']) ? $params['url'] : $_SERVER['PHP_SELF'];
         $method = isset($params['method']) ? $params['method'] : 'get';
         $parameters = isset($params['params']) ? $params['params'] : '';
@@ -40,4 +39,3 @@ function smarty_block_ajax_form($params, $content, $smarty, &$repeat)
                 '>' . $content . '</form>';
     }
 }
-?>

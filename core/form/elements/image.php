@@ -36,8 +36,7 @@ use Koch\Form\Formelement;
 use Koch\Form\FormelementInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -49,4 +48,3 @@ class Image extends Formelement implements FormelementInterface
         return '<input ' . $this->renderAttributes() . '>';
     }
 }
-?>

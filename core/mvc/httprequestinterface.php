@@ -33,8 +33,7 @@
 namespace Koch\MVC;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -70,4 +69,3 @@ interface HttpRequestInterface
     public static function isSecure();
     public static function getRemoteAddress();
 }
-?>

@@ -36,8 +36,7 @@ use Koch\MVC\Mapper;
 use Koch\MVC\HttpRequest;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -76,8 +75,7 @@ class TargetRoute extends Mapper
     {
         static $instance = null;
 
-        if($instance === null)
-        {
+        if ($instance === null) {
             $instance = new TargetRoute();
         }
 
@@ -91,8 +89,7 @@ class TargetRoute extends Mapper
 
     public static function getFilename()
     {
-        if(empty(self::$parameters['filename']))
-        {
+        if (empty(self::$parameters['filename'])) {
             self::setFilename(self::mapControllerToFilename(self::getModulePath(), self::getController(), self::getSubController()));
         }
 
@@ -106,8 +103,7 @@ class TargetRoute extends Mapper
 
     public static function getClassname()
     {
-        if(empty(self::$parameters['classname']))
-        {
+        if (empty(self::$parameters['classname'])) {
             $classname = self::mapControllerToClassname(self::getController(), self::getSubController());
 
             self::setClassname($classname);
@@ -175,6 +171,7 @@ class TargetRoute extends Mapper
     {
         $action = str_replace('action_', '', self::$parameters['action']);
         $action = str_replace('admin_', '', $action);
+
         return $action;
     }
 
@@ -206,12 +203,9 @@ class TargetRoute extends Mapper
     public static function getMethod()
     {
         # check if method is correctly prefixed with 'action_'
-        if (isset(self::$parameters['method']) and mb_strpos(self::$parameters['method'], 'action_'))
-        {
+        if (isset(self::$parameters['method']) and mb_strpos(self::$parameters['method'], 'action_')) {
             return self::$parameters['method'];
-        }
-        else
-        {
+        } else {
             # add method prefix (action_) and subcontroller prefix (admin_)
             $method = self::mapActionToActioname(self::getAction(), self::getSubController());
             self::setMethod($method);
@@ -277,14 +271,10 @@ class TargetRoute extends Mapper
 
     public static function getThemeName()
     {
-        if(empty(self::$parameters['themename']))
-        {
-            if(self::getModuleName() == 'controlcenter' or self::getSubModuleName() == 'admin')
-            {
+        if (empty(self::$parameters['themename'])) {
+            if (self::getModuleName() == 'controlcenter' or self::getSubModuleName() == 'admin') {
                 self::setThemeName(self::getBackendTheme());
-            }
-            else
-            {
+            } else {
                 self::setThemeName(self::getFrontendTheme());
             }
         }
@@ -320,19 +310,15 @@ class TargetRoute extends Mapper
         $method = self::getMethod();
 
         # was the class loaded before? no? then autoload it.
-        if(class_exists($classname) === false)
-        {
+        if (class_exists($classname) === false) {
             # if still no luck, lets try loading manually
-            if(is_file(ROOT_CORE . $filename))
-            {
+            if (is_file(ROOT_CORE . $filename)) {
                 include ROOT_CORE . $filename;
             }
         }
 
-        if(class_exists($classname, false) === true)
-        {
-            if(is_callable($classname, $method) === true)
-            {
+        if (class_exists($classname, false) === true) {
+            if (is_callable($classname, $method) === true) {
                 return true;
             }
         }
@@ -382,8 +368,8 @@ class TargetRoute extends Mapper
     /**
      * Sets the given key
      *
-     * @param mixed $key
-     * @param mixed $value
+     * @param  mixed       $key
+     * @param  mixed       $value
      * @return TargetRoute
      */
     public function set($key, $value)
@@ -396,8 +382,8 @@ class TargetRoute extends Mapper
     /**
      * Returns the value of the given key, if the key is not set, returns the default.
      *
-     * @param mixed $key Key.
-     * @param mixed $default Default Value.
+     * @param  mixed $key     Key.
+     * @param  mixed $default Default Value.
      * @return mixed
      */
     public function get($key, $default = null)
@@ -410,4 +396,3 @@ class TargetRoute extends Mapper
         return $this->getArrayCopy();
     }
 }
-?>

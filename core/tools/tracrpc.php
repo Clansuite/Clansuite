@@ -21,7 +21,7 @@ namespace Koch\Tools;
  *
  * # Example single call
  * $result = $trac->getTicket('32');
- * if($result === false) {
+ * if ($result === false) {
  *   die('ERROR: '.$trac->getErrorMessage());
  * } else {
  *   var_dump($result);
@@ -70,18 +70,16 @@ class Trac_RPC
      * @param	string	The complete url. Example: https://example.org/login/xmlrpc
      * @param	array	Name/Value paired array to set properties.
      */
-    function __construct($tracURL='', $params=array())
+    public function __construct($tracURL='', $params=array())
     {
         # CURL extension is required
-        if(function_exists('curl_init') === false)
-        {
+        if (function_exists('curl_init') === false) {
             exit('CURL extension disabled. Please enable it in "php.ini".');
         }
 
         $this->tracURL = $tracURL;
 
-        if( (array) $params === $params and count($params) > 0)
-        {
+        if ( (array) $params === $params and count($params) > 0) {
             $this->username = isset($params['username']) ? $params['username'] : '';
             $this->password = isset($params['password']) ? $params['password'] : '';
             $this->multiCall = isset($params['multiCall']) ? (bool) $params['multiCall'] : false;
@@ -95,27 +93,23 @@ class Trac_RPC
      * Trac API -> wiki.getRecentChanges()
      *
      * @param	int		A timestamp integer. Defaults to current day.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getRecentChangedWikiPages($date=0)
     {
-        if($date == false)
-        {
+        if ($date == false) {
             $date = array('datetime', date("o-m-d\T00:00:00"));
-        }
-        elseif(is_numeric($date) === true)
+        } elseif(is_numeric($date) === true)
         {
             $date = array('datetime', date("o-m-d\TH:i:s+00:00", $date));
         }
 
         $this->_addRequest('wiki.getRecentChanges', array(array('__jsonclass__' => $date)));
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
@@ -128,45 +122,33 @@ class Trac_RPC
      * @param	string	Wiki page name.
      * @param	int		Version of the page to get.
      * @param	bool	true gets raw wiki page. false will return HTML.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getWikiPage($name='', $version=0, $raw=true)
     {
-        if($name == '')
-        {
+        if ($name == '') {
             return false;
         }
 
-        if($version == 0)
-        {
-            if($raw === true)
-            {
+        if ($version == 0) {
+            if ($raw === true) {
                 $this->_addRequest('wiki.getPage', array($name));
-            }
-            else
-            {
+            } else {
                 $this->_addRequest('wiki.getPageHTML', array($name));
             }
-        }
-        else
-        {
-            if($raw === true)
-            {
+        } else {
+            if ($raw === true) {
                 $this->_addRequest('wiki.getPageVersion', array($name, $version));
-            }
-            else
-            {
+            } else {
                 $this->_addRequest('wiki.getPageHTMLVersion', array($name, $version));
             }
         }
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -176,31 +158,25 @@ class Trac_RPC
     /**
      * Get page info for a specific wiki page and possible version of the page.
      *
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getWikiPageInfo($name='', $version=0)
     {
-        if($name == '')
-        {
+        if ($name == '') {
             return false;
         }
 
-        if($version == 0)
-        {
+        if ($version == 0) {
             $this->_addRequest('wiki.getPageInfo', array($name));
-        }
-        else
-        {
+        } else {
             $this->_addRequest('wiki.getPageInfoVersion', array($name, $version));
         }
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -210,19 +186,17 @@ class Trac_RPC
     /**
      * Get a list of wiki pages in TRAC.
      *
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getWikiPages()
     {
         $this->_addRequest('wiki.getAllPages');
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -233,28 +207,24 @@ class Trac_RPC
      * Get the recent changed tickets.
      *
      * @param	int		A timestamp integer. Defaults to current day.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getRecentChangedTickets($date=0)
     {
-        if($date == false)
-        {
+        if ($date == false) {
             $date = array('datetime', date("o-m-d\T00:00:00"));
-        }
-        elseif(is_numeric($date) === true)
+        } elseif(is_numeric($date) === true)
         {
             $date = array('datetime', date("o-m-d\TH:i:s+00:00", $date));
         }
 
         $this->_addRequest('ticket.getRecentChanges', array(array('__jsonclass__' => $date)));
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -265,24 +235,21 @@ class Trac_RPC
      * Get a ticket.
      *
      * @param	string	The id of the ticket.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicket($id='')
     {
-        if($id == '')
-        {
+        if ($id == '') {
             return false;
         }
 
         $this->_addRequest('ticket.get', $id);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -292,19 +259,17 @@ class Trac_RPC
     /**
      * Get a all ticket fields.
      *
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketFields()
     {
         $this->_addRequest('ticket.getTicketFields');
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -316,24 +281,21 @@ class Trac_RPC
      *
      * @param	string	The id of the ticket.
      * @param	int		When in the changelog.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketChangelog($id='', $when=0)
     {
-        if($id == '')
-        {
+        if ($id == '') {
             return false;
         }
 
         $this->_addRequest('ticket.changeLog', array($id, $when));
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -344,24 +306,21 @@ class Trac_RPC
      * Get a ticket actions.
      *
      * @param	string	The id of the ticket.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketActions($id='')
     {
-        if($id == '')
-        {
+        if ($id == '') {
             return false;
         }
 
         $this->_addRequest('ticket.getActions', $id);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -381,27 +340,24 @@ class Trac_RPC
      * 					Default list.
      * @param	string	The pagename of the wiki page.
      * @param	string	Filenamepath of the file to add to the wiki page.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getWikiAttachments($action='list', $name='', $file='')
     {
-        if($name == '')
-        {
+        if ($name == '') {
             return false;
         }
 
         $method = '';
         $params = array($name);
 
-        switch($action)
-        {
+        switch ($action) {
             case 'list':
             default:
                 $method = 'wiki.listAttachments';
                 break;
             case 'get':
-                if($file == '')
-                {
+                if ($file == '') {
                     return false;
                 }
 
@@ -409,8 +365,7 @@ class Trac_RPC
                 $params[] = $file;
                 break;
             case 'delete':
-                if($file == '')
-                {
+                if ($file == '') {
                     return false;
                 }
 
@@ -418,15 +373,13 @@ class Trac_RPC
                 $params[] = $file;
                 break;
             case 'create':
-                if(is_file($file) === false)
-                {
+                if (is_file($file) === false) {
                     return false;
                 }
 
                 $contents = file_get_contents($file, FILE_BINARY);
 
-                if($contents === true)
-                {
+                if ($contents === true) {
                     $contents = array(
                         '__jsonclass__' => array(
                             'binary', base64_encode($contents)
@@ -442,13 +395,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -471,27 +422,24 @@ class Trac_RPC
      * @param	string	Filenamepath of the file to add to the ticket.
      * @param	string	Description of the attachment.
      * @param	bool	true will replace the attachment if it exists false will not replace it.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketAttachments($action='list', $id='', $file='', $desc='', $replace=true)
     {
-        if($id == '')
-        {
+        if ($id == '') {
             return false;
         }
 
         $method = '';
         $params = array($id);
 
-        switch($action)
-        {
+        switch ($action) {
             case 'list':
             default:
                 $method = 'ticket.listAttachments';
                 break;
             case 'get':
-                if($file == '')
-                {
+                if ($file == '') {
                     return false;
                 }
 
@@ -499,8 +447,7 @@ class Trac_RPC
                 $params[] = $file;
                 break;
             case 'delete':
-                if($file == '')
-                {
+                if ($file == '') {
                     return false;
                 }
 
@@ -508,15 +455,13 @@ class Trac_RPC
                 $params[] = $file;
                 break;
             case 'create':
-                if(is_file($file) === false)
-                {
+                if (is_file($file) === false) {
                     return false;
                 }
 
                 $contents = file_get_contents($file, FILE_BINARY);
 
-                if($contents === true)
-                {
+                if ($contents === true) {
                     $contents = array(
                         '__jsonclass__' => array(
                             'binary', base64_encode($contents)
@@ -534,13 +479,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -556,20 +499,18 @@ class Trac_RPC
      * @param	string	The pagename of the wiki page.
      * @param	string	The content of the wiki page to set.
      * @param	array	Name/value paired array of data for the wiki page.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getWikiUpdate($action='create', $name='', $page='', $data=array())
     {
-        if($name == '')
-        {
+        if ($name == '') {
             return false;
         }
 
         $method = '';
         $params = array();
 
-        switch($action)
-        {
+        switch ($action) {
             case 'create':
             default:
                 $method = 'wiki.putPage';
@@ -587,13 +528,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -608,15 +547,14 @@ class Trac_RPC
      * 					Default create.
      * @param	string	The id of the ticket.
      * @param	array	Name/value paired array of data for the ticket.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketUpdate($action='create', $id='', $data=array())
     {
         $method = '';
         $params = array();
 
-        switch($action)
-        {
+        switch ($action) {
             case 'create':
             default:
                 $method = 'ticket.create';
@@ -637,8 +575,7 @@ class Trac_RPC
                 );
                 break;
             case 'delete':
-                if($id == '')
-                {
+                if ($id == '') {
                     return false;
                 }
 
@@ -649,13 +586,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -666,30 +601,24 @@ class Trac_RPC
      * Search for tickets.
      *
      * @param	string	Query string to search.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketSearch($query='')
     {
-        if(is_array($query) === true and false === empty($query))
-        {
+        if (is_array($query) === true and false === empty($query)) {
             $ops = array('=', '~=', '^=', '$=', '!=', '!~=', '!^=', '!$=');
             $query_str = '';
-            foreach($query as $key => $value)
-            {
-                if(is_array($value) === true)
-                {
+            foreach ($query as $key => $value) {
+                if (is_array($value) === true) {
                     $value = implode('|', $value);
                     $query[$key] = $value;
                 }
 
-                if(false === empty($value))
-                {
+                if (false === empty($value)) {
                     $op = '=';
 
-                    foreach($ops as $sign)
-                    {
-                        if(strrpos($sign, $key) === true)
-                        {
+                    foreach ($ops as $sign) {
+                        if (strrpos($sign, $key) === true) {
                             $op = '';
                             break;
                         }
@@ -699,28 +628,24 @@ class Trac_RPC
                 }
             }
 
-            if(empty($query_str))
-            {
+            if (empty($query_str)) {
                 return false;
             }
 
             $query = substr($query_str, 0, -1);
             unset($query_str);
-        }
-        elseif(empty($query))
+        } elseif(empty($query))
         {
             return false;
         }
 
         $this->_addRequest('ticket.query', $query);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -735,22 +660,20 @@ class Trac_RPC
      * 					Default get_all.
      * @param	string	The name of the component.
      * @param	array	Name/value paired array of data for the ticket component.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketComponent($action='get_all', $name='', $attr=array())
     {
         $method = '';
         $params = '';
 
-        switch($action)
-        {
+        switch ($action) {
             case 'get_all':
             default:
                 $method = 'ticket.component.getAll';
                 break;
             case 'get':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -759,8 +682,7 @@ class Trac_RPC
 
                 break;
             case 'delete':
-                if($name == false)
-                {
+                if ($name == false) {
                     return false;
                 }
 
@@ -769,8 +691,7 @@ class Trac_RPC
                 break;
             case 'update':
             case 'create':
-                if($name == '' or !is_array($attr))
-                {
+                if ($name == '' or !is_array($attr)) {
                     return false;
                 }
 
@@ -781,13 +702,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -802,22 +721,20 @@ class Trac_RPC
      * 					Default get_all.
      * @param	string	The name of the milestone.
      * @param	array	Name/value paired array of data for the ticket milestone.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketMilestone($action='get_all', $name='', $attr=array())
     {
         $method = '';
         $params = '';
 
-        switch($action)
-        {
+        switch ($action) {
             case 'get_all':
             default:
                 $method = 'ticket.milestone.getAll';
                 break;
             case 'get':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -826,8 +743,7 @@ class Trac_RPC
 
                 break;
             case 'delete':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -836,8 +752,7 @@ class Trac_RPC
                 break;
             case 'update':
             case 'create':
-                if($name == '' or !is_array($attr))
-                {
+                if ($name == '' or !is_array($attr)) {
                     return false;
                 }
 
@@ -848,13 +763,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -869,22 +782,20 @@ class Trac_RPC
      * 					Default get_all.
      * @param	string	The name of the priority.
      * @param	string	Priority name.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketPriority($action='get_all', $name='', $attr='')
     {
         $method = '';
         $params = '';
 
-        switch($action)
-        {
+        switch ($action) {
             case 'get_all':
             default:
                 $method = 'ticket.priority.getAll';
                 break;
             case 'get':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -893,8 +804,7 @@ class Trac_RPC
 
                 break;
             case 'delete':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -903,8 +813,7 @@ class Trac_RPC
                 break;
             case 'update':
             case 'create':
-                if($name == '' or $attr == '')
-                {
+                if ($name == '' or $attr == '') {
                     return false;
                 }
 
@@ -915,13 +824,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -936,22 +843,20 @@ class Trac_RPC
      * 					Default get_all.
      * @param	string	The name of the resolution.
      * @param	string	Resolution name.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketResolution($action='get_all', $name='', $attr='')
     {
         $method = '';
         $params = '';
 
-        switch($action)
-        {
+        switch ($action) {
             case 'get_all':
             default:
                 $method = 'ticket.resolution.getAll';
                 break;
             case 'get':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -960,8 +865,7 @@ class Trac_RPC
 
                 break;
             case 'delete':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -970,8 +874,7 @@ class Trac_RPC
                 break;
             case 'update':
             case 'create':
-                if($name == '' or $attr == '')
-                {
+                if ($name == '' or $attr == '') {
                     return false;
                 }
 
@@ -982,13 +885,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -1003,22 +904,20 @@ class Trac_RPC
      * 					Default get_all.
      * @param	string	The name of the severity.
      * @param	string	Severity name.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketSeverity($action='get_all', $name='', $attr='')
     {
         $method = '';
         $params = '';
 
-        switch($action)
-        {
+        switch ($action) {
             case 'get_all':
             default:
                 $method = 'ticket.severity.getAll';
                 break;
             case 'get':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -1027,8 +926,7 @@ class Trac_RPC
 
                 break;
             case 'delete':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -1037,8 +935,7 @@ class Trac_RPC
                 break;
             case 'update':
             case 'create':
-                if($name == '' or $attr == '')
-                {
+                if ($name == '' or $attr == '') {
                     return false;
                 }
 
@@ -1049,13 +946,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -1070,22 +965,20 @@ class Trac_RPC
      * 					Default get_all.
      * @param	string	The name of the type.
      * @param	string	Type name.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketType($action='get_all', $name='', $attr='')
     {
         $method = '';
         $params = '';
 
-        switch($action)
-        {
+        switch ($action) {
             case 'get_all':
             default:
                 $method = 'ticket.type.getAll';
                 break;
             case 'get':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -1094,8 +987,7 @@ class Trac_RPC
 
                 break;
             case 'delete':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -1104,8 +996,7 @@ class Trac_RPC
                 break;
             case 'update':
             case 'create':
-                if($name == '' or $attr == '')
-                {
+                if ($name == '' or $attr == '') {
                     return false;
                 }
 
@@ -1116,13 +1007,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -1137,22 +1026,20 @@ class Trac_RPC
      * 					Default get_all.
      * @param	string	The name of the version.
      * @param	array	Name/value paired array of data for the ticket version.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketVersion($action='get_all', $name='', $attr=array())
     {
         $method = '';
         $params = array();
 
-        switch($action)
-        {
+        switch ($action) {
             case 'get_all':
             default:
                 $method = 'ticket.version.getAll';
                 break;
             case 'get':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -1161,8 +1048,7 @@ class Trac_RPC
 
                 break;
             case 'delete':
-                if($name == '')
-                {
+                if ($name == '') {
                     return false;
                 }
 
@@ -1171,8 +1057,7 @@ class Trac_RPC
                 break;
             case 'update':
             case 'create':
-                if($name == '' or !is_array($attr))
-                {
+                if ($name == '' or !is_array($attr)) {
                     return false;
                 }
 
@@ -1182,13 +1067,11 @@ class Trac_RPC
 
         $this->_addRequest($method, $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -1198,17 +1081,15 @@ class Trac_RPC
     /**
      * Get all status.
      *
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getTicketStatus()
     {
         $this->_addRequest('ticket.status.getAll');
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
-        }
-        elseif($this->multiCall === true)
+        } elseif($this->multiCall === true)
         {
             return $this->_request_id;
         }
@@ -1221,35 +1102,29 @@ class Trac_RPC
      *
      * @param	string	Query string to search for,
      * @param	array	Search filters to use.
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getSearch($query='', $filter=array())
     {
         $params = array();
 
-        if($query != '')
-        {
+        if ($query != '') {
             $params[0] = $query;
-        }
-        else
-        {
+        } else {
             return false;
         }
 
-        if(is_array($filter) === true and false === empty($filter))
-        {
+        if (is_array($filter) === true and false === empty($filter)) {
             $params[1] = $filter;
         }
 
         $this->_addRequest('search.getSearchFilters', $params);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -1260,24 +1135,21 @@ class Trac_RPC
      * Convert a string of raw wiki text to HTML.
      *
      * @param	string	A string of raw wiki text.
-     * @return	mixed	The result of the requet or the integer id on a multi_call. false on error.
+     * @return mixed The result of the requet or the integer id on a multi_call. false on error.
      */
     public function getWikiTextToHTML($text='')
     {
-        if($text == '')
-        {
+        if ($text == '') {
             return false;
         }
 
         $this->_addRequest('wiki.wikiToHTML', $text);
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -1287,19 +1159,17 @@ class Trac_RPC
     /**
      * Get all search filter
      *
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getSearchFilters()
     {
         $this->_addRequest('search.getSearchFilters');
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -1309,19 +1179,17 @@ class Trac_RPC
     /**
      * Get the API version from Trac.
      *
-     * @return	mixed	The result of the requet or the integer id on a muli_call. false on error.
+     * @return mixed The result of the requet or the integer id on a muli_call. false on error.
      */
     public function getApiVersion()
     {
         $this->_addRequest('system.getAPIVersion');
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             return $this->_request_id;
         }
 
-        if($this->_doRequest() === true)
-        {
+        if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
 
@@ -1333,41 +1201,35 @@ class Trac_RPC
      *
      * @param	string	A RPC method to execute.
      * @param	array	Arguments to pass with the RPC call.
-     * @return	bool	true on a successful request. false on error.
+     * @return bool true on a successful request. false on error.
      */
-    function _doRequest($method='', $args=array())
+    public function _doRequest($method='', $args=array())
     {
-        if($method != '')
-        {
+        if ($method != '') {
             $this->_addRequest($method, $args);
         }
 
-        if(empty($this->_request))
-        {
+        if (empty($this->_request)) {
             return false;
         }
 
-        if($this->multiCall === true)
-        {
+        if ($this->multiCall === true) {
             $this->_addRequest('system.multicall');
         }
 
         # json_encode $this->_request
-        if(is_array($this->_request) === true)
-        {
+        if (is_array($this->_request) === true) {
             $this->_request = json_encode(array_pop($this->_request));
 
             $this->_request = str_replace(':',': ', $this->_request);
             $this->_request = str_replace(',',', ', $this->_request);
         }
 
-        if($this->_doCurlRequest() === true)
-        {
+        if ($this->_doCurlRequest() === true) {
             $this->_parse_result();
+
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -1378,36 +1240,30 @@ class Trac_RPC
      * @param	string	The method name to call.
      * @param	array	Arguments to pass with the call.
      * @param	string	The id to set to the call.
-     * @return	bool	Always true.
+     * @return bool Always true.
      */
     private function _addRequest($method='', $args=array(), $id='')
     {
-        if($method == '')
-        {
+        if ($method == '') {
             return false;
         }
 
-        if(false === is_array($args) and false === empty($args))
-        {
+        if (false === is_array($args) and false === empty($args)) {
             $args = array($args);
-        }
-        elseif(false === is_array($args))
+        } elseif(false === is_array($args))
         {
             $args = array();
         }
 
-        if(false === is_array($this->_request))
-        {
+        if (false === is_array($this->_request)) {
             $this->_request = array();
         }
 
-        if(empty($id))
-        {
+        if (empty($id)) {
             $id = $this->_incrementRequestId();
         }
 
-        if($method == 'system.multicall')
-        {
+        if ($method == 'system.multicall') {
             $request = array(
                 'method' => $method,
                 'params' => $this->_request,
@@ -1415,9 +1271,7 @@ class Trac_RPC
             );
 
             $this->_request = array(0 => $request);
-        }
-        else
-        {
+        } else {
             $this->_request[] = array(
                 'method' => $method,
                 'params' => $args,
@@ -1431,7 +1285,7 @@ class Trac_RPC
     /**
      * Increment the current payload id by 1 and returns it.
      *
-     * @return	int		The incremented request id.
+     * @return int The incremented request id.
      */
     private function _incrementRequestId()
     {
@@ -1441,17 +1295,15 @@ class Trac_RPC
     /**
      * Make the request using CURL.
      *
-     * @return	bool	true is a successful CURL request. false CURL isn't installed or the url or payload is empty.
+     * @return bool true is a successful CURL request. false CURL isn't installed or the url or payload is empty.
      */
     private function _doCurlRequest()
     {
-        if(empty($this->tracURL))
-        {
+        if (empty($this->tracURL)) {
             exit('Provide the URL to the Trac Env you want to query.');
         }
 
-        if(empty($this->_request))
-        {
+        if (empty($this->_request)) {
             exit('No valid Request.');
         }
 
@@ -1485,13 +1337,11 @@ class Trac_RPC
          *      http://trac.example.com/login/rpc
          *      http://trac.example.com/login/xmlrpc
          */
-        if(strpos($this->tracURL, 'jsonrpc') !== false)
-        {
+        if (strpos($this->tracURL, 'jsonrpc') !== false) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         }
 
-        if(strpos($this->tracURL, 'xmlrpc') !== false)
-        {
+        if (strpos($this->tracURL, 'xmlrpc') !== false) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
         }
 
@@ -1508,14 +1358,10 @@ class Trac_RPC
         /**
          * Determine if this is an authenticated access, then set user credentials accordingly.
          */
-        if(strpos($this->tracURL, 'login') !== false)
-        {
-            if(empty($this->username) or empty($this->password))
-            {
+        if (strpos($this->tracURL, 'login') !== false) {
+            if (empty($this->username) or empty($this->password)) {
                 throw new \Exception('You are trying an authenticated access without providing username and password.');
-            }
-            else
-            {
+            } else {
                 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY); # CURLAUTH_BASIC | CURLAUTH_DIGEST
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
@@ -1523,19 +1369,15 @@ class Trac_RPC
 
         $response = trim(curl_exec($ch));
 
-        if(curl_errno($ch) > 0)
-        {
+        if (curl_errno($ch) > 0) {
             $this->error = curl_error($ch);
         }
 
         curl_close($ch);
 
-        if($this->json_decode === true)
-        {
+        if ($this->json_decode === true) {
             $this->_response = json_decode($response);
-        }
-        else
-        {
+        } else {
             $this->_response = $response;
         }
 
@@ -1550,41 +1392,32 @@ class Trac_RPC
      * proper php values. For datetime types, the value is converted into a UNIX
      * timestamp. Base64 decodes the value.
      *
-     * @return	bool	true on a non-empty result and false if it is empty.
+     * @return bool true on a non-empty result and false if it is empty.
      */
-    function _parse_result($response=array())
+    public function _parse_result($response=array())
     {
-        if(empty($response))
-        {
+        if (empty($response)) {
             $response = $this->getResponse();
 
             $this->_response = array();
         }
 
-        if(false === is_object($response) and false === is_array($response))
-        {
+        if (false === is_object($response) and false === is_array($response)) {
             return false;
         }
 
-        if(isset($response->result) === true and is_array($response->result))
-        {
-            foreach($response->result as $key => $resp)
-            {
-                if(isset($resp->result) === true)
-                {
+        if (isset($response->result) === true and is_array($response->result)) {
+            foreach ($response->result as $key => $resp) {
+                if (isset($resp->result) === true) {
                     $this->_parse_result($resp);
                     continue;
                 }
 
-                if(is_array($resp) === true or is_object($resp) === true)
-                {
+                if (is_array($resp) === true or is_object($resp) === true) {
                     $values = array();
-                    foreach($resp as $r_key => $value)
-                    {
-                        if($r_key === '__jsonclass__')
-                        {
-                            switch($value[0])
-                            {
+                    foreach ($resp as $r_key => $value) {
+                        if ($r_key === '__jsonclass__') {
+                            switch ($value[0]) {
                                 case 'datetime':
                                     $value = strtotime($value[1]);
                                     break;
@@ -1594,35 +1427,28 @@ class Trac_RPC
                             }
 
                             $values = $value;
-                        }
-                        else
-                        {
+                        } else {
                             $values[$r_key] = $value;
                         }
                     }
 
                     $response->result[$key] = $values;
-                }
-                else
-                {
+                } else {
                     $response->result[$key] = $resp;
                 }
             }
         }
 
         $id = 0;
-        if(isset($response->id) === true and $response->id != null)
-        {
+        if (isset($response->id) === true and $response->id != null) {
             $id = $response->id;
         }
 
         $this->_response[$id] = $response->result;
         $this->error[$id] = false;
 
-        if(isset($response->error) === true and is_object($response->error) === true)
-        {
-            foreach($response->error as $key => $value)
-            {
+        if (isset($response->error) === true and is_object($response->error) === true) {
+            foreach ($response->error as $key => $value) {
                 $this->error[$id][$key] = $value;
             }
         }
@@ -1635,9 +1461,10 @@ class Trac_RPC
      *
      * @return object Trac_RPC
      */
-    function setUser($username='')
+    public function setUser($username='')
     {
         $this->username = $username;
+
         return $this;
     }
 
@@ -1646,9 +1473,10 @@ class Trac_RPC
      *
      * @return object Trac_RPC
      */
-    function setPassword($password='')
+    public function setPassword($password='')
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -1657,20 +1485,22 @@ class Trac_RPC
      *
      * @return object Trac_RPC
      */
-    function setTracURL($tracURL='')
+    public function setTracURL($tracURL='')
     {
         $this->tracURL = $tracURL;
+
         return $this;
     }
 
     /**
      * Set the property multiCall.
      *
-     * @return	bool
+     * @return bool
      */
-    function setMultiCall($multi=false)
+    public function setMultiCall($multi=false)
     {
         $this->multiCall = ($multi === true) ? true : false;
+
         return $this->multiCall;
     }
 
@@ -1679,9 +1509,10 @@ class Trac_RPC
      *
      * @return object Trac_RPC
      */
-    function setJsonDecode($json_decode=false)
+    public function setJsonDecode($json_decode=false)
     {
         $this->json_decode = ($json_decode === true) ? true : false;
+
         return $this;
     }
 
@@ -1689,30 +1520,22 @@ class Trac_RPC
      * Get the response from the request.
      *
      * @param	int		The id of the call.
-     * @return	object	stdClass
+     * @return object stdClass
      */
-    function getResponse($id=false)
+    public function getResponse($id=false)
     {
-        if(is_object($this->_response) === true)
-        {
+        if (is_object($this->_response) === true) {
             return $this->_response;
-        }
-        elseif(is_array($this->_response) === true)
+        } elseif(is_array($this->_response) === true)
         {
-            if($id === true)
-            {
-                if(false === is_array($id))
-                {
+            if ($id === true) {
+                if (false === is_array($id)) {
                     return $this->_response[$id];
-                }
-                else
-                {
+                } else {
                     $ret = array();
 
-                    foreach($id as $key)
-                    {
-                        if(false === isset($this->_response[$key]))
-                        {
+                    foreach ($id as $key) {
+                        if (false === isset($this->_response[$key])) {
                             continue;
                         }
 
@@ -1721,14 +1544,10 @@ class Trac_RPC
 
                     return $ret;
                 }
-            }
-            else
-            {
+            } else {
                 return current($this->_response);
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -1737,20 +1556,16 @@ class Trac_RPC
      * Get any error message set for the request.
      *
      * @param	bool	The id of the call made. Used for multiCalls.
-     * @return	string	The error message
+     * @return string The error message
      */
-    function getErrorMessage($id=false)
+    public function getErrorMessage($id=false)
     {
-        if($id === true)
-        {
-            if(is_array($id) === true)
-            {
+        if ($id === true) {
+            if (is_array($id) === true) {
                 $ret = array();
 
-                foreach($id as $eid)
-                {
-                    if(isset($this->error[$eid]) === false)
-                    {
+                foreach ($id as $eid) {
+                    if (isset($this->error[$eid]) === false) {
                         continue;
                     }
 
@@ -1760,8 +1575,7 @@ class Trac_RPC
                 return $ret;
             }
 
-            if(isset($this->error[$id]) === true)
-            {
+            if (isset($this->error[$id]) === true) {
                 return $this->error[$id];
             }
         }
@@ -1770,5 +1584,3 @@ class Trac_RPC
     }
 
 }
-
-?>

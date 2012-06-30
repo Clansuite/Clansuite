@@ -31,8 +31,7 @@
     */
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
@@ -734,4 +733,3 @@ class Clansuite_UTF8_Character_Table
         );
     }
 }
-?>

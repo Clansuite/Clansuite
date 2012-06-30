@@ -36,8 +36,7 @@ namespace Koch\View\Helper;
 use Koch\Router\TargetRoute;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -58,8 +57,8 @@ class Breadcrumb
     /**
      * Adds a new breadcrumb
      *
-     * @param string $title Name of the trail element
-     * @param string $link Link of the trail element
+     * @param string $title                  Name of the trail element
+     * @param string $link                   Link of the trail element
      * @param string $replace_array_position Position in the array to replace with name/trail. Start = 0.
      */
     public static function add($title, $link = '', $replace_array_position = null)
@@ -72,12 +71,9 @@ class Breadcrumb
         $breadcrumb['link']  = WWW_ROOT . ltrim($link, '/');
 
         # replace
-        if(isset($replace_array_position))
-        {
+        if (isset($replace_array_position)) {
             self::$path[$replace_array_position] = $breadcrumb;
-        }
-        else # no, just add
-        {
+        } else { # no, just add
             self::$path[] = $breadcrumb;
         }
 
@@ -88,8 +84,8 @@ class Breadcrumb
      * Replace is a convenience method for add.
      * Remembering you that you might want to replace existing breadcrumbs.
      *
-     * @param string $title Name of the trail element
-     * @param string $link Link of the trail element
+     * @param string $title                  Name of the trail element
+     * @param string $link                   Link of the trail element
      * @param string $replace_array_position Position in the array to replace with name/trail. Start = 0.
      */
     public static function replace($title, $link = '', $replace_array_position = null)
@@ -108,21 +104,18 @@ class Breadcrumb
         $submoduleName = TargetRoute::getSubModuleName();
         $actionName    = TargetRoute::getActionNameWithoutPrefix();
 
-        if(isset($moduleName) and $moduleName != 'controlcenter')
-        {
+        if (isset($moduleName) and $moduleName != 'controlcenter') {
             $url = 'index.php?mod=' . $moduleName;
 
             # Level 2
-            if(isset($submoduleName))
-            {
+            if (isset($submoduleName)) {
                 $url .= '&amp;sub=' . $submoduleName;
                 $moduleName .= ' '.ucfirst($submoduleName);
             }
             self::add($moduleName, $url);
 
             # Level 3
-            if(isset($actionName))
-            {
+            if (isset($actionName)) {
 
                 $url .= '&amp;action=' . $actionName;
                 self::add(ucfirst($actionName), $url);
@@ -133,14 +126,13 @@ class Breadcrumb
     /**
      * Getter for the breadcrumbs/trail array
      *
-     * @param bool $dynamic_add If true, adds the breadcrumbs dynamically (default), otherwise just returns.
+     * @param  bool  $dynamic_add If true, adds the breadcrumbs dynamically (default), otherwise just returns.
      * @return array self::$path The breadcrumbs array.
      */
     public static function getTrail($dynamic_add = true)
     {
         # if we got only one breadcrumb element, then only Home/CC was set before
-        if(count(self::$path) == 1 and $dynamic_add === true)
-        {
+        if (count(self::$path) == 1 and $dynamic_add === true) {
             # add crumbs automatically
             self::addDynamicBreadcrumbs();
         }
@@ -151,18 +143,15 @@ class Breadcrumb
     /**
      * Breadcrumb Level 0    =>    Home or Controlcenter
      *
-     * @param string $moduleName The module name.
+     * @param string $moduleName    The module name.
      * @param string $submoduleName The submodule name.
      */
     public static function initialize($moduleName = null, $submoduleName = null)
     {
         # ControlCenter (Backend)
-        if($moduleName == 'controlcenter' or $submoduleName == 'admin')
-        {
+        if ($moduleName == 'controlcenter' or $submoduleName == 'admin') {
             Breadcrumb::add('Control Center', '/index.php?mod=controlcenter');
-        }
-        else # Home (Frontend)
-        {
+        } else { # Home (Frontend)
             Breadcrumb::add('Home');
         }
     }
@@ -175,4 +164,3 @@ class Breadcrumb
         self::$path = array();
     }
 }
-?>

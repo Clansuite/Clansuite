@@ -33,11 +33,9 @@
 namespace Koch\Event;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
 
 /**
  * Koch Framework - Event for Blocking IPs.
@@ -48,7 +46,7 @@ if(defined('IN_CS') === false)
  * Usage:
  * $blockip = new BlockIps(array('127.0.0.1'));
  * $dispatcher->addEventHandler('onLogin', $blockip);
- * if($event->isCancelled()) { }
+ * if ($event->isCancelled()) { }
  *
  */
 class BlockIps implements Interface
@@ -66,10 +64,8 @@ class BlockIps implements Interface
 
         $ip = $request->getRemoteAddress();
 
-        if(in_array($ip,$this->blockedIps))
-        {
+        if (in_array($ip,$this->blockedIps)) {
             $event->cancel();
         }
     }
 }
-?>

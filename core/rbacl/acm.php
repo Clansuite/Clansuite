@@ -33,10 +33,9 @@
 namespace Koch\RBACL;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
-} 
+}
 
 /**
  * Koch Framework Class for Access Control Management
@@ -68,36 +67,30 @@ class ACM
      * Removes an access rule defined for this user.
      *
      * @param Koch_User|Koch_Group $record
-     * @param string $resource     name of the resource
-     * @param string $permission   name of the permission
+     * @param string               $resource   name of the resource
+     * @param string               $permission name of the permission
      *
      * @return boolean True on success, false otherwise.
      */
     public function removeAccess(Doctrine_Record $record, $resource = null, $permission = null)
     {
         # ensure $record is either object of type User or Group
-        if($record instanceof Koch_User)
-        {
+        if ($record instanceof Koch_User) {
             $accessClass = 'Koch_Acl_UserAccess';
             $linkField = 'user_id';
-        }
-        elseif($record instanceof Koch_Group)
+        } elseif($record instanceof Koch_Group)
         {
             $accessClass = 'Koch_Acl_GroupAccess';
             $linkField = 'group_id';
-        }
-        else
-        {
+        } else {
             throw new Koch_Exception('Unknown object given to ACM.');
         }
 
-        if($permission === null)
-        {
+        if ($permission === null) {
             $permission = $this->getOption('global_permission');
         }
 
-        if($resource === null)
-        {
+        if ($resource === null) {
             $resource = $this->getOption('global_resource');
         }
 
@@ -119,34 +112,28 @@ class ACM
      * with given permission.
      *
      * @param Koch_User|Koch_Group $record
-     * @param string $resource        name of the resource
-     * @param string $permission      name of the permission
-     * @param boolean $allow          defines whether this user has access to
+     * @param string               $resource   name of the resource
+     * @param string               $permission name of the permission
+     * @param boolean              $allow      defines whether this user has access to
      *                                given resource with given permission or not
      */
     public function setAccess(Doctrine_Record $record, $resource = null, $permission = null, $allow)
     {
-        if($record instanceof Koch_User)
-        {
+        if ($record instanceof Koch_User) {
             $accessClass = 'Koch_Acl_UserAccess';
             $linkField = 'user_id';
-        }
-        elseif($record instanceof Koch_Group)
+        } elseif($record instanceof Koch_Group)
         {
             $accessClass = 'Koch_Acl_GroupAccess';
             $linkField = 'group_id';
-        }
-        else
-        {
+        } else {
             throw new Koch_Acl_Exception('Unknown object given.');
         }
 
-        if($permission === null)
-        {
+        if ($permission === null) {
             $permission = $this->getOption('global_permission');
         }
-        if($resource === null)
-        {
+        if ($resource === null) {
             $resource = $this->getOption('global_resource');
         }
 
@@ -161,18 +148,15 @@ class ACM
                 ->where('a.resource_name = ? AND a.permission_name = ? AND a.' . $linkField . ' = ?')
                 ->fetchOne(array($resource, $permission, $record->id), Doctrine::HYDRATE_ARRAY);
 
-        if($access == false)
-        {
-            if($global_access == false)
-            {
+        if ($access == false) {
+            if ($global_access == false) {
                 $link = Doctrine_Query::create()
                         #->select('*') #autoadded
                         ->from('Koch_Acl_ResourcePermission p')
                         ->where('p.resource = ? AND p.permission = ?')
                         ->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
 
-                if(!$link)
-                {
+                if (!$link) {
                     throw new Koch_Acl_Exception('Resource ' . $resource . ' does not have link to permission ' . $permission);
                 }
             }
@@ -193,8 +177,8 @@ class ACM
      * Checks whether a user or a group has access to given resource with given
      * permission.
      *
-     * @param Koch_User|Koch_Group $record  A user or group object
-     * @param string $resource Name of the resource. If null, global resource
+     * @param Koch_User|Koch_Group $record   A user or group object
+     * @param string               $resource Name of the resource. If null, global resource
      * is assumed.
      * @param string $permission Name of the permission. If null, global
      * permission is assumed.
@@ -215,36 +199,27 @@ class ACM
             'permission' => null,
             'global' => null);
 
-        foreach($record['Access'] as $access)
-        {
-            if($access['resource_name'] === $resource)
-            {
-                if($access['permission_name'] === $permission)
-                {
+        foreach ($record['Access'] as $access) {
+            if ($access['resource_name'] === $resource) {
+                if ($access['permission_name'] === $permission) {
                     return $access['allow'];
-                }
-                elseif($access['permission_name'] === $defPerm)
+                } elseif($access['permission_name'] === $defPerm)
                 {
                     $accessType['resource'] = $access->allow;
                 }
-            }
-            elseif($access['resource_name'] === $defRes)
+            } elseif($access['resource_name'] === $defRes)
             {
-                if($access['permission_name'] === $permission)
-                {
+                if ($access['permission_name'] === $permission) {
                     $accessType['permission'] = $access->allow;
-                }
-                elseif($access['permission_name'] === $defPerm)
+                } elseif($access['permission_name'] === $defPerm)
                 {
                     $accessType['global'] = $access->allow;
                 }
             }
         }
 
-        foreach($accessType as $k => $v)
-        {
-            if($v !== null)
-            {
+        foreach ($accessType as $k => $v) {
+            if ($v !== null) {
                 return $v;
             }
         }
@@ -255,9 +230,9 @@ class ACM
     /**
      * Returns true, if there is a link between a resource and a permission.
      *
-     * @param string $resource     Name of the resource
-     * @param string $permission   Name of the permission
-     * @return bool                True if a link exists, false otherwise.
+     * @param  string $resource   Name of the resource
+     * @param  string $permission Name of the permission
+     * @return bool   True if a link exists, false otherwise.
      */
     public function hasResourcePermissionLink($resource, $permission)
     {
@@ -270,4 +245,3 @@ class ACM
         return (bool) $link;
     }
 }
-?>

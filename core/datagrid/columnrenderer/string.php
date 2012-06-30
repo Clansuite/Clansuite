@@ -33,8 +33,7 @@
 namespace Koch\Datagrid\Columnrenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -57,14 +56,10 @@ class String extends ColumnRenderer implements ColumnRendererInterface
      */
     public function renderCell($oCell)
     {
-        if( $this->stringFormat == '' )
-        {
+        if ($this->stringFormat == '') {
             return $oCell->getValue();
-        }
-        else
-        {
+        } else {
             return $this->_replacePlaceholders($oCell->getValues(), $this->stringFormat);
         }
     }
 }
-?>

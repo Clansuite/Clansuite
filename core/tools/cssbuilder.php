@@ -33,11 +33,9 @@
 namespace Koch\Tools;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
 
 /**
  * Koch Framework - CSS Builder
@@ -171,8 +169,7 @@ class Cssbuilder
         # build browser specific configuration filename
         $browser = $config['browsers'];
         $postfix = $browser[$index]['postfix'];
-        if($postfix != '')
-        {
+        if ($postfix != '') {
             $postfix = '_' . $postfix;
         }
         $builderINI = 'cssbuilder' . $postfix . '.ini';
@@ -186,8 +183,7 @@ class Cssbuilder
         /* Core-Info */
         $corePath = ROOT . $coreInfo['path'];
         $coreFiles = explode(',', $coreInfo['files']);
-        if(strlen($coreInfo['additionalFiles']) > 0)
-        {
+        if (strlen($coreInfo['additionalFiles']) > 0) {
             $coreadditionalFiles = explode(',', $coreInfo['additionalFiles']);
         }
 
@@ -196,8 +192,7 @@ class Cssbuilder
         /**
          * prepare frontend theme
          */
-        if(true === $config['compileThemeFrontend'])
-        {
+        if (true === $config['compileThemeFrontend']) {
             if(mb_substr($config['themeFrontendPath'], strlen($config['themeFrontendPath']) - 1) == '/' ||
                     mb_substr($config['themeFrontendPath'], strlen($config['themeFrontendPath']) - 1) == '\/')
             {
@@ -213,8 +208,7 @@ class Cssbuilder
             $themePath = ROOT . $themeInfo['path'];
             $themeCssName = $themeInfo['cssname'] . $postfix . '.css';
             $themeFiles = explode(',', $themeInfo['files']);
-            if(strlen($themeInfo['additionalFiles']) > 0)
-            {
+            if (strlen($themeInfo['additionalFiles']) > 0) {
                 $themeadditionalFiles = explode(',', $themeInfo['additionalFiles']);
             }
 
@@ -226,8 +220,7 @@ class Cssbuilder
         /**
          * prepare backend theme
          */
-        if(true === $config['compileThemeBackend'])
-        {
+        if (true === $config['compileThemeBackend']) {
             if(mb_substr($config['themeBackendPath'], strlen($config['themeBackendPath']) - 1) == '/' ||
                     mb_substr($config['themeBackendPath'], strlen($config['themeBackendPath']) - 1) == '\/')
             {
@@ -243,8 +236,7 @@ class Cssbuilder
             $themeBackCssName = $themeBackInfo['cssname'] . $postfix . '.css';
             $themeBackFiles = explode(',', $themeBackInfo['files']);
 
-            if(strlen($themeBackInfo['additionalFiles']) > 0)
-            {
+            if (strlen($themeBackInfo['additionalFiles']) > 0) {
                 $themeBackadditionalFiles = explode(',', $themeBackInfo['additionalFiles']);
             }
 
@@ -257,13 +249,11 @@ class Cssbuilder
         /**
          *  Build Core CSS
          */
-        if(true === $config['compileCore'])
-        {
+        if (true === $config['compileCore']) {
             $_comp = '';
             $_comp .= $core_compact;
 
-            foreach($coreFiles as $filename)
-            {
+            foreach ($coreFiles as $filename) {
                 $content = self::load_stylesheet($corePath . $filename, true);
                 $_comp .= "/* [" . basename($filename) . "] */" . CR;
                 $_comp .= $content . CR;
@@ -282,31 +272,25 @@ class Cssbuilder
         /**
          * create Info + compiled frontend theme stylesheet
          */
-        if(true === $config['compileThemeFrontend'])
-        {
+        if (true === $config['compileThemeFrontend']) {
             $coreImp = '.';
             $_comp = $_compact;
 
-            if(true === $config['coreImport'])
-            {
+            if (true === $config['coreImport']) {
                 $_comp .= "/** [Core Import] */\n";
                 $_comp .= "@import url('../../../core/css/" . $coreCssName . "');\n\n";
                 $coreImp = ' und die Core importiert.';
             }
 
-            if(count($coreadditionalFiles) > 0)
-            {
-                foreach($coreadditionalFiles as $filename)
-                {
+            if (count($coreadditionalFiles) > 0) {
+                foreach ($coreadditionalFiles as $filename) {
                     $_comp .= "/* Import additional file: [" . trim($filename) . "] */" . CR;
                     $_comp .= "@import url('" . trim($filename) . "');\n\n";
                 }
             }
 
-            if(count($themeadditionalFiles) > 0)
-            {
-                foreach($themeadditionalFiles as $filename)
-                {
+            if (count($themeadditionalFiles) > 0) {
+                foreach ($themeadditionalFiles as $filename) {
                     $_comp .= "/* Import additional file: [" . trim($filename) . "] */" . CR;
                     $_comp .= "@import url('" . trim($filename) . "');\n\n";
                 }
@@ -314,8 +298,7 @@ class Cssbuilder
 
             $_comp .= $theme_compact;
 
-            foreach($themeFiles as $filename)
-            {
+            foreach ($themeFiles as $filename) {
                 $content = self::load_stylesheet($themePath . $filename, true);
                 $_comp .= "/* [" . basename($filename) . "] */" . CR;
                 $_comp .= $content . CR;
@@ -335,31 +318,25 @@ class Cssbuilder
         /**
          * create Info + compiled backend theme stylesheet
          */
-        if(true === $config['compileThemeBackend'])
-        {
+        if (true === $config['compileThemeBackend']) {
             $coreImp = '.';
             $_comp = $_compact;
 
-            if(true === $config['coreImport'])
-            {
+            if (true === $config['coreImport']) {
                 $_comp .= "/** [Core Import] */\n";
                 $_comp .= "@import url('../../../core/css/" . $coreCssName . "');\n\n";
                 $coreImp = ' und die Core importiert.';
             }
 
-            if(count($coreadditionalFiles) > 0)
-            {
-                foreach($coreadditionalFiles as $filename)
-                {
+            if (count($coreadditionalFiles) > 0) {
+                foreach ($coreadditionalFiles as $filename) {
                     $_comp .= "/* Import additional file: [" . trim($filename) . "] */" . CR;
                     $_comp .= "@import url('" . trim($filename) . "');\n\n";
                 }
             }
 
-            if(count($themeBackadditionalFiles) > 0)
-            {
-                foreach($themeBackadditionalFiles as $filename)
-                {
+            if (count($themeBackadditionalFiles) > 0) {
+                foreach ($themeBackadditionalFiles as $filename) {
                     $_comp .= "/* Importing additional css file: [" . trim($filename) . "] */" . CR;
                     $_comp .= "@import url('" . trim($filename) . "');\n\n";
                 }
@@ -367,8 +344,7 @@ class Cssbuilder
 
             $_comp .= $themeBack_compact;
 
-            foreach($themeBackFiles as $filename)
-            {
+            foreach ($themeBackFiles as $filename) {
                 $content = self::load_stylesheet($themeBackPath . $filename, true);
                 $_comp .= "/* [" . basename($filename) . "] */" . CR;
                 $_comp .= $content . CR;
@@ -397,10 +373,9 @@ class Cssbuilder
         # replacements
         $search = array(' ', "\t", "\r\n", "\r", CR);
         $replace = array('', '', '', '', '', '');
-	    $iniArray['files'] = str_replace( $search, $replace, $iniArray['files']);
+        $iniArray['files'] = str_replace( $search, $replace, $iniArray['files']);
 
-        if(mb_substr($iniArray['files'], strlen($iniArray['files']) - 1) == ',')
-        {
+        if (mb_substr($iniArray['files'], strlen($iniArray['files']) - 1) == ',') {
             $iniArray['files'] = mb_substr($iniArray['files'], 0, strlen($iniArray['files']) - 1);
         }
 
@@ -410,7 +385,7 @@ class Cssbuilder
     /**
      * Returns the header text for the css file.
      *
-     * @param string $browserInfo Name of the browser this css file is written for.
+     * @param  string $browserInfo Name of the browser this css file is written for.
      * @return string Header text for the css file.
      */
     protected function getCssFileHeader($browserInfo = '')
@@ -444,7 +419,7 @@ class Cssbuilder
     /**
      * Returns the header text for the core css file.
      *
-     * @param array $coreInfo Array version information about this class.
+     * @param  array  $coreInfo Array version information about this class.
      * @return string Header text for the core css file.
      */
     protected function getCoreCompactHeader($coreInfo = '')
@@ -470,7 +445,7 @@ class Cssbuilder
     /**
      * Returns the header text for the theme css file.
      *
-     * @param array $themeInfo Array with version information about the theme.
+     * @param  array  $themeInfo Array with version information about the theme.
      * @return string Header text for the theme css file.
      */
     protected function getThemeCompactHeader($themeInfo = '')
@@ -501,15 +476,15 @@ class Cssbuilder
      */
     protected function save_stylesheet($comp_filename, $_compact)
     {
-        if(!$filehandle = fopen($comp_filename, 'wb'))
-        {
+        if (!$filehandle = fopen($comp_filename, 'wb')) {
             echo _('Could not open file: ') . $comp_filename;
+
             return false;
         }
 
-        if(fwrite($filehandle, $_compact) === false)
-        {
+        if (fwrite($filehandle, $_compact) === false) {
             echo _('Could not write to file: ') . $comp_filename;
+
             return false;
         }
         fclose($filehandle);
@@ -525,8 +500,7 @@ class Cssbuilder
     {
         $contents = '';
 
-        if(file_exists($file) === true)
-        {
+        if (file_exists($file) === true) {
             # Load the local CSS stylesheet.
             $contents = file_get_contents($file);
 
@@ -564,8 +538,7 @@ class Cssbuilder
         // Remove multiple charset declarations for standards compliance (and fixing Safari problems).
         $contents = preg_replace('/^@charset\s+[\'"](\S*)\b[\'"];/i', '', $contents);
 
-        if($optimize === true)
-        {
+        if ($optimize === true) {
             // Perform some safe CSS optimizations.
             // Regexp to match comment blocks.
             $comment = '/\*[^*]*\*+(?:[^/*][^*]*\*+)*/';
@@ -620,8 +593,7 @@ class Cssbuilder
      */
     public static function addBrowser($shortname, $description = '', $active = false, $postfix = '')
     {
-        if(false === empty($shortname))
-        {
+        if (false === empty($shortname)) {
             $browserArray = self::getBrowsers();
 
             $browserArray[$shortname]['short'] = $shortname;
@@ -706,8 +678,7 @@ class Cssbuilder
     public static function setConfiguration(array $config = null)
     {
         // initialize with default values when $options not declared
-        if($config === null)
-        {
+        if ($config === null) {
             $config['compileCore'] = false;
             $config['coreImport'] = true;
 
@@ -728,4 +699,3 @@ class Cssbuilder
         self::$_configuration = $config;
     }
 }
-?>

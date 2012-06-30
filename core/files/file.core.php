@@ -33,11 +33,9 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
 
 /**
  * Koch_File - Koch Framework Class for the File Object
@@ -151,12 +149,9 @@ class File
      */
     public function hasValidExtension()
     {
-        if (count($this->allowedExtensions) === 0)
-        {
+        if (count($this->allowedExtensions) === 0) {
             return true;
-        }
-        else
-        {
+        } else {
             return in_array($this->getExtension(), $this->allowedExtensions);
         }
     }
@@ -166,7 +161,7 @@ class File
      *
      * @param $extensions array  an array of allowed file extensions. If empty,
      * every file extension is allowed.
-     * @return Koch_File  this object
+     * @return Koch_File this object
      */
     public function setAllowedExtensions(array $extensions = array())
     {
@@ -190,52 +185,43 @@ class File
      *
      * @param $destination string  destination directory
      * @param $overwrite boolean overwrite
-     * @throws Koch_Exception  on failure
+     * @throws Koch_Exception on failure
      */
     public function moveTo($destination, $overwrite = false)
     {
         # ensure upload was valid
-        if ( false == $this->isValid())
-        {
+        if ( false == $this->isValid()) {
             throw new Koch_Exception('File upload was not successful.', $this->getError());
         }
 
         # ensure a valid file extension was used
-        if ( false == $this->hasValidExtension())
-        {
+        if ( false == $this->hasValidExtension()) {
             throw new Koch_Exception('File does not have an allowed extension.');
         }
 
         # ensure destination directory exists
-        if ( false == is_dir($destination))
-        {
+        if ( false == is_dir($destination)) {
             throw new Koch_Exception($destination . ' is not a directory.');
         }
 
         # ensure destination directory is writeable
-        if ( false == is_writeable($destination))
-        {
+        if ( false == is_writeable($destination)) {
             throw new Koch_Exception('Cannot write to destination directory ' . $destination);
         }
 
         # check if the destination as a file exists
-        if (is_file($destination))
-        {
+        if (is_file($destination)) {
             # exit here, if overwrite is not requested
-            if ( false == $overwrite)
-            {
+            if (false == $overwrite) {
                 throw new Koch_Exception('File ' . $destination . ' already exists.');
             }
 
-
-            if ( false == is_writeable($destination))
-            {
+            if ( false == is_writeable($destination)) {
                 throw new Koch_Exception('Cannot overwrite ' . $destination);
             }
         }
 
-        if ( false == move_uploaded_file($this->temporayName, $destination))
-        {
+        if ( false == move_uploaded_file($this->temporayName, $destination)) {
             throw new Koch_Exception('Moving uploaded file failed.');
         }
     }
@@ -253,12 +239,9 @@ class Koch_FileFilterIterator extends FilterIterator
 
     public function accept()
     {
-         if(in_array($this->current(), $this->_files) === true)
-         {
+         if (in_array($this->current(), $this->_files) === true) {
              return true;
-         }
-         else
-         {
+         } else {
              return false;
          }
     }
@@ -282,8 +265,7 @@ class Koch_ImagesOnlyFilterIterator extends FilterIterator
         $current = $this->current();
 
         # we want files, so we skip all directories
-        if($current->getType() !== 'file')
-        {
+        if ($current->getType() !== 'file') {
             return false;
         }
 
@@ -291,12 +273,10 @@ class Koch_ImagesOnlyFilterIterator extends FilterIterator
         $filename = $current->getFilename();
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-        if(in_array($extension, $this->allowed_image_filetypes))
-        {
+        if (in_array($extension, $this->allowed_image_filetypes)) {
             return true;
-        }
-        else # it's not a whitelisted extension
-        {
+        } else { # it's not a whitelisted extension
+
             return false;
         }
     }
@@ -309,8 +289,7 @@ class Koch_Directory
 
     public function __construct($directory = null)
     {
-        if($directory !== null)
-        {
+        if ($directory !== null) {
             $this->setDirectory($directory);
         }
 
@@ -334,8 +313,7 @@ class Koch_Directory
         $directory = str_replace('\\', DS, $directory);
 
         # prefix directory with ROOT for security purposes
-        if(stristr($directory, ROOT) == false)
-        {
+        if (stristr($directory, ROOT) == false) {
             $directory = ROOT . $directory;
         }
 
@@ -346,12 +324,10 @@ class Koch_Directory
 
     public function getDirectory()
     {
-        if(empty($this->directory) === false)
-        {
+        if (empty($this->directory) === false) {
             return $this->directory;
-        }
-        else # default path
-        {
+        } else { # default path
+
             return ROOT . 'uploads/images/gallery';
         }
     }
@@ -365,14 +341,12 @@ class Koch_Directory
         $iterator = new $classname(new DirectoryIterator($this->getDirectory()));
 
         # return objects
-        if($return_as_array === false)
-        {
+        if ($return_as_array === false) {
             # create new array to take the SPL FileInfo Objects
             $data = new ArrayObject();
 
             # while iterating
-            foreach($iterator as $file)
-            {
+            foreach ($iterator as $file) {
                 /**
                  * push the SPL FileInfo Objects into the array
                  * @see http://www.php.net/~helly/php/ext/spl/classSplFileInfo.html
@@ -381,15 +355,12 @@ class Koch_Directory
             }
 
             $data->ksort();
-        }
-        else # return array
-        {
+        } else { # return array
             # create array
             $data = array();
 
             # while iterating
-            foreach($iterator as $file)
-            {
+            foreach ($iterator as $file) {
                 $wwwpath = WWW_ROOT . DS . $this->getDirectory() . DS . $file->getFilename();
                 $wwwpath = str_replace('//', '/', $wwwpath);
                 $data[$wwwpath] = $file->getFilename();
@@ -397,6 +368,7 @@ class Koch_Directory
         }
 
         # return the array with SPL FileInfo Objects
+
         return $data;
     }
 
@@ -405,16 +377,14 @@ class Koch_Directory
      * @author: Lostindream at atlas dot cz
      * @link http://de.php.net/manual/de/function.pathinfo.php#85196
      */
-    function filePath($filePath)
+    public function filePath($filePath)
     {
         $fileParts = pathinfo($filePath);
 
-        if(!isset($fileParts['filename']))
-        {
+        if (!isset($fileParts['filename'])) {
             $fileParts['filename'] = mb_substr($fileParts['basename'], 0, mb_strrpos($fileParts['basename'], '.'));
         }
 
         return $fileParts;
     }
 }
-?>

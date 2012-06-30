@@ -5,7 +5,6 @@
  * @subpackage plugins
  */
 
-
 /**
  * Smarty plugin
  *
@@ -27,5 +26,3 @@ function smarty_modifier_duration($toTimestamp)
 }
 
 /* vim: set expandtab: */
-
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Config;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -62,6 +61,7 @@ class Staging
         $staging_config = \Koch\Config\Adapter\INI::readConfig(self::getFilename());
 
         # keys/values of array_to_overload are replaced with those of the staging_config
+
         return array_replace_recursive($array_to_overload, $staging_config);
     }
 
@@ -74,8 +74,7 @@ class Staging
     {
         $filename = '';
 
-        switch($_SERVER['SERVER_NAME'])
-        {
+        switch ($_SERVER['SERVER_NAME']) {
             # development configuration
             case "localhost":
             case "intranet":
@@ -104,7 +103,7 @@ class Staging
         }
 
         # return full path to the staging config file
+
         return ROOT_CONFIG . 'staging/' . $filename;
     }
 }
-?>

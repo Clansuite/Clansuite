@@ -33,8 +33,7 @@
 namespace Koch\Cache;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -53,13 +52,12 @@ class Cache
     /**
      * Instantiates a cache adapter
      *
-     * @param string $adapter The cache adapter to instantiate. Defaults to apc.
+     * @param  string               $adapter The cache adapter to instantiate. Defaults to apc.
      * @return Koch_Cache_Interface Cache object of the requested adapter type.
      */
     public static function instantiate($adapter = 'apc')
     {
-        if(self::$cacheObject === null)
-        {
+        if (self::$cacheObject === null) {
             self::$cacheObject = Koch_Cache_Factory::getCache($adapter);
         }
 
@@ -69,8 +67,8 @@ class Cache
     /**
      * Checks, if data for a key is stored in the cache.
      *
-     * @param string $key
-     * @return bool True, the key/data exists.
+     * @param  string $key
+     * @return bool   True, the key/data exists.
      */
     public static function contains($key)
     {
@@ -80,15 +78,14 @@ class Cache
     /**
      * Retrieves data by key from the cache.
      *
-     * @param type $key
+     * @param  type       $key
      * @return mixed|null Returns data or null.
      */
     public static function fetch($key = null)
     {
         $data = self::$cacheObject->fetch($key);
 
-        if(!$data)
-        {
+        if (!$data) {
             return null;
         }
 
@@ -98,9 +95,9 @@ class Cache
     /**
      * Stores data by key to the cache.
      *
-     * @param type $key The key to retrieve the data form the cache.
-     * @param type $data The data to store in the cache.
-     * @param int $cache_lifetime Cache lifetime in minutes.
+     * @param  type $key            The key to retrieve the data form the cache.
+     * @param  type $data           The data to store in the cache.
+     * @param  int  $cache_lifetime Cache lifetime in minutes.
      * @return bool
      */
     public static function store($key, $data, $cache_lifetime = 10)
@@ -111,7 +108,7 @@ class Cache
     /**
      * Deletes data by key from the cache.
      *
-     * @param string $key
+     * @param  string $key
      * @return bool
      */
     public static function delete($key)
@@ -138,8 +135,7 @@ class Cache
     {
         $object = self::$cacheObject->get($key);
 
-        if(is_string($object))
-        {
+        if (is_string($object)) {
             return unserialize($object);
         }
 
@@ -149,9 +145,9 @@ class Cache
     /**
      * Stores an object in the cache.
      *
-     * @param type $key The key for retrieving the object.
-     * @param type $object The object to store the cache.
-     * @param type $cache_lifetime Cache liftime in minutes.
+     * @param  type    $key            The key for retrieving the object.
+     * @param  type    $object         The object to store the cache.
+     * @param  type    $cache_lifetime Cache liftime in minutes.
      * @return boolean True in caching success. False on caching failure.
      */
     public static function storeObject($key, $object, $cache_lifetime = 10)
@@ -159,4 +155,3 @@ class Cache
         return self::$cacheObject->set($key, serialize($object), $cache_lifetime);
     }
 }
-?>

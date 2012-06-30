@@ -33,8 +33,7 @@
 namespace Koch\View\Helper;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -52,7 +51,7 @@ class HTML /* extends DOMDocument */
     /**
      * Renders title tag.
      *
-     * @param  string $title
+     * @param string $title
      * @access public
      * @return string
      */
@@ -64,7 +63,7 @@ class HTML /* extends DOMDocument */
     /**
      * Renders meta
      *
-     * @param string $name the meta name
+     * @param string $name  the meta name
      * @param string $value the meta value
      * @access public
      * @return string
@@ -77,9 +76,9 @@ class HTML /* extends DOMDocument */
     /**
      * Renders the HTML Tag <a href=""></a>
      *
-     * @param string $url The URL (href).
-     * @param string $text The text linking to the URL.
-     * @param array $attributes Additional HTML Attribute as string.
+     * @param string $url        The URL (href).
+     * @param string $text       The text linking to the URL.
+     * @param array  $attributes Additional HTML Attribute as string.
      *
      * @return string html
      */
@@ -94,13 +93,14 @@ class HTML /* extends DOMDocument */
     /**
      * Render tag a-tag with mailto-target <a href="mailto:">text</a>
      *
-     * @param  string $mail the email address
+     * @param  string $mail  the email address
      * @param  string $title the email title.
      * @return string
      */
     public static function mailto($mail = '', $title = '')
     {
         if(empty($title)) $title = $mail;
+
         return '<a href="mailto:'.$mail.'">'.$title.'</a>';
     }
 
@@ -108,7 +108,7 @@ class HTML /* extends DOMDocument */
      * Renders the HTML Tag <span></span>
      *
      * @param string $text
-     * @param array $attributes array of attributes
+     * @param array  $attributes array of attributes
      *
      * @return string html
      */
@@ -123,8 +123,8 @@ class HTML /* extends DOMDocument */
     /**
      * Renders the HTML Tag <div></div>
      *
-     * @param string $text string
-     * @param array $attributes array of attributes
+     * @param string $text       string
+     * @param array  $attributes array of attributes
      *
      * @return string html
      */
@@ -139,8 +139,8 @@ class HTML /* extends DOMDocument */
     /**
      * Renders the HTML Tag <p></p>
      *
-     * @param string $text string
-     * @param array $attributes array of attributes
+     * @param string $text       string
+     * @param array  $attributes array of attributes
      *
      * @return string html
      */
@@ -155,8 +155,8 @@ class HTML /* extends DOMDocument */
     /**
      * Renders the HTML Tag <img></img>
      *
-     * @param string $link_to_image
-     * @param array $attributes
+     * @param  string $link_to_image
+     * @param  array  $attributes
      * @return string html
      */
     public static function image($link_to_image, $attributes = array())
@@ -171,7 +171,7 @@ class HTML /* extends DOMDocument */
      * Convenience/Proxy Method for self::image()
      *
      * @param string $link_to_image
-     * @param array $attributes
+     * @param array  $attributes
      */
     public static function img($link_to_image, $attributes = array())
     {
@@ -202,7 +202,7 @@ class HTML /* extends DOMDocument */
      *                    );
      * self::liste($attributes);
      *
-     * @param array $attributes array of attributes
+     * @param  array  $attributes array of attributes
      * @return string html
      */
     public static function liste($attributes)
@@ -210,20 +210,15 @@ class HTML /* extends DOMDocument */
         $html = '';
 
         $html .= '<ul>';
-        foreach($attributes as $attribute)
-        {
-            if (is_array($attribute))
-            {
+        foreach ($attributes as $attribute) {
+            if (is_array($attribute)) {
                 # watch out! recursion
                 $html .= self::liste($attribute);
-            }
-            else
-            {
+            } else {
                 $html .= '<li>' . $attribute . '</li>' . CR;
             }
         }
         $html .= '</ul>' . CR;
-
 
         return $html;
     }
@@ -231,7 +226,7 @@ class HTML /* extends DOMDocument */
     /**
      * HTML Tag <h1>
      *
-     * @param string $text string
+     * @param  string $text string
      * @return string html
      */
     public static function h1($text)
@@ -253,7 +248,7 @@ class HTML /* extends DOMDocument */
     /**
      * HTML Tag <h3>
      *
-     * @param string $text string
+     * @param  string $text string
      * @return string html
      */
     public static function h3($text)
@@ -264,21 +259,18 @@ class HTML /* extends DOMDocument */
     /**
      * Render the attributes for usage in an tag element
      *
-     * @param array $attributes array of attributes
+     * @param  array  $attributes array of attributes
      * @return string Renders the HTML String of Attributes
      */
     public static function renderAttributes(array $attributes = array())
     {
         $html = '';
 
-        if(is_array($attributes))
-        {
+        if (is_array($attributes)) {
             # insert all attributes
-            foreach($attributes as $key => $value)
-            {
+            foreach ($attributes as $key => $value) {
                 # ignore null values
-                if(is_null($value))
-                {
+                if (is_null($value)) {
                     continue;
                 }
 
@@ -295,46 +287,36 @@ class HTML /* extends DOMDocument */
      * @example
      * echo self::renderElement('tagname', array('attribute_name'=>'attribut_value'), 'text');
      *
-     * @param string $tagname Name of the tag to render
-     * @param string $text string
-     * @param array $attributes array of attributes
+     * @param  string $tagname    Name of the tag to render
+     * @param  string $text       string
+     * @param  array  $attributes array of attributes
      * @return string html with Attributes
      */
     public static function renderElement($tagname, $text = null, $attributes = array())
     {
-        if(method_exists('Koch_HTML', $tagname))
-        {
-            if(isset($attributes['src']))
-            {
+        if (method_exists('Koch_HTML', $tagname)) {
+            if (isset($attributes['src'])) {
                 $link = $attributes['src'];
                 unset($attributes['src']);
 
                 return self::$tagname($link, $text, $attributes);
-            }
-            elseif(isset($attributes['href']))
+            } elseif(isset($attributes['href']))
             {
                 $link = $attributes['href'];
                 unset($attributes['href']);
 
                 return self::$tagname($link, $text, $attributes);
-            }
-            else
-            {
+            } else {
                 return self::$tagname($text, $attributes);
             }
-        }
-        else
-        {
+        } else {
             $html = '<' . $tagname;
             $html .= self::renderAttributes($attributes);
 
             # close tag with slash, if we got no text to append
-            if($text === null)
-            {
+            if ($text === null) {
                 $html .= '/>';
-            }
-            else # just close the opening tag
-            {
+            } else { # just close the opening tag
                 $html .= '>';
                 $html .= $text;
                 $html .= '</' . $tagname . '>' . CR;
@@ -344,4 +326,3 @@ class HTML /* extends DOMDocument */
         }
     }
 }
-?>

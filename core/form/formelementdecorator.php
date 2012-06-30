@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -123,17 +122,15 @@ abstract class Decorator implements DecoratorInterface
     public function hasMethod($method)
     {
         # check if method exists in this object
-        if(method_exists($this, $method))
-        {
+        if (method_exists($this, $method)) {
             return true;
         }
         # check if method exists in the decorator of this object
         elseif($this->formelement instanceof Koch_Formelement_Decorator)
         {
             return $this->formelement->hasMethod($method);
-        }
-        else # nope, method does not exist
-        {
+        } else { # nope, method does not exist
+
             return false;
         }
     }
@@ -151,4 +148,3 @@ abstract class Decorator implements DecoratorInterface
         return call_user_func_array(array($this->formelement, $method), $parameters);
     }
 }
-?>

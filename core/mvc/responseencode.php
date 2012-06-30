@@ -33,8 +33,7 @@
 namespace Koch\MVC;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -130,8 +129,7 @@ class ResponseEncode
     public static function start_outputbuffering()
     {
         # both methods depend on the zlib extension
-        if (extension_loaded('zlib'))
-        {
+        if (extension_loaded('zlib')) {
             if((bool) ini_get('zlib.output_compression') === false
                and (ini_get('output_handler') != 'ob_gzhandler') and ob_get_length() === false)
             {
@@ -142,28 +140,24 @@ class ResponseEncode
 
                 # if zlib.output_compression still not enabled
                 # Method 2: compression via this class
-                if( (bool) ini_get('zlib.output_compression') === false)
-                {
+                if ( (bool) ini_get('zlib.output_compression') === false) {
                     ob_start();
                     ob_implicit_flush(0);
                 }
-            }
-            else
-            {
+            } else {
                 # Method 3: Fallback to ob_start('gz_handler') = output buffering with gzip handling
                 # because: output handler 'ob_gzhandler' conflicts with 'zlib output compression'
                 ob_start('ob_gzhandler');
             }
-        }
-        else
-        {
+        } else {
             trigger_error('Function gzcompress() not found. PHP Extension Zlib needs to be installed for Koch_ResponseEncode.', E_USER_WARNING);
+
             return;
         }
 
-        if (function_exists('crc32') == false)
-        {
+        if (function_exists('crc32') == false) {
             trigger_error('Function crc32() not found. Needed for Koch_ResponseEncode', E_USER_WARNING);
+
             return;
         }
     }
@@ -203,20 +197,17 @@ class ResponseEncode
      */
     public static function gzip_encode()
     {
-        if(headers_sent())
-        {
+        if (headers_sent()) {
             return;
         }
 
-        if(connection_status() !== 0)
-        {
+        if (connection_status() !== 0) {
             return;
         }
 
         $encoding = self::gzip_accepted();
 
-        if($encoding == false)
-        {
+        if ($encoding == false) {
             return;
         }
 
@@ -225,8 +216,7 @@ class ResponseEncode
         $content = ob_get_contents();
 
         # if no content is given, exit
-        if($content === false)
-        {
+        if ($content === false) {
             return;
         }
 
@@ -234,16 +224,14 @@ class ResponseEncode
         $original_content_size = mb_strlen($content);
 
         # if size of content is small, do not waste resources in compressing very little data, exit
-        if($original_content_size < 2048)
-        {
+        if ($original_content_size < 2048) {
             return;
         }
 
         /**
          * The Content Compression
          */
-        switch($encoding)
-        {
+        switch ($encoding) {
             default:
             case 'compress':
             case 'gzip':
@@ -317,14 +305,12 @@ class ResponseEncode
         $http_accept_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
 
         # check Accept-Encoding for x-gzip
-        if (mb_strpos($http_accept_encoding, 'x-gzip') !== false)
-        {
+        if (mb_strpos($http_accept_encoding, 'x-gzip') !== false) {
             $encoding = 'x-gzip';
         }
 
         # check Accept-Encoding for gzip
-        if (mb_strpos($http_accept_encoding, 'gzip') !== false)
-        {
+        if (mb_strpos($http_accept_encoding, 'gzip') !== false) {
             $encoding = 'gzip';
         }
 
@@ -342,34 +328,23 @@ class ResponseEncode
          * Determine file type by checking the first bytes of the content buffer.
          */
         $magic = mb_substr(ob_get_contents(),0,4);
-        if (mb_substr($magic,0,2) === '^_')
-        {
+        if (mb_substr($magic,0,2) === '^_') {
             # gzip data
             $encoding = false;
-        }
-        else if (mb_substr($magic,0,3) === 'GIF')
-        {
+        } else { if (mb_substr($magic,0,3) === 'GIF')
             # gif images
             $encoding = false;
-        }
-        else if (mb_substr($magic,0,2) === "\xFF\xD8")
-        {
+        } else { if (mb_substr($magic,0,2) === "\xFF\xD8")
             # jpeg images
             $encoding = false;
-        }
-        else if (mb_substr($magic,0,4) === "\x89PNG")
-        {
+        } else { if (mb_substr($magic,0,4) === "\x89PNG")
             # png images
             $encoding = false;
-        }
-        else if (mb_substr($magic,0,3) === 'FWS')
-        {
+        } else { if (mb_substr($magic,0,3) === 'FWS')
             # Don't gzip Shockwave Flash files.
             # Flash on windows incorrectly claims it accepts gzip'd content.
             $encoding = false;
-        }
-        else if (mb_substr($magic,0,2) === 'PK')
-        {
+        } else { if (mb_substr($magic,0,2) === 'PK')
             # pk zip file
             $encoding = false;
         }
@@ -377,4 +352,3 @@ class ResponseEncode
         return $encoding;
     }
 }
-?>

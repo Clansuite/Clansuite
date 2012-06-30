@@ -30,11 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Datagrid;
+namespace Koch\datagrid;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -46,7 +45,7 @@ if(defined('IN_CS') === false)
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Base
+class base
 {
     /**
      * The data to render in the grid.
@@ -90,7 +89,6 @@ class Base
      */
     private static $baseURL = null;
 
-
     /**
      *  Setter Methods for a Datagrid
      */
@@ -98,6 +96,7 @@ class Base
     {
         $alias = str_replace('\\', '_', $alias);
         $this->alias = $alias;
+
         return $this;
     }
 
@@ -108,81 +107,83 @@ class Base
      */
     public function setBaseURL($baseURL = null)
     {
-        if(self::$baseURL === null)
-        {
+        if (self::$baseURL === null) {
             self::$baseURL = Koch\MVC\HttpRequest::getRequestURI();
-        }
-        else
-        {
+        } else {
             self::$baseURL = $baseURL;
         }
+
         return $this;
     }
 
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     public function setClass($class)
     {
         $this->class = $class;
+
         return $this;
     }
 
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
     public function setStyle($style)
     {
         $this->style = $style;
+
         return $this;
     }
 
     public function setLabel($label)
     {
         $this->label = $label;
+
         return $this;
     }
 
     public function setCaption($caption)
     {
         $this->caption = $caption;
+
         return $this;
     }
 
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
     /**
      * Set datagrid state from options array
      *
-     * @param array $options
+     * @param  array    $options
      * @return Datagrid
      */
     public function setOptions(array $options)
     {
-        foreach($options as $key => $value)
-        {
+        foreach ($options as $key => $value) {
             $method = 'set' . ucfirst($key);
 
-            if(method_exists($this, $method))
-            {
+            if (method_exists($this, $method)) {
                 # setter method exists
                 $this->$method($value);
-            }
-            else
-            {
+            } else {
                 throw new Clansuite_Exception('Unknown property ' . $key . ' for Datagrid');
             }
         }
+
         return $this;
     }
 
@@ -247,8 +248,7 @@ class Base
     {
         $separator = '?';
 
-        if( preg_match('#\?#', self::getBaseURL()) )
-        {
+        if ( preg_match('#\?#', self::getBaseURL()) ) {
             $separator = '&amp;';
         }
 
@@ -260,4 +260,3 @@ class Base
         return self::getBaseURL() . $separator . $cleanAppendString;
     }
 }
-?>

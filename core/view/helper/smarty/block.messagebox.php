@@ -29,25 +29,19 @@ function smarty_block_messagebox($params, $text, $smarty)
     $textbox_level = null;
 
     # set default type of messagebox to "div", if no type was given
-    if(empty($params['type']) == true)
-    {
+    if (empty($params['type']) == true) {
         $textbox_type = 'div';
-    }
-    else
-    {
+    } else {
         $textbox_type = $params['type'];
     }
 
     # whitelist for messagebox_levels
     $messagebox_level = array( 'hint', 'notice', 'alert', 'info');
 
-    if (isset($params['level']) and in_array(mb_strtolower($params['level']), $messagebox_level))
-    {
+    if (isset($params['level']) and in_array(mb_strtolower($params['level']), $messagebox_level)) {
         $textbox_level = mb_strtolower($params['level']);
         unset($params['level']);
-    }
-    else
-    {
+    } else {
         return trigger_error('Please define a parameter level. You have the following options: hint, notice, alert.');
     }
 
@@ -55,8 +49,7 @@ function smarty_block_messagebox($params, $text, $smarty)
 
     $sprintf_textbox_text  = '<link rel="stylesheet" type="text/css" href="' . $tpl_vars['www_root_themes_core'] . 'css/error.css" />';
 
-    switch ($textbox_type)
-    {
+    switch ($textbox_type) {
         default:
         case "div":
             $textbox_type = 'div';
@@ -71,4 +64,3 @@ function smarty_block_messagebox($params, $text, $smarty)
 
     return $text;
 }
-?>

@@ -96,5 +96,3 @@ $browser = array(
         ),
 
 );
-
-?>

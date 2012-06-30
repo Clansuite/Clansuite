@@ -35,8 +35,7 @@ namespace Koch\Form\Decorators\Formelement;
 use Koch\Formelement\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -66,8 +65,7 @@ class Label extends Decorator
     public function render($html_formelement)
     {
         # add label
-        if ( $this->formelement->hasLabel() == true)
-        {
+        if ( $this->formelement->hasLabel() == true) {
             # for attribute points to formelements id tag
             $html_formelement = CR . '<label for="'. $this->formelement->getId() .'">' . $this->formelement->getLabel() . '</label>'. CR . $html_formelement;
         }
@@ -75,4 +73,3 @@ class Label extends Decorator
         return $html_formelement;
     }
 }
-?>

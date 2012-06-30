@@ -50,4 +50,3 @@ EOD;
 
     return $str;
 }
-?>

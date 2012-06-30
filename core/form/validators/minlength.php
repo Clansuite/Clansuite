@@ -35,8 +35,7 @@ namespace Koch\Form\Validators;
 use Koch\Form\Validator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -80,33 +79,27 @@ class Minlength extends Validator
      * Get length of passed string.
      * Takes multibyte characters into account, if functions available.
      *
-     * @param string $string
+     * @param  string  $string
      * @return integer $length
      */
     public static function getStringLength($string)
     {
-        if(function_exists('iconv_strlen'))
-        {
+        if (function_exists('iconv_strlen')) {
             return iconv_strlen($string, 'UTF-8');
-        }
-        else if(function_exists('mb_strlen'))
-        {
+        } else { if(function_exists('mb_strlen'))
+
             return mb_strlen($string, 'utf8');
-        }
-        else
-        {
+        } else {
             return strlen(utf8_decode($string));
         }
     }
 
     protected function processValidationLogic($value)
     {
-        if (self::getStringLength($value) < $this->getMinlength())
-        {
+        if (self::getStringLength($value) < $this->getMinlength()) {
             return false;
         }
 
         return true;
     }
 }
-?>

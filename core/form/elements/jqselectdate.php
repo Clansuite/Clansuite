@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -105,8 +104,7 @@ class JQSelectDate extends Koch_Formelement implements Koch_Formelement_Interfac
     {
         #Koch_Debug::printR($this->attributes);
         $attributes_html = '';
-        foreach($this->attributes as $attribute => $value)
-        {
+        foreach ($this->attributes as $attribute => $value) {
 
             $attributes_html .= $attribute.':"'.$value.'",'.CR;
         }
@@ -168,8 +166,8 @@ class JQSelectDate extends Koch_Formelement implements Koch_Formelement_Interfac
         $html .= $this->html;
         # Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
         $html .= $this->getJavascript();
+
         return $html;
     }
 
 }
-?>

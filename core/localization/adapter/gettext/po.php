@@ -33,8 +33,7 @@
 namespace Koch\Localization\Gettext;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -60,7 +59,7 @@ class POFile
      *
      * @link http://www.gnu.org/software/gettext/manual/gettext.html#PO-Files
      *
-     * @param string $file Path to PO file.
+     * @param  string              $file Path to PO file.
      * @return mixed|boolean|array
      */
     public static function read($file)
@@ -84,12 +83,10 @@ class POFile
         $fc_array = explode("\n", $file_content);
 
         # iterate over lines
-        foreach($fc_array as $line)
-        {
+        foreach ($fc_array as $line) {
             $line = trim($line);
 
-            if($line === '')
-            {
+            if ($line === '') {
                 continue;
             }
 
@@ -103,8 +100,7 @@ class POFile
              */
             @list($key, $data) = explode(' ', $line, 2);
 
-            switch($key)
-            {
+            switch ($key) {
                 case '#,': # flag...
 
                     $fuzzy = in_array('fuzzy', preg_split('/,\s*/', $data));
@@ -117,10 +113,8 @@ class POFile
 
                 case '#|': # msgid previous-untranslated-string
                     # start a new entry
-                    if(count($temp) && array_key_exists('msgid', $temp) && array_key_exists('msgstr', $temp))
-                    {
-                        if(false === $fuzzy)
-                        {
+                    if (count($temp) && array_key_exists('msgid', $temp) && array_key_exists('msgstr', $temp)) {
+                        if (false === $fuzzy) {
                             $hash[] = $temp;
                         }
 
@@ -148,17 +142,13 @@ class POFile
 
                 default :
 
-                    if(strpos($key, 'msgstr[') !== false)
-                    {
+                    if (strpos($key, 'msgstr[') !== false) {
                         # translated-string-case-n
                         $state = 'msgstr';
                         $temp[$state][] = $data;
-                    }
-                    else
-                    {
+                    } else {
                         # continued lines
-                        switch($state)
-                        {
+                        switch ($state) {
                             case 'msgctxt':
 
                             case 'msgid':
@@ -176,6 +166,7 @@ class POFile
                             default :
 
                                 # parse error
+
                                 return false;
                         }
                     }
@@ -184,8 +175,7 @@ class POFile
         }
 
         # add final entry
-        if ($state === 'msgstr')
-        {
+        if ($state === 'msgstr') {
             $hash[] = $temp;
         }
 
@@ -193,15 +183,13 @@ class POFile
         $temp = $hash;
         $hash = array();
 
-        foreach ($temp as $entry)
-        {
-            foreach ($entry as & $v)
-            {
+        foreach ($temp as $entry) {
+            foreach ($entry as & $v) {
                 $v = self::po_clean_helper($v);
 
-                if ($v === false)
-                {
+                if ($v === false) {
                     # parse error
+
                     return false;
                 }
             }
@@ -213,18 +201,13 @@ class POFile
 
     private static function po_clean_helper($x)
     {
-        if (true === is_array($x))
-        {
-            foreach ($x as $k => $v)
-            {
+        if (true === is_array($x)) {
+            foreach ($x as $k => $v) {
                 # WATCH IT! RECURSION!
                 $x[$k]= self::po_clean_helper($v);
             }
-        }
-        else
-        {
-            if ($x[0] === '"')
-            {
+        } else {
+            if ($x[0] === '"') {
                 $x = mb_substr($x, 1, -1);
             }
 
@@ -239,4 +222,3 @@ class POFile
         return $x;
     }
 }
-?>

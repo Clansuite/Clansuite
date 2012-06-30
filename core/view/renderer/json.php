@@ -32,11 +32,8 @@
 
 namespace Koch\View\Renderer;
 
-use Koch\View\AbstractRenderer;
-
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -77,13 +74,11 @@ class Json extends AbstractRenderere
      */
     public function jsonEncode($data)
     {
-        if(empty($data))
-        {
+        if (empty($data)) {
             return '[]';
-        }
-        else
-        {
+        } else {
             # use php's json encode to modifiy data representation
+
             return json_encode($data);
         }
     }
@@ -120,4 +115,3 @@ class Json extends AbstractRenderere
         return $this->jsonEncode($data);
     }
 }
-?>

@@ -36,8 +36,7 @@ use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
@@ -65,8 +64,7 @@ class Maintenance implements FilterInterface
         /**
          * maintenance mode must be enabled in configuration
          */
-        if($this->config['maintenance']['maintenance'] == 1)
-        {
+        if ($this->config['maintenance']['maintenance'] == 1) {
             return;
         }
 
@@ -86,4 +84,3 @@ class Maintenance implements FilterInterface
         exit();
     }
 }
-?>

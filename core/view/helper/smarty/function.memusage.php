@@ -10,31 +10,23 @@
  */
 function smarty_function_memusage($params)
 {
-    if (function_exists('memory_get_usage'))
-    {
+    if (function_exists('memory_get_usage')) {
         $memusage = memory_get_usage();
-    }
-    else
-    {
+    } else {
         return $memusage = 'n/a';
     }
 
-
-    if ($memusage>0)
-    {
+    if ($memusage>0) {
         $memunit='B';
-        if ($memusage>1024)
-        {
+        if ($memusage>1024) {
             $memusage=$memusage/1024;
             $memunit='kB';
         }
-        if ($memusage>1024)
-        {
+        if ($memusage>1024) {
             $memusage=$memusage/1024;
             $memunit='MB';
         }
-        if ($memusage>1024)
-        {
+        if ($memusage>1024) {
             $memusage=$memusage/1024;
             $memunit='GB';
         }
@@ -43,4 +35,3 @@ function smarty_function_memusage($params)
         echo (number_format($memusage,2).$memunit) . ' / ' . ini_get('memory_limit') .'B';
     }
 }
-?>

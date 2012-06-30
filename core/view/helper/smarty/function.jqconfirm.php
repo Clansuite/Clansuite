@@ -65,6 +65,7 @@ echo <<<EOD
               });
 
             $('#dialog').dialog('open');
+
             return false;
         });
     });
@@ -81,4 +82,3 @@ echo <<<EOD
 </div>
 EOD;
 }
-?>

@@ -5,7 +5,6 @@
  * @subpackage plugins
  */
 
-
 /**
  * Smarty icq function plugin
  * Display ICQ status online/offline/unknown
@@ -28,9 +27,9 @@
 function smarty_function_icq($params, $smarty)
 {
     # be sure icq parameter is present
-    if(empty($params['number']))
-    {
+    if (empty($params['number'])) {
         trigger_error('icq: missing the icq "number" as parameter');
+
         return;
     }
 
@@ -44,4 +43,3 @@ function smarty_function_icq($params, $smarty)
 
     return $html;
 }
-?>

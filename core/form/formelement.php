@@ -33,8 +33,7 @@
 namespace Koch\Form;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -139,6 +138,7 @@ class Formelement implements FormelementInterface
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -161,12 +161,9 @@ class Formelement implements FormelementInterface
     {
         $name = mb_strrpos($this->name, '[');
 
-        if ($name === false)
-        {
+        if ($name === false) {
             return $this->name;
-        }
-        else # remove brackets
-        {
+        } else { # remove brackets
             $name = $this->name;
             # replace left
             $name = str_replace('[', '_', $name);
@@ -180,7 +177,7 @@ class Formelement implements FormelementInterface
     /**
      * Set class of this form.
      *
-     * @param string $class Class to set
+     * @param  string           $class Class to set
      * @return Koch_Formelement
      */
     public function setClass($class)
@@ -203,7 +200,7 @@ class Formelement implements FormelementInterface
     /**
      * Sets value for this element
      *
-     * @param string $value
+     * @param  string           $value
      * @return Koch_Formelement
      */
     public function setValue($value)
@@ -220,17 +217,13 @@ class Formelement implements FormelementInterface
      */
     public function getValue()
     {
-        if(is_array($this->value) === true)
-        {
-            foreach($this->value as $key => $value)
-            {
+        if (is_array($this->value) === true) {
+            foreach ($this->value as $key => $value) {
                 $this->value[$key] = htmlspecialchars($value);
             }
 
             return $this->value;
-        }
-        else
-        {
+        } else {
             return htmlspecialchars($this->value);
         }
     }
@@ -272,7 +265,7 @@ class Formelement implements FormelementInterface
     /**
      * Set label of this formelement.
      *
-     * @param string $label Label of this formelement.
+     * @param  string           $label Label of this formelement.
      * @return Koch_Formelement
      */
     public function setLabel($label)
@@ -299,12 +292,9 @@ class Formelement implements FormelementInterface
      */
     public function hasLabel()
     {
-        if(isset($this->label) === true)
-        {
+        if (isset($this->label) === true) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -317,12 +307,9 @@ class Formelement implements FormelementInterface
      */
     public function isRequired()
     {
-        if(isset($this->required) === true)
-        {
+        if (isset($this->required) === true) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
 
@@ -333,7 +320,7 @@ class Formelement implements FormelementInterface
      * Set required state for the formelement.
      * A formelement is required, when the user is expected to (must) enter data into the formelement.
      *
-     * @param boolean $required Set required state. Defaults to true.
+     * @param  boolean          $required Set required state. Defaults to true.
      * @return Koch_Formelement
      */
     public function setRequired($required = true)
@@ -346,7 +333,7 @@ class Formelement implements FormelementInterface
     /**
      * Set description of this formelement.
      *
-     * @param string $description Description of this formelement.
+     * @param  string           $description Description of this formelement.
      * @return Koch_Formelement
      */
     public function setDescription($description)
@@ -369,7 +356,7 @@ class Formelement implements FormelementInterface
     /**
      * Set onclick text of this formelement.
      *
-     * @param string $onclick Onclick text of this formelement.
+     * @param  string           $onclick Onclick text of this formelement.
      * @return Koch_Formelement
      */
     public function setOnclick($onclick)
@@ -425,12 +412,9 @@ class Formelement implements FormelementInterface
      */
     public function getAttribute($attribute)
     {
-        if(isset($this->{$attribute}) === true)
-        {
+        if (isset($this->{$attribute}) === true) {
             return $this->{$attribute};
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -442,23 +426,18 @@ class Formelement implements FormelementInterface
      */
     public function setAttributes($attributes)
     {
-        if(is_array($attributes) === true and empty($attributes) === false)
-        {
-            foreach($attributes as $attribute => $value)
-            {
+        if (is_array($attributes) === true and empty($attributes) === false) {
+            foreach ($attributes as $attribute => $value) {
                 /**
                  * In DEBUG mode the attributes are set via a setter method.
                  * So one might even set a wrong one by accident, like $attribute = 'maxxxlength'.
                  * To protect the developer a bit more, we are focing the usage of a setter method.
                  * If the setter method exists most likely the property will exist too, i guess.
                  */
-                if( defined('DEBUG') and DEBUG == true )
-                {
+                if ( defined('DEBUG') and DEBUG == true ) {
                     $method = 'set' . $attribute;
                     $this->$method($value);
-                }
-                else # while in production mode
-                {
+                } else { # while in production mode
                     # set attribute directly
                     $this->{$attribute} = $value;
                 }
@@ -480,22 +459,21 @@ class Formelement implements FormelementInterface
     /**
      * Renders an array of key=>value pairs as an HTML attributes string.
      *
-     * @param array $attributes key=>value pairs corresponding to HTML attributes name="value"
+     * @param  array  $attributes key=>value pairs corresponding to HTML attributes name="value"
      * @return string Attributes as HTML
      */
     public function render_attributes(array $attributes=array())
     {
-        if(empty($attributes) === true)
-        {
+        if (empty($attributes) === true) {
             return '';
         }
 
         $html = ' ';
-        foreach($attributes as $key => $val)
-        {
+        foreach ($attributes as $key => $val) {
             # html = 'key="value" '
             $html .= $key . '="' . $val . '" ';
         }
+
         return $html;
     }
 
@@ -514,25 +492,20 @@ class Formelement implements FormelementInterface
      */
     public function setRules($rule)
     {
-        if(false === is_string($rule))
-        {
+        if (false === is_string($rule)) {
             throw new \InvalidArgumentException('Parameter $rule must be of type string.');
         }
 
         $rules = explode(',', $rule);
 
-        foreach($rules as $rule)
-        {
+        foreach ($rules as $rule) {
             $rule = trim($rule);
 
-            if(false === strpos($rule, '='))
-            {
+            if (false === strpos($rule, '=')) {
                 # if there is no "=", then there is no value to set
                 # rule is then the name of a validator
                 $this->addValidator($rule);
-            }
-            else # ok -> property name to value relationship
-            {
+            } else { # ok -> property name to value relationship
                 $array = explode('=', $rule);
                 $this->addValidator($array[0], array($array[0] => $array[1]));
             }
@@ -551,18 +524,15 @@ class Formelement implements FormelementInterface
      */
     public function addValidator($validator, $properties = null)
     {
-        if(false === is_object($validator))
-        {
-            if($validator === 'required' and false === $this->isRequired())
-            {
+        if (false === is_object($validator)) {
+            if ($validator === 'required' and false === $this->isRequired()) {
                 $this->setRequired();
             }
 
             $validator = $this->getValidator($validator);
         }
 
-        if(isset($properties))
-        {
+        if (isset($properties)) {
             $validator->setProperties($properties);
         }
 
@@ -576,7 +546,7 @@ class Formelement implements FormelementInterface
      * The Validator is stored into the validators array.
      * So a formelement might have multiple validators.
      *
-     * @param Koch_Validator $validator Accepts a Koch_Validator Object that has to implement Koch_Validator_Interface.
+     * @param  Koch_Validator   $validator Accepts a Koch_Validator Object that has to implement Koch_Validator_Interface.
      * @return Koch_Formelement
      */
     public function setValidator(/*Koch_Formelement_Validates_Interface*/ $validator)
@@ -598,26 +568,30 @@ class Formelement implements FormelementInterface
         $class = '\Koch\Form\Validators\\' . ucfirst($validator);
 
         # return early, if this object is already stored
-        if(isset($this->validators[$class]))
-        {
+        if (isset($this->validators[$class])) {
             return $this->validators[$class];
         }
         # factory method part
-        elseif(false == class_exists($class, false))
+        elseif(false === class_exists($class, false))
         {
-            $file = ROOT_CORE . 'form/validators/' . $validator . '.php';
+            $file = KOCH . 'form/validators/' . $validator . '.php';
 
-            if(is_file($file) === true)
-            {
+            $file = strtolower($file);
+
+            if (is_file($file) === true) {
                 include $file;
             }
             unset($file);
 
             return new $class();
         }
-        # validator not found
-        else
+        # already loaded, reinstantiate
+        elseif(true === class_exists($class, false))
         {
+            return new $class();
+        }
+        # validator not found
+        else {
             throw new \Exception('Validator named ' . $validator . ' not available.');
         }
     }
@@ -638,28 +612,22 @@ class Formelement implements FormelementInterface
         $value = $this->getValue();
 
         # return early, if value empty|null and not required
-        if((('' === $value) or (null === $value)) and false === $this->isRequired())
-        {
+        if ((('' === $value) or (null === $value)) and false === $this->isRequired()) {
             return true;
         }
 
         # return early, if we have a value, but no rules / validators
-        if(null === $this->validators)
-        {
+        if (null === $this->validators) {
             return true;
         }
 
         # iterate over all validators
-        foreach($this->validators as $validator)
-        {
+        foreach ($this->validators as $validator) {
             # ensure element validates
-            if($validator->validate($value) === true)
-            {
+            if ($validator->validate($value) === true) {
                 # everything is fine, proceed
                 continue;
-            }
-            else
-            {
+            } else {
                 # raise the error flag on the formelement
                 $this->setError(true);
 
@@ -671,6 +639,7 @@ class Formelement implements FormelementInterface
         }
 
         # formelement value is valid
+
         return true;
     }
 
@@ -740,12 +709,11 @@ class Formelement implements FormelementInterface
     {
         $subclass = get_class($this);
 
-        if(method_exists($subclass, 'render') === true)
-        {
+        if (method_exists($subclass, 'render') === true) {
             return $subclass->render();
         }
-        /*else # nothing, because each formelement renders itself
-        {
+        /*else { # nothing, because each formelement renders itself
+
             return $this->render();
         }*/
     }
@@ -786,19 +754,14 @@ class Formelement implements FormelementInterface
         $decorator = '';
 
         # check if multiple decorators are incomming at once
-        if(is_array($decorators) === true)
-        {
+        if (is_array($decorators) === true) {
             # address each one of those decorators
-            foreach($decorators as $decorator)
-            {
+            foreach ($decorators as $decorator) {
                 # and check if it is an object implementing the right interface
-                if ( ($decorator instanceof Koch_Formelement_Decorator_Interface) === true )
-                {
+                if ( ($decorator instanceof Koch_Formelement_Decorator_Interface) === true ) {
                     # if so, fetch this decorator objects name
                     $decoratorname = $decorator->name;
-                }
-                else
-                {
+                } else {
                     # turn it into an decorator object
                     $decorator = $this->decoratorFactory($decorator);
                     $decoratorname = $decorator->name;
@@ -807,24 +770,21 @@ class Formelement implements FormelementInterface
                     $this->addDecorator($decorator);
                 }
             }
-        }
-        elseif(is_object($decorators) === true) # one element is incomming via recursion
+        } elseif(is_object($decorators) === true) # one element is incomming via recursion
         {
             $decorator = $decorators;
             $decoratorname = $decorator->name;
         }
 
         # if we got a string (ignore the plural, it's a one element string, like 'fieldset')
-        if (is_string($decorators) === true)
-        {
+        if (is_string($decorators) === true) {
             # turn it into an decorator object
             $decorator = $this->decoratorFactory($decorators);
             $decoratorname = $decorator->name;
         }
 
         # now check if this decorator is not already set (prevent decorator duplications)
-        if(in_array($decoratorname, $this->formelementdecorators) === false)
-        {
+        if (in_array($decoratorname, $this->formelementdecorators) === false) {
             # set this decorator object under its name into the array
             $this->formelementdecorators[$decoratorname] = $decorator;
         }
@@ -845,8 +805,8 @@ class Formelement implements FormelementInterface
     /**
      * Getter Method for a decorators of this formelement by it's name..
      *
-     * @param string $decoratorname The formelement decorator to look for in the stack of decorators.
-     * @return array Returns the object Koch_Formelement_Decorator_$decoratorname if registered.
+     * @param  string $decoratorname The formelement decorator to look for in the stack of decorators.
+     * @return array  Returns the object Koch_Formelement_Decorator_$decoratorname if registered.
      */
     public function getDecoratorByName($decoratorname)
     {
@@ -866,17 +826,14 @@ class Formelement implements FormelementInterface
     /**
      * Removes the requested decorator from the decorators stack.
      *
-     * @param string $decoratorname
+     * @param  string     $decoratorname
      * @throws \Exception
      */
     public function removeDecorator($decoratorname)
     {
-        if(isset($this->formelementdecorators[$decoratorname]))
-        {
+        if (isset($this->formelementdecorators[$decoratorname])) {
             unset($this->formelementdecorators[$decoratorname]);
-        }
-        else
-        {
+        } else {
             throw new \Exception('Decorator does not exist.');
         }
     }
@@ -909,17 +866,16 @@ class Formelement implements FormelementInterface
         $class = 'Koch\Form\Decorators\Formelement\\' . ucfirst($decorator);
 
         # if not already loaded, require forelement file
-        if(false == class_exists($class, false))
-        {
+        if (false == class_exists($class, false)) {
             $file = ROOT_CORE . '/form/decorators/formelement/' . $decorator . '.php';
 
-            if(is_file($file) === true)
-            {
+            if (is_file($file) === true) {
                 include $file;
             }
         }
 
         # instantiate the new $formdecorator
+
         return new $class;
     }
 
@@ -970,4 +926,3 @@ interface FormelementInterface
     #public function hasError();
     #public function getErrorMessage();
 }
-?>

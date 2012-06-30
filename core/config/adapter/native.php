@@ -34,8 +34,7 @@
 namespace Koch\Config\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -53,20 +52,18 @@ class Native
      *
      * @param   string  The filename
      *
-     * @return  mixed array | boolean false
+     * @return mixed array | boolean false
      */
     public static function readConfig($file)
     {
-        if(is_file($file) === false or is_readable($file) === false)
-        {
+        if (is_file($file) === false or is_readable($file) === false) {
             throw new Koch_Exception('PHP Array Config File not existing or not readable.');
         }
 
         # it's a native php array structure so we simply include the file
         $array = include $file;
 
-        if (is_array($array) === false)
-        {
+        if (is_array($array) === false) {
             throw new \InvalidArgumentException('PHP Array Config File does not contain array.');
         }
 
@@ -84,4 +81,3 @@ class Native
         file_put_contents($file, $content);
     }
 }
-?>

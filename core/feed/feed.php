@@ -33,8 +33,7 @@
 namespace Koch;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -64,8 +63,8 @@ class Feed
     /**
      * Fetches a feed by URL and caches it - using the SimplePie Library.
      *
-     * @param string $feed_url This is the URL you want to parse.
-     * @param int $cache_duration This is the number of seconds that you want to store the feedcache file for.
+     * @param string $feed_url       This is the URL you want to parse.
+     * @param int    $cache_duration This is the number of seconds that you want to store the feedcache file for.
      * @param string $cache_location This is where you want the cached feeds to be stored.
      */
     public static function fetchRSS($feed_url, $number_of_items = null, $cache_duration = null, $cache_location = null)
@@ -85,22 +84,19 @@ class Feed
         $simplepie = new \SimplePie();
 
         # if cache_location was not specified manually
-        if($cache_location == null)
-        {
+        if ($cache_location == null) {
             # we set it to the default cache directory for feeds
             $cache_location = ROOT_CACHE; # . 'feeds';
         }
 
         # if cache_duration was not specified manually
-        if($cache_duration == null)
-        {
+        if ($cache_duration == null) {
             # we set it to the default cache duration time of 1800
             $cache_duration = 1800;
         }
 
         # if number of items to fetch is null
-        if($number_of_items == null)
-        {
+        if ($number_of_items == null) {
             # we set it to the default value of 5 items
             $number_of_items = 5;
         }
@@ -125,14 +121,13 @@ class Feed
      * Fetches a feed by URL and caches it.
      * Be advised to use the method fetchRSS() instead.
      *
-     * @param string $feed_url This is the URL you want to parse.
-     * @param boolean $cache If true caches the content. Default true.
-     * @return string Feed content.
+     * @param  string  $feed_url This is the URL you want to parse.
+     * @param  boolean $cache    If true caches the content. Default true.
+     * @return string  Feed content.
      */
     public static function fetchRawRSS($feed_url, $cache = true)
     {
-        if($cache === true)
-        {
+        if ($cache === true) {
             # Cache Filename and Path
             $cachefile = ROOT_CACHE . md5($feed_url);
 
@@ -141,14 +136,10 @@ class Feed
         }
 
         # try to return the file from cache
-        if (true === $cache and is_file($cachefile) and (time() - filemtime($cachefile)) < $cachetime)
-        {
+        if (true === $cache and is_file($cachefile) and (time() - filemtime($cachefile)) < $cachetime) {
             return file_get_contents($cachefile);
-        }
-        else # get the feed from the source
-        {
-            if($cache === true)
-            {
+        } else { # get the feed from the source
+            if ($cache === true) {
                 # ensure cachefile exists, before we write
                 touch($cachefile);
                 chmod($cachefile, 0666);
@@ -157,19 +148,15 @@ class Feed
             $feedcontent = file_get_contents($feed_url, FILE_TEXT);
 
             # ensure that we have rss content
-            if(mb_strlen($feedcontent) > 0)
-            {
-                if($cache === true)
-                {
+            if (mb_strlen($feedcontent) > 0) {
+                if ($cache === true) {
                     $fp = fopen($cachefile, 'w');
                     fwrite($fp, $feedcontent);
                     fclose($fp);
                 }
 
                 return $feedcontent;
-            }
-            else
-            {
+            } else {
                 return null;
             }
         }
@@ -187,4 +174,3 @@ class Feed
         return new \UniversalFeedCreator();
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Datagrid\Columnrenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -70,13 +69,10 @@ class Date extends ColumnRenderer implements ColumnRendererInterface
 
         $oDatetime = date_create($oCell->getValue());
 
-        if( $oDatetime !== false )
-        {
+        if ($oDatetime !== false) {
             $sDate = $oDatetime->format($this->dateFormat);
         }
 
         return $sDate;
     }
 }
-
-?>

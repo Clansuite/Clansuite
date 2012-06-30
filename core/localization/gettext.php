@@ -33,8 +33,7 @@
 namespace Koch\Localization\Gettext;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -99,13 +98,11 @@ class Extractor extends Extractor_Tool
     {
         $this->inputFiles = array();
 
-        if(false === is_array($resource))
-        {
+        if (false === is_array($resource)) {
             $resource = array($resource);
         }
 
-        foreach($resource as $item)
-        {
+        foreach ($resource as $item) {
             $this->log('Scanning ' . $item);
             $this->scan($item);
         }
@@ -172,12 +169,9 @@ class Tool
     public function __construct($logToFile = false)
     {
         # default log file
-        if(false === $logToFile)
-        {
+        if (false === $logToFile) {
             $this->logHandler = fopen(ROOT_LOGS . 'gettext-extractor.log', 'w');
-        }
-        else # custom log file
-        {
+        } else { # custom log file
             $this->logHandler = fopen($logToFile, 'w');
         }
     }
@@ -187,8 +181,7 @@ class Tool
      */
     public function __destruct()
     {
-        if(is_resource($this->logHandler) === true)
-        {
+        if (is_resource($this->logHandler) === true) {
             fclose($this->logHandler);
         }
     }
@@ -202,12 +195,9 @@ class Tool
      */
     public function log($message)
     {
-        if(is_resource($this->logHandler) === true)
-        {
+        if (is_resource($this->logHandler) === true) {
             fwrite($this->logHandler, $message . "\n");
-        }
-        else
-        {
+        } else {
             echo $message . "\n <br/>";
         }
     }
@@ -221,8 +211,7 @@ class Tool
      */
     protected function throwException($message)
     {
-        if(empty($message) === true)
-        {
+        if (empty($message) === true) {
             $message = 'Something unexpected occured. See Koch_Gettext_Extractor log for details.';
         }
 
@@ -238,58 +227,49 @@ class Tool
      */
     protected function scan($resource)
     {
-        if(false === is_dir($resource) and false === is_file($resource))
-        {
+        if (false === is_dir($resource) and false === is_file($resource)) {
             $this->throwException('Resource ' . $resource . ' is not a directory or file.');
         }
 
-        if(true === is_file($resource))
-        {
+        if (true === is_file($resource)) {
             $this->inputFiles[] = realpath($resource);
+
             return;
         }
 
         # It's a directory
         $resource = realpath($resource);
 
-        if(false === $resource)
-        {
+        if (false === $resource) {
             return;
         }
 
         $iterator = dir($resource);
 
-        if(false === $iterator)
-        {
+        if (false === $iterator) {
             return;
         }
 
-        while(false !== ($entry = $iterator->read()))
-        {
-            if($entry === '.' or $entry === '..' or  $entry === '.svn')
-            {
+        while (false !== ($entry = $iterator->read())) {
+            if ($entry === '.' or $entry === '..' or  $entry === '.svn') {
                 continue;
             }
 
             $path = $resource . DS . $entry;
 
-            if(false === is_readable($path))
-            {
+            if (false === is_readable($path)) {
                 continue;
             }
 
-            if(true === is_dir($path))
-            {
+            if (true === is_dir($path)) {
                 $this->scan($path);
                 continue;
             }
 
-            if(true === is_file($path))
-            {
+            if (true === is_file($path)) {
                 $info = pathinfo($path);
 
-                if(false === isset($this->extractors[$info['extension']]))
-                {
+                if (false === isset($this->extractors[$info['extension']])) {
                     continue;
                 }
 
@@ -309,15 +289,12 @@ class Tool
      */
     protected function extract($inputFiles)
     {
-        foreach($inputFiles as $inputFile)
-        {
-            if(false === file_exists($inputFile))
-            {
+        foreach ($inputFiles as $inputFile) {
+            if (false === file_exists($inputFile)) {
                 $this->throwException('Invalid input file specified: ' . $inputFile);
             }
 
-            if(false === is_readable($inputFile))
-            {
+            if (false === is_readable($inputFile)) {
                 $this->throwException('Input file is not readable: ' . $inputFile);
             }
 
@@ -326,26 +303,22 @@ class Tool
             # Check file extension
             $fileExtension = pathinfo($inputFile, PATHINFO_EXTENSION);
 
-            foreach($this->extractors as $extension => $extractor)
-            {
+            foreach ($this->extractors as $extension => $extractor) {
                 # check, if the extractor handles a file extension like this
-                if($fileExtension !== $extension)
-                {
+                if ($fileExtension !== $extension) {
                     continue;
                 }
 
                 $this->log('Processing file ' . $inputFile);
 
-                foreach($extractor as $extractorName)
-                {
+                foreach ($extractor as $extractorName) {
                     $extractor = $this->getExtractor($extractorName);
                     $extractorData = $extractor->extract($inputFile);
 
                     $this->log(' Extractor ' . $extractorName . ' applied.');
 
                     # do not merge if incomming array is empty
-                    if(false === empty($extractorData))
-                    {
+                    if (false === empty($extractorData)) {
                         $this->data = array_merge_recursive($this->data, $extractorData);
                     }
                 }
@@ -368,27 +341,21 @@ class Tool
     {
         $extractor_classname = 'Koch_Gettext_Extractor_' . $extractor;
 
-        if(isset($this->extractors[$extractor]) === true)
-        {
+        if (isset($this->extractors[$extractor]) === true) {
             return $this->extractors[$extractor];
         }
 
-        if(false === class_exists($extractor_classname, false))
-        {
+        if (false === class_exists($extractor_classname, false)) {
             # /core/gettext/extractors/*NAME*.gettext.php
             $extractor_file = ROOT_CORE . 'gettext/extractors/' . $extractor . '.gettext.php';
 
-            if(true === is_file($extractor_file))
-            {
+            if (true === is_file($extractor_file)) {
                 include_once $extractor_file;
-            }
-            else
-            {
+            } else {
                 $this->throwException('Extractor file ' . $extractor_file . ' not found.');
             }
 
-            if(false === class_exists($extractor_classname))
-            {
+            if (false === class_exists($extractor_classname)) {
                 $this->throwException('File loaded, but Class ' . $extractor . ' not inside.');
             }
         }
@@ -411,12 +378,10 @@ class Tool
     public function setExtractor($extension, $extractor)
     {
         # not already set
-        if(false === isset($this->extractor[$extension]) and false === in_array($extractor, $this->extractor[$extension]))
-        {
+        if (false === isset($this->extractor[$extension]) and false === in_array($extractor, $this->extractor[$extension])) {
             $this->extractor[$extension][] = $extractor;
-        }
-        else # already set
-        {
+        } else { # already set
+
             return $this;
         }
     }
@@ -437,27 +402,24 @@ class Tool
      * Saves extracted data into gettext file
      *
      * @param string $file
-     * @param array $data
+     * @param array  $data
      *
      * @return Koch_Gettext_Extractor
      */
     public function save($file, $data = null)
     {
-        if($data === null)
-        {
+        if ($data === null) {
             $data = $this->data;
         }
 
         # get dirname and check if dirs exist, else create it
         $dir = dirname($file);
-        if(false === is_dir($dir) and false === @mkdir($dir, 0777, true))
-        {
+        if (false === is_dir($dir) and false === @mkdir($dir, 0777, true)) {
            $this->throwException('ERROR: make directory failed!');
         }
 
         # check file permissions on output file
-        if(true === is_file($file) and false === is_writable($file))
-        {
+        if (true === is_file($file) and false === is_writable($file)) {
             $this->throwException('ERROR: Output file is not writable!');
         }
 
@@ -495,12 +457,10 @@ class Tool
         $output[] = '"Plural-Forms: nplurals=2; plural=(n != 1);\n"';
         $output[] = '';
 
-        if($return_as_string === true)
-        {
+        if ($return_as_string === true) {
             return implode("\n", $output);
-        }
-        else # return array
-        {
+        } else { # return array
+
             return $output;
         }
     }
@@ -521,28 +481,23 @@ class Tool
 
         ksort($data);
 
-        foreach($data as $key => $files)
-        {
+        foreach ($data as $key => $files) {
             ksort($files);
 
             $slashed_key = self::addSlashes($key);
 
-            foreach($files as $file)
-            {
+            foreach ($files as $file) {
                 $output[] = '#: ' . $file; # = reference
             }
 
             $output[] = 'msgid "' . $slashed_key . '"';
 
             # check for plural
-            if(0 < preg_match($pluralMatchRegexp, $key))
-            {
+            if (0 < preg_match($pluralMatchRegexp, $key)) {
                 $output[] = 'msgid_plural "' . $slashed_key . '"';
                 $output[] = 'msgstr[0] "' . $slashed_key . '"';
                 $output[] = 'msgstr[1] "' . $slashed_key . '"';
-            }
-            else # no plural
-            {
+            } else { # no plural
                 $output[] = 'msgstr "' . $slashed_key . '"';
             }
 
@@ -585,18 +540,13 @@ class Extractor_Base
     public function addTags($tags)
     {
         # multiple tags to add
-        if(is_array($tags) === true)
-        {
-            foreach($tags as $tag)
-            {
-                if(false === array_key_exists($tag, array_flip($this->tags_to_scan)))
-                {
+        if (is_array($tags) === true) {
+            foreach ($tags as $tag) {
+                if (false === array_key_exists($tag, array_flip($this->tags_to_scan))) {
                     $this->tags_to_scan[] = $tag;
                 }
             }
-        }
-        else # just one element (string)
-        {
+        } else { # just one element (string)
             $this->tags_to_scan[] = $tags;
         }
 
@@ -637,4 +587,3 @@ interface Extractor
 {
     public function extract($file);
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Exception;
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -67,11 +66,11 @@ class Errorhandler
      * @link http://www.php.net/manual/de/function.set-error-handler.php
      * @link http://www.php.net/manual/de/errorfunc.constants.php
      *
-     * @param integer $errornumber contains the error as integer
-     * @param string $errorstring contains error string info
-     * @param string $errorfile contains the filename with occuring error
-     * @param string $errorline contains the line of error
-     * @param string $errorcontext
+     * @param integer $errornumber  contains the error as integer
+     * @param string  $errorstring  contains error string info
+     * @param string  $errorfile    contains the filename with occuring error
+     * @param string  $errorline    contains the line of error
+     * @param string  $errorcontext
      */
     public static function errorhandler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
@@ -79,8 +78,7 @@ class Errorhandler
          * do just return, if the error is suppressed,
          * due to (@)silencing-operator
          */
-        if(error_reporting() === 0)
-        {
+        if (error_reporting() === 0) {
             return;
         }
 
@@ -119,15 +117,13 @@ class Errorhandler
         );
 
         # check if the error number exists in the errortypes array
-        if(true === isset($errorTypes[$errornumber]))
-        {
+        if (true === isset($errorTypes[$errornumber])) {
             # get the errorname from the array via $errornumber
             $errorname = $errorTypes[$errornumber];
         }
 
         # Handling the ErrorType via Switch
-        switch ($errorname)
-        {
+        switch ($errorname) {
             # What are the errortypes that can be handled by a user-defined errorhandler?
             case 'E_WARNING':
                 $errorname .= ' [PHP Warning]';
@@ -163,8 +159,7 @@ class Errorhandler
         $errorfile = str_replace(ROOT, '', $errorfile);
 
         # if DEBUG is set, display the error
-        if ( defined('DEBUG') and DEBUG == 1 )
-        {
+        if ( defined('DEBUG') and DEBUG == 1 ) {
             /**
              * SMARTY ERRORS are thrown by trigger_error() - so they bubble up as E_USER_ERROR.
              *
@@ -177,15 +172,14 @@ class Errorhandler
             {
                 # ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
                 echo self::smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
-            }
-            else # give normal Error Display
-            {
+            } else { # give normal Error Display
                 # All Error Informations (except backtraces)
                 echo self::yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
         }
 
         # Skip PHP internal error handler
+
         return true;
     }
 
@@ -207,9 +201,9 @@ class Errorhandler
      * @see addTemplateEditorLink()
      *
      * @param integer $errornumber contains the error as integer
-     * @param string $errorstring contains error string info
-     * @param string $errorfile contains the filename with occuring error
-     * @param string $errorline contains the line of error
+     * @param string  $errorstring contains error string info
+     * @param string  $errorfile   contains the filename with occuring error
+     * @param string  $errorline   contains the line of error
      * @param $errorcontext $errorline contains context
      * @return string HTML with Smarty Error Text and Link.
      */
@@ -241,18 +235,14 @@ class Errorhandler
     {
         # display the link to the templateeditor, if we are in DEVELOPMENT MODE
         # and more essential if the error relates to a template file
-        if(defined('DEVELOPMENT') and DEVELOPMENT === 1 and (mb_strpos(mb_strtolower($errorfile), '.tpl') === true))
-        {
+        if (defined('DEVELOPMENT') and DEVELOPMENT === 1 and (mb_strpos(mb_strtolower($errorfile), '.tpl') === true)) {
             # ok, it's a template, so we have a template context to determine the templatename
             $tpl_vars = $errorcontext['this']->getTemplateVars();
 
             # maybe the templatename is defined in tpl_vars
-            if(true === isset($tpl_vars['templatename']))
-            {
+            if (true === isset($tpl_vars['templatename'])) {
                 $errorfile = $tpl_vars['templatename'];
-            }
-            else # else use resource_name from the errorcontext
-            {
+            } else { # else use resource_name from the errorcontext
                 $errorfile = $errorcontext['resource_name'];
             }
 
@@ -262,6 +252,7 @@ class Errorhandler
             $html .= '">Edit the Template</a>';
 
             # return the link
+
             return $html;
         }
     }
@@ -269,11 +260,11 @@ class Errorhandler
     /**
      * Yellow Screen of Death (YSOD) is used to display a Koch Framework Error
      *
-     * @param int $errornumber
+     * @param int    $errornumber
      * @param string $errorname
      * @param string $errorstring
      * @param string $errorfile
-     * @param int $errorline
+     * @param int    $errorline
      * @param string $errorcontext
      */
     private static function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext)
@@ -356,14 +347,12 @@ class Errorhandler
     public static function getDebugBacktrace($trace = null)
     {
         # provide backtrace only when we are in Koch Framework DEBUG Mode, otherwise just return
-        if ( defined('DEBUG') == false xor DEBUG == 0 )
-        {
+        if ( defined('DEBUG') == false xor DEBUG == 0 ) {
             return;
         }
 
         # if a trace is incoming, then this trace comes from an exception
-        if(isset($trace) === false)
-        {
+        if (isset($trace) === false) {
             # else (normally) the errorhandler has to fetch the backtrace
             $trace = debug_backtrace();
 
@@ -391,34 +380,27 @@ class Errorhandler
 
         $backtraces_count = count($trace)-1;
 
-        for($i = 0; $i <= $backtraces_count; $i++)
-        {
+        for ($i = 0; $i <= $backtraces_count; $i++) {
             $html .= '<tr>';
 
             # Position in the Callstack
             $html .= '<td align="center">'.(($backtraces_count-$i)+1).'</td>';
 
-            if(isset($trace[$i]['class']) === false)
-            {
+            if (isset($trace[$i]['class']) === false) {
                 $html .= '<td>[PHP Core Function called]</td>';
-            }
-            else
-            {
+            } else {
                 # Function (Class::Method)
                 $html .= '<td>' . $trace[$i]['class'] . '::' . $trace[$i]['function'] . '(';
 
                 # Method Arguments
-                if(true === isset($trace[$i]['args']) and empty($trace[$i]['args']) === false)
-                {
+                if (true === isset($trace[$i]['args']) and empty($trace[$i]['args']) === false) {
                     $backtrace_counter_j = count($trace[$i]['args']) - 1;
 
-                    for($j = 0; $j <= $backtrace_counter_j; $j++)
-                    {
+                    for ($j = 0; $j <= $backtrace_counter_j; $j++) {
                         $html .= self::formatBacktraceArgument($trace[$i]['args'][$j]);
 
                         # if we have several arguments to loop over
-                        if($j !== $backtrace_counter_j)
-                        {
+                        if ($j !== $backtrace_counter_j) {
                             # we split them by comma
                             $html .= ', ';
                         }
@@ -429,8 +411,7 @@ class Errorhandler
             }
 
             # Location with Link
-            if(true === isset($trace[$i]['file']))
-            {
+            if (true === isset($trace[$i]['file'])) {
                 $html .= '<td>' . self::getFileLink($trace[$i]['file'], $trace[$i]['line']) . '</td>';
             }
 
@@ -459,8 +440,7 @@ class Errorhandler
     {
         $args = '';
 
-        switch (gettype($backtraceArgument))
-        {
+        switch (gettype($backtraceArgument)) {
             case 'boolean':
                 $args .= '<span>bool</span> ';
                 $args .= $backtraceArgument ? 'TRUE' : 'FALSE';
@@ -493,6 +473,7 @@ class Errorhandler
             default:
                 $args .= 'Unknown';
         }
+
         return $args;
     }
 
@@ -503,20 +484,18 @@ class Errorhandler
      * @author dynamicflurry [at] gmail dot com
      * @link http://us3.php.net/manual/en/function.highlight-file.php#92697
      *
-     * @param string $file file with the error in it
-     * @param int $scope the context scope (defining how many lines surrounding the error are displayed)
-     * @param int $line the line with the error in it
+     * @param string $file  file with the error in it
+     * @param int    $scope the context scope (defining how many lines surrounding the error are displayed)
+     * @param int    $line  the line with the error in it
      *
      * @return string sourcecode of file
      */
     public static function getErrorContext($file, $line, $scope)
     {
         # ensure error context is only shown, when in debug mode
-        if(defined('DEVELOPMENT') and DEVELOPMENT == 1  and defined('DEBUG') and DEBUG == 1)
-        {
+        if (defined('DEVELOPMENT') and DEVELOPMENT == 1  and defined('DEBUG') and DEBUG == 1) {
             # ensure that sourcefile is readable
-            if (true === is_readable($file))
-            {
+            if (true === is_readable($file)) {
                 # Scope Calculations
                 $surrounding_lines          = round($scope/2);
                 $errorcontext_starting_line = $line - $surrounding_lines;
@@ -580,6 +559,7 @@ class Errorhandler
                    <a class="btn" href="http://clansuite.com/">visit clansuite.com</a>
                    <a class="btn" href="#top"> &#9650; Top </a>
                    </div>';
+
         return $html;
     }
 
@@ -606,8 +586,7 @@ class Errorhandler
          */
         $fileLinkFormatString = ini_get('xdebug.file_link_format');
 
-        if ($fileLinkFormatString != '')
-        {
+        if ($fileLinkFormatString != '') {
             # insert file:line into the fileLinkFormatString
             $link = strtr($fileLinkFormatString, array('%f' => $file, '%l' => $line));
 
@@ -626,8 +605,7 @@ class Errorhandler
             $link = strtr($fileLinkFormatString, array('%f' => $file, '%l' => $line));
             $html .= sprintf(' in <a href="%s" title="Edit file">%s line %s</a>', $link, $file, $line);
         }*/
-        else
-        {
+        else {
             # shorten file string by removing the root path
             $file = str_replace(ROOT, '..' . DS, $file);
 
@@ -640,7 +618,7 @@ class Errorhandler
     /**
      * Adds a link to our bugtracker, for creating a new ticket with the errormessage
      *
-     * @param string $errorstring the errormessage
+     * @param  string $errorstring the errormessage
      * @return string html-representation of the bugtracker links
      */
     public static function getBugtrackerBacklinks($errorstring, $errorfile, $errorline, $errorcontext)
@@ -694,14 +672,12 @@ class Errorhandler
     public static function shortenStringMaxLength($string, $maxlength = 50, $append_string = null)
     {
         # already way too short...
-        if(mb_strlen($string) < $maxlength)
-        {
+        if (mb_strlen($string) < $maxlength) {
             return;
         }
 
         # ok, lets shorten
-        if(mb_strlen($string) > $maxlength)
-        {
+        if (mb_strlen($string) > $maxlength) {
             /**
              * do not short the string, when maxlength would split a word!
              * that would make things unreadable.
@@ -715,5 +691,3 @@ class Errorhandler
         }
     }
 }
-
-?>

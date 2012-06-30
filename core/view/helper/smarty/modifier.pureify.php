@@ -31,8 +31,7 @@ function smarty_modifier_purify($string)
      */
     static $purifier;
 
-    if (isset($purifier) == false or class_exists('HTMLPurifier', false) === false)
-    {
+    if (isset($purifier) == false or class_exists('HTMLPurifier', false) === false) {
         include ROOT_LIBRARIES . 'IDS/vendors/htmlpurifier/HTMLPurifier.php';
 
         $config = HTMLPurifier_Config::createDefault();
@@ -45,4 +44,3 @@ function smarty_modifier_purify($string)
 
     return $purifier->purify($string);
 }
-?>

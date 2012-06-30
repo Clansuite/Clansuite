@@ -36,8 +36,7 @@ use Koch\Router\TargetRoute;
 use Koch\MVC\HttpRequest;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -75,8 +74,7 @@ class Mapper
         $allowed_extensions = array('html', 'php', 'tpl');
 
         # check if extension is one of the allowed ones
-        if(false === in_array($template_extension, $allowed_extensions))
-        {
+        if (false === in_array($template_extension, $allowed_extensions)) {
             $message = 'Template Extension invalid <strong>' . $template_extension . '</strong> on <strong>' . $template . '</strong>';
             trigger_error($message, E_USER_NOTICE);
         }
@@ -91,8 +89,7 @@ class Mapper
     public function getTemplateName()
     {
         # if the templateName was not set manually, we construct it from module/action infos
-        if(empty($this->template) === true)
-        {
+        if (empty($this->template) === true) {
             # construct template name
             $template = TargetRoute::getActionName() . '.tpl';
 
@@ -138,8 +135,7 @@ class Mapper
     public static function getTemplatePath($template)
     {
         # done: if template is a qualified path and template filename
-        if(is_file($template) === true)
-        {
+        if (is_file($template) === true) {
             return $template;
         }
 
@@ -147,14 +143,13 @@ class Mapper
         $theme_template = self::getThemeTemplatePath($template);
 
         # check if template was found there, else it's null
-        if($theme_template != null)
-        {
+        if ($theme_template != null) {
             #Koch_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
+
             return $theme_template;
-        }
-        else # fetch the template by searching in the Module Template Path
-        {
+        } else { # fetch the template by searching in the Module Template Path
             #Koch_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
+
             return self::getModuleTemplatePath($template);
         }
     }
@@ -177,8 +172,7 @@ class Mapper
          * 1. BACKEND THEME
          * when controlcenter or admin is requested, it has to be a BACKEND theme
          */
-        if($module == 'controlcenter' or $submodule == 'admin')
-        {
+        if ($module == 'controlcenter' or $submodule == 'admin') {
             # get backend theme from session for path construction
             $backendtheme = HttpRequest::getRoute()->getBackendTheme();
 
@@ -193,8 +187,7 @@ class Mapper
         /**
          * 2. FRONTEND THEME
          */
-        else
-        {
+        else {
             # get frontend theme from session for path construction
             $frontendtheme = HttpRequest::getRoute()->getFrontendTheme();
 
@@ -216,7 +209,7 @@ class Mapper
      * a) add either a directory named after the "renderer/", like modules/modulename/view/renderer/actioname.tpl
      * b) name fileextension of the templates after the renderer (.xtpl, .phptpl, .tal).
      *
-     * @param string $template Template Filename
+     * @param  string $template Template Filename
      * @return string
      */
     public static function getThemeTemplatePath($template)
@@ -253,7 +246,7 @@ class Mapper
     /**
      * Returns the fullpath to Template by searching in the Module Template Path
      *
-     * @param string $template Template Filename
+     * @param  string $template Template Filename
      * @return string
      */
     public static function getModuleTemplatePath($template)
@@ -265,16 +258,14 @@ class Mapper
         # check if template exists in one of the defined paths
         $module_template = self::findFileInPaths($paths, $template);
 
-        if($module_template != null)
-        {
+        if ($module_template != null) {
             return $module_template;
-        }
-        else
-        {
+        } else {
             # fetch renderer name for template path construction
             $renderer = HttpRequest::getRoute()->getRenderEngine();
 
             # the template with that name is not found on our default paths
+
             return ROOT_THEMES_CORE . 'view' . DS . $renderer . DS . 'template_not_found.tpl';
         }
     }
@@ -282,26 +273,25 @@ class Mapper
     /**
      * Checks all paths of the array for the filename
      *
-     * @param array $paths Paths to check
-     * @param strig $filename template name
+     * @param  array  $paths    Paths to check
+     * @param  strig  $filename template name
      * @return string Filepath.
      */
     public static function findFileInPaths($paths, $filename)
     {
         # check if the file exists in one of the defined paths
-        foreach($paths as $path)
-        {
+        foreach ($paths as $path) {
             $file = $path . $filename;
 
-            if(is_file($file) === true)
-            {
+            if (is_file($file) === true) {
                 # file found
+
                 return $file;
             }
         }
 
         # file not found
+
         return false;
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Event;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -71,8 +70,7 @@ class Dispatcher
      */
     public static function instantiate()
     {
-        if(self::$instance === null)
-        {
+        if (self::$instance === null) {
             self::$instance = new Dispatcher;
         }
 
@@ -82,14 +80,13 @@ class Dispatcher
     /**
      * Returns an array of all registered eventhandlers for a eventName.
      *
-     * @param string $name    The event name
+     * @param string $name The event name
      *
-     * @return array  Array of all eventhandlers for a certain event.
+     * @return array Array of all eventhandlers for a certain event.
      */
     public function getEventHandlersForEvent($eventName)
     {
-        if(isset($this->eventhandlers[$eventName]) === false)
-        {
+        if (isset($this->eventhandlers[$eventName]) === false) {
             return array();
         }
 
@@ -125,8 +122,7 @@ class Dispatcher
     public function addEventHandler($eventName, EventInterface $event_object)
     {
         # if eventhandler is not set already, initialize as array
-        if(isset($this->eventhandlers[$eventName]) === false)
-        {
+        if (isset($this->eventhandlers[$eventName]) === false) {
             $this->eventhandlers[$eventName] = array();
         }
 
@@ -155,22 +151,16 @@ class Dispatcher
     public function removeEventHandler($eventName, EventInterface $event_object = null)
     {
         # if eventhandler is not added, we have nothing to remove
-        if(isset($this->eventhandlers[$eventName]) == false)
-        {
+        if (isset($this->eventhandlers[$eventName]) == false) {
             return false;
         }
 
-        if($event_object === null)
-        {
+        if ($event_object === null) {
             # unset all eventhandlers for this eventName
             unset($this->eventhandlers[$eventName]);
-        }
-        else # unset a specific eventhandler
-        {
-            foreach($this->eventhandlers[$eventName] as $key => $registered_event)
-            {
-                if($registered_event == $event_object)
-                {
+        } else { # unset a specific eventhandler
+            foreach ($this->eventhandlers[$eventName] as $key => $registered_event) {
+                if ($registered_event == $event_object) {
                     unset($this->$this->eventhandlers[$eventName][$key]);
                 }
             }
@@ -203,8 +193,7 @@ class Dispatcher
          * $event string will be the $name inside $event object,
          * accessible with $event->getName();
          */
-        if(false === ($event instanceof Event))
-        {
+        if (false === ($event instanceof Event)) {
             $event = new Event($event, $context, $info);
         }
 
@@ -212,20 +201,17 @@ class Dispatcher
         $eventName = '';
         $eventName = $event->getName();
 
-        if(isset($this->eventhandlers[$eventName]) === false)
-        {
+        if (isset($this->eventhandlers[$eventName]) === false) {
             return $event;
         }
 
         # loop over all eventhandlers and look for that eventname
-        foreach($this->eventhandlers[$eventName] as $eventhandler)
-        {
+        foreach ($this->eventhandlers[$eventName] as $eventhandler) {
             # handle the event !!
             $eventhandler->execute($event);
 
             # break, on cancelled
-            if(method_exists($event, 'isCancelled') and $event->isCancelled() == true)
-            {
+            if (method_exists($event, 'isCancelled') and $event->isCancelled() == true) {
                 break;
             }
         }
@@ -245,4 +231,3 @@ class Dispatcher
         return;
     }
 }
-?>

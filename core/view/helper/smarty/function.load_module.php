@@ -33,9 +33,8 @@
  */
 function smarty_function_load_module($params, $smarty)
 {
-    # debugdisplay for the incomming parameters of a specific load_module request
-    /*if($params['name'] == 'news')
-    {
+    # debug display for the incomming parameters of a specific load_module request
+    /*if ($params['name'] == 'news') {
         Koch_Debug::firebug($params);
     }*/
 
@@ -50,13 +49,10 @@ function smarty_function_load_module($params, $smarty)
 
     $module_classname = 'clansuite_module_';
     # Construct the variable module_name
-    if(isset($submodule) and mb_strlen($submodule) > 0)
-    {
+    if (isset($submodule) and mb_strlen($submodule) > 0) {
         # like "clansuite_module_admin_news"
         $module_classname .= $module . '_' . $submodule;
-    }
-    else
-    {
+    } else {
         # like "clansuite_module_news"
         $module_classname .= $module;
     }
@@ -64,17 +60,9 @@ function smarty_function_load_module($params, $smarty)
     #Koch_Debug::firebug($module_classname);
 
     # Check if class was loaded
-    if(class_exists($module_classname, false) === false)
-    {
-        # include function Koch_Widget::loadModul()
-        if(class_exists('Koch_Widget', false) === false)
-        {
-            require ROOT_CORE . 'viewhelper/widget.core.php';
-        }
-
+    if (class_exists($module_classname, false) === false) {
         # Load class, if not already loaded
-        if(Koch_Widget::loadModul($module_classname) === false)
-        {
+        if (\Koch\View\Helper\Widget::loadModul($module_classname) === false) {
             return '<br/>Module missing or misspelled: <strong>' . $module_classname . '</strong>';
         }
     }
@@ -90,20 +78,15 @@ function smarty_function_load_module($params, $smarty)
     /**
      * Get the Ouptut of the Object->Method Call
      */
-    if(method_exists($controller, $action))
-    {
+    if (method_exists($controller, $action)) {
         # exceptional handling of parameters and output for adminmenu
-        if($module_classname == 'clansuite_module_menu_admin')
-        {
+        if ($module_classname == 'clansuite_module_menu_admin') {
             $parameters = array();
 
             # Build a Parameter Array from Parameter String like: param|param|etc
-            if(empty($params['params']))
-            {
+            if (empty($params['params'])) {
                 $parameters = null;
-            }
-            else
-            {
+            } else {
                 $parameters = explode('\|', $params['params']);
             }
 
@@ -129,34 +112,29 @@ function smarty_function_load_module($params, $smarty)
         # for a look at the detection order uncomment the next line
         #Koch_Debug::printR($smarty->template_dir);
 
-        if ($smarty->templateExists('modules' . DS . $module . DS . $action . '.tpl'))
-        {
+        if ($smarty->templateExists('modules' . DS . $module . DS . $action . '.tpl')) {
             # $smarty->template_dir[s]..modules\news\widget_news.tpl
+
             return $smarty->fetch('modules' . DS . $module . DS . $action . '.tpl');
-        }
-        elseif ($smarty->templateExists('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
+        } elseif ($smarty->templateExists('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
         {
             # $smarty->template_dir[s]..modules\news\view\widget_news.tpl
+
             return $smarty->fetch('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
-        }
-        elseif ($smarty->templateExists($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
+        } elseif ($smarty->templateExists($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
         {
             # $smarty->template_dir[s]..\news\view\smarty\widget_news.tpl
+
             return $smarty->fetch($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
-        }
-        elseif($smarty->templateExists($template))
+        } elseif($smarty->templateExists($template))
         {
             # $smarty->template_dir[s].. $template
+
             return $smarty->fetch($template);
-        }
-        else
-        {
+        } else {
             return trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
         }
-    }
-    else
-    {
+    } else {
         return trigger_error('Error! Failed to load Widget: <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
     }
 }
-?>

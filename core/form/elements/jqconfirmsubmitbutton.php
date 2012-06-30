@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -47,7 +46,7 @@ class JQConfirmSubmitButton extends Input implements FormelementInterface
      */
     protected $formid;
 
-    function __construct()
+    public function __construct()
     {
         $this->type = 'submit';
         $this->value = _('Confirm & Submit');
@@ -88,6 +87,7 @@ class JQConfirmSubmitButton extends Input implements FormelementInterface
 
                               $('form#".$this->formid."').submit(function(){
                                 $('#dialog').dialog('open');
+
                                  return false;
                                });
                               </script>
@@ -108,4 +108,3 @@ class JQConfirmSubmitButton extends Input implements FormelementInterface
         return $this;
     }
 }
-?>

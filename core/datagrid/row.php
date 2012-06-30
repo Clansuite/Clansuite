@@ -30,11 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Datagrid;
+namespace Koch\datagrid;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -45,7 +44,7 @@ if(defined('IN_CS') === false)
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Row extends Base
+class row extends Base
 {
     //--------------------
     // Class properties
@@ -135,4 +134,3 @@ class Row extends Base
         $this->_Cells[] = $_Cell;
     }
 }
-?>

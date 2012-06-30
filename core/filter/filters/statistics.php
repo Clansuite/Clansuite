@@ -36,8 +36,7 @@ use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -61,7 +60,7 @@ class Statistics implements FilterInterface
     private $statsWhoDeleteTime = null;
     private $statsWhoTimeout = null;
 
-    function __construct(Koch\Config $config, Koch\User\User $user)
+    public function __construct(Koch\Config $config, Koch\User\User $user)
     {
         $this->config = $config;
         $this->curTimestamp = time();
@@ -80,8 +79,7 @@ class Statistics implements FilterInterface
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # take the initiative or pass through (do nothing)
-        if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1)
-        {
+        if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1) {
             return;
         }
 
@@ -106,12 +104,9 @@ class Statistics implements FilterInterface
     private function updateWhoTables($visitorIp, $targetSite)
     {
         #Original if statement CHECK if user is an admin
-        if ($this->user->isUserAuthed())
-        {
+        if ($this->user->isUserAuthed()) {
             $this->updateWhoIs($visitorIp, $targetSite, $this->user->getUserIdFromSession());
-        }
-        else
-        {
+        } else {
             $this->updateWhoIs($visitorIp, $targetSite);
         }
     }
@@ -129,8 +124,7 @@ class Statistics implements FilterInterface
 
         $result = Doctrine::getTable('CsStatistic')->updateWhoIsOnline($ip, $targetSite, $curTimestamp, $userID);
 
-        if ($result == 0)
-        {
+        if ($result == 0) {
             Doctrine::getTable('CsStatistic')->insertWhoIsOnline($ip, $targetSite, $curTimestamp, $userID);
         }
     }
@@ -143,8 +137,7 @@ class Statistics implements FilterInterface
     private function updateStatistics($visitorIp)
     {
         # if there is no entry for this ip, increment hits
-        if (false == Doctrine::getTable('CsStatistic')->existsIpEntryWithIp($visitorIp))
-        {
+        if (false == Doctrine::getTable('CsStatistic')->existsIpEntryWithIp($visitorIp)) {
             Doctrine::getTable('CsStatistic')->incrementHitsByOne();
             $this->updateStatisticStats();
         }
@@ -159,15 +152,11 @@ class Statistics implements FilterInterface
      */
     private function updateStatisticStats()
     {
-        if (Doctrine::getTable('CsStatistic')->existsStatsEntryWithDate($this->curDate))
-        {
+        if (Doctrine::getTable('CsStatistic')->existsStatsEntryWithDate($this->curDate)) {
             Doctrine::getTable('CsStatistic')->incrementStatsWithDateByOne($this->curDate);
-        }
-        else
-        {
+        } else {
             Doctrine::getTable('CsStatistic')->insertStats();
         }
 
     }
 }
-?>

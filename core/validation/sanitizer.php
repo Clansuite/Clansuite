@@ -32,8 +32,7 @@
 namespace Koch\Validation;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -109,7 +108,7 @@ class Sanitizer
     /**
      * Add additional tags to allowed tags
      *
-     * @param   string $tags
+     * @param string $tags
      */
     public function addAdditionalTags($tags)
     {
@@ -179,20 +178,21 @@ class Sanitizer
     /**
      * Filter URLs to avoid HTTP response splitting attacks
      *
-     * @param   string $url
-     * @return  string filtered url
+     * @param  string $url
+     * @return string filtered url
      */
     protected function filterHTTPResponseSplitting($url)
     {
         $dangerousCharactersPattern = '~(\r\n|\r|\n|%0a|%0d|%0D|%0A)~';
+
         return preg_replace($dangerousCharactersPattern, '', $url);
     }
 
     /**
      * Remove potential javascript in urls
      *
-     * @param   string $url
-     * @return  string filtered url
+     * @param  string $url
+     * @return string filtered url
      */
     protected function removeJavascriptURL($str)
     {
@@ -206,13 +206,12 @@ class Sanitizer
     /**
      * Remove potential flaws in urls
      *
-     * @param   string $url
-     * @return  string filtered url
+     * @param  string $url
+     * @return string filtered url
      */
     protected function sanitizeURL($url)
     {
-        if(!$this->_allowJavascriptInUrls)
-        {
+        if (!$this->_allowJavascriptInUrls) {
             $url = $this->removeJavascriptURL($url);
         }
 
@@ -224,8 +223,8 @@ class Sanitizer
     /**
      * Callback for PCRE
      *
-     * @param   array $matches
-     * @return  string
+     * @param  array  $matches
+     * @return string
      * @see     sanitizeURL
      */
     protected function _sanitizeURLCallback($matches)
@@ -236,8 +235,8 @@ class Sanitizer
     /**
      * Remove potential flaws in href attributes
      *
-     * @param   string $str html tag
-     * @return  string filtered html tag
+     * @param  string $str html tag
+     * @return string filtered html tag
      */
     protected function sanitizeHref($str)
     {
@@ -249,8 +248,8 @@ class Sanitizer
     /**
      * Callback for PCRE
      *
-     * @param   array $matches
-     * @return  string
+     * @param  array  $matches
+     * @return string
      * @see     sanitizeURL
      */
     protected function _sanitizeSrcCallback($matches)
@@ -261,8 +260,8 @@ class Sanitizer
     /**
      * Remove potential flaws in href attributes
      *
-     * @param   string $str html tag
-     * @return  string filtered html tag
+     * @param  string $str html tag
+     * @return string filtered html tag
      */
     protected function sanitizeSrc($str)
     {
@@ -274,18 +273,16 @@ class Sanitizer
     /**
      * Remove dangerous attributes from html tags
      *
-     * @param   string $str html tag
-     * @return  string filtered html tag
+     * @param  string $str html tag
+     * @return string filtered html tag
      */
     protected function removeEvilAttributes($str)
     {
-        if(!$this->_allowDOMEvents)
-        {
+        if (!$this->_allowDOMEvents) {
             $str = preg_replace_callback('/<(.*?)>/i', array(&$this, '_removeDOMEventsCallback'), $str);
         }
 
-        if(!$this->_allowStyle)
-        {
+        if (!$this->_allowStyle) {
             $str = preg_replace_callback('/<(.*?)>/i' , array(&$this, '_removeStyleCallback'), $str);
         }
 
@@ -295,8 +292,8 @@ class Sanitizer
     /**
      * Remove DOM events attributes from html tags
      *
-     * @param   string $str html tag
-     * @return  string filtered html tag
+     * @param  string $str html tag
+     * @return string filtered html tag
      */
     protected function removeDOMEvents($str)
     {
@@ -315,8 +312,8 @@ class Sanitizer
     /**
      * Callback for PCRE
      *
-     * @param   array $matches
-     * @return  string
+     * @param  array  $matches
+     * @return string
      * @see     removeDOMEvents
      */
     protected function _removeDOMEventsCallback($matches)
@@ -327,8 +324,8 @@ class Sanitizer
     /**
      * Remove style attributes from html tags
      *
-     * @param   string $str html tag
-     * @return  string filtered html tag
+     * @param  string $str html tag
+     * @return string filtered html tag
      */
     protected function removeStyle($str)
     {
@@ -344,8 +341,8 @@ class Sanitizer
     /**
      * Callback for PCRE
      *
-     * @param   array $matches
-     * @return  string
+     * @param  array  $matches
+     * @return string
      * @see     removeStyle
      */
     protected function _removeStyleCallback($matches)
@@ -357,25 +354,22 @@ class Sanitizer
      * Remove dangerous HTML tags
      *
      * @access  private
-     * @param   string $str html code
-     * @return  string filtered url
+     * @param  string $str html code
+     * @return string filtered url
      */
     protected function removeEvilTags($str)
     {
         $allowedTags = $this->_allowedTags;
 
-        if($this->_allowScript)
-        {
+        if ($this->_allowScript) {
             $allowedTags .= '<script>';
         }
 
-        if($this->_allowStyle)
-        {
+        if ($this->_allowStyle) {
             $allowedTags .= '<style>';
         }
 
-        if($this->_allowObjects)
-        {
+        if ($this->_allowObjects) {
             $allowedTags .= '<object><embed><applet><param>';
         }
 
@@ -391,8 +385,8 @@ class Sanitizer
     /**
      * Remove unwanted tags
      *
-     * @param   string $str html
-     * @param   string $tagList allowed tag list
+     * @param string $str     html
+     * @param string $tagList allowed tag list
      */
     protected function _stripTags($str, $tagList)
     {
@@ -428,8 +422,8 @@ class Sanitizer
      * - removes  dangerous tags and attributes
      * - cleand urls
      *
-     * @param   string $html html code
-     * @return  string sanitized html code
+     * @param  string $html html code
+     * @return string sanitized html code
      */
     public function sanitize($html)
     {
@@ -445,7 +439,6 @@ class Sanitizer
     }
 }
 
-
 /**
  * Sanitize HTML code
  *
@@ -454,10 +447,9 @@ class Sanitizer
  */
 function html_sanitize_all($str)
 {
-    static $san = null;
+    public static $san = null;
 
-    if(empty($san))
-    {
+    if (empty($san)) {
         $san = new Koch_Html_Sanitizer;
     }
 
@@ -472,10 +464,9 @@ function html_sanitize_all($str)
  */
 function html_sanitize_editor($str)
 {
-    static $san = null;
+    public static $san = null;
 
-    if(empty($san))
-    {
+    if (empty($san)) {
         $san = new Koch_Html_Sanitizer;
         $san->allowObjects();
     }
@@ -512,13 +503,12 @@ final class RemoveXSS
      *
      * @param       string          Input string
      * @param       string          replaceString for inserting in keywords (which destroyes the tags)
-     * @return      string          Input string with potential XSS code removed
+     * @return string Input string with potential XSS code removed
      */
     public static function process($val, $replaceString = '<x>')
     {
         # don't use empty $replaceString because then no XSS-remove will be done
-        if($replaceString == '')
-        {
+        if ($replaceString == '') {
             $replaceString = '<x>';
         }
 
@@ -532,8 +522,7 @@ final class RemoveXSS
         $searchHexEncodings = '/&#[xX]0{0,8}(21|22|23|24|25|26|27|28|29|2a|2b|2d|2f|30|31|32|33|34|35|36|37|38|39|3a|3b|3d|3f|40|41|42|43|44|45|46|47|48|49|4a|4b|4c|4d|4e|4f|50|51|52|53|54|55|56|57|58|59|5a|5b|5c|5d|5e|5f|60|61|62|63|64|65|66|67|68|69|6a|6b|6c|6d|6e|6f|70|71|72|73|74|75|76|77|78|79|7a|7b|7c|7d|7e);?/ie';
         $searchUnicodeEncodings = '/&#0{0,8}(33|34|35|36|37|38|39|40|41|42|43|45|47|48|49|50|51|52|53|54|55|56|57|58|59|61|63|64|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|91|92|93|94|95|96|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122|123|124|125|126);?/ie';
 
-        while(preg_match($searchHexEncodings, $val) || preg_match($searchUnicodeEncodings, $val))
-        {
+        while (preg_match($searchHexEncodings, $val) || preg_match($searchUnicodeEncodings, $val)) {
             $val = preg_replace($searchHexEncodings, "chr(hexdec('\\1'))", $val);
             $val = preg_replace($searchUnicodeEncodings, "chr('\\1')", $val);
         }
@@ -548,24 +537,19 @@ final class RemoveXSS
         $val2 = preg_replace('/(&#[xX]?0{0,8}(9|10|13|a|b);)*\s*/i', '', $val);
         $ra = array();
 
-        foreach($ra1 as $ra1word)
-        {
+        foreach ($ra1 as $ra1word) {
             # stripos is faster than the regular expressions used later
             # and because the words we're looking for only have chars < 0x80
             # we can use the non-multibyte safe version
-            if(stripos($val2, $ra1word) !== false)
-            {
+            if (stripos($val2, $ra1word) !== false) {
                 # keep list of potential words that were found
-                if(in_array($ra1word, $ra_protocol))
-                {
+                if (in_array($ra1word, $ra_protocol)) {
                     $ra[] = array($ra1word, 'ra_protocol');
                 }
-                if(in_array($ra1word, $ra_tag))
-                {
+                if (in_array($ra1word, $ra_tag)) {
                     $ra[] = array($ra1word, 'ra_tag');
                 }
-                if(in_array($ra1word, $ra_attribute))
-                {
+                if (in_array($ra1word, $ra_attribute)) {
                     $ra[] = array($ra1word, 'ra_attribute');
                 }
                 # some keywords appear in more than one array
@@ -574,29 +558,23 @@ final class RemoveXSS
         }
 
         # only process potential words
-        if(count($ra) > 0)
-        {
+        if (count($ra) > 0) {
             # keep replacing as long as the previous round replaced something
             $found = true;
 
-            while($found == true)
-            {
+            while ($found == true) {
                 $val_before = $val;
-                for($i = 0; $i < sizeof($ra); $i++)
-                {
+                for ($i = 0; $i < sizeof($ra); $i++) {
                     $pattern = '';
-                    for($j = 0; $j < strlen($ra[$i][0]); $j++)
-                    {
-                        if($j > 0)
-                        {
+                    for ($j = 0; $j < strlen($ra[$i][0]); $j++) {
+                        if ($j > 0) {
                             $pattern .= '((&#[xX]0{0,8}([9ab]);)|(&#0{0,8}(9|10|13);)|\s)*';
                         }
                         $pattern .= $ra[$i][0][$j];
                     }
 
                     # handle each type a little different (extra conditions to prevent false positives a bit better)
-                    switch($ra[$i][1])
-                    {
+                    switch ($ra[$i][1]) {
                         case 'ra_protocol':
                             # these take the form of e.g. 'javascript:'
                             $pattern .= '((&#[xX]0{0,8}([9ab]);)|(&#0{0,8}(9|10|13);)|\s)*(?=:)';
@@ -620,8 +598,7 @@ final class RemoveXSS
                     # filter out the hex tags
                     $val = preg_replace($pattern, $replacement, $val);
 
-                    if($val_before == $val)
-                    {
+                    if ($val_before == $val) {
                         # no replacements were made, so exit the loop
                         $found = false;
                     }
@@ -633,4 +610,3 @@ final class RemoveXSS
     }
 
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\MVC;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -100,8 +99,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         unset($_REQUEST);
         unset($GLOBALS);
 
-        if($ids_on === true)
-        {
+        if ($ids_on === true) {
             # 2) Run Intrusion Detection System (on GET, POST, COOKIES)
             $doorKeeper = new Koch_DoorKeeper;
             $doorKeeper->runIDS();
@@ -203,13 +201,11 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public function expectParameters(array $parameters)
     {
-        foreach($parameters as $parameter => $array_or_parametername)
-        {
+        foreach ($parameters as $parameter => $array_or_parametername) {
             /**
              * check if we have some rules to process
              */
-            if(true === is_array($array_or_parametername))
-            {
+            if (true === is_array($array_or_parametername)) {
                 $array_name         = $array_or_parametername[0];      # GET|POST|COOKIE
                 #$validation_rules   = $array_or_parametername[1];      # some validation commands
 
@@ -223,9 +219,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
                  */
                #$this->validateParameter($parameter, $validation_rules);
 
-            }
-            else # if(is_int($array_or_parametername))
-            {
+            } else { # if(is_int($array_or_parametername))
                 $this->expectParameter($array_or_parametername);
             }
         }
@@ -246,17 +240,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     public function expectParameter($parameter, $arrayname = '')
     {
         # when array is not defined issetParameter will searches (POST|GET|COOKIE)
-        if(is_string($arrayname) === true)
-        {
-            if(false === $this->issetParameter($parameter))
-            {
+        if (is_string($arrayname) === true) {
+            if (false === $this->issetParameter($parameter)) {
                 throw new Koch_Exception('Incoming Parameter missing: "' . $parameter . '".');
             }
-        }
-        else # when array is defined issetParameter will search the given array
-        {
-            if(false === $this->issetParameter($parameter, $arrayname))
-            {
+        } else { # when array is defined issetParameter will search the given array
+            if (false === $this->issetParameter($parameter, $arrayname)) {
                 throw new Koch_Exception('Incoming Parameter missing: "' . $parameter . '" in Array "' . $arrayname . '".');
             }
         }
@@ -265,9 +254,9 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     /**
      * isset, checks if a certain parameter exists in the parameters array
      *
-     * @param string $name Name of the Parameter
-     * @param string $arrayname GET, POST, COOKIE. Default = GET.
-     * @param boolean $where If set to true, method will return the name of the array the parameter was found in.
+     * @param  string               $name      Name of the Parameter
+     * @param  string               $arrayname GET, POST, COOKIE. Default = GET.
+     * @param  boolean              $where     If set to true, method will return the name of the array the parameter was found in.
      * @return mixed|boolean|string arrayname
      *
      */
@@ -275,41 +264,27 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         $arrayname = mb_strtoupper($arrayname);
 
-        if( ($arrayname == 'GET' and isset($this->get_parameters[$name])) or isset($this->get_parameters[$name]))
-        {
-            if($where === false)
-            {
+        if ( ($arrayname == 'GET' and isset($this->get_parameters[$name])) or isset($this->get_parameters[$name])) {
+            if ($where === false) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return 'get';
             }
-        }
-        elseif( ($arrayname == 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name]))
+        } elseif( ($arrayname == 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name]))
         {
-            if($where === false)
-            {
+            if ($where === false) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return 'post';
             }
-        }
-        elseif( ($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name])) or isset($this->cookie_parameters[$name]))
+        } elseif( ($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name])) or isset($this->cookie_parameters[$name]))
         {
-            if($where === false)
-            {
+            if ($where === false) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return 'cookie';
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -317,9 +292,9 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     /**
      * get, returns a certain parameter if existing
      *
-     * @param string $name Name of the Parameter
+     * @param string $name      Name of the Parameter
      * @param string $arrayname GET, POST, COOKIE. Default = POST.
-     * @param string $default You can set a default value. It's returned if parametername was not found.
+     * @param string $default   You can set a default value. It's returned if parametername was not found.
      *
      * @return mixed data | null
      */
@@ -334,18 +309,16 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         /**
          * we use type hinting here to cast the string with array name to boolean
          */
-        if((bool) $parameter_array === true)
-        {
+        if ((bool) $parameter_array === true) {
             # this returns a value from the parameterarray
+
             return $this->{mb_strtolower($parameter_array).'_parameters'}[$name];
-        }
-        elseif($default !== null)
+        } elseif($default !== null)
         {
             # this returns the default value,incomming via method property $default
+
             return $default;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -353,18 +326,15 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     /**
      * set, returns a certain parameter if existing
      *
-     * @param string $name Name of the Parameter
-     * @param string $arrayname G, P, C. Default = POST.
-     * @return mixed data | null
+     * @param  string $name      Name of the Parameter
+     * @param  string $arrayname G, P, C. Default = POST.
+     * @return mixed  data | null
      */
     public function setParameter($name, $arrayname = 'POST')
     {
-        if(true == $this->issetParameter($name, $arrayname))
-        {
+        if (true == $this->issetParameter($name, $arrayname)) {
             return $this->{mb_strtolower($arrayname).'_parameters'}[$name];
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -372,8 +342,8 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     /**
      * Shortcut to get a Parameter from $_POST
      *
-     * @param string $name Name of the Parameter
-     * @return mixed data | null
+     * @param  string $name Name of the Parameter
+     * @return mixed  data | null
      */
     public function getParameterFromPost($name)
     {
@@ -383,8 +353,8 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     /**
      * Shortcut to get a Parameter from $_GET
      *
-     * @param string $name Name of the Parameter
-     * @return mixed data | null
+     * @param  string $name Name of the Parameter
+     * @return mixed  data | null
      */
     public function getParameterFromGet($name)
     {
@@ -394,17 +364,14 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     /**
      * Shortcut to get a Parameter from $_SERVER
      *
-     * @param string $name Name of the Parameter
-     * @return mixed data | null
+     * @param  string $name Name of the Parameter
+     * @return mixed  data | null
      */
     public function getParameterFromServer($name)
     {
-        if (in_array($name, array_keys($_SERVER)))
-        {
+        if (in_array($name, array_keys($_SERVER))) {
             return $_SERVER[$name];
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -412,13 +379,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     /**
      * Get previously set cookies.
      *
-     * @param string $name Name of the Cookie
+     * @param  string  $name Name of the Cookie
      * @return Returns an associative array containing any previously set cookies.
      */
     public function getParameterFromCookie($name)
     {
-        if(isset($this->cookie_parameters[$name]) == true)
-        {
+        if (isset($this->cookie_parameters[$name]) == true) {
             return $this->cookie_parameters($name);
         }
     }
@@ -426,15 +392,14 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     /**
      * Get Value of a specific http-header
      *
-     * @param string $name Name of the Parameter
+     * @param  string $name Name of the Parameter
      * @return string
      */
     public static function getHeader($name)
     {
         $name = 'HTTP_' . mb_strtoupper(str_replace('-','_', $name));
 
-        if (isset($_SERVER[$name]))
-        {
+        if (isset($_SERVER[$name])) {
             return $_SERVER[$name];
         }
 
@@ -452,12 +417,9 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getServerProtocol()
     {
-        if(self::isSecure())
-        {
+        if (self::isSecure()) {
              return 'https://';
-        }
-        else
-        {
+        } else {
              return 'http://';
         }
     }
@@ -472,12 +434,9 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function isSecure()
     {
-        if(isset($_SERVER['HTTPS']) and (mb_strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') )
-        {
+        if (isset($_SERVER['HTTPS']) and (mb_strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') ) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -489,8 +448,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     private static function getServerPort()
     {
-        if ( isset($_SERVER['HTTPS']) == false and $_SERVER['SERVER_PORT'] != 80 or isset($_SERVER['HTTPS']) and $_SERVER['SERVER_PORT'] != 443 )
-        {
+        if ( isset($_SERVER['HTTPS']) == false and $_SERVER['SERVER_PORT'] != 80 or isset($_SERVER['HTTPS']) and $_SERVER['SERVER_PORT'] != 443 ) {
             return ':'.$_SERVER['SERVER_PORT'];
         }
     }
@@ -506,8 +464,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getBaseURL()
     {
-        if( empty(self::$baseURL) )
-        {
+        if ( empty(self::$baseURL) ) {
             # 1. Determine Protocol
             self::$baseURL = self::getServerProtocol();
 
@@ -538,20 +495,17 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getRequestURI()
     {
-        if(isset($_SERVER['REQUEST_URI']))
-        {
+        if (isset($_SERVER['REQUEST_URI'])) {
             return urldecode(mb_strtolower($_SERVER['REQUEST_URI']));
         }
 
         # MS-IIS and ISAPI Rewrite Filter (only on windows platforms)
-        if(isset($_SERVER['HTTP_X_REWRITE_URL']) and stripos(PHP_OS, 'WIN') !== false)
-        {
+        if (isset($_SERVER['HTTP_X_REWRITE_URL']) and stripos(PHP_OS, 'WIN') !== false) {
             return urldecode(mb_strtolower($_SERVER['HTTP_X_REWRITE_URL']));
         }
 
         $p = $_SERVER['SCRIPT_NAME'];
-        if(isset($_SERVER['QUERY_STRING']))
-        {
+        if (isset($_SERVER['QUERY_STRING'])) {
             $p .= '?' . $_SERVER['QUERY_STRING'];
         }
 
@@ -597,11 +551,9 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         $ip = null;
 
-        if(isset($_SERVER['HTTP_CLIENT_IP']))
-        {
+        if (isset($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        }
-        elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        } elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
         {
             $ip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
             $ip = array_pop($ip);
@@ -610,34 +562,26 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         elseif(isset($_SERVER['HTTP_X_REAL_IP']))
         {
             $ip =  $_SERVER['HTTP_X_REAL_IP'];
-        }
-        elseif(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        } elseif(isset($_SERVER['HTTP_FORWARDED_FOR']))
         {
             $ip =  $_SERVER['HTTP_FORWARDED_FOR'];
-        }
-        elseif(isset($_SERVER['HTTP_CLIENT_IP']))
+        } elseif(isset($_SERVER['HTTP_CLIENT_IP']))
         {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        }
-        elseif(isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+        } elseif(isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
         {
             $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-        }
-        elseif(isset($_SERVER['HTTP_FORWARDED']))
+        } elseif(isset($_SERVER['HTTP_FORWARDED']))
         {
             $ip = $_SERVER['HTTP_FORWARDED'];
-        }
-        elseif(isset($_SERVER['HTTP_X_FORWARDED']) )
+        } elseif(isset($_SERVER['HTTP_X_FORWARDED']) )
         {
             $ip =  $_SERVER['HTTP_X_FORWARDED'];
-        }
-        else
-        {
+        } else {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
 
-        if(true === self::validateIP($ip))
-        {
+        if (true === self::validateIP($ip)) {
             return $ip;
         }
     }
@@ -652,6 +596,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         $ua = $_SERVER['HTTP_USER_AGENT'];
         $ua = strip_tags($ua);
         $ua = filter_var($ua, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+
         return $ua;
     }
 
@@ -662,12 +607,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getReferer()
     {
-        if(isset($_SERVER['HTTP_REFERER']) === true)
-        {
+        if (isset($_SERVER['HTTP_REFERER']) === true) {
             $refr = $_SERVER['HTTP_REFERER'];
             $refr = strip_tags($refr);
             $refr = filter_var($refr, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
         }
+
         return $refr;
     }
 
@@ -675,18 +620,15 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      * Validates a given IP
      *
      * @see getRemoteAddress()
-     * @param string $ip The IP address to validate.
-     * @param boolen $ipv6 Boolean true, activates ipv6 checking.
+     * @param  string  $ip   The IP address to validate.
+     * @param  boolen  $ipv6 Boolean true, activates ipv6 checking.
      * @return boolean True, if IP is valid. False, otherwise.
      */
     public static function validateIP($ip, $ipv6 = false)
     {
-        if (true === $ipv6)
-        {
+        if (true === $ipv6) {
             return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
-        }
-        else
-        {
+        } else {
             return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_IPV4);
         }
     }
@@ -730,11 +672,9 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         $allowed_rest_methodnames = array('DELETE', 'PUT');
 
         # request_method has to be POST AND GET has to to have the method GET
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' and $this->issetParameter('GET', 'method'))
-        {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' and $this->issetParameter('GET', 'method')) {
             # check for allowed rest commands
-            if (in_array(mb_strtoupper($_GET['method']), $allowed_rest_methodnames))
-            {
+            if (in_array(mb_strtoupper($_GET['method']), $allowed_rest_methodnames)) {
                 # set the internal (tunneled) method as new REQUEST_METHOD
                 self::setRequestMethod($_GET['method']);
 
@@ -748,17 +688,13 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
                 # rebuild the REQUEST_URI
                 $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
                 # append QUERY_STRING to REQUEST_URI if not empty
-                if ($_SERVER['QUERY_STRING'] != '')
-                {
+                if ($_SERVER['QUERY_STRING'] != '') {
                     $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
                 }
-            }
-            else
-            {
+            } else {
                 throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
             }
-        }
-        elseif($_SERVER['REQUEST_METHOD'] == 'GET' and $this->issetParameter('GET', 'method'))
+        } elseif($_SERVER['REQUEST_METHOD'] == 'GET' and $this->issetParameter('GET', 'method'))
         {
             # NOPE, there's no tunneling through GET!
             throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
@@ -776,23 +712,18 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getRequestMethod()
     {
-        if(isset(self::$request_method))
-        {
+        if (isset(self::$request_method)) {
             return self::$request_method;
-        }
-        else
-        {
+        } else {
             $method = $_SERVER['REQUEST_METHOD'];
 
             # get method from "http method override" header
-            if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']))
-            {
+            if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
                 $method = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
             }
 
             # add support for HEAD requests, which are GET requests
-            if($method == 'HEAD')
-            {
+            if ($method == 'HEAD') {
                 $method = 'GET';
             }
 
@@ -816,16 +747,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function isAjax()
     {
-        if(isset($_SERVER['X-Requested-With']) and $_SERVER['X-Requested-With'] === 'XMLHttpRequest')
+        if (isset($_SERVER['X-Requested-With']) and $_SERVER['X-Requested-With'] === 'XMLHttpRequest') {
+            return true;
+        } elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')
         {
             return true;
-        }
-        elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')
-        {
-            return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -902,4 +829,3 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         return;
     }
 }
-?>

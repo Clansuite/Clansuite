@@ -31,8 +31,7 @@
     */
 
 //Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -61,11 +60,10 @@ class Bbcode
      */
     public $bbcode;
 
-    function __construct()
+    public function __construct()
     {
         # Include Stringpaser_bbcode Class
-        if(false === class_exists('StringParser_BBCode', false))
-        {
+        if (false === class_exists('StringParser_BBCode', false)) {
             include ROOT_LIBRARIES . 'bbcode/stringparser_bbcode.class.php';
         }
 
@@ -156,8 +154,7 @@ class Bbcode
         /**
          * Add the BBCodes from DB via addCode
          */
-        foreach( $bbcodes as $key => $code )
-        {
+        foreach ($bbcodes as $key => $code) {
             # allowed
             $allowed_in = explode(',', $code['allowed_in']);
 
@@ -199,13 +196,11 @@ class Bbcode
      */
     private function do_bbcode_url ($action, $attributes, $content, $params, $node_object)
     {
-        if ($action == 'validate')
-        {
+        if ($action == 'validate') {
             return true;
         }
 
-        if (!isset ($attributes['default']))
-        {
+        if (!isset ($attributes['default'])) {
             return '<a href="'.htmlspecialchars ($content).'">'.htmlspecialchars ($content).'</a>';
         }
 
@@ -220,8 +215,7 @@ class Bbcode
      */
     private function do_bbcode_img ($action, $attributes, $content, $params, $node_object)
     {
-        if ($action == 'validate')
-        {
+        if ($action == 'validate') {
             return true;
         }
 
@@ -235,14 +229,12 @@ class Bbcode
      */
     private function do_bbcode_code ($action, $attributes, $content, $params, $node_object)
     {
-        if ($action == 'validate')
-        {
+        if ($action == 'validate') {
             return true;
         }
 
         # Include & Instantiate GeSHi
-        if( false === class_exists('GeSHi',false) )
-        {
+        if ( false === class_exists('GeSHi',false) ) {
             include ROOT_LIBRARIES . 'geshi/geshi.php';
         }
 
@@ -264,4 +256,3 @@ class Bbcode
         return preg_replace ("/\015\012|\015|\012/", "\n", $text);
     }
 }
-?>

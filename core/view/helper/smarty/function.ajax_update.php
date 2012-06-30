@@ -32,7 +32,6 @@ function smarty_function_ajax_update($params)
   $parameters = isset($params['params']) ? $params['params'] : '';
   $callback = isset($params['callback']) ? $params['callback'] : '';
 
-
   if ($parameters !== '') $parameters .= '&amp;';
   $parameters .= 'f=' . $function;
 
@@ -42,5 +41,3 @@ function smarty_function_ajax_update($params)
                             \'' . $parameters . '\',
                             \'' . $callback . '\'); return false;';
 }
-
-?>

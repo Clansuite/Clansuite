@@ -5,7 +5,6 @@
  * @subpackage plugins
  */
 
-
 /**
  * Smarty plugin
  *
@@ -28,5 +27,3 @@ function smarty_modifier_megabytes($string)
 }
 
 /* vim: set expandtab: */
-
-?>

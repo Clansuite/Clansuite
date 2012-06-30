@@ -33,8 +33,7 @@
 namespace Koch\Cache;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -53,13 +52,12 @@ abstract class AbstractCache
     /**
      * Set Prefix for the cache key.
      *
-     * @param string $prefix The prefix for all cache keys.
+     * @param  string                   $prefix The prefix for all cache keys.
      * @throws InvalidArgumentException if prefix is empty
      */
     public function setPrefix($prefix)
     {
-        if(empty($prefix))
-        {
+        if (empty($prefix)) {
             throw new InvalidArgumentException('Prefix must not be empty.');
         }
 
@@ -76,4 +74,3 @@ abstract class AbstractCache
         return $this->prefix;
     }
 }
-?>

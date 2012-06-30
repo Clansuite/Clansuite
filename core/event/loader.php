@@ -30,11 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Event;
+namespace Koch\event;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 /**
@@ -47,7 +46,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Eventloader
  */
-class Loader
+class loader
 {
     /**
      * Loads and registers all events of the core and all activated modules.
@@ -61,19 +60,15 @@ class Loader
     /**
      * Registers multiple Events by Name
      *
-     * @param array $events_array eventname => filename
+     * @param array $events_array  eventname => filename
      * @param array $event_objects eventname => object
      */
     public static function loadEventHandlers($events)
     {
-        if(empty($events) or is_array($events) === false)
-        {
+        if (empty($events) or is_array($events) === false) {
             return;
-        }
-        else # ok, we got an array with some event names
-        {
-            foreach($events as $event)
-            {
+        } else { # ok, we got an array with some event names
+            foreach ($events as $event) {
                 # array[0] filename
                 $filename = $array[0];
 
@@ -129,10 +124,8 @@ class Loader
         $modules = Koch_ModuleInfoController::getAllActivatedModules();
 
         # load eventhandlers for each module
-        foreach($modules as $module)
-        {
+        foreach ($modules as $module) {
             self::loadModuleEvents($module);
         }
     }
 }
-?>

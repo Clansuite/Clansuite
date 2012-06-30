@@ -35,8 +35,7 @@ namespace Koch\Localization;
 use Koch\Config\Config;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -98,8 +97,7 @@ class Localization
          * @link https://savannah.nongnu.org/projects/php-gettext PHP-GETTEXT Library
          * @link http://www.gnu.org/software/gettext/manual/gettext.html GNU Gettext
          */
-        if(function_exists('_get_reader') === false)
-        {
+        if (function_exists('_get_reader') === false) {
             include ROOT_LIBRARIES . 'php-gettext/gettext.inc';
         }
 
@@ -121,14 +119,11 @@ class Localization
         {
             # use language setting from session
             $this->locale = $_SESSION['user']['language'];
-        }
-        else # get language from the browser AND set it to session
-        {
+        } else { # get language from the browser AND set it to session
             $this->locale = $this->getLanguage();
             $_SESSION['user']['language'] = $this->locale;
 
-            if(empty($this->locale)) # 3) get the default language from config as fallback
-            {
+            if (empty($this->locale)) # 3) { get the default language from config as fallback
                 $this->locale = self::$config['language']['default'];
             }
         }
@@ -157,8 +152,7 @@ class Localization
         #Koch_Debug::firebug($module);
 
         # if, $locale string is not over 3 chars long -> $locale = "en", build "en_EN"
-        if(isset($locale{3}) == false)
-        {
+        if (isset($locale{3}) == false) {
             $locale = mb_strtolower($locale) . '_' . mb_strtoupper($locale);
         }
 
@@ -171,13 +165,10 @@ class Localization
         /**
          * Set the domain_directory (where look for MO files named $domain.po)
          */
-        if($module === null)
-        {
+        if ($module === null) {
             # for domain 'clansuite', it's the ROOT_LANGUAGES directory
             $domain_directory = ROOT_LANGUAGES;
-        }
-        else # set a specific module directory
-        {
+        } else { # set a specific module directory
             $domain_directory = ROOT_MOD . $module . DS . 'languages';
         }
 
@@ -187,6 +178,7 @@ class Localization
         T_textdomain($domain);
 
         #Koch_Debug::firebug('<p>Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'" for "'. $module .'"</p>');
+
         return true;
     }
 
@@ -209,17 +201,16 @@ class Localization
         $browserLanguages = $this->getBrowserLanguages();
 
         # look if the browser language is a supported language, by checking the array entries
-        foreach($browserLanguages as $browserLanguage)
-        {
+        foreach ($browserLanguages as $browserLanguage) {
             # if a supported language is found, set it and stop
-            if(in_array($browserLanguage, $supported))
-            {
+            if (in_array($browserLanguage, $supported)) {
                 $language = $browserLanguage;
                 break;
             }
         }
 
         # return the found language
+
         return $language;
     }
 
@@ -246,31 +237,27 @@ class Localization
     public function getBrowserLanguages()
     {
         # check if environment variable HTTP_ACCEPT_LANGUAGE exists
-        if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) === false)
-        {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) === false) {
             # if not return an empty language array
-            return array();
-        }
 
-        elseif(extension_loaded('intl') === true)
+            return array();
+        } elseif(extension_loaded('intl') === true)
         {
             /**
              * Try to find best available locale based on HTTP "Accept-Language" header
              * via Locale class, which is part INTL, a php default extension as of php 5.3.
              */
             $lang =  Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+
             return (array) mb_substr($lang, 0, 2);
-        }
-        else # fallback for non "ext/intl" environments
-        {
+        } else { # fallback for non "ext/intl" environments
             # explode environment variable HTTP_ACCEPT_LANGUAGE at ,
             $browserLanguages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
             # convert the headers string to an array
             $browserLanguagesSize = count($browserLanguages);
 
-            for($i = 0; $i < $browserLanguagesSize; $i++)
-            {
+            for ($i = 0; $i < $browserLanguagesSize; $i++) {
                 # explode string at ;
                 $browserLanguage = explode(';', $browserLanguages[$i]);
                 # cut string and place into array
@@ -278,8 +265,8 @@ class Localization
             }
 
             # remove the duplicates and return the browser languages
+
             return array_values(array_keys(array_flip($browserLanguages)));
         }
     }
 }
-?>

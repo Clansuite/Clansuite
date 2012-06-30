@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -83,8 +82,7 @@ class Hidden extends Input implements FormelementInterface
     {
         $data = '';
 
-        if(is_array($value))
-        {
+        if (is_array($value)) {
             # transform the array to a string by imploding it with comma
             $data = implode(',', $value);
 
@@ -95,13 +93,10 @@ class Hidden extends Input implements FormelementInterface
              * to be exploded again, when incomming as $_POST data.
              */
             $this->setName('_imploded_array');
-        }
-        elseif((is_string($value) === true) or (is_numeric($value) === true))
+        } elseif((is_string($value) === true) or (is_numeric($value) === true))
         {
             $data = $value;
-        }
-        else
-        {
+        } else {
             $msg = _('%s() only accepts array, string or numeric as $value. Your input was (%s) %s.');
             $msg = sprintf($msg, __METHOD__, gettype($value), $value);
             throw new InvalidArgumentException($msg);
@@ -115,7 +110,7 @@ class Hidden extends Input implements FormelementInterface
     /**
      * Proxy / Convenience Method for setName() and setValue() (a two in one call)
      *
-     * @param type $name
+     * @param type         $name
      * @param string|array $value The data you want to pass through POST.
      */
     public function setData($name, $value)
@@ -124,4 +119,3 @@ class Hidden extends Input implements FormelementInterface
         $this->setValue($value);
     }
 }
-?>

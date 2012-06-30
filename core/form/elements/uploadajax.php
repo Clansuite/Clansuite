@@ -36,8 +36,7 @@ use Koch\Form\Elements\File;
 use Koch\Form\FormelementInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -62,9 +61,10 @@ class Uploadajax extends File implements FormelementInterface
                     // name of the file input box
                     name: 'uploadfile',
                     onSubmit: function(file, ext){
-                        if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+                        if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))) {
                             // check for valid file extension
                             status.text('Only JPG, PNG or GIF files are allowed');
+
                             return false;
                         }
                         status.text('Uploading...');
@@ -75,9 +75,9 @@ class Uploadajax extends File implements FormelementInterface
                         status.text('');
 
                         // add uploaded file to list
-                        if(response===\"success\"){
+                        if (response===\"success\") {
                             $('<li></li>').appendTo('#files').html('<img src=\"./uploads/'+file+'\" alt=\"\" /><br />'+file).addClass('success');
-                        } else{
+                        } else {
                             $('<li></li>').appendTo('#files').text(file).addClass('error');
                         }
                     }
@@ -109,4 +109,3 @@ class Uploadajax extends File implements FormelementInterface
         return $javascript.$html;
     }
 }
-?>

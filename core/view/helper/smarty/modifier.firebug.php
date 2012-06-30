@@ -28,11 +28,9 @@ function smarty_modifier_firebug($var)
     Koch_Debug::firebug($var);
 
     # using firebug directly
-    /*if(false === class_exists('FirePHP', false))
-    {
+    /*if (false === class_exists('FirePHP', false)) {
         include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
     }
     $firephp = FirePHP::getInstance(true);
     $firephp->log($var); */
 }
-?>

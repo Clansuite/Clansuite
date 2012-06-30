@@ -35,8 +35,7 @@ namespace Koch\View\Renderer;
 use Koch\View\AbstractRenderer;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -79,7 +78,7 @@ class CSV extends AbstractRenderer
     }
 
     /**
-     * @param array $data the array with the data to write as csv
+     * @param array $data   the array with the data to write as csv
      * @param array $header additional array with column headings (first row of the data)
      */
     public function assign($data, $headers = array())
@@ -101,38 +100,31 @@ class CSV extends AbstractRenderer
      * @link http://de.php.net/manual/de/function.fputcsv.php#90883
      *
      * @param string $filepath location of where the csv file should be saved
-     * @param array $data the array with the data to write as csv
-     * @param array $header additional array with column headings (first row of the data)
+     * @param array  $data     the array with the data to write as csv
+     * @param array  $header   additional array with column headings (first row of the data)
      */
     private function mssafe_csv($filepath, $data, $header = array())
     {
         $fp = fopen($filepath, 'w');
 
-        if($fp === true)
-        {
+        if ($fp === true) {
             $show_header = true;
 
-            if(empty($header))
-            {
+            if (empty($header)) {
                 $show_header = false;
                 reset($data);
                 $line = current($data);
 
-                if(empty($line) == false)
-                {
+                if (empty($line) == false) {
                     reset($line);
                     $first = current($line);
 
-                    if(mb_substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false)
-                    {
+                    if (mb_substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false) {
                         array_shift($data);
                         array_shift($line);
-                        if(empty($line) == true)
-                        {
+                        if (empty($line) == true) {
                             fwrite($fp, '"' . $first . '"' . '\r\n');
-                        }
-                        else
-                        {
+                        } else {
                             fwrite($fp, '"' . $first . '",');
                             fputcsv($fp, mb_split(',', $line));
                             fseek($fp, -1, SEEK_CUR);
@@ -140,48 +132,38 @@ class CSV extends AbstractRenderer
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 reset($header);
                 $first = current($header);
 
-                if(mb_substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false)
-                {
+                if (mb_substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false) {
                     array_shift($header);
 
-                    if(empty($header))
-                    {
+                    if (empty($header)) {
                         $show_header = false;
                         fwrite($fp, '"' . $first . '"' . '\r\n');
-                    }
-                    else
-                    {
+                    } else {
                         fwrite($fp, '"' . $first . '",');
                     }
                 }
             }
 
-            if($show_header)
-            {
+            if ($show_header) {
                 fputcsv($fp, $header);
                 fseek($fp, -1, SEEK_CUR);
                 fwrite($fp, '\r\n');
             }
 
-            foreach($data as $line)
-            {
+            foreach ($data as $line) {
                 fputcsv($fp, $line);
                 fseek($fp, -1, SEEK_CUR);
                 fwrite($fp, '\r\n');
             }
             fclose($fp);
-        }
-        else
-        {
+        } else {
             return false;
         }
+
         return true;
     }
 }
-?>

@@ -31,8 +31,7 @@
     */
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -72,12 +71,9 @@ class Koch_Formelement_Cancelbutton extends Koch_Formelement_Input implements Ko
      */
     public function setCancelURL($cancelURL, $suppressWrapping = false)
     {
-        if($suppressWrapping === false)
-        {
+        if ($suppressWrapping === false) {
             $this->cancelURL = 'window.location.href=\'' . $cancelURL . '\'';
-        }
-        else
-        {
+        } else {
            $this->cancelURL = $cancelURL;
         }
     }
@@ -85,7 +81,7 @@ class Koch_Formelement_Cancelbutton extends Koch_Formelement_Input implements Ko
     public function render()
     {
         $this->setAdditionalAttributeAsText(' onclick="' . $this->getCancelURL() . '"');
+
         return parent::render();
     }
 }
-?>

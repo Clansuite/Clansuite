@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -54,15 +53,14 @@ class JQSelectImage extends Select implements FormelementInterface
     /**
      * JQSelectImage uses a simple jquery selection to insert the img src into a preview div
      */
-    function __construct()
+    public function __construct()
     {
         $this->type = 'image';
     }
 
     public function getFiles()
     {
-        if (false === class_exists('Koch_Directory',false))
-        {
+        if (false === class_exists('Koch_Directory',false)) {
             include ROOT_CORE . 'files/file.core.php';
         }
 
@@ -105,12 +103,9 @@ class JQSelectImage extends Select implements FormelementInterface
         # set "images" hardcoded to identify the select options and append the Name
         parent::setID('images_'.$this->getNameWithoutBrackets());
 
-        if(empty($files))
-        {
+        if (empty($files)) {
             $this->html = 'There are no images in "'.$this->getDirectory().'" to select. Please upload some.';
-        }
-        else
-        {
+        } else {
             $this->setOptions($files);
 
             # @todo first image is not displayed... display it.
@@ -134,4 +129,3 @@ class JQSelectImage extends Select implements FormelementInterface
     }
 
 }
-?>

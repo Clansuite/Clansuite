@@ -35,8 +35,7 @@ namespace Koch\Form\Validators;
 use Koch\Form\Validator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -62,23 +61,18 @@ class Locale extends Validator
         # turns "de_DE" into "de"
         $short_code = mb_substr($locale, 0, 2);
 
-        if((isset($l10n_langs[$short_code]) === true) or (array_key_exists($short_code, $l10n_langs) === true))
-        {
+        if ((isset($l10n_langs[$short_code]) === true) or (array_key_exists($short_code, $l10n_langs) === true)) {
             # looks in "de" array, returns "de_AT", "de_CH", "de_DE"...
             $sublocales = $l10n_langs[$short_code];
-        }
-        else
-        {
+        } else {
             # there are no sublocales for this locale short code
+
             return false;
         }
 
-        if(true === in_array($locale, array_flip($sublocales)))
-        {
+        if (true === in_array($locale, array_flip($sublocales))) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
 
@@ -87,14 +81,10 @@ class Locale extends Validator
 
     protected function processValidationLogic($value)
     {
-        if(true === self::isLocale($value))
-        {
+        if (true === self::isLocale($value)) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 }
-?>

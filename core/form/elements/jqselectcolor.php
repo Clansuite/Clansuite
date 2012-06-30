@@ -36,8 +36,7 @@ use Koch\Form\Formelement;
 use Koch\Form\FormelementInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -49,18 +48,19 @@ class JQSelectColor extends Formelement implements FormelementInterface
     /**
      * JQSelectColor uses jQuery Farbtastic Colorpicker
      */
-    function __construct()
+    public function __construct()
     {
         $this->type = 'color';
     }
 
     public function getValue()
     {
-        if(empty($this->value))
-        {
+        if (empty($this->value)) {
             # set a default color as return value
+
             return '#123456';
         }
+
         return $this->value;
     }
 
@@ -87,4 +87,3 @@ class JQSelectColor extends Formelement implements FormelementInterface
         return $javascript.$datepicker_js.$html;
     }
 }
-?>

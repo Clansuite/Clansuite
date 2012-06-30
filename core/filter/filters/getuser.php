@@ -38,8 +38,7 @@ use Koch\MVC\HttpResponseInterface;
 use Koch\User\User;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -73,4 +72,3 @@ class GetUser implements FilterInterface
         unset($this->user);
     }
 }
-?>

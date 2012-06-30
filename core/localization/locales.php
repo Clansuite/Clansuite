@@ -602,7 +602,7 @@ $l10n_sys_locales = array(
         'ms-loc' => 'enu',
         'ms-cp' => 'CP1252',
         'google-api' => false,
-    ),	
+    ),
     'es_AR' => array (
         'country' => "Argentina",
         'country-www' => 'ar',
@@ -1440,4 +1440,3 @@ $l10n_sys_locales = array(
         'google-api' => false,
     ),
 );
-?>

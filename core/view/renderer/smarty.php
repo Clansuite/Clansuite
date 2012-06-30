@@ -37,8 +37,7 @@ use Koch\View\Mapper;
 use Koch\Router\TargetRoute;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -67,7 +66,7 @@ class Smarty extends AbstractRenderer
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      */
-    function __construct(\Koch\Config\Config $config)
+    public function __construct(\Koch\Config\Config $config)
     {
         parent::__construct($config);
 
@@ -87,15 +86,11 @@ class Smarty extends AbstractRenderer
     public function initializeEngine($template = null)
     {
         # prevent redeclaration
-        if(class_exists('Smarty', false) === false)
-        {
+        if (class_exists('Smarty', false) === false) {
             # check if Smarty library exists
-            if(is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') === true)
-            {
+            if (is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') === true) {
                 include ROOT_LIBRARIES . 'smarty/Smarty.class.php';
-            }
-            else
-            {
+            } else {
                 throw new Exception('Smarty Template Library missing!');
             }
         }
@@ -121,8 +116,7 @@ class Smarty extends AbstractRenderer
          * Debugging
          */
         $this->renderer->debugging = DEBUG ? true : false; # set smarty debugging, when debug on
-        if($this->renderer->debugging === true)
-        {
+        if ($this->renderer->debugging === true) {
             $this->renderer->debug_tpl = ROOT_THEMES_CORE . 'view/smarty/debug.tpl';   # set debugging template for smarty
             #$this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
             $this->renderer->clearCompiledTemplate(); # clear compiled tpls in case of debug
@@ -135,8 +129,7 @@ class Smarty extends AbstractRenderer
          * SMARTY FILTERS
          */
         $autoload_filters = array();
-        if($this->renderer->debugging === true)
-        {
+        if ($this->renderer->debugging === true) {
             $autoload_filters = array('pre' => array('inserttplnames'));
         }
         $this->renderer->autoload_filters = $autoload_filters;
@@ -158,15 +151,12 @@ class Smarty extends AbstractRenderer
          * recompile/rewrite templates only in debug mode
          * @see http://www.smarty.net/manual/de/variable.compile.check.php
          */
-        if($this->renderer->debugging === true)
-        {
+        if ($this->renderer->debugging === true) {
             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
             $this->renderer->compile_check = true;
             # if true compiles each template everytime, overwrites $compile_check
             $this->renderer->force_compile = true;
-        }
-        else
-        {
+        } else {
             $this->renderer->compile_check = false;
             $this->renderer->force_compile = false;
         }
@@ -174,16 +164,13 @@ class Smarty extends AbstractRenderer
         /**
          * CACHING OPTIONS (set these options if caching is enabled)
          */
-        # Koch_Debug::printr($this->config['smarty']);
-        if($this->renderer->debugging === true)
-        {
+        #\Koch\Debug\Debug::printr($this->config['smarty']);
+        if ($this->renderer->debugging === true) {
             $this->renderer->caching                = 0;
             $this->renderer->cache_lifetime         = 0;       # refresh templates on every load
             # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
             $this->renderer->cache_modified_check   = 0;       # set to 1 to activate
-        }
-        else
-        {
+        } else {
             # $this->renderer->setCaching(true);
             $this->renderer->caching = (bool) $this->config['smarty']['cache'];
             # -1 ... dont expire, 0 ... refresh everytime
@@ -230,7 +217,7 @@ class Smarty extends AbstractRenderer
         # flatten that thing
         $this->renderer->template_dir = \Koch\Functions::array_flatten($tpl_array);
 
-        #Koch_Debug::printR($this->renderer->template_dir);
+        #\Koch\Debug\Debug::printR($this->renderer->template_dir);
 
         /**
          * Smarty Plugins
@@ -250,7 +237,7 @@ class Smarty extends AbstractRenderer
                 ROOT_MOD . TargetRoute::getModuleName() . '/viewhelper/smarty'
         ));
 
-        #Koch_Debug::printR($this->renderer->plugins_dir);
+        #\Koch\Debug\Debug::printR($this->renderer->plugins_dir);
 
         # $this->renderer->registerPlugin('modifier', 'timemarker',  array('benchmark', 'timemarker'));
 
@@ -270,14 +257,11 @@ class Smarty extends AbstractRenderer
      */
     public function getEngine()
     {
-        if(is_object($this->renderer) === true)
-        {
+        if (is_object($this->renderer) === true) {
             # reset all prior assigns and configuration settings
             $this->renderer->clearAllAssign();
             $this->renderer->clearConfig();
-        }
-        else
-        {
+        } else {
             self::initializeEngine();
         }
 
@@ -294,12 +278,9 @@ class Smarty extends AbstractRenderer
      */
     public function setTemplatePath($templatepath)
     {
-        if(is_dir($templatepath) === true and is_readable($templatepath) === true)
-        {
+        if (is_dir($templatepath) === true and is_readable($templatepath) === true) {
             $this->renderer->template_dir[] = $templatepath;
-        }
-        else
-        {
+        } else {
             throw new Exception('Invalid Smarty Template path provided: Path not existing or not readable. Path: ' . $templatepath);
         }
     }
@@ -322,16 +303,13 @@ class Smarty extends AbstractRenderer
      *
      * @see __set()
      * @param string|array $tpl_parameter Is a Key or an Array.
-     * @param mixed $value (optional) In case a key-value pair is used, $value is the value.
+     * @param mixed        $value         (optional) In case a key-value pair is used, $value is the value.
      */
     public function assign($tpl_parameter, $value = null)
     {
-        if(is_array($tpl_parameter) === true or is_object($tpl_parameter) === true )
-        {
+        if (is_array($tpl_parameter) === true or is_object($tpl_parameter) === true ) {
             $this->renderer->assign($tpl_parameter);
-        }
-        else
-        {
+        } else {
             $this->renderer->assign($tpl_parameter, $value);
         }
     }
@@ -339,25 +317,25 @@ class Smarty extends AbstractRenderer
     /**
      * Checks if a template is cached.
      *
-     * @param string $template the resource handle of the template file or template object
-     * @param mixed $cache_id cache id to be used with this template
-     * @param mixed $compile_id compile id to be used with this template
+     * @param  string  $template   the resource handle of the template file or template object
+     * @param  mixed   $cache_id   cache id to be used with this template
+     * @param  mixed   $compile_id compile id to be used with this template
      * @return boolean Returns true in case the template is cached, false otherwise.
      */
     public function isCached($template, $cache_id = null, $compile_id = null)
     {
-        if($this->renderer->isCached($template, $cache_id, $compile_id))
-        {
+        if ($this->renderer->isCached($template, $cache_id, $compile_id)) {
             return true;
         }
+
         return false;
     }
 
     /**
      * Magic Method to get a already set/assigned Variable from Smarty
      *
-     * @param string $key Name of Variable
-     * @return mixed Value of key
+     * @param  string $key Name of Variable
+     * @return mixed  Value of key
      */
     public function __get($key)
     {
@@ -368,7 +346,7 @@ class Smarty extends AbstractRenderer
      * Magic Method to set/assign Variable to Smarty
      *
      * @param string $key Name of the variable
-     * @param mixed $val Value of variable
+     * @param mixed  $val Value of variable
      */
     public function __set($key, $value)
     {
@@ -400,12 +378,12 @@ class Smarty extends AbstractRenderer
     /**
      * Executes the template fetching and returns the result.
      *
-     * @param string|object $template the resource handle of the template file  or template object
-     * @param mixed $cache_id cache id to be used with this template
-     * @param mixed $compile_id compile id to be used with this template
-     * @param object $parent next higher level of Smarty variables
-     * @param boolean $display Renders the template content on true.
-     * @return Returns the $template content.
+     * @param  string|object $template   the resource handle of the template file  or template object
+     * @param  mixed         $cache_id   cache id to be used with this template
+     * @param  mixed         $compile_id compile id to be used with this template
+     * @param  object        $parent     next higher level of Smarty variables
+     * @param  boolean       $display    Renders the template content on true.
+     * @return Returns       the $template content.
      */
     public function fetch($template, $cache_id = null, $compile_id = null, $parent = null, $display = false)
     {
@@ -413,8 +391,7 @@ class Smarty extends AbstractRenderer
         $template = Mapper::getTemplatePath($template);
 
         # create cache_id
-        if($cache_id === null)
-        {
+        if ($cache_id === null) {
             $cache_id = $this->createCacheId();
         }
 
@@ -438,10 +415,10 @@ class Smarty extends AbstractRenderer
     /**
      * Executes the template rendering and displays the result.
      *
-     * @param string|object $template the resource handle of the template file  or template object
-     * @param mixed $cache_id cache id to be used with this template
-     * @param mixed $compile_id compile id to be used with this template
-     * @param object $parent next higher level of Smarty variables
+     * @param string|object $template   the resource handle of the template file  or template object
+     * @param mixed         $cache_id   cache id to be used with this template
+     * @param mixed         $compile_id compile id to be used with this template
+     * @param object        $parent     next higher level of Smarty variables
      */
     public function display($template, $cache_id = null, $compile_id = null, $parent = null)
     {
@@ -470,11 +447,11 @@ class Smarty extends AbstractRenderer
     /**
      * Empty cache for a specific template
      *
-     * @param string  $template_name template name
-     * @param string  $cache_id      cache id
-     * @param string  $compile_id    compile id
-     * @param integer $exp_time      expiration time
-     * @param string  $type          resource type
+     * @param  string  $template_name template name
+     * @param  string  $cache_id      cache id
+     * @param  string  $compile_id    compile id
+     * @param  integer $exp_time      expiration time
+     * @param  string  $type          resource type
      * @return integer number of cache files deleted
      */
     public function clearCache($template_name, $cache_id = null, $compile_id = null, $exp_time = null, $type = null)
@@ -522,10 +499,10 @@ class Smarty extends AbstractRenderer
      */
     public function getRenderMode()
     {
-        if(empty($this->renderMode))
-        {
+        if (empty($this->renderMode)) {
             $this->renderMode = 'LAYOUT';
         }
+
         return $this->renderMode;
     }
 
@@ -538,14 +515,13 @@ class Smarty extends AbstractRenderer
      * 2. fetch the modultemplate and assigns it as $content
      * 3. return the wrapper layout tpl
      *
-     * @param string $templatename Template Filename
-     * @param array|object $data Data to assign to the view.
-     * @return wrapper tpl layout
+     * @param  string       $templatename Template Filename
+     * @param  array|object $data         Data to assign to the view.
+     * @return wrapper      tpl layout
      */
     public function render($template, $viewdata = null)
     {
-        if(isset($viewdata))
-        {
+        if (isset($viewdata)) {
             $this->assign($viewdata);
         }
 
@@ -568,13 +544,11 @@ class Smarty extends AbstractRenderer
          * RenderMode "LAYOUT" means that the (module) content template is embedded,
          * into a layout template, by replacing the {$content} placeholder.
          */
-        if($this->getRenderMode() === 'NOLAYOUT')
-        {
+        if ($this->getRenderMode() === 'NOLAYOUT') {
             return $this->fetch($template);
         }
 
-        if($this->getRenderMode() === 'LAYOUT')
-        {
+        if ($this->getRenderMode() === 'LAYOUT') {
             # ensure that smarty tags {$content} and {copyright} are present in the layout template
             #if(true === $this->preRenderChecks())
             #{
@@ -600,12 +574,10 @@ class Smarty extends AbstractRenderer
 
         $this->renderer->template_dir = Koch_Functions::array_flatten($this->renderer->template_dir);
 
-        foreach($this->renderer->template_dir as $dir)
-        {
+        foreach ($this->renderer->template_dir as $dir) {
             $filename = $dir . $layout_tpl_name;
 
-            if(is_file($filename) === true)
-            {
+            if (is_file($filename) === true) {
                 return self::preRenderCheck($filename, file_get_contents($filename));
             }
         }
@@ -645,19 +617,13 @@ class Smarty extends AbstractRenderer
             ),
         );
 
-
-        foreach($renderChecksArray as $preRenderCheck)
-        {
-            if(false != mb_strpos($filecontent, $preRenderCheck['needle']))
-            {
+        foreach ($renderChecksArray as $preRenderCheck) {
+            if (false != mb_strpos($filecontent, $preRenderCheck['needle'])) {
                 return true;
-            }
-            else
-            {
+            } else {
                 throw new Koch_Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
             }
         }
     }
 
 }
-?>

@@ -37,8 +37,7 @@ use Koch\Cache\CacheInterface;
 use Koch\Exception\Exception;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -82,10 +81,9 @@ class Memcached extends AbstractCache implements CacheInterface
      *
      * Instantiate and connect to Memcache Server
      */
-    function __construct()
+    public function __construct()
     {
-        if(extension_loaded('memcached') === false)
-        {
+        if (extension_loaded('memcached') === false) {
             throw new Exception('The PHP extension memcache (cache) is not loaded! You may enable it in "php.ini"!', 300);
         }
 
@@ -103,17 +101,14 @@ class Memcached extends AbstractCache implements CacheInterface
     /**
      * Contains checks if a key exists in the cache
      *
-     * @param string $key Identifier for the data
+     * @param  string  $key Identifier for the data
      * @return boolean true|false
      */
     public function contains($key)
     {
-        if( true === $this->memcached->get($key))
-        {
+        if ( true === $this->memcached->get($key)) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -121,8 +116,8 @@ class Memcached extends AbstractCache implements CacheInterface
     /**
      * Convenience/shortcut method for fetch
      *
-     * @param string $key Identifier for the data
-     * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
+     * @param  string $key Identifier for the data
+     * @return mixed  boolean FALSE if the data was not fetched from the cache, DATA on success
      */
     public function get($key)
     {
@@ -132,22 +127,18 @@ class Memcached extends AbstractCache implements CacheInterface
     /**
      * Read a key from the cache
      *
-     * @param string $key Identifier for the data
-     * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
+     * @param  string $key Identifier for the data
+     * @return mixed  boolean FALSE if the data was not fetched from the cache, DATA on success
      */
     public function fetch($key)
     {
         $result = $this->memcached->get($key);
 
-        if($result === false)
-        {
+        if ($result === false) {
             return false;
-        }
-        else
-        {
+        } else {
             # typecast $key to array
-            if(is_array($result) === false)
-            {
+            if (is_array($result) === false) {
                 $result = (array) $result;
             }
 
@@ -158,9 +149,9 @@ class Memcached extends AbstractCache implements CacheInterface
     /**
      * Convenience/shortcut method for storing data by key into cache
      *
-     * @param string $key Identifier for the data
-     * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in minutes
+     * @param  string  $key            Identifier for the data
+     * @param  mixed   $data           Data to be cached
+     * @param  integer $cache_lifetime How long to cache the data, in minutes
      * @return boolean True if the data was successfully cached, false on failure
      */
     public function set($key, $data, $cache_lifetime = 0)
@@ -171,23 +162,22 @@ class Memcached extends AbstractCache implements CacheInterface
     /**
      * Stores data by key into cache
      *
-     * @param string $key Identifier for the data
-     * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in minutes
+     * @param  string  $key            Identifier for the data
+     * @param  mixed   $data           Data to be cached
+     * @param  integer $cache_lifetime How long to cache the data, in minutes
      * @return boolean True if the data was successfully cached, false on failure.
      */
     public function store($key, $data, $cache_lifetime = 0)
     {
         # typecast $data to array
-        if(is_array($data) === false)
-        {
+        if (is_array($data) === false) {
             $data = (array) $data;
         }
 
-        if( $this->memcached->set($key, $data, $cache_lifetime * 60) === true )
-        {
+        if ( $this->memcached->set($key, $data, $cache_lifetime * 60) === true ) {
             return true;
         }
+
         return false;
     }
 
@@ -199,13 +189,11 @@ class Memcached extends AbstractCache implements CacheInterface
     public function delete($keys)
     {
         # typecast $keys to array
-        if(is_array($keys) === false)
-        {
+        if (is_array($keys) === false) {
             $keys = (array) $keys;
         }
 
-        foreach($keys as $key)
-        {
+        foreach ($keys as $key) {
             return $this->memcached->delete($key);
         }
     }
@@ -230,6 +218,7 @@ class Memcached extends AbstractCache implements CacheInterface
         $serverlist = $this->memcached->getserverlist();
 
         # combine arrays
+
         return compact($version, $stats, $serverlist);
     }
 
@@ -250,10 +239,8 @@ class Memcached extends AbstractCache implements CacheInterface
      */
     public function __destruct()
     {
-        if($this->memcached !== null)
-        {
+        if ($this->memcached !== null) {
             $this->memcached->close();
         }
     }
 }
-?>

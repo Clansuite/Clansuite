@@ -31,4 +31,3 @@ function smarty_prefilter_inserttplnames( $tpl_source, $compiler )
 {
     return "\n<!-- [-Start-] Included Template {\$smarty.current_dir}".DS."{\$smarty.template} -->\n".$tpl_source."\n<!-- [-End-] Included Template {\$smarty.current_dir}".DS."{\$smarty.template}  -->\n";
 }
-?>

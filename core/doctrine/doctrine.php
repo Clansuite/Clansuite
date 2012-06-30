@@ -33,8 +33,7 @@
 namespace Koch\Doctrine;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -101,8 +100,7 @@ class Doctrine
         self::checkDataSourceName($clansuite_config);
 
         # ensure doctrine2 exists in the libraries folder
-        if(is_file(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php') === false)
-        {
+        if (is_file(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php') === false) {
             throw new Koch_Exception('Doctrine2 not found. Check Libraries Folder.', 100);
         }
 
@@ -129,12 +127,9 @@ class Doctrine
         $config = new \Doctrine\ORM\Configuration();
 
         # cache: APC in production and Array in development mode
-        if (extension_loaded('apc') and DEBUG == false)
-        {
+        if (extension_loaded('apc') and DEBUG == false) {
             $cache = new \Doctrine\Common\Cache\ApcCache;
-        }
-        else
-        {
+        } else {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
         }
 
@@ -156,12 +151,9 @@ class Doctrine
         $config->setProxyNamespace('Proxies');
 
         # regenerate proxies only in debug and not in production mode
-        if(DEBUG == true)
-        {
+        if (DEBUG == true) {
             $config->setAutoGenerateProxyClasses(true);
-        }
-        else
-        {
+        } else {
             $config->setAutoGenerateProxyClasses(false);
         }
 
@@ -217,8 +209,7 @@ class Doctrine
               * @todo eval database.charset true?
               * wouldn't it be better to use utf-8 to name it explicitly
               */
-            if(isset($clansuite_config['database']['charset']) === true)
-            {
+            if (isset($clansuite_config['database']['charset']) === true) {
                 $event->addEventSubscriber(
                     new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit(
                             $clansuite_config['database']['charset'], 'utf8_unicode_ci')
@@ -230,8 +221,7 @@ class Doctrine
         $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config, $event);
 
         # set DBAL DebugStack Logger (also needed for counting queries)
-        if(defined('DEBUG') and DEBUG == 1)
-        {
+        if (defined('DEBUG') and DEBUG == 1) {
             self::$sqlLoggerStack = new \Doctrine\DBAL\Logging\DebugStack();
             $em->getConfiguration()->setSQLLogger(self::$sqlLoggerStack);
 
@@ -266,8 +256,7 @@ class Doctrine
      */
     protected function loadSchema($classes = null)
     {
-        if($classes === null)
-        {
+        if ($classes === null) {
             $classes = $entityManager->getMetadataFactory()->getAllMetadata();
         }
 
@@ -311,8 +300,7 @@ class Doctrine
         # get all module directories
         $dirs = glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR );
 
-        foreach($dirs as $key => $dir_path)
-        {
+        foreach ($dirs as $key => $dir_path) {
             /**
              * It's easier to include dirpath models (subfolder and files will be autoloaded)
              * therefor the records have to be removed
@@ -321,16 +309,14 @@ class Doctrine
             # Entity Path
             $entity_path = $dir_path . DS . 'model' . DS . 'entities' . DS;
 
-            if(is_dir($entity_path))
-            {
+            if (is_dir($entity_path)) {
                 $model_dirs[] = $entity_path;
             }
 
             # Repository Path
             $repos_path = $dir_path . DS . 'model' . DS . 'repositories' . DS;
 
-            if(is_dir($repos_path))
-            {
+            if (is_dir($repos_path)) {
                 $model_dirs[] = $repos_path;
             }
          }
@@ -340,6 +326,7 @@ class Doctrine
         $model_dirs = array_keys(array_flip($model_dirs));
 
         #Koch_Debug::printR($model_dirs);
+
         return $model_dirs;
     }
 
@@ -372,8 +359,7 @@ class Doctrine
     {
         $execTime = '';
 
-        foreach(self::$sqlLoggerStack->queries as $query)
-        {
+        foreach (self::$sqlLoggerStack->queries as $query) {
             $execTime += $query['executionMS'];
         }
 
@@ -392,4 +378,3 @@ class Doctrine
         var_dump(self::$sqlLoggerStack);
     }
 }
-?>

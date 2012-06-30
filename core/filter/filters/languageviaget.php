@@ -38,8 +38,7 @@ use Koch\MVC\HttpResponseInterface;
 use Koch\Config\Config;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -81,16 +80,14 @@ class LanguageViaGet implements FilterInterface
          * take the initiative of filtering, if language switching is enabled in CONFIG
          * or pass through (do nothing) if disabled
          */
-        if(true === (bool) $this->config['languageswitch_via_url'])
-        {
+        if (true === (bool) $this->config['languageswitch_via_url']) {
             return;
         }
 
         # fetch URL parameter "&lang=" from $_GET['lang']
         $language = $request->getParameterFromGet('lang');
 
-        if(isset($language) and (mb_strlen($language) == 2))
-        {
+        if (isset($language) and (mb_strlen($language) == 2)) {
             /**
              * memorize in the user session
              * a) the selected language
@@ -101,4 +98,3 @@ class LanguageViaGet implements FilterInterface
         }
     }
 }
-?>

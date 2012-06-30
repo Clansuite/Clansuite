@@ -36,8 +36,7 @@ use Koch\Filter\FilterInterface;
 use Koch\View\Helper\Breadcrumb;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -187,8 +186,7 @@ class FrontController implements FrontControllerInterface
         # fetch the target route from the request
         $route = $request->getRoute();
 
-        if($route === null)
-        {
+        if ($route === null) {
             throw new \Exception('The dispatcher is unable to forward. No route object given.', 99);
         }
 
@@ -213,8 +211,7 @@ class FrontController implements FrontControllerInterface
          * Note the underscore! The method name is intentionally underscored.
          * This places the method on top in the method navigator of your IDE.
          */
-        if(true === method_exists($controllerInstance, '_initializeModule'))
-        {
+        if (true === method_exists($controllerInstance, '_initializeModule')) {
 
             $controllerInstance->_initializeModule();
         }
@@ -230,8 +227,7 @@ class FrontController implements FrontControllerInterface
          * Note the underscore! The method name is intentionally underscored.
          * This places the method on top in the method navigator of your IDE.
          */
-        if(true === method_exists($controllerInstance, '_beforeFilter'))
-        {
+        if (true === method_exists($controllerInstance, '_beforeFilter')) {
 
             $controllerInstance->_beforeFilter();
         }
@@ -241,8 +237,7 @@ class FrontController implements FrontControllerInterface
         /**
          * Finally: dispatch to the requested controller method
          */
-        if(true === method_exists($controllerInstance, $method))
-        {
+        if (true === method_exists($controllerInstance, $method)) {
             $controllerInstance->$method($parameters);
         }
 
@@ -256,11 +251,9 @@ class FrontController implements FrontControllerInterface
          * Note the underscore! The method name is intentionally underscored.
          * This places the method on top in the method navigator of your IDE.
          */
-        if(true === method_exists($controllerInstance, '_afterFilter'))
-        {
+        if (true === method_exists($controllerInstance, '_afterFilter')) {
 
             $controllerInstance->_afterFilter();
         }
     }
 }
-?>

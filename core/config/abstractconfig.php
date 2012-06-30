@@ -33,8 +33,7 @@
 namespace Koch\Config;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -60,16 +59,15 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      * On "unset = true" the array is returned and unset to save memory
      * and to avoid duplication of the config array.
      *
-     * @param boolean $unset If unset is true, $this->config array will be unset. Defaults to false.
-     * @return   config array
+     * @param  boolean $unset If unset is true, $this->config array will be unset. Defaults to false.
+     * @return config  array
      */
     public function toArray($unset = false)
     {
         $array = array();
         $array = $this->config;
 
-        if($unset === true)
-        {
+        if ($unset === true) {
             unset($this->config);
         }
 
@@ -89,9 +87,9 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      * Gets the value for the key items_newswidget from the moduleconfig or sets the value
      * incomming via GET, if nothing is incomming, sets the default value of 8.
      *
-     * @param string $keyname The keyname to find in the array.
-     * @param mixed $default_one A default value, which is returned, if the keyname was not found.
-     * @param mixed $default_two A default value, which is returned, if the keyname was not found and default_one is null.
+     * @param string $keyname     The keyname to find in the array.
+     * @param mixed  $default_one A default value, which is returned, if the keyname was not found.
+     * @param mixed  $default_two A default value, which is returned, if the keyname was not found and default_one is null.
      */
     public function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
@@ -99,20 +97,15 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->config);
 
         # return value or default
-        if(empty($value) === false)
-        {
+        if (empty($value) === false) {
             return $value;
-        }
-        elseif( $default_one != null )
+        } elseif( $default_one != null )
         {
             return $default_one;
-        }
-        elseif( $default_two != null )
+        } elseif( $default_two != null )
         {
             return $default_two;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -121,16 +114,13 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      * Gets a config file item based on keyname
      *
      * @param    string    the config item key
-     * @return   void
+     * @return void
      */
     public function __get($configkey)
     {
-        if(isset($this->config[$configkey]))
-        {
+        if (isset($this->config[$configkey])) {
             return $this->config[$configkey];
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -140,18 +130,19 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      *
      * @param string the config item key
      * @param string the config item value
-     * @return   void
+     * @return void
      */
     public function __set($key, $value)
     {
         $this->config[$key] = $value;
+
         return true;
     }
 
     /**
      * Method allows 'isset' to work on $this->data
      *
-     * @param string $name Name of Variable Key $this->data[$name]
+     * @param  string $name Name of Variable Key $this->data[$name]
      * @return return mixed
      */
     public function __isset($name)
@@ -176,8 +167,8 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
     /**
      * ArrayAccess::offsetExists()
      *
-     * @param   mixed $offset
-     * @return  mixed Clansuite_Config value
+     * @param  mixed $offset
+     * @return mixed Clansuite_Config value
      */
     public function offsetExists($offset)
     {
@@ -187,8 +178,8 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
     /**
      * ArrayAccess::offsetGet()
      *
-     * @param   mixed $offset
-     * @return  mixed Clansuite_Config value
+     * @param  mixed $offset
+     * @return mixed Clansuite_Config value
      */
     public function offsetGet($offset)
     {
@@ -198,17 +189,14 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
     /**
      * ArrayAccess::offsetSet()
      *
-     * @param   mixed $offset
-     * @param   mixed $value
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value)
     {
-        if(is_null($offset) === true)
-        {
+        if (is_null($offset) === true) {
             $this->config[] = $value;
-        }
-        else
-        {
+        } else {
             $this->config[$offset] = $value;
         }
     }
@@ -216,13 +204,13 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
     /**
      * ArrayAccess::offsetUnset()
      *
-     * @param   mixed $offset
-     * @return  bool true
+     * @param  mixed $offset
+     * @return bool  true
      */
     public function offsetUnset($offset)
     {
         unset($this->config[$offset]);
+
         return true;
     }
 }
-?>

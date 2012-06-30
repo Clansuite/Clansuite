@@ -35,8 +35,7 @@ namespace Koch\Form\Validators;
 use Koch\Form\Validator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -54,14 +53,10 @@ class Url extends Validator
 
     protected function processValidationLogic($value)
     {
-        if(true === (bool) filter_var( $value, FILTER_VALIDATE_URL, $this->getOptions()))
-        {
+        if (true === (bool) filter_var( $value, FILTER_VALIDATE_URL, $this->getOptions())) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 }
-?>

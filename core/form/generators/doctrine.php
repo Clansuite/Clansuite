@@ -33,8 +33,7 @@
 namespace Koch\Form\Generator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -99,8 +98,7 @@ class Doctrine extends Form implements FormGeneratorInterface
 
         {
             # and check wheather the $columnName is to exclude
-            if(in_array($columnName, $this->excludeColumns))
-            {
+            if (in_array($columnName, $this->excludeColumns)) {
                 # stop the foreach-loop here and reenter it
                 continue;
             }
@@ -109,13 +107,10 @@ class Doctrine extends Form implements FormGeneratorInterface
             $fieldName = $table->getClassnameToReturn() . '[$columnName]';
 
             # if columnname is identifier
-            if( $table->isIdentifier($columnName) )
-            {
+            if ( $table->isIdentifier($columnName) ) {
                 # add it as an hidden field
                 #$form[] = new Koch_Form->formfactory( 'hidden', $fieldName);
-            }
-            else
-            {
+            } else {
                 # transform columnName to a printable name
                 $printableName = ucwords(str_replace('_','',$columnName));
 
@@ -135,5 +130,3 @@ class Doctrine extends Form implements FormGeneratorInterface
         $this->generateFormByTable($array);
     }
 }
-
-?>

@@ -100,9 +100,9 @@ function smarty_function_html_alt_table($params, $smarty)
     $header = true;
 
     # mandatory parameter loop
-    if (!isset($params['loop']))
-    {
+    if (!isset($params['loop'])) {
         trigger_error('html_alt_table: missing "loop" parameter');
+
         return;
     }
 
@@ -111,10 +111,8 @@ function smarty_function_html_alt_table($params, $smarty)
      * this part is based on the original
      * html_table function
      */
-    foreach ($params as $_key=>$_value)
-    {
-        switch ($_key)
-        {
+    foreach ($params as $_key=>$_value) {
+        switch ($_key) {
             case 'loop':
                 $$_key = (array) $_value;
                 break;
@@ -156,14 +154,12 @@ function smarty_function_html_alt_table($params, $smarty)
     //
     // We assume that the keys of the first array
     // are relevant as column names...
-    if ($header)
-    {
+    if ($header) {
         $headers=array_keys($first_line);
         $css_id=$row_class.'_header';
         $css_class=$row_class_odd;
         $output .= "<tr class='$css_class' id='$css_id' >\n";
-        for ($h=0; $h<$cols_count; $h++)
-        {
+        for ($h=0; $h<$cols_count; $h++) {
             $css_class=$col_class;
             $css_id=$col_class."_$headers[$h]";
             $output.="<td class='$css_class' id='$css_id'>";
@@ -178,8 +174,7 @@ function smarty_function_html_alt_table($params, $smarty)
     // each row is identified by an unique css id
     // and its class name indicates if it's an odd or
     // even line
-    for ($r=0; $r<$rows_count; $r++)
-    {
+    for ($r=0; $r<$rows_count; $r++) {
         $css_class=($r%2 == 0)?$row_class_even:$row_class_odd;
         $css_id=$row_class."_$r";
         $output .= "<tr class='$css_class' id='$css_id'>\n";
@@ -196,8 +191,7 @@ function smarty_function_html_alt_table($params, $smarty)
         //
         // each <td> tag is identified by a css id
         $css_class=$col_class;
-        for ($c=0; $c<$cols_count; $c++)
-        {
+        for ($c=0; $c<$cols_count; $c++) {
             $css_id=$col_class."_$headers[$c]";
 
             $output.="<td class='$css_class' id='$css_id'>";
@@ -210,4 +204,3 @@ function smarty_function_html_alt_table($params, $smarty)
 
     return $output;
 }
-?>

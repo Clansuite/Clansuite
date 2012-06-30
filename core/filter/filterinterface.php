@@ -36,8 +36,7 @@ use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -52,4 +51,3 @@ interface FilterInterface
 {
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response);
 }
-?>

@@ -35,8 +35,7 @@ namespace Koch\Form\Decorators\Form;
 use Koch\Form\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -67,13 +66,11 @@ class Html5validation extends Decorator
 
         $ident_form = '[Error] Form has no id or name!';
         # to identify the form use the name or id
-        if( mb_strlen($this->getName()) > 0 )
-        {
+        if ( mb_strlen($this->getName()) > 0 ) {
              $ident_form .= $this->getName();
         }
 
-        if( mb_strlen($this->getId()) > 0 )
-        {
+        if ( mb_strlen($this->getId()) > 0 ) {
              $ident_form .= $this->getId();
         }
 
@@ -89,13 +86,11 @@ class Html5validation extends Decorator
 
     public function render($html_form_content)
     {
-        if(true === is_file(ROOT_THEMES_CORE . 'javascript/jquery/jquery.html5form-min.js'))
-        {
+        if (true === is_file(ROOT_THEMES_CORE . 'javascript/jquery/jquery.html5form-min.js')) {
             # put all the pieces of html together
+
             return $this->addValidationJavascript() . $html_form_content;
-        }
-        else # fail by prepending a message :(
-        {
+        } else { # fail by prepending a message :(
             $message = '[ERROR] HTML5 Validation Support not available. File missing : <br/>'.
             ROOT_THEMES_CORE . 'javascript/jquery/jquery.html5form-min.js';
 
@@ -103,4 +98,3 @@ class Html5validation extends Decorator
         }
     }
 }
-?>

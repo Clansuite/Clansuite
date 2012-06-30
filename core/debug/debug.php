@@ -33,8 +33,7 @@
 namespace Koch\Debug;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -54,13 +53,12 @@ class Debug
     /**
      * This is an replacement for the native php function print_r() with an upgraded display.
      *
-     * @param   mixed/array/object $var Array or Object as Variable to display
+     * @param mixed/array/object $var Array or Object as Variable to display
      * @returns Returns a better structured display of an array/object as native print_r
      */
     public static function printR($var)
     {
-        if (func_num_args() > 1)
-        {
+        if (func_num_args() > 1) {
             $var = func_get_args();
         }
 
@@ -76,48 +74,37 @@ class Debug
 
         echo '<b>Type</b>: '.gettype($var)."\r\n"; # uhhh.. gettype is slow like hell
 
-        if (is_string($var) === true)
-        {
+        if (is_string($var) === true) {
             echo '<b>Length</b>: ' . strlen($var)."\r\n";
         }
 
-        if (is_array($var) === true)
-        {
+        if (is_array($var) === true) {
             echo '<b>Length</b>: '.count($var)."\r\n";
         }
 
         echo '<b>Value</b>: ';
 
-        if($var === true)
-        {
+        if ($var === true) {
             echo '<font color=green><b>true</b></font>';
-        }
-        elseif($var === false)
+        } elseif($var === false)
         {
             echo '<font color=red><b>false</b></font>';
-        }
-        elseif($var === null)
+        } elseif($var === null)
         {
             echo '<font color=red><b>null</b></font>';
-        }
-        elseif($var === 0)
+        } elseif($var === 0)
         {
             echo '0';
-        }
-        elseif(is_string($var) and strlen($var) == '0')
+        } elseif(is_string($var) and strlen($var) == '0')
         {
             echo '<font color=green>*EMPTY STRING*</font>';
-        }
-        elseif(is_string($var))
+        } elseif(is_string($var))
         {
             echo htmlspecialchars($var);
-        }
-        else
-        {
+        } else {
             $print_r = print_r($var, true);
             # str_contains < or >
-            if ((strstr($print_r, '<') !== false) or (strstr($print_r, '>') !== false))
-            {
+            if ((strstr($print_r, '<') !== false) or (strstr($print_r, '>') !== false)) {
                 $print_r = htmlspecialchars($print_r);
             }
             echo $print_r;
@@ -126,8 +113,7 @@ class Debug
         echo '</pre>';
 
         # save session before exit
-        if((bool) session_id())
-        {
+        if ((bool) session_id()) {
             session_write_close();
         }
 
@@ -138,8 +124,8 @@ class Debug
      * Displays the content of a variable with var_dump.
      * The content gets escaping and pre tags are applied for better readability.
      *
-     * @param mixed $var The variable to debug.
-     * @param bool $stop Stop execution after dump? Default is true (stops).
+     * @param mixed $var  The variable to debug.
+     * @param bool  $stop Stop execution after dump? Default is true (stops).
      */
     public static function dump($var, $stop = true)
     {
@@ -154,8 +140,7 @@ class Debug
          * if xdebug is off, we need to apply escaping ourself.
          * html pre tags are applied to structure the display a bit more.
          */
-        if(false === extension_loaded('xdebug'))
-        {
+        if (false === extension_loaded('xdebug')) {
             $var_dump = preg_replace('/\]\=\>\n(\s+)/m', '] => ', $var_dump);
             $var_dump = '<pre>' . htmlspecialchars($var_dump, ENT_QUOTES, 'UTF-8') . '</pre>';
         }
@@ -166,8 +151,7 @@ class Debug
         # output the content of the buffer
         echo $var_dump;
 
-        if($stop === true)
-        {
+        if ($stop === true) {
             exit;
         }
     }
@@ -183,8 +167,7 @@ class Debug
     public static function firebug($var, $firebugmethod = 'log')
     {
         # get firephp instance, if class not existant
-        if( class_exists('FirePHP', false) === false )
-        {
+        if ( class_exists('FirePHP', false) === false ) {
             include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         }
 
@@ -218,7 +201,7 @@ class Debug
      * The default level is 2 (0,1,2), because we have to skip
      * the 3 calls to dump() and getWhereDebugWasCalled().
      *
-     * @param type $level default 2.
+     * @param  type   $level default 2.
      * @return string Message with origin of the debug call.
      */
     public static function getOriginOfDebugCall($level = 1)
@@ -265,8 +248,7 @@ class Debug
         $files = get_included_files();
 
         # loop over all included files and sum up filesize
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $size = filesize($file);
             $includedFiles[] = array('name' => $file, 'size' => $size);
             $includedFilesTotalSize += $size;
@@ -357,4 +339,3 @@ class Debug
         # @todo
     }
 }
-?>

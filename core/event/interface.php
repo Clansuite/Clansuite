@@ -33,8 +33,7 @@
 namespace Koch\Event;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -51,4 +50,3 @@ interface Event
 {
     public function execute(\Koch\Event\Event $event);
 }
-?>

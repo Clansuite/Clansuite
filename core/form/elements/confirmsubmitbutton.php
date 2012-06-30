@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -42,7 +41,7 @@ class ConfirmSubmitButton extends Input implements FormelementInterface
 {
     protected $message = 'Please Confirm';
 
-    function __construct($message = null)
+    public function __construct($message = null)
     {
         $this->type = 'submit';
         $this->value = _('Confirm & Submit');
@@ -64,4 +63,3 @@ class ConfirmSubmitButton extends Input implements FormelementInterface
         return $this;
     }
 }
-?>

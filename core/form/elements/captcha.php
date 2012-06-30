@@ -36,8 +36,7 @@ use Koch\Form\Formelement;
 use Koch\Form\FormelementInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -64,14 +63,13 @@ class Captcha extends Formelement implements FormelementInterface
     /**
      * Set the name of the captcha
      *
-     * @param string $captcha The captcha name.
+     * @param  string $captcha The captcha name.
      * @return object Koch_Formelement_Captcha (THIS is not Koch_Formelement_Captcha_$captcha )
      */
     public function setCaptcha($captcha = null)
     {
         # if no captcha is given, take the one definied in configuration
-        if($captcha == null)
-        {
+        if ($captcha == null) {
             $config = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
             $captcha = $config['antispam']['captchatype'];
             unset($config);
@@ -88,12 +86,13 @@ class Captcha extends Formelement implements FormelementInterface
     public function getCaptcha()
     {
         # cut "captcha" (last 7 chars)
+
         return mb_substr($this->captcha, 0, -7);
     }
 
     /**
-     * @param Koch_Formelement_Interface $captchaObject
-     * @return object Koch_Formelement_Captcha
+     * @param  Koch_Formelement_Interface $captchaObject
+     * @return object                     Koch_Formelement_Captcha
      */
     public function setCaptchaFormelement(Koch_Formelement_Interface $captchaObject)
     {
@@ -109,12 +108,9 @@ class Captcha extends Formelement implements FormelementInterface
      */
     public function getCaptchaFormelement()
     {
-        if(empty($this->captchaObject))
-        {
+        if (empty($this->captchaObject)) {
             return $this->setCaptchaFormelement($this->captchaFactory());
-        }
-        else
-        {
+        } else {
             return $this->captchaObject;
         }
     }
@@ -130,8 +126,7 @@ class Captcha extends Formelement implements FormelementInterface
         $classname = 'Koch_Formelement_'. $name .'Captcha';
 
         # load file
-        if (class_exists($classname, false) === false)
-        {
+        if (class_exists($classname, false) === false) {
             include ROOT_CORE .'viewhelper/form/formelements/'. $name .'captcha.php';
         }
 
@@ -169,6 +164,7 @@ class Captcha extends Formelement implements FormelementInterface
                     #->setValidation();
 
         # return the formelement, to call e.g. render() on it
+
         return $formelement;
     }
 
@@ -190,8 +186,7 @@ class Captcha extends Formelement implements FormelementInterface
         #$this->getCaptchaFormelement()->setRequired()->setValidator($validator);
 
         # renders the decorators of the captcha formelement
-        foreach ($this->getCaptchaFormelement()->formelementdecorators as $formelementdecorator)
-        {
+        foreach ($this->getCaptchaFormelement()->formelementdecorators as $formelementdecorator) {
             $html = $formelementdecorator->render($html);
         }
 
@@ -200,4 +195,3 @@ class Captcha extends Formelement implements FormelementInterface
         return $html;
     }
 }
-?>

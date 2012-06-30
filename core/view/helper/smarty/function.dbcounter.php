@@ -10,8 +10,7 @@
  */
 function smarty_function_dbcounter($params, $smarty)
 {
-    if(DEBUG == 1)
-    {
+    if (DEBUG == 1) {
         /**
          * The call to this viehelper "dbcounter" is performed inside the view.
          * So the Query for closing the session is missing, because it's
@@ -19,13 +18,9 @@ function smarty_function_dbcounter($params, $smarty)
          * We simply add one Query..
          */
         echo Koch_Doctrine2::getNumberOfQueries() + 1;
-    }
-    else
-    {
+    } else {
         echo 'Disabled';
     }
 }
 
 /* vim: set expandtab: */
-
-?>

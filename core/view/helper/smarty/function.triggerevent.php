@@ -28,9 +28,9 @@
 function smarty_function_triggerevent($params, $smarty)
 {
     # we need an valid eventname to trigger it
-    if(empty($params['name']))
-    {
+    if (empty($params['name'])) {
         trigger_error("name: Please add an event name.");
+
         return;
     }
 
@@ -48,6 +48,6 @@ function smarty_function_triggerevent($params, $smarty)
      * or just transform the $context for the later occuring rendering process
      * @see todo at context above
      */
+
     return Koch_Eventdispatcher::instantiate()->triggerEvent($params['name'], $context, $info);
 }
-?>

@@ -32,56 +32,41 @@
 function smarty_function_breadcrumbs($params, $smarty)
 {
     # handle trail params set directly to the smarty function call in the template
-    if (isset($params['trail']) && is_array($params['trail']))
-    {
+    if (isset($params['trail']) && is_array($params['trail'])) {
         $trail = $params['trail'];
-    }
-    else
-    {
+    } else {
         $trail = \Koch\View\Helper\Breadcrumb::getTrail();
     }
 
     #Koch_Debug::firebug($trail);
 
     # is the seperator element set via the smarty function call?
-    if (isset($params['separator']))
-    {
+    if (isset($params['separator'])) {
         $separator = $params['separator'];
-    }
-    else # no, take default seperator
-    {
+    } else { # no, take default seperator
         $separator = ' &gt; ';
     }
 
-    if(isset($params['length']))
-    {
+    if (isset($params['length'])) {
         $length = (int) $params['length'];
-    }
-    else
-    {
+    } else {
         $length = 0;
     }
 
     $links = array();
 
     $trailSize = count($trail);
-    for ($i = 0; $i < $trailSize; $i++)
-    {
+    for ($i = 0; $i < $trailSize; $i++) {
 
-        if ($length > 0)
-        {
+        if ($length > 0) {
             $title = mb_substr($trail[$i]['title'], 0, $length);
-        }
-        else
-        {
+        } else {
             $title = $trail[$i]['title'];
         }
 
-        if (isset($trail[$i]['link']) && $i < $trailSize - 1)
-        {
+        if (isset($trail[$i]['link']) && $i < $trailSize - 1) {
             # if parameter "title" (only) is not set, give links
-            if (isset($params['title']) === false)
-            {
+            if (isset($params['title']) === false) {
                 $links[] = sprintf('<a href="%s" title="%s">%s</a>',
                     htmlspecialchars($trail[$i]['link']),
                     htmlspecialchars($trail[$i]['title']),
@@ -89,26 +74,19 @@ function smarty_function_breadcrumbs($params, $smarty)
                 );
             }
             # if parameter "title" is set, render title only
-            else
-            {
+            else {
                 $links[] = $title;
             }
-        }
-        else
-        {
+        } else {
             $links[] = $title;
         }
     }
 
     $breadcrumb_string = join($separator . ' ', $links);
 
-    if (isset($params['assign']))
-    {
+    if (isset($params['assign'])) {
         $smarty->assign('breadcrumb',  $breadcrumb_string);
-    }
-    else
-    {
+    } else {
         return $breadcrumb_string;
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Form\Generator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -52,15 +51,11 @@ class AssocArray extends Form implements FormGeneratorInterface
 {
     public function __construct(array $form_array = null, $form_object = null)
     {
-        if(null != $form_array)
-        {
-            if(null == $form_object)
-            {
+        if (null != $form_array) {
+            if (null == $form_object) {
                 # init parent Koch_Form with name, method and action
                 parent::__construct($form_array['form']['name'], $form_array['form']['method'], $form_array['form']['action']);
-            }
-            else
-            {
+            } else {
                 $form_object::__construct($form_array['form']['name'], $form_array['form']['method'], $form_array['form']['action']);
             }
 
@@ -76,13 +71,10 @@ class AssocArray extends Form implements FormGeneratorInterface
     public function validateArray_generateForm($form_array)
     {
         # first we ensure, that the formdescription meets certain requirements
-        if(self::validateFormArrayStructure($form_array))
-        {
+        if (self::validateFormArrayStructure($form_array)) {
             # now that the form description is valid, we generate the form
             $this->generateFormByArray($form_array);
-        }
-        else # the formdescription is invalid
-        {
+        } else { # the formdescription is invalid
             throw new Koch_Exception('Obligatory formelements not present.', 30);
         }
     }
@@ -121,13 +113,11 @@ class AssocArray extends Form implements FormGeneratorInterface
         $optional_form_array_elements   = array('class', 'decorator');
 
         # loop over all elements of the form description array
-        foreach($form_array as $form_array_section => $form_array_elements)
-        {
+        foreach ($form_array as $form_array_section => $form_array_elements) {
             #Koch_Debug::firebug($form_array_elements);
             #Koch_Debug::firebug($form_array_section);
 
-            foreach($form_array_elements as $form_array_element_number => $form_array_element)
-            {
+            foreach ($form_array_elements as $form_array_element_number => $form_array_element) {
                 #Koch_Debug::firebug(array_keys($form_array_element));
                 #Koch_Debug::firebug($obligatory_form_array_elements);
 
@@ -135,13 +125,11 @@ class AssocArray extends Form implements FormGeneratorInterface
                 $report_differences_or_true = Koch_Functions::array_compare($obligatory_form_array_elements, array_keys($form_array_element));
 
                 # errorcheck for valid formfield elements
-                if(is_array($report_differences_or_true) == false)
-                {
+                if (is_array($report_differences_or_true) == false) {
                     # form description arrays are identical
+
                     return true;
-                }
-                else
-                {
+                } else {
                     # form description arrays are not identical
                     throw new Koch_Exception('Form Array Structure not valid. The first array shows the obligatory form array elements.
                          The second array shows your form definition. Please add the missing array keys with values.'
@@ -157,13 +145,11 @@ class AssocArray extends Form implements FormGeneratorInterface
         #Koch_Debug::firebug($form_array);
 
         # loop over all elements of the form description array
-        foreach($form_array as $form_array_section => $form_array_elements)
-        {
+        foreach ($form_array as $form_array_section => $form_array_elements) {
             #Koch_Debug::firebug($form_array_elements);
             #Koch_Debug::firebug($form_array_section);
 
-            foreach($form_array_elements as $form_array_element_number => $form_array_element)
-            {
+            foreach ($form_array_elements as $form_array_element_number => $form_array_element) {
                 #Koch_Debug::firebug($form_array_element);
 
                 # @todo ensure these elements exist !!!
@@ -190,8 +176,7 @@ class AssocArray extends Form implements FormGeneratorInterface
                 $formelement->setLabel($form_array_element['label']);
 
                 # set the options['selected'] value as default value
-                if(isset($form_array_element['options']['selected']))
-                {
+                if (isset($form_array_element['options']['selected'])) {
                     $formelement->setDefault($form_array_element['options']['selected']);
                     unset($form_array_element['options']['selected']);
                 }
@@ -201,12 +186,9 @@ class AssocArray extends Form implements FormGeneratorInterface
                  * array indicates, that we have a request for
                  * something like a multiselect formfield with several options
                  */
-                if(is_array($form_array_element['value']) == false)
-                {
+                if (is_array($form_array_element['value']) == false) {
                     $formelement->setValue($form_array_element['value']);
-                }
-                else
-                {
+                } else {
                     $formelement->setOptions($form_array_element['value']);
                 }
 
@@ -215,8 +197,7 @@ class AssocArray extends Form implements FormGeneratorInterface
                  */
 
                 # if we have a class attribute defined, then add it (optional)
-                if(isset($form_array_element['class']))
-                {
+                if (isset($form_array_element['class'])) {
                     $formelement->setClass($form_array_element['class']);
                 }
 
@@ -224,10 +205,8 @@ class AssocArray extends Form implements FormGeneratorInterface
                  * set a decorator for the formelement
                  * optional because: the default decorator would be active
                  */
-                if(isset($form_array_element['decorator']))
-                {
-                    if($form_array_element['decorator'] instanceOf Koch_Formelement_Decorator)
-                    {
+                if (isset($form_array_element['decorator'])) {
+                    if ($form_array_element['decorator'] instanceOf Koch_Formelement_Decorator) {
                         $formelement->setDecorator($form_array_element['decorator']);
                     }
                 }
@@ -253,4 +232,3 @@ class AssocArray extends Form implements FormGeneratorInterface
         # serialize an save the array
     }
 }
-?>

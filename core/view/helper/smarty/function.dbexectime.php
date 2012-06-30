@@ -10,13 +10,9 @@
  */
 function smarty_function_dbexectime($params, $smarty)
 {
-    if(DEBUG == 1)
-    {
+    if (DEBUG == 1) {
         echo Koch_Doctrine2::getExecTime();
-    }
-    else
-    {
+    } else {
         echo 'Disabled';
     }
 }
-?>

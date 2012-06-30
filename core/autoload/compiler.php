@@ -33,8 +33,7 @@
 namespace Koch\Autoload;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -73,8 +72,7 @@ class Compiler
     public static function build()
     {
         # remove existing monolith
-        if(is_file(self::$monolith_file) === true)
-        {
+        if (is_file(self::$monolith_file) === true) {
             unlink(self::$monolith_file);
         }
 
@@ -83,8 +81,7 @@ class Compiler
 
         $iterator = new DirectoryIterator($directory);
 
-        foreach($iterator as $phpfile)
-        {
+        foreach ($iterator as $phpfile) {
             # no dots, no dirs, not this file and not the target file
             if($phpfile->isDot() === false and
                $phpfile->isDir() === false and
@@ -107,6 +104,7 @@ class Compiler
         }
 
         #echo 'Monolith successfully build!';
+
         return true;
     }
 
@@ -119,14 +117,12 @@ class Compiler
     public static function remove_comments_from_string($sourcecode)
     {
         # check if sourcecode is set
-        if($sourcecode === null)
-        {
+        if ($sourcecode === null) {
             return null;
         }
 
         # ensure token_get_all is available
-        if (false === function_exists('token_get_all'))
-        {
+        if (false === function_exists('token_get_all')) {
             return $sourcecode;
         }
 
@@ -137,15 +133,11 @@ class Compiler
         $stripped_sourcecode = '';
 
         # loop over all tokens
-        foreach($tokens as $token)
-        {
+        foreach ($tokens as $token) {
             # if token is a string append to sourcecode
-            if(is_string($token) === true)
-            {
+            if (is_string($token) === true) {
                 $stripped_sourcecode .= $token;
-            }
-            else
-            {
+            } else {
                 $token_element = '';
                 $text = '';
 
@@ -153,8 +145,7 @@ class Compiler
                 list($token_element, $text) = $token;
 
                 # filter out comments
-                if($token_element != T_COMMENT and $token_element != T_DOC_COMMENT)
-                {
+                if ($token_element != T_COMMENT and $token_element != T_DOC_COMMENT) {
                     # append only, if not comment or doc_comment
                     $stripped_sourcecode .= $text;
                 }
@@ -174,6 +165,7 @@ class Compiler
     {
         $string = preg_replace('/[\r\n]+[\s\t]*[\r\n]+/', "\n", $string);
         $string = preg_replace('/^[\s\t]*[\r\n]+/', '', $string);
+
         return $string;
     }
 
@@ -191,7 +183,7 @@ class Compiler
 
         # remove clansuite security line from whole string
         # @todo remove 4 lines when "if (defined('IN_CS')" is found
-        $string = str_replace("if (defined('IN_CS') === false){ die('Koch Framework not loaded. Direct Access forbidden.'); }" . PHP_EOL, "", $string);
+        $string = str_replace("if (defined('IN_CS') === false) { die('Koch Framework not loaded. Direct Access forbidden.'); }" . PHP_EOL, "", $string);
         $string = str_replace("if (defined('IN_CS') === false) { die('Koch Framework not loaded. Direct Access forbidden.'); }", '', $string);
 
         # remove php opening tag from whole string
@@ -200,4 +192,3 @@ class Compiler
         return $string;
     }
 }
-?>

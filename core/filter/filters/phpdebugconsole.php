@@ -36,8 +36,7 @@ use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -60,14 +59,12 @@ class PhpDebugConsole implements FilterInterface
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # webdebug must be enabled in configuration
-        if(isset($this->config['error']['webdebug']) and $this->config['error']['webdebug'] == 1)
-        {
+        if (isset($this->config['error']['webdebug']) and $this->config['error']['webdebug'] == 1) {
             return;
         }
 
         # DEBUG mode must be on
-        if(defined('DEBUG') and DEBUG == true)
-        {
+        if (defined('DEBUG') and DEBUG == true) {
             return;
         }
 
@@ -82,8 +79,7 @@ class PhpDebugConsole implements FilterInterface
         set_include_path(ADD_PHPDEBUG_ROOT . PATH_SEPARATOR. get_include_path());
 
         # Load Library
-        if(false === class_exists('PHP_Debug', false))
-        {
+        if (false === class_exists('PHP_Debug', false)) {
             include ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php';
         }
 
@@ -153,4 +149,3 @@ class DebugConsoleResponse_Event # implements Koch_Event_Interface
         echo $this->debugbarHTML;
     }
 }
-?>

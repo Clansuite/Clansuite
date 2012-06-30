@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -43,6 +42,7 @@ class Checkboxlist extends Checkbox implements FormelementInterface
     public function getOptions()
     {
         $options = array( '1' => 'eins', '2' => 'zwei', '3' => 'drei', '4' => 'Polizei' );
+
         return $options;
     }
 
@@ -50,8 +50,7 @@ class Checkboxlist extends Checkbox implements FormelementInterface
     {
         $html = '';
 
-        foreach ($this->getOptions() as $key => $value)
-        {
+        foreach ($this->getOptions() as $key => $value) {
             $checkbox_element = new Koch_Formelement_Checkbox();
             $checkbox_element->setLabel($value);
             $checkbox_element->setName($value);
@@ -63,4 +62,3 @@ class Checkboxlist extends Checkbox implements FormelementInterface
         return $html;
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\User;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -49,7 +48,7 @@ class GuestUser
     /**
      * @var object Koch_GuestUser is a singleton.
      */
-    static private $instance = null;
+    private static $instance = null;
 
     /**
      * @var object Koch\Configuration
@@ -61,15 +60,14 @@ class GuestUser
      */
     public static function instantiate()
     {
-        if(null === self::$instance)
-        {
+        if (null === self::$instance) {
             self::$instance = new self;
         }
 
         return self::$instance;
     }
 
-    function __construct()
+    public function __construct()
     {
         $this->config = \Clansuite\CMS::getInjector()->instantiate('Koch\Config\Config');
 
@@ -95,8 +93,7 @@ class GuestUser
          * If not already set via a GET request and
          * processed in the filter (like "index.php?lang=fr").
          */
-        if(false === isset($_SESSION['user']['language_via_url']))
-        {
+        if (false === isset($_SESSION['user']['language_via_url'])) {
             $_SESSION['user']['language'] = $this->config['language']['locale'];
         }
 
@@ -106,8 +103,7 @@ class GuestUser
          * Sets the Default Theme for all Guest Visitors, if not already set via a GET request.
          * Theme for Guest Users as defined by config['template']['frontend_theme']
          */
-        if(empty($_SESSION['user']['frontend_theme']))
-        {
+        if (empty($_SESSION['user']['frontend_theme'])) {
             $_SESSION['user']['frontend_theme'] = $this->config['template']['frontend_theme'];
         }
 
@@ -126,5 +122,3 @@ class GuestUser
         #Koch_Debug::firebug($_SESSION);
     }
 }
-
-?>

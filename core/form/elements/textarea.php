@@ -36,8 +36,7 @@ use Koch\Form\Formelement;
 use Koch\Form\FormelementInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -90,8 +89,7 @@ class Textarea extends Formelement implements FormelementInterface
          *  the expected config setting is [editor] type.
          *  if the configuration value is not given, use "ckeditor" as fallback.
          */
-        if($editor == null)
-        {
+        if ($editor == null) {
             $config = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
             $editor = isset($config['editor']['type']) ? $config['editor']['type'] : 'ckeditor';
             unset($config);
@@ -167,12 +165,9 @@ class Textarea extends Formelement implements FormelementInterface
 
     public function getEditorFormelement()
     {
-        if(empty($this->editorObject))
-        {
+        if (empty($this->editorObject)) {
             return $this->setEditorFormelement($this->editorFactory());
-        }
-        else
-        {
+        } else {
             return $this->editorObject;
         }
     }
@@ -185,13 +180,11 @@ class Textarea extends Formelement implements FormelementInterface
     {
         $name = $this->getEditor();
 
-
         # construct classname
         $classname = 'Koch_Formelement_Wysiwyg'. $name;
 
         # load file
-        if(class_exists($classname, false) === false)
-        {
+        if (class_exists($classname, false) === false) {
             include ROOT_CORE . 'viewhelper/form/elements/wysiwyg' . $name . '.php';
         }
 
@@ -221,6 +214,7 @@ class Textarea extends Formelement implements FormelementInterface
         $formelement->setValue($this->value);
 
         # return the editor formelement, to call e.g. render() on it
+
         return $formelement;
     }
 
@@ -267,8 +261,7 @@ class Textarea extends Formelement implements FormelementInterface
          * Always after the textarea !
          * Because html elements are served first, before javascript dom selections are applied upon them!
          */
-        if(empty($this->editor) == false)
-        {
+        if (empty($this->editor) == false) {
             $html .= $this->getEditorFormelement()->transferPropertiesToEditor()->render();
         }
 
@@ -276,4 +269,3 @@ class Textarea extends Formelement implements FormelementInterface
     }
 
 }
-?>

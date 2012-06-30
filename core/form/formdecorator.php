@@ -33,8 +33,7 @@
 namespace Koch\Form;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -148,8 +147,7 @@ abstract class Decorator implements DecoratorInterface
      */
     public function decorateWith($form)
     {
-        if (null === $form)
-        {
+        if (null === $form) {
             throw InvalidArgumentException('Form is null!');
         }
 
@@ -185,17 +183,15 @@ abstract class Decorator implements DecoratorInterface
     public function hasMethod($method)
     {
         # check if method exists in this object
-        if(method_exists($this, $method))
-        {
+        if (method_exists($this, $method)) {
             return true;
         }
         # check if method exists in the decorator of this object
         elseif($this->form instanceof Koch_Form_Decorator)
         {
             return $this->form->hasMethod($method);
-        }
-        else # nope, method does not exist
-        {
+        } else { # nope, method does not exist
+
             return false;
         }
     }
@@ -210,10 +206,8 @@ abstract class Decorator implements DecoratorInterface
      */
     public function __call($method, $parameters)
     {
-        if(is_object($this->form) === true)
-        {
+        if (is_object($this->form) === true) {
             return call_user_func_array( array($this->form, $method), $parameters);
         }
     }
 }
-?>

@@ -33,8 +33,7 @@
 namespace Koch\Session;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -97,8 +96,7 @@ class Flashmessages /* extends Koch_Session */
      */
     public static function setMessage($type, $message)
     {
-        if(in_array($type, self::$flashmessagetypes) === true)
-        {
+        if (in_array($type, self::$flashmessagetypes) === true) {
             self::$flashmessages[] = array($type => $message);
         }
 
@@ -120,10 +118,10 @@ class Flashmessages /* extends Koch_Session */
      */
     private static function getMessagesFromSessionAndUnset()
     {
-        if(isset($_SESSION['user']['flashmessages']) === true)
-        {
+        if (isset($_SESSION['user']['flashmessages']) === true) {
             self::$flashmessages = $_SESSION['user']['flashmessages'];
             unset($_SESSION['user']['flashmessages']);
+
             return self::$flashmessages;
         }
     }
@@ -145,13 +143,10 @@ class Flashmessages /* extends Koch_Session */
     {
         $flashmessages = self::getMessagesFromSessionAndUnset();
 
-        if(isset($flashmessages) === true)
-        {
+        if (isset($flashmessages) === true) {
             $html = '';
-            foreach($flashmessages as $flashmessage)
-            {
-                foreach($flashmessage as $type => $message)
-                {
+            foreach ($flashmessages as $flashmessage) {
+                foreach ($flashmessage as $type => $message) {
                     $html .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE .  'css/error.css" />';
                     $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $message . '</div>';
                 }
@@ -163,4 +158,3 @@ class Flashmessages /* extends Koch_Session */
         }
     }
 }
-?>

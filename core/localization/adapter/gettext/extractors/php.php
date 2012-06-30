@@ -33,8 +33,7 @@
    namespace Koch\Localization\Gettext\Extractor;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -73,36 +72,28 @@ class PHP extends Base implements Extractor
         $tokens = token_get_all(file_get_contents($file));
         $next = false;
 
-        foreach($tokens as $c)
-        {
-            if(true === is_array($c))
-            {
-                if($c[0] !== T_STRING and $c[0] !== T_CONSTANT_ENCAPSED_STRING)
-                {
+        foreach ($tokens as $c) {
+            if (true === is_array($c)) {
+                if ($c[0] !== T_STRING and $c[0] !== T_CONSTANT_ENCAPSED_STRING) {
                     continue;
                 }
 
-                if($c[0] === T_STRING and true === in_array($c[1], $this->tags_to_scan))
-                {
+                if ($c[0] === T_STRING and true === in_array($c[1], $this->tags_to_scan)) {
                     $next = true;
                     continue;
                 }
 
-                if($c[0] === T_CONSTANT_ENCAPSED_STRING and $next === true)
-                {
+                if ($c[0] === T_CONSTANT_ENCAPSED_STRING and $next === true) {
                     $data[substr($c[1], 1, -1)][] = $pInfo['basename'] . ':' . $c[2];
                     $next = false;
                 }
-            }
-            else
-            {
-                if($c === ')')
-                {
+            } else {
+                if ($c === ')') {
                     $next = false;
                 }
             }
         }
+
         return $data;
     }
 }
-?>

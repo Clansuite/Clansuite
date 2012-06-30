@@ -35,8 +35,7 @@
 namespace Koch\Config\Adapter;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -57,10 +56,10 @@ class Ini
     public static function getInstance()
     {
         static $instance;
-        if(isset($instance) == null)
-        {
+        if (isset($instance) == null) {
             $instance = new self();
         }
+
         return $instance;
     }
 
@@ -68,33 +67,28 @@ class Ini
      * Writes a .ini Configfile
      * This method writes the configuration values specified to the filename.
      *
-     * @param string $file Filename of .ini to write
-     * @param array $array Associative Array with Ini-Values
+     * @param  string        $file  Filename of .ini to write
+     * @param  array         $array Associative Array with Ini-Values
      * @return mixed/boolean Returns the amount of bytes written to the file, or FALSE on failure.
      */
     public static function writeConfig($file, array $array)
     {
         # ensure we got an array
-        if(is_array($array) === false)
-        {
+        if (is_array($array) === false) {
             throw new Koch_Exception('writeConfig Parameter $array is not an array.');
         }
 
-        if(empty($file))
-        {
+        if (empty($file)) {
             throw new Koch_Exception('writeConfig Parameter $filename is not given.');
         }
 
         # when ini_filename exists, get old config array
-        if(is_file($file) === true)
-        {
+        if (is_file($file) === true) {
             $old_config_array = self::readConfig($file);
 
             # array merge: overwrite the array to the left, with the array to the right, when keys identical
             $config_array = array_replace_recursive($old_config_array, $array);
-        }
-        else
-        {
+        } else {
             # create file
             touch($file);
 
@@ -116,11 +110,9 @@ class Ini
         $content .= ";\n\n";
 
         # loop over every array element
-        foreach($config_array as $key => $item)
-        {
+        foreach ($config_array as $key => $item) {
             # checking if it's an array
-            if(is_array($item))
-            {
+            if (is_array($item)) {
                 # write an comment header block
                 $content .= CR;
                 $content .= ';----------------------------------------' . CR;
@@ -131,30 +123,22 @@ class Ini
                 $content .= '[' . $key . ']' . CR;
 
                 # for every element after that
-                foreach ($item as $key2 => $item2)
-                {
-                    if(is_numeric($item2) || is_bool($item2))
-                    {
+                foreach ($item as $key2 => $item2) {
+                    if (is_numeric($item2) || is_bool($item2)) {
                         # write numeric and boolean values without quotes
                         $content .= $key2 . ' = ' . $item2 . CR;
-                    }
-                    else
-                    {
+                    } else {
                         # write value with quotes
                         $content .= $key2 .' = "' . $item2 . '"'.CR;
                     }
                 }
             }
             # if it's not an array
-            else
-            {
-                if(is_numeric($item) || is_bool($item))
-                {
+            else {
+                if (is_numeric($item) || is_bool($item)) {
                     # write numeric and boolean values without quotes
                     $content .= $key . ' = ' . $item . CR;
-                }
-                else
-                {
+                } else {
                     # write value with quotes
                     $content .= $key2 .' = "' . $item2 . '"'.CR;
                 }
@@ -164,26 +148,25 @@ class Ini
         # add php closing tag
         $content .= CR . '; DO NOT REMOVE THIS LINE */ ?>';
 
-        if (is_writable($file))
-        {
-            if (!$filehandle = fopen($file, 'wb'))
-            {
+        if (is_writable($file)) {
+            if (!$filehandle = fopen($file, 'wb')) {
                 echo _('Could not open file: ') . $file;
+
                 return false;
             }
 
-            if (fwrite($filehandle, $content) == false)
-            {
+            if (fwrite($filehandle, $content) == false) {
                 echo _('Could not write to file: ') . $file;
+
                 return false;
 
             }
             fclose($filehandle);
+
             return true;
-        }
-        else
-        {
+        } else {
             printf(_('File %s is not writeable. Set correct file and directory permissions.'), $file);
+
             return false;
         }
     }
@@ -192,17 +175,15 @@ class Ini
      * Read the complete config file *.ini.php
      *
      * @param   string  The filename
-     * @return  array | boolean false
+     * @return array | boolean false
      */
     public static function readConfig($file)
     {
         # check ini_filename exists
-        if(is_file($file) === false or is_readable($file) === false)
-        {
+        if (is_file($file) === false or is_readable($file) === false) {
             throw new \Exception('File not found: ' . $file, 4);
         }
 
         return parse_ini_file($file, true);
     }
 }
-?>

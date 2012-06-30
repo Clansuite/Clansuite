@@ -35,8 +35,7 @@ namespace Koch\Form\Decorators\Form;
 use Koch\Form\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -57,4 +56,3 @@ class Label extends Decorator
            echo 'some LABEL' . $html_form_content;
     }
 }
-?>

@@ -31,8 +31,7 @@
 namespace Koch\View;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -58,30 +57,23 @@ class Factory
     {
         $file = KOCH . 'view/renderer/' . strtolower($adapter) . '.php';
 
-        if(is_file($file) === true)
-        {
+        if (is_file($file) === true) {
             $class = 'Koch\View\Renderer\\' . $adapter;
 
-            if(false === class_exists($class, false))
-            {
+            if (false === class_exists($class, false)) {
                 include $file;
             }
 
-            if(true === class_exists($class, false))
-            {
+            if (true === class_exists($class, false)) {
                 # instantiate and return the renderer and pass Config and Response objects to it
                 $view = new $class($injector->instantiate('Koch\Config\Config'));
+
                 return $view;
-            }
-            else
-            {
+            } else {
                 throw new \Exception('Renderer_Factory -> Class not found: ' . $class, 61);
             }
-        }
-        else
-        {
+        } else {
             throw new \Exception('Renderer_Factory -> File not found: ' . $file, 61);
         }
     }
 }
-?>

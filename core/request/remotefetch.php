@@ -33,8 +33,7 @@
 namespace Koch\Remote;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -57,23 +56,18 @@ class Request
     {
         $remote_content = null;
 
-        if(Koch_Loader::loadLibrary('snoopy'))
-        {
+        if (Koch_Loader::loadLibrary('snoopy')) {
             $s = new Snoopy();
             $s->fetch($url);
 
-            if($s->status == 200)
-            {
+            if ($s->status == 200) {
                 $content = $s->results;
             }
         }
 
-        if(false === empty($content))
-        {
+        if (false === empty($content)) {
             return $content;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -91,12 +85,9 @@ class Request
         $content = curl_exec($curl);
         curl_close($curl);
 
-        if(false === empty($content))
-        {
+        if (false === empty($content)) {
             return $content;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -116,12 +107,9 @@ class Request
             $content = file_get_contents($url, $flags, $context);
         #}
 
-        if(false === empty($content))
-        {
+        if (false === empty($content)) {
             return $content;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -134,13 +122,10 @@ class Request
     {
         $data = self::remote_get_file($remote_file);
 
-        if($data !== false)
-        {
-            if(sha1($data) !== sha1_file($local_file))
-            {
+        if ($data !== false) {
+            if (sha1($data) !== sha1_file($local_file)) {
                 file_put_contents($local_file, $data);
             }
         }
     }
 }
-?>

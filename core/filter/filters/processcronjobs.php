@@ -37,8 +37,7 @@ use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -65,10 +64,8 @@ class ProcessCronjobs implements FilterInterface
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         // take the initiative, if cronjob processing is enabled in configuration
-        if($this->config['cronjobs']['enabled'] == 1)
-        {
+        if ($this->config['cronjobs']['enabled'] == 1) {
             $this->cronjobs->execute();
         }
     }
 }
-?>

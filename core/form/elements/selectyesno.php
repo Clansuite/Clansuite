@@ -33,8 +33,7 @@
 namespace Koch\Formelement;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -43,19 +42,17 @@ class Selectyesno extends Select implements FormelementInterface
     public function getYesNo()
     {
         $options = array( 'yes' => '1', 'no' => '0' );
+
         return $options;
     }
 
     public function render()
     {
         # check if we have options
-        if($this->options == null)
-        {
+        if ($this->options == null) {
             # if we don't have options, we set only 'yes' and 'no'
             $this->setOptions($this->getYesNo());
-        }
-        else
-        {
+        } else {
             # if options is set, it means that a options['select'] is given
             # we combine it with yes/no
             $this->setOptions( $this->options += $this->getYesNo() );
@@ -65,4 +62,3 @@ class Selectyesno extends Select implements FormelementInterface
     }
 
 }
-?>

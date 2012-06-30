@@ -37,8 +37,7 @@ use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -129,13 +128,12 @@ abstract class Controller
      * Proxy/Convenience Getter Method for the Repository of the current Module.
      *
      *
-     * @param string $entityName Name of an Entity, like "\Entities\User".
+     * @param  string                        $entityName Name of an Entity, like "\Entities\User".
      * @return Doctrine\ORM\EntityRepository
      */
     public function getModel($entityName = null)
     {
-        if(null === $entityName)
-        {
+        if (null === $entityName) {
             $entityName = $this->getEntityNameFromClassname();
         }
 
@@ -154,12 +152,9 @@ abstract class Controller
     {
         $this->doctrine_em->persist($model);
 
-        if($flush === true)
-        {
+        if ($flush === true) {
             $this->doctrine_em->flush();
-        }
-        else
-        {
+        } else {
             $this->doctrine_em->save();
         }
     }
@@ -178,36 +173,29 @@ abstract class Controller
          * Load the Records for the current module, if no modulename is specified.
          * This is for lazy usage in the modulecontroller: $this->initModel();
          */
-        if($modulename === null)
-        {
+        if ($modulename === null) {
             $modulename = HttpRequest::getRoute()->getModuleName();
         }
 
         $module_models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model' . DS;
 
         # check if the module has a models dir
-        if(is_dir($module_models_path) === true)
-        {
-           if(isset($entity) === true)
-           {
+        if (is_dir($module_models_path) === true) {
+           if (isset($entity) === true) {
                # use second parameter of method
                $entity = $module_models_path . 'entities' . DS . ucfirst($entity) . '.php';
-           }
-           else
-           {
+           } else {
                # build entity filename by modulename
                $entity = $module_models_path . 'entities' . DS . ucfirst($modulename) . '.php';
            }
 
-           if(is_file($entity) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false)
-           {
+           if (is_file($entity) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false) {
                include $entity;
            }
 
            $repos = $module_models_path . 'repositories' . DS . ucfirst($modulename) . 'Repository.php';
 
-           if(is_file($repos) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false)
-           {
+           if (is_file($repos) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false) {
                include $repos;
            }
         }
@@ -217,8 +205,8 @@ abstract class Controller
     /**
      * Gets a Module Config
      *
-     * @param string $modulename Modulename.
-     * @return array configuration array of module
+     * @param  string $modulename Modulename.
+     * @return array  configuration array of module
      */
     public static function getModuleConfig($modulename = null)
     {
@@ -240,16 +228,15 @@ abstract class Controller
      * Gets the value for the key items_newswidget from the moduleconfig or sets the value
      * incomming via GET, if nothing is incomming, sets the default value of 8.
      *
-     * @param string $keyname The keyname to find in the array.
-     * @param mixed $default_one A default value returned, when keyname was not found.
-     * @param mixed $default_two A default value returned, when keyname was not found and default_one is null.
+     * @param  string $keyname     The keyname to find in the array.
+     * @param  mixed  $default_one A default value returned, when keyname was not found.
+     * @param  mixed  $default_two A default value returned, when keyname was not found and default_one is null.
      * @return mixed
      */
     public static function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
         # if we don't have a moduleconfig array yet, get it
-        if(self::$moduleconfig === null)
-        {
+        if (self::$moduleconfig === null) {
             self::$moduleconfig = self::getModuleConfig();
         }
 
@@ -257,20 +244,15 @@ abstract class Controller
         $value = Koch_Functions::array_find_element_by_key($keyname, self::$moduleconfig);
 
         # return value or default
-        if(empty($value) === false)
-        {
+        if (empty($value) === false) {
             return $value;
-        }
-        elseif( $default_one != null )
+        } elseif( $default_one != null )
         {
             return $default_one;
-        }
-        elseif( $default_two != null )
+        } elseif( $default_two != null )
         {
             return $default_two;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -298,26 +280,24 @@ abstract class Controller
     /**
      * Get view returns the render engine
      *
-     * @param string $renderEngineName Name of the render engine, like smarty, phptal.
+     * @param  string  $renderEngineName Name of the render engine, like smarty, phptal.
      * @return Returns the View Object (Rendering Engine)
      */
     public function getView($renderEngineName = null)
     {
         # set the renderengine name
-        if(isset($renderEngineName) === true)
-        {
+        if (isset($renderEngineName) === true) {
             $this->setRenderEngine($renderEngineName);
         }
 
         # if already set, get the rendering engine from the view variable
-        if(isset($this->view) === true)
-        {
+        if (isset($this->view) === true) {
             return $this->view;
         }
         # else, set the RenderEngine to the view variable and return it
-        else
-        {
+        else {
             $this->view = $this->getRenderEngine();
+
             return $this->view;
         }
     }
@@ -344,14 +324,12 @@ abstract class Controller
     public function getRenderEngineName()
     {
         # check if the requesttype is xmlhttprequest (ajax) is incomming, then we will return data in json format
-        if(self::getHttpRequest()->isAjax() === true)
-        {
+        if (self::getHttpRequest()->isAjax() === true) {
             $this->setRenderEngine('json');
         }
 
         # use smarty as default, if renderEngine is not set and it's not an ajax request
-        if(empty($this->renderEngineName) === true)
-        {
+        if (empty($this->renderEngineName) === true) {
             $this->setRenderEngine('smarty');
         }
 
@@ -385,8 +363,7 @@ abstract class Controller
      */
     public function getRenderMode()
     {
-        if(empty($this->getView()->renderMode) === true)
-        {
+        if (empty($this->getView()->renderMode) === true) {
             $this->getView()->renderMode = 'LAYOUT';
         }
 
@@ -415,21 +392,18 @@ abstract class Controller
         $view_mapper = $this->view->getViewMapper();
 
         # set layout and content template by parameter array
-        if(is_array($templates) === true)
-        {
-            if(isset($templates['layout_template']) === true)
-            {
+        if (is_array($templates) === true) {
+            if (isset($templates['layout_template']) === true) {
                 $view_mapper->setLayoutTemplate($templates['layout_template']);
             }
 
-            if(isset($templates['content_template']) === true)
-            {
+            if (isset($templates['content_template']) === true) {
                 $view_mapper->setTemplate($templates['content_template']);
             }
         }
 
         # only the "content template" is set
-        if(is_string($templates)) { $view_mapper->setTemplate($templates); }
+        if (is_string($templates)) { $view_mapper->setTemplate($templates); }
 
         # get the templatename
         $template = $view_mapper->getTemplateName();
@@ -450,25 +424,22 @@ abstract class Controller
     /**
      * This loads and initializes a formular from the module directory.
      *
-     * @param string $formname The name of the formular.
-     * @param string $controller The name of the module.
-     * @param string $module The name of the action.
+     * @param string  $formname       The name of the formular.
+     * @param string  $controller     The name of the module.
+     * @param string  $module         The name of the action.
      * @param boolean $assign_to_view If true, the form is directly assigned as formname to the view
      */
     public function loadForm($formname = null, $module = null, $action = null, $assign_to_view = true)
     {
-        if(null === $module)
-        {
+        if (null === $module) {
             $module = HttpRequest::getRoute()->getModuleName();
          }
 
-        if(null === $action)
-        {
+        if (null === $action) {
             $action = HttpRequest::getRoute()->getActionName();
         }
 
-        if(null === $formname)
-        {
+        if (null === $formname) {
             # construct formname like "news"_"action_admin_show"
             $formname  = ucfirst($module) . '_' . ucfirst($action);
         }
@@ -484,13 +455,10 @@ abstract class Controller
         $form = new $classname;
 
         # assign form object directly to the view or return to work with it
-        if($assign_to_view === true)
-        {
+        if ($assign_to_view === true) {
             # do not call $form->render(), it's already done
             $this->getView()->assign('form', $form);
-        }
-        else
-        {
+        } else {
             return $form;
         }
     }
@@ -503,12 +471,9 @@ abstract class Controller
         $referer = self::getHttpRequest()->getReferer();
 
         # we have a referer in the environment
-        if(empty($referer) === false)
-        {
+        if (empty($referer) === false) {
             $this->redirect(SERVER_URL . $referer);
-        }
-        else # build referer on base of the current module
-        {
+        } else { # build referer on base of the current module
             $route = HttpRequest::getRoute();
 
             # we use internal rewrite style here: /module/action
@@ -516,8 +481,7 @@ abstract class Controller
 
             $submodule = $route->getSubModuleName();
 
-            if(empty($submodule) === false)
-            {
+            if (empty($submodule) === false) {
                 $redirect_to .= '/'. $submodule;
             }
 
@@ -529,7 +493,7 @@ abstract class Controller
     /**
      * Shortcut for Redirect with an 404 Response Code
      *
-     * @param string $url Redirect to this URL
+     * @param string $url  Redirect to this URL
      * @param int    $time seconds before redirecting (for the html tag "meta refresh")
      */
     public function redirect404($url, $time = 5)
@@ -541,11 +505,11 @@ abstract class Controller
      * Redirects to a new URL.
      * It's a proxy method using the HttpResponse Object.
      *
-     * @param string $url Redirect to this URL.
-     * @param int $time Seconds before redirecting (for the html tag "meta refresh")
-     * @param int $statusCode Http status code, default: '303' => 'See other'
-     * @param string $message Text of redirect message.
-     * @param string $mode The redirect mode: LOCATION, REFRESH, JS, HTML.
+     * @param string $url        Redirect to this URL.
+     * @param int    $time       Seconds before redirecting (for the html tag "meta refresh")
+     * @param int    $statusCode Http status code, default: '303' => 'See other'
+     * @param string $message    Text of redirect message.
+     * @param string $mode       The redirect mode: LOCATION, REFRESH, JS, HTML.
      */
     public function redirect($url, $time = 0, $statusCode = 303, $message = null, $mode = null)
     {
@@ -566,9 +530,9 @@ abstract class Controller
     /**
      * triggerEvent is shortcut/convenience method for Koch_Eventdispatcher->triggerEvent
      *
-     * @param mixed (string|object) $event Name of Event or Event object to trigger.
-     * @param object $context Context of the event triggering, often the object from where we are calling ($this). Default Null.
-     * @param string $info Some pieces of information. Default Null.
+     * @param mixed (string|object) $event   Name of Event or Event object to trigger.
+     * @param object                $context Context of the event triggering, often the object from where we are calling ($this). Default Null.
+     * @param string                $info    Some pieces of information. Default Null.
      */
     public function triggerEvent($event, $context = null, $info = null)
     {
@@ -579,7 +543,7 @@ abstract class Controller
      * Shortcut to set a Flashmessage
      *
      * @see Koch_Flashmessages::setMessage()
-     * @param string $type string error, warning, notice, success, debug
+     * @param string $type    string error, warning, notice, success, debug
      * @param string $message string A textmessage.
      */
     public static function setFlashmessage($type, $message)
@@ -590,8 +554,8 @@ abstract class Controller
     /**
      * Adds a new breadcrumb
      *
-     * @param string $title Name of the trail element. Use Gettext _('Title')!
-     * @param string $link Link of the trail element
+     * @param string $title                  Name of the trail element. Use Gettext _('Title')!
+     * @param string $link                   Link of the trail element
      * @param string $replace_array_position Position in the array to replace with name/trail. Start = 0.
      */
     public static function addBreadcrumb($title, $link = '', $replace_array_position = null)
@@ -617,8 +581,7 @@ abstract class Controller
     public function getHttpResponse()
     {
         /* @var \Koch\Core\HttpResponse */
+
         return $this->response;
     }
 }
-
-?>

@@ -30,11 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Cache;
+namespace Koch\cache;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -45,24 +44,23 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Cache
  */
-interface CacheInterface
+interface cacheinterface
 {
     # Checks cache for a stored variable
-    function contains($key);
+    public function contains($key);
 
     # Fetch a stored variable from the cache
-    function fetch($key);
+    public function fetch($key);
 
     # Cache a variable in the data store
-    function store($key, $data, $cache_lifetime = 0);
+    public function store($key, $data, $cache_lifetime = 0);
 
     # Removes a stored variable from the cache
-    function delete($key);
+    public function delete($key);
 
     # Clears the cache
-    function clear();
+    public function clear();
 
     # Fetches cache adapter statistics
-    function stats();
+    public function stats();
 }
-?>

@@ -35,8 +35,7 @@ namespace Koch\Form\Decorators\Form;
 use Koch\Form\Decorator;
 
 # Security Handler
-if(defined('IN_CS') === false)
-{
+if (defined('IN_CS') === false) {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
@@ -70,7 +69,7 @@ class Fieldset extends Decorator
         $html .= '<legend class="form"><em>' . $this->getLegend() . '</em></legend>';
         $html .= $html_form_content;
         $html .= '</fieldset>';
+
         return $html;
     }
 }
-?>
