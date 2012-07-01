@@ -27,7 +27,7 @@
     * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
-    * @version    SVN: $Id$
+    * @version    SVN: $session_id: session.php 6407 2012-06-30 15:56:53Z vain $
     */
 
 namespace Koch\Session;
@@ -53,7 +53,7 @@ if (defined('IN_CS') === false) {
 class Session implements SessionInterface, \ArrayAccess
 {
     # stop applications to influcence each other by applying a session_name
-    const session_name = 'CsuiteSID';
+    const SESSION_NAME = 'CsuiteSID';
 
     /**
      * Session Expire time in seconds.
@@ -116,7 +116,7 @@ class Session implements SessionInterface, \ArrayAccess
         /**
          * Configure Session
          */
-        ini_set('session.name', self::session_name);
+        ini_set('session.name', self::SESSION_NAME);
         ini_set('session.save_handler', 'user');
 
         /**
@@ -171,7 +171,7 @@ class Session implements SessionInterface, \ArrayAccess
         # START THE SESSION
         if (true === session_start()) {
             # Set Cookie + adjust the expiration time upon page load
-            setcookie(self::session_name, session_id(), time() + $time, '/');
+            setcookie(self::SESSION_NAME, session_id(), time() + $time, '/');
         } else {
             throw new Koch_Exception('The session start failed!', 200);
         }
@@ -243,10 +243,10 @@ class Session implements SessionInterface, \ArrayAccess
     /**
      * Reads a session
      *
-     * @param  integer $id contains the session_id
+     * @param  integer $session_id contains the session_id
      * @return string  string of the session data
      */
-    public function session_read( $id )
+    public function session_read( $session_id )
     {
         try {
             $em = \Clansuite\CMS::getEntityManager();
@@ -254,7 +254,7 @@ class Session implements SessionInterface, \ArrayAccess
                                        FROM \Entities\Session s
                                        WHERE s.session_name = :name
                                        AND s.session_id = :id');
-            $query->setParameters(array('name' => self::session_name, 'id' => $id));
+            $query->setParameters(array('name' => self::SESSION_NAME, 'id' => $session_id));
             $result = $query->getResult();
 
             if ($result) {
@@ -277,8 +277,7 @@ class Session implements SessionInterface, \ArrayAccess
             $msg .= _('Please use <a href="%s">Installation</a> to perform a proper installation.');
             $msg .= '</p>';
 
-            echo sprintf($msg, $uri);
-            exit;
+            throw new Exception( sprintf($msg, $uri) );
         }
     }
 
@@ -287,11 +286,11 @@ class Session implements SessionInterface, \ArrayAccess
      *
      * This redefines php's session_write_close()
      *
-     * @param  integer $id   contains session_id
+     * @param  integer $session_id   contains session_id
      * @param  array   $data contains session_data
      * @return bool
      */
-    public function session_write($id, $data)
+    public function session_write($session_id, $data)
     {
         /**
          * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
@@ -311,8 +310,8 @@ class Session implements SessionInterface, \ArrayAccess
         );
 
         $query->setParameters(array(
-            'id' => $id,
-            'name' => self::session_name,
+            'id' => $session_id,
+            'name' => self::SESSION_NAME,
             'time' => (int) time(),
             'data' => $data, # @todo serialize($data)
             'visibility' => '1', # @todo ghost mode
@@ -338,8 +337,8 @@ class Session implements SessionInterface, \ArrayAccess
         $_SESSION = array();
 
         //  Unset Cookie Vars
-        if (isset($_COOKIE[self::session_name])) {
-            setcookie(self::session_name, false);
+        if (isset($_COOKIE[self::SESSION_NAME])) {
+            setcookie(self::SESSION_NAME, false);
         }
 
         /**
@@ -354,7 +353,7 @@ class Session implements SessionInterface, \ArrayAccess
         );
 
         $query->setParameters(array(
-            'name' => self::session_name,
+            'name' => self::SESSION_NAME,
             'id' => $session_id)
         );
 
@@ -400,7 +399,7 @@ class Session implements SessionInterface, \ArrayAccess
         );
 
         $query->setParameters(array(
-            'name' => self::session_name,
+            'name' => self::SESSION_NAME,
             'time' => (int) $expire_time)
         );
 
