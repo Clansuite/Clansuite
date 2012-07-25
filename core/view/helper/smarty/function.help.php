@@ -18,8 +18,7 @@
  * Name:     help<br>
  * Purpose:  displays help.tpl for a module, if existing<br>
  *
- * @author   Jens-André Koch <vain@clansuite.com>
- * @license  http://www.gnu.org/copyleft/gpl.html GPL 2 / any later version
+
  * @param array $params
  * @param Smarty $smarty
  * @return string

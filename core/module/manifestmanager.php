@@ -1,42 +1,33 @@
 <?php
-   /**
-    * Koch Framework
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+
+/**
+ * Koch Framework
+ * Jens-André Koch © 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch\Module;
 
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
-
 /**
- * Koch_Module_Manifest_Manager
+ * Module_Manifest_Manager
  *
  * @todo
  * A. ModuleInfoScanner
@@ -87,7 +78,7 @@ class ManifestManager
     public static function readModuleRegistry()
     {
         return Clansuite_CMS::getInjector()->instantiate('Koch\Config')
-                ->readConfig(ROOT . 'configuration' . DS . 'modules.config.php');
+                ->readConfig(ROOT . 'configuration' . DIRECTORY_SEPARATOR . 'modules.config.php');
     }
 
     /**
@@ -98,7 +89,7 @@ class ManifestManager
     public static function writeModuleRegistry($array)
     {
         Clansuite_CMS::getInjector()->instantiate('Koch\Config')
-         ->writeConfig(ROOT . 'configuration' . DS . 'modules.config.php');
+         ->writeConfig(ROOT . 'configuration' . DIRECTORY_SEPARATOR . 'modules.config.php');
     }
 
     /**
@@ -293,10 +284,10 @@ class ManifestManager
             self::$modulesinfo[$modulename]['active'] = self::isModuleActive($modulename);
 
             # hasMenu / ModuleNavigation
-            self::$modulesinfo[$modulename]['menu']   = is_file($modulepath . DS . $modulename .'.menu.php');
+            self::$modulesinfo[$modulename]['menu']   = is_file($modulepath . DIRECTORY_SEPARATOR . $modulename .'.menu.php');
 
             # hasInfo
-            $module_infofile = $modulepath . DS . $modulename . '.info.php';
+            $module_infofile = $modulepath . DIRECTORY_SEPARATOR . $modulename . '.info.php';
             $config_object = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
             if (is_file($module_infofile) === true) {
                 #Koch_Debug::firebug($module_infofile);
@@ -347,7 +338,7 @@ class ManifestManager
         $langinfo = array();
 
         # we are looking at the languages folder for the given module path
-        $module_lang_dir = $modulepath . DS . 'languages';
+        $module_lang_dir = $modulepath . DIRECTORY_SEPARATOR . 'languages';
 
         # return early, if languages directory does not exist
         if (false === is_dir($module_lang_dir)) {

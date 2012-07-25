@@ -15,8 +15,7 @@
  * Name:     a<br>
  * Purpose:  Generates the proper URL from the href parameter given<br>
  *
- * @author   Jens-André Koch <vain@clansuite.com>
- * @license  http://www.gnu.org/copyleft/gpl.html GPL 2 / any later version
+
  * @param array $params
  * @param Smarty $smarty
  * @return string

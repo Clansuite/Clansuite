@@ -1,39 +1,30 @@
 <?php
-   /**
-    * Koch Framework
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+
+/**
+ * Koch Framework
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch\Config;
-
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
 
 /**
  * Configuration Factory
@@ -131,7 +122,7 @@ class Factory
     public static function getConfigurationHandler($adapter)
     {
         # path to configuration handler classes
-        $file = ROOT_CORE . 'config' . DS . strtolower($adapter) . '.config.php';
+        $file = ROOT_CORE . 'config' . DIRECTORY_SEPARATOR . strtolower($adapter) . '.config.php';
 
         if (is_file($file) === true) {
             $class = 'Koch\Config_' . strtoupper($adapter);

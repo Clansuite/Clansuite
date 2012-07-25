@@ -6,13 +6,6 @@
  */
 
 /**
- * This smarty function is part of "Koch Framework"
- * @link http://www.clansuite.com
- *
- * @author Jens-André Koch <jakoch@web.de>
- * @copyright Copyright (C) 2005-onwards Jens-André Koch
- * @license GNU General Public License v2 or any later version
- * @version SVN $Id$
  *
  * Smarty Modifier to purify the html output via HTMLPurifier.
  * The library filters HTML tags by using a tag whitelist.

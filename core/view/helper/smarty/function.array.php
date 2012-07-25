@@ -19,8 +19,7 @@
  * Type:     function<br>
  * Name:     array<br>
  * Purpose:  Defines an array from template side<br>
- * @author   Jens-André Koch <jakoch@web.de>
- * @license  http://www.gnu.org/copyleft/gpl.html GPL v2 or any later license
+ *
  * @param array $params icq and title parameters required
  * @param Smarty $smarty
  * @return string

@@ -14,9 +14,6 @@
  * Purpose:  show distanceOfTimeInWords from current timestamp to string timestamp
  * Input:
  * Example:  {$timestamp|duration}
-
- * @version  1.0
- * @author   Jens-André Koch <jakoch@web.de>
  * @param string
  * @return string
  */

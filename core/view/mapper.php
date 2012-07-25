@@ -1,50 +1,39 @@
 <?php
-   /**
-    * Koch Framework
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * This file is part of "Koch Framework".
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+
+/**
+ * Koch Framework
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch\View;
 
 use Koch\Router\TargetRoute;
 use Koch\MVC\HttpRequest;
 
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
-
 /**
- * Koch_View_Mapper
+ * View_Mapper
  *
  * By definition a mapper sets up a communication between two independent objects.
- * Koch_View_Mapper is a "class action" to "template" mapper.
+ * View_Mapper is a "class action" to "template" mapper.
  * This has nothing to do with rendering, but with template selection for the view.
  * If no template was set manually in the action of a module (class),
  * this class will help determining the template,
@@ -178,11 +167,11 @@ class Mapper
 
             # (a) USER BACKENDTHEME - check in the active session backendtheme
             # e.g. /themes/backend/ + admin/template_name.tpl
-            $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DS;
+            $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DIRECTORY_SEPARATOR;
             # e.g. /themes/backend/ + admin/modules/template_name.tpl
-            $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DS . 'modules' . DS . $module . DS;
+            $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR;
             # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
-            $theme_paths[] = ROOT_THEMES_BACKEND . 'admin' . DS;
+            $theme_paths[] = ROOT_THEMES_BACKEND . 'admin' . DIRECTORY_SEPARATOR;
         }
         /**
          * 2. FRONTEND THEME
@@ -192,11 +181,11 @@ class Mapper
             $frontendtheme = HttpRequest::getRoute()->getFrontendTheme();
 
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
-            $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS;
+            $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DIRECTORY_SEPARATOR;
             # (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
-            $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS . 'modules' . DS . $module . DS;
+            $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR;
             # (c) FRONTEND FALLBACK - check, if template exists in standard theme
-            $theme_paths[] = ROOT_THEMES_FRONTEND . 'standard' . DS;
+            $theme_paths[] = ROOT_THEMES_FRONTEND . 'standard' . DIRECTORY_SEPARATOR;
         }
 
         return $theme_paths;
@@ -235,9 +224,9 @@ class Mapper
         # compose templates paths in the module dir
         $module_paths = array(
             ROOT_MOD,
-            ROOT_MOD . $module . DS,
-            ROOT_MOD . $module . DS . 'view' . DS,
-            ROOT_MOD . $module . DS . 'view' . DS . $renderer . DS
+            ROOT_MOD . $module . DIRECTORY_SEPARATOR,
+            ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR,
+            ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $renderer . DIRECTORY_SEPARATOR
         );
 
         return $module_paths;
@@ -266,7 +255,7 @@ class Mapper
 
             # the template with that name is not found on our default paths
 
-            return ROOT_THEMES_CORE . 'view' . DS . $renderer . DS . 'template_not_found.tpl';
+            return ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . $renderer . DIRECTORY_SEPARATOR . 'template_not_found.tpl';
         }
     }
 

@@ -1,44 +1,33 @@
 <?php
-   /**
-    * Koch Framework
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * This file is part of "Koch Framework".
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+
+/**
+ * Koch Framework
+ * Jens-André Koch © 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch\Localization\Gettext;
 
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
-
 /**
- * Koch_Gettext
+ * Gettext
  *
  * 1. Gettext extraction is normally performed by the "xgettext" tool.
  *    http://www.gnu.org/software/hello/manual/gettext/xgettext-Invocation.html
@@ -58,9 +47,6 @@ if (defined('IN_CS') === false) {
  *  - Drupals "translation_extraction" (GPL)
  *  - Matthias Bauer's work on PO/MO Filehandling for Wordpress during GSoC 2007 (GPL)
  *  - Heiko Rabe's "Codestyling Localization" Plugin for Wordpress (GPL)
- *
- * @author Karel Klíma
- * @author Jens-André Koch
  *
  * @category    Koch
  * @package     Core
@@ -116,7 +102,7 @@ class Extractor extends Extractor_Tool
 namespace Koch\Localization\Gettext\Extractor;
 
 /**
- * Koch_Gettext_Extractor_Tool
+ * Gettext_Extractor_Tool
  *
  * Gettext extraction is normally performed by the "xgettext" tool.
  * http://www.gnu.org/software/hello/manual/gettext/xgettext-Invocation.html
@@ -124,9 +110,6 @@ namespace Koch\Localization\Gettext\Extractor;
  * This is a php implementation of a gettext extractor on basis of preg_matching.
  * The extractor matches certain translation functions, like translate('term') or t('term') or _('term').
  * and their counterparts in templates, often {t('term')} or {_('term')}.
- *
- * @author Karel Klíma
- * @author Jens-André Koch
  *
  * @category    Koch
  * @package     Core
@@ -255,7 +238,7 @@ class Tool
                 continue;
             }
 
-            $path = $resource . DS . $entry;
+            $path = $resource . DIRECTORY_SEPARATOR . $entry;
 
             if (false === is_readable($path)) {
                 continue;
@@ -443,13 +426,13 @@ class Tool
         $output = array();
         $output[] = '# Gettext Portable Object Translation File.';
         $output[] = '#';
-        $output[] = '# Koch Framework (http://www.clansuite.com)';
+        $output[] = '# Koch Framework';
         $output[] = '# Copyright © Jens-André Koch 2005 - onwards.';
-        $output[] = '# The file is distributed under the GNU/GPL v2 or (at your option) any later version.';
+        $output[] = '# The file is distributed under the GNU/GPL v2 or any later version.';
         $output[] = '#';
         $output[] = 'msgid ""';
         $output[] = 'msgstr ""';
-        $output[] = '"Project-Id-Version: Clansuite ' . CLANSUITE_VERSION . '\n"';
+        $output[] = '"Project-Id-Version: Koch Framework ' . CLANSUITE_VERSION . '\n"';
         $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
         $output[] = '"PO-Revision-Date: ' . date('Y-m-d H:iO') . '\n"';
         $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
@@ -581,7 +564,7 @@ class Extractor_Base
 }
 
 /**
- * Koch_Gettext_Extractor_Interface
+ * Gettext_Extractor_Interface
  */
 interface Extractor
 {

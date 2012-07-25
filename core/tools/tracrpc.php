@@ -50,7 +50,6 @@ namespace Koch\Tools;
  * The code is relicensed from "Artistic License 2.0" to "GNU/GPL v2+"
  * via section 4(c)(ii) of the GNU/GPL (upstream compatibility).
  */
-
 class Trac_RPC
 {
     public $tracURL = '';

@@ -11,15 +11,14 @@
  *
  * Examples:
  * <pre>
- * {icq icq=152450351}
- * {icq icq=152450351 title="Techi"}
+ * {icq icq=123456}
+ * {icq icq=123456 title="username"}
  * </pre>
  *
  * Type:     function<br>
  * Name:     icq<br>
  * Purpose:  display icq status<br>
- * @author   Michal Vrchota <michal.vrchota@seznam.cz>
- * @license http://www.gnu.org/copyleft/gpl.html GPL
+ *
  * @param array $params icq and title parameters required
  * @param Smarty $smarty
  * @return string

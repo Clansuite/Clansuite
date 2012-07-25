@@ -1,45 +1,34 @@
 <?php
-   /**
-    * Koch Framework
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * This file is part of "Koch Framework".
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+
+/**
+ * Koch Framework
+ * Jens-André Koch © 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch\View\Renderer;
 
 use Koch\View\AbstractRenderer;
 use Koch\View\Mapper;
 use Koch\Router\TargetRoute;
-
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
 
 /**
  * Koch Framework - View Renderer for Smarty Templates.
@@ -48,9 +37,6 @@ if (defined('IN_CS') === false) {
  *
  * @link http://smarty.php.net/ Official Website of Smarty Template Engine
  * @link http://smarty.incutio.com/ Smarty Wiki
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @category    Koch
  * @package     View
@@ -108,9 +94,9 @@ class Smarty extends AbstractRenderer
         /**
          * Directories
          */
-        $this->renderer->compile_dir = ROOT_CACHE . 'tpl_compile' . DS;
-        $this->renderer->config_dir  = ROOT_LIBRARIES . 'smarty' . DS . 'configs' . DS;
-        $this->renderer->cache_dir   = ROOT_CACHE . 'tpl_cache' . DS;
+        $this->renderer->compile_dir = ROOT_CACHE . 'tpl_compile' . DIRECTORY_SEPARATOR;
+        $this->renderer->config_dir  = ROOT_LIBRARIES . 'smarty' . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR;
+        $this->renderer->cache_dir   = ROOT_CACHE . 'tpl_cache' . DIRECTORY_SEPARATOR;
 
         /**
          * Debugging
@@ -210,7 +196,7 @@ class Smarty extends AbstractRenderer
         $tpl_array = array(
             Mapper::getThemeTemplatePaths(), # 1 + 2
             Mapper::getModuleTemplatePaths(), # 3 + 4
-            ROOT_THEMES_CORE . 'view' . DS . 'smarty', # 5
+            ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . 'smarty', # 5
             ROOT_THEMES # 6
         );
 
@@ -507,7 +493,7 @@ class Smarty extends AbstractRenderer
     }
 
     /**
-     * Koch_Renderer_Smarty->render
+     * Renderer_Smarty->render
      *
      * Returns the mainframe layout with inserted modulcontent (templatename).
      *

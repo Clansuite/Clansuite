@@ -17,8 +17,6 @@
  * Name:    check_permission<br>
  * Purpose: checks if a user has a certain permission<br>
  *
- * @author  Jens-André Koch <vain@clansuite.com>
- * @license http://www.gnu.org/copyleft/gpl.html GPL 2 / any later version
  * @param   array $params
  * @param   Smarty $smarty
  * @return  boolean True if user has permission, false otherwise.

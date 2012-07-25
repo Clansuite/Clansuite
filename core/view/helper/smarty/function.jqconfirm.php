@@ -6,14 +6,6 @@
  */
 
 /**
- * This smarty function is part of "Koch Framework"
- * @link http://www.clansuite.com
- *
- * @author Jens-André Koch <jakoch@web.de>
- * @copyright Copyright (C) 2009 Jens-André Koch
- * @license GNU Public License (GPL) v2 or any later version
- * @version SVN $Id$
- *
  * Name:    jqconfirm
  * Type:    function
  * Purpose: This TAG inserts javascript and html code for a jquery modal confirmation dialog window.

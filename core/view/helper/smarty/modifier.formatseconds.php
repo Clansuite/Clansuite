@@ -15,9 +15,6 @@
  * Input:
  *
  * Example:  {$seconds|formatseconds}
-
- * @version  1.0
- * @author   Jens-André Koch <jakoch@web.de>
  * @param string
  * @return string
  */

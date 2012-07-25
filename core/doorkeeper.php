@@ -1,47 +1,35 @@
 <?php
-   /**
-    * Koch Framework
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * This file is part of "Koch Framework".
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+
+/**
+ * Koch Framework
+ * Jens-André Koch © 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch;
-
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
 
 /**
  * DoorKeeper
  *
  * These are security-methods to keep the entrance to Koch Framework clean.
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
  *
  * @category    Koch
  * @package     Core
@@ -85,7 +73,7 @@ class DoorKeeper
 
             # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
 
-            define('IDS_FILTER_PATH', ROOT_LIBRARIES . 'IDS' . DS . 'default_filter.xml');
+            define('IDS_FILTER_PATH', ROOT_LIBRARIES . 'IDS' . DIRECTORY_SEPARATOR . 'default_filter.xml');
             define('IDS_TMP_PATH', ROOT_CACHE);
             define('IDS_LOG_PATH', ROOT_LOGS . 'phpids_log.txt');
             define('IDS_CACHE_PATH', ROOT_CACHE . 'phpids_defaultfilter.cache');

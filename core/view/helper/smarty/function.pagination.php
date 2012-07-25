@@ -18,8 +18,7 @@
  * Name:     pagination<br>
  * Purpose:  display pagination if needed<br>
  *
- * @author   Jens-André Koch <vain@clansuite.com>
- * @license  http://www.gnu.org/copyleft/gpl.html GPL 2 / any later version
+
  * @param array $params
  * @param Smarty $smarty
  * @return string

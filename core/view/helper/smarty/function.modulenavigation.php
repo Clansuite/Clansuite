@@ -18,8 +18,7 @@
  * Type:     function<br>
  * Name:     modulenavigation<br>
  * Purpose:  display modulenavigation<br>
- * @author   Jens-André Koch <vain@clansuite.com>
- * @license  http://www.gnu.org/copyleft/gpl.html GPL 2 / any later version
+
  * @param array $params
  * @param Smarty $smarty
  * @return string
@@ -28,7 +27,7 @@ function smarty_function_modulenavigation($params, $smarty)
 {
     $module = Koch_HttpRequest::getRoute()->getModuleName();
 
-    $file = ROOT_MOD. $module . DS . $module . '.menu.php';
+    $file = ROOT_MOD. $module . DIRECTORY_SEPARATOR . $module . '.menu.php';
 
     if ( is_file($file) ) {
         # this includes the file, which contains a php array name $modulenavigation

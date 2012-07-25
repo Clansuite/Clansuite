@@ -1,13 +1,8 @@
 <?php
 /**
- * This smarty function is part of "Koch Framework"
- * @link http://www.clansuite.com
+
  *
- * @author Jens-André Koch <vain@clansuite.com>
- * @copyright Copyright (C) 2005-onwards Jens-André Koch
- * @license GNU Public License (GPL) v2 or any later version
- * @version SVN $Id$
- *
+  *
  * Name:         break
  * Type:         compiler
  * Purpose:     this TAG breaks foreach loops

@@ -1,45 +1,41 @@
 <?php
-    /**
-     * Koch Framework
-     * Jens-André Koch © 2005 - onwards
-     * http://www.clansuite.com/
-     *
-     * This file is part of "Koch Framework".
-     *
-     * LICENSE:
-     *
-     *    This program is free software; you can redistribute it and/or modify
-     *    it under the terms of the GNU General Public License as published by
-     *    the Free Software Foundation; either version 2 of the License, or
-     *    (at your option) any later version.
-     *
-     *    This program is distributed in the hope that it will be useful,
-     *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-     *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     *    GNU General Public License for more details.
-     *
-     *    You should have received a copy of the GNU General Public License
-     *    along with this program; if not, write to the Free Software
-     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-     *
-     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-     * @author     Jens-André Koch <vain@clansuite.com>
-     * @copyright  Jens-André Koch (2005 - onwards)
-     * @link       http://www.clansuite.com
-     *
-     * @version    SVN: $Id$
-     */
+
+/**
+ * Koch Framework
+ * Jens-André Koch © 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch\Cron;
 
 $cron = new Cronjobs;
 
 /**
- * Koch FrameworkCronjobs is a service wrapper class for stack processing of regular tasks.
+ * Koch Framework - Class for Cronjob handling.
+ *
+ * Cronjobs is a service wrapper class for stack processing of regular tasks.
  *
  * This is a fork of Kai Blankenhorn's pseudo-cron v1.3
  * (c) 2003,2004 Kai Blankenhorn, www.bitfolge.de/pseudocron, <kaib@bitfolge.de>
- * (c) 2008,2009 Jens-André Koch, www.clansuite.com, <jakoch@web.de>
+ * (c) 2008,2009 Jens-André Koch, www.jens-andre-koch.de, <jakoch@web.de>
  *
  * Usually regular tasks like backup up the site's database are run using cron
  * jobs. With cron jobs, you can exactly plan when a certain command is to be
@@ -112,24 +108,24 @@ $cron = new Cronjobs;
  * ----------
  *
  * v1.4 10-05-2008
- *  fork:     removed globals, added constant for debugging
- *            added handlers for cronjobs from file and from database
+ *     fork:     removed globals, added constant for debugging
+ *               added handlers for cronjobs from file and from database
  *
  * v1.3    06-15-2004
- *     added:      the number of jobs run during one call of pseudocron
+ *     added:    the number of jobs run during one call of pseudocron
  *               can now be limited.
- *     added:      additional script to call pseudocron from an HTML img tag
+ *     added:    additional script to call pseudocron from an HTML img tag
  *     improved: storage of job run times
  *     fixed:    bug with jobs marked as run although they did not complete
  *
  * v1.2.2 01-17-2004
- *     added:      send an email for each completed job
+ *     added:    send an email for each completed job
  *     improved: easier cron job configuration (relative to pseudo-cron, not
  *               to calling script. Please read the release notes on this)
  *
  * v1.2.1 02-03-2003
- *     fixed:     jobs may be run too often under certain conditions
- *     added:     global debug switch
+ *     fixed:   jobs may be run too often under certain conditions
+ *     added:   global debug switch
  *     changed: typo in imagecron.php which prevented it from working
  *
  * v1.2    01-31-2003
@@ -542,7 +538,7 @@ class Cronjobs
 }
 
 /**
- * Interface for Koch_Cronjob
+ * Interface for Cronjob
  */
 interface Cronjob
 {

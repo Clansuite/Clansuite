@@ -16,8 +16,6 @@
  *         - string = datestring
  *
  * Example:  {$timestamp|date}
-
- * @author   Jens-André Koch <jakoch@web.de>
  * @param string = has to be a unix timestamp
  * @return string
  */

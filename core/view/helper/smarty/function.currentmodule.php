@@ -18,8 +18,7 @@
  * Type:     function<br>
  * Name:     currentmodule<br>
  * Purpose:  display name of current module<br>
- * @author   Jens-André Koch <vain@clansuite.com>
- * @license  http://www.gnu.org/copyleft/gpl.html GPL 2 / any later version
+
  * @return string
  */
 function smarty_function_currentmodule()

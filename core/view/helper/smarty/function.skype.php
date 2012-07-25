@@ -10,7 +10,6 @@
  * Display skype status (unknown, offline, online, away, not_available, do_not_disturb, skype_me)
  * Type:     function<br>
  * Name:     skype_status<br>
- * Date:     2009.09.16.<br>
  *
  * Examples:
  * <pre>
@@ -21,8 +20,7 @@
  * Type:     function<br>
  * Name:     skype<br>
  * Purpose:  display skype status<br>
- * @author   László Kovács <info@laszlokovacs.com>
- * @license http://www.gnu.org/copyleft/gpl.html GPL
+ *
  * @param array $params username parameter required
  * @param Smarty $smarty
  * @return string

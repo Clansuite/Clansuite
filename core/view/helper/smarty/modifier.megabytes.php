@@ -15,9 +15,6 @@
  * Input:<br>
  *         - string = bytesize to convert to mb, kb, b
  * Example:  {$bytesize|megabytes}
-
- * @version  1.0
- * @author   Jens-André Koch <jakoch@web.de>
  * @param string
  * @return string
  */

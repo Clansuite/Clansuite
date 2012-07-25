@@ -8,13 +8,7 @@
  */
 
 /**
- * This smarty function is part of "Koch Framework"
- * @link http://www.clansuite.com
- *
- * @author Jens-André Koch <jakoch@web.de>
- * @copyright Copyright (C) 2009 Jens-André Koch
- * @license GNU General Public License v2 or any later version
- * @version SVN $Id$
+
  *
  * Smarty Function to output the addtoany social bookmark/sharing button.
  * @link http://www.addtoany.com

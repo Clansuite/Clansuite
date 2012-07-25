@@ -1,41 +1,30 @@
 <?php
-   /**
-    * Koch Framework
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * This file is part of "Koch Framework".
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+
+/**
+ * Koch Framework
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch\Config;
-
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
 
 /**
  * Koch\Config
@@ -100,7 +89,7 @@ class Config extends AbstractConfig
             $modulename = Koch\Router\TargetRoute::getModuleName();
         }
 
-        $file = ROOT_MOD . $modulename . DS . $modulename . '.config.php';
+        $file = ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php';
 
         if (is_file($file)) {
             return Factory::getConfiguration($configfile);
@@ -126,14 +115,14 @@ class Config extends AbstractConfig
         if (null == $modulename) {
             $modulename = Koch\Router\TargetRoute::getModuleName();
         }
-        $this->writeConfig(ROOT_MOD . $modulename . DS . $modulename . '.config.php', $array);
+        $this->writeConfig(ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php', $array);
     }
 
     /**
      * Write a config file
      *
      * @example To write a module cfg for module news:
-     * $config->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
+     * $config->confighandler->writeConfig( ROOT_MOD . 'news'. DIRECTORY_SEPARATOR .'news.config.php', $data);
      *
      * @param $file path and the filename you want to write
      * @param $array the configuration array to write. Defaults to null = empty array.

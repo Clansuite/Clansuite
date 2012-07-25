@@ -6,13 +6,8 @@
  */
 
 /**
- * This smarty function is part of "Koch Framework"
- * @link http://www.clansuite.com
- *
- * @author Jens-André Koch <jakoch@web.de>
- * @copyright Copyright (C) 2009 Jens-André Koch
- * @license GNU General Public License v2 or any later version
- * @version SVN $Id$
+
+
  *
  * Koch FrameworkSmarty Plugin
  * --------------------------------------------------------
@@ -29,5 +24,5 @@
  */
 function smarty_prefilter_inserttplnames( $tpl_source, $compiler )
 {
-    return "\n<!-- [-Start-] Included Template {\$smarty.current_dir}".DS."{\$smarty.template} -->\n".$tpl_source."\n<!-- [-End-] Included Template {\$smarty.current_dir}".DS."{\$smarty.template}  -->\n";
+    return "\n<!-- [-Start-] Included Template {\$smarty.current_dir}". DIRECTORY_SEPARATOR ."{\$smarty.template} -->\n".$tpl_source."\n<!-- [-End-] Included Template {\$smarty.current_dir}". DIRECTORY_SEPARATOR ."{\$smarty.template}  -->\n";
 }

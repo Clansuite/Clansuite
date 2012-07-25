@@ -8,14 +8,6 @@
  */
 
 /**
- * This smarty function is part of "Koch Framework"
- * @link http://www.clansuite.com
- *
- * @author Jens-André Koch <jakoch@web.de>
- * @copyright Copyright (C) 2009 Jens-André Koch
- * @license GNU Public License (GPL) v2 or any later version
- * @version SVN $Id$
- *
  * Name:         loadmodule
  * Type:         function
  * Purpose: This TAG inserts the a certain module and its widget.
@@ -112,20 +104,20 @@ function smarty_function_load_module($params, $smarty)
         # for a look at the detection order uncomment the next line
         #Koch_Debug::printR($smarty->template_dir);
 
-        if ($smarty->templateExists('modules' . DS . $module . DS . $action . '.tpl')) {
+        if ($smarty->templateExists('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $action . '.tpl')) {
             # $smarty->template_dir[s]..modules\news\widget_news.tpl
 
-            return $smarty->fetch('modules' . DS . $module . DS . $action . '.tpl');
-        } elseif ($smarty->templateExists('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
+            return $smarty->fetch('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $action . '.tpl');
+        } elseif ($smarty->templateExists('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl'))
         {
             # $smarty->template_dir[s]..modules\news\view\widget_news.tpl
 
-            return $smarty->fetch('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
-        } elseif ($smarty->templateExists($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
+            return $smarty->fetch('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl');
+        } elseif ($smarty->templateExists($module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl'))
         {
             # $smarty->template_dir[s]..\news\view\smarty\widget_news.tpl
 
-            return $smarty->fetch($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
+            return $smarty->fetch($module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl');
         } elseif($smarty->templateExists($template))
         {
             # $smarty->template_dir[s].. $template

@@ -6,14 +6,6 @@
  */
 
 /**
- * This smarty function is part of "Koch Framework"
- * @link http://www.clansuite.com
- *
- * @author Jens-André Koch <jakoch@web.de>
- * @copyright Copyright (C) 2009 Jens-André Koch
- * @license GNU Public License (GPL) v2 or any later version
- * @version SVN $Id$
- *
  * Name:    icon
  * Type:    function
  * Purpose: This TAG inserts images/icons.
@@ -79,7 +71,7 @@ function smarty_function_icon($params, $smarty)
     }
 
     # transform name into a valid image src
-    $src = realpath(ROOT_THEMES . 'core/images/' . $icondir . DS . $name . '.png');
+    $src = realpath(ROOT_THEMES . 'core/images/' . $icondir . DIRECTORY_SEPARATOR . $name . '.png');
 
     # if we got no valid src, set a default image
     if (isset($src) and is_file($src) == false) {

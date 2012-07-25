@@ -1,45 +1,34 @@
 <?php
-   /**
-    * Koch Framework
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * This file is part of "Koch Framework".
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+
+/**
+ * Koch Framework
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
+ *
+ * This file is part of "Koch Framework".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Koch\Module;
 
 use Koch\MVC\HttpRequest;
 use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
-
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
 
 /**
  * ModuleController
@@ -177,23 +166,23 @@ abstract class Controller
             $modulename = HttpRequest::getRoute()->getModuleName();
         }
 
-        $module_models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model' . DS;
+        $module_models_path = ROOT_MOD . mb_strtolower($modulename) . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
 
         # check if the module has a models dir
         if (is_dir($module_models_path) === true) {
            if (isset($entity) === true) {
                # use second parameter of method
-               $entity = $module_models_path . 'entities' . DS . ucfirst($entity) . '.php';
+               $entity = $module_models_path . 'entities' . DIRECTORY_SEPARATOR . ucfirst($entity) . '.php';
            } else {
                # build entity filename by modulename
-               $entity = $module_models_path . 'entities' . DS . ucfirst($modulename) . '.php';
+               $entity = $module_models_path . 'entities' . DIRECTORY_SEPARATOR . ucfirst($modulename) . '.php';
            }
 
            if (is_file($entity) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false) {
                include $entity;
            }
 
-           $repos = $module_models_path . 'repositories' . DS . ucfirst($modulename) . 'Repository.php';
+           $repos = $module_models_path . 'repositories' . DIRECTORY_SEPARATOR . ucfirst($modulename) . 'Repository.php';
 
            if (is_file($repos) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false) {
                include $repos;
@@ -447,7 +436,7 @@ abstract class Controller
         # construct formname, classname, filename, load file, instantiate the form
         $classname = 'Koch_Form_' . $formname;
         $filename  = mb_strtolower($formname) . '.form.php';
-        $directory = ROOT_MOD . mb_strtolower($module) . DS . 'form/';
+        $directory = ROOT_MOD . mb_strtolower($module) . DIRECTORY_SEPARATOR . 'form/';
 
         Loader::requireFile( $directory . $filename, $classname );
 
@@ -528,7 +517,7 @@ abstract class Controller
     }
 
     /**
-     * triggerEvent is shortcut/convenience method for Koch_Eventdispatcher->triggerEvent
+     * triggerEvent is shortcut/convenience method for Eventdispatcher->triggerEvent
      *
      * @param mixed (string|object) $event   Name of Event or Event object to trigger.
      * @param object                $context Context of the event triggering, often the object from where we are calling ($this). Default Null.
