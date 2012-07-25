@@ -10,7 +10,7 @@
  * Description : content definitions
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Paul Brand <info@isp-tenerife.net>
  * @package      CSFW
  * subpackage    Theme
@@ -401,9 +401,9 @@
     .menu_header
     {
         background: url(../images/thback.gif) repeat-x scroll 0 0 transparent;
-        border-color: #ffffff #ACA899 #ACA899 #ffffff;        
+        border-color: #ffffff #ACA899 #ACA899 #ffffff;
         border-style: solid;
-        border-width: 1px;        
+        border-width: 1px;
         cursor: default;
         font-size: 12px;
         font-weight: bold;

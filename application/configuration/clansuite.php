@@ -1,9 +1,9 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
 ; 
-; Clansuite Configuration File : 
-; D:\xampp\htdocs\work\clansuite\trunk\configuration/clansuite.config.php
+; Koch Framework Configuration File : 
+; D:\xampp\htdocs\work\clansuite\trunk\application/configuration/clansuite.php
 ; 
-; This file was generated on 05-03-2012 16:39
+; This file was generated on 03-04-2012 23:43
 ;
 
 
@@ -15,7 +15,7 @@ host = "localhost"
 driver = "pdo_mysql"
 user = "root"
 password = ""
-dbname = "clansuite"
+dbname = "clansuite123456"
 prefix = "cs_"
 charset = "UTF8"
 
@@ -66,7 +66,7 @@ compression = 0
 ; email
 ;----------------------------------------
 [email]
-from = "system@website.com"
+from = "webmaster@website.com"
 mailmethod = "mail"
 mailerhost = ""
 mailerport = ""
@@ -98,7 +98,7 @@ timeout = 60
 reason = 1
 
 ;----------------------------------------
-; email
+; meta
 ;----------------------------------------
 [meta]
 description = "description"

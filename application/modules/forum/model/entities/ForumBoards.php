@@ -5,7 +5,6 @@ namespace Entities;
  * @Entity(repositoryClass="Repositories\ForumBoardsRepository")
  * @Table(name="forum_boards")
  */
-
 class ForumBoards
 {
     /**

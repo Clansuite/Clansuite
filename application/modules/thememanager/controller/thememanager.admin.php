@@ -1,42 +1,31 @@
-<?php
-   /**
-    * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * This file is part of "Clansuite - just an eSports CMS".
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id: users.module.php 2634 2008-12-12 22:07:48Z vain $
-    */
+<?php defined('IN_CS') or exit('Direct Access forbidden.');
+
+/**
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ *
+ * This file is part of "Clansuite - just an eSports CMS".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Clansuite\Module;
-
-# Security Handler
-if (defined('IN_CS') === false)
-{
-    die('Clansuite not loaded. Direct Access forbidden.');
-}
 
 /**
  * Clansuite_Module_Thememanager_Admin
@@ -104,7 +93,7 @@ class Thememanager_Admin extends Controller
         {
             $i++;
             # exclude .svn and core dir, take only dirs with theme_info.xml in it
-            if((!$dir->isDot()) and ($dir != '.svn') and ($dir != 'core') and (is_file($dir->getPathName() . DS . 'theme_info.xml')))
+            if((!$dir->isDot()) and ($dir != '.svn') and ($dir != 'core') and (is_file($dir->getPathName() . DIRECTORY_SEPARATOR . 'theme_info.xml')))
             {
                 # add xml infos from file
                 $theme_info[$i] = self::parseThemeInformations($themes_directory . $dir);
@@ -116,7 +105,7 @@ class Thememanager_Admin extends Controller
                 if(isset($theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl']))
                 {
                     $theme_info[$i]['layouttpl'] = $theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl'];
-                    $theme_info[$i]['layoutpath'] = $theme_info[$i]['fullpath'] . DS . $theme_info[$i]['layouttpl'];
+                    $theme_info[$i]['layoutpath'] = $theme_info[$i]['fullpath'] . DIRECTORY_SEPARATOR . $theme_info[$i]['layouttpl'];
                 }
 
                 # add dirname
@@ -147,7 +136,7 @@ class Thememanager_Admin extends Controller
                 }
 
                 # add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)
-                $preview_image = glob($themes_directory . $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
+                $preview_image = glob($themes_directory . $dir . DIRECTORY_SEPARATOR . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
 
                 # turn ROOT_THEMES path into a WWW_ROOT path
                 if(true === (bool) $theme_info[$i]['backendtheme'])
@@ -200,7 +189,7 @@ class Thememanager_Admin extends Controller
      */
     public static function parseThemeInformations($themedir)
     {
-        $theme_info_file = $themedir . DS . 'theme_info.xml';
+        $theme_info_file = $themedir . DIRECTORY_SEPARATOR . 'theme_info.xml';
 
         # ensure we have simplexml available
         if(false == function_exists('simplexml_load_file'))

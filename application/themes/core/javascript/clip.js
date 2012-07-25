@@ -5,7 +5,7 @@
  *
  * This file is part of "Clansuite - just an eSports CMS".
  *
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
@@ -13,7 +13,7 @@
  * @link       http://www.clansuite.com
  * @link       http://gna.org/projects/clansuite
  *
- * @version    SVN: $Id$
+
  */
 
 /**

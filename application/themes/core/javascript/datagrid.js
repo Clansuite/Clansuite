@@ -21,7 +21,7 @@
 *    along with this program; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-* @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+* GNU/GPL v2 or any later version; see LICENSE file
 *
 * @author     Jens-André Koch   <vain@clansuite.com>
 * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
@@ -30,7 +30,7 @@
 * @link       http://gna.org/projects/clansuite
 * @since      File available since Release 2.0alpha
 *
-* @version    SVN: $Id$
+
 */
 
 /**

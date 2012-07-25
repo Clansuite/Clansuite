@@ -1,40 +1,31 @@
-<?php
-   /**
-    * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id: news.admin.php 3747 2009-11-20 14:59:46Z vain $
-    */
+<?php defined('IN_CS') or exit('Direct Access forbidden.');
+
+/**
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ *
+ * This file is part of "Clansuite - just an eSports CMS".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Clansuite\Module;
-
-# Security Handler
-if(defined('IN_CS') === false)
-{
-    die('Clansuite not loaded. Direct Access forbidden.');
-}
 
 /**
  * Clansuite_Module_Modulemanager_Admin
@@ -43,7 +34,6 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Modulemanager
  */
-
 class Modulemanager_Admin extends Controller
 {
     public function _initializeModule()
@@ -296,7 +286,7 @@ class Modulemanager_Admin extends Controller
             {
                 // CREATE DIRECTORIES
                 mkdir( ROOT_MOD .  $mod['modulename'], fileperms(ROOT_MOD) );
-                mkdir( ROOT_MOD .  $mod['modulename'] . DS . 'view', fileperms(ROOT_MOD .  $mod['modulename']) );
+                mkdir( ROOT_MOD .  $mod['modulename'] . DIRECTORY_SEPARATOR . 'view', fileperms(ROOT_MOD .  $mod['modulename']) );
             }
             else
             {
@@ -320,7 +310,7 @@ class Modulemanager_Admin extends Controller
                 $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
                 $view->assign( 'frontend_methods',  $frontend_methods);
                 $frontend = $smarty->fetch('module_frontend.tpl');
-                file_put_contents(ROOT_MOD .  $mod['modulename'] . DS . $mod['modulename'] . '.module.php', $frontend );
+                file_put_contents(ROOT_MOD .  $mod['modulename'] . DIRECTORY_SEPARATOR . $mod['modulename'] . '.module.php', $frontend );
             }
 
             /**
@@ -332,7 +322,7 @@ class Modulemanager_Admin extends Controller
                 $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
                 $view->assign( 'backend_methods',  $backend_methods );
                 $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
-                file_put_contents(ROOT_MOD .  $mod['modulename'] . DS . $mod['modulename'] . '.admin.php', $backend );
+                file_put_contents(ROOT_MOD .  $mod['modulename'] . DIRECTORY_SEPARATOR . $mod['modulename'] . '.admin.php', $backend );
             }
 
             # Config
@@ -399,7 +389,7 @@ class Modulemanager_Admin extends Controller
         # inject modifications
 
         # save to file
-        file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.config.php' , $config);
+        file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php' , $config);
      }
 
      /**
@@ -418,7 +408,7 @@ class Modulemanager_Admin extends Controller
         # inject modifications
 
         # save to file
-        file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.menu.php', $menu_template_content);
+        file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.menu.php', $menu_template_content);
      }
 
     /**
@@ -435,7 +425,7 @@ class Modulemanager_Admin extends Controller
         # inject modifications
 
         # save to file
-        file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.setup.php' , $setup);
+        file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.setup.php' , $setup);
     }
 
     /**
@@ -449,7 +439,7 @@ class Modulemanager_Admin extends Controller
             {
                 if( isset( $module_frontend_data['frontend_tpls'][$key] ) )
                 {
-                    file_put_contents(ROOT_MOD . $module_name . DS . 'view' . DS . $value . '.tpl', '');
+                    file_put_contents(ROOT_MOD . $module_name . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
         }
@@ -468,7 +458,7 @@ class Modulemanager_Admin extends Controller
             {
                 if( isset( $module_backend_data['backend_tpls'][$key] ) )
                 {
-                    file_put_contents(ROOT_MOD . $module_name . DS . 'view' . DS . $value . '.tpl', '');
+                    file_put_contents(ROOT_MOD . $module_name . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
         }
@@ -493,7 +483,7 @@ class Modulemanager_Admin extends Controller
             {
                 if( isset($mod['widget']['widget_tpls'][$key]) )
                 {
-                    file_put_contents(ROOT_MOD .  $module . DS . 'view' . DS . $value . '.tpl', '');
+                    file_put_contents(ROOT_MOD .  $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
         }
@@ -515,7 +505,7 @@ class Modulemanager_Admin extends Controller
             $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_documentation.tpl');
 
             # write the documentation file to the moduledir
-            file_put_contents( ROOT_MOD .  $module . DS . 'doc' . DS . $module . '_documentation.asc', $documentation_template_content);
+            file_put_contents( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . $module . '_documentation.asc', $documentation_template_content);
         }
     }
 
@@ -528,7 +518,7 @@ class Modulemanager_Admin extends Controller
     public function createModuleMenunavigationTemplateFromTemplate($module)
     {
         # check, if the modulename.menu.php file exists, if not create menu from template
-        if( is_file( ROOT_MOD .  $module . DS . $module . '.menu.asc') == false )
+        if( is_file( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . $module . '.menu.asc') == false )
         {
             # get some moduleinfos from module_info.xml
 
@@ -546,7 +536,7 @@ class Modulemanager_Admin extends Controller
             $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');
 
             # write the documentation file to the moduledir
-            file_put_contents( ROOT_MOD .  $module . DS . '.menu.asc', $documentation_template_content);
+            file_put_contents( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . '.menu.asc', $documentation_template_content);
         }
     }
 

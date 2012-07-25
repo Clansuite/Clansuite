@@ -10,7 +10,7 @@
  * Description : overload core definitions theme defined
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Paul Brand <info@isp-tenerife.net>
  * @package      CSFW
  * subpackage    Themes
@@ -22,7 +22,7 @@
 {
 
     #csHeader
-    { 
+    {
         height:180px;
        /*  border-bottom:1px solid #fff;
        background:#cccccc; */
@@ -31,11 +31,11 @@
     }
 
     #csTopNav
-    { 
+    {
     }
 
     .csTopNav
-    { 
+    {
         background: #254161;
         border: 1px solid;
         border-color: #ffffff #ACA899 #ACA899 #ffffff;
@@ -47,18 +47,18 @@
     }
 
     #csMain
-    { 
+    {
        /* border: 1px solid #595959; */
         padding: 0;
        /* background:#FFFFFF; */
     }
 
     #csBottomNav
-    { 
+    {
     }
 
-    #csFooter 
-    { 
+    #csFooter
+    {
       /*  border: 1px solid #595959;
         padding: 10px;
         margin-top:0;
@@ -100,9 +100,9 @@
     {
        /* background: #FFFFFF; */
        /* border: 1px solid #595959; */
-        margin-left: 220px; 
-        margin-right: 220px; 
-        width:auto; 
+        margin-left: 220px;
+        margin-right: 220px;
+        width:auto;
         height:100%;
     }
     #csCol3_content
@@ -111,7 +111,7 @@
     }
 
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Form-Elements
      * -----------------------------------------------------------------------------------------------
@@ -144,7 +144,7 @@
     }
 
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Buttons
      * -----------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@
     .form .form-button
     {
         margin: 0.1em 0;
-        padding: 3px 0.5em; 
+        padding: 3px 0.5em;
     }
 
     .form .form-button button.round
@@ -207,7 +207,7 @@
     }
 
 
-    /* 
+    /*
      * ------------------------------------
      * formular buttons stylish
      * ------------------------------------

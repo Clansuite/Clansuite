@@ -10,7 +10,7 @@
  * Description : core grid in % definitions
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Paul Brand <info@isp-tenerife.net>
  * @package      CSFW
  * subpackage    Core
@@ -20,7 +20,7 @@
 @media all
 {
 
-    /* 
+    /*
      * ------------------------------------------------------------------------------------------
      * Grids in % Angaben
      * ------------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@
     /* Grids */
     .grid05l, .grid10l, .grid15l, .grid20l, .grid25l, .grid30l, .grid33l, .grid35l, .grid40l, .grid45l, .grid50l,
     .grid55l, .grid60l, .grid65l, .grid66l, .grid70l, .grid75l, .grid80l, .grid85l, .grid90l, .grid95l
-    { 
+    {
         float:left;
         padding:0;
         margin:0;
@@ -87,7 +87,7 @@
 
     /* Rahmen um die Grids */
     .gridborder
-    { 
+    {
         padding: 0 3px;
         border: 1px solid #666666;
         background: #F4F4F4;
@@ -95,7 +95,7 @@
 
     /* Content area */
     .gridcontent
-    { 
+    {
         padding: 0 0.4em;
     }
 

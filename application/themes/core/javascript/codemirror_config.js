@@ -1,11 +1,11 @@
 /**
  * @file       /themes/core/javascript/codemirror_config.js
  * @desc       CodeMirror Configuration File for "Clansuite - just an eSports CMS"
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
  * @link       http://www.clansuite.com
- * @version    SVN: $Id$
+
  */
 
 $(document).ready(function() {

@@ -145,8 +145,8 @@ class LoaderTest extends Clansuite_UnitTestCase
         $this->assertFalse(Loader::autoloadIncludePath('\Namespace\Library\SomeUnknownClass'));
 
         # set the include path to our fixtures directory, where a namespaces class exists
-        $path = __DIR__ . DS . 'fixtures';
-        set_include_path($path . PS . get_include_path());
+        $path = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures';
+        set_include_path($path . PATH_SEPARATOR . get_include_path());
 
         # try to load existing namespaced class
         $this->assertTrue(Loader::autoloadIncludePath('\Clansuite\NamespacedClass'));

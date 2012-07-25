@@ -10,7 +10,7 @@
  * Description : form definitions
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Jens-André Koch <vain@clansuite.com>
  * @package      CSFW
  * subpackage    Theme
@@ -19,7 +19,7 @@
 */
 
     /***********************************************************************
-       DIV TABLE 
+       DIV TABLE
     ***********************************************************************/
 
 @media screen
@@ -55,7 +55,7 @@
     }
 
     .table .bordertop
-    { 
+    {
         border-top: 1px solid #444444;
     }
     .table .borderleft
@@ -79,7 +79,7 @@
         background: #090909;
         color: #c0c0c0;
         font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
-        font-size: 10pt; 
+        font-size: 10pt;
         padding: 5px 3px 5px 3px;
         font-weight: bold;
     }
@@ -93,16 +93,16 @@
     {
         color: #868686;
         font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
-        font-size: 9pt; 
-        font-style: italic; 
+        font-size: 9pt;
+        font-style: italic;
         font-weight: normal;
     }
     .table-header .comments
     {
         color: #868686;
         font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
-        font-size: 9pt; 
-        font-style: italic; 
+        font-size: 9pt;
+        font-style: italic;
         font-weight: normal;
     }
 
@@ -180,7 +180,7 @@
         color: #c0c0c0;
         font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
         padding: 5px 3px 5px 3px;
-        font-size: 9pt; 
+        font-size: 9pt;
     }
 
 }

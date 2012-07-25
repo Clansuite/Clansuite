@@ -757,7 +757,8 @@ class FormTest extends Clansuite_UnitTestCase
         $this->form->addElement('textarea')
                 ->setName('Textarea-Validate-Test')
                 ->setRequired()
-                ->setRules('required, string, maxlength=100');
+                ->setRules('required, string, maxlength=20');
+        # ->setValue() is missing intentionally
 
         # no value set, but required
         $this->assertFalse($this->form->validateForm());

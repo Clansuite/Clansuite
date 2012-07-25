@@ -1,12 +1,6 @@
 <?php
 namespace Clansuite\Installation;
 
-// Security Handler
-if(defined('IN_CS') === false)
-{
-    die('Clansuite not loaded. Direct Access forbidden.');
-}
-
 /**
  * STEP 4 - Database Source Name Configuration
  *

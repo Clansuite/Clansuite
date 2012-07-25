@@ -10,7 +10,7 @@
  * Description : overload core definitions theme defined
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Paul Brand <info@isp-tenerife.net>
  * @package      CSFW
  * subpackage    Themes
@@ -28,32 +28,32 @@
      * Master Container
      * ----------------------------------------------------------
      */
-    #csPagepane 
-    { 
+    #csPagepane
+    {
     }
 
-    #csPageaera 
-    { 
+    #csPageaera
+    {
     }
 
     #csHeader
-    { 
+    {
     }
 
-    #csTopNav, 
-    { 
+    #csTopNav,
+    {
     }
 
     #csMain
-    { 
+    {
     }
 
     #csBottomNav
-    { 
+    {
     }
 
-    #csFooter 
-    { 
+    #csFooter
+    {
     }
 
 
@@ -83,7 +83,7 @@
     {
     }
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Table Border (tborder)
      * -----------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@
     .tborder {
     }
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Tabellen Header (thead)
      * -----------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@
     {
     }
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Tabellen Footer (tfoot)
      * -----------------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@
     {
     }
 
-    /** 
+    /**
     * -----------------------------------------------------------------------------------------------
     * Tabellen Box (tbox)
     * -----------------------------------------------------------------------------------------------
@@ -170,8 +170,8 @@
     .tbox_cell1Active_avisited
     {
     }
-    .tbox_cell1 a:hover, 
-    .tbox_cell1 a:active, 
+    .tbox_cell1 a:hover,
+    .tbox_cell1 a:active,
     .tbox_cell1_ahover,
     .tbox_cell1Active a:hover,
     .tbox_cell1Active a:active,
@@ -196,8 +196,8 @@
     .tbox_cell1Active_avisited
     {
     }
-    .tbox_cell1 a:hover, 
-    .tbox_cell1 a:active, 
+    .tbox_cell1 a:hover,
+    .tbox_cell1 a:active,
     .tbox_cell1_ahover,
     .tbox_cell1Active a:hover,
     .tbox_cell1Active a:active,
@@ -222,8 +222,8 @@
     .tbox_cell3Active_avisited
     {
     }
-    .tbox_cell3 a:hover, 
-    .tbox_cell3 a:active, 
+    .tbox_cell3 a:hover,
+    .tbox_cell3 a:active,
     .tbox_cell3_ahover,
     .tbox_cell3Active a:hover,
     .tbox_cell3Active a:active,
@@ -232,7 +232,7 @@
     }
 
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Navigation -Breadcrumbs
      * -----------------------------------------------------------------------------------------------
@@ -241,7 +241,7 @@
     {
     }
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Navigation (tnav)
      * -----------------------------------------------------------------------------------------------
@@ -250,7 +250,7 @@
     {
     }
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Form
      * -----------------------------------------------------------------------------------------------

@@ -10,7 +10,7 @@
  * Description : core form elements definitions
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Paul Brand <info@isp-tenerife.net>
  * @package      CSFW
  * subpackage    Core
@@ -29,7 +29,7 @@
 
     .form input,
     .form textarea,
-    .form select, 
+    .form select,
     .form optgroup
     {
         font-family:Arial, Helvetica, sans-serif;
@@ -89,7 +89,7 @@
         margin: 0.5em 0;
         padding: 3px 0.5em;
         position: relative;
-        zoom: 1; 
+        zoom: 1;
     }
 
     /* breitenanpassung */
@@ -118,14 +118,14 @@
 
 
     .form .form-check input
-    { 
+    {
         cursor:pointer;
     }
 
     .form div.form-check input:focus,
     .form div.form-check input:hover,
     .form div.form-check input:active
-    { 
+    {
         border:0 none;
     }
 

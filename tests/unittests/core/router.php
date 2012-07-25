@@ -25,7 +25,7 @@ class RouterTest extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        $request = new HttpRequest;
+        $request = new HttpRequest();
 
         $config = new Config();
 

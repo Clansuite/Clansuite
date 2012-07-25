@@ -21,13 +21,13 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    * GNU/GPL v2 or any later version; see LICENSE file
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
     * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @copyright  Florian Wolf (2005-2006)
     *
-    * @version    SVN: $Id$
+
     */
 
 namespace Clansuite;
@@ -47,8 +47,8 @@ define('DEBUG', false);
 
 # Define: DS; INSTALLATION_ROOT; ROOT; HTML Break; Carriage Return
 define('DS', DIRECTORY_SEPARATOR);
-define('INSTALLATION_ROOT', __DIR__ . DS);
-define('ROOT', dirname(INSTALLATION_ROOT) . DS);
+define('INSTALLATION_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
+define('ROOT', dirname(INSTALLATION_ROOT) . DIRECTORY_SEPARATOR);
 define('ROOT_CACHE', ROOT . 'cache/');
 define('ROOT_APP', ROOT . 'application/');
 define('PROTOCOL', 'http://', false);
@@ -180,7 +180,7 @@ class Installation
         $filename = str_replace('clansuite\installation\\', '', $classname);
 
         # load
-        include INSTALLATION_ROOT . 'controller' . DS . $filename . '.php';
+        include INSTALLATION_ROOT . 'controller' . DIRECTORY_SEPARATOR . $filename . '.php';
     }
 
     public function loadDoctrine()
@@ -272,7 +272,7 @@ class Installation
          */
         try
         {
-            $file = INSTALLATION_ROOT . 'languages' . DS . $this->locale . '.install.php';
+            $file = INSTALLATION_ROOT . 'languages' . DIRECTORY_SEPARATOR . $this->locale . '.install.php';
 
             if(is_file($file) === true)
             {
@@ -634,7 +634,7 @@ class Installation_Helper
         foreach($dirs as $key => $dir_path)
         {
             # Entity Path
-            $entity_path = $dir_path . DS . 'model' . DS . 'entities' . DS;
+            $entity_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR;
 
             if(is_dir($entity_path))
             {
@@ -642,7 +642,7 @@ class Installation_Helper
             }
 
             # Repository Path
-            $repos_path = $dir_path . DS . 'model' . DS . 'repositories' . DS;
+            $repos_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'repositories' . DIRECTORY_SEPARATOR;
 
             if(is_dir($repos_path))
             {

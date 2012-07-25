@@ -1,4 +1,5 @@
 <?php
+
    /**
     * Clansuite - just an eSports CMS
     * Jens-André Koch © 2005 - onwards
@@ -26,12 +27,10 @@
     |                                                                                  |
     +----------------------------------------------------------------------------------+
     *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    * GNU/GPL v2 or any later version; see LICENSE file
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
     */
 
    /** =====================================================================
@@ -43,10 +42,7 @@
 namespace Clansuite;
 
 # Security Handler
-if (defined('IN_CS') === false)
-{
-    exit('Clansuite not loaded. Direct Access forbidden.');
-}
+defined('IN_CS') or exit('Direct Access forbidden.');
 
 class CMS
 {
@@ -162,7 +158,7 @@ class CMS
      *  ================================================
      *
      *   1. Define Shorthands and Syntax Declarations
-     *      - APC, DS, PS, NL, CR
+     *      - APC, NL, CR
      *   2. Path Assignments
      *      - ROOT & ROOT_*
      *      - WWW_ROOT & WWW_ROOT_*
@@ -174,16 +170,6 @@ class CMS
         /**
          * 1) Shorthands and Syntax Declarations
          */
-
-        /**
-         * @var DS is a shorthand for DIRECTORY_SEPARATOR
-         */
-        define('DS', DIRECTORY_SEPARATOR, false);
-
-        /**
-         * @var PS is a shorthand for PATH_SEPARATOR
-         */
-        define('PS', PATH_SEPARATOR, false);
 
         /**
          * @var NL is a shorthand for a HTML NEWLINE (HTML Break + Carriage Return)
@@ -209,29 +195,29 @@ class CMS
          * ROOT is the APPLICATION PATH
          * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
          */
-        define('ROOT', __DIR__ . DS, false);
+        define('ROOT', __DIR__ . DIRECTORY_SEPARATOR, false);
 
-        define('KOCH', dirname(__DIR__) . DS . 'core' . DS, false);
+        define('KOCH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE', ROOT . 'cache' . DS, false);
+        define('ROOT_CACHE', ROOT . 'cache' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var Root path of the config directory (with trailing slash)
          */
-        define('ROOT_CONFIG', ROOT . 'configuration' . DS, false);
+        define('ROOT_CONFIG', ROOT . 'configuration' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var Root path of the core directory (with trailing slash)
          */
-        define('ROOT_CORE', ROOT . 'core' . DS, false);
+        define('ROOT_CORE', ROOT . 'core' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var Root path of the languages directory (with trailing slash)
          */
-        define('ROOT_LANGUAGES', ROOT . 'languages' . DS, false);
+        define('ROOT_LANGUAGES', ROOT . 'languages' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var Root path of the libraries directory (with trailing slash)
@@ -241,25 +227,25 @@ class CMS
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS', ROOT . 'logs' . DS, false);
+        define('ROOT_LOGS', ROOT . 'logs' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
          */
-        define('ROOT_MOD', ROOT . 'modules' . DS, false);
+        define('ROOT_MOD', ROOT . 'modules' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . 'themes' . DS, false);
-        define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend' . DS, false);
-        define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend' . DS, false);
-        define('ROOT_THEMES_CORE', ROOT_THEMES . 'core' . DS, false);
+        define('ROOT_THEMES', ROOT . 'themes' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_THEMES_CORE', ROOT_THEMES . 'core' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD', ROOT . 'uploads' . DS, false);
+        define('ROOT_UPLOAD', ROOT . 'uploads' . DIRECTORY_SEPARATOR, false);
 
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
@@ -318,7 +304,7 @@ class CMS
         # if apc is off or
         # if apc is on, but apc_load_constants did not retrieve any constants yet (first run)
         # then define constants
-        if(APC === false or defined('DS') == false)
+        if(APC === false or defined('NL') == false)
         {
             self::define_ConstantsAndPaths();
 
@@ -356,11 +342,11 @@ class CMS
             KOCH,
             ROOT,
             ROOT_LIBRARIES,
-            ROOT_LIBRARIES . 'PEAR' . DS
+            ROOT_LIBRARIES . 'PEAR' . DIRECTORY_SEPARATOR
         );
 
         # attach original include paths
-        set_include_path(implode($paths, PS) . PS . get_include_path());
+        set_include_path(implode($paths, PS) . PATH_SEPARATOR . get_include_path());
         unset($paths);
     }
 

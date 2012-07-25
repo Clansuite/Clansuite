@@ -1,9 +1,4 @@
-<?php
-# Security Handler
-if (defined('IN_CS') === false)
-{
-    die( 'Clansuite not loaded. Direct Access forbidden.' );
-}
+<?php defined('IN_CS') or exit('Direct Access forbidden.');
 ?>
     <div id="content" class="narrowcolumn">
         <div id="content_middle">

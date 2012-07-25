@@ -1,40 +1,31 @@
-<?php
-   /**
-    * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    *
-    * @version    SVN: $Id$
-    */
+<?php defined('IN_CS') or exit('Direct Access forbidden.');
+
+/**
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ *
+ * This file is part of "Clansuite - just an eSports CMS".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Clansuite\Module;
-
-# Security Handler
-if(defined('IN_CS') === false)
-{
-    die('Clansuite not loaded. Direct Access forbidden.');
-}
 
 /**
  * Clansuite_Module_Languages_Admin
@@ -53,9 +44,9 @@ class Languages_Admin extends Controller
 
     public static function createLanguagesDirIfNotExistant($module = '')
     {
-        if(false == is_dir(ROOT_MOD . $module . DS . 'languages'))
+        if(false == is_dir(ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages'))
         {
-            mkdir(ROOT_MOD . $module . DS . 'languages', 0777, true);
+            mkdir(ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages', 0777, true);
         }
     }
 
@@ -70,7 +61,7 @@ class Languages_Admin extends Controller
          */
 
         # path to gettext messages folder
-        $path = ROOT_MOD . $module . DS . 'languages' . DS . $locale . DS . 'LC_MESSAGES';
+        $path = ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'LC_MESSAGES';
 
         if(false === is_dir($path))
         {
@@ -86,7 +77,7 @@ class Languages_Admin extends Controller
          */
 
         # path to po file
-        $file = $path . DS . $module . '.po';
+        $file = $path . DIRECTORY_SEPARATOR . $module . '.po';
 
         if(false === is_file($file))
         {
@@ -201,7 +192,7 @@ class Languages_Admin extends Controller
         $path[] = $theme_name . '.po';
 
         # In the next step we build that filepath string from an array.
-        $path = implode(DS, $path);
+        $path = implode(DIRECTORY_SEPARATOR, $path);
 
         $gettext_extractor->save( $path );
     }
@@ -436,7 +427,7 @@ class Languages_Admin extends Controller
      */
     public function getModulePOFilename($module, $locale)
     {
-        return ROOT_MOD . $module.DS.'languages'.DS.$locale.DS.'LC_MESSAGES'.DS.$module.'.po';
+        return ROOT_MOD . $module. DIRECTORY_SEPARATOR .'languages'. DIRECTORY_SEPARATOR .$locale. DIRECTORY_SEPARATOR .'LC_MESSAGES'. DIRECTORY_SEPARATOR .$module.'.po';
     }
 
     public function preparePODataForView($po_data)
@@ -458,7 +449,7 @@ class Languages_Admin extends Controller
             $module = $this->request->getParameter('module', 'GET');
             $locale = $this->request->getParameter('locale', 'GET');
 
-            $directory = ROOT_MOD . $module . DS . 'languages' . DS . $locale . DS;
+            $directory = ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR;
 
             #Clansuite_Logger::log('Deleted language '.$directory.' of module '.$module, 'adminaction', INFO);
 

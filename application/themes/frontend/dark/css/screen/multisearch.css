@@ -10,7 +10,7 @@
  * Description : form definitions
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Jens-André Koch <vain@clansuite.com>
  * @package      CSFW
  * subpackage    Theme
@@ -46,7 +46,7 @@
         /*margin-right: 10px;*/
         padding: 4px 0px 5px 10px;
         font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
-        font-size: 9pt; 
+        font-size: 9pt;
         display: block;
     }
 
@@ -61,7 +61,7 @@
     #multiSearchForm #searchForm h2
     {
         margin: 5px 0px 3px 0px;
-        font-size: 11pt; 
+        font-size: 11pt;
         font-weight: bold;
     }
 
@@ -70,14 +70,14 @@
         float: right;
         margin: 8px 0px 3px 0px;
         padding: 0;
-        font-size: 8pt; 
+        font-size: 8pt;
         font-weight: normal;
         font-style: italic;
     }
 
     #multiSearchForm #searchForm #selectedsearch
     {
-        font-size: 10pt; 
+        font-size: 10pt;
         font-weight: bold;
     }
 
@@ -138,7 +138,7 @@
         vertical-align:middle;
         text-decoration:none;
         text-align:left;
-        font-size: 10pt; 
+        font-size: 10pt;
         line-height: 20px;
         color: #FFFFFF;
         font-weight: normal;

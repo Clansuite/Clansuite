@@ -10,7 +10,7 @@
  * Description : overload core definitions theme defined
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * GNU/GPL v2 or any later version; see LICENSE file
  * @author     Paul Brand <info@isp-tenerife.net>
  * @package      CSS
  * subpackage    Themes
@@ -47,12 +47,12 @@
         border-top-color: #CCCCCC;
         border-left-color: #CCCCCC;
         background: url(../images/background_form_element_lightblue.gif) repeat-x;
-        background-color: #E0F4FB;    
+        background-color: #E0F4FB;
     }
 
     .h3sForm fieldset label span
     {
-        width: 200px;	
+        width: 200px;
         font-weight: bold;
     }
 
@@ -122,7 +122,7 @@
         border-top-color: #CCCCCC;
         border-left-color: #CCCCCC;
         background: url(../images/background_form_element_lightblue.gif) repeat-x;
-        background-color: #E0F4FB;  
+        background-color: #E0F4FB;
     }
 
     .box h1
