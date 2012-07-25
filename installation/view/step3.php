@@ -1,4 +1,4 @@
-<?php defined('IN_CS') or exit('Direct Access forbidden.');
+<?php
 ?>
     <div id="content" class="narrowcolumn">
         <div id="content_middle">

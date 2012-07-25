@@ -247,11 +247,11 @@ class Loader
             $classname = substr($classname, $lastNsPos + 1);
 
             # replace every namespace separator with a directory separator
-            $filename  = str_replace('\\', DS, $namespace) . DIRECTORY_SEPARATOR;
+            $filename  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         }
 
         # convert underscore to DS
-        $filename .= str_replace('_', DS, $classname) . '.php';
+        $filename .= str_replace('_', DIRECTORY_SEPARATOR, $classname) . '.php';
 
         $filename = strtolower($filename);
 

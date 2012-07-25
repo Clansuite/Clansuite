@@ -1,4 +1,4 @@
-<?php defined('IN_CS') or exit('Direct Access forbidden.');
+<?php
    /**
     * Clansuite - just an eSports CMS
     * Jens-André Koch © 2005 - onwards

@@ -1,4 +1,4 @@
-<?php defined('IN_CS') or exit('Direct Access forbidden.');
+<?php
 ?>
 <script src="javascript/webtoolkit.sha1.js" type="text/javascript"></script>
 <script>

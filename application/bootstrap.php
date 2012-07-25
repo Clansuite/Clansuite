@@ -26,11 +26,6 @@
     |    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA    |
     |                                                                                  |
     +----------------------------------------------------------------------------------+
-    *
-    * GNU/GPL v2 or any later version; see LICENSE file
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
     */
 
    /** =====================================================================
@@ -40,9 +35,6 @@
     */
 
 namespace Clansuite;
-
-# Security Handler
-defined('IN_CS') or exit('Direct Access forbidden.');
 
 class CMS
 {
@@ -76,7 +68,7 @@ class CMS
         /**
          * @var STARTTIME shows Application Starttime
          */
-        define('STARTTIME', microtime(1), false);
+        define('STARTTIME', microtime(1));
 
         self::perform_startup_checks();
         self::initialize_ConstantsAndPaths();
@@ -174,17 +166,17 @@ class CMS
         /**
          * @var NL is a shorthand for a HTML NEWLINE (HTML Break + Carriage Return)
          */
-        define('NL', "<br />\r\n", false);
+        define('NL', "<br />\r\n");
 
         /**
          * @var Carriage Return "\n"
          */
-        define('CR', "\n", false);
+        define('CR', "\n");
 
         /**
          * @var Carriage Return and Tabulator "\n\t"
          */
-        define('CRT', "\n\t", false);
+        define('CRT', "\n\t");
 
         /**
          * 2) Path Assignments
@@ -195,94 +187,94 @@ class CMS
          * ROOT is the APPLICATION PATH
          * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
          */
-        define('ROOT', __DIR__ . DIRECTORY_SEPARATOR, false);
+        define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 
-        define('KOCH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR, false);
+        define('KOCH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR);
 
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE', ROOT . 'cache' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_CACHE', ROOT . 'cache' . DIRECTORY_SEPARATOR);
 
         /**
          * @var Root path of the config directory (with trailing slash)
          */
-        define('ROOT_CONFIG', ROOT . 'configuration' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_CONFIG', ROOT . 'configuration' . DIRECTORY_SEPARATOR);
 
         /**
          * @var Root path of the core directory (with trailing slash)
          */
-        define('ROOT_CORE', ROOT . 'core' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_CORE', ROOT . 'core' . DIRECTORY_SEPARATOR);
 
         /**
          * @var Root path of the languages directory (with trailing slash)
          */
-        define('ROOT_LANGUAGES', ROOT . 'languages' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_LANGUAGES', ROOT . 'languages' . DIRECTORY_SEPARATOR);
 
         /**
          * @var Root path of the libraries directory (with trailing slash)
          */
-        define('ROOT_LIBRARIES', dirname(ROOT) .'/libraries/', false);
+        define('ROOT_LIBRARIES', dirname(ROOT) .'/libraries/');
 
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS', ROOT . 'logs' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_LOGS', ROOT . 'logs' . DIRECTORY_SEPARATOR);
 
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
          */
-        define('ROOT_MOD', ROOT . 'modules' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_MOD', ROOT . 'modules' . DIRECTORY_SEPARATOR);
 
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . 'themes' . DIRECTORY_SEPARATOR, false);
-        define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend' . DIRECTORY_SEPARATOR, false);
-        define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend' . DIRECTORY_SEPARATOR, false);
-        define('ROOT_THEMES_CORE', ROOT_THEMES . 'core' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_THEMES', ROOT . 'themes' . DIRECTORY_SEPARATOR);
+        define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend' . DIRECTORY_SEPARATOR);
+        define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend' . DIRECTORY_SEPARATOR);
+        define('ROOT_THEMES_CORE', ROOT_THEMES . 'core' . DIRECTORY_SEPARATOR);
 
         /**
          * @var Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD', ROOT . 'uploads' . DIRECTORY_SEPARATOR, false);
+        define('ROOT_UPLOAD', ROOT . 'uploads' . DIRECTORY_SEPARATOR);
 
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
          */
         if (isset($_SERVER['HTTPS']) === true and strtolower($_SERVER['HTTPS']) == 'on')
         {
-            define('PROTOCOL', 'https://', false);
+            define('PROTOCOL', 'https://');
         }
         else
         {
-            define('PROTOCOL', 'http://', false);
+            define('PROTOCOL', 'http://');
         }
 
         /**
          * @var SERVER_URL
          */
-        define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME'], false);
+        define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
 
         /**
          * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
         if (dirname($_SERVER['PHP_SELF']) === '\\')
         {
-            define('WWW_ROOT', SERVER_URL . '/application/', false);
+            define('WWW_ROOT', SERVER_URL . '/application/');
         }
         else
         {
-            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/application/', false);
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/application/');
         }
 
         /**
          * @var WWW_ROOT_THEMES defines the themes folder
          */
-        define('WWW_ROOT_THEMES', WWW_ROOT . 'themes/', false);
-        define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT_THEMES . 'backend/', false);
-        define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT_THEMES . 'frontend/', false);
-        define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core/', false);
+        define('WWW_ROOT_THEMES', WWW_ROOT . 'themes/');
+        define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT_THEMES . 'backend/');
+        define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT_THEMES . 'frontend/');
+        define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core/');
     }
 
     /**
@@ -346,7 +338,8 @@ class CMS
         );
 
         # attach original include paths
-        set_include_path(implode($paths, PS) . PATH_SEPARATOR . get_include_path());
+        set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
+
         unset($paths);
     }
 
@@ -392,7 +385,7 @@ class CMS
         /**
          * @var Debug-Mode Constant is set via config setting ['error']['debug']
          */
-        define('DEBUG', (bool) self::$config['error']['debug'], false);
+        define('DEBUG', (bool) self::$config['error']['debug']);
 
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if(DEBUG == true)
@@ -407,7 +400,7 @@ class CMS
              * Toggle for Rapid Application Development
              * @var Development-Mode is set via config setting ['error']['development']
              */
-            define('DEVELOPMENT', (bool) self::$config['error']['development'], false);
+            define('DEVELOPMENT', (bool) self::$config['error']['development']);
 
             /**
              * Setup Debugging Helpers
@@ -421,7 +414,7 @@ class CMS
             /**
              * @var XDebug and set it's value via the config setting ['error']['xdebug']
              */
-            define('XDEBUG', (bool) self::$config['error']['xdebug'], false);
+            define('XDEBUG', (bool) self::$config['error']['xdebug']);
 
             # If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if(XDEBUG == true)
@@ -750,7 +743,7 @@ class CMS
         # set date formating via config
         if(isset(self::$config['locale']['dateformat']) === true)
         {
-            define('DATE_FORMAT', self::$config['locale']['dateformat'], false);
+            define('DATE_FORMAT', self::$config['locale']['dateformat']);
         }
         else # set default value
         {
