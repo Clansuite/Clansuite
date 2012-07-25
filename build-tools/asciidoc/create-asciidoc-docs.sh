@@ -13,7 +13,7 @@ ASCIIDOC_INI_PATH="/home/clansuite/svn-export/build-tools/asciidoc"
 ASCIIDOC_PATH="/home/clansuite/build_tools/asciidoc-8.4.5"
 
 # create subdirectories of INPUT_DIR under OUTPUT_DIR
-files=$(find $INPUT_DIR -name "*.asc")
+files=$(find $INPUT_DIR -name "*.asciidoc")
 
 for file  in $files
 do
