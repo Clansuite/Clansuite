@@ -27,9 +27,9 @@
 namespace Koch\Localization;
 
 /**
- * Koch FrameworkUTF8
+ * Koch Framework - UTF8
  *
- * Koch Frameworkrelies on mbstring.
+ * Koch Framework relies on mbstring.
  * This class allows running the application without the mbstring extension.
  * It loads functional replacements for the mbstring methods.
  * UTF8 functions and lookup tables are based on the Dokuwiki UTF-8 library written by Andreas Gohr.
@@ -46,22 +46,24 @@ class UTF8
         if (UTF8_MBSTRING === true) {
             # we do not accept mbstring function overloading set in php.ini
             if (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING) {
-                trigger_error('The string functions are overloaded by mbstring. Please stop that.
-                               Check php.ini - setting: mbstring.func_overload.', E_USER_ERROR);
+                $msg = _('The string functions are overloaded by mbstring. Please stop that.
+                          Check php.ini - setting: mbstring.func_overload.');
+                trigger_error($msg, E_USER_ERROR);
             }
 
-            # if not already set, the internal encoding is now UTF-8
+            # if not already set, set internal encoding to UTF-8
             mb_internal_encoding('UTF-8');
 
-        } else { # mbstring extension is NOT loaded
+        } else { # mbstring extension is NOT loaded, we provide mbstring function fallbacks
+
             # load functional replacements for mbstring functions
-            include ROOT_CORE . 'utf8/mbstring.wrapper.php';
+            include KOCH . 'localization\mbstringwrapper.php';
 
             # load utf-8 character tables for lookups
-            include ROOT_CORE . 'utf8/utf8tables.php';
+            include KOCH . 'localization\utf8\utf8tables.php';
 
             # load utf8 functions
-            include ROOT_CORE . 'utf8/utf8.php';
+            include KOCH . 'localization\utf8\utf8.php';
         }
     }
 }
