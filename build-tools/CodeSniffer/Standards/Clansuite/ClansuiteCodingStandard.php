@@ -7,7 +7,6 @@
  * @subpackage PHP_CodeSniffer_CodingStandard
  * @author     Jens-André Koch <jakoch@web.de>
  * @license    GPLv2 and any later version
- * @version    SVN: $Id$
  * @link       http://pear.php.net/package/PHP_CodeSniffer
  */
 
@@ -30,7 +29,6 @@ if (class_exists('PHP_CodeSniffer_Standards_CodingStandard', true) === false)
  * @subpackage PHP_CodeSniffer_CodingStandard
  * @author     Jens-André Koch <jakoch@web.de>
  * @license    GPLv2 and any later version
- * @version    SVN: $Id$
  * @link       http://pear.php.net/package/PHP_CodeSniffer
  */
 class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_CodeSniffer_Standards_CodingStandard
