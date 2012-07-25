@@ -142,6 +142,7 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              # 8) due to performance reasons the following methods are forbidden
              # Yes, you might call these premature optimizations, if applied!
              'file_exists'              => 'is_file',
+             'strtr'                    => 'Use the faster str_replace instead of strtr',
              # The next one treats code clarity against performance. Now shut up!
              'array_unique'             => 'array_keys(array_flip($array))',
             );
