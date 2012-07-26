@@ -103,8 +103,7 @@ class Localization
     public function getLocale()
     {
         # if language_via_url was used, the filter set the URL value to the session
-        if(isset($_SESSION['user']['language_via_url']) === true
-            and ($_SESSION['user']['language_via_url'] == 1))
+        if(isset($_SESSION['user']['language_via_url']) === true and ($_SESSION['user']['language_via_url'] == 1))
         {
             # use language setting from session
             $this->locale = $_SESSION['user']['language'];
@@ -112,7 +111,7 @@ class Localization
             # get language from browser
             $this->locale = $this->getLanguage();
 
-            if (empty($this->locale)) # 3) { get the default language from config as fallback
+            if (empty($this->locale)) { # 3) get the default language from config as fallback
                 $this->locale = self::$config['language']['default'];
             }
 
