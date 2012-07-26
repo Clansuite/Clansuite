@@ -1,7 +1,7 @@
 <?php
 namespace Clansuite\Module;
 
-class Controller extends \Koch\Module\Controller
+class controller extends \Koch\Module\Controller
 {
     /**
      * Proxy/convenience method: returns the Clansuite Configuration as array
@@ -13,4 +13,3 @@ class Controller extends \Koch\Module\Controller
         return $this->config = Clansuite\CMS::getClansuiteConfig();
     }
 }
-?>

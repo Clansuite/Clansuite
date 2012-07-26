@@ -75,7 +75,6 @@ class Captcha extends Formelement implements FormelementInterface
     public function getCaptcha()
     {
         // cut "captcha" (last 7 chars)
-
         return mb_substr($this->captcha, 0, -7);
     }
 
@@ -153,7 +152,6 @@ class Captcha extends Formelement implements FormelementInterface
                     #->setValidation();
 
         // return the formelement, to call e.g. render() on it
-
         return $formelement;
     }
 

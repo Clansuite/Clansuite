@@ -1,13 +1,15 @@
 <?php
 require_once dirname(__FILE__) . '/../../../autorun.php';
 
-class CoverageUtilsTest extends UnitTestCase {
-    
-    function setUp() {
+class CoverageUtilsTest extends UnitTestCase
+{
+    public function setUp()
+    {
         require_once dirname(__FILE__) .'/../coverage_utils.php';
     }
-    
-    function testMkdir() {
+
+    public function testMkdir()
+    {
         CoverageUtils::mkdir(dirname(__FILE__));
         try {
             CoverageUtils::mkdir(__FILE__);
@@ -16,30 +18,35 @@ class CoverageUtilsTest extends UnitTestCase {
         }
     }
 
-    function testParseArgumentsMultiValue() {
+    public function testParseArgumentsMultiValue()
+    {
         $actual = CoverageUtils::parseArguments(array('scriptname', '--a=b', '--a=c'), True);
         $expected = array('extraArguments' => array(), 'a' => 'c', 'a[]' => array('b', 'c'));
         $this->assertEqual($expected, $actual);
     }
 
-    function testParseArguments() {
+    public function testParseArguments()
+    {
         $actual = CoverageUtils::parseArguments(array('scriptname', '--a=b', '-c', 'xxx'));
         $expected = array('a' => 'b', 'c' => '', 'extraArguments' => array('xxx'));
         $this->assertEqual($expected, $actual);
     }
 
-    function testParseDoubleDashNoArguments() {
+    public function testParseDoubleDashNoArguments()
+    {
         $actual = CoverageUtils::parseArguments(array('scriptname', '--aa'));
         $this->assertTrue(isset($actual['aa']));
     }
 
-    function testParseHyphenedExtraArguments() {
+    public function testParseHyphenedExtraArguments()
+    {
         $actual = CoverageUtils::parseArguments(array('scriptname', '--alpha-beta=b', 'gamma-lambda'));
         $expected = array('alpha-beta' => 'b', 'extraArguments' => array('gamma-lambda'));
         $this->assertEqual($expected, $actual);
     }
 
-    function testAddItemAsArray() {
+    public function testAddItemAsArray()
+    {
         $actual = array();
         CoverageUtils::addItemAsArray($actual, 'bird', 'duck');
         $this->assertEqual(array('bird[]' => array('duck')), $actual);
@@ -48,10 +55,10 @@ class CoverageUtilsTest extends UnitTestCase {
         $this->assertEqual(array('bird[]' => array('duck', 'pigeon')), $actual);
     }
 
-    function testIssetOr() {
+    public function testIssetOr()
+    {
         $data = array('bird' => 'gull');
         $this->assertEqual('lab', CoverageUtils::issetOr($data['dog'], 'lab'));
         $this->assertEqual('gull', CoverageUtils::issetOr($data['bird'], 'sparrow'));
     }
 }
-?>

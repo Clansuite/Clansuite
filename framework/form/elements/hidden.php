@@ -82,8 +82,7 @@ class Hidden extends Input implements FormelementInterface
              * to be exploded again, when incomming as $_POST data.
              */
             $this->setName('_imploded_array');
-        } elseif((is_string($value) === true) or (is_numeric($value) === true))
-        {
+        } elseif ((is_string($value) === true) or (is_numeric($value) === true)) {
             $data = $value;
         } else {
             $msg = _('%s() only accepts array, string or numeric as $value. Your input was (%s) %s.');

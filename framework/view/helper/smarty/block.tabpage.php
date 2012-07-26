@@ -42,7 +42,6 @@ function smarty_block_tabpage($params, $content, $smarty, &$repeat)
      */
     if (isset($content)) {
         // Construct content for whole BLOCK
-
         return $start_tabpage . $content . $end_tabpage;
     }
 }

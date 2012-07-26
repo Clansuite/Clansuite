@@ -17,10 +17,8 @@ $classLoader->register();
 $configFile = getcwd() . DIRECTORY_SEPARATOR . 'cli-config.php';
 
 $helperSet = null;
-if (is_file($configFile) === true)
-{
-    if (false === is_readable($configFile))
-    {
+if (is_file($configFile) === true) {
+    if (false === is_readable($configFile)) {
         trigger_error(
             'Configuration file [' . $configFile . '] does not have read permission.', E_ERROR
         );
@@ -28,10 +26,8 @@ if (is_file($configFile) === true)
 
     include $configFile;
 
-    foreach ($GLOBALS as $helperSetCandidate)
-    {
-        if ($helperSetCandidate instanceof \Symfony\Components\Console\Helper\HelperSet)
-        {
+    foreach ($GLOBALS as $helperSetCandidate) {
+        if ($helperSetCandidate instanceof \Symfony\Components\Console\Helper\HelperSet) {
             $helperSet = $helperSetCandidate;
             break;
         }
@@ -69,9 +65,7 @@ $cli->addCommands(array(
     new \Doctrine\ORM\Tools\Console\Command\GenerateProxiesCommand(),
     new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand(),
     new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
-    new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand()    
+    new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand()
 ));
 
 $cli->run();
-
-?>

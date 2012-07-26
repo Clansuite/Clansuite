@@ -74,7 +74,6 @@ class Formelement extends Decorator
         $this->formelementname = $formelementname;
 
         // instantiate, set to class and return formelement object
-
         return $this->formelement_object = Koch_Form::formelementFactory($formelementname);
     }
 

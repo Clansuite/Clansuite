@@ -47,4 +47,3 @@ class Rssreader extends Controller
         $view->assign('feed', $feeditems);
     }
 }
-?>

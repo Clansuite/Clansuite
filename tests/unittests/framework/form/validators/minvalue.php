@@ -93,4 +93,3 @@ class Koch_Form_Validator_Minvalue_Test extends Clansuite_UnitTestCase
                            $this->validator->getValidationHint());;
     }
 }
-?>

@@ -76,12 +76,9 @@ class Doctrine_Admin extends Controller
          * Setup Paths depending on a specific module or the core
          */
         $bool = $this->request->issetParameter('modulename');
-        if(isset($bool))
-        {
+        if (isset($bool)) {
             self::$options = self::setupDoctrinePaths($this->request->getParameterFromGet('modulename'));
-        }
-        else
-        {
+        } else {
             self::$options = self::setupDoctrinePaths();
         }
 
@@ -102,8 +99,8 @@ class Doctrine_Admin extends Controller
      *
      * This is also useable as configuration array for the Doctrine Command Line Interface (CLI).
      *
-     * @param string $modulename The modulename to build the paths for. Defaults to ROOT.doctrine
-     * @return array Doctrine Config Array with path definitions.
+     * @param  string $modulename The modulename to build the paths for. Defaults to ROOT.doctrine
+     * @return array  Doctrine Config Array with path definitions.
      */
     public static function setupDoctrinePaths($modulename = null)
     {
@@ -111,8 +108,7 @@ class Doctrine_Admin extends Controller
         $path = ROOT . 'doctrine' . DIRECTORY_SEPARATOR;
 
         // path to models of a module
-        if(isset($modulename))
-        {
+        if (isset($modulename)) {
             $path = ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
         }
 
@@ -276,8 +272,7 @@ class Doctrine_Admin extends Controller
     {
 
         $panel->addCommand($group, Command::create(
-                        'Create Schema', function ($container)
-                        {
+                        'Create Schema', function ($container) {
                             $em = $container->entityManager;
                             $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
                             $metadatas = $em->getMetadataFactory()->getAllMetadata();
@@ -287,8 +282,7 @@ class Doctrine_Admin extends Controller
         );
 
         $panel->addCommand($group, Command::create(
-                        'Update Schema', function ($container)
-                        {
+                        'Update Schema', function ($container) {
                             $em = $container->entityManager;
                             $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
                             $metadatas = $em->getMetadataFactory()->getAllMetadata();
@@ -298,8 +292,7 @@ class Doctrine_Admin extends Controller
         );
 
         $panel->addCommand($group, Command::create(
-                        'Drop Schema', function ($container)
-                        {
+                        'Drop Schema', function ($container) {
                             $em = $container->entityManager;
                             $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
                             $metadatas = $em->getMetadataFactory()->getAllMetadata();
@@ -309,4 +302,3 @@ class Doctrine_Admin extends Controller
         );
     }
 }
-?>

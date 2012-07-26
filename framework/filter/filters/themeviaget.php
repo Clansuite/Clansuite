@@ -43,7 +43,7 @@ use Koch\Validation\Inputfilter;
  * @package     Core
  * @subpackage  Filters
  */
-class ThemeViaGet implements FilterInterface
+class themeviaget implements FilterInterface
 {
     private $config     = null;
     private $input      = null;

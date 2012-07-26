@@ -9,21 +9,18 @@ class Teamspeak3_ServerQueryCommand_logout extends Clansuite_Teamspeak3_ServerQu
       */
     public function logout()
     {
-        if($this->isLoggedIn() == false)
-        {
+        if ($this->isLoggedIn() == false) {
             return false;
         }
 
-        if($this->executeWithoutFetch("logout") == true)
-        {
+        if ($this->executeWithoutFetch("logout") == true) {
             $this->setLoggedIn(false);
+
             return true;
-        }
-        else
-        {
+        } else {
             $this->setLoggedIn(true);
+
             return false;
         }
     }
 }
-?>

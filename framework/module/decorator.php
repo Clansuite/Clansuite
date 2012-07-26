@@ -58,19 +58,16 @@ class ControllerDecorator
         // is the method provided by this decorator?
         if (method_exists($this, $methodname)) {
             // yes
-
             return true;
         }
 
         // is the method provided by an encapsulated decorator?
         if ($this->_moduleController instanceof Koch_Module_ControllerDecorator) {
             // dig into the encapsulated controller and ask for the method
-
             return $this->_moduleController->hasMethod($methodname);
         }
 
         // there was no method found
-
         return false;
     }
 

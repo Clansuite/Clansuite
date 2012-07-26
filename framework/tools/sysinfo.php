@@ -35,7 +35,7 @@ namespace Koch\Tools;
  * @package     Core
  * @subpackage  SystemInfo
  */
-class SystemInfo
+class sysinfo
 {
     /**
      * @var $extensions

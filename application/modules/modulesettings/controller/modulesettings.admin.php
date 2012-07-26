@@ -66,16 +66,13 @@ class Modulesettings_Admin extends Controller
         --------------------------------------------------------- */
         if( $this->request->issetParameter('submit', 'POST')) $submitted = true; else $submitted = false;
 
-        if( $submitted === true )
-        {
+        if ($submitted === true) {
             // get parameter for module data
             $configfile = $this->request->getParameter('mod_settings_configfile');
 
-            if ( !is_writeable( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' ) )
-            {
+            if ( !is_writeable( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' ) ) {
                 $error['mod_config_not_writeable'] = true;
-            }
-            else {
+            } else {
                 file_put_contents(ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php', utf8_decode($configfile) );
                 $success['mod_config_success'] = true;
             }
@@ -88,11 +85,9 @@ class Modulesettings_Admin extends Controller
         // --------------------------------------------
         //  read module config file
         // --------------------------------------------
-        if( file_exists( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' ))
-        {
+        if ( file_exists( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' )) {
             $configfile = file_get_contents( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' );
-        }
-        else {
+        } else {
             $configfile = '';
         }
         $view->assign( 'mod_settings_configfile', $configfile );
@@ -100,11 +95,9 @@ class Modulesettings_Admin extends Controller
         // --------------------------------------------
         //  read module info file
         // --------------------------------------------
-        if( file_exists( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' ))
-        {
+        if ( file_exists( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' )) {
             $infofile = file_get_contents( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' );
-        }
-        else {
+        } else {
             $infofile = '';
         }
         $view->assign( 'mod_settings_infofile', utf8_encode($infofile) );
@@ -112,7 +105,6 @@ class Modulesettings_Admin extends Controller
         // --------------------------------------------
         //  read routes
         // --------------------------------------------
-
 
         // --------------------------------------------
         //  output
@@ -123,4 +115,3 @@ class Modulesettings_Admin extends Controller
     }
 
 }
-?>

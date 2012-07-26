@@ -1,8 +1,7 @@
 <?php
     // $Id$
-    
-    class TestCaseWithParseError extends UnitTestCase {
+
+    class TestCaseWithParseError extends UnitTestCase
+    {
         wibble
     }
-    
-?>

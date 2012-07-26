@@ -28,7 +28,6 @@
     $debugArray["uploadFieldName"] = $uploadFieldName;
     $debugArray["MAX_FILENAME_LENGTH"] = $MAX_FILENAME_LENGTH;
 
-
 // ***************************************************************************************
 // NO MODIFICATIONS REQUIRED BELOW THIS LINE
 // ***************************************************************************************
@@ -53,8 +52,7 @@
 // CREATE DEFAULT UPLOAD DIRECTY LOCATION
 // ------------------------------------------
     If ( !$upload_directory ) {
-         if (isset($_POST["upload_directory"]) and $_POST["upload_directory"] !=='' ) { $upload_directory = $_POST["upload_directory"]; }
-         else { $upload_directory = 'uploads';  }
+         if (isset($_POST["upload_directory"]) and $_POST["upload_directory"] !=='' ) { $upload_directory = $_POST["upload_directory"]; } else { $upload_directory = 'uploads';  }
 
         $parent_dir = array_pop(explode(DIRECTORY_SEPARATOR, dirname(__FILE__)));
         $upload_directory = substr(dirname(__FILE__), 0, strlen(dirname(__FILE__)) - strlen($parent_dir) ) . $upload_directory ;
@@ -98,7 +96,6 @@
     $debugArray["uploadfile"] = $uploadfile;
     $debugArray["upload_directory_writable"] = ($upload_directory_writable?'yes':'no');
 
-
 // ------------------------------------------
 // CHECK IS FILE UPLOADED
 // ------------------------------------------
@@ -132,6 +129,4 @@
 
     echo "FILEID:" . $file_id;    // Return the file id to the script
 
-    if($debug) { print_r($debugArray); }
-
-?>
+    if ($debug) { print_r($debugArray); }

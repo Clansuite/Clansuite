@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-; 
+;
 ; Clansuite Configuration File for Module Staticpages
-; \trunk\modules\staticpages\staticpages.config.php 
+; \trunk\modules\staticpages\staticpages.config.php
 ;
 
 ;----------------------------------------
@@ -10,7 +10,6 @@
 [staticpages]
 items_resultsPerPage = 25
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -18,7 +17,6 @@ items_resultsPerPage = 25
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -44,7 +42,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

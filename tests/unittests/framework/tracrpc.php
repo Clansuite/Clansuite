@@ -1,6 +1,5 @@
 <?php
-if (count(get_included_files()) == 1)
-{
+if (count(get_included_files()) == 1) {
     require_once 'autorun.php';
 }
 
@@ -134,37 +133,34 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
      * into
      * ( key => value )
      *
-     * @param type $d
+     * @param  type $d
      * @return type
      */
-    public static function objectToArray($d = null) {
-		/**
+    public static function objectToArray($d = null)
+    {
+        /**
          * Turn object properties into array.
          */
         if (is_object($d)) {
-			$d = get_object_vars($d);
-		}
+            $d = get_object_vars($d);
+        }
 
         /**
          * loop over all former "properties", which might be
          * objects and convert them to.
          */
-        foreach($d as $key => $value)
-        {
-            if($key == '__jsonclass__')
-            {
+        foreach ($d as $key => $value) {
+            if ($key == '__jsonclass__') {
                 $d = $value; #@todo sub-array transformation
 
                 continue;
             }
 
-            if(is_object($value))
-            {
+            if (is_object($value)) {
                 $d[$key] = self::objectToArray($value);
             }
         }
 
-		return $d;
-	}
+        return $d;
+    }
 }
-?>

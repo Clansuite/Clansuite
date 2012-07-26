@@ -26,40 +26,39 @@ class Clansuite_HttpRequest_Test extends Clansuite_UnitTestCase
         unset($this->request);
     }
 
-    function testMethod_getRequestMethod()
+    public function testMethod_getRequestMethod()
     {
         $this->request->setRequestMethod('BEAVIS');
         $this->assertEqual('BEAVIS', HttpRequest::getRequestMethod());
     }
 
-    function testMethod_setRequestMethod()
+    public function testMethod_setRequestMethod()
     {
         $this->request->setRequestMethod('BUTTHEAD');
         $this->assertEqual('BUTTHEAD', HttpRequest::getRequestMethod());
     }
 
-    function testMethod_isGET()
+    public function testMethod_isGET()
     {
         $this->request->setRequestMethod('GET');
         $this->assertTrue($this->request->isGet());
     }
 
-    function testMethod_isPOST()
+    public function testMethod_isPOST()
     {
         $this->request->setRequestMethod('POST');
         $this->assertTrue($this->request->isPost());
     }
 
-    function testMethod_isPUT()
+    public function testMethod_isPUT()
     {
         $this->request->setRequestMethod('PUT');
         $this->assertTrue($this->request->isPut());
     }
 
-    function testMethod_isDELETE()
+    public function testMethod_isDELETE()
     {
         $this->request->setRequestMethod('DELETE');
         $this->assertTrue($this->request->isDelete());
     }
 }
-?>

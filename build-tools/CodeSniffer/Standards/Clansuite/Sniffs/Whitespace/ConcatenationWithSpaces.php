@@ -30,4 +30,3 @@ class Clansuite_Sniffs_Whitespace_ConcatenationWithSpacesSniff implements PHP_Co
         }
     }
 }
-?>

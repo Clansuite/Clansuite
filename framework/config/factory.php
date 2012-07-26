@@ -36,7 +36,7 @@ namespace Koch\Config;
  * @package     Core
  * @subpackage  Config
  */
-class Factory
+class factory
 {
     /**
      * Instantiates the correct subclass determined by the fileextension
@@ -68,11 +68,9 @@ class Factory
         // the content of the file IS NOT a php-array as you might think
         if ($extension == '.config.php' or $extension == '.info.php') {
             $adapter = 'ini'; // @todo change this to 'php' (read/write of php-array)
-        } elseif($extension == '.config.xml')
-        {
+        } elseif ($extension == '.config.xml') {
             $adapter = 'xml';
-        } elseif($extension == '.config.yaml')
-        {
+        } elseif ($extension == '.config.yaml') {
             $adapter = 'yaml';
         } else {
             throw new Koch_Exception('No handler for that type of configuration file found (' . $extension .')');
@@ -133,7 +131,6 @@ class Factory
 
             if (true === class_exists($class, false)) {
                 // instantiate and return the specific confighandler with the $configfile to read
-
                 return $class::getInstance();
             } else {
                 throw new Koch_Exception('Config_Factory -> Class not found: ' . $class, 40);

@@ -1,6 +1,6 @@
 <?php
 class Teamspeak3_ServerQueryCommand_hostinfo extends Clansuite_Teamspeak3_ServerQueryInterface
-{   
+{
      /**
       * hostinfo
       * returns all information about the connected host
@@ -29,4 +29,3 @@ class Teamspeak3_ServerQueryCommand_hostinfo extends Clansuite_Teamspeak3_Server
         return $this->serverQuery('hostinfo');
     }
 }
-?>

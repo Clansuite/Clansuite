@@ -103,8 +103,7 @@ class Localization
     public function getLocale()
     {
         // if language_via_url was used, the filter set the URL value to the session
-        if(isset($_SESSION['user']['language_via_url']) === true and ($_SESSION['user']['language_via_url'] == 1))
-        {
+        if (isset($_SESSION['user']['language_via_url']) === true and ($_SESSION['user']['language_via_url'] == 1)) {
             // use language setting from session
             $this->locale = $_SESSION['user']['language'];
         } else {
@@ -200,7 +199,6 @@ class Localization
         }
 
         // return the found language
-
         return $language;
     }
 
@@ -229,10 +227,8 @@ class Localization
         // check if environment variable HTTP_ACCEPT_LANGUAGE exists
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) === false) {
             // if not return an empty language array
-
             return array();
-        } elseif(extension_loaded('intl') === true)
-        {
+        } elseif (extension_loaded('intl') === true) {
             /**
              * Try to find best available locale based on HTTP "Accept-Language" header
              * via Locale class, which is part INTL, a php default extension as of php 5.3.
@@ -255,7 +251,6 @@ class Localization
             }
 
             // remove the duplicates and return the browser languages
-
             return array_values(array_keys(array_flip($browserLanguages)));
         }
     }

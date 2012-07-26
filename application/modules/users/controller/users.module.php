@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Users
  */
-class Users extends Controller
+class users.module extends Controller
 {
     public function _initializeModule()
     {
@@ -175,4 +175,3 @@ class Users extends Controller
         $view->assign('usercenter', 'some personal items');
     }
 }
-?>

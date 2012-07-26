@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File for Module Controlcenter
-; \trunk\modules\controlcenter\controlcenter.config.php 
+; \trunk\modules\controlcenter\controlcenter.config.php
 ;
 
 ;----------------------------------------
@@ -14,7 +14,6 @@ show_box_security = true
 show_box_extensions = true
 news_rss_items = 5
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -22,7 +21,6 @@ news_rss_items = 5
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -48,8 +46,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

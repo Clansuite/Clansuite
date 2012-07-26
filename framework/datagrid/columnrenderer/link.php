@@ -64,7 +64,6 @@ class Link extends ColumnRenderer implements ColumnRendererInterface
         }
 
         // render
-
         return $this->_replacePlaceholders( $values,
                                             Clansuite_HTML::renderElement(  'a',
                                                                             $this->nameFormat,

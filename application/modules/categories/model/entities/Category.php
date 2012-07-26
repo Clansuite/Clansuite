@@ -1,7 +1,6 @@
 <?php
-use Entities\News;
 
-namespace Entities;
+namespace entities;
 
 /**
  * @Entity(repositoryClass="Repositories\CategoryRepository")
@@ -52,7 +51,6 @@ class Category
      */
     protected $color;
 
-
     /**
      * @OneToMany(targetEntity="Category", mappedBy="parent")
      */
@@ -72,4 +70,3 @@ class Category
     #}
 
 }
-?>

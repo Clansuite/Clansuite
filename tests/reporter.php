@@ -35,7 +35,7 @@
  */
 class Reporter extends HtmlReporter
 {
-    function paintFail($message)
+    public function paintFail($message)
     {
         #parent::paintFail($message);
         print '<p><span class="fail">Fail</span>: ';
@@ -44,14 +44,14 @@ class Reporter extends HtmlReporter
         print "<br /> Reason : &raquo; $message &laquo; </p>\n";
     }
 
-    function paintPass($message)
+    public function paintPass($message)
     {
         #$this->paintPass_DotsOnly($message);
         #$this->paintPass_Message($message);
         $this->paintPass_Classname($message);
     }
 
-    function paintPass_Message($message)
+    public function paintPass_Message($message)
     {
         parent::paintPass($message);
         print "<span class=\"pass\">Pass</span>: ";
@@ -61,7 +61,7 @@ class Reporter extends HtmlReporter
         print "->$message<br /><br />\n";
     }
 
-    function paintPass_DotsOnly($message)
+    public function paintPass_DotsOnly($message)
     {
        #parent::paintPass($message);
         $breadcrumb = $this->getTestList();
@@ -71,7 +71,7 @@ class Reporter extends HtmlReporter
         print '<a href="#hint" class="tooltip" title="' .$testsubject_classname. '">' . $dot . '</a>';
     }
 
-    function paintPass_Classname($message)
+    public function paintPass_Classname($message)
     {
         parent::paintPass($message);
         $breadcrumb = $this->getTestList();
@@ -84,7 +84,7 @@ class Reporter extends HtmlReporter
      * Paints a PHP error.
      * @param string $message Message is ignored.
      */
-    function paintError($message)
+    public function paintError($message)
     {
         // Explicitly call grandparent, not HtmlReporter::paintError.
         SimpleScorer::paintError($message);
@@ -96,7 +96,7 @@ class Reporter extends HtmlReporter
         print "<pre>\n";
     }
 
-    function getCss()
+    public function getCss()
     {
         echo 'body { font:14px Consolas; }
               a.tooltip {text-decoration:none;}'
@@ -106,4 +106,3 @@ class Reporter extends HtmlReporter
     }
 
 }
-?>

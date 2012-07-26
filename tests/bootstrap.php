@@ -26,8 +26,7 @@ ini_set('memory_limit', '256M');
 
 // PHP Version Check
 $REQUIRED_PHP_VERSION = '5.3.2';
-if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true)
-{
+if (version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true) {
     exit('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>.
          Clansuite Testsuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b> or newer.');
 }
@@ -52,8 +51,7 @@ set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_
 unset($paths);
 
 // needed if, run from CLI
-if(empty($_SERVER['SERVER_NAME']))
-{
+if (empty($_SERVER['SERVER_NAME'])) {
     $_SERVER['SERVER_NAME'] = gethostname();
 }
 
@@ -85,8 +83,7 @@ define('PERFORM_WEBTESTS', false);
  * We might need some debug utils,
  * when we are not in CLI mode.
  */
-if(isCli() === false)
-{
+if (isCli() === false) {
     require_once 'debug/debug.php';
 }
 
@@ -95,8 +92,7 @@ if(isCli() === false)
  *
  * @param type $msgid
  */
-if (!function_exists('_'))
-{
+if (!function_exists('_')) {
     function _($msgid)
     {
         return $msgid;
@@ -105,12 +101,9 @@ if (!function_exists('_'))
 
 function isCli()
 {
-    if(php_sapi_name() == 'cli' and empty($_SERVER['REMOTE_ADDR']))
-    {
+    if (php_sapi_name() == 'cli' and empty($_SERVER['REMOTE_ADDR'])) {
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
@@ -126,4 +119,3 @@ function isCli()
  * 2) Activate Checkbox "Use Bootstrap for Creating New Unit Tests"
  * 3) Use "Browse" and point to this file
  */
-?>

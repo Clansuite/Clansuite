@@ -64,7 +64,6 @@ class Xtemplate extends AbstractRenderer
         #Koch_Debug::firebug('Xtemplate loaded with Template: ' . $template);
 
         // Do it with XTemplate style > eat like a bird, poop like an elefant!
-
         return $this->renderer = new XTemplate($template);
     }
 
@@ -106,7 +105,6 @@ class Xtemplate extends AbstractRenderer
     public function getEngine()
     {
         // clear assigns?
-
         return $this->renderer;
     }
 

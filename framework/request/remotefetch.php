@@ -34,7 +34,7 @@ namespace Koch\Remote;
  * 3: Remote
  * (4: FTP)
  */
-class Request
+class remotefetch
 {
     /**
      * Fetches remote content with Snoopy

@@ -1,11 +1,10 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Koch Framework Configuration File : 
+;
+; Koch Framework Configuration File :
 ; D:\xampp\htdocs\work\clansuite\trunk\application/configuration/clansuite.php
-; 
+;
 ; This file was generated on 03-04-2012 23:43
 ;
-
 
 ;----------------------------------------
 ; database

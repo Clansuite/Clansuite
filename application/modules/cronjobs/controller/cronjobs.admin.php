@@ -53,4 +53,3 @@ class Cronjobs_Admin extends Controller
         $this->display();
     }
 }
-?>

@@ -29,7 +29,7 @@ class Koch_Form_Validator_Maxlength_Test extends Clansuite_UnitTestCase
     {
         $this->validator->maxlength = 1980;
 
-		// getter returns integer
+        // getter returns integer
         $this->assertEqual(1980, $this->validator->getMaxlength());
 
         // getter returns integer not string
@@ -86,4 +86,3 @@ class Koch_Form_Validator_Maxlength_Test extends Clansuite_UnitTestCase
                            $this->validator->getValidationHint());;
     }
 }
-?>

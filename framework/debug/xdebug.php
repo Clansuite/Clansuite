@@ -36,7 +36,7 @@ namespace Koch\Debug;
  * @package     Core
  * @subpackage  XDebug
  */
-class Xdebug
+class xdebug
 {
     public static $xdebug_memory_before = '';
 

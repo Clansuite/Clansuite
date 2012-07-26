@@ -232,8 +232,7 @@ class Form implements FormInterface
             $this->setName($name_or_attributes);
         }
         // case 2: $name is an array with several attribute => value relationships
-        elseif(is_array($name_or_attributes))
-        {
+        elseif (is_array($name_or_attributes)) {
             $this->setAttributes($name_or_attributes);
         }
 
@@ -892,8 +891,7 @@ class Form implements FormInterface
             $this->formelements[] = $formelement;
         }
         // else we position the element under it's number to keep things in an order
-        elseif(is_int($position) === true)
-        {
+        elseif (is_int($position) === true) {
             // hmpf, there is already an element at this position
             if (isset($this->formelements[$position]) === true) {
                 // insert the new element to the requested position and reorder
@@ -907,7 +905,6 @@ class Form implements FormInterface
         }
 
         // return object -> fluent interface / method chaining
-
         return $formelement;
     }
 
@@ -1030,8 +1027,7 @@ class Form implements FormInterface
         if ($position === null) {
            // fetch last item of array = last_formelement
            $formelement_object = end($this->formelements);
-        } elseif(is_numeric($position))
-        {
+        } elseif (is_numeric($position)) {
             // uh, not the last element of the formelements array requested, but some position
             $formelement_object = $this->getElementByPosition($position);
         } else { // is_string
@@ -1070,7 +1066,6 @@ class Form implements FormInterface
         }
 
         // instantiate the new formelement and return
-
         return new $class;
     }
 
@@ -1137,8 +1132,7 @@ class Form implements FormInterface
             $data = (array) $data;
         }
         // fetch data from POST
-        elseif(null === $data)
-        {
+        elseif (null === $data) {
             if ('POST' === Koch_HttpRequest::getRequestMethod() ) {
                 $data = Koch_HttpRequest::getPost();
             }
@@ -1188,7 +1182,6 @@ class Form implements FormInterface
         }
 
         // return validated values, ready for further processing (model insert)
-
         return $values;
     }
 
@@ -1276,7 +1269,6 @@ class Form implements FormInterface
         // We dont return $this here, because $this would be the FORM.
         // Instead the decorator is returned, to apply some properties.
         // @return decorator object
-
         return $this->formdecorators[$decoratorname];
     }
 
@@ -1366,7 +1358,6 @@ class Form implements FormInterface
         }
 
         // instantiate the new $formdecorator and return
-
         return new $class();
     }
 
@@ -1511,7 +1502,6 @@ class Form implements FormInterface
 
         // add the decorator
         // WATCH OUT! this is a forwarding call to formelement.core.php->addDecorator()
-
         return $formelement_object->addDecorator($decorator);
     }
 
@@ -1588,7 +1578,6 @@ class Form implements FormInterface
 
         if ($this->getErrorState() === true) {
             // form has errors and does not validate
-
             return false;
         } else {
             return true;

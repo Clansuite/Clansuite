@@ -307,11 +307,9 @@ class clansuite_gravatar_cache
            (filemtime($absolute_cache_filename) > strtotime('-' . $this->cache_expire_time)) === true)
         {
             // return it a relative path
-
             return $relative_cache_filename;
         } else {
             // returnfrom gravatar.com
-
             return $this->setGravatar($absolute_cache_filename, $this->gravatar_url);
         }
     }
@@ -334,13 +332,11 @@ class clansuite_gravatar_cache
                 return $cache_filename;
             } else {
                 // passthrough the original URL
-
                 return $gravatar_url;
             }
         } else {
              // caching was not possible due to lack of url_fopen
              // passthrough the original URL
-
              return $gravatar_url;
         }
     }

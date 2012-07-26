@@ -240,5 +240,3 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
        $this->assertIdentical(array(), $t_array);
     }
 }
-
-?>

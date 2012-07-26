@@ -1,5 +1,5 @@
 <?php
-namespace Repositories;
+namespace repositories;
 use Doctrine\ORM\EntityRepository;
 
 class ForumCategoryRepository extends EntityRepository
@@ -18,10 +18,8 @@ class ForumCategoryRepository extends EntityRepository
                     ');
         $result = $q->getArrayResult();
         #\Clansuite_Debug::printR($result);
+
         return $result;
     }
 
-
-
 }
-?>

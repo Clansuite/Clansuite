@@ -29,7 +29,7 @@ class ClansuiteTestsuite extends TestSuite
 {
     private $files = array();
 
-    function __construct()
+    public function __construct()
     {
         // add a headline to know where we are ,)
         parent::__construct('Testsuite for "Clansuite - just an eSports CMS"');
@@ -40,51 +40,39 @@ class ClansuiteTestsuite extends TestSuite
         // Debug array with test files
         // var_dump($this->files);
 
-        if(count($this->files) > 0)
-        {
-            foreach($this->files as $test_file)
-            {
+        if (count($this->files) > 0) {
+            foreach ($this->files as $test_file) {
                 // echo '<p>File '. $test_file.' was added to the tests.</p>';
 
                 $this->addFile($test_file);
             }
-        }
-        else
-        {
+        } else {
             echo 'No UnitTests found.';
         }
     }
 
     public function scanDirForTests($dir)
     {
-        if(is_dir($dir))
-        {
+        if (is_dir($dir)) {
             $sourcedir = opendir($dir);
-            while(false !== ( $file = readdir($sourcedir) ))
-            {
+            while (false !== ( $file = readdir($sourcedir) )) {
                 // fix slashes
                 $source_file = strtr($dir . '/' . $file, '\\', '/');
 
-                if(is_dir($source_file))
-                {
+                if (is_dir($source_file)) {
                     // exlude some dirs
-                    if($file == '.' || $file == '..' || $file == '.svn' || $file == 'fixtures')
-                    {
+                    if ($file == '.' || $file == '..' || $file == '.svn' || $file == 'fixtures') {
                         continue;
                     }
 
                     // WATCH IT ! RECURSION !
                     $this->scanDirForTests($source_file);
-                }
-                else
-                {
-                    if(is_file($source_file) && $this->isPHPfile($file))
-                    {
+                } else {
+                    if (is_file($source_file) && $this->isPHPfile($file)) {
                         /**
                          * Do not add WebTests, if PERFORM_WEBTESTS is off.
                          */
-                        if(PERFORM_WEBTESTS == false && $this->isWebTestFile($file))
-                        {
+                        if (PERFORM_WEBTESTS == false && $this->isWebTestFile($file)) {
                             continue; // with next file in while loop
                         }
 
@@ -109,4 +97,3 @@ class ClansuiteTestsuite extends TestSuite
         return preg_match('/webtest/i', $filename);
     }
 }
-?>

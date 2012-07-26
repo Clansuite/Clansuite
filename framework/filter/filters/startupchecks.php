@@ -40,7 +40,7 @@ use Koch\Exception\Exception;
  * @package     Core
  * @subpackage  Filters
  */
-class StartupChecks implements FilterInterface
+class startupchecks implements FilterInterface
 {
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {

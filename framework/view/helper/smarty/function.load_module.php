@@ -106,22 +106,15 @@ function smarty_function_load_module($params, $smarty)
 
         if ($smarty->templateExists('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $action . '.tpl')) {
             // $smarty->template_dir[s]..modules\news\widget_news.tpl
-
             return $smarty->fetch('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $action . '.tpl');
-        } elseif ($smarty->templateExists('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl'))
-        {
+        } elseif ($smarty->templateExists('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl')) {
             // $smarty->template_dir[s]..modules\news\view\widget_news.tpl
-
             return $smarty->fetch('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl');
-        } elseif ($smarty->templateExists($module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl'))
-        {
+        } elseif ($smarty->templateExists($module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl')) {
             // $smarty->template_dir[s]..\news\view\smarty\widget_news.tpl
-
             return $smarty->fetch($module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl');
-        } elseif($smarty->templateExists($template))
-        {
+        } elseif ($smarty->templateExists($template)) {
             // $smarty->template_dir[s].. $template
-
             return $smarty->fetch($template);
         } else {
             return trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');

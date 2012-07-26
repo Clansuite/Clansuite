@@ -7,7 +7,7 @@
  * This sniff forbids the usage of
  * a) ASP tags                  <%  ... %>
  * b) ASP tags with echo        <%= ... %>
- * c) Short tags                <?  ... ?>
+ * c) Short tags                <?php  ... ?>
  * d) Short tags with echo      <?= ... ?>
  * e) Long tags                 <script language="php"> ... </script>
  *
@@ -34,7 +34,6 @@ class Clansuite_Sniffs_PHP_PHPOpeningClosingTagSniff implements Php_CodeSniffer_
         return array(T_OPEN_TAG, T_OPEN_TAG_WITH_ECHO);
     }
 
-
     /**
      * Processes this test, when one of its tokens is encountered.
      *
@@ -48,27 +47,24 @@ class Clansuite_Sniffs_PHP_PHPOpeningClosingTagSniff implements Php_CodeSniffer_
     {
 
         /**
-         * Check if Short tags are allowed <? <?= ?>
+         * Check if Short tags are allowed <?php <?= ?>
          *
-         * If short open tags are off, then any short open tags 
+         * If short open tags are off, then any short open tags
          * will be converted to inline_html tags and are simply ignored.
          * If short open tags are on, we want to forbid them.
          */
         # Ini_get returns a string "0" if short open tags is off.
-        if (ini_get('short_open_tag') !== '0')
-        {
+        if (ini_get('short_open_tag') !== '0') {
 
             $tokens  = $phpcsfile->gettokens();
             $opentag = $tokens[$stackptr];
 
-            if ($opentag['content'] === '<?' or $opentag['content'] === '<?=')
-            {
+            if ($opentag['content'] === '<?' or $opentag['content'] === '<?=') {
                 $error = 'Short PHP opening tag used. Found "'.$opentag['content'].'" Expected "<?php".';
                 $phpcsfile->adderror($error, $stackptr);
             }
 
-            if ($opentag['code'] === T_OPEN_TAG_WITH_ECHO)
-            {
+            if ($opentag['code'] === T_OPEN_TAG_WITH_ECHO) {
                 $nextvar = $tokens[$phpcsfile->findnext(PHP_CodeSniffer_tokens::$emptyTokens, ($stackptr + 1), null, true)];
                 $error   = 'Short PHP opening tag used with echo. Found "';
                 $error  .= $opentag['content'].' '.$nextvar['content'].' ..." but expected "<?php echo '.
@@ -77,16 +73,12 @@ class Clansuite_Sniffs_PHP_PHPOpeningClosingTagSniff implements Php_CodeSniffer_
             }
         }
 
-        if (ini_get('asp_tags') !== '0')
-        {         
-            if ($opentag['content'] === '<%' or $opentag['content'] === '<%=')
-            {
+        if (ini_get('asp_tags') !== '0') {
+            if ($opentag['content'] === '<%' or $opentag['content'] === '<%=') {
                 $error = 'ASP PHP opening tag used. Found "'.$opentag['content'].'" Expected "<?php".';
                 $phpcsfile->adderror($error, $stackptr);
             }
-         
+
         }
     }
 }
-
-?>

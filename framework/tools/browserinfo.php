@@ -33,7 +33,7 @@ namespace Koch\Tools;
  * @package     Tools
  * @subpackage  Browser
  */
-class Browserinfo
+class browserinfo
 {
     /**
      * usrer agent
@@ -756,8 +756,7 @@ class UserAgentParser
                         if ($userAgent['operating_system_name'] === null) {
                             $userAgent['operating_system_name'] = (string) $tmp_array[1];
                         }
-                    } elseif (isset($elements['addsearch']))
-                    {
+                    } elseif (isset($elements['addsearch'])) {
                         foreach ($elements['addsearch'] as $sub => $expr) {
                             if (preg_match($expr, $userAgent['string'])) {
                                 $userAgent['operating_system_name'] = $sub;

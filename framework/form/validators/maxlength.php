@@ -77,7 +77,7 @@ class Maxlength extends Validator
             return iconv_strlen($string, 'UTF-8');
         }
 
-        if(function_exists('mb_strlen')) {
+        if (function_exists('mb_strlen')) {
             return mb_strlen($string, 'utf8');
         }
 

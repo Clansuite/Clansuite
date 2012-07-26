@@ -1,6 +1,5 @@
 <?php
-if (count(get_included_files()) == 1)
-{
+if (count(get_included_files()) == 1) {
     require_once '../../simpletest/autorun.php';
     require_once '../../bootstrap.php';
     require_once '../../unittester.php';
@@ -41,7 +40,7 @@ class RouterTest extends Clansuite_UnitTestCase
         unset($this->router);
     }
 
-    function testMethod_addRoute()
+    public function testMethod_addRoute()
     {
         $this->router->addRoute('/news/(:id)', array('controller', 'id'));
 
@@ -60,7 +59,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->reset();
     }
 
-    function testMethod_delRoute()
+    public function testMethod_delRoute()
     {
         $this->router->addRoute('/news/(:id)', array(':controller', 'id'));
 
@@ -71,7 +70,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertTrue(0 == count($this->router->getRoutes()));
     }
 
-    function testMethod_reset()
+    public function testMethod_reset()
     {
         $this->assertTrue(0 == count($this->router->getRoutes()));
 
@@ -84,7 +83,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertTrue(0 == count($this->router->getRoutes()));
     }
 
-    function testMethod_reset_resets_TargetRoute_too()
+    public function testMethod_reset_resets_TargetRoute_too()
     {
         TargetRoute::setAction('testclass');
         $this->assertEqual('testclass', TargetRoute::getAction());
@@ -92,7 +91,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertEqual('index', TargetRoute::getAction());
     }
 
-    function testMethod_addRoutes()
+    public function testMethod_addRoutes()
     {
         $routes = array(
             '/news'                   => array(':controller'),
@@ -108,7 +107,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertTrue( count($routes) === count($this->router->getRoutes()));
     }
 
-    function testMethod_addRoutes_via_ArrayAccess()
+    public function testMethod_addRoutes_via_ArrayAccess()
     {
         $r = $this->router;
 
@@ -122,7 +121,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertTrue( 6 === count($this->router->getRoutes()));
     }
 
-    function testMethod_removeRoutesBySegmentCount()
+    public function testMethod_removeRoutesBySegmentCount()
     {
         // adding 3 routes, each with different segment number
         $this->router->addRoute('/news', array(':controller'));
@@ -139,7 +138,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertTrue(1 == count($this->router->getRoutes()));
     }
 
-    function testMethod_prepareRequestURI()
+    public function testMethod_prepareRequestURI()
     {
         // prepends slash
         $request_uri = 'news';
@@ -154,7 +153,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertEqual('/news/edit', $this->router->prepareRequestURI($request_uri));
     }
 
-    function testMethod_placeholdersToRegexp()
+    public function testMethod_placeholdersToRegexp()
     {
         $this->assertEqual('/route/with/([0-9]+)', $this->router->placeholdersToRegexp('/route/with/(:id)'));
         $this->assertEqual('/route/with/([0-9]+)', $this->router->placeholdersToRegexp('/route/with/(:num)'));
@@ -167,7 +166,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertEqual('/route/with/(0[1-9]|1[012])', $this->router->placeholdersToRegexp('/route/with/(:day)'));
     }
 
-    function testMethod_processSegmentsRegExp()
+    public function testMethod_processSegmentsRegExp()
     {
         $segments = array('news', 'edit', '([0-9]+)');
         $requirements = array('controller', 'action', ':num',);
@@ -197,7 +196,7 @@ class RouterTest extends Clansuite_UnitTestCase
         // id will match if numeric
     }*/
 
-    function testMethod_match_StaticRoute()
+    public function testMethod_match_StaticRoute()
     {
         // http://example.com/login
 
@@ -238,7 +237,7 @@ class RouterTest extends Clansuite_UnitTestCase
 
     }
 
-    function testMethod_match_RestRoutes()
+    public function testMethod_match_RestRoutes()
     {
         $this->router->reset()->loadDefaultRoutes();
 
@@ -418,7 +417,7 @@ class RouterTest extends Clansuite_UnitTestCase
          */
     }
 
-    function testMethod_match_SEO_Dynamic_Routes()
+    public function testMethod_match_SEO_Dynamic_Routes()
     {
         // http://example.com/category/movies/Se7en.htm
 
@@ -428,7 +427,7 @@ class RouterTest extends Clansuite_UnitTestCase
 
     }
 
-    function testMethod_match_throwsExceptionIfNoRoutesFound()
+    public function testMethod_match_throwsExceptionIfNoRoutesFound()
     {
         $this->router->reset();
 
@@ -567,4 +566,3 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertEqual(WWW_ROOT . 'news/admin/edit/1', $url);
     }
 }
-?>

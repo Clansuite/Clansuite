@@ -18,7 +18,8 @@ require_once(dirname(__FILE__) . '/shell_tester.php');
  *    @package SimpleTest
  *    @subpackage UnitTester
  */
-class DetachedTestCase {
+class DetachedTestCase
+{
     private $command;
     private $dry_command;
     private $size;
@@ -29,7 +30,8 @@ class DetachedTestCase {
      *    @param string $dry_command   Script for dry run.
      *    @access public
      */
-    function __construct($command, $dry_command = false) {
+    public function __construct($command, $dry_command = false)
+    {
         $this->command = $command;
         $this->dry_command = $dry_command ? $dry_command : $command;
         $this->size = false;
@@ -40,7 +42,8 @@ class DetachedTestCase {
      *    @return string       Name of the test.
      *    @access public
      */
-    function getLabel() {
+    public function getLabel()
+    {
         return $this->command;
     }
 
@@ -52,14 +55,17 @@ class DetachedTestCase {
      *    @returns boolean                   True if no failures.
      *    @access public
      */
-    function run(&$reporter) {
+    public function run(&$reporter)
+    {
         $shell = &new SimpleShell();
         $shell->execute($this->command);
         $parser = &$this->createParser($reporter);
         if (! $parser->parse($shell->getOutput())) {
             trigger_error('Cannot parse incoming XML from [' . $this->command . ']');
+
             return false;
         }
+
         return true;
     }
 
@@ -68,7 +74,8 @@ class DetachedTestCase {
      *    @return integer       Number of test cases.
      *    @access public
      */
-    function getSize() {
+    public function getSize()
+    {
         if ($this->size === false) {
             $shell = &new SimpleShell();
             $shell->execute($this->dry_command);
@@ -76,10 +83,12 @@ class DetachedTestCase {
             $parser = &$this->createParser($reporter);
             if (! $parser->parse($shell->getOutput())) {
                 trigger_error('Cannot parse incoming XML from [' . $this->dry_command . ']');
+
                 return false;
             }
             $this->size = $reporter->getTestCaseCount();
         }
+
         return $this->size;
     }
 
@@ -93,4 +102,3 @@ class DetachedTestCase {
         return new SimpleTestXmlParser($reporter);
     }
 }
-?>

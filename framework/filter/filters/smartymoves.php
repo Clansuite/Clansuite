@@ -54,7 +54,7 @@ use \Koch\MVC\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class SmartyMoves implements FilterInterface
+class smartymoves implements FilterInterface
 {
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {

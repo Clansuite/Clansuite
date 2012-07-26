@@ -44,8 +44,7 @@ class Languages_Admin extends Controller
 
     public static function createLanguagesDirIfNotExistant($module = '')
     {
-        if(false == is_dir(ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages'))
-        {
+        if (false == is_dir(ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages')) {
             mkdir(ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages', 0777, true);
         }
     }
@@ -63,11 +62,9 @@ class Languages_Admin extends Controller
         // path to gettext messages folder
         $path = ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'LC_MESSAGES';
 
-        if(false === is_dir($path))
-        {
+        if (false === is_dir($path)) {
             // create dir
-            if(false === mkdir($path, 0777, true))
-            {
+            if (false === mkdir($path, 0777, true)) {
                 throw new Clansuite_Exception('Gettext folder creation failed.');
             }
         }
@@ -79,16 +76,14 @@ class Languages_Admin extends Controller
         // path to po file
         $file = $path . DIRECTORY_SEPARATOR . $module . '.po';
 
-        if(false === is_file($file))
-        {
+        if (false === is_file($file)) {
             // gettext is needed to fetch the po fileheader
             include ROOT_CORE . 'gettext.core.php';
 
             $fileheader = Clansuite_Gettext_Extractor_Tool::getPOFileHeader(true);
 
             // create file
-            if(false === file_put_contents($file, $fileheader))
-            {
+            if (false === file_put_contents($file, $fileheader)) {
                 throw new Clansuite_Exception('Gettext PO file creation failed.');
             }
         }
@@ -106,8 +101,7 @@ class Languages_Admin extends Controller
      */
     public static function scanModule($module = '')
     {
-        if(DEBUG)
-        {
+        if (DEBUG) {
             self::createLanguagesDirIfNotExistant($module);
         }
 
@@ -126,10 +120,8 @@ class Languages_Admin extends Controller
     {
         $module_names = Clansuite_ModuleInfoController::getModuleNames();
 
-        foreach($module_names as $module)
-        {
-            foreach($module as $name => $path)
-            {
+        foreach ($module_names as $module) {
+            foreach ($module as $name => $path) {
                 self::scanModule($name);
             }
         }
@@ -169,8 +161,7 @@ class Languages_Admin extends Controller
      */
     public static function scanTheme($theme_name, $theme_type)
     {
-        if(DEBUG)
-        {
+        if (DEBUG) {
             self::createLanguagesDirIfNotExistant($theme_name);
         }
 
@@ -262,8 +253,7 @@ class Languages_Admin extends Controller
      */
     public function action_admin_edit()
     {
-        if($this->request->getRequestMethod() == 'GET')
-        {
+        if ($this->request->getRequestMethod() == 'GET') {
             // get "module" and target "locale" for editing
             $module = $this->request->getParameter('module', 'GET');
             $locale = $this->request->getParameter('locale', 'GET');
@@ -323,8 +313,7 @@ class Languages_Admin extends Controller
             array_pop($english_data);
 
             $i = 0;
-            foreach($english_data as $data_set)
-            {
+            foreach ($english_data as $data_set) {
                 $msgid = htmlentities($data_set['msgid']);
 
                 $form->addElement('text')
@@ -347,16 +336,14 @@ class Languages_Admin extends Controller
         }
 
         // update
-        if($this->request->getRequestMethod() == 'POST')
-        {
+        if ($this->request->getRequestMethod() == 'POST') {
             $this->action_admin_update();
         }
     }
 
     public function action_admin_update()
     {
-        if(false === ($this->request->getRequestMethod() == 'POST'))
-        {
+        if (false === ($this->request->getRequestMethod() == 'POST')) {
             return;
         }
 
@@ -387,18 +374,13 @@ class Languages_Admin extends Controller
         $added_counter = 0;
         $updated_counter = 0;
 
-        foreach($locale_msgstr_array as $msgid => $msgstr)
-        {
+        foreach ($locale_msgstr_array as $msgid => $msgstr) {
             // only add something, if we got a translation string for this msgid
-            if($msgstr != '')
-            {
+            if ($msgstr != '') {
                 // if the msgstr already exists, then it's an update
-                if(true === isset($target_locale_data[$msgid]))
-                {
+                if (true === isset($target_locale_data[$msgid])) {
                     $updated_counter = $updated_counter + 1;
-                }
-                else
-                {
+                } else {
                     // a new language string is added
                     $added_counter = $added_counter + 1;
                 }
@@ -444,8 +426,7 @@ class Languages_Admin extends Controller
 
     public function action_admin_delete()
     {
-        if($this->request->getRequestMethod() == 'GET')
-        {
+        if ($this->request->getRequestMethod() == 'GET') {
             $module = $this->request->getParameter('module', 'GET');
             $locale = $this->request->getParameter('locale', 'GET');
 
@@ -466,8 +447,7 @@ class Languages_Admin extends Controller
         Clansuite_Breadcrumb::add( _('Add language'), '/languages/admin/new');
 
         // handle get request
-        if($this->request->getRequestMethod() == 'GET')
-        {
+        if ($this->request->getRequestMethod() == 'GET') {
             $module = $this->request->getParameter('modulename', 'GET');
 
             $form = new Clansuite_Form('languages_dropdown', 'post', WWW_ROOT . 'index.php?mod=languages&sub=admin&action=new');
@@ -528,20 +508,17 @@ class Languages_Admin extends Controller
         // prepare $message string
         $search = array('\\\\\\\"', '\\\\\"','\\\\n', '\\\\r', '\\\\t', '\\\\$','\\0', "\\'", '\\\\');
         $replace = array('\"', '"', "\n", "\r", "\\t", "\\$", "\0", "'", "\\");
-	       $message = str_replace( $search, $replace, $message );
+           $message = str_replace( $search, $replace, $message );
 
         // remote fetch
         $google_api_url = 'http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&format=html';
         $translated_string = Clansuite_RemoteFetch::fetch($google_api_url."&q=".urlencode($message)."&langpair=en%7C".$targetlanguage);
 
         // if google answered, output the translated string in json format
-        if($translated_string)
-        {
+        if ($translated_string) {
             $this->getView('json')->assign($translated_string);
             $this->display();
-        }
-        else
-        {
+        } else {
             $this->setFlashmessage('error', 'The Google Translation Service is not available.');
             $this->redirectToReferer();
         }
@@ -606,4 +583,3 @@ class Translate
     }
 
 }
-?>

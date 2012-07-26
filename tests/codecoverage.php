@@ -31,20 +31,18 @@ class Clansuite_CodeCoverage
     /**
     * Starts the Code Coverage.
     */
-    static function start()
+    public static function start()
     {
         /**
         * Simpletest Code Coverage depends on xdebug.
         *
         * Ensure that the xdebug extension is loaded.
         */
-        if(false === extension_loaded('xdebug'))
-        {
+        if (false === extension_loaded('xdebug')) {
             die('Code Coverage needs Xdebug extension. Not loaded!');
         }
 
-        if(false === function_exists("xdebug_start_code_coverage"))
-        {
+        if (false === function_exists("xdebug_start_code_coverage")) {
             die('Code Coverage needs the method xdebug_start_code_coverage. Not found!');
         }
 
@@ -53,8 +51,7 @@ class Clansuite_CodeCoverage
         *
         * Ensure that the sqlite extension is loaded.
         */
-        if(false === class_exists('SQLiteDatabase'))
-        {
+        if (false === class_exists('SQLiteDatabase')) {
             echo 'Code Coverage needs the php extension SQLITE. Not loaded!';
         }
 
@@ -89,7 +86,7 @@ class Clansuite_CodeCoverage
     /**
     * Stops the Code Coverage.
     */
-    static function stop()
+    public static function stop()
     {
         self::$coverage->writeUntouched();
         self::$coverage->stopCoverage();
@@ -99,7 +96,7 @@ class Clansuite_CodeCoverage
     /**
     * Generates the Code Coverage Report.
     */
-    static function getReport()
+    public static function getReport()
     {
         require_once 'simpletest/extensions/coverage/coverage_reporter.php';
 
@@ -112,4 +109,3 @@ class Clansuite_CodeCoverage
         $report->generate();
     }
 }
-?>

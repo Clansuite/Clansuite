@@ -1,5 +1,5 @@
 <?php
-namespace Entities;
+namespace entities;
 
 /**
  * @Entity(repositoryClass="Repositories\ForumCategoryRepository")
@@ -39,7 +39,4 @@ class ForumCategory
     ##// Setter and Getter methodes
     ##// ===================================
 
-
-
 }
-?>

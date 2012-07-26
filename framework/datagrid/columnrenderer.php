@@ -111,7 +111,6 @@ class ColumnRenderer extends Renderer
         }
 
         // return substituted string
-
         return strtr($format, $replacements);
     }
 }

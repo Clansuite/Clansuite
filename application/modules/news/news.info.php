@@ -8,7 +8,7 @@ author="Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = news
-description = 
+description =
 dependencies =
 package = Development
 
@@ -20,6 +20,5 @@ uniqueid =
 
 [news_widgets]
 widget_news
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

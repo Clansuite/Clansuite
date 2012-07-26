@@ -133,8 +133,7 @@ class Teamspeakviewer extends Controller
 
         #var_dump($serverinfo);
 
-        if(is_array($serverinfo))
-        {
+        if (is_array($serverinfo)) {
 
             $serverinfo['request_ok'] = true;
 
@@ -143,9 +142,7 @@ class Teamspeakviewer extends Controller
             $serverinfo['server_tcpport']  = $server_tcpport;
             $serverinfo['guest_nickname']  = $guest_nickname;
             $serverinfo['server_location'] = $server_location;
-        }
-        else
-        {
+        } else {
             $serverinfo['request_ok'] = false;
             $serverinfo['server_address']  = $server_address;
             $serverinfo['server_tcpport']  = $server_tcpport;
@@ -208,8 +205,7 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
     public function displayObject(Absurd_TeamSpeak2_Object $object, array $moreSiblings)
     {
         // define image path constant
-        if(!defined('TSVIEWER_IMAGES'))
-        {
+        if (!defined('TSVIEWER_IMAGES')) {
             define('TSVIEWER_IMAGES', WWW_ROOT . 'modules/teamspeakviewer/images/');
         }
 
@@ -228,11 +224,9 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         // TS Logo
         $image_ts_logo = '<img src="'.TSVIEWER_IMAGES.'teamspeak_online.png" alt="TS Logo"/>';
 
-        if (count($moreSiblings))
-        {
+        if (count($moreSiblings)) {
             $lastIcon = array_pop($moreSiblings);
-            foreach ($moreSiblings as $lvl)
-            {
+            foreach ($moreSiblings as $lvl) {
                 $this->view .= ($lvl) ? $image_a : $image_d;
             }
             $this->view .= ($lastIcon) ? $image_b : $image_c;
@@ -240,8 +234,7 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         }
 
         // USER CLIENT
-        if ($object instanceof Absurd_TeamSpeak2_Client)
-        {
+        if ($object instanceof Absurd_TeamSpeak2_Client) {
             // pre Image
             $this->view .= $this->getUserFlagImage($object);
             // Name
@@ -251,21 +244,18 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
             $this->view .= $this->getUserPrivilegeImage($object);
         }
         // CHANNEL
-        else if ($object instanceof Absurd_TeamSpeak2_Channel && $object['parent'] == -1)
-        {
+        else if ($object instanceof Absurd_TeamSpeak2_Channel && $object['parent'] == -1) {
             $this->view .= (string) $image_channel.'&nbsp;';
             $this->view .= (string) $object;
             $this->view .= ' ('. implode('', $object->getFlags()). ')';
         }
         // SUBCHANNEL
-        else if ($object instanceof Absurd_TeamSpeak2_Channel)
-        {
+        else if ($object instanceof Absurd_TeamSpeak2_Channel) {
             $this->view .= (string) $image_channel.'&nbsp;';
             $this->view .= (string) $object;
         }
         // TOPLEVEL / ROOT Node
-        else
-        {
+        else {
             $this->view .= (string) $image_ts_logo.'&nbsp; <b>'.$object.'</b>';
         }
         $this->view .= "<br />\r\n";
@@ -308,40 +298,31 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         // fetch Client Info from Absurd_TS2_Object
         $client = $client->getNodeInfo();
 
-        if (array_key_exists('pflags', $client))
-        {
+        if (array_key_exists('pflags', $client)) {
             $privs = $client['pflags'];
 
-            if ($privs == 0 )
-            {
+            if ($privs == 0) {
                 $icon = 'player_normal.png';
             }             // User default
-            if ($privs & 0x01)
-            {
+            if ($privs & 0x01) {
                 $icon = 'player_channelcommander.png';
             }   // Channel Commander
-            if ($privs & 0x02)
-            {
+            if ($privs & 0x02) {
                 $icon = 'player_requestvoice.png';
             }       // Voice Request
-            if ($privs & 0x04)
-            {
+            if ($privs & 0x04) {
                 $icon = 'player_blockwhispers.png';
             }      // Block Whispers
-            if ($privs & 0x08)
-            {
+            if ($privs & 0x08) {
                 $icon = 'player_away.png';
             }               // Away
-            if ($privs & 0x10)
-            {
+            if ($privs & 0x10) {
                 $icon = 'player_mutemicrophone.png';
             }     // Mute Microphone
-            if ($privs & 0x20)
-            {
+            if ($privs & 0x20) {
                 $icon = 'player_mutespeakers.png';
             }       // Mute Speakers
-            if ($privs & 0x40)
-            {
+            if ($privs & 0x40) {
                 $icon = 'player_record.png';
             }             // Recording
 
@@ -358,8 +339,7 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         // fetch Client Info from Absurd_TS2_Object
         $client = $client->getNodeInfo();
 
-        if (array_key_exists('pprivs', $client))
-        {
+        if (array_key_exists('pprivs', $client)) {
             $privs = $client['pprivs'];
             #if ($privs & 0x10) $playerPrivs .= '';    // Stickey
             #if ($privs & 0x08) $playerPrivs .= '';    // Internal Use
@@ -369,8 +349,7 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
             if ($privs == 0) $playerPrivs .= 'U ';     // User
         }
 
-        if (array_key_exists('cprivs', $client))
-        {
+        if (array_key_exists('cprivs', $client)) {
             $privs = $client['cprivs'];
             if ($privs & 0x01) $playerPrivs .= 'CA '; // Channel Admin
             if ($privs & 0x02) $playerPrivs .= 'O ';  // Operator
@@ -401,24 +380,19 @@ class TextTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
 {
     public function displayObject(Absurd_TeamSpeak2_Object $object, array $moreSiblings)
     {
-        if (count($moreSiblings))
-        {
+        if (count($moreSiblings)) {
             $lastIcon = array_pop($moreSiblings);
-            foreach ($moreSiblings as $lvl)
-            {
+            foreach ($moreSiblings as $lvl) {
                 echo ($lvl) ? '&#9474;' : ' ';
             }
             echo ($lastIcon) ? '&#9500;' : '&#9492;';
         }
         echo $object;
-        if ($object instanceof Absurd_TeamSpeak2_Client)
-        {
+        if ($object instanceof Absurd_TeamSpeak2_Client) {
             echo ' (', implode(' ', $object->getFlags()), ')';
-        } else if ($object instanceof Absurd_TeamSpeak2_Channel && $object['parent'] == -1)
-        {
+        } elseif ($object instanceof Absurd_TeamSpeak2_Channel && $object['parent'] == -1) {
             echo ' (', implode('', $object->getFlags()), ')';
         }
         echo "\r\n";
     }
 }
-?>

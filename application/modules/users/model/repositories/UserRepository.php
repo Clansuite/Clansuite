@@ -1,8 +1,7 @@
 <?php
 
-namespace Repositories;
+namespace repositories;
 use Doctrine\ORM\EntityRepository;
-use DoctrineExtensions\Query\Mysql\Rand;
 
 class UserRepository extends EntityRepository
 {
@@ -27,4 +26,3 @@ class UserRepository extends EntityRepository
     }
 
 }
-?>

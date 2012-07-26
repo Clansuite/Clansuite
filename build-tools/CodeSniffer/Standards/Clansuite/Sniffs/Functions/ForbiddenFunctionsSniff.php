@@ -147,7 +147,6 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'array_unique'             => 'array_keys(array_flip($array))',
             );
 
-
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -158,4 +157,3 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
         return array( T_STRING, T_PRINT);
     }
 }
-?>

@@ -7,8 +7,10 @@ require_once(dirname(__FILE__) . '/../mock_objects.php');
 require_once(dirname(__FILE__) . '/../web_tester.php');
 require_once(dirname(__FILE__) . '/../extensions/pear_test_case.php');
 
-class UnitTests extends TestSuite {
-    function UnitTests() {
+class UnitTests extends TestSuite
+{
+    public function UnitTests()
+    {
         $this->TestSuite('Unit tests');
         $path = dirname(__FILE__);
         $this->addFile($path . '/errors_test.php');
@@ -46,4 +48,3 @@ class UnitTests extends TestSuite {
         $this->addFile($path . '/../extensions/testdox/test.php');
     }
 }
-?>

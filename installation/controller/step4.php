@@ -12,7 +12,7 @@ namespace Clansuite\Installation;
  * 5) insert database schema
  * 6) write database settings to config file
  */
-class Step4 extends \Clansuite\Installation_Page
+class step4 extends \Clansuite\Installation_Page
 {
     public function getDefaultValues()
     {
@@ -52,30 +52,26 @@ class Step4 extends \Clansuite\Installation_Page
              * Forbidden are database names containing
              * only numbers and names like mysql-database commands.
              */
-            if(preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname']))
-            {
+            if (preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname'])) {
                 $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['dbname'] . '") is invalid.</p>';
                 $error .= '<p> It can only contain alphanumeric characters, periods or underscores.';
                 $error .= ' You might only use chars printed within brackets: [A-Z], [a-z], [0-9], [-_].</p>';
                 $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
             }
 
-            if(!ctype_alnum($_POST['config']['database']['user']))
-            {
+            if (!ctype_alnum($_POST['config']['database']['user'])) {
                 $error .= '<p>The database username might only contain alphanumeric characters.';
             }
 
-            if($error != '')
-            {
+            if ($error != '') {
                $this->setErrorMessage($error);
+
                return false;
             }
 
             // Values are valid!
             return true;
-        }
-        else
-        {
+        } else {
             // Setup Error Message
             $this->setErrorMessage($this->language['ERROR_FILL_OUT_ALL_FIELDS']);
 
@@ -94,8 +90,7 @@ class Step4 extends \Clansuite\Installation_Page
         if(isset($_POST['config']['database']['create_database'])
                 and $_POST['config']['database']['create_database'] == 'on')
         {
-            try
-            {
+            try {
                 // connection without dbname (must be blank for create table)
                 $connectionParams = array(
                     'user' => $_POST['config']['database']['user'],
@@ -126,9 +121,7 @@ class Step4 extends \Clansuite\Installation_Page
 
                 // Drop Connection.
                 unset($connection);
-            }
-            catch(\Exception $e)
-            {
+            } catch (\Exception $e) {
                 // force return
                 $this->setStep(4);
 
@@ -157,8 +150,7 @@ class Step4 extends \Clansuite\Installation_Page
         /**
          * 4) Validate Database Schemas
          */
-        try
-        {
+        try {
             // instantiate validator
             $validator = new \Doctrine\ORM\Tools\SchemaValidator($entityManager);
 
@@ -166,14 +158,11 @@ class Step4 extends \Clansuite\Installation_Page
             $validation_error = $validator->validateMapping();
 
             // handle validation errors
-            if($validation_error)
-            {
+            if ($validation_error) {
                 // @todo this is experimental...
                 $this->setErrorMessage( var_export($validation_error, false) );
             }
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             // force return
             $this->setStep(4);
 
@@ -187,20 +176,16 @@ class Step4 extends \Clansuite\Installation_Page
          *
          * "recreate" will do a database drop, before schemas are updated.
          */
-        try
-        {
+        try {
             $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($entityManager);
             $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
-            if(isset($_GET['recreate']))
-            {
+            if (isset($_GET['recreate'])) {
                 $schemaTool->dropSchema($metadata);
             }
             $schemaTool->updateSchema($metadata);
 
             $entityManager->flush();
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             $html = '';
             $html .= 'The update failed!' . NL;
             $html .= 'Do you want to force a database drop (' . $connectionParams['dbname'] . ')?' . NL;
@@ -222,8 +207,7 @@ class Step4 extends \Clansuite\Installation_Page
         /**
          * 6. Write Settings to clansuite.config.php
          */
-        if(false === \Clansuite\Installation_Helper::write_config_settings($_POST['config']))
-        {
+        if (false === \Clansuite\Installation_Helper::write_config_settings($_POST['config'])) {
             // force return
             $this->setStep(4);
 
@@ -233,4 +217,3 @@ class Step4 extends \Clansuite\Installation_Page
         }
     }
 }
-?>

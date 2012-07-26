@@ -47,7 +47,6 @@ class Staging
         $staging_config = \Koch\Config\Adapter\INI::readConfig(self::getFilename());
 
         // keys/values of array_to_overload are replaced with those of the staging_config
-
         return array_replace_recursive($array_to_overload, $staging_config);
     }
 
@@ -89,7 +88,6 @@ class Staging
         }
 
         // return full path to the staging config file
-
         return ROOT_CONFIG . 'staging/' . $filename;
     }
 }

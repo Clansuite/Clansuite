@@ -203,7 +203,6 @@ class Textarea extends Formelement implements FormelementInterface
         $formelement->setValue($this->value);
 
         // return the editor formelement, to call e.g. render() on it
-
         return $formelement;
     }
 

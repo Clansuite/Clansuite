@@ -32,7 +32,7 @@ namespace Koch\Autoload;
  * The class map is used by the autoloader as a lookup table
  * to determine the file to load.
  */
-class MapBuilder
+class mapbuilder
 {
 
     /**
@@ -140,8 +140,7 @@ class MapBuilder
                 while (($t = $tokens[++$i]) and (is_array($t) === true)) {
                     if (T_STRING === $t[0]) {
                         $classname .= $t[1];
-                    } elseif($classname !== '' and T_WHITESPACE == $t[0])
-                    {
+                    } elseif ($classname !== '' and T_WHITESPACE == $t[0]) {
                         break;
                     }
                 }

@@ -32,7 +32,7 @@ use Koch\MVC\HttpRequest;
 /**
  * Router_TargetRoute (processed RequestObject)
  */
-class TargetRoute extends Mapper
+class targetroute extends Mapper
 {
     public static $parameters = array(
         // File

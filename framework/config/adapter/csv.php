@@ -83,7 +83,6 @@ class Csv
             }
 
             // write to csv to file
-
             return fputcsv($handle, $value, ',', '"');
         }
     }

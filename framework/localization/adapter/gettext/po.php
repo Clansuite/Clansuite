@@ -155,7 +155,6 @@ class POFile
                             default :
 
                                 // parse error
-
                                 return false;
                         }
                     }
@@ -178,7 +177,6 @@ class POFile
 
                 if ($v === false) {
                     // parse error
-
                     return false;
                 }
             }

@@ -55,7 +55,6 @@ class Locale extends Validator
             $sublocales = $l10n_langs[$short_code];
         } else {
             // there are no sublocales for this locale short code
-
             return false;
         }
 

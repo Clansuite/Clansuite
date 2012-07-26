@@ -4,7 +4,7 @@ namespace Clansuite\Installation;
 /**
  * Step 6 - Create Administrator Account
  */
-class Step6 extends \Clansuite\Installation_Page
+class step6 extends \Clansuite\Installation_Page
 {
     public function getDefaultValues()
     {
@@ -22,27 +22,21 @@ class Step6 extends \Clansuite\Installation_Page
     {
         $error = '';
 
-        if(isset($_POST['admin_name']) and isset($_POST['admin_password']))
-        {
-            if(!ctype_alnum($_POST['admin_name']))
-            {
+        if (isset($_POST['admin_name']) and isset($_POST['admin_password'])) {
+            if (!ctype_alnum($_POST['admin_name'])) {
                 $error .= '<p>The admin username might only contain alphanumeric characters.';
             }
 
-            if($error != '')
-            {
+            if ($error != '') {
                $this->setErrorMessage($error);
 
                 // Values are not valid.
                return false;
             }
 
-
             // Values are valid.
             return true;
-        }
-        else
-        {
+        } else {
             $error = $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];
 
             $this->setErrorMessage($error);
@@ -70,8 +64,7 @@ class Step6 extends \Clansuite\Installation_Page
          *
          * We are using a raw sql statement with bound variables passing it to Doctrine2.
          */
-        try
-        {
+        try {
             $db = \Clansuite\Installation_Helper::getDoctrineEntityManager()->getConnection();
 
             $raw_sql_query = 'INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users
@@ -96,13 +89,10 @@ class Step6 extends \Clansuite\Installation_Page
             );
 
             $stmt->execute($params);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $this->setStep(6);
             $this->setErrormessage($e->getMessage());
         }
     }
 
 }
-?>

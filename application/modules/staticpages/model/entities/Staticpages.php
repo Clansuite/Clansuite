@@ -1,5 +1,5 @@
 <?php
-namespace Entities;
+namespace entities;
 
 /**
  * @Entity(repositoryClass="Repositories\StaticpagesRepository")
@@ -179,4 +179,3 @@ class Staticpages
         $this->slug = $slug;
     }
 }
-?>

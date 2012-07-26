@@ -1,14 +1,13 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-; 
+;
 ; Clansuite Configuration File for Module Search
-; \trunk\modules\search\search.config.php 
+; \trunk\modules\search\search.config.php
 ;
 
 ;----------------------------------------
 ; search
 ;----------------------------------------
 [search]
-
 
 ;----------------------------------------
 ; properties
@@ -17,7 +16,6 @@
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -47,7 +45,5 @@ action_admin_show = 'r|a'
 
 ; widgets
 widget_search = 'r|a|m|g'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

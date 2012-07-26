@@ -39,7 +39,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  Download
  */
-class Download
+class download.core
 {
     /**
      * Constructor and convenience/proxy method for sending a file as a download to the browser

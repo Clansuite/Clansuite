@@ -29,8 +29,6 @@ namespace Clansuite\Module;
 
 use Clansuite\Core\Module\Controller;
 
-
-
 /**
  * Clansuite_Module_News
  *
@@ -38,7 +36,7 @@ use Clansuite\Core\Module\Controller;
  * @package     Modules
  * @subpackage  News
  */
-class News extends Controller
+class news.module extends Controller
 {
     /**
      * Module_News -> Execute
@@ -71,12 +69,9 @@ class News extends Controller
         $category    = (int) $this->request->getParameterFromGet('cat');
 
         // if cat is no set, we need a query to show all news regardless which category,
-        if(empty($category))
-        {
+        if (empty($category)) {
             $newsQuery = $this->getModel()->findAllNews($currentPage, $resultsPerPage);
-        }
-        else // else we need a qry with the where(cat) statement
-        {
+        } else { // else we need a qry with the where(cat) statement
             #$newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage);
         }
 
@@ -91,8 +86,7 @@ class News extends Controller
 
         // UTF8 to HTML
         /*$nr_news = count($news);
-        for($i = 0; $i < $nr_news; $i++)
-        {
+        for ($i = 0; $i < $nr_news; $i++) {
             $news[$i]['news_title'] = mb_convert_encoding( $news[$i]['news_title'] , 'UTF-8', 'HTML-ENTITIES');
             $news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
         }*/
@@ -119,7 +113,7 @@ class News extends Controller
 
         $news_id = (int) $params['id'];
         #(int) $this->request->getParameterFromGet('id');
-        if($news_id === null) { $news_id = 1;  }
+        if ($news_id === null) { $news_id = 1;  }
 
         // fetch the news to update by news_id
         // $news = $this->getModel()->find($data['news_id']);
@@ -128,16 +122,13 @@ class News extends Controller
         Clansuite_Debug::printR($news);
 
         // if a news was found
-        if(!empty($news) && is_array($news))
-        {
+        if (!empty($news) && is_array($news)) {
             // Set Pagetitle and Breadcrumbs
             Clansuite_Breadcrumb::replace( _('Show News'), '/news/show', 1);
             Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&action=show');
 
             $view->assign('news', $news);
-        }
-        else // no news found for this id
-        {
+        } else { // no news found for this id
             $view->setTemplate('newsnotfound.tpl');
         }
 
@@ -153,8 +144,7 @@ class News extends Controller
     public function action_getfeed()
     {
         // Load Feedcreator Class
-        if(false === class_exists('UniversalFeedCreator', false))
-        {
+        if (false === class_exists('UniversalFeedCreator', false)) {
             include ROOT_LIBRARIES . 'feedcreator/feedcreator.class.php';
         }
 
@@ -164,12 +154,9 @@ class News extends Controller
         $feed_items = (int) $this->request->getParameter('items');
 
         // Set Number of Items Range 0<15 || MAX 30
-        if($feed_items == null or $feed_items < 15)
-        {
+        if ($feed_items == null or $feed_items < 15) {
             $feed_items = self::getConfigValue('feed_items', '15');
-        }
-        elseif($feed_items > 15 )
-        {
+        } elseif ($feed_items > 15) {
             $feed_items = 30;
         }
 
@@ -181,8 +168,7 @@ class News extends Controller
         // get format from request
         $feed_format = (string) $this->request->getParameter('format');
         // check its a valid string or set default
-        if(in_array($feed_format, $feed_format_array) == false or $feed_format === null)
-        {
+        if (in_array($feed_format, $feed_format_array) == false or $feed_format === null) {
             $feed_format = self::getConfigValue('feed_format', 'RSS2.0');
         }
 
@@ -223,8 +209,7 @@ class News extends Controller
         /**
          * Loop over Dataset
          */
-        foreach ($news_array as $key => $news)
-        {
+        foreach ($news_array as $key => $news) {
             /**
              * Create Feed Item Object
              */
@@ -277,24 +262,18 @@ class News extends Controller
         $date        = $this->request->getParameter('date');
 
         // if date is an string
-        if($date != null)
-        {
+        if ($date != null) {
             // check if only year is given
-            if(strpos($date, '-') === false)
-            {
+            if (strpos($date, '-') === false) {
                 // convert date string like "2008"
                 $startdate  = date('Y-m-d', strtotime($date . '-01-01'));
                 $enddate    = date('Y-m-d', strtotime($date . '-01-01 + 1 year'));
-            }
-            else // the string is a year-month combination
-            {
+            } else { // the string is a year-month combination
                 // convert date string like "2008-Jul" to "2008-07-01"
                 $startdate  = date('Y-m-d', strtotime($date));
                 $enddate    = date('Y-m-d', strtotime($date . '+ 1 month'));
             }
-        }
-        else // set custom starting and ending date
-        {
+        } else { // set custom starting and ending date
             $startdate = '1980-04-19';
             $enddate = date('Y-m-d');
         }
@@ -439,8 +418,7 @@ class News extends Controller
         $archive = array();
 
         // loop over all entries
-        foreach($widget_archive as $entry)
-        {
+        foreach ($widget_archive as $entry) {
             // extract year and month from created_at
             $year  = date('Y',strtotime($entry['created_at']));
             $month = date('M',strtotime($entry['created_at']));
@@ -470,9 +448,8 @@ class News extends Controller
     public function widget_newspublish($params)
     {
 
-        if( is_array($params) and !empty($params))
-        {
-            foreach( $params as $row) {
+        if ( is_array($params) and !empty($params)) {
+            foreach ($params as $row) {
                 $p = mb_split( '=', $row );
                 $parameter[$p[0]] = $p[1];
             }
@@ -480,12 +457,12 @@ class News extends Controller
         $news_id = (int) $parameter['id'];
 
         $palign = $parameter['align'];
-        switch($palign) {
+        switch ($palign) {
             case 'left': $align = 'leftBox'; break;
             case 'right': $align = 'rightBox'; break;
             default: $align = 'rightBox'; break;
         }
-        if($news_id === null  || $news_id === 0) { $news_id = 21;  }
+        if ($news_id === null  || $news_id === 0) { $news_id = 21;  }
 
         #Clansuite_Debug::printR($parameter);
 
@@ -509,4 +486,3 @@ class News extends Controller
     }
 
 }
-?>

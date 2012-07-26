@@ -4,7 +4,7 @@ namespace Clansuite\Installation;
 /**
  * Step 5 - Website Configuration
  */
-class Step5 extends \Clansuite\Installation_Page
+class step5 extends \Clansuite\Installation_Page
 {
     public function getDefaultValues()
     {
@@ -28,27 +28,23 @@ class Step5 extends \Clansuite\Installation_Page
             and isset($_POST['config']['email']['from'])
             and isset($_POST['config']['language']['gmtoffset']))
         {
-            if(!filter_var($_POST['config']['email']['from'], FILTER_VALIDATE_EMAIL))
-            {
+            if (!filter_var($_POST['config']['email']['from'], FILTER_VALIDATE_EMAIL)) {
                 $error .= NL. ' Please enter a valid email address.';
             }
 
-            if(preg_match('#!/^[A-Za-z0-9-_\",\'\s]+$/#', $_POST['config']['template']['pagetitle']))
-            {
+            if (preg_match('#!/^[A-Za-z0-9-_\",\'\s]+$/#', $_POST['config']['template']['pagetitle'])) {
                 $error .= NL. ' Please enter a pagetitle containing only alphanumeric characters.';
             }
 
-            if($error != '')
-            {
+            if ($error != '') {
                $this->setErrorMessage($error);
+
                return false;
             }
 
             // Values are valid.
             return true;
-        }
-        else
-        {
+        } else {
             $error = $this->language['ERROR_FILL_OUT_ALL_FIELDS'];
 
             // some input fields are empty
@@ -68,11 +64,9 @@ class Step5 extends \Clansuite\Installation_Page
         $config_array['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['gmtoffset'], 0);
 
         // write Settings to clansuite.config.php
-        if(false === \Clansuite\Installation_Helper::write_config_settings($config_array))
-        {
+        if (false === \Clansuite\Installation_Helper::write_config_settings($config_array)) {
             $this->setStep(5);
             $this->setErrorMessage('Config not written <br />');
         }
     }
 }
-?>

@@ -51,8 +51,7 @@ class Clansuite_Sniffs_Operators_ValidLogicalOperatorsSniff implements PHP_CodeS
         );
 
         $operator = strtolower($tokens[$stackPtr]['content']);
-        if(isset($replacements[$operator]) === false)
-        {
+        if (isset($replacements[$operator]) === false) {
             return;
         }
 
@@ -61,4 +60,3 @@ class Clansuite_Sniffs_Operators_ValidLogicalOperatorsSniff implements PHP_CodeS
         $phpcsFile->addError($error, $stackPtr);
     }
 }
-?>

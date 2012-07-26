@@ -76,7 +76,6 @@ class Testunit extends Controller
         $this->display();
     }
 
-
     /**
      * prettyPhoto Test Video Show (vimeo, youtube, ....)
      */
@@ -121,4 +120,3 @@ class Testunit extends Controller
         $this->response->setContent($content);
     }
 }
-?>

@@ -50,4 +50,3 @@ class Koch_Form_Validator_String_Test extends Clansuite_UnitTestCase
         $this->assertTrue(is_string($this->validator->getValidationHint()));
     }
 }
-?>

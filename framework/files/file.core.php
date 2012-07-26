@@ -33,7 +33,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  File
  */
-class File
+class file.core
 {
     protected $name;
     protected $type;
@@ -357,7 +357,6 @@ class Koch_Directory
         }
 
         // return the array with SPL FileInfo Objects
-
         return $data;
     }
 

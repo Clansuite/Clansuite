@@ -26,7 +26,7 @@
 
 namespace Koch\Logger;
 
-class Factory
+class factory
 {
     /**
      * Its a Logger Factory Method, which includeds, instantiates and returns a logger object.

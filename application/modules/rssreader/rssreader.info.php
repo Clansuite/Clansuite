@@ -8,7 +8,7 @@ author="Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = info
-description = 
+description =
 dependencies =
 package = Development
 
@@ -19,6 +19,5 @@ datestamp =
 uniqueid =
 
 [rssreader_widgets]
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

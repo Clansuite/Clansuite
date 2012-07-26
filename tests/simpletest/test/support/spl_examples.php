@@ -1,7 +1,8 @@
 <?php
     // $Id$
 
-    class IteratorImplementation implements Iterator {
+    class IteratorImplementation implements Iterator
+    {
         function current() { }
         function next() { }
         function key() { }
@@ -9,7 +10,7 @@
         function rewind() { }
     }
 
-    class IteratorAggregateImplementation implements IteratorAggregate {
+    class IteratorAggregateImplementation implements IteratorAggregate
+    {
         function getIterator() { }
     }
-?>

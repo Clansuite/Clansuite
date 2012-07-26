@@ -1,6 +1,6 @@
 <?php
 class Teamspeak3_ServerQueryCommand_serverlist extends Clansuite_Teamspeak3_ServerQueryInterface
-{    
+{
     /**
      * serverList: returns all server data from selected instance
      *
@@ -17,7 +17,7 @@ class Teamspeak3_ServerQueryCommand_serverlist extends Clansuite_Teamspeak3_Serv
      *  [virtualserver_uptime] => 150
      *  [virtualserver_name] => Testserver
      *  [virtualserver_autostart] => 1
-     *  [virtualserver_machine_id] => 
+     *  [virtualserver_machine_id] =>
      * }
      *
      * @return multidimensional array serverlist
@@ -27,4 +27,3 @@ class Teamspeak3_ServerQueryCommand_serverlist extends Clansuite_Teamspeak3_Serv
         return $this->toArray($this->ServerQueryCommand('serverlist'));
     }
 }
-?>

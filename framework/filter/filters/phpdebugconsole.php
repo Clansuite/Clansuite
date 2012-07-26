@@ -36,7 +36,7 @@ use Koch\MVC\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class PhpDebugConsole implements FilterInterface
+class phpdebugconsole implements FilterInterface
 {
     private $config = null;
 

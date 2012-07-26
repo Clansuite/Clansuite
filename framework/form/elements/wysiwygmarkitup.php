@@ -70,7 +70,6 @@ class Wysiwygmarkitup extends Textarea implements FormelementInterface
                               $("textarea:visible").markItUp(mySettings);
                            });
                         // ]]></script>';
-
         return $javascript.$css;
     }
 }

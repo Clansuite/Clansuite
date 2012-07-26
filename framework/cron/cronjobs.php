@@ -200,7 +200,6 @@ class Cronjobs
             $cronjobs = $this->parseCronFile($this->cronTabFile);
         }
         // else { get cronjobs from alternative resource: database, etc. }
-
         return $cronjobs;
     }
 
@@ -244,8 +243,7 @@ class Cronjobs
                 if ($matches[1] == '*') {
                     $matches[2] = 0;                    // from
                     $matches[4] = $numberOfElements;    #to
-                } elseif($matches[4] == '')
-                {
+                } elseif ($matches[4] == '') {
                     $matches[4] = $matches[2];
                 }
 
@@ -329,8 +327,7 @@ class Cronjobs
                 $dateArr['mon']++;
                 $dateArr['mday'] = 1;
             }
-        } elseif($unit == 'hour')
-        {
+        } elseif ($unit == 'hour') {
             if ($dateArr['hours']==23) {
                 $this->incrementDate($dateArr, 1, 'mday');
             } else {
@@ -338,8 +335,7 @@ class Cronjobs
                 $dateArr['seconds'] = 0;
                 $dateArr['hours']++;
             }
-        } elseif($unit == 'minute')
-        {
+        } elseif ($unit == 'minute') {
             if ($dateArr['minutes']==59) {
                 $this->incrementDate($dateArr, 1, 'hour');
             } else {
@@ -508,7 +504,6 @@ class Cronjobs
         }
 
         //if ($debug) print_r($dateArr);
-
         return mktime($dateArr['hours'], $dateArr['minutes'], 0, $dateArr['mon'], $dateArr['mday'], $dateArr['year']);
     }
 

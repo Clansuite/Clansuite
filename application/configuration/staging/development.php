@@ -25,5 +25,4 @@ xdebug = 1
 webdebug = 0
 debug_popup = 0
 
-
 ; DO NOT REMOVE THIS LINE */ ?>

@@ -46,7 +46,7 @@ use Koch\MVC\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class SessionSecurity implements FilterInterface
+class sessionsecurity implements FilterInterface
 {
     private $config     = null;
 
@@ -66,8 +66,7 @@ class SessionSecurity implements FilterInterface
         if ($this->config['session']['check_ip'] == true) {
             if ( !isset($_SESSION['client_ip']) ) {
                 $_SESSION['client_ip'] = $_SERVER['REMOTE_ADDR'];
-            } elseif ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip'])
-            {
+            } elseif ($_SERVER['REMOTE_ADDR'] != $_SESSION['client_ip']) {
                 session_destroy(session_id());
 
                 $this->response->redirect('index.php?mod=login');
@@ -81,8 +80,7 @@ class SessionSecurity implements FilterInterface
         if ($this->config['session']['check_browser'] == true) {
             if ( !isset($_SESSION['client_browser']) ) {
                 $_SESSION['client_browser'] = $_SERVER['HTTP_USER_AGENT'];
-            } elseif ( $_SERVER['HTTP_USER_AGENT'] != $_SESSION['client_browser'] )
-            {
+            } elseif ($_SERVER['HTTP_USER_AGENT'] != $_SESSION['client_browser']) {
                 session_unset();
                 session_destroy();
 

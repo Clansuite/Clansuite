@@ -117,7 +117,6 @@ class XML
             // Is the input array size 0? Then, we reached the rare CDATA text if any.
             if (count($xml) == 0) {
                 // return the lonely CDATA. It could even be whitespaces.
-
                 return (string) $copy_of_xml_object;
             }
 
@@ -175,7 +174,6 @@ class XML
             return $resultArray;
         } else {
             // it's is either the XML attribute text or text between XML tags
-
             return (string) $xml;
         }
     }

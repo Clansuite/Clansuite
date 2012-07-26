@@ -87,4 +87,3 @@ class Statistics extends Controller
         $this->getView()->assign('stats', self::fetch_statistic());
     }
 }
-?>

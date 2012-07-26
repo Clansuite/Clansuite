@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File for Module Users
-; \trunk\modules\users\users.config.php 
+; \trunk\modules\users\users.config.php
 ;
 
 ;----------------------------------------
@@ -11,7 +11,6 @@
 items_lastregisteredusers = 4
 resultsPerPage = 25
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -19,7 +18,6 @@ resultsPerPage = 25
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -45,7 +43,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

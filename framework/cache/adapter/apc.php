@@ -41,7 +41,7 @@ use Koch\Exception\Exception;
  * @package     Core
  * @subpackage  Cache
  */
-class Apc extends AbstractCache implements CacheInterface
+class apc extends AbstractCache implements CacheInterface
 {
 
     public function __construct()
@@ -75,8 +75,7 @@ class Apc extends AbstractCache implements CacheInterface
     {
         if ($key === null) {
             return false;
-        } elseif($overwrite == false)
-        {
+        } elseif ($overwrite == false) {
             return apc_add($key, $data, $cache_lifetime * 60);
         } else { // overwrite
 

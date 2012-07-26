@@ -31,7 +31,6 @@ function smarty_function_link_to($params, $smarty)
         return;
     } else {
         // convert from internal slashed format to URL
-
         return Koch_Router::buildURL($params['href']);
     }
 }

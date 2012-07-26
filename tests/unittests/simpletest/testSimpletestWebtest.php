@@ -28,7 +28,7 @@
  */
 class Simpletest_WebTest extends WebTestCase
 {
-    function testWeb_getClansuite()
+    public function testWeb_getClansuite()
     {
         $this->get('http://clansuite.com/');
 
@@ -36,4 +36,3 @@ class Simpletest_WebTest extends WebTestCase
         $this->assertResponse(200);
     }
 }
-?>

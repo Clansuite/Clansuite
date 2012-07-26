@@ -89,4 +89,3 @@ class Koch_Form_Validator_Range_Test extends Clansuite_UnitTestCase
 
     }
 }
-?>

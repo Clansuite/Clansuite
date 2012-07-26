@@ -7,9 +7,10 @@
  * @package        SimpleTest
  * @subpackage     Extensions
  */
-class CoverageUtils {
-
-    static function mkdir($dir) {
+class CoverageUtils
+{
+    public static function mkdir($dir)
+    {
         if (!file_exists($dir)) {
             mkdir($dir, 0777, True);
         } else {
@@ -19,9 +20,9 @@ class CoverageUtils {
         }
     }
 
-    static function requireSqliteExtension() {
-         if(false === class_exists('SQLiteDatabase'))
-        {
+    public static function requireSqliteExtension()
+    {
+         if (false === class_exists('SQLiteDatabase')) {
             echo 'the php extension sqlite needs to be loaded by php.ini';
         }
     }
@@ -53,7 +54,8 @@ class CoverageUtils {
      * @param supportMutliValue - will store 2nd copy of value in an array with key "foo[]"
      * @return unknown
      */
-    static public function parseArguments($argv, $mutliValueMode = False) {
+    public static function parseArguments($argv, $mutliValueMode = False)
+    {
         $args = array();
         $args['extraArguments'] = array();
         array_shift($argv); // scriptname
@@ -85,7 +87,8 @@ class CoverageUtils {
      * @param unknown_type $array
      * @param unknown_type $item
      */
-    static function addItemAsArray(&$array, $key, $item) {
+    public static function addItemAsArray(&$array, $key, $item)
+    {
         $array_key = $key .'[]';
         if (array_key_exists($array_key, $array)) {
             $array[$array_key][] = $item;
@@ -99,13 +102,12 @@ class CoverageUtils {
      *
      * Example:  $z = CoverageUtils::issetOr($array[$key], 'no value given')
      *
-     * @param unknown_type $val
-     * @param unknown_type $default
-     * @return first value unless value is not set then returns 2nd arg or null if no 2nd arg
+     * @param  unknown_type $val
+     * @param  unknown_type $default
+     * @return first        value unless value is not set then returns 2nd arg or null if no 2nd arg
      */
-    static public function issetOr(&$val, $default = null)
+    public static function issetOr(&$val, $default = null)
     {
         return isset($val) ? $val : $default;
     }
 }
-?>

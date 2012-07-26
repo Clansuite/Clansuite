@@ -97,8 +97,7 @@ class YAML
             $yaml = syck_dump($data);
         }
         // else check, if we have spyc as library
-        elseif(is_file(ROOT_LIBRARIES . '/spyc/Spyc.class.php') === true)
-        {
+        elseif (is_file(ROOT_LIBRARIES . '/spyc/Spyc.class.php') === true) {
             // ok, load spyc
             if (false === class_exists('Spyc', false)) {
                 include ROOT_LIBRARIES . '/spyc/Spyc.class.php';
@@ -149,8 +148,7 @@ class YAML
             $array = syck_load($yaml_content);
         }
         // else check if we habe spyc as a library
-        elseif(is_file(ROOT_LIBRARIES . '/spyc/Spyc.class.php') === true)
-        {
+        elseif (is_file(ROOT_LIBRARIES . '/spyc/Spyc.class.php') === true) {
             // ok, load spyc
             if (false === class_exists('Spyc', false)) {
                 include ROOT_LIBRARIES . '/spyc/Spyc.class.php';

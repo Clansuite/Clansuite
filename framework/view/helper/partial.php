@@ -33,7 +33,7 @@ namespace Koch\View\Helper;
  * @package     Core
  * @subpackage  Layout
  */
-class Partials extends Layout
+class partial extends Layout
 {
     // var $_blocks contains all block elements as Separate Objects
     private $_blockObjects = array();

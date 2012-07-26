@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Modulemanager
  */
-class Modulemanager_Admin extends Controller
+class modulemanager.admin extends Controller
 {
     public function _initializeModule()
     {
@@ -142,8 +142,7 @@ class Modulemanager_Admin extends Controller
         $existing_modules_js = '[';
         $module_dirs = Clansuite_ModuleInfoController::getModuleDirectories();
 
-        foreach( $module_dirs as $key => $value )
-        {
+        foreach ($module_dirs as $key => $value) {
             $existing_modules_js .= '"' . str_replace(strtolower(ROOT_MOD), '', strtolower($value)) . '",';
         }
         $existing_modules_js = preg_replace( '#,$#', ']', $existing_modules_js);
@@ -182,16 +181,14 @@ class Modulemanager_Admin extends Controller
          * Include & Instantiate GeSHi
          * for the formatting of the sourcecode with geshi_highlight()
          */
-        if(class_exists('GeSHi', false) == false)
-        {
+        if (class_exists('GeSHi', false) == false) {
             include ROOT_LIBRARIES . 'geshi/geshi.php';
         }
 
         /**
          * Frontend = class Modulename
          */
-        if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
-        {
+        if ( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1) {
 
             /**
              * Frontend Header
@@ -208,8 +205,7 @@ class Modulemanager_Admin extends Controller
             /**
              * Widget Method (Module integrated)
              */
-            if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
-            {
+            if ( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1) {
                 $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
                 $view->assign( 'widget_methods',  $widget_methods);
             }
@@ -218,8 +214,7 @@ class Modulemanager_Admin extends Controller
         /**
          * BACKEND - Module_Modulename_Admin
          */
-        if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
-        {
+        if ( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1) {
 
             /**
              * Admin Module Header
@@ -237,8 +232,7 @@ class Modulemanager_Admin extends Controller
         /**
          * CONFIG - Module Configuration File
          */
-        if( isset($mod['config']['checked']) && $mod['config']['checked'] == 1)
-        {
+        if ( isset($mod['config']['checked']) && $mod['config']['checked'] == 1) {
             $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
             $view->assign( 'config', geshi_highlight($config,'php-brief', '',true ) );
         }
@@ -249,8 +243,7 @@ class Modulemanager_Admin extends Controller
         /**
          * Folder's writeable?
          */
-        if ( !is_writeable( ROOT_MOD ) )
-        {
+        if ( !is_writeable( ROOT_MOD ) ) {
             $err['mod_folder_not_writeable'] = 1;
         }
 
@@ -270,26 +263,21 @@ class Modulemanager_Admin extends Controller
 
         $mod = $this->request->getParameter('mod_data');
 
-        if($mod)
-        {
+        if ($mod) {
             // unserialize module data
             $mod = unserialize(base64_decode($mod));
 
             // Check if the Modules folder is writeable
-            if ( !is_writeable( ROOT_MOD ) )
-            {
+            if ( !is_writeable( ROOT_MOD ) ) {
                 $err['mod_folder_not_writeable'] = 1;
             }
 
             // Check if the Module directory is not already existing
-            if (!is_dir(ROOT_MOD .  $mod['modulename']))
-            {
+            if (!is_dir(ROOT_MOD .  $mod['modulename'])) {
                 // CREATE DIRECTORIES
                 mkdir( ROOT_MOD .  $mod['modulename'], fileperms(ROOT_MOD) );
                 mkdir( ROOT_MOD .  $mod['modulename'] . DIRECTORY_SEPARATOR . 'view', fileperms(ROOT_MOD .  $mod['modulename']) );
-            }
-            else
-            {
+            } else {
                 echo 'The Module folder already exists: '. ROOT_MOD .  $mod['modulename'];
                 #exit;
             }
@@ -298,11 +286,9 @@ class Modulemanager_Admin extends Controller
              * FRONTEND
              * It is the mainmodule of a module with the name modulename.module.php.
              */
-            if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
-            {
+            if ( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1) {
                 // WIDGETS
-                if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
-                {
+                if ( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1) {
                     $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
                     $view->assign( 'widget_methods',  $widget_methods);
                 }
@@ -317,8 +303,7 @@ class Modulemanager_Admin extends Controller
              * BACKEND
              * It is an submodule with the name modulename.admin.php.
              */
-            if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
-            {
+            if ( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1) {
                 $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
                 $view->assign( 'backend_methods',  $backend_methods );
                 $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
@@ -353,9 +338,7 @@ class Modulemanager_Admin extends Controller
 
             // Set Layout Template
             #$this->getView()->setLayoutTemplate('index.tpl');
-        }
-        else // display a preview dialog of the module to be created
-        {
+        } else { // display a preview dialog of the module to be created
             $view = $this->getView();
             $mod = array();
             $mod['modulename'] = $this->request->getParameter('modulename');
@@ -433,12 +416,9 @@ class Modulemanager_Admin extends Controller
      */
     public function createFrontendTemplatesFromTemplate($module_name, $module_frontend_data)
     {
-        if( isset( $module_frontend_data['checked']) && $module_frontend_data['checked'] == 1 )
-        {
-            foreach( $module_frontend_data['frontend_methods'] as $key => $value )
-            {
-                if( isset( $module_frontend_data['frontend_tpls'][$key] ) )
-                {
+        if ( isset( $module_frontend_data['checked']) && $module_frontend_data['checked'] == 1 ) {
+            foreach ($module_frontend_data['frontend_methods'] as $key => $value) {
+                if ( isset( $module_frontend_data['frontend_tpls'][$key] ) ) {
                     file_put_contents(ROOT_MOD . $module_name . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
@@ -452,12 +432,9 @@ class Modulemanager_Admin extends Controller
      */
     public function createBackendTemplatesFromTemplate($module_name, $module_backend_data)
     {
-        if( isset( $module_backend_data['checked']) && $module_backend_data['checked'] == 1 )
-        {
-            foreach( $module_backend_data['backend_methods'] as $key => $value )
-            {
-                if( isset( $module_backend_data['backend_tpls'][$key] ) )
-                {
+        if ( isset( $module_backend_data['checked']) && $module_backend_data['checked'] == 1 ) {
+            foreach ($module_backend_data['backend_methods'] as $key => $value) {
+                if ( isset( $module_backend_data['backend_tpls'][$key] ) ) {
                     file_put_contents(ROOT_MOD . $module_name . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
@@ -467,8 +444,8 @@ class Modulemanager_Admin extends Controller
     /**
      * This Method creates a Widget for the Module
      *
-     * @param string $module modulename
-     * @param array $module_widget widget parameters array
+     * @param string $module        modulename
+     * @param array  $module_widget widget parameters array
      */
     public function createWidgetTemplateFromTemplate($module, $module_widget)
     {
@@ -477,12 +454,9 @@ class Modulemanager_Admin extends Controller
 
 
         // Create Widget Template
-        if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
-        {
-            foreach( $mod['widget']['widget_methods'] as $key => $value )
-            {
-                if( isset($mod['widget']['widget_tpls'][$key]) )
-                {
+        if ( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1) {
+            foreach ($mod['widget']['widget_methods'] as $key => $value) {
+                if ( isset($mod['widget']['widget_tpls'][$key]) ) {
                     file_put_contents(ROOT_MOD .  $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
@@ -497,8 +471,7 @@ class Modulemanager_Admin extends Controller
     public function createModuleDocumentationTemplateFromTemplate($module)
     {
         // check, if the documentation file exists, if not create documentation from template
-        if( is_file($module.'_docu.asc') == false )
-        {
+        if ( is_file($module.'_docu.asc') == false ) {
             // get some moduleinfos from module_info.xml
 
             // fill the documentation template with the moduleinfo data
@@ -518,8 +491,7 @@ class Modulemanager_Admin extends Controller
     public function createModuleMenunavigationTemplateFromTemplate($module)
     {
         // check, if the modulename.menu.php file exists, if not create menu from template
-        if( is_file( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . $module . '.menu.asc') == false )
-        {
+        if ( is_file( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . $module . '.menu.asc') == false ) {
             // get some moduleinfos from module_info.xml
 
             // one menu entry
@@ -547,15 +519,11 @@ class Modulemanager_Admin extends Controller
 
     public static function recursive_print ($varname, $varval)
     {
-        if (is_array($varval) == false)
-        {
+        if (is_array($varval) == false) {
             print $varname . ' = ' . var_export($varval, true) . ";<br>\n";
-        }
-        else
-        {
+        } else {
             print $varname . " = array();<br>\n";
-            foreach ($varval as $key => $val)
-            {
+            foreach ($varval as $key => $val) {
               recursive_print ($varname . "[" . var_export($key, true) . "]", $val);
             }
         }
@@ -590,12 +558,9 @@ class Modulemanager_Admin extends Controller
     {
         $disallowed_to_delete = array('account', 'controlcenter', 'modulemanager', 'permissions', 'users');
 
-        if( in_array($module->module, $disallowed_to_delete) == false )
-        {
+        if ( in_array($module->module, $disallowed_to_delete) == false ) {
             throw new Clansuite_Exception('You cannot delete this essential core module : '.$module->module.'.');
-        }
-        else
-        {
+        } else {
             $module = new CsModule;
             $module->id = (int) $_GET['id'];
             $module->getby(array('id'));
@@ -632,8 +597,7 @@ class Modulemanager_Admin extends Controller
         $actions = array();
         $lastModuleID = 0;
 
-        if( $this->request->getParameter('xinst') == 1 )
-        {
+        if ( $this->request->getParameter('xinst') == 1 ) {
             $tables = array(
                 'cs_acl_actions',
                 'cs_acl_rules',
@@ -649,8 +613,7 @@ class Modulemanager_Admin extends Controller
 
             #Clansuite_Debug::printR( $modules_info_array );
 
-            foreach( $modules_info_array as $modules_info )
-            {
+            foreach ($modules_info_array as $modules_info) {
                 $lastModuleID = self::createModulFirstTime( $modules_info );
                 #Clansuite_Debug::printR( $lastModuleID );
                 self::createModulAclFirstTime( $modules_info, $lastModuleID );
@@ -675,11 +638,9 @@ class Modulemanager_Admin extends Controller
         $modul['name'] = $modules_info['name'];
         $modul['title'] = ucfirst($modules_info['name']);
 
-        if(isset($modules_info['description']))
-        {
+        if (isset($modules_info['description'])) {
             $modul['description'] = $modules_info['description'];
-        }
-        else {
+        } else {
             $modul['description'] = '';
         }
 
@@ -691,71 +652,57 @@ class Modulemanager_Admin extends Controller
 
         // --- modul active ----------
         //$modul['enabled'] = ($modules_info['active']?1:0);
-        if( isset( $modules_info['settings']['active'] ) )
-        {
+        if ( isset( $modules_info['settings']['active'] ) ) {
             $modul['enabled'] = $modules_info['settings']['active'];
-        }
-        else {
+        } else {
             $modul['enabled'] = false;
         }
 
         // --- section ----------
-        if( isset( $modules_info['settings']['section'] ) )
-        {
+        if ( isset( $modules_info['settings']['section'] ) ) {
             $modul['section_id'] = $modules_info['settings']['section'];
-        }
-        else {
+        } else {
             $modul['section_id'] = null;
         }
 
         // *************** Section: Info Info ***************
 
         // --- author/copyright ----------
-        if( isset( $modules_info['info'][$modules_info['name'].'_info']['author'] ) )
-        {
+        if ( isset( $modules_info['info'][$modules_info['name'].'_info']['author'] ) ) {
             $modul['author'] = utf8_encode($modules_info['info'][$modules_info['name'].'_info']['author']);
             $modul['copyright'] = utf8_encode($modules_info['info'][$modules_info['name'].'_info']['author']);
-        }
-        else {
+        } else {
             $modul['module_version'] = '0.2';
         }
 
         // --- license ----------
-        if( isset( $modules_info['info'][$modules_info['name'].'_info']['license'] ) )
-        {
+        if ( isset( $modules_info['info'][$modules_info['name'].'_info']['license'] ) ) {
             $modul['license'] = $modules_info['info'][$modules_info['name'].'_info']['license'];
-        }
-        else {
+        } else {
             $modul['license'] = 'GPLv2';
         }
 
         // --- link ----------
-        if( isset( $modules_info['info'][$modules_info['name'].'_info']['link'] ) )
-        {
+        if ( isset( $modules_info['info'][$modules_info['name'].'_info']['link'] ) ) {
             $modul['homepage'] = $modules_info['info'][$modules_info['name'].'_info']['link'];
-        }
-        else {
+        } else {
             $modul['homepage'] = '';
         }
 
         // *************** Section: Info Package ***************
 
         // --- version ----------
-        if( isset( $modules_info['info'][$modules_info['name'].'_package']['version'] ) )
-        {
+        if ( isset( $modules_info['info'][$modules_info['name'].'_package']['version'] ) ) {
             $modul['module_version'] = $modules_info['info'][$modules_info['name'].'_package']['version'];
-        }
-        else {
+        } else {
             $modul['module_version'] = '0.2';
         }
 
         // --- require_version ----------
         // require_version
-        if( isset( $modules_info['info'][$modules_info['name'].'_package']['require_version'] ) )
-        {
+        if ( isset( $modules_info['info'][$modules_info['name'].'_package']['require_version'] ) ) {
             $modul['clansuite_version'] = $modules_info['info'][$modules_info['name'].'_package']['require_version'];
-        }
-        else {
+        } else {
             $modul['clansuite_version'] = '0.2';
         }
 
@@ -782,21 +729,17 @@ class Modulemanager_Admin extends Controller
 
     public function createModulAclFirstTime($modules_info, $lastModuleID = null)
     {
-        if(null === $lastModuleID)
-        {
+        if (null === $lastModuleID) {
             return false;
         }
 
-        if(null !== $lastModuleID)
-        {
+        if (null !== $lastModuleID) {
             // write module-Id in config
             // @todo
             // *************** Section: acl ***************
             // read modules rights and prepare acl-array for DB includes (table: cs_acl_actions and cs_acl_rules)
-            if(isset($modules_info['acl']))
-            {
-                foreach($modules_info['acl'] as $key => $val)
-                {
+            if (isset($modules_info['acl'])) {
+                foreach ($modules_info['acl'] as $key => $val) {
                     //$lastid++;
                     // ---------------
                     // create and save resources
@@ -817,27 +760,20 @@ class Modulemanager_Admin extends Controller
                     // role_id 4 = member
                     // role_id 5 = admin
                     // ---------------
-                    if($val == 'all')
-                    {
-                        for($i = 1; $i < 6; $i++)
-                        {
+                    if ($val == 'all') {
+                        for ($i = 1; $i < 6; $i++) {
                             $rule = new CsAclRules();
                             $rule->role_id = $i;
                             $rule->action_id = $lastResourceID;
                             $rule->access = 1;
                             $rule->save();
                         }
-                    }
-                    else
-                    {
-                        if(false !== mb_strpos($val, '|'))
-                        {
+                    } else {
+                        if (false !== mb_strpos($val, '|')) {
                             $perm = explode('|', $val);
-                            for($i = 0; $i < count($perm); $i++)
-                            {
+                            for ($i = 0; $i < count($perm); $i++) {
                                 $rule = new CsAclRules();
-                                switch($perm[$i])
-                                {
+                                switch ($perm[$i]) {
                                     case 'r': $rule->role_id = 1;
                                         break;
                                     case 'a': $rule->role_id = 5;
@@ -853,13 +789,10 @@ class Modulemanager_Admin extends Controller
                                 $rule->access = 1;
                                 $rule->save();
                             }
-                        }
-                        else
-                        {
+                        } else {
                             //Clansuite_Debug::printR( $val );
                             $rule = new CsAclRules();
-                            switch($val)
-                            {
+                            switch ($val) {
                                 case 'r': $rule->role_id = 1;
                                     break;
                                 case 'a':
@@ -881,18 +814,13 @@ class Modulemanager_Admin extends Controller
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
 
         return true;
     }
 }
-?>

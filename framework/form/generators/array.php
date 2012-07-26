@@ -116,7 +116,6 @@ class AssocArray extends Form implements FormGeneratorInterface
                 // errorcheck for valid formfield elements
                 if (is_array($report_differences_or_true) == false) {
                     // form description arrays are identical
-
                     return true;
                 } else {
                     // form description arrays are not identical

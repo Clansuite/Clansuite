@@ -42,7 +42,7 @@ namespace Koch\Module;
  * @package     Core
  * @subpackage  Module
  */
-class Manager
+class manager
 {
     public function __construct($module)
     {
@@ -50,7 +50,6 @@ class Manager
         // $this->config = loadRelevantStuff($module);
 
         // allow fluent chaining
-
         return this;
     }
 
@@ -65,7 +64,6 @@ class Manager
         // b) change disabled to enabled
         // c) invalidate global module autoload cache?
         // d) re-charge the cache with the new value?
-
         return false;
     }
 

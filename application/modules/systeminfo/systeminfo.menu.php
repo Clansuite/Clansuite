@@ -45,4 +45,3 @@ $modulenavigation = array(
         'condition' => extension_loaded('apc')
     ),
 );
-?>

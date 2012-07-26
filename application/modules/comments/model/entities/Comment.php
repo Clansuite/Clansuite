@@ -1,5 +1,5 @@
 <?php
-namespace Entities;
+namespace entities;
 
 /**
  * @Entity(repositoryClass="Repositories\CommentRepository")
@@ -84,4 +84,3 @@ class Comment
         $this->comment_authored_by = $user;
     }
 }
-?>

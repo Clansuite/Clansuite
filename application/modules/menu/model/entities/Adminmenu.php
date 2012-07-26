@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities;
+namespace entities;
 
 /** @Entity @Table(name="adminmenu") */
 class Adminmenu
@@ -48,4 +48,3 @@ class Adminmenu
      */
     protected $permission;
 }
-?>

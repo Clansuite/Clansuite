@@ -17,13 +17,11 @@ class Teamspeak3_ServerQueryCommand_channellist extends Clansuite_Teamspeak3_Ser
       * @return array returns all channels on the selected server
       */
     public function channellist()
-    {  
-        if($this->selectedVirtualServer() == false)
-        {
+    {
+        if ($this->selectedVirtualServer() == false) {
             return false;
         }
-        
+
         return $this->toArray($this->ServerQueryCommand('channellist'));
     }
 }
-?>

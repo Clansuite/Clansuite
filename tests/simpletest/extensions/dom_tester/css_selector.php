@@ -21,7 +21,8 @@
  *	@subpackage	DomTestCase
  * @param DomDocument $dom
  */
-class CssSelector {
+class CssSelector
+{
   protected $dom = null;
 
   public function __construct($dom)
@@ -32,8 +33,7 @@ class CssSelector {
   public function getTexts($selector)
   {
     $texts = array();
-    foreach ($this->getElements($selector) as $element)
-    {
+    foreach ($this->getElements($selector) as $element) {
       $texts[] = $element->nodeValue;
     }
 
@@ -43,23 +43,19 @@ class CssSelector {
   public function getElements($selector)
   {
     $all_nodes = array();
-    foreach ($this->tokenize_selectors($selector) as $selector)
-    {
+    foreach ($this->tokenize_selectors($selector) as $selector) {
       $nodes = array($this->dom);
-      foreach ($this->tokenize($selector) as $token)
-      {
+      foreach ($this->tokenize($selector) as $token) {
         $combinator = $token['combinator'];
         $token = trim($token['name']);
         $pos = strpos($token, '#');
-        if (false !== $pos && preg_match('/^[A-Za-z0-9]*$/', substr($token, 0, $pos)))
-        {
+        if (false !== $pos && preg_match('/^[A-Za-z0-9]*$/', substr($token, 0, $pos))) {
           // Token is an ID selector
           $tagName = substr($token, 0, $pos);
           $id = substr($token, $pos + 1);
           $xpath = new DomXPath($this->dom);
           $element = $xpath->query(sprintf("//*[@id = '%s']", $id))->item(0);
-          if (!$element || ($tagName && strtolower($element->nodeName) != $tagName))
-          {
+          if (!$element || ($tagName && strtolower($element->nodeName) != $tagName)) {
             // tag with that ID not found
             return array();
           }
@@ -71,12 +67,10 @@ class CssSelector {
         }
 
         $pos = strpos($token, '.');
-        if (false !== $pos && preg_match('/^[A-Za-z0-9]*$/', substr($token, 0, $pos)))
-        {
+        if (false !== $pos && preg_match('/^[A-Za-z0-9]*$/', substr($token, 0, $pos))) {
           // Token contains a class selector
           $tagName = substr($token, 0, $pos);
-          if (!$tagName)
-          {
+          if (!$tagName) {
             $tagName = '*';
           }
           $className = substr($token, $pos + 1);
@@ -84,10 +78,8 @@ class CssSelector {
           // Get elements matching tag, filter them for class selector
           $founds = $this->getElementsByTagName($nodes, $tagName, $combinator);
           $nodes = array();
-          foreach ($founds as $found)
-          {
-            if (preg_match('/\b'.$className.'\b/', $found->getAttribute('class')))
-            {
+          foreach ($founds as $found) {
+            if (preg_match('/\b'.$className.'\b/', $found->getAttribute('class'))) {
               $nodes[] = $found;
             }
           }
@@ -96,8 +88,7 @@ class CssSelector {
         }
 
         // Code to deal with attribute selectors
-        if (preg_match('/^(\w*)(\[.+\])$/', $token, $matches))
-        {
+        if (preg_match('/^(\w*)(\[.+\])$/', $token, $matches)) {
           $tagName = $matches[1] ? $matches[1] : '*';
           preg_match_all('/
             \[
@@ -115,17 +106,14 @@ class CssSelector {
           // Grab all of the tagName elements within current node
           $founds = $this->getElementsByTagName($nodes, $tagName, $combinator);
           $nodes = array();
-          foreach ($founds as $found)
-          {
+          foreach ($founds as $found) {
             $ok = false;
-            foreach ($matches as $match)
-            {
+            foreach ($matches as $match) {
               $attrName = $match[1];
               $attrOperator = $match[2];
               $attrValue = $match[4];
 
-              switch ($attrOperator)
-              {
+              switch ($attrOperator) {
                 case '=': // Equality
                   $ok = $found->getAttribute($attrName) == $attrValue;
                   break;
@@ -149,14 +137,12 @@ class CssSelector {
                   $ok = $found->hasAttribute($attrName);
               }
 
-              if (false == $ok)
-              {
+              if (false == $ok) {
                 break;
               }
             }
 
-            if ($ok)
-            {
+            if ($ok) {
               $nodes[] = $found;
             }
           }
@@ -173,18 +159,15 @@ class CssSelector {
         $nodes = $this->getElementsByTagName($nodes, $token, $combinator);
       }
 
-      foreach ($nodes as $node)
-      {
-        if (!$node->getAttribute('sf_matched'))
-        {
+      foreach ($nodes as $node) {
+        if (!$node->getAttribute('sf_matched')) {
           $node->setAttribute('sf_matched', true);
           $all_nodes[] = $node;
         }
       }
     }
 
-    foreach ($all_nodes as $node)
-    {
+    foreach ($all_nodes as $node) {
       $node->removeAttribute('sf_matched');
     }
 
@@ -194,34 +177,29 @@ class CssSelector {
   protected function getElementsByTagName($nodes, $tagName, $combinator = ' ')
   {
     $founds = array();
-    foreach ($nodes as $node)
-    {
-      switch ($combinator)
-      {
+    foreach ($nodes as $node) {
+      switch ($combinator) {
         case ' ':
-          foreach ($node->getElementsByTagName($tagName) as $element)
-          {
+          foreach ($node->getElementsByTagName($tagName) as $element) {
             $founds[] = $element;
           }
           break;
         case '>':
-          foreach ($node->childNodes as $element)
-          {
-            if ($tagName == $element->nodeName)
-            {
+          foreach ($node->childNodes as $element) {
+            if ($tagName == $element->nodeName) {
               $founds[] = $element;
             }
           }
           break;
         case '+':
-			$element = $node->nextSibling;
-			if (isset($element->nodeName) and $element->nodeName == "#text") {
-				$element = $element->nextSibling;
-			}
-			if ($element && $tagName == $element->nodeName) {
-				$founds[] = $element;
-			}
-			break;
+            $element = $node->nextSibling;
+            if (isset($element->nodeName) and $element->nodeName == "#text") {
+                $element = $element->nextSibling;
+            }
+            if ($element && $tagName == $element->nodeName) {
+                $founds[] = $element;
+            }
+            break;
         case ':first-child':
           foreach ($node->getElementsByTagName($tagName) as $element) {
             if (count($founds) == 0) {
@@ -241,25 +219,18 @@ class CssSelector {
     $tokens = array();
     $quoted = false;
     $token = '';
-    for ($i = 0, $max = strlen($selector); $i < $max; $i++)
-    {
-      if (',' == $selector[$i] && !$quoted)
-      {
+    for ($i = 0, $max = strlen($selector); $i < $max; $i++) {
+      if (',' == $selector[$i] && !$quoted) {
         $tokens[] = trim($token);
         $token = '';
-      }
-      else if ('"' == $selector[$i])
-      {
+      } elseif ('"' == $selector[$i]) {
         $token .= $selector[$i];
         $quoted = $quoted ? false : true;
-      }
-      else
-      {
+      } else {
         $token .= $selector[$i];
       }
     }
-    if ($token)
-    {
+    if ($token) {
       $tokens[] = trim($token);
     }
 
@@ -273,35 +244,26 @@ class CssSelector {
     $combinators = array(' ', '>', '+');
     $quoted = false;
     $token = array('combinator' => ' ', 'name' => '');
-    for ($i = 0, $max = strlen($selector); $i < $max; $i++)
-    {
-      if (in_array($selector[$i], $combinators) && !$quoted)
-      {
+    for ($i = 0, $max = strlen($selector); $i < $max; $i++) {
+      if (in_array($selector[$i], $combinators) && !$quoted) {
         // remove all whitespaces around the combinator
         $combinator = $selector[$i];
-        while (in_array($selector[$i + 1], $combinators))
-        {
-          if (' ' != $selector[++$i])
-          {
+        while (in_array($selector[$i + 1], $combinators)) {
+          if (' ' != $selector[++$i]) {
             $combinator = $selector[$i];
           }
         }
 
         $tokens[] = $token;
         $token = array('combinator' => $combinator, 'name' => '');
-      }
-      else if ('"' == $selector[$i])
-      {
+      } elseif ('"' == $selector[$i]) {
         $token['name'] .= $selector[$i];
         $quoted = $quoted ? false : true;
-      }
-      else
-      {
+      } else {
         $token['name'] .= $selector[$i];
       }
     }
-    if ($token['name'])
-    {
+    if ($token['name']) {
       $tokens[] = $token;
     }
 

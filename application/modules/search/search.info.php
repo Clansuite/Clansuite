@@ -8,10 +8,9 @@ author="Paul Brand"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = search
-description = 
+description =
 dependencies =
 package = Development
-
 
 [search_package]
 version = 0.2-0.x-dev
@@ -20,8 +19,6 @@ project = search
 datestamp =
 uniqueid =
 
-
 [search_widgets]
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

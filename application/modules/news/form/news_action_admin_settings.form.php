@@ -139,4 +139,3 @@ class Clansuite_Form_News_Action_admin_settings extends Clansuite_Form
         $this->getDecorator('fieldset')->setLegend(_('News Settings'));
     }
 }
-?>

@@ -21,7 +21,8 @@ register_shutdown_function('simpletest_autorun');
 /**
  *    Exit handler to run all recent test cases and exit system if in CLI
  */
-function simpletest_autorun() {
+function simpletest_autorun()
+{
     if (tests_have_run()) {
         return;
     }
@@ -39,7 +40,8 @@ function simpletest_autorun() {
  *                         there were no failures, null if tests are
  *                         already running
  */
-function run_local_tests() {
+function run_local_tests()
+{
     try {
         if (tests_have_run()) {
             return;
@@ -49,9 +51,11 @@ function run_local_tests() {
         $suite = $loader->createSuiteFromClasses(
                 basename(initial_file()),
                 $loader->selectRunnableTests($candidates));
+
         return $suite->run(new DefaultReporter());
     } catch (Exception $stack_frame_fix) {
         print $stack_frame_fix->getMessage();
+
         return false;
     }
 }
@@ -61,10 +65,12 @@ function run_local_tests() {
  *    ever been run.
  *    @return boolean        True if tests have run.
  */
-function tests_have_run() {
+function tests_have_run()
+{
     if ($context = SimpleTest::getContext()) {
-        return (boolean)$context->getTest();
+        return (boolean) $context->getTest();
     }
+
     return false;
 }
 
@@ -72,8 +78,9 @@ function tests_have_run() {
  *    The first autorun file.
  *    @return string        Filename of first autorun script.
  */
-function initial_file() {
-    static $file = false;
+function initial_file()
+{
+    public static $file = false;
     if (! $file) {
         if (isset($_SERVER, $_SERVER['SCRIPT_FILENAME'])) {
             $file = $_SERVER['SCRIPT_FILENAME'];
@@ -82,6 +89,7 @@ function initial_file() {
             $file = reset($included_files);
         }
     }
+
     return $file;
 }
 
@@ -90,10 +98,11 @@ function initial_file() {
  *    is safe enough if require_once() is always used.
  *    @return array        Class names.
  */
-function capture_new_classes() {
+function capture_new_classes()
+{
     global $SIMPLETEST_AUTORUNNER_INITIAL_CLASSES;
+
     return array_map('strtolower', array_diff(get_declared_classes(),
                             $SIMPLETEST_AUTORUNNER_INITIAL_CLASSES ?
                             $SIMPLETEST_AUTORUNNER_INITIAL_CLASSES : array()));
 }
-?>

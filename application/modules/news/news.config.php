@@ -1,8 +1,8 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
+;
+; Clansuite Configuration File :
 ; \trunk\modules\news\news.config.php
-; 
+;
 ; This file was generated on 23-10-2010 21:31
 ;
 
@@ -24,7 +24,6 @@ feed_imagetitle = "Logo"
 feed_imagedescription = "Klick mich"
 feed_imageurl = "http://www.clansuite-dev.com"
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -32,7 +31,6 @@ feed_imageurl = "http://www.clansuite-dev.com"
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -58,7 +56,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

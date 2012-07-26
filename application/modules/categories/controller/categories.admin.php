@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Categories
  */
-class Categories_Admin extends Controller
+class categories.admin extends Controller
 {
     public function action_admin_list()
     {
@@ -96,7 +96,6 @@ class Categories_Admin extends Controller
         $BatchActions[] = array(    'Alias'     => 'delete',
                                     'Name'      => _('Delete selected items'),
                                     'Action'    => 'delete' );
-
 
         // Instantiate the datagrid
         $datagrid = new Clansuite_Datagrid( array(
@@ -189,13 +188,10 @@ class Categories_Admin extends Controller
     {
         $delete  = $this->request->getParameter('delete', 'POST');
 
-        if(isset($delete))
-        {
+        if (isset($delete)) {
             $numDeleted = Doctrine_Query::create()->delete('CsCategories')->whereIn('cat_id', $delete)->execute();
             $this->response->redirectNoCache('/categories/admin', 2, 302, $numDeleted . _(' Categories deleted.'));
-        }
-        else
-        {
+        } else {
            $this->response->redirectNoCache('/categories/admin');
         }
     }
@@ -230,8 +226,7 @@ class Categories_Admin extends Controller
         $cats = $catsTable->findOneByCat_Id($data['cat_id']);
 
         // if that category exist, update values and save
-        if ($cats !== false)
-        {
+        if ($cats !== false) {
             $cats->cat_id       = $data['cat_id'];
             $cats->module_id    = $data['module_id'];
             $cats->name         = $data['name'];
@@ -299,4 +294,3 @@ class Categories_Admin extends Controller
         $this->response->redirectNoCache('/categories/admin', 2, 302, 'The config file has been successfully updated.');
     }
 }
-?>

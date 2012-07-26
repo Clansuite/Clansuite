@@ -41,4 +41,3 @@ class Templatemanager extends Controller
         $this->getModuleConfig();
     }
 }
-?>

@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  News
  */
-class News_Admin extends Controller
+class news.admin extends Controller
 {
     public $publishing_status_map = array();
 
@@ -173,8 +173,7 @@ class News_Admin extends Controller
         /**
          * map news_status from "integer" to "string"
          */
-        if(isset($this->publishing_status_map[$_ArrayReference['news_status']]))
-        {
+        if (isset($this->publishing_status_map[$_ArrayReference['news_status']])) {
             $_ArrayReference['news_status'] = $this->publishing_status_map[$_ArrayReference['news_status']];
         }
 
@@ -183,12 +182,9 @@ class News_Admin extends Controller
          */
         $wrapLength = 50;
         $_ArrayReference['news_body'] = htmlspecialchars(strip_tags($_ArrayReference['news_body']));
-        if( strlen($_ArrayReference['news_body']) > $wrapLength )
-        {
+        if ( strlen($_ArrayReference['news_body']) > $wrapLength ) {
             $_ArrayReference['news_preview'] = substr($_ArrayReference['news_body'],0,$wrapLength) . '...';
-        }
-        else
-        {
+        } else {
             $_ArrayReference['news_preview'] = $_ArrayReference['news_body'];
         }
     }
@@ -294,8 +290,7 @@ class News_Admin extends Controller
         #Clansuite_Debug::dump($news);
 
         // if that news exist, update values and save
-        if ($news !== false)
-        {
+        if ($news !== false) {
             /**
              * Developer Notice:
              * Do not set properties directly, they are protected (in the entity class).
@@ -310,9 +305,7 @@ class News_Admin extends Controller
             $em = $this->getDoctrineEntityManager();
             $em->persist($news);
             $em->flush();
-        }
-        else
-        {
+        } else {
             // redirect
             $this->response->redirectNoCache('/news/admin', 2, 302, _('The news doesn\'t exist.'));
         }
@@ -347,11 +340,9 @@ class News_Admin extends Controller
     {
         $aDelete  = $this->request->getParameter('Checkbox');
 
-        if(isset($aDelete) && is_array($aDelete))
-        {
+        if (isset($aDelete) && is_array($aDelete)) {
             $numDeleted = 0;
-            foreach( $aDelete as $id )
-            {
+            foreach ($aDelete as $id) {
                 // delete the news with id
                 $em = $this->getDoctrineEntityManager();
                 $news = $em->find('Entities\News', $id);
@@ -362,9 +353,7 @@ class News_Admin extends Controller
                 $numDeleted++;
             }
             $this->response->redirectNoCache('/news/admin', 2, 302, $numDeleted . _(' News deleted.'));
-        }
-        else
-        {
+        } else {
            $this->response->redirectNoCache('/news/admin');
         }
     }
@@ -395,4 +384,3 @@ class News_Admin extends Controller
         $this->response->redirectNoCache('/news/admin', 2, 302, _('success#The config file has been successfully updated.'));
     }
 }
-?>

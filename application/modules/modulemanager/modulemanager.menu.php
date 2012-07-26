@@ -79,4 +79,3 @@ $modulenavigation = array(
         'title' => ''
     )
 );
-?>

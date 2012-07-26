@@ -33,8 +33,7 @@ class Koch_Form_Validator_Url_Test extends Clansuite_UnitTestCase
          */
 
         // IDNA URL based on intl extension
-        if(function_exists('idn_to_ascii'))
-        {
+        if (function_exists('idn_to_ascii')) {
             $this->assertEqual(idn_to_ascii('url-ästhetik.de'),
                         $this->validator->validate('url-ästhetik.de'));
         }
@@ -62,4 +61,3 @@ class Koch_Form_Validator_Url_Test extends Clansuite_UnitTestCase
         $this->assertTrue(is_string($this->validator->getValidationHint()));
     }
 }
-?>

@@ -44,4 +44,3 @@ class Koch_Form_Validator_Regexp_Test extends Clansuite_UnitTestCase
         $this->assertTrue(is_string($this->validator->getValidationHint()));
     }
 }
-?>

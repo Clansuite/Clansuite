@@ -337,8 +337,7 @@ class Exception extends \Exception
         // assign placeholders for replacements in the html
         if (strpos($this->message, 'action_')) {
             $placeholders['actionname'] = substr($this->message, strpos($this->message, 'action_'));
-        } elseif(strpos($this->message, 'module_'))
-        {
+        } elseif (strpos($this->message, 'module_')) {
             $placeholders['classname'] = substr($this->message, strpos($this->message, 'module_'));
         }
 
@@ -388,7 +387,6 @@ class Exception extends \Exception
         }
 
         // Output the errormessage
-
         return $html;
     }
 

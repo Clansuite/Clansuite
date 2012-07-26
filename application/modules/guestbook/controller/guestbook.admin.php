@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Guestbook
  */
-class Guestbook_Admin extends Controller
+class guestbook.admin extends Controller
 {
     public function _initializeModule()
     {
@@ -68,8 +68,7 @@ class Guestbook_Admin extends Controller
         $bbcode = new Clansuite_Bbcode($this->getInjector());
 
         // Transform RAW text from DB to BB-formatted Text
-        foreach( $guestbook_entries as $key => $value )
-        {
+        foreach ($guestbook_entries as $key => $value) {
             $guestbook_entries[$key]['gb_text']     = $bbcode->parse($value['gb_text']);
             $guestbook_entries[$key]['gb_comment']  = $bbcode->parse($value['gb_comment']);
         }
@@ -186,8 +185,7 @@ class Guestbook_Admin extends Controller
     public function action_admin_edit()
     {
         // Permissions check
-        if( $perms->check('cc_edit_gb', 'no_redirect') == true )
-        {
+        if ( $perms->check('cc_edit_gb', 'no_redirect') == true ) {
 
             // Incoming Vars
             $infos  = $_POST['infos'];
@@ -195,8 +193,7 @@ class Guestbook_Admin extends Controller
             $gb_id  = isset($_GET['id']) ? $_GET['id'] : 0;
             $front  = isset($_GET['front']) ? $_GET['front'] : 0;
 
-            if( !empty( $submit ) )
-            {
+            if ( !empty( $submit ) ) {
                 // Add/Modify comment
                 $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook
                                        SET  `gb_icq` = :gb_icq,
@@ -210,13 +207,10 @@ class Guestbook_Admin extends Controller
                                        WHERE `gb_id` = :gb_id' );
                 $stmt->execute( $infos );
 
-                if( $infos['front'] == 1 )
-                {
+                if ($infos['front'] == 1) {
                     // Redirect on finish
                     $functions->redirect('/guestbook&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ) );
-                }
-                else
-                {
+                } else {
                     // Redirect on finish
                     $functions->redirect('/guestbook/admin/show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
                 }
@@ -231,9 +225,7 @@ class Guestbook_Admin extends Controller
             $this->getView()->assign('infos', $result);
             $this->getView()->assign('front', $front);
             // $tpl->fetch('guestbook/admin_edit.tpl');
-        }
-        else
-        {
+        } else {
             $this->setFlashmessage('error', _('You do not have sufficient rights.'));
         }
 
@@ -259,28 +251,23 @@ class Guestbook_Admin extends Controller
         $gb_id  = isset($_GET['id']) ? $_GET['id'] : 0;
         $front  = isset($_GET['front']) ? $_GET['front'] : 0;
 
-        if( !empty( $submit ) )
-        {
+        if ( !empty( $submit ) ) {
             // Set user stuff
             $infos['gb_ip'] = $_SESSION['client_ip'];
             $infos['gb_added'] = time();
             $infos['user_id'] = $_SESSION['user']['user_id'];
 
             // Get an image, if existing
-            if( $infos['user_id'] != 0 )
-            {
+            if ($infos['user_id'] != 0) {
                 $result = Doctrine_Query::create()
                                         ->select('image_id')
                                         ->from('CsProfiles')
                                         ->whereIn('user_id', $infos['user_id']);
 
                 $infos['image_id'] = $result['image_id'];
-            }
-            else
-            {
+            } else {
                 $infos['image_id'] = 0;
             }
-
 
             $guestbook = new CsGuestbook();
             $guestbook->gb_added    = $infos['gb_added'];
@@ -316,8 +303,7 @@ class Guestbook_Admin extends Controller
     {
         $id = $this->request->getParameterFromGet('id');
 
-        if( $perms->check('cc_view_gb', 'no_redirect') == true )
-        {
+        if ( $perms->check('cc_view_gb', 'no_redirect') == true ) {
             $result = Doctrine_Query::create()
                                     ->select('CsGuestbook')
                                     ->where('gb_id', $gb_id)
@@ -325,9 +311,7 @@ class Guestbook_Admin extends Controller
 
             $this->getView()->assign('infos', $result);
             #$tpl->fetch('guestbook/admin_edit.tpl');
-        }
-        else
-        {
+        } else {
             $lang->t('You are not allowed to view single news.');
         }
 
@@ -388,4 +372,3 @@ class Guestbook_Admin extends Controller
         $this->response->redirectNoCache('/guestbook/admin', 2, 302, _('The config file has been successfully updated.'));
     }
 }
-?>

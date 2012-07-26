@@ -117,8 +117,7 @@ function smarty_block_t($params, $text, $smarty)
     if (false === isset($escape) or $escape == 'html') {
         // html escape, default
         $text = nl2br(htmlspecialchars($text));
-    } elseif (isset($escape))
-    {
+    } elseif (isset($escape)) {
         switch ($escape) {
             case 'javascript':
             case 'js':

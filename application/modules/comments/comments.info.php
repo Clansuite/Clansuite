@@ -1,8 +1,8 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
+;
+; Clansuite Configuration File :
 ; C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\modules\comments\comments.info.php
-; 
+;
 ; This file was generated on 02-02-2011 00:13
 ;
 
@@ -11,7 +11,7 @@ author=" Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = comments
-description = 
+description =
 dependencies =
 package = Development
 

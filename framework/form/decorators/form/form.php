@@ -98,14 +98,12 @@ class Form extends Decorator
         $html_form .= 'class="form '.$this->getClass().'"';
 
         // return the attributes inside the opening form tag
-
         return $html_form;
     }
 
     public function closeOpenFormTag()
     {
         // close the opened form tag
-
         return '>' . CR;
     }
 
@@ -136,7 +134,6 @@ class Form extends Decorator
     public function closeFormTag()
     {
         // close form
-
         return CR . '</form>' . CR . '<!--- End of Form "'. $this->getName() .'" -->' . CR;
     }
 

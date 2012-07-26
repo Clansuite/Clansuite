@@ -1,5 +1,5 @@
 <?php
-namespace Entities;
+namespace entities;
 
 /**
  * @Entity(repositoryClass="Repositories\ForumBoardsRepository")
@@ -95,12 +95,8 @@ class ForumBoards
      */
     protected $redirect;
 
-
     ##// ===================================
     ##// Setter and Getter methodes
     ##// ===================================
 
-
-
 }
-?>

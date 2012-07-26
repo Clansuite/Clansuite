@@ -86,8 +86,7 @@ class Buttonbar extends Formelement implements FormelementInterface
             return $this->_buttons[$buttonname];
         }
         // instantiate the button object first and then return
-        elseif(isset($this->_buttons[$buttonname]) and false === is_object($this->_buttons[$buttonname]))
-        {
+        elseif (isset($this->_buttons[$buttonname]) and false === is_object($this->_buttons[$buttonname])) {
             $this->addButton($buttonname);
 
             return $this->_buttons[$buttonname];

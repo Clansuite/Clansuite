@@ -37,7 +37,7 @@ namespace Koch\MVC;
  * @package     Core
  * @subpackage  Mapper
  */
-class Mapper extends \ArrayObject
+class mapper extends \ArrayObject
 {
     /* @const string Classname prefix for modules */
     const MODULE_CLASS_PREFIX = 'Clansuite\Module';
@@ -69,8 +69,7 @@ class Mapper extends \ArrayObject
         // subcontroller
         if (isset($subcontroller) and 'admin' == $subcontroller) {
             $filename_postfix = '.admin.php';
-        } elseif(isset($subcontroller) and $subcontroller != 'admin') // any subcontroller name as postfix
-        {
+        } elseif (isset($subcontroller) and $subcontroller != 'admin') { // any subcontroller name as postfix
             $filename_postfix = '.'.$subcontroller.'.php';
         } else { // apply standard postfix
             $filename_postfix = '.module.php';
@@ -131,7 +130,6 @@ class Mapper extends \ArrayObject
         }
 
         // all clansuite actions are prefixed with 'action_'
-
         return self::METHOD_PREFIX . '_' . $action;
     }
 }

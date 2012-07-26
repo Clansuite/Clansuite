@@ -41,7 +41,7 @@ class English implements \ArrayAccess
     private $language = array();
 
     // table of strings
-    function __construct()
+    public function __construct()
     {
         // STEP 1 - Language Selection
         $this->language['STEP1_LANGUAGE_SELECTION'] = 'Step [1] Language Selection';
@@ -277,7 +277,7 @@ class English implements \ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->language[$offset]);
+
         return true;
     }
 }
-?>

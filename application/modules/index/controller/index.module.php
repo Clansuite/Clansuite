@@ -128,4 +128,3 @@ class Index extends Controller //implements Koch\Module\ModuleInterface
         // nothing to assign, it a pure template widget
     }
 }
-?>

@@ -36,7 +36,7 @@ namespace Koch\View;
  * @package     Core
  * @subpackage  Renderer
  */
-class Factory
+class factory
 {
     /**
      * getRenderer

@@ -2,13 +2,15 @@
 // $Id$
 require_once dirname(__FILE__) . '/../../autorun.php';
 
-class SampleTestForRecorder extends UnitTestCase {
-    function testTrueIsTrue() {
+class SampleTestForRecorder extends UnitTestCase
+{
+    public function testTrueIsTrue()
+    {
         $this->assertTrue(true);
     }
 
-    function testFalseIsTrue() {
+    public function testFalseIsTrue()
+    {
         $this->assertFalse(true);
     }
 }
-?>

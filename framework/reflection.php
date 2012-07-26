@@ -36,7 +36,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  Reflection
  */
-class Reflection
+class reflection
 {
     private $classname = '';
 

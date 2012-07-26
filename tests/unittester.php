@@ -31,10 +31,10 @@ class Clansuite_UnitTestCase extends UnitTestCase
     /**
      * Will trigger a pass if the string is found in the subject. Fail otherwise.
      *
-     * @param string $string     String to look for.
-     * @param string $subject    String to search in.
-     * @param string $message    Message to display.
-     * @return boolean           True on pass
+     * @param  string  $string  String to look for.
+     * @param  string  $subject String to search in.
+     * @param  string  $message Message to display.
+     * @return boolean True on pass
      */
     public function assertContainsString($string, $subject, $message = '%s')
     {
@@ -47,18 +47,16 @@ class Clansuite_UnitTestCase extends UnitTestCase
      * @author Bermi Ferrer Martinez
      * @license LGPL
      */
-    function _testXPath($xpath_expression)
+    public function _testXPath($xpath_expression)
 
     {
-        if(false === class_exists('DOMDocument') or false === class_exists('DOMXPath'))
-        {
-            if(function_exists('domxml_open_mem') === true)
-            {
+        if (false === class_exists('DOMDocument') or false === class_exists('DOMXPath')) {
+            if (function_exists('domxml_open_mem') === true) {
                 $dom = domxml_open_mem($this->_response);
 
-                if(false === $dom)
-                {
+                if (false === $dom) {
                     $this->fail('Error parsing the document.');
+
                     return false;
                 }
 
@@ -71,16 +69,16 @@ class Clansuite_UnitTestCase extends UnitTestCase
                 #var_dump($result);
                 $return = new stdClass();
                 $return->length = count($result->nodeset);
+
                 return $return;
             }
 
             $this->fail('No xpath support built in.');
 
             return false;
-        }
-        elseif(extension_loaded('domxml'))
-        {
+        } elseif (extension_loaded('domxml')) {
             $this->fail('Please disable the domxml extension. Only php5 builtin domxml is supported');
+
             return false;
         }
 
@@ -90,6 +88,7 @@ class Clansuite_UnitTestCase extends UnitTestCase
         $dom->loadHtml($response);
         $xpath = new DOMXPath($dom);
         $node = $xpath->query($xpath_expression);
+
         return $node;
     }
 
@@ -101,22 +100,19 @@ class Clansuite_UnitTestCase extends UnitTestCase
      *
      * Usage: $this->assertXPath("/html/body/form[@id='test']");
      *
-     * @param string $xpath_expression
-     * @param string $message
+     * @param  string $xpath_expression
+     * @param  string $message
      * @return node
      */
-    function assertXPath($xpath_expression, $message = null)
+    public function assertXPath($xpath_expression, $message = null)
     {
         $node = $this->_testXPath($xpath_expression);
 
-        if($node->length < 1)
-        {
+        if ($node->length < 1) {
             $message = empty($message) ? 'Element not found using xpath: %xpath' : $message;
             $message = str_replace('%xpath', $xpath_expression, $message);
             $this->fail($message);
-        }
-        else
-        {
+        } else {
             $message = empty($message) ? 'Element found using xpath: %xpath' : $message;
             $this->pass($message);
         }
@@ -140,7 +136,8 @@ class StringExpectation extends SimpleExpectation
      *    @param string $message    Customised message on failure.
      *    @access public
      */
-    function __construct($string, $message = '%s') {
+    public function __construct($string, $message = '%s')
+    {
         parent::__construct($message);
         $this->string = $string;
     }
@@ -150,7 +147,8 @@ class StringExpectation extends SimpleExpectation
      *    @return string       Perl regex as string.
      *    @access protected
      */
-    protected function getString() {
+    protected function getString()
+    {
         return $this->string;
     }
 
@@ -161,14 +159,11 @@ class StringExpectation extends SimpleExpectation
      *    @return boolean               True if correct.
      *    @access public
      */
-    function test($compare)
+    public function test($compare)
     {
-        if(strpos($compare, $this->getString()) !== false)
-        {
+        if (strpos($compare, $this->getString()) !== false) {
             return true; // string is found
-        }
-        else
-        {
+        } else {
             return false; // string not found
         }
     }
@@ -180,11 +175,13 @@ class StringExpectation extends SimpleExpectation
      *                               or failure.
      *    @access public
      */
-    function testMessage($compare) {
+    public function testMessage($compare)
+    {
         if ($this->test($compare)) {
             return $this->describePatternMatch($this->getString(), $compare);
         } else {
             $dumper = $this->getDumper();
+
             return "Pattern [" . $this->getString() .
                     "] not detected in [" .
                     $dumper->describeValue($compare) . "]";
@@ -198,12 +195,13 @@ class StringExpectation extends SimpleExpectation
      *    @param string $subject       Subject to search.
      *    @access protected
      */
-    protected function describePatternMatch($string, $subject) {
+    protected function describePatternMatch($string, $subject)
+    {
         $position = strpos($subject, $string);
         $dumper = $this->getDumper();
+
         return "Pattern [$string] detected at character [$position] in [" .
                 $dumper->describeValue($subject) . "] in region [" .
                 $dumper->clipString($subject, 100, $position) . "]";
     }
 }
-?>

@@ -72,7 +72,6 @@ class Wysiwygtinymce extends Textarea implements FormelementInterface
                                 editor_selector : "mceAdvanced"
                             });
                         // ]]></script>';
-
         return $javascript;
     }
 }

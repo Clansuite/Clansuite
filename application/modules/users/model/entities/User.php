@@ -1,5 +1,5 @@
 <?php
-namespace Entities;
+namespace entities;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -157,4 +157,3 @@ class User
         return $this->groups;
     }
 }
-?>

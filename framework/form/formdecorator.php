@@ -173,8 +173,7 @@ abstract class Decorator implements DecoratorInterface
             return true;
         }
         // check if method exists in the decorator of this object
-        elseif($this->form instanceof Koch_Form_Decorator)
-        {
+        elseif ($this->form instanceof Koch_Form_Decorator) {
             return $this->form->hasMethod($method);
         } else { // nope, method does not exist
 

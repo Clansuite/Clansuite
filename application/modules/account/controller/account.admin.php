@@ -52,12 +52,9 @@ class Account_Admin extends Controller
         $md5_email = md5($_SESSION['user']['email']);
         $avatar_image = '';
 
-        if( is_file( ROOT_UPLOAD . 'images/avatars/avatar'.$md5_email.'png') )
-        {
+        if ( is_file( ROOT_UPLOAD . 'images/avatars/avatar'.$md5_email.'png') ) {
             $avatar_image = ROOT_UPLOAD . 'images/avatars/avatar'.$md5_email.'png';
-        }
-        else
-        {
+        } else {
             $avatar_image = ROOT_UPLOAD . 'images/avatars/no_avatar.png';
         }
 
@@ -166,4 +163,3 @@ class Account_Admin extends Controller
         $this->response->redirectNoCache('/account/admin', 2, 302, 'The config file has been successfully updated.');
     }
 }
-?>

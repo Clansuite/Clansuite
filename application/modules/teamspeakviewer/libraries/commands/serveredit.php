@@ -45,19 +45,16 @@ class Teamspeak3_ServerQueryCommand_serveredit extends Clansuite_Teamspeak3_Serv
     */
     public function serveredit($newSettings)
     {
-        if($this->selectedVirtualServer() == false)
-        {
+        if ($this->selectedVirtualServer() == false) {
             return false;
         }
-        
+
         $settingsString = '';
-        
-        foreach($newSettings as $setting)
-        {
+
+        foreach ($newSettings as $setting) {
             $settingsString .= ' virtualserver_'.$setting[0].'='.$this->replaceText($setting[1]);
         }
-        
+
         return $this->executeWithoutFetch("serveredit".$settingsString);
     }
 }
-?>

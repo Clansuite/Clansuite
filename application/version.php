@@ -82,27 +82,23 @@ final class Version
      */
     public static function setVersionInformationToCaches()
     {
-        if(APC === true)
-        {
+        if (APC === true) {
             define('DEPLOY_VERSION', CLANSUITE_VERSION);
 
             /**
              * APC
              */
-            if(isset($_SERVER['SERVER_NAME']) === true)
-            {
+            if (isset($_SERVER['SERVER_NAME']) === true) {
                 $key = $_SERVER['SERVER_NAME'] . '_deploy_version';
                 $cached_revision = apc_fetch($key);
 
-                if ($cached_revision != DEPLOY_VERSION)
-                {
+                if ($cached_revision != DEPLOY_VERSION) {
                     // clear opcode cache and user cache
                     apc_clear_cache();
                     apc_clear_cache('user');
 
                     // if newer version arrived, store the revision number to apc
-                    if($cached_revision < DEPLOY_VERSION)
-                    {
+                    if ($cached_revision < DEPLOY_VERSION) {
                         apc_store($key, DEPLOY_VERSION);
                     }
                 }
@@ -114,14 +110,12 @@ final class Version
             $key = 'php.pid_' . getmypid();
             $cached_revision = apc_fetch($key);
 
-            if ($cached_revision != DEPLOY_VERSION)
-            {
+            if ($cached_revision != DEPLOY_VERSION) {
                 // clear realpath and stat cache
                 clearstatcache(true);
 
                 // if newer version arrived, store the revision number to apc
-                if($cached_revision < DEPLOY_VERSION)
-                {
+                if ($cached_revision < DEPLOY_VERSION) {
                     apc_store($key, DEPLOY_VERSION);
                 }
             }

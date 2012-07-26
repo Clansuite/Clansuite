@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Guestbook
  */
-class Guestbook extends Controller
+class guestbook.module extends Controller
 {
     /**
      * Module_Guestbook -> Execute
@@ -85,12 +85,9 @@ class Guestbook extends Controller
         $guestbook = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         // if array contains data proceed, else show empty message
-        if ( !is_array( $guestbook ) )
-        {
+        if ( !is_array( $guestbook ) ) {
             $error['gb_empty'] = '1';
-        }
-        else
-        {
+        } else {
             // total number of guestbook entries by counting the array
             $number_of_guestbook_entries = count($guestbook);
 
@@ -102,12 +99,9 @@ class Guestbook extends Controller
             $bbcode = new Clansuite_Bbcode($this->getInjector());
 
             // Set 'not specified's
-            foreach( $guestbook as $entry_key => $entry_value )
-            {
-                foreach( $entry_value as $key => $value )
-                {
-                    switch( $key )
-                    {
+            foreach ($guestbook as $entry_key => $entry_value) {
+                foreach ($entry_value as $key => $value) {
+                    switch ($key) {
                         case 'gb_comment':
                             if( empty($value) )
                                 unset($guestbook[$entry_key][$key]);
@@ -127,12 +121,11 @@ class Guestbook extends Controller
             }
         }
 
-
         $view = $this->getView();
 
         $view->assign( 'guestbook', $guestbook);
 
-        if(isset($error)){$view->assign( 'error' , $error );}
+        if (isset($error)) {$view->assign( 'error' , $error );}
 
         $view->assignGlobal('pager', $pager);
         $view->assignGlobal('pager_layout', $pager_layout);
@@ -143,4 +136,3 @@ class Guestbook extends Controller
         $this->display();
     }
 }
-?>

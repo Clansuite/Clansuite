@@ -1,9 +1,8 @@
 <?php
-namespace Repositories;
+namespace repositories;
 use Doctrine\ORM\EntityRepository;
 
 class CommentRepository extends EntityRepository
 {
 
 }
-?>

@@ -349,8 +349,7 @@ class Datagrid extends Base
         // $resultsPerPage is incomming via Session, URL GET or Set to 1 as default
         if ( isset($_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage']) ) {
             $resultsPerPage = $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'];
-        } elseif( isset($_REQUEST[$this->getParameterAlias('ResultsPerPage')]) )
-        {
+        } elseif ( isset($_REQUEST[$this->getParameterAlias('ResultsPerPage')]) ) {
             $resultsPerPage = (int) $_REQUEST[$this->getParameterAlias('ResultsPerPage')];
         } else { // if page is not inside session or request, we are on the first page
             $resultsPerPage = $this->_resultsPerPage; // default via setResultsPerPage / config
@@ -907,8 +906,7 @@ class Datagrid extends Base
         // Page is incomming via Session, URL GET or Set to 1 as default
         if (isset($_SESSION['Datagrid_' . $this->getAlias()]['Page'])) {
             $page = $_SESSION['Datagrid_' . $this->getAlias()]['Page'];
-        } elseif(isset($_REQUEST[$this->getParameterAlias('Page')]))
-        {
+        } elseif (isset($_REQUEST[$this->getParameterAlias('Page')])) {
             $page = (int) $_REQUEST[$this->getParameterAlias('Page')];
         } else {
             // default value: first page

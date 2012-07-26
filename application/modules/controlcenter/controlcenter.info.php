@@ -8,7 +8,7 @@ author="Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = controlcenter
-description = 
+description =
 dependencies =
 package = Development
 
@@ -19,6 +19,5 @@ datestamp =
 uniqueid =
 
 [controlcenter_widgets]
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

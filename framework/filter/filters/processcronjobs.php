@@ -39,7 +39,7 @@ use Koch\MVC\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class ProcessCronjobs implements FilterInterface
+class processcronjobs implements FilterInterface
 {
     private $config     = null;
     private $cronjobs    = null;

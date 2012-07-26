@@ -207,7 +207,6 @@ class Memcached extends AbstractCache implements CacheInterface
         $serverlist = $this->memcached->getserverlist();
 
         // combine arrays
-
         return compact($version, $stats, $serverlist);
     }
 

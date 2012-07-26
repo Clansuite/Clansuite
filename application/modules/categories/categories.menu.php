@@ -53,4 +53,3 @@ $modulenavigation = array(
           'title' => ''
           ), */
 );
-?>

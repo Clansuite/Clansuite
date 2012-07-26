@@ -3,9 +3,10 @@
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../recorder.php');
 
-class TestOfRecorder extends UnitTestCase {
-    
-    function testContentOfRecorderWithOnePassAndOneFailure() {
+class TestOfRecorder extends UnitTestCase
+{
+    public function testContentOfRecorderWithOnePassAndOneFailure()
+    {
         $test = new TestSuite();
         $test->addFile(dirname(__FILE__) . '/support/recorder_sample.php');
         $recorder = new Recorder(new SimpleReporter());
@@ -20,4 +21,3 @@ class TestOfRecorder extends UnitTestCase {
                              $recorder->results[1]->message);
     }
 }
-?>

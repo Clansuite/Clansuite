@@ -53,7 +53,7 @@ h1 {
   <dt><span class="comment">Comment/non executable</span></dt>
   <dd>Comment or non-executable line of code.</dd>
   <dt><span class="dead">Dead</span></dt>
-  <dd>lines of code that according to xdebug could not be executed.  This is counted as coverage code because 
+  <dd>lines of code that according to xdebug could not be executed.  This is counted as coverage code because
   in almost all cases it is code that runnable.</dd>
 </dl>
 </body>

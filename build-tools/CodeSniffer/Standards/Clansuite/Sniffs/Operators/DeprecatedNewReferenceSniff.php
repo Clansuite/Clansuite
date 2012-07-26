@@ -2,11 +2,11 @@
 /**
  * Clansuite_Sniffs_PHP_DeprecatedNewReferenceSniff
  *
- * Discourages the use of 
+ * Discourages the use of
  * 1) STATIC magic methods
  * 2) protected magic methods
  * 3) private magic methods
- * 
+ *
  * This is a sniff for PHP 5.3 compatibility.
  *
  * @author    Wim Godden <wim.godden@cu.be>
@@ -43,17 +43,15 @@ class Clansuite_Sniffs_Operators_DeprecatedNewReferenceSniff implements PHP_Code
      * Processes this test, when one of its tokens is encountered.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int $stackPtr The position of current token in the stack passed in $tokens.
+     * @param int                  $stackPtr  The position of current token in the stack passed in $tokens.
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        
-        if ($tokens[$stackPtr - 1]['type'] == 'T_BITWISE_AND' or $tokens[$stackPtr - 2]['type'] == 'T_BITWISE_AND')
-        {
+
+        if ($tokens[$stackPtr - 1]['type'] == 'T_BITWISE_AND' or $tokens[$stackPtr - 2]['type'] == 'T_BITWISE_AND') {
             $error = 'Assigning the return value of new by reference is deprecated in PHP 5.3';
             $phpcsFile->addError($error, $stackPtr);
         }
     }
 }
-?>

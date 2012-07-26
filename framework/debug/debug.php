@@ -37,7 +37,7 @@ namespace Koch\Debug;
  * @package     Core
  * @subpackage  Debug
  */
-class Debug
+class debug
 {
     /**
      * This is an replacement for the native php function print_r() with an upgraded display.
@@ -75,20 +75,15 @@ class Debug
 
         if ($var === true) {
             echo '<font color=green><b>true</b></font>';
-        } elseif($var === false)
-        {
+        } elseif ($var === false) {
             echo '<font color=red><b>false</b></font>';
-        } elseif($var === null)
-        {
+        } elseif ($var === null) {
             echo '<font color=red><b>null</b></font>';
-        } elseif($var === 0)
-        {
+        } elseif ($var === 0) {
             echo '0';
-        } elseif(is_string($var) and strlen($var) == '0')
-        {
+        } elseif (is_string($var) and strlen($var) == '0') {
             echo '<font color=green>*EMPTY STRING*</font>';
-        } elseif(is_string($var))
-        {
+        } elseif (is_string($var)) {
             echo htmlspecialchars($var);
         } else {
             $print_r = print_r($var, true);

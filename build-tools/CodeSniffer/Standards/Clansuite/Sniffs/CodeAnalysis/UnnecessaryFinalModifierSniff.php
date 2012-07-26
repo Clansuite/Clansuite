@@ -28,7 +28,7 @@
  * @package    PHP_CodeSniffer
  * @subpackage Clansuite_Sniffs
  */
-class Clansuite_Sniffs_Codeanalysis_UnnecessaryFinalModifierSniff implements Php_CodeSniffer_Sniff
+class Clansuite_Sniffs_CodeAnalysis_UnnecessaryFinalModifierSniff implements Php_CodeSniffer_Sniff
 {
 
     /**
@@ -56,8 +56,7 @@ class Clansuite_Sniffs_Codeanalysis_UnnecessaryFinalModifierSniff implements Php
         $token = $tokens[$stackptr];
 
         // Skip for-statements without body.
-        if(isset($token['scope_opener']) === false)
-        {
+        if (isset($token['scope_opener']) === false) {
             return;
         }
 
@@ -65,23 +64,18 @@ class Clansuite_Sniffs_Codeanalysis_UnnecessaryFinalModifierSniff implements Php
         $prev = $phpcsfile->findprevious(PHP_CodeSniffer_tokens::$emptyTokens, ($stackptr - 1), null, true);
 
         // Skip for non final class.
-        if($prev === false || $tokens[$prev]['code'] !== T_FINAL)
-        {
+        if ($prev === false || $tokens[$prev]['code'] !== T_FINAL) {
             return;
         }
 
         $next = ++$token['scope_opener'];
         $end = --$token['scope_closer'];
 
-        for(; $next <= $end; ++$next)
-        {
-            if($tokens[$next]['code'] === T_FINAL)
-            {
+        for (; $next <= $end; ++$next) {
+            if ($tokens[$next]['code'] === T_FINAL) {
                 $error = 'Unnecessary FINAL modifier in FINAL class';
                 $phpcsfile->addwarning($error, $next);
             }
         }
     }
 }
-
-?>

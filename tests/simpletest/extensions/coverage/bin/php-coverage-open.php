@@ -28,7 +28,6 @@ $cc->excludes = CoverageUtils::issetOr($args['exclude[]']);
 $cc->excludes[] = 'simpletest';
 $cc->excludes[] = 'tests';
 $cc->excludes[] = 'libraries';
-$cc->maxDirectoryDepth = (int)CoverageUtils::issetOr($args['maxdepth'], '1');
+$cc->maxDirectoryDepth = (int) CoverageUtils::issetOr($args['maxdepth'], '1');
 $cc->resetLog();
 $cc->writeSettings();
-?>

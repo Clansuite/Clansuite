@@ -29,7 +29,7 @@ namespace Koch\Cache;
 /**
  * Koch Framework - Cache
  */
-class Cache
+class cache
 {
     /**
      * The cache object wrapping the cache access.

@@ -54,4 +54,3 @@ class SecurityTest extends Clansuite_UnitTestCase
         $this->assertTrue($bool, true);
     }
 }
-?>

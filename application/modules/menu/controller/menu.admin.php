@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Menu
  */
-class Menu_Admin extends Controller
+class menu.admin extends Controller
 {
     public function _initializeModule()
     {
@@ -59,13 +59,15 @@ class Menu_Admin extends Controller
         $this->display();
     }
 
-    public static function directoryIterator($dir) {
+    public static function directoryIterator($dir)
+    {
         $iterator = new RecursiveDirectoryIterator($dir);
-        foreach(new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+        foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {
             if (false == $file->isDir()) {
                 $fileinfo[] = array($file->getFilename(), $file->getSize());
             }
         }
+
         return $fileinfo;
     }
 
@@ -92,12 +94,9 @@ class Menu_Admin extends Controller
 
         $options = array();
 
-        if(null === $rootId)
-        {
+        if (null === $rootId) {
             $options['root_id'] = 1;
-        }
-        else
-        {
+        } else {
             $options['root_id'] = $rootId;
         }
 
@@ -107,6 +106,7 @@ class Menu_Admin extends Controller
     private function getRoots($model)
     {
         $tree = Doctrine_Core::getTable($model)->getTree();
+
         return $tree->fetchRoots();
     }
 
@@ -118,8 +118,7 @@ class Menu_Admin extends Controller
         $modulenavigation_file = ROOT_MOD. $modulename . DIRECTORY_SEPARATOR . $modulename . '.menu.php';
 
         // read module menu file
-        if( is_file($modulenavigation_file) )
-        {
+        if ( is_file($modulenavigation_file) ) {
             // this includes the file, which contains a php array name $modulenavigation
             include $modulenavigation_file;
 
@@ -129,9 +128,7 @@ class Menu_Admin extends Controller
             $view->assign('modulenavigation', $modulenavigation);
             // The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
             return $smarty->fetch('modulenavigation-generic.tpl');
-        }
-        else
-        {
+        } else {
             $smarty->assign('modulename', $modulename);
             $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
             trigger_error($errormessage);
@@ -179,27 +176,22 @@ class Menu_Admin extends Controller
         $html .= "\n\t<ul>\n";
 
         // retrieve the roots
-        foreach($treeObject->fetchRoots() as $root)
-        {
+        foreach ($treeObject->fetchRoots() as $root) {
             $options = array('root_id' => $root->$rootColumnName);
 
             // start iterating the tree beginning with a specific root_id
-            foreach($treeObject->fetchTree($options) as $node)
-            {
+            foreach ($treeObject->fetchTree($options) as $node) {
                 // we are on the item of the same level, closing <li> tag before printing item
-                if($lastLevel > 0 and $node['level'] == $lastLevel)
-                {
+                if ($lastLevel > 0 and $node['level'] == $lastLevel) {
                     $html .= "</li>\n";
                 }
 
                 // we are printing a next-level item, starting a new <ul>
-                if($node['level'] > $lastLevel)
-                {
+                if ($node['level'] > $lastLevel) {
                     $html .= "\t\n<ul>\n";
                 }
                 // we are going back one or more levels, closing tags
-                elseif($node['level'] < $lastLevel)
-                {
+                elseif ($node['level'] < $lastLevel) {
                     $html .= str_repeat('</ul></li>', $lastLevel - $node['level']);
                 }
 
@@ -241,8 +233,7 @@ class Menu_Admin extends Controller
         $menu = $this->request->getParameter('container','POST');
 
         // Check if we have some $menu values to insert
-        if(count($menu) == 0)
-        {
+        if (count($menu) == 0) {
             // if not, tell the user about it and stop here
             throw new Clansuite_Exception('No Menu Items defined for Action: '.__FUNCTION__);
         }
@@ -275,8 +266,7 @@ class Menu_Admin extends Controller
          * Insert the new values for the Adminmenu via Doctrine ActiveRecord
          */
         // now loop over all menu values and prepare the temporary array to insert later
-        foreach ( $menu as $key => $value )
-        {
+        foreach ($menu as $key => $value) {
             #Clansuite_Debug::printR($value);
 
             // fetch activerecord of the adminmenu
@@ -308,13 +298,12 @@ class Menu_Admin extends Controller
     /**
      * Restore the old menu
      */
-    function restore()
+    public function restore()
     {
         $confirm = $_POST['confirm'];
         $abort   = $_POST['abort'];
 
-        if ( !empty($abort) )
-        {
+        if ( !empty($abort) ) {
             // tell the user, that the last action changed nothing on the menu
             $this->addFlashMessage('Menuediting was cancelled. Nothing has been changed.');
 
@@ -322,8 +311,7 @@ class Menu_Admin extends Controller
             $this->redirect('index.php?mod=menu/admin');
         }
 
-        if ( !empty($confirm) )
-        {
+        if ( !empty($confirm) ) {
             /**
              *  Get content of current menu
              */
@@ -349,8 +337,7 @@ class Menu_Admin extends Controller
 
             // 5) insert the former adminmenu into the adminmenu_backup table
             $stmt5 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `sortorder`, `icon`, `permission`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
-            foreach( $result as $data )
-            {
+            foreach ($result as $data) {
                 $stmt5->execute( $data );
             }
 
@@ -359,9 +346,7 @@ class Menu_Admin extends Controller
 
             // redirect  to menu manager
             $this->redirect('index.php?mod=menu/admin');
-        }
-        else
-        {
+        } else {
             // confirm?
             #'confirm', 3, _( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
 
@@ -383,18 +368,15 @@ class Menu_Admin extends Controller
     public function get_html_div($menu = '')
     {
         // $result is relevant to the recursion
-        if(false === isset($result))
-        {
+        if (false === isset($result)) {
             $result = '';
         }
 
-        if($menu == '')
-        {
+        if ($menu == '') {
             $menu = $this->fetch_adminmenu(true);
         }
 
-        foreach($menu as $entry)
-        {
+        foreach ($menu as $entry) {
             /**
              * Init Vars
              */
@@ -408,8 +390,7 @@ class Menu_Admin extends Controller
             $entry['permission']    = isset($entry['permission'])       ? $entry['permission']      : '';
 
             // Set empty image, if no image is given [ IE HACK ]
-            if ( $entry['icon'] == '' )
-            {
+            if ($entry['icon'] == '') {
                 $entry['icon'] = 'empty.png';
             }
 
@@ -418,13 +399,11 @@ class Menu_Admin extends Controller
              */
 
             // Toplevel
-            if ( $entry['type'] == 'folder')
-            {
+            if ($entry['type'] == 'folder') {
                  $result .= "\n\t";
 
                  // we are at the toplevel, there are no parents
-                 if ( $entry['parent'] == 0)
-                 {
+                 if ($entry['parent'] == 0) {
                      $result .= '<td>';
                      $result .= "\n\t";
 
@@ -439,13 +418,10 @@ class Menu_Admin extends Controller
                       * the tag is closed with the same conditional check some lines below.
                       */
                      // it's an toplevel-menu-item WITHOUT link and we have to open the div container
-                     if ( $entry['href'] == '' )
-                     {
+                     if ($entry['href'] == '') {
                         $result .= '<span class="button" onclick="aFunction(); return false;">';
 
-                     }
-                     else // it's an toplevel-menu-item WITH link and we have to open the anchor href
-                     {
+                     } else { // it's an toplevel-menu-item WITH link and we have to open the anchor href
                         $result .= '<a class="button" href="'.$entry['href'].'" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
                      }
 
@@ -456,12 +432,9 @@ class Menu_Admin extends Controller
 
                      // if the icon empty is used, we do not need to put the name in an html span element
                      // @todo because of what, we have to do this? is this an IE FIX with span element?
-                     if( $entry['icon'] == 'empty.png' )
-                     {
+                     if ($entry['icon'] == 'empty.png') {
                         $result .= htmlspecialchars(_($entry['name']));
-                     }
-                     else // we are not using empty.png, put the entryname in span
-                     {
+                     } else { // we are not using empty.png, put the entryname in span
                         $result .= '<span class="element">' . htmlspecialchars(_($entry['name'])) . '</span>';
                      }
 
@@ -474,18 +447,13 @@ class Menu_Admin extends Controller
                       * Close Anchor or Div Element of Toplevel Item
                       */
                      //  it's an toplevel-menu-item WITHOUT link and we have to close the div container
-                     if ( $entry['href'] == '' )
-                     {
+                     if ($entry['href'] == '') {
                         $result .= '</span>';
-                     }
-                     else // it's an toplevel-menu-item WITH link, we have to close the anchor href
-                     {
+                     } else { // it's an toplevel-menu-item WITH link, we have to close the anchor href
                         $result .= '</a>';
                      }
 
-                 }
-                 else
-                 {
+                 } else {
                      $result .= '<a class="item" href="'.$entry['href'];
                      $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
                      $result .= '<img alt="icon" class="pic" src="' . WWW_ROOT_THEMES_CORE .'images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
@@ -495,8 +463,7 @@ class Menu_Admin extends Controller
                  }
              }
 
-             if ( $entry['type'] != 'folder' && isset($entry['type']) )
-            {
+             if ( $entry['type'] != 'folder' && isset($entry['type']) ) {
                 $result .= "\n\t";
                 $result .= '<a class="item" href="'.$entry['href'];
                 $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="' . htmlspecialchars($entry['target']) . '">';
@@ -506,8 +473,7 @@ class Menu_Admin extends Controller
             }
 
 
-            if ( is_array($entry['content']) )
-            {
+            if ( is_array($entry['content']) ) {
                 $result .= "\n\t<div class=\"section\">";
                 // recursion
                 $result .= $this->get_html_div($entry['content']);
@@ -515,12 +481,12 @@ class Menu_Admin extends Controller
             }
 
 
-            if ( isset($entry['parent']) && $entry['parent'] == 0 )
-            {
+            if ( isset($entry['parent']) && $entry['parent'] == 0 ) {
                 $result .= "\n\t</td>";
             }
 
         }
+
         return $result;
     }
 
@@ -535,13 +501,11 @@ class Menu_Admin extends Controller
 
         $result = '';
 
-        if ( empty( $menu ) )
-        {
+        if ( empty( $menu ) ) {
             $menu = $this->fetch_adminmenu(false);
         }
 
-        foreach($menu as $entry)
-        {
+        foreach ($menu as $entry) {
             /**
              * Init Variables
              */
@@ -557,8 +521,7 @@ class Menu_Admin extends Controller
             /**
              *  Build Menu
              */
-            if ( $entry['type'] == 'folder')
-            {
+            if ($entry['type'] == 'folder') {
                 $result .= "<div class=\"folder\">";
                 $result .= '<a href="'.$entry['href'];
                 $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['permission']) . '">';
@@ -566,21 +529,16 @@ class Menu_Admin extends Controller
             }
 
             // it's an item
-            if ( $entry['type'] == 'item')
-            {
+            if ($entry['type'] == 'item') {
                 $result .= "\t<div class=\"doc\">";
             }
 
             // it's an content array, call recursive !!
-            if ( is_array($entry['content']) )
-            {
+            if ( is_array($entry['content']) ) {
                 $result .= $this->get_adminmenu_div($entry['content']);
-            }
-            else
-            {
+            } else {
                 // it's not an content array, it's an folder
-                if ( $entry['type'] != 'folder' )
-                {
+                if ($entry['type'] != 'folder') {
                     $result .= '<a href="'.$entry['href'];
                     $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '___' . $entry['icon'] . '___' . htmlspecialchars($entry['permission']) . '">';
                     $result .= htmlspecialchars( _($entry['name'])) . '</a>';
@@ -588,15 +546,13 @@ class Menu_Admin extends Controller
             }
 
             // it was an item, close it
-            if ( $entry['type'] == 'item')
-            {
+            if ($entry['type'] == 'item') {
                 $result .= "</div>\n";
             }
 
             // it was an folder, close it
             // @todo combine both if's with OR?
-            if ( $entry['type'] == 'folder')
-            {
+            if ($entry['type'] == 'folder') {
                 $result .= "</div>\n";
             }
         }
@@ -608,23 +564,21 @@ class Menu_Admin extends Controller
      * This function generates html-div based menu lists - for menu editor
      *
      * @param $menu default empty
-     * @param int $level Integer Value determining the Nesting Level default empty
+     * @param int    $level  Integer Value determining the Nesting Level default empty
      * @param string $module Name of the Module default empty
      * @todo this is not used. marked as deprecated.
      */
-    function get_export_div( $menu = '', $level = '', $module = '' )
+    public function get_export_div( $menu = '', $level = '', $module = '' )
     {
 
         $result  = '';
         $jscript = '';
 
-        if ( !is_array($menu) )
-        {
+        if ( !is_array($menu) ) {
             $menu = $this->fetch_adminmenu(false);
         }
 
-        foreach($menu as $entry)
-        {
+        foreach ($menu as $entry) {
             //  Init Vars
 
             $entry['type']              = isset($entry['type'])             ? $entry['type']            : '';
@@ -638,27 +592,21 @@ class Menu_Admin extends Controller
 
             //  Build Menu
 
-            if ( $entry['type'] == 'folder')
-            {
+            if ($entry['type'] == 'folder') {
                 $values = split( ',', $level );
-                foreach( $values as $key )
-                {
-                    if ( $key != '' )
-                    {
+                foreach ($values as $key) {
+                    if ($key != '') {
                         $jscript .= $module.'_dir_'.$key.',';
                     }
                 }
                 $jscript = preg_replace("/,$/", '', $jscript);
                 $result .= "\t<div class=\"folder\">";
 
-                if ( $entry['icon'] == '' )
-                {
+                if ($entry['icon'] == '') {
                     $result .= '<img id="node-'.$module.'_dir_'.$entry['id'].'" src="'. WWW_ROOT . '' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" onClick="node_click(\''.$module.'_dir_'.$entry['id'].'\')" />';
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids['.$module.'][]" value="'.$entry['id'].'">';
                     $result .= '<img src="'. WWW_ROOT . '' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-folder.gif" width="18" height="18" border="0" />';
-                }
-                else
-                {
+                } else {
                     $result .= '';
                     $result .= '<img id="node-'.$module.'_dir_'.$entry['id'].'" src="'. WWW_ROOT . '' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-node.gif" width="18" height="18" border="0" onClick="node_click(\''.$module.'_dir_'.$entry['id'].'\')" />';
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids['.$module.'][]" value="'.$entry['id'].'">';
@@ -670,36 +618,26 @@ class Menu_Admin extends Controller
                 $jscript = '';
             }
 
-            if ( $entry['type'] == 'item')
-            {
+            if ($entry['type'] == 'item') {
                 $result .= "\t<div class=\"doc\">";
-                if ( $entry['icon'] == '' )
-                {
+                if ($entry['icon'] == '') {
                     $result .= '<img src="'. WWW_ROOT . '' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0" />';
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids['.$module.'][]" value="' . $level . $entry['id'] . '">';
                     $result .= '<img class="pic" src="' . WWW_ROOT . '' . $cfg->tpl_folder . '/core/images/icons/empty.png" border="0" width="16" height="16" />';
-                }
-                else
-                {
+                } else {
                     $result .= "<img src='". WWW_ROOT . '' . $cfg->tpl_folder . '/core/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0" />';
                     $result .= '<input id="'.$module.'_dir_'.$entry['id'].'" type="checkbox" onclick="javascript:checker(\''.$jscript.'\',\''.$module.'_dir_'.$entry['id'].'\');" name="menu_ids['.$module.'][]" value="' . $level . $entry['id'] . '">';
                     $result .= '<img class="pic" src="' . WWW_ROOT . '' . $cfg->tpl_folder . '/core/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                 }
             }
 
-            if ( is_array($entry['content']) )
-            {
+            if ( is_array($entry['content']) ) {
                $result .= $this->get_export_div($entry['content'], $level . $entry['id'] . ',', $module);
-            }
-            else
-            {
-                if ( $entry['type'] != 'folder' )
-                {
+            } else {
+                if ($entry['type'] != 'folder') {
                     $values = split( ',', $level );
-                    foreach( $values as $key )
-                    {
-                        if ( $key != '' )
-                        {
+                    foreach ($values as $key) {
+                        if ($key != '') {
                             $jscript .= $module.'_dir_'.$key.',';
                         }
                     }
@@ -711,13 +649,11 @@ class Menu_Admin extends Controller
                 }
             }
 
-            if ( $entry['type'] == 'item')
-            {
+            if ($entry['type'] == 'item') {
                 $result .= "</div>\n";
             }
 
-            if ( $entry['type'] == 'folder')
-            {
+            if ($entry['type'] == 'folder') {
                 $result .= "</div>\n";
             }
             $result .= "</div>\n";
@@ -742,8 +678,7 @@ class Menu_Admin extends Controller
     public function fetch_adminmenu( $perm_check = true, $result = '', $parent = 0, $level = 0 )
     {
         // this is a recursive funtion, if this is the first call to it, fetch the menu
-        if(empty($result))
-        {
+        if (empty($result)) {
             $query = $this->doctrine_em->createQuery('
                 SELECT m
                 FROM \Entities\Adminmenu m
@@ -757,10 +692,8 @@ class Menu_Admin extends Controller
         // count the menurows
         $menuitems = count($result);
 
-        for($i = 0; $i < $menuitems; $i++)
-        {
-            if($result[$i]['parent'] == $parent)
-            {
+        for ($i = 0; $i < $menuitems; $i++) {
+            if ($result[$i]['parent'] == $parent) {
                // @todo - permission check?
                $output[$result[$i]['id']] = array(
                                                     'name'          => $result[$i]['text'],
@@ -778,17 +711,14 @@ class Menu_Admin extends Controller
 
                 $output[$result[$i]['id']]['content'] = $this->fetch_adminmenu($perm_check, $result, $result[$i]['id'], $level + 1);
 
-                if( count($output[$result[$i]['id']]['content']) == 0)
-                {
+                if ( count($output[$result[$i]['id']]['content']) == 0) {
                     unset($output[$result[$i]['id']]['content']);
-                }
-                else
-                {
+                } else {
                     $output[$result[$i]['id']]['expanded'] = true;
                 }
             }
         }
+
         return array_values($output);
     }
 }
-?>

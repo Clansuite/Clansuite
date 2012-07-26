@@ -35,7 +35,7 @@ namespace Koch\Cache;
  * @package     Core
  * @subpackage  Cache
  */
-class Factory
+class factory
 {
     /**
      * Returns the instance of the requested cache_adapter

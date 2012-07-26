@@ -23,8 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-if (empty($_FILES) == false)
-{
+if (empty($_FILES) == false) {
     $tempFile = $_FILES['Filedata']['tmp_name'];
     $targetPath = $_SERVER['DOCUMENT_ROOT'] . $_REQUEST['folder'] . '/';
     $targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
@@ -44,4 +43,3 @@ if (empty($_FILES) == false)
     // 	echo 'Invalid file type.';
     // }
 }
-?>

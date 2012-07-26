@@ -40,7 +40,6 @@ function smarty_function_modulenavigation($params, $smarty)
         $smarty->assign('modulenavigation', $modulenavigation);
 
         // The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
-
         return $smarty->fetch('modulenavigation-generic.tpl');
     } else { // the module menu navigation file is missing
         $smarty->assign('modulename', $module);

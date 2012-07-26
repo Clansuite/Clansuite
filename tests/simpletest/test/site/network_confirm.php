@@ -12,8 +12,8 @@
         $_SERVER = $HTTP_SERVER_VARS;
     }
     global $HTTP_RAW_POST_DATA;
-    
-    require_once('page_request.php');
+
+    require_once 'page_request.php';
 ?><html>
     <head><title>Simple test target file</title></head>
     <body>
@@ -61,7 +61,8 @@
         <pre><?php print_r(PageRequest::post()); ?></pre>
         <h1>POST data</h1>
         <?php
-            function show_array_value($array) {
+            function show_array_value($array)
+            {
                 $html = "";
                 foreach ($array as $key => $value) {
                     $html .= htmlentities($key) . "=[";
@@ -72,7 +73,7 @@
                     }
                     $html .= "]";
                 }
-                
+
                 return $html;
             }
 

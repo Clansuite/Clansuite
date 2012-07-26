@@ -38,7 +38,7 @@ use Koch\MVC\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class Permissions implements FilterInterface
+class permissions implements FilterInterface
 {
     private $user    = null;
     private $rbacl   = null;

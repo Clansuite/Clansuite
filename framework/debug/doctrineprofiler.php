@@ -34,7 +34,7 @@ namespace Koch\Debug;
  * @package     Core
  * @subpackage  Doctrine
  */
-class DoctrineProfiler
+class doctrineprofiler
 {
     /**
      * Returns Doctrine's connection profiler

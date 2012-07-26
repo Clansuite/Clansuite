@@ -1,3 +1,2 @@
 <?php
 // ClassForRequireFile 1
-?>

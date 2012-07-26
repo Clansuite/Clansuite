@@ -557,8 +557,7 @@ class Formelement implements FormelementInterface
             return $this->validators[$class];
         }
         // factory method part
-        elseif(false === class_exists($class, false))
-        {
+        elseif (false === class_exists($class, false)) {
             $file = KOCH . 'form/validators/' . $validator . '.php';
 
             $file = strtolower($file);
@@ -571,8 +570,7 @@ class Formelement implements FormelementInterface
             return new $class();
         }
         // already loaded, reinstantiate
-        elseif(true === class_exists($class, false))
-        {
+        elseif (true === class_exists($class, false)) {
             return new $class();
         }
         // validator not found
@@ -624,7 +622,6 @@ class Formelement implements FormelementInterface
         }
 
         // formelement value is valid
-
         return true;
     }
 
@@ -755,8 +752,7 @@ class Formelement implements FormelementInterface
                     $this->addDecorator($decorator);
                 }
             }
-        } elseif(is_object($decorators) === true) // one element is incomming via recursion
-        {
+        } elseif (is_object($decorators) === true) { // one element is incomming via recursion
             $decorator = $decorators;
             $decoratorname = $decorator->name;
         }
@@ -860,7 +856,6 @@ class Formelement implements FormelementInterface
         }
 
         // instantiate the new $formdecorator
-
         return new $class;
     }
 

@@ -3,7 +3,7 @@
  * Clansuite_Sniffs_Whitespace_ControlStructureBlankLineSniff.
  *
  * This sniff enforces a blank line before control structures and commented control structures.
- 
+
  * @author    Nicolas Connault
  * @copyright 2009 Nicolas Connault
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -43,29 +43,22 @@ class Clansuite_Sniffs_Whitespace_ControlStructureBlankLineSniff implements Php_
         $previoustoken = $stackptr - 1;
 
         // Move back until we find the previous non-whitespace, non-comment token
-        do
-        {
+        do {
             $previoustoken = $phpcsfile->findprevious(array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT),
                                                       ($previoustoken - 1), null, true);
 
-        }
-        while ($tokens[$previoustoken]['line'] == $tokens[$stackptr]['line']);
+        } while ($tokens[$previoustoken]['line'] == $tokens[$stackptr]['line']);
 
         $previous_non_ws_token = $tokens[$previoustoken];
 
         // If this token is immediately on the line before this control structure, print a warning
-        if ($previous_non_ws_token['line'] == ($tokens[$stackptr]['line'] - 1))
-        {
+        if ($previous_non_ws_token['line'] == ($tokens[$stackptr]['line'] - 1)) {
             // Exception: do {EOL...} while (...);
-            if ($tokens[$stackptr]['code'] == T_WHILE && $tokens[($stackptr - 1)]['code'] == T_CLOSE_CURLY_BRACKET)
-            {
+            if ($tokens[$stackptr]['code'] == T_WHILE && $tokens[($stackptr - 1)]['code'] == T_CLOSE_CURLY_BRACKET) {
                 // Ignore do...while (see above)
-            }
-            else
-            {
+            } else {
                 $phpcsfile->addWarning('You should add a blank line before control structures', $stackptr);
             }
         }
     }
 }
-?>

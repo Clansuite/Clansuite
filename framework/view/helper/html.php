@@ -289,8 +289,7 @@ class HTML /* extends DOMDocument */
                 unset($attributes['src']);
 
                 return self::$tagname($link, $text, $attributes);
-            } elseif(isset($attributes['href']))
-            {
+            } elseif (isset($attributes['href'])) {
                 $link = $attributes['href'];
                 unset($attributes['href']);
 

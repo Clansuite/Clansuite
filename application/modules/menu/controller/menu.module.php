@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Menu
  */
-class Menu extends Controller
+class menu.module extends Controller
 {
     /**
      * Module_Menu -> Execute
@@ -57,4 +57,3 @@ class Menu extends Controller
 
     }
 }
-?>

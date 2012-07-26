@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Forum
  */
-class Forum extends Controller
+class forum.module extends Controller
 {
     private static $moduleInfos = array();
 
@@ -46,8 +46,7 @@ class Forum extends Controller
         $modules_info_array = $moduleinfo->getModuleInformations( 'Forum' );
         array_pop($modules_info_array);
 
-        foreach( $modules_info_array as $modules_info )
-        {
+        foreach ($modules_info_array as $modules_info) {
             $infokey = strtolower($modules_info['name'].'_info');
             $packagekey = strtolower($modules_info['name'].'_package');
 
@@ -76,24 +75,20 @@ class Forum extends Controller
         $resultCategory = $this->getModel( 'Entities\ForumCategory' )->findAllCategories();
         #Clansuite_Debug::printR( $resultCategory );
 
-        if( count($resultCategory) >1 )
-        {
+        if ( count($resultCategory) >1 ) {
             $view->assign('withcat', true);
             $view->assign('categories', $resultCategory);
-        }
-        else {
+        } else {
             $view->assign('withcat', false);
             $resultBoards = $this->getModel( 'Entities\ForumBoards' )->findBoards();
             #Clansuite_Debug::printR( $resultBoards );
 
-            foreach( $resultBoards as $board )
-            {
+            foreach ($resultBoards as $board) {
                 $aBoards = $board;
                 $resultSubBoards = $this->getModel( 'Entities\ForumBoards' )->findSubBoards( $board['board_id'] );
-                if( count($resultSubBoards) >0 )
-                {
+                if ( count($resultSubBoards) >0 ) {
                     $aBoards['subb'] = 1;
-                    foreach( $resultSubBoards as $sboard ) {
+                    foreach ($resultSubBoards as $sboard) {
                         $subboards[] = $sboard;
                     }
                     $aBoards['subboards'] = $subboards;
@@ -115,4 +110,3 @@ class Forum extends Controller
     }
 
 }
-?>

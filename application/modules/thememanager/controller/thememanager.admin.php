@@ -60,22 +60,17 @@ class Thememanager_Admin extends Controller
     {
         $theme_to_delete  = (string) $this->request->getParameterFromGet('theme');
 
-        if(isset($theme_to_delete))
-        {
+        if (isset($theme_to_delete)) {
             $themes = $this->getThemesList();
 
-            foreach ($themes as $theme)
-            {
-                if($theme['dirname'] == $theme_to_delete)
-                {
+            foreach ($themes as $theme) {
+                if ($theme['dirname'] == $theme_to_delete) {
                     Clansuite_Functions::delete_dir_content($theme['fullpath']);
                 }
             }
 
             $this->response->redirectNoCache('/thememanager/admin', 2, 302, _('success#Theme deleted: ') . $theme_to_delete);
-        }
-        else
-        {
+        } else {
            $this->redirect('/thememanager/admin');
         }
     }
@@ -89,12 +84,10 @@ class Thememanager_Admin extends Controller
 
         // loop through ROOT_THEMES dir
         $dirs = new DirectoryIterator($themes_directory);
-        foreach($dirs as $dir)
-        {
+        foreach ($dirs as $dir) {
             $i++;
             // exclude  core dir, take only dirs with theme_info.xml in it
-            if((!$dir->isDot()) and ($dir != 'framework') and (is_file($dir->getPathName() . DIRECTORY_SEPARATOR . 'theme_info.xml')))
-            {
+            if ((!$dir->isDot()) and ($dir != 'framework') and (is_file($dir->getPathName() . DIRECTORY_SEPARATOR . 'theme_info.xml'))) {
                 // add xml infos from file
                 $theme_info[$i] = self::parseThemeInformations($themes_directory . $dir);
 
@@ -102,8 +95,7 @@ class Thememanager_Admin extends Controller
                 $theme_info[$i]['fullpath'] = $dir->getPathName();
 
                 // add templatefilename
-                if(isset($theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl']))
-                {
+                if (isset($theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl'])) {
                     $theme_info[$i]['layouttpl'] = $theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl'];
                     $theme_info[$i]['layoutpath'] = $theme_info[$i]['fullpath'] . DIRECTORY_SEPARATOR . $theme_info[$i]['layouttpl'];
                 }
@@ -116,22 +108,16 @@ class Thememanager_Admin extends Controller
                  * @see clansuite main config
                  */
                 $this->getClansuiteConfig();
-                if($this->config['template']['frontend_theme'] == $dir or $this->config['template']['backend_theme']  == $dir)
-                {
+                if ($this->config['template']['frontend_theme'] == $dir or $this->config['template']['backend_theme']  == $dir) {
                     $theme_info[$i]['globally_active'] = true;
-                }
-                else
-                {
+                } else {
                     $theme_info[$i]['globally_active'] = false;
                 }
 
                 // is this theme active for the individual user?
-                if($_SESSION['user']['frontend_theme'] == $dir) // or $_SESSION['user']['backend_theme']  == $dir)
-                {
+                if ($_SESSION['user']['frontend_theme'] == $dir) // or $_SESSION['user']['backend_theme']  == $dir) {
                     $theme_info[$i]['user_active'] = true;
-                }
-                else
-                {
+                } else {
                     $theme_info[$i]['user_active'] = false;
                 }
 
@@ -139,25 +125,19 @@ class Thememanager_Admin extends Controller
                 $preview_image = glob($themes_directory . $dir . DIRECTORY_SEPARATOR . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
 
                 // turn ROOT_THEMES path into a WWW_ROOT path
-                if(true === (bool) $theme_info[$i]['backendtheme'])
-                {
+                if (true === (bool) $theme_info[$i]['backendtheme']) {
                     $preview_image = str_replace(ROOT_THEMES_BACKEND, WWW_ROOT_THEMES_BACKEND . '', $preview_image);
-                }
-                else
-                {
+                } else {
                     $preview_image = str_replace(ROOT_THEMES_FRONTEND, WWW_ROOT_THEMES_FRONTEND . '', $preview_image);
                 }
 
                 // fix slashes
                 $preview_image = str_replace('\\', '/', $preview_image);
 
-                if(is_array($preview_image) and (empty($preview_image) == false))
-                {
+                if (is_array($preview_image) and (empty($preview_image) == false)) {
                     $theme_info[$i]['preview_image'] = $preview_image[0];  // path to [0]preview
                     $theme_info[$i]['preview_thumbnail'] = $preview_image[1];  // path to [1]preview_thumb
-                }
-                else // show only nopreview.gif as thumbnail
-                {
+                } else { // show only nopreview.gif as thumbnail
                     $theme_info[$i]['preview_thumbnail'] = WWW_ROOT_THEMES . 'core/images/nopreview.jpg';
                 }
             }
@@ -165,6 +145,7 @@ class Thememanager_Admin extends Controller
 
         // sort and return
         asort($theme_info);
+
         return $theme_info;
     }
 
@@ -178,6 +159,7 @@ class Thememanager_Admin extends Controller
         $frontend_theme_infos = $this->getThemes(ROOT_THEMES_FRONTEND);
         $backend_theme_infos  = $this->getThemes(ROOT_THEMES_BACKEND);
         $theme_infos = array_merge($frontend_theme_infos, $backend_theme_infos);
+
         return $theme_infos;
     }
 
@@ -192,25 +174,20 @@ class Thememanager_Admin extends Controller
         $theme_info_file = $themedir . DIRECTORY_SEPARATOR . 'theme_info.xml';
 
         // ensure we have simplexml available
-        if(false == function_exists('simplexml_load_file'))
-        {
+        if (false == function_exists('simplexml_load_file')) {
             throw new Clansuite_Exception('Missing simplexml_load_file() function');
         }
 
-        if(is_file($theme_info_file) and is_readable($theme_info_file))
-        {
+        if (is_file($theme_info_file) and is_readable($theme_info_file)) {
             // get simple xml dataobject by loading theme.xml file
             // @todo i wonder if there is a way to get rid of the error-supression, without adding to much overhead
             $themeinfos_XML_obj = @simplexml_load_file($theme_info_file);
-        }
-        else
-        {
+        } else {
             throw new Clansuite_Exception('The Theme Description File (' . $theme_info_file . ') is missing or not readable.');
         }
 
         // die in case we fetched no object
-        if(false === $themeinfos_XML_obj)
-        {
+        if (false === $themeinfos_XML_obj) {
             throw new Clansuite_Exception('The Description File (' . $theme_info_file . ') of the "' . $themedir . '" Theme is corrupted! Check it\'s XML Syntax and Structure.');
         }
 
@@ -256,8 +233,7 @@ class Thememanager_Admin extends Controller
         #$this->cssbuilder->addBrowser( 'camino', 'Camino', true, 'cam' );
         #$this->cssbuilder->addBrowser( 'konqueror', 'Konqueror', true, 'cam' );
 
-        if($this->request->getRequestMethod() == 'POST')
-        {
+        if ($this->request->getRequestMethod() == 'POST') {
             // @todo remove $_POST
             $config['compileCore'] = isset($_POST['compileCore']) ? true : false;
             $config['coreImport'] = isset($_POST['coreImport']) ? true : false;
@@ -274,10 +250,8 @@ class Thememanager_Admin extends Controller
             $browsers = array();
             $i = 0;
 
-            foreach( $formBrowsers as $key => $val)
-            {
-                if(isset($val['active']) and $val['active'] == 1)
-                {
+            foreach ($formBrowsers as $key => $val) {
+                if (isset($val['active']) and $val['active'] == 1) {
                     $browsers[$i]['description'] = $val['description'];
                     $browsers[$i]['postfix'] = $val['postfix'];
                     $i++;
@@ -301,8 +275,7 @@ class Thememanager_Admin extends Controller
                 $htmlout .= '<div class="cmSuccess">';
 
                 $nr_browsers = count($browsers);
-                for($i=0; $i < $nr_browsers; $i++)
-                {
+                for ($i=0; $i < $nr_browsers; $i++) {
                     $htmlout .= '<p class="cmBoxTitle" style="padding-left:50px;">';
                     $htmlout .= 'CSS-Builder Information <u>'.$browsers[$i]['description'].'</u></p>';
                     $htmlout .= $this->cssbuilder->build($i);
@@ -340,4 +313,3 @@ class Thememanager_Admin extends Controller
         return $cssbuilder;
     }
 }
-?>

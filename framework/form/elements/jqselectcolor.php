@@ -46,7 +46,6 @@ class JQSelectColor extends Formelement implements FormelementInterface
     {
         if (empty($this->value)) {
             // set a default color as return value
-
             return '#123456';
         }
 

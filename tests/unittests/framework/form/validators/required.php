@@ -42,4 +42,3 @@ class Koch_Form_Validator_Required_Test extends Clansuite_UnitTestCase
         $this->assertTrue(is_string($this->validator->getValidationHint()));
     }
 }
-?>

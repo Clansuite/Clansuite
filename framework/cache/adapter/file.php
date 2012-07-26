@@ -38,7 +38,7 @@ use Koch\Cache\CacheInterface;
  * @package     Core
  * @subpackage  Cache
  */
-class File extends AbstractCache implements CacheInterface
+class file extends AbstractCache implements CacheInterface
 {
     /**
      * Contains checks if a key exists in the cache
@@ -140,7 +140,6 @@ class File extends AbstractCache implements CacheInterface
     public function stats()
     {
         // @todo implement statistics for file cache usage
-
         return;
     }
 

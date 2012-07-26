@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Users
 */
-class Users_Admin extends Controller
+class users.admin extends Controller
 {
     public function _initializeModule()
     {
@@ -105,16 +105,13 @@ class Users_Admin extends Controller
         // Get Number of Rows
         #$count = count($users);
 
-        if ( is_array( $users ) )
-        {
+        if ( is_array( $users ) ) {
             $view->assign('users', $users);
 
             // @todo smarty3 bug ? assign/assign global
             $view->assignGlobal('pager', $pager);
             $view->assignGlobal('pager_layout', $pager_layout);
-        }
-        else
-        {
+        } else {
             $error['no_users'] = 1;
             $view->assign( 'error', $error );
         }
@@ -157,20 +154,16 @@ class Users_Admin extends Controller
     {
         $aDelete = (array) $this->request->getParameterFromPost('delete');
 
-        if(isset($aDelete) and is_array($aDelete))
-        {
+        if (isset($aDelete) and is_array($aDelete)) {
             $numDeleted = 0;
 
-            foreach( $aDelete as $id )
-            {
+            foreach ($aDelete as $id) {
                 // Delete User Query
                 $numDeleted += Doctrine_Query::create()->delete('CsUsers')->whereIn('user_id', $id)->execute();
             }
 
             $this->redirect('/users/admin', 3, 302, $numDeleted . _( 'success#The selected user(s) were deleted.'));
-        }
-        else
-        {
+        } else {
            $this->redirect('/users/admin', 3, 302, _('error#No users selected to delete!'));
         }
     }
@@ -222,4 +215,3 @@ class Users_Admin extends Controller
         $this->response->redirectNoCache('/users/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
-?>

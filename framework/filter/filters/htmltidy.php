@@ -41,7 +41,7 @@ use Koch\MVC\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class HtmlTidy implements FilterInterface
+class htmltidy implements FilterInterface
 {
     private $config     = null;
 
@@ -55,7 +55,6 @@ class HtmlTidy implements FilterInterface
         // htmltidy must be enabled in configuration
         if ( $this->config['htmltidy']['enabled'] == 1 and extension_loaded('tidy')) {
             // bypass
-
             return;
         }
 

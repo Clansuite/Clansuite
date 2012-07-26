@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File for Module Guestbook
-; \trunk\modules\guestbook\guestbook.config.php 
+; \trunk\modules\guestbook\guestbook.config.php
 ;
 
 ;----------------------------------------
@@ -10,7 +10,6 @@
 [guestbook]
 resultsPerPage = 10
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -18,7 +17,6 @@ resultsPerPage = 10
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -44,7 +42,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

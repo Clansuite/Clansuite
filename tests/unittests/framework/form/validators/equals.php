@@ -29,7 +29,7 @@ class Koch_Form_Validators_Equals_Test extends Clansuite_UnitTestCase
     {
         $this->validator->equalsTo = 1980;
 
-		// getter returns integer
+        // getter returns integer
         $this->assertEqual(1980, $this->validator->getEqualsTo());
 
         // getter returns integer not string
@@ -68,4 +68,3 @@ class Koch_Form_Validators_Equals_Test extends Clansuite_UnitTestCase
         $this->assertTrue(is_string($this->validator->getValidationHint()));
     }
 }
-?>

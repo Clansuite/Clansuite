@@ -88,8 +88,7 @@ class Php extends Renderer_Base
         if (is_object($key)) {
             // @todo pull object props to array
             $this->data[$key] = $value->fetch();
-        } elseif(is_array($key))
-        {
+        } elseif (is_array($key)) {
             array_merge($this->data, $key);
         } else {
             $this->data[$key] = $value;

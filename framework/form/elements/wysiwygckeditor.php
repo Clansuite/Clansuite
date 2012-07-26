@@ -65,7 +65,6 @@ class Wysiwygckeditor extends Textarea implements FormelementInterface
                         </script>';
 
         // Watch out! Serve html elements first, before javascript dom selections are applied on them!
-
         return $javascript;
     }
 }

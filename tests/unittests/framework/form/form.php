@@ -69,12 +69,9 @@ class FormTest extends Clansuite_UnitTestCase
     {
         // set internal url - rebuilds the external url via router
         $this->form->setAction('/news/show');
-        if(defined('REWRITE_ENGINE_ON') and REWRITE_ENGINE_ON == false)
-        {
+        if (defined('REWRITE_ENGINE_ON') and REWRITE_ENGINE_ON == false) {
             $this->assertEqual( WWW_ROOT . 'index.php?mod=news&amp;action=show', $this->form->getAction());
-        }
-        else
-        {
+        } else {
             $this->assertEqual( WWW_ROOT . 'news/show', $this->form->getAction());
         }
 
@@ -878,4 +875,3 @@ class FormTest extends Clansuite_UnitTestCase
         $this->assertEqual('methodname', $this->form->method);
     }
 }
-?>

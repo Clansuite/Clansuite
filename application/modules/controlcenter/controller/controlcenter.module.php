@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  ControlCenter
  */
-class ControlCenter extends Controller
+class controlcenter.module extends Controller
 {
     public function _initializeModule()
     {
@@ -87,12 +87,9 @@ class ControlCenter extends Controller
         $securityinfos = null;
         $securityinfos = '<b>'._('Errorlog').'</b><br />';
 
-        if(strlen($errorlog_entries) > 0)
-        {
+        if (strlen($errorlog_entries) > 0) {
             $securityinfos .= $errorlog_entries;
-        }
-        else
-        {
+        } else {
             $securityinfos .= _('No Errorlog entries.');
         }
 
@@ -107,19 +104,13 @@ class ControlCenter extends Controller
         $feedcontent = Clansuite_Feed::fetchRawRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
         // try to read as xml
-        if(is_null($feedcontent) == false)
-        {
-            if(class_exists('SimpleXMLElement'))
-            {
+        if (is_null($feedcontent) == false) {
+            if (class_exists('SimpleXMLElement')) {
                 $xml = new SimpleXMLElement($feedcontent);
-            }
-            else
-            {
+            } else {
                 throw new Clansuite_Exception('SimpleXMLElement class does not exist!', 100);
             }
-        }
-        else
-        {
+        } else {
             throw new Clansuite_Exception('Feed could not be read.', 100);
             #Clansuite_Logger::log('', $e);
             $xml = '';
@@ -132,15 +123,13 @@ class ControlCenter extends Controller
         $i = 0;
         $max_rss_items = self::getConfigValue('news_rss_items', '5');
 
-        foreach( $xml->channel->item as $items )
-        {
+        foreach ($xml->channel->item as $items) {
             $i++;
             $output .= '<p><strong>#'.$i.' - <a href="' . $items->link . '">' . htmlspecialchars($items->title) . '</a></strong><br />';
             $output .= '<span style="font-size: 11px;">' . htmlspecialchars($items->pubDate) . '</span><br /></p>';
 
             // show 10 items @todo configvalue for itemnumber
-            if ( $i == $max_rss_items )
-            {
+            if ($i == $max_rss_items) {
                 break(0);
             }
         }
@@ -224,4 +213,3 @@ class ControlCenter extends Controller
         $this->response->redirectNoCache('/controlcenter', 2, 302, 'The config file has been successfully updated.');
     }
 }
-?>

@@ -47,4 +47,3 @@ return array
 );
 
 // $eventhandler->addEventHandler('onEventname', $event);
-?>

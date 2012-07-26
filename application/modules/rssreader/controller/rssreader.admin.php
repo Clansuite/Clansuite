@@ -41,4 +41,3 @@ class Rssreader_Admin extends Controller
     {
     }
 }
-?>

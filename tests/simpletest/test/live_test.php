@@ -9,9 +9,10 @@ if (SimpleTest::getDefaultProxy()) {
     SimpleTest::ignore('LiveHttpTestCase');
 }
 
-class LiveHttpTestCase extends UnitTestCase {
-
-    function testBadSocket() {
+class LiveHttpTestCase extends UnitTestCase
+{
+    public function testBadSocket()
+    {
         $socket = new SimpleSocket('bad_url', 111, 5);
         $this->assertTrue($socket->isError());
         $this->assertPattern(
@@ -20,8 +21,9 @@ class LiveHttpTestCase extends UnitTestCase {
         $this->assertFalse($socket->isOpen());
         $this->assertFalse($socket->write('A message'));
     }
-    
-    function testSocketClosure() {
+
+    public function testSocketClosure()
+    {
         $socket = new SimpleSocket('www.lastcraft.com', 80, 15, 8);
         $this->assertTrue($socket->isOpen());
         $this->assertTrue($socket->write("GET /test/network_confirm.php HTTP/1.0\r\n"));
@@ -31,8 +33,9 @@ class LiveHttpTestCase extends UnitTestCase {
         $socket->close();
         $this->assertIdentical($socket->read(), false);
     }
-    
-    function testRecordOfSentCharacters() {
+
+    public function testRecordOfSentCharacters()
+    {
         $socket = new SimpleSocket('www.lastcraft.com', 80, 15);
         $this->assertTrue($socket->write("GET /test/network_confirm.php HTTP/1.0\r\n"));
         $socket->write("Host: www.lastcraft.com\r\n");
@@ -44,4 +47,3 @@ class LiveHttpTestCase extends UnitTestCase {
                 "Connection: close\r\n\r\n");
     }
 }
-?>

@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Sysinfo Configuration File for Module mibbitirc
-; \trunk\modules\mibbitirc\mibbitirc.config.php 
+; \trunk\modules\mibbitirc\mibbitirc.config.php
 ;
 
 ;----------------------------------------
@@ -15,7 +15,6 @@ mibbit_irc_channel = "clansuite"
 mibbit_irc_width = "500"
 mibbit_irc_height = "300"
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -23,7 +22,6 @@ mibbit_irc_height = "300"
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -49,7 +47,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

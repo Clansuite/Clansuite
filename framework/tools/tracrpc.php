@@ -98,8 +98,7 @@ class Trac_RPC
     {
         if ($date == false) {
             $date = array('datetime', date("o-m-d\T00:00:00"));
-        } elseif(is_numeric($date) === true)
-        {
+        } elseif (is_numeric($date) === true) {
             $date = array('datetime', date("o-m-d\TH:i:s+00:00", $date));
         }
 
@@ -212,8 +211,7 @@ class Trac_RPC
     {
         if ($date == false) {
             $date = array('datetime', date("o-m-d\T00:00:00"));
-        } elseif(is_numeric($date) === true)
-        {
+        } elseif (is_numeric($date) === true) {
             $date = array('datetime', date("o-m-d\TH:i:s+00:00", $date));
         }
 
@@ -401,7 +399,6 @@ class Trac_RPC
         if ($this->_doRequest() === true) {
             return $this->getResponse();
         }
-
 
         return false;
     }
@@ -633,8 +630,7 @@ class Trac_RPC
 
             $query = substr($query_str, 0, -1);
             unset($query_str);
-        } elseif(empty($query))
-        {
+        } elseif (empty($query)) {
             return false;
         }
 
@@ -1088,8 +1084,7 @@ class Trac_RPC
 
         if ($this->_doRequest() === true) {
             return $this->getResponse();
-        } elseif($this->multiCall === true)
-        {
+        } elseif ($this->multiCall === true) {
             return $this->_request_id;
         }
 
@@ -1249,8 +1244,7 @@ class Trac_RPC
 
         if (false === is_array($args) and false === empty($args)) {
             $args = array($args);
-        } elseif(false === is_array($args))
-        {
+        } elseif (false === is_array($args)) {
             $args = array();
         }
 
@@ -1525,8 +1519,7 @@ class Trac_RPC
     {
         if (is_object($this->_response) === true) {
             return $this->_response;
-        } elseif(is_array($this->_response) === true)
-        {
+        } elseif (is_array($this->_response) === true) {
             if ($id === true) {
                 if (false === is_array($id)) {
                     return $this->_response[$id];

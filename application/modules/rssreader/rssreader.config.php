@@ -10,7 +10,6 @@
 [rssreader]
 items_newswidget = 5
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -18,7 +17,6 @@ items_newswidget = 5
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -44,7 +42,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

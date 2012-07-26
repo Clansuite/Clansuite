@@ -8,7 +8,7 @@ author="Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = users
-description = 
+description =
 dependencies =
 package = Development
 
@@ -19,7 +19,5 @@ datestamp =
 uniqueid =
 
 [users_widgets]
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

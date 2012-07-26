@@ -101,8 +101,7 @@ class CMS
          * Check if install.php is still available..
          * This means Clansuite is installed, but without any security steps performed.
          */
-        if(defined('CS_LIVE') and CS_LIVE == true and is_file('installation/install.php') === true)
-        {
+        if (defined('CS_LIVE') and CS_LIVE == true and is_file('installation/install.php') === true) {
             header('Location: installation/check_security.php');
         }
 
@@ -110,8 +109,7 @@ class CMS
          * PHP Version Check
          */
         $REQUIRED_PHP_VERSION = '5.3.2';
-        if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true)
-        {
+        if (version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true) {
             $msg =  _('Your PHP Version is <b><font color="#FF0000">$s</font></b>');
             $msg .= _('Clansuite requires PHP Version <b><font color="#4CC417">%s</font></b> or newer.');
             throw new \RuntimeException(sprintf($msg, PHP_VERSION, $REQUIRED_PHP_VERSION));
@@ -122,8 +120,7 @@ class CMS
          * Check if clansuite config file is found, else we are
          * not installed at all and redirect to installation page.
          */
-        if(is_file('application/configuration/clansuite.php') === false)
-        {
+        if (is_file('application/configuration/clansuite.php') === false) {
             header('Location: installation/index.php');
         }
     }
@@ -137,8 +134,7 @@ class CMS
     {
         // in general the memory limit is determined by php.ini, it's only raised if lower 32MB and not -1
         $memory_limit = intval(ini_get('memory_limit'));
-        if($memory_limit != -1 and $memory_limit < (int) $limit )
-        {
+        if ($memory_limit != -1 and $memory_limit < (int) $limit ) {
             ini_set('memory_limit', $limit + 'M');
         }
         unset($memory_limit);
@@ -242,12 +238,9 @@ class CMS
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
          */
-        if (isset($_SERVER['HTTPS']) === true and strtolower($_SERVER['HTTPS']) == 'on')
-        {
+        if (isset($_SERVER['HTTPS']) === true and strtolower($_SERVER['HTTPS']) == 'on') {
             define('PROTOCOL', 'https://');
-        }
-        else
-        {
+        } else {
             define('PROTOCOL', 'http://');
         }
 
@@ -259,12 +252,9 @@ class CMS
         /**
          * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
-        if (dirname($_SERVER['PHP_SELF']) === '\\')
-        {
+        if (dirname($_SERVER['PHP_SELF']) === '\\') {
             define('WWW_ROOT', SERVER_URL . '/application/');
-        }
-        else
-        {
+        } else {
             define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/application/');
         }
 
@@ -286,25 +276,23 @@ class CMS
         define('APC', (bool) extension_loaded('apc'));
 
         // try to load constants from APC
-        if(APC === true)
-        {
+        if (APC === true) {
             // constants retrieved from APC
             apc_load_constants('CLANSUITE_CONSTANTS', true);
+
             return;
         }
 
         // if apc is off or
         // if apc is on, but apc_load_constants did not retrieve any constants yet (first run)
         // then define constants
-        if(APC === false or defined('NL') == false)
-        {
+        if (APC === false or defined('NL') == false) {
             self::define_ConstantsAndPaths();
 
             /**
              * Store Constants to APC
              */
-            if(APC === true)
-            {
+            if (APC === true) {
                 // catch user-defined constants as array
                 $constantsarray = get_defined_constants(true);
 
@@ -388,8 +376,7 @@ class CMS
         define('DEBUG', (bool) self::$config['error']['debug']);
 
         // If Debug is enabled, set FULL error_reporting, else DISABLE it completely
-        if(DEBUG == true)
-        {
+        if (DEBUG == true) {
             ini_set('max_execution_time', '300');
             ini_set('display_startup_errors', true);
             ini_set('display_errors', true);    // display errors in the browser
@@ -417,14 +404,11 @@ class CMS
             define('XDEBUG', (bool) self::$config['error']['xdebug']);
 
             // If XDebug is enabled, load xdebug helpers and start the debug/tracing
-            if(XDEBUG == true)
-            {
+            if (XDEBUG == true) {
                 include KOCH . 'debug/xdebug.php';
                 Clansuite_XDebug::start_xdebug();
             }
-        }
-        else // application is in live/production mode. errors are not shown, but logged to file!
-        {
+        } else { // application is in live/production mode. errors are not shown, but logged to file!
             // enable error_logging
             ini_set('log_errors', true);
             // do not display errors in the browser
@@ -504,17 +488,14 @@ class CMS
         // 1. load the main clansuite configuration file
         $clansuite_cfg_cached = false;
 
-        if(APC === true and apc_exists('clansuite.config'))
-        {
+        if (APC === true and apc_exists('clansuite.config')) {
             self::$config = apc_fetch('clansuite.config');
             $clansuite_cfg_cached = true;
         }
 
-        if($clansuite_cfg_cached === false)
-        {
+        if ($clansuite_cfg_cached === false) {
             self::$config = \Koch\Config\Adapter\Ini::readConfig(ROOT . 'configuration/clansuite.php');
-            if (APC === true)
-            {
+            if (APC === true) {
                 apc_add('application.ini', self::$config);
             }
         }
@@ -527,19 +508,15 @@ class CMS
             $token = false;
 
             // incoming maintenance token via GET
-            if(isset($_GET['mnt']) === true)
-            {
+            if (isset($_GET['mnt']) === true) {
                 $tokenstring = $_GET['mnt'];
                 $token = Clansuite_Securitytoken::ckeckToken($tokenstring);
             }
 
             // if token is false (or not valid) show maintenance
-            if( false === $token )
-            {
+            if (false === $token) {
                 Clansuite_Maintenance::show(self::$config);
-            }
-            else
-            {
+            } else {
                 self::$config['maintenance']['maintenance'] = 0;
                 \Koch\Config\INI::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
                 // redirect to remove the token from url
@@ -548,20 +525,17 @@ class CMS
         }
 
         // 3. load staging configuration (overloading clansuite.config.php)
-        if( true === (bool) self::$config['config']['staging'] )
-        {
+        if ( true === (bool) self::$config['config']['staging'] ) {
             self::$config = \Koch\Config\Staging::overloadWithStagingConfig(self::$config);
         }
 
         /**
          * Deny service, if the system load is too high.
          */
-        if(defined('DEBUG') and DEBUG == false)
-        {
+        if (defined('DEBUG') and DEBUG == false) {
             $max_load = isset(self::$config['load']['max']) ? (float) self::$config['load']['max'] : 80;
 
-            if (\Koch\Functions::get_server_load() > $max_load)
-            {
+            if (\Koch\Functions::get_server_load() > $max_load) {
                 $retry = (int) mt_rand(45, 90);
                 header ('Retry-After: '.$retry);
                 header('HTTP/1.1 503 Too busy, try again later');
@@ -579,8 +553,7 @@ class CMS
         ini_set('arg_separator.output', '&amp;');
         ini_set('default_charset', 'utf-8');
         self::setMemoryLimit('32');
-        if(false === gc_enabled())
-        {
+        if (false === gc_enabled()) {
             gc_enable();
         }
     }
@@ -605,8 +578,7 @@ class CMS
         );
 
         // register them to the DI as singletons
-        foreach($core_classes as $class)
-        {
+        foreach ($core_classes as $class) {
             self::$injector->register($class);
         }
     }
@@ -634,16 +606,14 @@ class CMS
         );
 
         // register the debug console only in DEBUG mode and before all other filters
-        if(DEBUG == true)
-        {
+        if (DEBUG == true) {
             self::$injector->register('Koch\Filter\Filters\PhpDebugConsole');
         }
 
         // combine pre- and postfilters and register at DI
         $filter_classes = self::$prefilter_classes + self::$postfilter_classes;
 
-        foreach($filter_classes as $class)
-        {
+        foreach ($filter_classes as $class) {
             self::$injector->register($class);
         }
     }
@@ -670,8 +640,7 @@ class CMS
          * Prefilters are executed before the requested Module Action is executed.
          * Examples: caching checks, theme selection.
          */
-        foreach(self::$prefilter_classes as $class)
-        {
+        foreach (self::$prefilter_classes as $class) {
             $clansuite->addPrefilter(self::$injector->instantiate($class));
         }
 
@@ -681,8 +650,7 @@ class CMS
          * Postfilters are executed after the action, but before view rendering.
          * Examples: output compression, character set modifications, html tidy, breadcrumbs.
          */
-        foreach(self::$postfilter_classes as $class)
-        {
+        foreach (self::$postfilter_classes as $class) {
             $clansuite->addPostfilter(self::$injector->instantiate($class));
         }
 
@@ -728,25 +696,20 @@ class CMS
     private static function initialize_Timezone()
     {
         // apply timezone defensivly
-        if(isset(self::$config['language']['timezone']) === true)
-        {
+        if (isset(self::$config['language']['timezone']) === true) {
             // set always if incomming via config
             date_default_timezone_set(self::$config['language']['timezone']);
         }
         // the timezone should already be set in php.ini
         // this is just an fallback, if the system is not configured
-        elseif(ini_get('date.timezone') === '')
-        {
+        elseif (ini_get('date.timezone') === '') {
             date_default_timezone_set('Europe/Berlin');
         }
 
         // set date formating via config
-        if(isset(self::$config['locale']['dateformat']) === true)
-        {
+        if (isset(self::$config['locale']['dateformat']) === true) {
             define('DATE_FORMAT', self::$config['locale']['dateformat']);
-        }
-        else // set default value
-        {
+        } else { // set default value
             define('DATE_FORMAT', 'd.m.Y H:i');
         }
     }
@@ -787,8 +750,7 @@ class CMS
      */
     public static function triggerEvent($event, $context = null, $info = null)
     {
-        if(class_exists('Koch\Event\Dispatcher', false) === true)
-        {
+        if (class_exists('Koch\Event\Dispatcher', false) === true) {
             \Koch\Event\Dispatcher::instantiate()->triggerEvent($event, $context, $info);
         }
     }
@@ -802,8 +764,7 @@ class CMS
     {
         self::triggerEvent('onApplicationShutdown');
 
-        if(DEBUG == true)
-        {
+        if (DEBUG == true) {
             echo \Koch\Doctrine\Doctrine::getStats();
 
             // Display the General Application Runtime
@@ -811,4 +772,3 @@ class CMS
         }
     }
 }
-?>

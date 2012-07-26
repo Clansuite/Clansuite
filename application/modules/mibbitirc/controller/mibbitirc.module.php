@@ -63,4 +63,3 @@ class Mibbitirc extends Controller
         $this->display();
     }
 }
-?>

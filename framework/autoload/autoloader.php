@@ -50,7 +50,7 @@ namespace Koch\Autoload;
  * @package     Core
  * @subpackage  Loader
  */
-class Loader
+class autoloader
 {
     /**
      * @var boolean APC on/off.
@@ -308,8 +308,7 @@ class Loader
             if (null === $classname) { // just a file include, classname unimportant
 
                 return true;
-            } elseif(class_exists($classname, false) === true)
-            {
+            } elseif (class_exists($classname, false) === true) {
                 return true;
             } else {
                 return false;
@@ -363,7 +362,6 @@ class Loader
             return array();
         } else { // load map from file
             // Note: delete the autoloader.config.php file, if you get an unserialization error like "error at offset xy"
-
             return unserialize(file_get_contents($mapfile));
         }
     }

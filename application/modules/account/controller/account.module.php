@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Account
  */
-class Account extends Controller
+class account.module extends Controller
 {
     /**
      * Module_Admin -> Execute
@@ -106,13 +106,10 @@ class Account extends Controller
         /**
          * Determine the default login method by config value
          */
-        if( self::$moduleconfig['login']['login_method'] == 'nick' )
-        {
+        if (self::$moduleconfig['login']['login_method'] == 'nick') {
             $value = $nick;
             unset($nick);
-        }
-        elseif( self::$moduleconfig['login']['login_method'] == 'email' )
-        {
+        } elseif (self::$moduleconfig['login']['login_method'] == 'email') {
             $value = $email;
             unset($email);
         }
@@ -122,16 +119,14 @@ class Account extends Controller
          *
          * Perform checks on Inputvariables & Form filled?
          */
-        if ( isset($value) and empty($value) === false and empty($password) === false )
-        {
+        if ( isset($value) and empty($value) === false and empty($password) === false ) {
             self::checkLoginAttemps();
 
             // check whether user_id + password match
             $user_id = $user->checkUser( self::$moduleconfig['login']['login_method'], $value, $password );
 
             // proceed if true
-            if ($user_id != false)
-            {
+            if ($user_id != false) {
                 // perform login for user_id
                 $user->loginUser( $user_id, $remember_me, $password );
 
@@ -141,19 +136,14 @@ class Account extends Controller
                 $this->setFlashmessage('success', _('You logged in successfully.'));
 
                 $this->redirectToReferer();
-            }
-            else
-            {
+            } else {
                 $this->triggerEvent('onInvalidLogin');
 
                 // @todo this is a plugin 'login_attempts' -> move it
                 // log the login attempts to ban the ip at a specific number
-                if (false === isset($_SESSION['login_attempts']))
-                {
+                if (false === isset($_SESSION['login_attempts'])) {
                     $_SESSION['login_attempts'] = 1;
-                }
-                else
-                {
+                } else {
                     $_SESSION['login_attempts']++;
                 }
 
@@ -161,24 +151,19 @@ class Account extends Controller
                 $error['mismatch'] = 1;
                 $error['login_attempts'] = $_SESSION['login_attempts'];
             }
-        }
-        elseif(isset($submit))
-        {
+        } elseif (isset($submit)) {
             $error['not_filled'] = 1;
         }
 
         // Login Form / User Center
-        if( $_SESSION['user']['user_id'] == 0 )
-        {
+        if ($_SESSION['user']['user_id'] == 0) {
             $view = $this->getView();
             $view->assign('config', $config);
             $view->assign('error', $error);
             // $view->assign('referer', $referer);
 
             $this->display(array('content_template' => 'action_login.tpl'));
-        }
-        else
-        {
+        } else {
             $view->setTemplate('usercenter.tpl');
         }
     }
@@ -195,16 +180,13 @@ class Account extends Controller
 
         $confirm = (bool) $this->request->getParameterFromPost('confirm');
 
-        if( $confirm == true )
-        {
+        if ($confirm == true) {
             // log the user OUT
             $this->getInjector()->instantiate('Clansuite_User')->logoutUser();
             $this->setFlashmessage('success', _('Logout successfull. Have a nice day. Goodbye.'));
             $this->redirect(WWW_ROOT, 3, 200);
             exit();
-        }
-        else
-        {
+        } else {
             $this->display();
         }
     }
@@ -235,52 +217,42 @@ class Account extends Controller
         $error = array();
 
         // Perform checks on Inputvariables & Form filled?
-        if ( empty($email) or empty($email2) or empty($nick) or empty($pass) or empty($pass2) )
-        {
-            if( isset($submit) )
-            {
+        if ( empty($email) or empty($email2) or empty($nick) or empty($pass) or empty($pass2) ) {
+            if ( isset($submit) ) {
                 // Not all necessary fields are filled
                 $error['not_filled'] = 1;
             }
-        }
-        else
-        {   // Form is filled
+        } else {   // Form is filled
 
             // Check both emails match
-            if ($email != $email2 )
-            {
+            if ($email != $email2) {
                 $error['emails_mismatching'] = 1;
             }
 
             // Check email
-            if ($input->check($email, 'is_email' ) == false )
-            {
+            if ($input->check($email, 'is_email' ) == false ) {
                 $error['email_wrong'] = 1;
             }
 
             // Check nick
-            if ($input->check($nick, 'is_abc|is_int|is_custom', '-_()<>[]|.:\'{}$', 25 ) == false )
-            {
+            if ($input->check($nick, 'is_abc|is_int|is_custom', '-_()<>[]|.:\'{}$', 25 ) == false ) {
                 $error['nick_wrong'] = 1;
             }
 
             // Check both passwords
             /*
-            if ($pass != $pass2 )
-            {
+            if ($pass != $pass2) {
                 $err['passes_do_not_fit'] = 1;
             }
 
             // Check for correct Captcha
-            if (strtolower($captcha) != strtolower($_SESSION['captcha_string']) )
-            {
+            if (strtolower($captcha) != strtolower($_SESSION['captcha_string']) ) {
                 $err['wrong_captcha'] = 1;
             }
             */
 
             // Check the password
-            if (strlen($pass) < self::$moduleconfig['login']['min_pass_length'])
-            {
+            if (strlen($pass) < self::$moduleconfig['login']['min_pass_length']) {
                 $error['pass_too_short'] = 1;
             }
 
@@ -307,8 +279,7 @@ class Account extends Controller
             #var_dump($err);
             // No errors - then proceed
             // Register the user!
-            if ( count($error) == 0  )
-            {
+            if ( count($error) == 0  ) {
                 // Generate activation code & salted hash
                 $hashArray = Clansuite_Security::build_salted_hash($pass);
                 $hash = $hashArray['hash'];
@@ -322,27 +293,21 @@ class Account extends Controller
                 $userIns->salt = $salt;
                 $userIns->joined = time();
 
-                if(self::$moduleconfig['login']['email_activation'] == 0)
-                {
+                if (self::$moduleconfig['login']['email_activation'] == 0) {
                     $userIns->activated = 1;
                     $userIns->save();
                     $user->loginUser($userIns->user_id, true, $pass);
                     $this->redirect( 'index.php', 3, 200, _('You have sucessfully registered and you are logged in.') );
                     die();
-                }
-                else
-                {
+                } else {
                     $code = md5 ( microtime() );
                     $userIns->activation_code = $code;
                     $userIns->save();
                     // Send activation mail
-                    if( $this->_send_activation_email($email, $nick, $userIns->user_id, $code) )
-                    {
+                    if ( $this->_send_activation_email($email, $nick, $userIns->user_id, $code) ) {
                         $this->redirect( 'index.php', 0, 200, _('You have sucessfully registered! Please check your mailbox.') );
                         die();
-                    }
-                    else
-                    {
+                    } else {
                         trigger_error( 'Sending of email activation failed.' );
                     }
                 }
@@ -379,24 +344,18 @@ class Account extends Controller
         $submit = $this->request->getParameter('submit');
 
         // Perform checks on Inputvariables & Form filled?
-        if ( empty($email) )
-        {
-            if ( !empty ( $submit ) )
-            {
+        if ( empty($email) ) {
+            if ( !empty ( $submit ) ) {
                 $error['form_not_filled'] = 1;
             }
-        }
-        else
-        {   // Form filled -> proceed
+        } else {   // Form filled -> proceed
 
-            if ( !$input->check( $email, 'is_email' ) )
-            {
+            if ( !$input->check( $email, 'is_email' ) ) {
                 $error['email_wrong'] = 1;
             }
 
             // No Input-Errors
-            if ( count($error) == 0 )
-            {
+            if ( count($error) == 0 ) {
                 // Select WHERE email
                 $result = Doctrine_Query::create()
                                 ->select('user_id,nick,activated')
@@ -405,21 +364,16 @@ class Account extends Controller
                                 ->fetchOne(array($email));
 
                 // Email was not found
-                if ( !$result )
-                {
+                if (!$result) {
                     $error['no_such_mail'] = 1;
-                }
-                else
-                {
+                } else {
                     // Email already activated
-                    if ( $result->activated == 1 )
-                    {
+                    if ($result->activated == 1) {
                         $error['already_activated'];
                     }
 
                     // Email was found & is not active
-                    if ( count($error) == 0 )
-                    {
+                    if ( count($error) == 0 ) {
                         // Prepare user_id, nick, and activation code
                         $code    = md5 ( microtime() );
 
@@ -427,12 +381,9 @@ class Account extends Controller
                         $result->activation_code = $code;
                         $result->save();
 
-                        if( $this->_send_activation_email($email, $result->nick, $result->user_id, $code) )
-                        {
+                        if ( $this->_send_activation_email($email, $result->nick, $result->user_id, $code) ) {
                             $this->redirect( 'index.php', 200, _('Activation mail has been resend to your mailbox.') );
-                        }
-                        else
-                        {
+                        } else {
                             trigger_error( 'Re-Sending of email activation failed.' );
                         }
                     }
@@ -470,16 +421,15 @@ class Account extends Controller
         $code    = $input->check($this->request->getParameter('code'), 'is_int|is_abc') ? $this->request->getParameter('code') : false;
 
         $email  = $this->request->getParameterFromGet('email');
-        if ( !$input->check( $email, 'is_email' ) )
-        {
+        if ( !$input->check( $email, 'is_email' ) ) {
             $this->setFlashmessage( 'error', _('The given email is not valid!.') );
         }
 
         // Activation code is wrong
-        if ( !$code )
-        {
+        if (!$code) {
             #$error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
             $this->setFlashmessage( 'error', _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
+
             return;
         }
 
@@ -490,23 +440,17 @@ class Account extends Controller
                             ->andWhere('code = ?')
                             ->fetchArray(array($user_id, $email), Doctrine::HYDRATE_ARRAY);
 
-        if ( is_array ( $result ) )
-        {
+        if ( is_array ( $result ) ) {
             // Account already activated
-            if ( $result['activated'] == 1 )
-            {
+            if ($result['activated'] == 1) {
                 $this->setFlashmessage('error', 'This account has been already activated.');
                 $this->redirectToReferer();
-            }
-            else // activate this account
-            {
+            } else { // activate this account
                 Doctrine_Query::create()->update('CsUsers')->set('activated', 1)->where('user_id', $user_id);
                 $this->setFlashmessage('success', _('Your account has been activated successfully. You may now login.'));
                 $this->redirectToReferer();
             }
-        }
-        else
-        {
+        } else {
             // Activation Code not matching user_id
             $this->setFlashmessage('error', _('The activation code does not match to the given user id'));
             $this->redirectToReferer();
@@ -528,25 +472,17 @@ class Account extends Controller
         $email = $this->request->getParameter('email');
         $pass = $this->request->getParameter('password');
         $submit = $this->request->getParameter('submit');
-        if( !empty($submit) )
-        {
-            if( empty($email) || empty($pass) )
-            {
+        if ( !empty($submit) ) {
+            if ( empty($email) || empty($pass) ) {
                 $error['form_not_filled'] = 1;
-            }
-            elseif ( !isset($pass{self::$moduleconfig['login']['min_pass_length']-1}) )
-            {
+            } elseif ( !isset($pass{self::$moduleconfig['login']['min_pass_length']-1}) ) {
                 $error['pass_too_short'] = 1;
-            }
-            else
-            {
-                if ( !$input->check( $email, 'is_email' ) )
-                {
+            } else {
+                if ( !$input->check( $email, 'is_email' ) ) {
                     $error['email_wrong'] = 1;
                 }
 
-                if ( count($error) == 0 )
-                {
+                if ( count($error) == 0 ) {
                     // Select a DB Row
                     $result = Doctrine_Query::create()
                                     ->select('user_id, nick, activated')
@@ -554,19 +490,12 @@ class Account extends Controller
                                     ->where('email = ?')
                                     ->fetchOne(array($email));
 
-
-                    if ( !$result )
-                    {
+                    if (!$result) {
                         $error['no_such_mail'] = 1;
-                    }
-                    else if ( $result->activated != 1 )
-                    {
+                    } elseif ($result->activated != 1) {
                         $error['account_not_activated'] = 1;
-                    }
-                    else
-                    {
-                        if ( count($error) == 0 )
-                        {
+                    } else {
+                        if ( count($error) == 0 ) {
                             // Generate activation code & salted hash
                             $hashArr = Clansuite_Security::build_salted_hash($pass);
                             $hash = $hashArr['hash'];
@@ -581,13 +510,10 @@ class Account extends Controller
                             $result->save();
 
                             // Send activation mail
-                            if( $this->_send_password_email($email, $result->nick, $result->user_id, $code) )
-                            {
+                            if ( $this->_send_password_email($email, $result->nick, $result->user_id, $code) ) {
                                 $this->redirect( 'index.php', 0, 200, _('Check your mailbox to activate your new password.') );
                                 die();
-                            }
-                            else
-                            {
+                            } else {
                                 trigger_error( 'Sending of email activation failed.' );
                             }
 
@@ -615,10 +541,10 @@ class Account extends Controller
         $user_id = (int) $this->request->getParameter('user_id');
         $code    = $input->check($this->request->getParameter('code'), 'is_int|is_abc') ? $this->request->getParameter('code') : false;
 
-        if ( !$code )
-        {
+        if (!$code) {
             #$this->error( _( 'Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
             $this->setFlashmessage( 'error', _( 'Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
+
             return;
         }
 
@@ -629,16 +555,13 @@ class Account extends Controller
                         ->where('user_id = ? AND activation_code = ?')
                         ->fetchOne(array($user_id, $code));
 
-        if ( $result )
-        {
-            if ( empty($result->new_passwordhash) )
-            {
+        if ($result) {
+            if ( empty($result->new_passwordhash) ) {
                 #$this->error( _( 'Already: There has been no password reset requested.'));
                 $this->setFlashmessage( 'error', _( 'Already: There has been no password reset requested.') );
+
                 return;
-            }
-            else
-            {
+            } else {
                 $result->passwordhash = $result->new_passwordhash;
                 $result->salt = $result->new_salt;
                 $result->activation_code = '';
@@ -652,11 +575,10 @@ class Account extends Controller
                 $this->redirect('/account&action=login', 3, 200, _('Your new password has been successfully activated. Please login...') );
                 die();
             }
-        }
-        else
-        {
+        } else {
             #$this->error( _( 'Code Failure: The activation code does not match to the given user id') );
             $this->setFlashmessage( 'error', _( 'Code Failure: The activation code does not match to the given user id') );
+
             return;
         }
     }
@@ -684,13 +606,11 @@ class Account extends Controller
         $body  = sprintf($body, $user_id, $code, $nick);
 
         // Send mail
-        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
-        {
+        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true ) {
             return true;
-        }
-        else
-        {
+        } else {
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
+
             return false;
         }
     }
@@ -718,18 +638,14 @@ class Account extends Controller
         $body  = sprintf($body, $user_id, $code, $nick);
 
         // Send mail
-        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true )
-        {
+        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true ) {
             return true;
-        }
-        else
-        {
+        } else {
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
+
             return false;
         }
     }
-
-
 
     /**
      * form to edit profiledata
@@ -899,4 +815,3 @@ class Account extends Controller
         $this->display();
     }
 }
-?>

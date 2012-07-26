@@ -59,4 +59,3 @@ class Koch_Form_Validators_Locale_Test extends Clansuite_UnitTestCase
         $this->assertTrue(is_string($this->validator->getValidationHint()));
     }
 }
-?>

@@ -102,4 +102,3 @@ class Statistics_Admin extends Controller
         $this->response->redirectNoCache(WWW_ROOT . '/statistics/admin/settings', 2, 302, 'The config file has been successfully updated.');
     }
 }
-?>

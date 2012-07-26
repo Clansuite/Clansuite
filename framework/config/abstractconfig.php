@@ -88,11 +88,9 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
         // return value or default
         if (empty($value) === false) {
             return $value;
-        } elseif( $default_one != null )
-        {
+        } elseif ($default_one != null) {
             return $default_one;
-        } elseif( $default_two != null )
-        {
+        } elseif ($default_two != null) {
             return $default_two;
         } else {
             return null;

@@ -63,8 +63,7 @@ class ACM
         if ($record instanceof Koch_User) {
             $accessClass = 'Koch_Acl_UserAccess';
             $linkField = 'user_id';
-        } elseif($record instanceof Koch_Group)
-        {
+        } elseif ($record instanceof Koch_Group) {
             $accessClass = 'Koch_Acl_GroupAccess';
             $linkField = 'group_id';
         } else {
@@ -107,8 +106,7 @@ class ACM
         if ($record instanceof Koch_User) {
             $accessClass = 'Koch_Acl_UserAccess';
             $linkField = 'user_id';
-        } elseif($record instanceof Koch_Group)
-        {
+        } elseif ($record instanceof Koch_Group) {
             $accessClass = 'Koch_Acl_GroupAccess';
             $linkField = 'group_id';
         } else {
@@ -188,16 +186,13 @@ class ACM
             if ($access['resource_name'] === $resource) {
                 if ($access['permission_name'] === $permission) {
                     return $access['allow'];
-                } elseif($access['permission_name'] === $defPerm)
-                {
+                } elseif ($access['permission_name'] === $defPerm) {
                     $accessType['resource'] = $access->allow;
                 }
-            } elseif($access['resource_name'] === $defRes)
-            {
+            } elseif ($access['resource_name'] === $defRes) {
                 if ($access['permission_name'] === $permission) {
                     $accessType['permission'] = $access->allow;
-                } elseif($access['permission_name'] === $defPerm)
-                {
+                } elseif ($access['permission_name'] === $defPerm) {
                     $accessType['global'] = $access->allow;
                 }
             }

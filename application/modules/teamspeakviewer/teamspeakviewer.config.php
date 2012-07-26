@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File for Module Teamspeakviewer
-; \trunk\modules\teamspeakviewer\teamspeakviewer.config.php 
+; \trunk\modules\teamspeakviewer\teamspeakviewer.config.php
 ;
 
 ;----------------------------------------
@@ -10,7 +10,6 @@
 [teamspeakviewer]
 ts_serverversion = 3
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -18,7 +17,6 @@ ts_serverversion = 3
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -44,7 +42,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

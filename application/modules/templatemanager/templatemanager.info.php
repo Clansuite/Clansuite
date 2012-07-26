@@ -8,7 +8,7 @@ author="Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = templatemanager
-description = 
+description =
 dependencies =
 package = Development
 

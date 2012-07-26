@@ -46,14 +46,10 @@ class NewsRepository extends EntityRepository
         #$result = $paginateQuery->getArrayResult();
         #\Clansuite_Debug::printR( $result );
 
-        foreach($result as $row)
-        {
-            if(count($row['comments'] > 0))
-            {
+        foreach ($result as $row) {
+            if (count($row['comments'] > 0)) {
                 $row['nr_comments'] = count($row['comments']);
-            }
-            else
-            {
+            } else {
                 $row['nr_comments'] = 0;
             }
             $aResult[] = $row;
@@ -85,14 +81,10 @@ class NewsRepository extends EntityRepository
 
         $result = $q->getArrayResult();
 
-        foreach($result as $row)
-        {
-            if(count($row['comments'] > 0))
-            {
+        foreach ($result as $row) {
+            if (count($row['comments'] > 0)) {
                 $row['nr_comments'] = count($row['comments']);
-            }
-            else
-            {
+            } else {
                 $row['nr_comments'] = 0;
             }
             $aResult[] = $row;
@@ -150,12 +142,12 @@ class NewsRepository extends EntityRepository
 
         $r = $q->getArrayResult();
 
-        if(empty($r))
-        {
+        if (empty($r)) {
             exit('News Id not found.');
         }
 
         #\Clansuite_Debug::printR($r);
+
         return $r['0'];
     }
 
@@ -186,6 +178,7 @@ class NewsRepository extends EntityRepository
 
         // bah, get class from global space ;)
         #\Clansuite_Debug::printR($latestnews);
+
         return $latestnews;
     }
 
@@ -204,6 +197,7 @@ class NewsRepository extends EntityRepository
                         GROUP BY c.name');
         $r = $q->getArrayResult();
         #\Clansuite_Debug::printR($r);
+
         return $r;
     }
 
@@ -220,6 +214,7 @@ class NewsRepository extends EntityRepository
         $r = $q->getArrayResult();
         $r = \Clansuite_Functions::map_array_keys_to_values($r, 'cat_id', 'name');
         #\Clansuite_Debug::printR($r);
+
         return $r;
     }
 
@@ -233,7 +228,7 @@ class NewsRepository extends EntityRepository
         );
         $r = $q->getArrayResult();
         #\Clansuite_Debug::printR($r);
+
         return $r;
     }
 }
-?>

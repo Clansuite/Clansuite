@@ -31,7 +31,7 @@ namespace Clansuite\Module;
  * Clansuite Module - Static Pages
  *
  */
-class Staticpages extends Controller
+class staticpages.module extends Controller
 {
     /**
      * Module_Staticpages -> Execute
@@ -51,8 +51,7 @@ class Staticpages extends Controller
         var_dump($page);
 
         // if no page is requested, show overview
-        if(empty($page))
-        {
+        if (empty($page)) {
             return $this->action_overview();
         }
 
@@ -63,8 +62,7 @@ class Staticpages extends Controller
         #$input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
 
         // check if page was set and is sanitized // and $input->check( $page, 'is_abc|is_int|is_custom', '_\s' )
-        if ( !empty($page)  )
-        {
+        if ( !empty($page)  ) {
             $result = Doctrine_Query::create()
                     ->select('*')
                     ->from('CsStaticPages')
@@ -73,10 +71,8 @@ class Staticpages extends Controller
 
             #var_dump($result);
 
-            if ( is_array( $result ) )
-            {
-                if ( empty($result['url']) )
-                {
+            if ( is_array( $result ) ) {
+                if ( empty($result['url']) ) {
                     #$this->mod_page_title = $result['title'] . ' - ' . $result['description'];
 
                     // Get Render Engine
@@ -85,25 +81,18 @@ class Staticpages extends Controller
 
                     #$this->output .= $result['0']['html'];
                 }
-                /*else // static page is iframe??
-                {
+                /*else { // static page is iframe??
                     $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
-                    if ( $result['iframe'] == 1 )
-                    {
+                    if ($result['iframe'] == 1) {
                         $this->output .= '<iframe width="100%" height="'. $result['iframe_height'] .'" frameborder="0" scrolling="auto" src="' . $result['url'] . '"></iframe>';
-                    }
-                    else
-                    {
+                    } else {
                         $this->output .= file_get_contents( $result['url'] );
                     }
                 }*/
-            }
-            else
-            {
+            } else {
                 echo _('This static page does not exist.');
             }
-        }
-        else // page was not set or not sanitized
+        } else // page was not set or not sanitized
 
         {
             #$this->redirect('index.php?mod=staticpages&action=overview');
@@ -128,18 +117,14 @@ class Staticpages extends Controller
                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                 ->execute();
 
-        if ( is_array($result) )
-        {
+        if ( is_array($result) ) {
             // Get Render Engine
             $this->getView()->assign('overview', $result);
             $view->setTemplate('overview.tpl');
-        }
-        else
-        {
+        } else {
             echo _('No static pages found.');
         }
 
         $this->display();
     }
 }
-?>

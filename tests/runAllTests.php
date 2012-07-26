@@ -40,8 +40,7 @@ require_once 'reporter.php';
 require_once 'testsuite.php';
 require_once 'unittester.php';
 
-if(PERFORM_CODECOVERAGE == true)
-{
+if (PERFORM_CODECOVERAGE == true) {
     require_once 'codecoverage.php';
     Clansuite_CodeCoverage::start();
 }
@@ -51,8 +50,7 @@ $testsuite = new ClansuiteTestsuite();
 $success = false;
 
 // Tests -> determine, if we are in commandline mode, then output pure text
-if(TextReporter::inCli())
-{
+if (TextReporter::inCli()) {
     #require_once 'simpletest/extensions/colortext_reporter.php';
     require_once 'simpletest/extensions/junit_xml_reporter.php';
     ob_start();
@@ -63,22 +61,17 @@ if(TextReporter::inCli())
     file_put_contents(__DIR__ . '/test-results.xml', ob_get_contents());
     ob_end_clean();
     $success = true;
-}
-else // display nice html report
-{
+} else { // display nice html report
     $success = $testsuite->run(new Reporter);
 }
 
-if(PERFORM_CODECOVERAGE == true)
-{
+if (PERFORM_CODECOVERAGE == true) {
     Clansuite_CodeCoverage::stop();
     Clansuite_CodeCoverage::getReport();
 }
 
 // Tests -> exit with status
-if(false === $success)
-{
+if (false === $success) {
     // Exit with error code to let the build fail, when the test is unsuccessfull.
     exit(1);
 }
-?>

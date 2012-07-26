@@ -59,7 +59,6 @@ class conversion
         $xml->endElement();
 
         // dump memory
-
         return $xml->outputMemory(true);
     }
 
@@ -115,7 +114,6 @@ class conversion
             return $array;
         } else {
             // WARNING! Type Conversion drops childs and attributes.
-
             return (string) $simplexml;
         }
     }

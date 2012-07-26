@@ -33,7 +33,7 @@ namespace Koch\Logger;
  * @package     Core
  * @subpackage  Logger
  */
-interface Logger
+interface interface
 {
     // each logger has to provide the method writeLog()
     public function writeLog($data);

@@ -68,8 +68,7 @@ class Systeminfo_Admin extends Controller
         $sysinfos = array();
 
         // WEBSERVER
-        if ( is_callable('apache_get_version') )
-        {
+        if ( is_callable('apache_get_version') ) {
             $sysinfos['apache_get_version'] = apache_get_version();
             $sysinfos['apache_modules']     = apache_get_modules();
             asort($sysinfos['apache_modules']);
@@ -256,4 +255,3 @@ class Systeminfo_Admin extends Controller
         $this->display();
     }
 }
-?>

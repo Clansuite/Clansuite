@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File for Categories Module
-; \trunk\modules\categories\categories.config.php 
+; \trunk\modules\categories\categories.config.php
 ;
 
 ;----------------------------------------
@@ -9,7 +9,6 @@
 ;----------------------------------------
 [categories]
 items_resultsPerPage = 25
-
 
 ;----------------------------------------
 ; properties
@@ -44,8 +43,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

@@ -66,7 +66,6 @@ class Json
         }
 
         // return json as PHP array
-
         return $json;
     }
 

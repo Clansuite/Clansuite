@@ -43,7 +43,7 @@ namespace Koch\Exception;
  * @package     Core
  * @subpackage  Errorhandler
  */
-class Errorhandler
+class errorhandler
 {
     /**
      * Koch Framework - Error callback.
@@ -168,7 +168,6 @@ class Errorhandler
         }
 
         // Skip PHP internal error handler
-
         return true;
     }
 
@@ -241,7 +240,6 @@ class Errorhandler
             $html .= '">Edit the Template</a>';
 
             // return the link
-
             return $html;
         }
     }
@@ -521,7 +519,6 @@ class Errorhandler
                                 </table>';
 
                 // @todo consider using wordwrap() to limit too long source code lines?
-
                 return sprintf($sprintf_html, $lines_html, $errorcontext_lines);
             }
         }
@@ -581,8 +578,7 @@ class Errorhandler
             // build an edit link and insert the link
             $html .= sprintf(' in <a href="%s" title="Edit file">%s line %s</a>', $link, $file, $line);
         }
-        /*elseif(DEVELOPMENT)
-        {
+        /*elseif (DEVELOPMENT) {
             // link to our editor
             $fileLinkFormatString = 'index.php?module=editor&action=edit&file=%f&line=%l';
 

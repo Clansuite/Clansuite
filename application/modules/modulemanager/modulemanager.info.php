@@ -1,5 +1,5 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-; 
+;
 ; Modulemanager Info
 ;
 
@@ -15,7 +15,7 @@ package = Development
 [modulemanager_package]
 version = 0.2-0.x-dev
 project = modulemanager
-datestamp = 
-uniqueid = 
+datestamp =
+uniqueid =
 
 ; DO NOT REMOVE THIS LINE */ ?>

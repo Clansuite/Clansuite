@@ -63,4 +63,3 @@ class StagingTest extends Clansuite_UnitTestCase
         $this->assertEqual($filename,$expected_filename);
     }
 }
-?>

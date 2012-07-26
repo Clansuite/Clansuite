@@ -117,7 +117,6 @@ class ManifestManager
                                       'users', 'settings', 'systeminfo', 'thememanager', 'templatemanager');
 
         // @todo extract from module info file if core module or not
-
         return in_array($modulename, $core_modules);
     }
 
@@ -229,7 +228,6 @@ class ManifestManager
         }
 
         // fetch infos for the requested $module
-
         return self::loadModuleInformations($module);
     }
 

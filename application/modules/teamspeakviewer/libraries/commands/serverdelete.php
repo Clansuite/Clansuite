@@ -7,19 +7,17 @@ class Teamspeak3_ServerQueryCommand_serverdelete extends Clansuite_Teamspeak3_Se
      *
      * @author     Par0noid Solutions
      * @access        public
-     * @param        integer $sid The serverID
-     * @return     boolean success
+     * @param  integer $sid The serverID
+     * @return boolean success
      */
     public function serverDelete($sid)
     {
-        if($this->isServerAdmin() == false)
-        {
+        if ($this->isServerAdmin() == false) {
             return false;
         }
-        
+
         $this->serverStop($sid);
-        
+
         return $this->executeWithoutFetch("serverdelete sid=$sid");
-    }  
+    }
 }
-?>

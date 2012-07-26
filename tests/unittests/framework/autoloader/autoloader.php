@@ -30,16 +30,14 @@ class LoaderTest extends Clansuite_UnitTestCase
          * The APC user cache needs a reset, so that the map is generated freshly each run.
          * APC is used by readAutoloadingMapApc() / writeAutoloadingMapApc().
          */
-        if (extension_loaded('apc') === true and ini_get('apc.enabled') and ini_get('apc.enable_cli'))
-        {
+        if (extension_loaded('apc') === true and ini_get('apc.enabled') and ini_get('apc.enable_cli')) {
             apc_clear_cache('user');
         }
     }
 
     public function tearDown()
     {
-        if (ini_get('apc.enabled') and ini_get('apc.enable_cli'))
-        {
+        if (ini_get('apc.enabled') and ini_get('apc.enable_cli')) {
             apc_clear_cache('user');
         }
     }
@@ -152,8 +150,7 @@ class LoaderTest extends Clansuite_UnitTestCase
    public function testMethod_writeAutoloadingMapFile()
     {
         $classmap_file = ROOT_CONFIG . 'autoloader.classmap.php';
-        if(is_file($classmap_file))
-        {
+        if (is_file($classmap_file)) {
             unlink($classmap_file);
         }
         // file will be created
@@ -168,8 +165,7 @@ class LoaderTest extends Clansuite_UnitTestCase
     public function testMethod_readAutoloadingMapFile()
     {
         $classmap_file = ROOT_CONFIG . 'autoloader.classmap.php';
-        if(is_file($classmap_file))
-        {
+        if (is_file($classmap_file)) {
             unlink($classmap_file);
         }
         // file will be created
@@ -183,8 +179,7 @@ class LoaderTest extends Clansuite_UnitTestCase
 
     public function testMethod_writeAutoloadingMapApc()
     {
-        if(extension_loaded('apc'))
-        {
+        if (extension_loaded('apc')) {
             $array = array ( 'class' => 'file' );
             $this->assertTrue(Loader::writeAutoloadingMapApc($array));
             $this->assertIdentical($array, Loader::readAutoloadingMapApc());
@@ -193,22 +188,18 @@ class LoaderTest extends Clansuite_UnitTestCase
 
     public function testMethod_readAutoloadingMapApc()
     {
-        if(extension_loaded('apc'))
-        {
+        if (extension_loaded('apc')) {
             $this->assertIdentical(apc_fetch('CLANSUITE_CLASSMAP'), Loader::readAutoloadingMapApc());
         }
     }
 
     public function testMethod_addToMapping()
     {
-        if(extension_loaded('apc'))
-        {
+        if (extension_loaded('apc')) {
             Loader::$use_apc = true;
             // test return value true, means it's written
             $this->assertTrue(Loader::addToMapping(__DIR__ . '/fixtures/notloaded/addToMapping.php', 'addToMappingClass'));
-        }
-        else
-        {
+        } else {
             Loader::$use_apc = false;
             // test return value true, means it's written
             $this->assertTrue(Loader::addToMapping(__DIR__ . '/fixtures/notloaded/addToMapping.php', 'addToMappingClass'));
@@ -260,4 +251,3 @@ class LoaderTest extends Clansuite_UnitTestCase
         $this->assertTrue(Loader::loadLibrary('snoopy'));
     }
 }
-?>

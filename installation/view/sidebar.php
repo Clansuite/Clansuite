@@ -1,7 +1,6 @@
 <?php
 ?>
 
-
         <!-- Sidebar Navigation -->
         <div id="sidebar">
             <div id="jokerlogo">
@@ -10,18 +9,12 @@
             <div id="stepbar">
                 <p><?php echo $language['MENU_HEADING']; ?></p>
                 <?php
-                for($i = 1; $i <= $total_steps; $i++)
-                {
-                    if($i < $step )
-                    {
+                for ($i = 1; $i <= $total_steps; $i++) {
+                    if ($i < $step) {
                         $classValue = 'step-pass';
-                    }
-                    elseif($i == $step )
-                    {
+                    } elseif ($i == $step) {
                         $classValue = 'step-on';
-                    }
-                    elseif($i > $step )
-                    {
+                    } elseif ($i > $step) {
                         $classValue = 'step-off';
                     }
 

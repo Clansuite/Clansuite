@@ -9,8 +9,7 @@ class ApcTest extends Clansuite_UnitTestCase
 
     public function setUp()
     {
-        if(extension_loaded('apc') === false)
-        {
+        if (extension_loaded('apc') === false) {
             $this->apc_not_loaded = true;
             #$this->markTestSkipped('The PHP extension APC (Alternative PHP Cache) is not loaded.!');
         }
@@ -20,8 +19,7 @@ class ApcTest extends Clansuite_UnitTestCase
     {
         $this->skipIf($this->apc_not_loaded, 'APC extension not loaded!');
 
-        if($this->apc_not_loaded)
-        {
+        if ($this->apc_not_loaded) {
             $this->expectException();
         }
 
@@ -40,4 +38,3 @@ class ApcTest extends Clansuite_UnitTestCase
         $this->assertFalse($cache->contains('key1'));
     }
 }
-?>

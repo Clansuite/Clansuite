@@ -18,7 +18,7 @@
                     <label for="agreecheck">
                         <input type="checkbox" class="inputbox" id="agreecheck" name="agreecheck"
                            onclick="var buttonNext = document.getElementById('ButtonNext');
-                                    if(this.checked==true){ buttonNext.disabled=false; buttonNext.className='ButtonGreen';
+                                    if (this.checked==true) { buttonNext.disabled=false; buttonNext.className='ButtonGreen';
                                     } else { buttonNext.disabled=true; buttonNext.className='ButtonGrey'; }" />
                         <?php echo $language['STEP3_CHECKBOX']; ?>
                     </label>

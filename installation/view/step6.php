@@ -2,10 +2,11 @@
 ?>
 <script src="javascript/webtoolkit.sha1.js" type="text/javascript"></script>
 <script>
-    function hashLoginPassword(theForm)
+    public function hashLoginPassword(theForm)
     {
-        if((theForm.admin_password.value != '')){
+        if ((theForm.admin_password.value != '')) {
           theForm.admin_password.value = SHA1(theForm.admin_password.value);
+
           return true;
         }
     }
@@ -61,14 +62,13 @@
                                 foreach (new DirectoryIterator('./languages/') as $file) {
                                    // get each file not starting with dots ('.','..')
                                    // or containing ".install.php"
-                                   if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename()))
-                                   {
+                                   if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename())) {
                                       echo '<option style="padding-left: 30px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
                                       $file = substr($file->getFilename(), 0, -4);
 
                                       // filename conversion to shorthand
-                                      if($file == 'german' ) { $language_shorthand = 'de_DE'; }
-                                      if($file == 'english') { $language_shorthand = 'en_EN'; }
+                                      if ($file == 'german') { $language_shorthand = 'de_DE'; }
+                                      if ($file == 'english') { $language_shorthand = 'en_EN'; }
 
                                       if ($values['admin_language'] == $language_shorthand) { echo ' selected="selected"'; }
                                       echo '>';

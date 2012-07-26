@@ -1,6 +1,6 @@
 <?php
 class Teamspeak3_ServerQueryCommand_serverrequestconnectioninfo extends Clansuite_Teamspeak3_ServerQueryInterface
-{      
+{
      /**
       * serverRequestConnectionInfo
       *
@@ -23,12 +23,10 @@ class Teamspeak3_ServerQueryCommand_serverrequestconnectioninfo extends Clansuit
       */
     public function serverrequestconnectioninfo()
     {
-        if($this->selectedVirtualServer() == false)
-        { 
+        if ($this->selectedVirtualServer() == false) {
             return false;
         }
-        
+
         return $this->serverQuery("serverrequestconnectioninfo");
-    }  
+    }
 }
-?>

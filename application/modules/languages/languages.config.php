@@ -1,14 +1,13 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File for Module Languages
-; \trunk\modules\languages\languages.config.php 
+; \trunk\modules\languages\languages.config.php
 ;
 
 ;----------------------------------------
 ; languages
 ;----------------------------------------
 [languages]
-
 
 ;----------------------------------------
 ; properties
@@ -17,7 +16,6 @@
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -43,7 +41,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

@@ -17,12 +17,10 @@ class Teamspeak3_ServerQueryCommand_clientinfo extends Clansuite_Teamspeak3_Serv
      */
     public function clientlist()
     {
-        if($this->hasActiveConnection())
-        {
+        if ($this->hasActiveConnection()) {
             return false;
         }
 
         return $this->toArray($this->ServerQueryCommand('clientlist'));
     }
 }
-?>

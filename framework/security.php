@@ -63,7 +63,6 @@ final class Security
         $hash = self::generate_hash($hash_algorithm, $salted_string);
 
         // then compare
-
         return $databasehash === $hash;
     }
 
@@ -96,7 +95,6 @@ final class Security
         // generate hash from "salt+string" and place it into the array
         $salted_hash_array['hash'] = self::generate_hash($hash_algorithm, $salted_string);
         // return array with elements ['salt'], ['hash']
-
         return $salted_hash_array;
     }
 
@@ -124,7 +122,6 @@ final class Security
          */
         if (extension_loaded('skein') and ($hash_algorithm == 'skein')) {
             // get the binary 512-bits hash of string
-
             return skein_hash($string, 512);
         }
 

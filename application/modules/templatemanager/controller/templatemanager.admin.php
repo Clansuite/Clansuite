@@ -99,15 +99,13 @@ class Templatemanager_Admin extends Controller
         $view = $this->getView();
 
         // Incomming Variables
-        if($this->request->getRequestMethod() == 'GET')
-        {
+        if ($this->request->getRequestMethod() == 'GET') {
             $module = $this->request->getParameterFromGet('tplmod');
             $theme = $this->request->getParameterFromGet('tpltheme');
             $file = $this->request->getParameterFromGet('file');
         }
 
-        if($this->request->getRequestMethod() == 'POST')
-        {
+        if ($this->request->getRequestMethod() == 'POST') {
             $form = $this->request->getParameterFromPost('select_form');
 
             $module = empty($form['module']) ? null : $form['module'];
@@ -117,15 +115,12 @@ class Templatemanager_Admin extends Controller
         /**
          * We edit either a module or a theme file.
          */
-        if(isset($module))
-        {
+        if (isset($module)) {
             $file_absolute = ROOT_MOD . $module;
 
             $view->assign('templateeditor_modulename', ucfirst(stripslashes($module)));
 
-        }
-        elseif(isset($theme))
-        {
+        } elseif (isset($theme)) {
             $file_absolute = ROOT_THEMES . $theme;
 
             $view->assign('templateeditor_themename', stripslashes($theme));
@@ -134,21 +129,15 @@ class Templatemanager_Admin extends Controller
         /**
          * we have the base of the requested file
          */
-        if(isset($file))
-        {
+        if (isset($file)) {
             $relative_file = '';
 
             // construct relative template filename
-            if(isset($module))
-            {
+            if (isset($module)) {
                 $relative_file = 'modules'. DIRECTORY_SEPARATOR .$file;
-            }
-            elseif(isset($theme))
-            {
+            } elseif (isset($theme)) {
                 $relative_file = $theme. DIRECTORY_SEPARATOR .$file;
-            }
-            else
-            {
+            } else {
                 $relative_file = $file;
             }
         }
@@ -161,16 +150,14 @@ class Templatemanager_Admin extends Controller
         $templateeditor_newfile = '';
 
         // let's check, if this template exists
-        if(is_file($file))
-        {
+        if (is_file($file)) {
             // ok, it does exist - fetch it's content
             $handle = fopen($file, 'r') or die('Unable to open the file. Apply correct permissions.');
             $templateContent = fread($handle, filesize($file));
             fclose($handle);
 
             $templateeditor_newfile = false;
-        }
-        else // template does not exist
+        } else // template does not exist
 
         {
             // fetch a template for rapidly setting up the new template :)
@@ -196,8 +183,7 @@ class Templatemanager_Admin extends Controller
         $themename   = (string) $this->request->getParameter('templateeditor_themename');
         $textarea    = (string) $this->request->getParameter('templateeditor_textarea');
 
-        if(empty($filename) == false and isset($textarea))
-        {
+        if (empty($filename) == false and isset($textarea)) {
             #Clansuite_Functions::force_file_put_contents($tplfilename, stripslashes($tpltextarea));
             file_put_contents($filename, stripslashes($textarea));
         }
@@ -214,6 +200,4 @@ class Templatemanager_Admin extends Controller
         $this->display();
     }
 
-
 }
-?>

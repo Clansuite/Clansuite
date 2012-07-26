@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-; 
+;
 ; Clansuite Configuration File for Module Account
-; \trunk\modules\account\account.config.php 
+; \trunk\modules\account\account.config.php
 ;
 
 ;----------------------------------------
@@ -9,7 +9,6 @@
 ;----------------------------------------
 [account]
 captchatype = recaptcha
-
 
 ;----------------------------------------
 ; login
@@ -24,7 +23,6 @@ hash_algorithm = "sha1"
 salt = "1-3-5-8-4-1-7-2-4-1-4-1"
 registration_term = ""
 
-
 ;----------------------------------------
 ; properties
 ;----------------------------------------
@@ -32,7 +30,6 @@ registration_term = ""
 active = true
 module_section =
 module_id =
-
 
 ; -------------------------------------------------------------------------------
 ; define here all actions was defined in module and module admin controler
@@ -58,8 +55,5 @@ module_id =
 ;----------------------------------------
 [properties_acl]
 action_show = 'all'
-
-
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

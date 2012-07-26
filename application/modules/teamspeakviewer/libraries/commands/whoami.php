@@ -24,4 +24,3 @@ class Teamspeak3_ServerQueryCommand_whoami extends Clansuite_Teamspeak3_ServerQu
         return $this->serverQuery('whoami');
     }
 }
-?>

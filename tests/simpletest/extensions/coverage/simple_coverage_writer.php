@@ -15,9 +15,10 @@ require_once dirname(__FILE__) .'/coverage_writer.php';
  *  @package    SimpleTest
  *  @subpackage UnitTester
  */
-class SimpleCoverageWriter implements CoverageWriter {
-
-    function writeSummary($out, $variables) {
+class SimpleCoverageWriter implements CoverageWriter
+{
+    public function writeSummary($out, $variables)
+    {
         extract($variables);
         $now = date("F j, Y, g:i a");
         ob_start();
@@ -27,7 +28,8 @@ class SimpleCoverageWriter implements CoverageWriter {
         ob_end_clean();
     }
 
-    function writeByFile($out, $variables) {
+    public function writeByFile($out, $variables)
+    {
         extract($variables);
         ob_start();
         include dirname(__FILE__) . '/templates/file.php';
@@ -36,4 +38,3 @@ class SimpleCoverageWriter implements CoverageWriter {
         ob_end_clean();
     }
 }
-?>

@@ -47,4 +47,3 @@ class Languages extends Controller
         $this->display();
     }
 }
-?>

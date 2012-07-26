@@ -271,8 +271,8 @@ class Session implements SessionInterface, \ArrayAccess
      *
      * This redefines php's session_write_close()
      *
-     * @param  integer $session_id   contains session_id
-     * @param  array   $data contains session_data
+     * @param  integer $session_id contains session_id
+     * @param  array   $data       contains session_data
      * @return bool
      */
     public function session_write($session_id, $data)

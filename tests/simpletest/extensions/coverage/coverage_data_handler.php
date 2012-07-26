@@ -12,11 +12,12 @@
  * @package        SimpleTest
  * @subpackage     Extensions
  */
-class CoverageDataHandler {
+class CoverageDataHandler
+{
+    public $db;
 
-    var $db;
-
-    function __construct($filename) {
+    public function __construct($filename)
+    {
         $this->filename = $filename;
         $this->db = new SQLiteDatabase($filename);
         if (empty($this->db)) {
@@ -24,12 +25,14 @@ class CoverageDataHandler {
         }
     }
 
-    function createSchema() {
+    public function createSchema()
+    {
         $this->db->queryExec("create table untouched (filename text)");
         $this->db->queryExec("create table coverage (name text, coverage text)");
     }
 
-    function getFilenames() {
+    public function getFilenames()
+    {
         $filenames = array();
         $cursor = $this->db->unbufferedQuery("select distinct name from coverage");
         while ($row = $cursor->fetch()) {
@@ -39,7 +42,8 @@ class CoverageDataHandler {
         return $filenames;
     }
 
-    function write($coverage) {
+    public function write($coverage)
+    {
         foreach ($coverage as $file => $lines) {
             $coverageStr = serialize($lines);
             $relativeFilename = self::ltrim(getcwd() . '/', $file);
@@ -49,15 +53,18 @@ class CoverageDataHandler {
         }
     }
 
-    function read() {
+    public function read()
+    {
         $coverage = array_flip($this->getFilenames());
-        foreach($coverage as $file => $garbage) {
+        foreach ($coverage as $file => $garbage) {
             $coverage[$file] = $this->readFile($file);
         }
+
         return $coverage;
     }
 
-    function readFile($file) {
+    public function readFile($file)
+    {
         $sql = "select coverage from coverage where name = '$file'";
         $aggregate = array();
         $result = $this->db->query($sql);
@@ -70,7 +77,8 @@ class CoverageDataHandler {
         return $aggregate;
     }
 
-    function aggregateCoverage(&$total, $next) {
+    public function aggregateCoverage(&$total, $next)
+    {
         foreach ($next as $lineno => $code) {
             if (!isset($total[$lineno])) {
                 $total[$lineno] = $code;
@@ -80,8 +88,9 @@ class CoverageDataHandler {
         }
     }
 
-    function aggregateCoverageCode($code1, $code2) {
-        switch($code1) {
+    public function aggregateCoverageCode($code1, $code2)
+    {
+        switch ($code1) {
             case -2: return -2;
             case -1: return $code2;
             default:
@@ -90,23 +99,28 @@ class CoverageDataHandler {
                     case -1: return $code1;
                 }
         }
+
         return $code1 + $code2;
     }
 
-    static function ltrim($cruft, $pristine) {
-        if(stripos($pristine, $cruft) === 0) {
+    public static function ltrim($cruft, $pristine)
+    {
+        if (stripos($pristine, $cruft) === 0) {
             return substr($pristine, strlen($cruft));
         }
+
         return $pristine;
     }
 
-    function writeUntouchedFile($file) {
+    public function writeUntouchedFile($file)
+    {
         $relativeFile = CoverageDataHandler::ltrim('./', $file);
         $sql = "insert into untouched values ('$relativeFile')";
         $this->db->queryExec($sql);
     }
 
-    function readUntouchedFiles() {
+    public function readUntouchedFiles()
+    {
         $untouched = array();
         $result = $this->db->query("select filename from untouched order by filename");
         while ($result->valid()) {
@@ -118,4 +132,3 @@ class CoverageDataHandler {
         return $untouched;
     }
 }
-?>

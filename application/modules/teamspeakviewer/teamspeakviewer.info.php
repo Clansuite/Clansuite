@@ -8,7 +8,7 @@ author="Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = teamspeakviewer
-description = 
+description =
 dependencies =
 package = Development
 
@@ -20,6 +20,5 @@ uniqueid =
 
 [teamspeakviewer_widgets]
 widget_teamspeakviewer
-
 
 ; DO NOT REMOVE THIS LINE */ ?>

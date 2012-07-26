@@ -33,7 +33,7 @@ namespace Koch\Session;
  * @package     Core
  * @subpackage  Session
  */
-interface SessionInterface
+interface sessioninterface
 {
     public function session_open();
     public function session_close();

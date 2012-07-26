@@ -38,7 +38,7 @@ namespace Koch\Logger;
  * @package     Core
  * @subpackage  Logger
  */
-class Compositum implements Logger
+class compositum implements Logger
 {
     /**
      * @var array Array constains a object composition of all loggers

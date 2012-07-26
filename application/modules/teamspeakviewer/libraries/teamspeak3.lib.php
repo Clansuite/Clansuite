@@ -134,9 +134,9 @@ class Clansuite_Teamspeak3_ServerQueryInterface
     /**
      * open connection
      *
-     * @param string  $server_ip        server IP
-     * @param integer $queryport        tcp queryport
-     * @param integer $virtualServer_id virtual server id
+     * @param  string  $server_ip        server IP
+     * @param  integer $queryport        tcp queryport
+     * @param  integer $virtualServer_id virtual server id
      * @return boolean true on active connection
      */
     public function openConnection($server_ip, $queryport, $virtualserver_id)
@@ -148,20 +148,15 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         // open remote connection to the server
         $this->socket = @fsockopen($this->server_ip, (int) $this->queryport, $errno, $errstr, 5);
 
-        if($this->socket === false)
-        {
+        if ($this->socket === false) {
             trigger_error('Connection to '. $this->server_ip . ':' . $this->queryport . ' [' . $this->vserver_id . '] could not be established.');
-        }
-        else
-        {
+        } else {
             // check if the socket response qualifies the server as a TS3 instance
-            if( (string) fgets($this->socket, 4) == 'TS3')
-            {
+            if ( (string) fgets($this->socket, 4) == 'TS3') {
                 $this->setConnectionActive();
+
                 return true;
-            }
-            else
-            {
+            } else {
                 trigger_error('A Teamspeak 3 Server not found.');
             }
         }
@@ -266,22 +261,18 @@ class Clansuite_Teamspeak3_ServerQueryInterface
     /**
      * selectVirtualServer
      *
-     * @param   integer $vserver_id Virtual Server ID
-     * @return  boolean
+     * @param  integer $vserver_id Virtual Server ID
+     * @return boolean
      */
     public function selectVirtualServer($vserver_id = null)
     {
-        if(isset($vserver_id))
-        {
+        if (isset($vserver_id)) {
             $this->vserver_id = $vserver_id;
         }
 
-        if( $this->executeWithoutFetch("use sid=$this->vserver_id") == true )
-        {
+        if ( $this->executeWithoutFetch("use sid=$this->vserver_id") == true ) {
             $this->vserver_select_status = true;
-        }
-        else
-        {
+        } else {
             $this->vserver_select_status = false;
         }
 
@@ -332,19 +323,17 @@ class Clansuite_Teamspeak3_ServerQueryInterface
       */
     public function loginServerAdmin($username, $password)
     {
-        if($this->selectedVirtualServer() == false)
-        {
+        if ($this->selectedVirtualServer() == false) {
             return false;
         }
 
-        if($this->login("login $username $password") == true)
-        {
+        if ($this->login("login $username $password") == true) {
             $this->setServerAdmin(true);
+
             return true;
-        }
-        else
-        {
+        } else {
             $this->setServerAdmin(false);
+
             return false;
         }
     }
@@ -353,21 +342,19 @@ class Clansuite_Teamspeak3_ServerQueryInterface
      * ServerQueryCommand
      * Performs an direct ServerQueryCommand and returns the server response
      *
-     * @param   string $servercommand
-     * @return  mixed | serverquery response or boolean false
+     * @param  string $servercommand
+     * @return mixed  | serverquery response or boolean false
      */
     public function ServerQueryCommand($command)
     {
-        if($this->hasActiveConnection())
-        {
+        if ($this->hasActiveConnection()) {
             // write command to server
             fputs($this->socket, $command."\n");
 
             $data = null;
 
             // read server response till a message string "msg=" was found
-            do
-            {
+            do {
                 $data .= fgets($this->socket);
             }
             while(strpos($data, 'msg=') === false);
@@ -375,13 +362,11 @@ class Clansuite_Teamspeak3_ServerQueryInterface
             #Clansuite_Debug::printR($data);
 
             // now check if the server response data contains an error
-            if(strpos($data, 'error id=0') === false)
-            {
+            if (strpos($data, 'error id=0') === false) {
                 trigger_error('ServerQueryCommand Error: '.$this->replaceText($data));
+
                 return false;
-            }
-            else
-            {
+            } else {
                 return $data;
             }
         }
@@ -409,8 +394,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         // count the elements of the array
         $array_counter = count($chunks);
 
-        do
-        {
+        do {
             // get last element of array stack
             // this reduces the array with each iteration of the while command
             $chunk_element = array_pop($chunks);
@@ -425,16 +409,12 @@ class Clansuite_Teamspeak3_ServerQueryInterface
 
             // assign the key/value pair as element of the data array
             // and clean the value from odd characters
-            if(isset($keyValuePair[1]))
-            {
+            if (isset($keyValuePair[1])) {
                 $data[$keyValuePair[0]] = $this->replaceText($keyValuePair[1]);
-            }
-            else
-            {
+            } else {
                 $data[$keyValuePair[0]] = '';
             }
-        }
-        while($array_counter > 0);
+        } while ($array_counter > 0);
 
         // cleanup, remove the original chunks array (which is now empty)
         unset($chunks);
@@ -452,12 +432,9 @@ class Clansuite_Teamspeak3_ServerQueryInterface
     {
         fputs($this->socket, $command."\n");
 
-        if(strpos(fgets($this->socket), 'id=0') !== false)
-        {
+        if (strpos(fgets($this->socket), 'id=0') !== false) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -481,6 +458,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
     {
         $this->selectVirtualServer();
         $usercount = ($this->clientlist())-1;
+
         return $usercount;
     }
 
@@ -568,7 +546,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
      * of this class are dynamically "created".
      * Overloading methods are always in the "public" scope.
      *
-     * @param string $name Name of Method or Property
+     * @param string      $name      Name of Method or Property
      * @param mixed|array $arguments Single Argument or several Arguments
      */
     public function __call($method, $arguments)
@@ -584,17 +562,15 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         $command_filename = __DIR__.DIRECTORY_SEPARATOR.'commands'.DIRECTORY_SEPARATOR.$method.'.php';
 
         // check if name is valid
-        if(is_file($command_filename) and is_readable($command_filename))
-        {
+        if (is_file($command_filename) and is_readable($command_filename)) {
             // dynamically include the command
             include_once $command_filename;
             $classname = 'Teamspeak3_ServerQueryCommand_'.$method;
             $object = new $classname($this->server_ip, $this->queryport, $this->vserver_id);
+
             return call_user_func_array(array($object, $method), $arguments);
 
-        }
-        else
-        {
+        } else {
             trigger_error('Teamspeak3 Server "Query Command File" not found: "'.$command_filename.'".');
         }
     }
@@ -602,7 +578,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
     /**
      * destructor
      */
-    function __destruct()
+    public function __destruct()
     {
         $this->logout();
         $this->closeConnection();
@@ -729,4 +705,3 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         $this->tokentype = $tokentype;
     }
 }
-?>

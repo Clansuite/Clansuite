@@ -1,11 +1,10 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
+;
+; Clansuite Configuration File :
 ; D:\xampplite\htdocs\work\clansuite\trunk\modules\account\account.info.php
-; 
+;
 ; This file was generated on 22-09-2010 20:28
 ;
-
 
 ;----------------------------------------
 ; account_info

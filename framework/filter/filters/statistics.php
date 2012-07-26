@@ -38,7 +38,7 @@ use Koch\MVC\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class Statistics implements FilterInterface
+class statistics implements FilterInterface
 {
     private $config = null;
     private $user = null;

@@ -25,25 +25,27 @@ foreach (array('LEXER_ENTER', 'LEXER_MATCHED',
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class ParallelRegex {
-    var $_patterns;
-    var $_labels;
-    var $_regex;
-    var $_case;
-    
+class ParallelRegex
+{
+    public $_patterns;
+    public $_labels;
+    public $_regex;
+    public $_case;
+
     /**
      *    Constructor. Starts with no patterns.
      *    @param boolean $case    True for case sensitive, false
      *                            for insensitive.
      *    @access public
      */
-    function ParallelRegex($case) {
+    public function ParallelRegex($case)
+    {
         $this->_case = $case;
         $this->_patterns = array();
         $this->_labels = array();
         $this->_regex = null;
     }
-    
+
     /**
      *    Adds a pattern with an optional label.
      *    @param string $pattern      Perl style regex, but ( and )
@@ -52,13 +54,14 @@ class ParallelRegex {
      *                                on a match.
      *    @access public
      */
-    function addPattern($pattern, $label = true) {
+    public function addPattern($pattern, $label = true)
+    {
         $count = count($this->_patterns);
         $this->_patterns[$count] = $pattern;
         $this->_labels[$count] = $label;
         $this->_regex = null;
     }
-    
+
     /**
      *    Attempts to match all patterns at once against
      *    a string.
@@ -68,12 +71,14 @@ class ParallelRegex {
      *    @return boolean             True on success.
      *    @access public
      */
-    function match($subject, &$match) {
+    public function match($subject, &$match)
+    {
         if (count($this->_patterns) == 0) {
             return false;
         }
         if (! preg_match($this->_getCompoundedRegex(), $subject, $matches)) {
             $match = '';
+
             return false;
         }
         $match = $matches[0];
@@ -82,9 +87,10 @@ class ParallelRegex {
                 return $this->_labels[$i - 1];
             }
         }
+
         return true;
     }
-    
+
     /**
      *    Compounds the patterns into a single
      *    regular expression separated with the
@@ -93,7 +99,8 @@ class ParallelRegex {
      *    @param array $patterns    List of patterns in order.
      *    @access private
      */
-    function _getCompoundedRegex() {
+    public function _getCompoundedRegex()
+    {
         if ($this->_regex == null) {
             for ($i = 0, $count = count($this->_patterns); $i < $count; $i++) {
                 $this->_patterns[$i] = '(' . str_replace(
@@ -103,15 +110,17 @@ class ParallelRegex {
             }
             $this->_regex = "/" . implode("|", $this->_patterns) . "/" . $this->_getPerlMatchingFlags();
         }
+
         return $this->_regex;
     }
-    
+
     /**
      *    Accessor for perl regex mode flags to use.
      *    @return string       Perl regex flags.
      *    @access private
      */
-    function _getPerlMatchingFlags() {
+    public function _getPerlMatchingFlags()
+    {
         return ($this->_case ? "msS" : "msSi");
     }
 }
@@ -121,37 +130,41 @@ class ParallelRegex {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class SimpleStateStack {
-    var $_stack;
-    
+class SimpleStateStack
+{
+    public $_stack;
+
     /**
      *    Constructor. Starts in named state.
      *    @param string $start        Starting state name.
      *    @access public
      */
-    function SimpleStateStack($start) {
+    public function SimpleStateStack($start)
+    {
         $this->_stack = array($start);
     }
-    
+
     /**
      *    Accessor for current state.
      *    @return string       State.
      *    @access public
      */
-    function getCurrent() {
+    public function getCurrent()
+    {
         return $this->_stack[count($this->_stack) - 1];
     }
-    
+
     /**
      *    Adds a state to the stack and sets it
      *    to be the current state.
      *    @param string $state        New state.
      *    @access public
      */
-    function enter($state) {
+    public function enter($state)
+    {
         array_push($this->_stack, $state);
     }
-    
+
     /**
      *    Leaves the current state and reverts
      *    to the previous one.
@@ -159,11 +172,13 @@ class SimpleStateStack {
      *                       the bottom of the list.
      *    @access public
      */
-    function leave() {
+    public function leave()
+    {
         if (count($this->_stack) == 1) {
             return false;
         }
         array_pop($this->_stack);
+
         return true;
     }
 }
@@ -177,13 +192,14 @@ class SimpleStateStack {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class SimpleLexer {
-    var $_regexes;
-    var $_parser;
-    var $_mode;
-    var $_mode_handlers;
-    var $_case;
-    
+class SimpleLexer
+{
+    public $_regexes;
+    public $_parser;
+    public $_mode;
+    public $_mode_handlers;
+    public $_case;
+
     /**
      *    Sets up the lexer in case insensitive matching
      *    by default.
@@ -193,14 +209,15 @@ class SimpleLexer {
      *    @param boolean $case            True for case sensitive.
      *    @access public
      */
-    function SimpleLexer(&$parser, $start = "accept", $case = false) {
+    public function SimpleLexer(&$parser, $start = "accept", $case = false)
+    {
         $this->_case = $case;
         $this->_regexes = array();
         $this->_parser = &$parser;
         $this->_mode = &new SimpleStateStack($start);
         $this->_mode_handlers = array($start => $start);
     }
-    
+
     /**
      *    Adds a token search pattern for a particular
      *    parsing mode. The pattern does not change the
@@ -212,7 +229,8 @@ class SimpleLexer {
      *                                this type of input.
      *    @access public
      */
-    function addPattern($pattern, $mode = "accept") {
+    public function addPattern($pattern, $mode = "accept")
+    {
         if (! isset($this->_regexes[$mode])) {
             $this->_regexes[$mode] = new ParallelRegex($this->_case);
         }
@@ -221,7 +239,7 @@ class SimpleLexer {
             $this->_mode_handlers[$mode] = $mode;
         }
     }
-    
+
     /**
      *    Adds a pattern that will enter a new parsing
      *    mode. Useful for entering parenthesis, strings,
@@ -235,7 +253,8 @@ class SimpleLexer {
      *                                nested mode.
      *    @access public
      */
-    function addEntryPattern($pattern, $mode, $new_mode) {
+    public function addEntryPattern($pattern, $mode, $new_mode)
+    {
         if (! isset($this->_regexes[$mode])) {
             $this->_regexes[$mode] = new ParallelRegex($this->_case);
         }
@@ -244,7 +263,7 @@ class SimpleLexer {
             $this->_mode_handlers[$new_mode] = $new_mode;
         }
     }
-    
+
     /**
      *    Adds a pattern that will exit the current mode
      *    and re-enter the previous one.
@@ -253,7 +272,8 @@ class SimpleLexer {
      *    @param string $mode         Mode to leave.
      *    @access public
      */
-    function addExitPattern($pattern, $mode) {
+    public function addExitPattern($pattern, $mode)
+    {
         if (! isset($this->_regexes[$mode])) {
             $this->_regexes[$mode] = new ParallelRegex($this->_case);
         }
@@ -262,7 +282,7 @@ class SimpleLexer {
             $this->_mode_handlers[$mode] = $mode;
         }
     }
-    
+
     /**
      *    Adds a pattern that has a special mode. Acts as an entry
      *    and exit pattern in one go, effectively calling a special
@@ -275,7 +295,8 @@ class SimpleLexer {
      *    @param string $special      Use this mode for this one token.
      *    @access public
      */
-    function addSpecialPattern($pattern, $mode, $special) {
+    public function addSpecialPattern($pattern, $mode, $special)
+    {
         if (! isset($this->_regexes[$mode])) {
             $this->_regexes[$mode] = new ParallelRegex($this->_case);
         }
@@ -284,17 +305,18 @@ class SimpleLexer {
             $this->_mode_handlers[$special] = $special;
         }
     }
-    
+
     /**
      *    Adds a mapping from a mode to another handler.
      *    @param string $mode        Mode to be remapped.
      *    @param string $handler     New target handler.
      *    @access public
      */
-    function mapHandler($mode, $handler) {
+    public function mapHandler($mode, $handler)
+    {
         $this->_mode_handlers[$mode] = $handler;
     }
-    
+
     /**
      *    Splits the page text into tokens. Will fail
      *    if the handlers report an error or if no
@@ -305,7 +327,8 @@ class SimpleLexer {
      *    @return boolean           True on success, else false.
      *    @access public
      */
-    function parse($raw) {
+    public function parse($raw)
+    {
         if (! isset($this->_parser)) {
             return false;
         }
@@ -326,9 +349,10 @@ class SimpleLexer {
         if (! $parsed) {
             return false;
         }
+
         return $this->_invokeParser($raw, LEXER_UNMATCHED);
     }
-    
+
     /**
      *    Sends the matched token and any leading unmatched
      *    text to the parser changing the lexer to a new
@@ -341,7 +365,8 @@ class SimpleLexer {
      *                                from the parser.
      *    @access private
      */
-    function _dispatchTokens($unmatched, $matched, $mode = false) {
+    public function _dispatchTokens($unmatched, $matched, $mode = false)
+    {
         if (! $this->_invokeParser($unmatched, LEXER_UNMATCHED)) {
             return false;
         }
@@ -352,6 +377,7 @@ class SimpleLexer {
             if (! $this->_invokeParser($matched, LEXER_EXIT)) {
                 return false;
             }
+
             return $this->_mode->leave();
         }
         if ($this->_isSpecialMode($mode)) {
@@ -359,12 +385,14 @@ class SimpleLexer {
             if (! $this->_invokeParser($matched, LEXER_SPECIAL)) {
                 return false;
             }
+
             return $this->_mode->leave();
         }
         $this->_mode->enter($mode);
+
         return $this->_invokeParser($matched, LEXER_ENTER);
     }
-    
+
     /**
      *    Tests to see if the new mode is actually to leave
      *    the current mode and pop an item from the matching
@@ -373,10 +401,11 @@ class SimpleLexer {
      *    @return boolean        True if this is the exit mode.
      *    @access private
      */
-    function _isModeEnd($mode) {
+    public function _isModeEnd($mode)
+    {
         return ($mode === "__exit");
     }
-    
+
     /**
      *    Test to see if the mode is one where this mode
      *    is entered for this token only and automatically
@@ -385,10 +414,11 @@ class SimpleLexer {
      *    @return boolean        True if this is the exit mode.
      *    @access private
      */
-    function _isSpecialMode($mode) {
+    public function _isSpecialMode($mode)
+    {
         return (strncmp($mode, "_", 1) == 0);
     }
-    
+
     /**
      *    Strips the magic underscore marking single token
      *    modes.
@@ -396,10 +426,11 @@ class SimpleLexer {
      *    @return string         Underlying mode name.
      *    @access private
      */
-    function _decodeSpecial($mode) {
+    public function _decodeSpecial($mode)
+    {
         return substr($mode, 1);
     }
-    
+
     /**
      *    Calls the parser method named after the current
      *    mode. Empty content will be ignored. The lexer
@@ -409,14 +440,16 @@ class SimpleLexer {
      *                                  than unparsed data.
      *    @access private
      */
-    function _invokeParser($content, $is_match) {
+    public function _invokeParser($content, $is_match)
+    {
         if (($content === '') || ($content === false)) {
             return true;
         }
         $handler = $this->_mode_handlers[$this->_mode->getCurrent()];
+
         return $this->_parser->$handler($content, $is_match);
     }
-    
+
     /**
      *    Tries to match a chunk of text and if successful
      *    removes the recognised chunk and any leading
@@ -431,13 +464,16 @@ class SimpleLexer {
      *                               is a parsing error.
      *    @access private
      */
-    function _reduce($raw) {
+    public function _reduce($raw)
+    {
         if ($action = $this->_regexes[$this->_mode->getCurrent()]->match($raw, $match)) {
             $unparsed_character_count = strpos($raw, $match);
             $unparsed = substr($raw, 0, $unparsed_character_count);
             $raw = substr($raw, $unparsed_character_count + strlen($match));
+
             return array($raw, $unparsed, $match, $action);
         }
+
         return true;
     }
 }
@@ -447,8 +483,8 @@ class SimpleLexer {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class SimpleHtmlLexer extends SimpleLexer {
-    
+class SimpleHtmlLexer extends SimpleLexer
+{
     /**
      *    Sets up the lexer with case insensitive matching
      *    and adds the HTML handlers.
@@ -456,7 +492,8 @@ class SimpleHtmlLexer extends SimpleLexer {
      *                                    reference.
      *    @access public
      */
-    function SimpleHtmlLexer(&$parser) {
+    public function SimpleHtmlLexer(&$parser)
+    {
         $this->SimpleLexer($parser, 'text');
         $this->mapHandler('text', 'acceptTextToken');
         $this->_addSkipping();
@@ -465,23 +502,25 @@ class SimpleHtmlLexer extends SimpleLexer {
         }
         $this->_addInTagTokens();
     }
-    
+
     /**
      *    List of parsed tags. Others are ignored.
      *    @return array        List of searched for tags.
      *    @access private
      */
-    function _getParsedTags() {
+    public function _getParsedTags()
+    {
         return array('a', 'base', 'title', 'form', 'input', 'button', 'textarea', 'select',
                 'option', 'frameset', 'frame', 'label');
     }
-    
+
     /**
      *    The lexer has to skip certain sections such
      *    as server code, client code and styles.
      *    @access private
      */
-    function _addSkipping() {
+    public function _addSkipping()
+    {
         $this->mapHandler('css', 'ignore');
         $this->addEntryPattern('<style', 'text', 'css');
         $this->addExitPattern('</style>', 'css');
@@ -492,36 +531,39 @@ class SimpleHtmlLexer extends SimpleLexer {
         $this->addEntryPattern('<!--', 'text', 'comment');
         $this->addExitPattern('-->', 'comment');
     }
-    
+
     /**
      *    Pattern matches to start and end a tag.
      *    @param string $tag          Name of tag to scan for.
      *    @access private
      */
-    function _addTag($tag) {
+    public function _addTag($tag)
+    {
         $this->addSpecialPattern("</$tag>", 'text', 'acceptEndToken');
         $this->addEntryPattern("<$tag", 'text', 'tag');
     }
-    
+
     /**
      *    Pattern matches to parse the inside of a tag
      *    including the attributes and their quoting.
      *    @access private
      */
-    function _addInTagTokens() {
+    public function _addInTagTokens()
+    {
         $this->mapHandler('tag', 'acceptStartToken');
         $this->addSpecialPattern('\s+', 'tag', 'ignore');
         $this->_addAttributeTokens();
         $this->addExitPattern('/>', 'tag');
         $this->addExitPattern('>', 'tag');
     }
-    
+
     /**
      *    Matches attributes that are either single quoted,
      *    double quoted or unquoted.
      *    @access private
      */
-    function _addAttributeTokens() {
+    public function _addAttributeTokens()
+    {
         $this->mapHandler('dq_attribute', 'acceptAttributeToken');
         $this->addEntryPattern('=\s*"', 'tag', 'dq_attribute');
         $this->addPattern("\\\\\"", 'dq_attribute');
@@ -540,26 +582,28 @@ class SimpleHtmlLexer extends SimpleLexer {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class SimpleHtmlSaxParser {
-    var $_lexer;
-    var $_listener;
-    var $_tag;
-    var $_attributes;
-    var $_current_attribute;
-    
+class SimpleHtmlSaxParser
+{
+    public $_lexer;
+    public $_listener;
+    public $_tag;
+    public $_attributes;
+    public $_current_attribute;
+
     /**
      *    Sets the listener.
      *    @param SimpleSaxListener $listener    SAX event handler.
      *    @access public
      */
-    function SimpleHtmlSaxParser(&$listener) {
+    public function SimpleHtmlSaxParser(&$listener)
+    {
         $this->_listener = &$listener;
         $this->_lexer = &$this->createLexer($this);
         $this->_tag = '';
         $this->_attributes = array();
         $this->_current_attribute = '';
     }
-    
+
     /**
      *    Runs the content through the lexer which
      *    should call back to the acceptors.
@@ -567,10 +611,11 @@ class SimpleHtmlSaxParser {
      *    @return boolean         False if parse error.
      *    @access public
      */
-    function parse($raw) {
+    public function parse($raw)
+    {
         return $this->_lexer->parse($raw);
     }
-    
+
     /**
      *    Sets up the matching lexer. Starts in 'text' mode.
      *    @param SimpleSaxParser $parser    Event generator, usually $self.
@@ -580,9 +625,10 @@ class SimpleHtmlSaxParser {
      */
     function &createLexer(&$parser) {
         $lexer = &new SimpleHtmlLexer($parser);
+
         return $lexer;
     }
-    
+
     /**
      *    Accepts a token from the tag mode. If the
      *    starting element completes then the element
@@ -594,9 +640,11 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function acceptStartToken($token, $event) {
+    public function acceptStartToken($token, $event)
+    {
         if ($event == LEXER_ENTER) {
             $this->_tag = strtolower(substr($token, 1));
+
             return true;
         }
         if ($event == LEXER_EXIT) {
@@ -605,15 +653,17 @@ class SimpleHtmlSaxParser {
                     $this->_attributes);
             $this->_tag = '';
             $this->_attributes = array();
+
             return $success;
         }
         if ($token != '=') {
             $this->_current_attribute = strtolower(SimpleHtmlSaxParser::decodeHtml($token));
             $this->_attributes[$this->_current_attribute] = '';
         }
+
         return true;
     }
-    
+
     /**
      *    Accepts a token from the end tag mode.
      *    The element name is converted to lower case.
@@ -622,13 +672,15 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function acceptEndToken($token, $event) {
+    public function acceptEndToken($token, $event)
+    {
         if (! preg_match('/<\/(.*)>/', $token, $matches)) {
             return false;
         }
+
         return $this->_listener->endElement(strtolower($matches[1]));
     }
-    
+
     /**
      *    Part of the tag data.
      *    @param string $token     Incoming characters.
@@ -636,7 +688,8 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function acceptAttributeToken($token, $event) {
+    public function acceptAttributeToken($token, $event)
+    {
         if ($this->_current_attribute) {
             if ($event == LEXER_UNMATCHED) {
                 $this->_attributes[$this->_current_attribute] .=
@@ -647,9 +700,10 @@ class SimpleHtmlSaxParser {
                         preg_replace('/^=\s*/' , '', SimpleHtmlSaxParser::decodeHtml($token));
             }
         }
+
         return true;
     }
-    
+
     /**
      *    A character entity.
      *    @param string $token    Incoming characters.
@@ -657,9 +711,10 @@ class SimpleHtmlSaxParser {
      *    @return boolean         False if parse error.
      *    @access public
      */
-    function acceptEntityToken($token, $event) {
+    public function acceptEntityToken($token, $event)
+    {
     }
-    
+
     /**
      *    Character data between tags regarded as
      *    important.
@@ -668,10 +723,11 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function acceptTextToken($token, $event) {
+    public function acceptTextToken($token, $event)
+    {
         return $this->_listener->addContent($token);
     }
-    
+
     /**
      *    Incoming data to be ignored.
      *    @param string $token     Incoming characters.
@@ -679,10 +735,11 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function ignore($token, $event) {
+    public function ignore($token, $event)
+    {
         return true;
     }
-    
+
     /**
      *    Decodes any HTML entities.
      *    @param string $html    Incoming HTML.
@@ -690,10 +747,11 @@ class SimpleHtmlSaxParser {
      *    @access public
      *    @static
      */
-    function decodeHtml($html) {
+    public function decodeHtml($html)
+    {
         return html_entity_decode($html, ENT_QUOTES);
     }
-    
+
     /**
      *    Turns HTML into text browser visible text. Images
      *    are converted to their alt text and tags are supressed.
@@ -703,7 +761,8 @@ class SimpleHtmlSaxParser {
      *    @access public
      *    @static
      */
-    function normalise($html) {
+    public function normalise($html)
+    {
         $text = preg_replace('|<!--.*?-->|', '', $html);
         $text = preg_replace('|<script[^>]*>.*?</script>|', '', $text);
         $text = preg_replace('|<img[^>]*alt\s*=\s*"([^"]*)"[^>]*>|', ' \1 ', $text);
@@ -712,6 +771,7 @@ class SimpleHtmlSaxParser {
         $text = preg_replace('|<[^>]*>|', '', $text);
         $text = SimpleHtmlSaxParser::decodeHtml($text);
         $text = preg_replace('|\s+|', ' ', $text);
+
         return trim(trim($text), "\xA0");        // TODO: The \xAO is a &nbsp;. Add a test for this.
     }
 }
@@ -722,15 +782,16 @@ class SimpleHtmlSaxParser {
  *    @subpackage WebTester
  *    @abstract
  */
-class SimpleSaxListener {
-    
+class SimpleSaxListener
+{
     /**
      *    Sets the document to write to.
      *    @access public
      */
-    function SimpleSaxListener() {
+    public function SimpleSaxListener()
+    {
     }
-    
+
     /**
      *    Start of element event.
      *    @param string $name        Element name.
@@ -740,25 +801,27 @@ class SimpleSaxListener {
      *    @return boolean            False on parse error.
      *    @access public
      */
-    function startElement($name, $attributes) {
+    public function startElement($name, $attributes)
+    {
     }
-    
+
     /**
      *    End of element event.
      *    @param string $name        Element name.
      *    @return boolean            False on parse error.
      *    @access public
      */
-    function endElement($name) {
+    public function endElement($name)
+    {
     }
-    
+
     /**
      *    Unparsed, but relevant data.
      *    @param string $text        May include unparsed tags.
      *    @return boolean            False on parse error.
      *    @access public
      */
-    function addContent($text) {
+    public function addContent($text)
+    {
     }
 }
-?>

@@ -2,13 +2,15 @@
 require_once(dirname(__FILE__) . '/../../../autorun.php');
 require_once(dirname(__FILE__) . '/../../../mock_objects.php');
 
-class CodeCoverageTest extends UnitTestCase {
-
-    function setUp() {
+class CodeCoverageTest extends UnitTestCase
+{
+    public function setUp()
+    {
         require_once dirname(__FILE__) .'/../coverage.php';
     }
 
-    function testIsFileIncluded() {
+    public function testIsFileIncluded()
+    {
         $coverage = new CodeCoverage();
         $this->assertTrue($coverage->isFileIncluded('aaa'));
         $coverage->includes = array('a');
@@ -19,7 +21,8 @@ class CodeCoverageTest extends UnitTestCase {
         $this->assertFalse($coverage->isFileIncluded('aaa'));
     }
 
-    function testIsFileIncludedRegexp() {
+    public function testIsFileIncludedRegexp()
+    {
         $coverage = new CodeCoverage();
         $coverage->includes = array('modules/.*\.php$');
         $coverage->excludes = array('bad-bunny.php');
@@ -30,14 +33,16 @@ class CodeCoverageTest extends UnitTestCase {
         $this->assertTrue($coverage->isFileIncluded('modules/good-bunny.php'));
     }
 
-    function testIsDirectoryIncludedPastMaxDepth() {
+    public function testIsDirectoryIncludedPastMaxDepth()
+    {
         $coverage = new CodeCoverage();
         $coverage->maxDirectoryDepth = 5;
         $this->assertTrue($coverage->isDirectoryIncluded('aaa', 1));
         $this->assertFalse($coverage->isDirectoryIncluded('aaa', 5));
     }
 
-    function testIsDirectoryIncluded() {
+    public function testIsDirectoryIncluded()
+    {
         $coverage = new CodeCoverage();
         $this->assertTrue($coverage->isDirectoryIncluded('aaa', 0));
         $coverage->excludes = array('b$');
@@ -48,7 +53,8 @@ class CodeCoverageTest extends UnitTestCase {
         $this->assertFalse($coverage->isDirectoryIncluded('aaa', 0));
     }
 
-    function testFilter() {
+    public function testFilter()
+    {
         $coverage = new CodeCoverage();
         $data = array('a' => 0, 'b' => 0, 'c' => 0);
         $coverage->includes = array('b');
@@ -56,7 +62,8 @@ class CodeCoverageTest extends UnitTestCase {
         $this->assertEqual(array('b' => 0), $data);
     }
 
-    function testUntouchedFiles() {
+    public function testUntouchedFiles()
+    {
         $coverage = new CodeCoverage();
         $touched = array_flip(array("test/coverage_test.php"));
         $actual = array();
@@ -66,14 +73,16 @@ class CodeCoverageTest extends UnitTestCase {
         $this->assertEqual(array("coverage_test.php"), $actual);
     }
 
-    function testResetLog() {
+    public function testResetLog()
+    {
         $coverage = new CodeCoverage();
         $coverage->log = tempnam(NULL, 'php.xdebug.coverage.test.');
         $coverage->resetLog();
         $this->assertTrue(file_exists($coverage->log));
     }
 
-    function testSettingsSerialization() {
+    public function testSettingsSerialization()
+    {
         $settingsFile = 'banana-boat-coverage-settings-test.dat';
         $coverage = new CodeCoverage();
         $coverage->log = '/banana/boat';
@@ -92,7 +101,8 @@ class CodeCoverageTest extends UnitTestCase {
         $this->assertEqual(array('tomato', 'pea'), $actual->excludes);
     }
 
-    function testSettingsCanBeReadWrittenToDisk() {
+    public function testSettingsCanBeReadWrittenToDisk()
+    {
         $settings_file = 'banana-boat-coverage-settings-test.dat';
         $coverage = new CodeCoverage();
         $coverage->log = '/banana/boat';
@@ -105,4 +115,3 @@ class CodeCoverageTest extends UnitTestCase {
         $this->assertEqual('/banana/boat', $actual->log);
     }
 }
-?>

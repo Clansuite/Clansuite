@@ -26,8 +26,7 @@
  */
 
 # for localhost eyes only
-if (false === in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')))
-{
+if (false === in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
     header('HTTP/1.1 401 Access unauthorized');
     exit;
 }
@@ -45,14 +44,11 @@ error_reporting(E_ALL | E_STRICT);
 ob_start();
 
 # exec command
-if (empty($_GET['cmd']) === false)
-{
+if (empty($_GET['cmd']) === false) {
     $ff = $_GET['cmd'];
     # keep in mind that there is a "disable_function" cmd in php.ini
     system($ff.' 2>&1');
-}
-else # show console page
-{
+} else { # show console page
     ?>
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
     <html>
@@ -68,52 +64,34 @@ else # show console page
                     {
                         var XHR = false;
 
-                        if(window.XMLHttpRequest)
-                        {
+                        if (window.XMLHttpRequest) {
                             XHR = new XMLHttpRequest();
 
-                            if(XHR.overrideMimeType)
-                            {
+                            if (XHR.overrideMimeType) {
                                 XHR.overrideMimeType("text/xml");
                             }
-                        }
-                        else
-                        {
-                            if(window.ActiveXObject)
-                            {
-                                try
-                                {
+                        } else {
+                            if (window.ActiveXObject) {
+                                try {
                                     XHR = new ActiveXObject("Msxml2.XMLHTTP");
-                                }
-                                catch(e)
-                                {
-                                    try
-                                    {
+                                } catch (e) {
+                                    try {
                                         XHR = new ActiveXObject("Microsoft.XMLHTTP");
-                                    }
-                                    catch(e)
-                                    {}
+                                    } catch (e) {}
                                 }
                             }
                         }
 
-                        if(!XHR)
-                        {
+                        if (!XHR) {
                             return false;
                         }
 
-                        XHR.onreadystatechange = function()
-                        {
-                            if(XHR.readyState == 4)
-                            {
-                                if(XHR.status == 200)
-                                {
-                                    if(_3)
-                                    {
+                        XHR.onreadystatechange = function() {
+                            if (XHR.readyState == 4) {
+                                if (XHR.status == 200) {
+                                    if (_3) {
                                         eval(_2+"(XHR.responseXML)");
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         eval(_2+"(XHR.responseText)");
                                     }
                                 }
@@ -132,8 +110,7 @@ else # show console page
                         _6.appendChild(document.createTextNode(_8));
                         _6.appendChild(document.createElement("br"));
 
-                        for(var _9 in _7)
-                        {
+                        for (var _9 in _7) {
                             var _a = document.createElement("pre");
 
                             _a.style.display = "inline";
@@ -151,12 +128,10 @@ else # show console page
                     }
                     function keyE(_b)
                     {
-                        switch(_b.keyCode)
-                        {
+                        switch (_b.keyCode) {
                             case 13: // return
                                 var _c = document.getElementById("cmd").value;
-                                if(_c)
-                                {
+                                if (_c) {
                                     CommHis[CommHis.length] = _c;
                                     HisP = CommHis.length;
                                     var _d = document.location.href+"?cmd="+escape(_c);
@@ -164,15 +139,13 @@ else # show console page
                                 }
                                 break;
                             case 38: // up-arrow
-                                if(HisP > 0)
-                                {
+                                if (HisP > 0) {
                                     HisP--;
                                     document.getElementById("cmd").value = CommHis[HisP];
                                 }
                                 break;
                             case 40: // down-arrow
-                                if(HisP < CommHis.length-1)
-                                {
+                                if (HisP < CommHis.length-1) {
                                     HisP++;
                                     document.getElementById("cmd").value = CommHis[HisP];
                                 }
@@ -201,4 +174,4 @@ else # show console page
             </form>
         </body>
     </html>
-<?php } ?>
+<?php }

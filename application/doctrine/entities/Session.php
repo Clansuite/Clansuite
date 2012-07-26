@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities;
+namespace entities;
 
 /** @Entity @Table(name="Session") */
 class Session
@@ -41,4 +41,3 @@ class Session
      */
     protected $session_where;
 }
-?>

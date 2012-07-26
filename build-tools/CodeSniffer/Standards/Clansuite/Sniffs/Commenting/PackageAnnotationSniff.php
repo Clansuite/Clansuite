@@ -12,8 +12,8 @@
  * @package    PHP_CodeSniffer
  * @subpackage Clansuite_Sniffs
  */
-class Clansuite_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSniffer_Sniff {
-
+class Clansuite_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSniffer_Sniff
+{
     /**
      * Registers tokens we're sniffing for
      *
@@ -28,21 +28,17 @@ class Clansuite_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSnif
      * Sniffs for @package tag
      *
      * @param PHP_CodeSniffer_File $phpcsFile Current file being sniffed
-     * @param type $stackPtr Current stack pointer
+     * @param type                 $stackPtr  Current stack pointer
      */
     public function process( PHP_CodeSniffer_File $phpcsFile, $stackPtr )
     {
         $tokens = $phpcsFile->getTokens();
         $index = $this->getDocStart( $tokens );
 
-        if ( $index == false )
-        {
+        if ($index == false) {
             $phpcsFile->addError( 'Missing PHPDoc for class', $stackPtr );
-        }
-        else
-        {
-            if ( !$this->classIsNamespaced($tokens) )
-            {
+        } else {
+            if ( !$this->classIsNamespaced($tokens) ) {
                 $this->sniffForPackage( $phpcsFile, $tokens, $index, $stackPtr );
             }
         }
@@ -59,18 +55,15 @@ class Clansuite_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSnif
     protected function classIsNamespaced( $tokens )
     {
 
-        foreach ( $tokens as $token => $value )
-        {
+        foreach ($tokens as $token => $value) {
 
-            if ( $value['type'] == 'T_NAMESPACE' )
-            {
+            if ($value['type'] == 'T_NAMESPACE') {
                 return true;
             }
 
             // fail fast, if we do not hit the namespace token and it's a string,
             // then the class is not namespaced
-            if ( $value['type'] == 'T_STRING' )
-            {
+            if ($value['type'] == 'T_STRING') {
                 break;
             }
         }
@@ -80,21 +73,18 @@ class Clansuite_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSnif
 
     /**
      * @param PHP_CodeSniffer_File $phpcsFile File we're sniffing
-     * @param array $tokens All tokens
-     * @param type $index Token index
-     * @param type $stackPtr Current stack pointer
+     * @param array                $tokens    All tokens
+     * @param type                 $index     Token index
+     * @param type                 $stackPtr  Current stack pointer
      */
-    protected function sniffForPackage( PHP_CodeSniffer_File $phpcsFile, array $tokens, $index, $stackPtr ) {
-
-        while ( true && isset($tokens[$index]) )
-        {
-            if ( strstr($tokens[$index]['content'],'@package') !== false )
-            {
+    protected function sniffForPackage( PHP_CodeSniffer_File $phpcsFile, array $tokens, $index, $stackPtr )
+    {
+        while ( true && isset($tokens[$index]) ) {
+            if ( strstr($tokens[$index]['content'],'@package') !== false ) {
                 return;
             }
 
-            if ( $tokens[++$index]['type'] != 'T_DOC_COMMENT' )
-            {
+            if ($tokens[++$index]['type'] != 'T_DOC_COMMENT') {
                 break;
             }
         }
@@ -112,10 +102,8 @@ class Clansuite_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSnif
     private function getDocStart( array $tokens )
     {
 
-        foreach ( $tokens as $index => $token )
-        {
-            if ( $token['type'] == 'T_DOC_COMMENT' )
-            {
+        foreach ($tokens as $index => $token) {
+            if ($token['type'] == 'T_DOC_COMMENT') {
                 return $index;
             }
         }
@@ -123,4 +111,3 @@ class Clansuite_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSnif
         return false;
     }
 }
-?>

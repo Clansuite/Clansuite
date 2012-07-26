@@ -33,7 +33,7 @@ namespace Koch\Config\Adapter;
  * @package     Core
  * @subpackage  Configuration
  */
-class XML
+class xml
 {
     /**
      * Constructor.
@@ -94,7 +94,6 @@ class XML
         $xml = simplexml_load_file($file);
 
         // transform (SimpleXMLElement or XML) to PHP Array
-
         return \Koch\Datatype\XML::toArray($xml);
     }
 }

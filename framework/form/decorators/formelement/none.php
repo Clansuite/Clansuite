@@ -43,7 +43,6 @@ class None extends Decorator
     public function render($html_form_content)
     {
         // return $html_form_content;
-
         return CR . $html_form_content . CR;
     }
 }

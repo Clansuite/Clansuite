@@ -88,4 +88,3 @@ class Settings_Admin extends Controller
         $this->response->redirectNoCache('/settings/admin', 2, 302, 'The config file has been successfully updated.');
     }
 }
-?>

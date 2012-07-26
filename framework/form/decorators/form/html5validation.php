@@ -77,7 +77,6 @@ class Html5validation extends Decorator
     {
         if (true === is_file(ROOT_THEMES_CORE . 'javascript/jquery/jquery.html5form-min.js')) {
             // put all the pieces of html together
-
             return $this->addValidationJavascript() . $html_form_content;
         } else { // fail by prepending a message :(
             $message = '[ERROR] HTML5 Validation Support not available. File missing : <br/>'.

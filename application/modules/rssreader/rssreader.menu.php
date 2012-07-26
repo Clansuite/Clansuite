@@ -44,4 +44,3 @@ $modulenavigation = array(
         'title' => ''
     ),
 );
-?>

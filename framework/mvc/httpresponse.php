@@ -364,7 +364,6 @@ class httpresponse implements HttpResponseInterface
             // results in: array[0] = type and array[1] = message)
             Koch_Flashmessages::setMessage($array[0], $array[1]);
             // return the message
-
             return $array[1];
         }
     }

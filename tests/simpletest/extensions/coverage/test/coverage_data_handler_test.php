@@ -1,13 +1,15 @@
 <?php
 require_once(dirname(__FILE__) . '/../../../autorun.php');
 
-class CoverageDataHandlerTest extends UnitTestCase {
-    
-    function setUp() {
+class CoverageDataHandlerTest extends UnitTestCase
+{
+    public function setUp()
+    {
            require_once dirname(__FILE__) .'/../coverage_data_handler.php';
     }
 
-    function testAggregateCoverageCode() {
+    public function testAggregateCoverageCode()
+    {
         $handler = new CoverageDataHandler($this->tempdb());
         $this->assertEqual(-2, $handler->aggregateCoverageCode(-2, -2));
         $this->assertEqual(-2, $handler->aggregateCoverageCode(-2, 10));
@@ -18,7 +20,8 @@ class CoverageDataHandlerTest extends UnitTestCase {
         $this->assertEqual(20, $handler->aggregateCoverageCode(10, 10));
     }
 
-    function testSimpleWriteRead() {
+    public function testSimpleWriteRead()
+    {
         $handler = new CoverageDataHandler($this->tempdb());
         $handler->createSchema();
         $coverage = array(10 => -2, 20 => -1, 30 => 0, 40 => 1);
@@ -29,11 +32,12 @@ class CoverageDataHandlerTest extends UnitTestCase {
         $this->assertEqual($expected, $actual);
     }
 
-    function testMultiFileWriteRead() {
+    public function testMultiFileWriteRead()
+    {
         $handler = new CoverageDataHandler($this->tempdb());
         $handler->createSchema();
         $handler->write(array(
-        'file1' => array(-2, -1, 1), 
+        'file1' => array(-2, -1, 1),
         'file2' => array(-2, -1, 1)
         ));
         $handler->write(array(
@@ -48,7 +52,8 @@ class CoverageDataHandlerTest extends UnitTestCase {
         $this->assertEqual($expected, $actual);
     }
 
-    function testGetfilenames() {
+    public function testGetfilenames()
+    {
         $handler = new CoverageDataHandler($this->tempdb());
         $handler->createSchema();
         $rawCoverage = array('file0' => array(), 'file1' => array());
@@ -57,7 +62,8 @@ class CoverageDataHandlerTest extends UnitTestCase {
         $this->assertEqual(array('file0', 'file1'), $actual);
     }
 
-    function testWriteUntouchedFiles() {
+    public function testWriteUntouchedFiles()
+    {
         $handler = new CoverageDataHandler($this->tempdb());
         $handler->createSchema();
         $handler->writeUntouchedFile('bluejay');
@@ -65,14 +71,15 @@ class CoverageDataHandlerTest extends UnitTestCase {
         $this->assertEqual(array('bluejay', 'robin'), $handler->readUntouchedFiles());
     }
 
-    function testLtrim() {
+    public function testLtrim()
+    {
         $this->assertEqual('ber', CoverageDataHandler::ltrim('goo', 'goober'));
         $this->assertEqual('some/file', CoverageDataHandler::ltrim('./', './some/file'));
         $this->assertEqual('/x/y/z/a/b/c', CoverageDataHandler::ltrim('/a/b/', '/x/y/z/a/b/c'));
     }
 
-    function tempdb() {
+    public function tempdb()
+    {
         return tempnam(NULL, 'coverage.test.db');
     }
 }
-?>

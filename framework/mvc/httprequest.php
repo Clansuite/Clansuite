@@ -259,15 +259,13 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
             } else {
                 return 'get';
             }
-        } elseif( ($arrayname == 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name]))
-        {
+        } elseif ( ($arrayname == 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name])) {
             if ($where === false) {
                 return true;
             } else {
                 return 'post';
             }
-        } elseif( ($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name])) or isset($this->cookie_parameters[$name]))
-        {
+        } elseif ( ($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name])) or isset($this->cookie_parameters[$name])) {
             if ($where === false) {
                 return true;
             } else {
@@ -300,12 +298,9 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
          */
         if ((bool) $parameter_array === true) {
             // this returns a value from the parameterarray
-
             return $this->{mb_strtolower($parameter_array).'_parameters'}[$name];
-        } elseif($default !== null)
-        {
+        } elseif ($default !== null) {
             // this returns the default value,incomming via method property $default
-
             return $default;
         } else {
             return null;
@@ -542,29 +537,22 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
 
         if (isset($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        {
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
             $ip = array_pop($ip);
         }
         // NGINX - with natural russian config passes the IP as REAL_IP
-        elseif(isset($_SERVER['HTTP_X_REAL_IP']))
-        {
+        elseif (isset($_SERVER['HTTP_X_REAL_IP'])) {
             $ip =  $_SERVER['HTTP_X_REAL_IP'];
-        } elseif(isset($_SERVER['HTTP_FORWARDED_FOR']))
-        {
+        } elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
             $ip =  $_SERVER['HTTP_FORWARDED_FOR'];
-        } elseif(isset($_SERVER['HTTP_CLIENT_IP']))
-        {
+        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif(isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-        {
+        } elseif (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-        } elseif(isset($_SERVER['HTTP_FORWARDED']))
-        {
+        } elseif (isset($_SERVER['HTTP_FORWARDED'])) {
             $ip = $_SERVER['HTTP_FORWARDED'];
-        } elseif(isset($_SERVER['HTTP_X_FORWARDED']) )
-        {
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED']) ) {
             $ip =  $_SERVER['HTTP_X_FORWARDED'];
         } else {
             $ip = $_SERVER['REMOTE_ADDR'];
@@ -683,8 +671,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
             } else {
                 throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
             }
-        } elseif($_SERVER['REQUEST_METHOD'] == 'GET' and $this->issetParameter('GET', 'method'))
-        {
+        } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' and $this->issetParameter('GET', 'method')) {
             // NOPE, there's no tunneling through GET!
             throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
         }
@@ -738,8 +725,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         if (isset($_SERVER['X-Requested-With']) and $_SERVER['X-Requested-With'] === 'XMLHttpRequest') {
             return true;
-        } elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')
-        {
+        } elseif (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
             return true;
         } else {
             return false;

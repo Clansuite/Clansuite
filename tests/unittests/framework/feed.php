@@ -24,8 +24,7 @@ class FeedTest extends Clansuite_UnitTestCase
     {
         $cachefile = ROOT_CACHE . md5($this->feed_url);
 
-        if(is_file($cachefile))
-        {
+        if (is_file($cachefile)) {
             unlink($cachefile);
         }
     }
@@ -75,4 +74,3 @@ class FeedTest extends Clansuite_UnitTestCase
         $this->assertIsA($feedcreator_object, 'UniversalFeedCreator');
     }
 }
-?>

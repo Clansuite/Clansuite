@@ -45,7 +45,7 @@ namespace Koch\View\Renderer;
  * @package     Core
  * @subpackage  View
  */
-class Json extends AbstractRenderere
+class json extends AbstractRenderere
 {
     public function initializeEngine()
     {
@@ -67,7 +67,6 @@ class Json extends AbstractRenderere
             return '[]';
         } else {
             // use php's json encode to modifiy data representation
-
             return json_encode($data);
         }
     }

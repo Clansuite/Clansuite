@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Toolbox
  */
-class Search extends Controller
+class search.module extends Controller
 {
 
     public function _initializeModule()
@@ -77,4 +77,3 @@ class Search extends Controller
     }
 
 }
-?>

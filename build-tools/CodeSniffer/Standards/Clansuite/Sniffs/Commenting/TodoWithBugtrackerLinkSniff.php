@@ -35,7 +35,6 @@ class Clansuite_Sniffs_Commenting_TodoWithBugtrackerLinkSniff implements PHP_Cod
     return PHP_CodeSniffer_Tokens::$commentTokens;
   }
 
-
   /**
    * Processes this sniff, when one of its tokens is encountered.
    *
@@ -50,8 +49,7 @@ class Clansuite_Sniffs_Commenting_TodoWithBugtrackerLinkSniff implements PHP_Cod
     $content = $tokens[$stackPtr]['content'];
     $matches = array();
 
-    if (preg_match('|[^a-z]+todo[^a-z]+(.*)|i', $content, $matches) !== 0)
-    {
+    if (preg_match('|[^a-z]+todo[^a-z]+(.*)|i', $content, $matches) !== 0) {
         // Clear whitespace and some common characters not required at
         // the end of a to-do message to make the warning more informative.
         $todoMessage = trim($matches[1]);
@@ -68,5 +66,3 @@ class Clansuite_Sniffs_Commenting_TodoWithBugtrackerLinkSniff implements PHP_Cod
     }
   }
 }
-
-?>

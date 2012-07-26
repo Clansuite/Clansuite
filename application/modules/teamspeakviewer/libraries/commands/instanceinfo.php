@@ -1,6 +1,6 @@
 <?php
 class Teamspeak3_ServerQueryCommand_instanceinfo extends Clansuite_Teamspeak3_ServerQueryInterface
-{    
+{
     /**
      * instanceinfo
      *
@@ -21,4 +21,3 @@ class Teamspeak3_ServerQueryCommand_instanceinfo extends Clansuite_Teamspeak3_Se
         return $this->serverQuery('instanceinfo');
     }
 }
-?>

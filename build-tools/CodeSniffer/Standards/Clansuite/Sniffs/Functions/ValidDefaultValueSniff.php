@@ -2,7 +2,7 @@
 /**
  * Clansuite_Sniffs_Methods_ValidDefaultValueSniff.
  *
- * The sniff ensures that function parameters with default value 
+ * The sniff ensures that function parameters with default value
  * are positioned at the end of the function signature.
  *
  * @author    Jens-Andre Koch
@@ -30,7 +30,7 @@ class Clansuite_Sniffs_Functions_ValidDefaultValueSniff implements PHP_CodeSniff
      * Processes this test, when one of its tokens is encountered.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int  $stackPtr  The position of the current token in the stack passed in $tokens.
+     * @param int                  $stackPtr  The position of the current token in the stack passed in $tokens.
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
@@ -44,19 +44,17 @@ class Clansuite_Sniffs_Functions_ValidDefaultValueSniff implements PHP_CodeSniff
         $defaultFound = false;
 
         $nextArg = $argStart;
-        while (($nextArg = $phpcsFile->findNext(T_VARIABLE, $nextArg + 1, $argEnd)) !== false)
-        {
+        while (($nextArg = $phpcsFile->findNext(T_VARIABLE, $nextArg + 1, $argEnd)) !== false) {
             $argHasDefault = self::_argHasDefault($phpcsFile, $nextArg);
 
-            if (($argHasDefault === false) && ($defaultFound === true))
-            {
+            if (($argHasDefault === false) && ($defaultFound === true)) {
                 $error  = 'Arguments with default values should be at the end of the argument list.';
                 $phpcsFile->addError($error, $nextArg);
+
                 return;
             }
 
-            if ($argHasDefault === true)
-            {
+            if ($argHasDefault === true) {
                 $defaultFound = true;
             }
         }
@@ -66,7 +64,7 @@ class Clansuite_Sniffs_Functions_ValidDefaultValueSniff implements PHP_CodeSniff
      * Returns true if the passed argument has a default value.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int $argPtr The position of the argument in the stack.
+     * @param int                  $argPtr    The position of the argument in the stack.
      *
      * @return bool
      */
@@ -75,8 +73,7 @@ class Clansuite_Sniffs_Functions_ValidDefaultValueSniff implements PHP_CodeSniff
         $tokens    = $phpcsFile->getTokens();
         $nextToken = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, $argPtr + 1, null, true);
 
-        if ($tokens[$nextToken]['code'] !== T_EQUAL)
-        {
+        if ($tokens[$nextToken]['code'] !== T_EQUAL) {
             return false;
         }
 
@@ -84,4 +81,3 @@ class Clansuite_Sniffs_Functions_ValidDefaultValueSniff implements PHP_CodeSniff
 
     }
 }
-?>

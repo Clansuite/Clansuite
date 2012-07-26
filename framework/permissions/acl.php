@@ -131,8 +131,7 @@ class ACL
             return strtr(base64_encode(addslashes(gzcompress(serialize($permstring),9))), '+/=', '-_,');
         }
         // return uncompress permission string
-        elseif( $permstring !== '')
-        {
+        elseif ($permstring !== '') {
             return $permstring;
         } else {
             return '';
@@ -156,8 +155,7 @@ class ACL
     {
         if (empty($_SESSION['user']['rights'])) {
             return array();
-        } elseif(self::$compress_permissions === true)
-        {
+        } elseif (self::$compress_permissions === true) {
 
             // revert the session permission string to a proper array
             $permstring = unserialize(gzuncompress(stripslashes(base64_decode(strtr($_SESSION['user']['rights'], '-_,', '+/=')))));

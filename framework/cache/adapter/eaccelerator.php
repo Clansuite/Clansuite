@@ -45,7 +45,7 @@ use Koch\Exception\Exception;
  * @package     Core
  * @subpackage  Cache
  */
-class Eaccelerator extends AbstractCache implements CacheInterface
+class eaccelerator extends AbstractCache implements CacheInterface
 {
     /**
      * Constructor.

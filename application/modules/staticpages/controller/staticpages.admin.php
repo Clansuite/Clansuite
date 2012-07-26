@@ -34,7 +34,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Staticpages
  */
-class Staticpages_Admin extends Controller
+class staticpages.admin extends Controller
 {
     /**
      * action_admin_show()
@@ -54,7 +54,7 @@ class Staticpages_Admin extends Controller
         $this->display();
     }
 
-    function create_staticpages()
+    public function create_staticpages()
     {
         // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create'), '/staticpages/admin/create');
@@ -75,8 +75,7 @@ class Staticpages_Admin extends Controller
         $iframe_height  = $_POST['iframe_height'];
 
         // @todo form validation
-        if ( !empty( $submit ) )
-        {
+        if ( !empty( $submit ) ) {
             if ( empty( $description ) OR
                  empty( $title ) )
             {
@@ -91,22 +90,19 @@ class Staticpages_Admin extends Controller
                 $error['no_special_chars'] = 1;
             }
 
-            if ( !$input->check( $url, 'is_url' ) AND !empty( $url ) )
-            {
+            if ( !$input->check( $url, 'is_url' ) AND !empty( $url ) ) {
                 $error['give_correct_url'] = 1;
             }
 
             $result = Doctrine_Query::create()->select('id')->from('CsStaticPages')->where('title', $title);
 
-            if ( is_array( $result ) )
-            {
+            if ( is_array( $result ) ) {
                 $error['static_already_exist'] = 1;
             }
 
             // ----
 
-            if ( count( $error ) == 0 )
-            {
+            if ( count( $error ) == 0 ) {
                 $page = new CsStaticPages();
                 $page->title = $title;
                 $page->description = $description;
@@ -151,8 +147,7 @@ class Staticpages_Admin extends Controller
         $info['submit']         = $_POST['submit'];
         $info['id']             = $_POST['id'];
 
-        if ( !empty( $info['submit'] ) )
-        {
+        if ( !empty( $info['submit'] ) ) {
             if ( empty( $info['description'] ) OR
                  empty( $info['title'] ) )
             {
@@ -167,27 +162,23 @@ class Staticpages_Admin extends Controller
                 $error['no_special_chars'] = 1;
             }
 
-            if ( !$input->check( $info['url'], 'is_url' ) AND !empty( $url ) )
-            {
+            if ( !$input->check( $info['url'], 'is_url' ) AND !empty( $url ) ) {
                 $error['give_correct_url'] = 1;
             }
 
             $entity = $this->getModel()->findOneBySlug($slug);
 
-            if ($entity === null)
-            {
+            if ($entity === null) {
                 throw new Clansuite_Exception('Unable to find the requested Page: ' . $slug);
             }
             Clansuite_Debug::firebug($entity);
             #$page = Doctrine::getTable('CsStaticPages')->findOneBy('title', $title);
 
-            if ( is_array( $page ) and $info['orig_title'] != $info['title'] )
-            {
+            if ( is_array( $page ) and $info['orig_title'] != $info['title'] ) {
                 $error['static_already_exist'] = 1;
             }
 
-            if ( count( $error ) == 0 )
-            {
+            if ( count( $error ) == 0 ) {
                 $page->title         = $info['title'];
                 $page->description   = $info['description'];
                 $page->url           = $info['url'];
@@ -199,9 +190,7 @@ class Staticpages_Admin extends Controller
                 $this->setFlashmessage('success', _( 'The page was successfully modified.' ));
                 $this->redirect('/controlcenter/staticpages&action=show');
             }
-        }
-        else
-        {
+        } else {
             // $info
         }
 
@@ -265,4 +254,3 @@ class Staticpages_Admin extends Controller
         $this->response->redirectNoCache('/staticpages/admin');
     }
 }
-?>

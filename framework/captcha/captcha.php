@@ -102,7 +102,6 @@ class Koch_Captcha
         }
 
         // return a random font file
-
         return self::$fonts[array_rand(self::$fonts)];
     }
 
@@ -281,8 +280,7 @@ class Koch_Captcha
             imagedestroy($this->captcha);
         }
         // embed the image into an html img tag
-        elseif($render_type == 'html_embedded')
-        {
+        elseif ($render_type == 'html_embedded') {
             // Start buffering the output stream
             ob_start();
 
@@ -294,16 +292,13 @@ class Koch_Captcha
             imagedestroy($this->captcha);
 
             // we apply some html magic here => output the image by send it as inlined data ;)
-
             return sprintf('<img alt="Embedded Captcha Image" src="data:image/png;base64,%s" />', base64_encode($imagesource));
-        } elseif($render_type == 'file_html')
-        {
+        } elseif ($render_type == 'file_html') {
             // remove outdated captcha images
             self::garbage_collection();
             // write png to file
             imagepng($this->captcha, $this->options['image_dir'] . '/' . $this->_id . '.png');
             // return html img tag which points to the image file
-
             return '<img alt="Captcha Image from File" src="' . $this->options['image_url'] . '/' . $this->_id . '.png" alt="' . $this->options['imgage_alt'] . '" />';
         }
     }

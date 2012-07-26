@@ -39,7 +39,7 @@ use Koch\MVC\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class Maintenance implements FilterInterface
+class maintenance implements FilterInterface
 {
     private $config = null;     // holds instance of config
 

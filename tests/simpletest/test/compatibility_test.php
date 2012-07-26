@@ -8,9 +8,10 @@ class ComparisonSubclass extends ComparisonClass { }
 interface ComparisonInterface { }
 class ComparisonClassWithInterface implements ComparisonInterface { }
 
-class TestOfCompatibility extends UnitTestCase {
-    
-    function testIsA() {
+class TestOfCompatibility extends UnitTestCase
+{
+    public function testIsA()
+    {
         $this->assertTrue(SimpleTestCompatibility::isA(
                 new ComparisonClass(),
                 'ComparisonClass'));
@@ -21,20 +22,23 @@ class TestOfCompatibility extends UnitTestCase {
                 new ComparisonSubclass(),
                 'ComparisonClass'));
     }
-    
-    function testIdentityOfNumericStrings() {
+
+    public function testIdentityOfNumericStrings()
+    {
         $numericString1 = "123";
         $numericString2 = "00123";
         $this->assertNotIdentical($numericString1, $numericString2);
     }
-    
-    function testIdentityOfObjects() {
+
+    public function testIdentityOfObjects()
+    {
         $object1 = new ComparisonClass();
         $object2 = new ComparisonClass();
         $this->assertIdentical($object1, $object2);
     }
-    
-    function testReferences () {
+
+    public function testReferences ()
+    {
         $thing = "Hello";
         $thing_reference = &$thing;
         $thing_copy = $thing;
@@ -48,8 +52,9 @@ class TestOfCompatibility extends UnitTestCase {
                 $thing,
                 $thing_copy));
     }
-    
-    function testObjectReferences () {
+
+    public function testObjectReferences ()
+    {
         $object = new ComparisonClass();
         $object_reference = $object;
         $object_copy = new ComparisonClass();
@@ -73,8 +78,9 @@ class TestOfCompatibility extends UnitTestCase {
                     $object_assignment));
         }
     }
-    
-    function testInteraceComparison() {
+
+    public function testInteraceComparison()
+    {
         $object = new ComparisonClassWithInterface();
         $this->assertFalse(SimpleTestCompatibility::isA(
                 new ComparisonClass(),
@@ -84,4 +90,3 @@ class TestOfCompatibility extends UnitTestCase {
                 'ComparisonInterface'));
     }
 }
-?>

@@ -27,4 +27,3 @@
 
 // redirect to allTests
 header('Location: runAllTests.php');
-?>

@@ -40,7 +40,7 @@ namespace Koch\Autoload;
  *
  * 2) APC Compile Files
  */
-class Compiler
+class compiler
 {
     protected $monolith_filename = 'clansuite_monolith.php';
 
@@ -93,7 +93,6 @@ class Compiler
         }
 
         //echo 'Monolith successfully build!';
-
         return true;
     }
 

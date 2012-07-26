@@ -41,8 +41,7 @@
                             $css1 = 'row1';
                             $css2 = 'row2';
 
-                            foreach ($settings_array as $settingname => $value)
-                            {
+                            foreach ($settings_array as $settingname => $value) {
                                 // toggle
                                 $csstoggle = ($csstoggle==$css1) ? $css2 : $css1;
 
@@ -71,6 +70,7 @@
                           function iniFlag($phpvar)
                           {
                               $status = strtolower(ini_get($phpvar));
+
                               return $status === 'on' or $status === 'true' or $status === '1';
                           }
 
@@ -88,24 +88,18 @@
 
                             #echo $phpvar .' - '.$value .' - ist:'. ini_get($phpvar) .'- soll: '. $expected_value .'<br />';
 
-                            if($return_type === 'int')
-                            {
+                            if ($return_type === 'int') {
                                 return $value;
                             }
 
-                            if($return_type === 'string')
-                            {
+                            if ($return_type === 'string') {
                                 return $value ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                             }
 
-                            if($return_type === 'img')
-                            {
-                                if($expected_value === true)
-                                {
+                            if ($return_type === 'img') {
+                                if ($expected_value === true) {
                                     return $value ? SETTING_TRUE : SETTING_FALSE;
-                                }
-                                else
-                                {
+                                } else {
                                     return $value ? SETTING_FALSE : SETTING_TRUE;
                                 }
                             }
@@ -119,14 +113,12 @@
                              // filehandle for temp file
                              $temp_file_name = tempnam(sys_get_temp_dir(), "FOO FIGHTERS");
 
-                             if (empty($temp_file_name) === false)
-                             {
+                             if (empty($temp_file_name) === false) {
                                 file_put_contents($temp_file_name, 'Writing FOO to tempfile.');
                                 unlink($temp_file_name);
+
                                 return true;
-                             }
-                             else
-                             {
+                             } else {
                                 return $temp_file_name;
                              }
                          }
@@ -457,25 +449,20 @@
                             <div class="alignright">
                                 <?php
                                 $button_inactive = false;
-                                foreach($required as $required_item)
-                                {
-                                    if($required_item['status'] === SETTING_FALSE)
-                                    {
+                                foreach ($required as $required_item) {
+                                    if ($required_item['status'] === SETTING_FALSE) {
                                         $button_inactive = true;
                                         break;
                                     }
                                 }
 
-                                if($button_inactive === true)
-                                {
+                                if ($button_inactive === true) {
                                 ?>
                                     <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>"
                                            title="<?php echo $language['STEP2_FIX_REQUIRED_SETTINGS_TOOLTIP']; ?>"
                                            disabled="disabled" class="ButtonGrey" name="step_forward" tabindex="1" />
                                 <?php
-                                }
-                                else
-                                {
+                                } else {
                                 ?>
                                     <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" tabindex="1" />
                                 <?php

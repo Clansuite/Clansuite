@@ -197,4 +197,3 @@ class Forum_Admin extends Controller
         $this->response->redirectNoCache('/forum/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
-?>

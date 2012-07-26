@@ -1,5 +1,5 @@
 <?php
-namespace Entities;
+namespace entities;
 
 //use Doctrine\ORM\Mapping as ORM; // we are currently not using @ORM annotions
 
@@ -163,4 +163,3 @@ class News
         $this->cat_id = $category->cat_id;
     }
 }
-?>

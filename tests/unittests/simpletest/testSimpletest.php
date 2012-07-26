@@ -89,4 +89,3 @@ class Simpletest_Test extends UnitTestCase #PHPUnit_Framework_TestCase
         );*/
     }
 }
-?>

@@ -35,7 +35,7 @@
               <div id="progressbar">
                     <?php
                     #note by vain: this fixes a 2pixel problem while displaying the progress bar at 100percent:P
-                    if ($_SESSION['step'] == 7 ) { $_SESSION['progress'] = $_SESSION['progress'] - 2; }
+                    if ($_SESSION['step'] == 7) { $_SESSION['progress'] = $_SESSION['progress'] - 2; }
                     ?>
                   <div style="border: 1px solid white; height: 5px ! important; width: <?php echo $_SESSION['progress']; ?>px; background-color: rgb(181, 0, 22);"></div>
               </div>
@@ -53,8 +53,7 @@
                 foreach (new DirectoryIterator('./languages/') as $file) {
                    // get each file not starting with dots ('.','..')
                    // or containing ".install.php"
-                   if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename()))
-                   {
+                   if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename())) {
                       echo '<option style="padding-left: 30px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
                       $file = substr($file->getFilename(), 0, -4);
                       if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }

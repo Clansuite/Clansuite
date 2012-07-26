@@ -1,6 +1,6 @@
 <?php
 class Teamspeak3_ServerQueryCommand_clientinfo extends Clansuite_Teamspeak3_ServerQueryInterface
-{   
+{
    /**
     * clientinfo
     * returns all information about a client
@@ -27,7 +27,7 @@ class Teamspeak3_ServerQueryCommand_clientinfo extends Clansuite_Teamspeak3_Serv
     *  [client_lastconnected] => <br>
     *  [client_totalconnections] => <br>
     *  [client_away] => <br>
-    *  [client_away_message] =><br> 
+    *  [client_away_message] =><br>
     *  [client_type] => <br>
     *  [client_flag_avatar] => <br>
     *  [client_talk_power] => <br>
@@ -63,4 +63,3 @@ class Teamspeak3_ServerQueryCommand_clientinfo extends Clansuite_Teamspeak3_Serv
         return $this->serverQuery('clientinfo clid='.$cid);
     }
 }
-?>

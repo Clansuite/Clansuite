@@ -33,7 +33,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  Functions
  */
-class Functions
+class functions
 {
     /**
      * @var array This array contains the names of the loaded functions from directory /core/functions.
@@ -90,7 +90,6 @@ class Functions
             // ok, prefixed, do nothing
             unset($spos);
             // just return the string
-
             return $string;
         } else { // add the prefix
             unset($spos);
@@ -275,7 +274,6 @@ class Functions
         // take a look for the needle
         if ((isset($haystack[$needle]) === true) or (array_key_exists($needle, $haystack))) {
             // if found, return it
-
             return $haystack[$needle];
         }
 
@@ -283,7 +281,6 @@ class Functions
         foreach ($haystack as $k => $v) {
             if (is_array($v)) {
                 // recursion
-
                 return self::array_find_element_by_key($needle, $v);
             }
         }
@@ -308,8 +305,7 @@ class Functions
         foreach ($array1 as $key => $value) {
             if (array_key_exists($key, $array2) === false) {
                 $diff[0][$key] = $value;
-            } elseif(is_array($value))
-            {
+            } elseif (is_array($value)) {
                 if (is_array($array2[$key]) === false) {
                     $diff[0][$key] = $value;
                     $diff[1][$key] = $array2[$key];
@@ -323,8 +319,7 @@ class Functions
                             $diff[1][$key] = $new[1];
                     }
                 }
-            } elseif($array2[$key] !== $value)
-            {
+            } elseif ($array2[$key] !== $value) {
                 $diff[0][$key] = $value;
                 $diff[1][$key] = $array2[$key];
             }
@@ -715,8 +710,7 @@ class Functions
                             die(_('Could not copy the directory. Probably a permission problem.'));
                         }
                         ini_set('error_reporting', $old);
-                    } elseif(is_dir($source_path) === true)
-                    {
+                    } elseif (is_dir($source_path) === true) {
                         if (is_dir($target_path) === false) {
                             if(@mkdir($target_path, fileperms($source_path)) == false
                                 );
@@ -743,8 +737,7 @@ class Functions
 
         if (!is_file($directory) or !is_dir($directory)) {
             return false;
-        } elseif(!is_readable($directory))
-        {
+        } elseif (!is_readable($directory)) {
             return false;
         } else {
             // loop over all elements in that directory
@@ -805,7 +798,6 @@ class Functions
         }
 
         // calling the loaded function
-
         return UTF8_to_HTML($utf8, $encodeTags);
     }
 

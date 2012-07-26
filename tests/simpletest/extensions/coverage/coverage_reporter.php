@@ -17,20 +17,23 @@ require_once dirname(__FILE__) .'/simple_coverage_writer.php';
  * @package        SimpleTest
  * @subpackage     Extensions
  */
-class CoverageReporter {
-    var $coverage;
-    var $untouched;
-    var $reportDir;
-    var $title = 'Coverage';
-    var $writer;
-    var $calculator;
+class CoverageReporter
+{
+    public $coverage;
+    public $untouched;
+    public $reportDir;
+    public $title = 'Coverage';
+    public $writer;
+    public $calculator;
 
-    function __construct() {
+    public function __construct()
+    {
         $this->writer = new SimpleCoverageWriter();
         $this->calculator = new CoverageCalculator();
     }
-    
-    function generate() {
+
+    public function generate()
+    {
         CoverageUtils::mkdir($this->reportDir);
 
         $index = $this->reportDir .'/index.html';
@@ -48,7 +51,8 @@ class CoverageReporter {
         echo "Code-coverage report generated. <a href=\"$index\">View Report</a>\n";
     }
 
-    function generateSummaryReport($out) {
+    public function generateSummaryReport($out)
+    {
         $variables = $this->calculator->variables($this->coverage, $this->untouched);
         $variables['title'] = $this->title;
         var_dump($variables);
@@ -56,16 +60,18 @@ class CoverageReporter {
         fwrite($out, $report);
     }
 
-    function generateCoverageByFile($out, $file, $cov) {
+    public function generateCoverageByFile($out, $file, $cov)
+    {
         $variables = $this->calculator->coverageByFileVariables($file, $cov);
         $variables['title'] = $this->title .' - '. $file;
         $this->writer->writeByFile($out, $variables);
     }
 
-    static function reportFilename($filename) {
+    public static function reportFilename($filename)
+    {
         $filename = str_replace("C:\\Programme\\Zend\\Apache2\\htdocs\\clansuite\\trunk\\", '', $filename);
         $filename = preg_replace('|[/\\\\]|', '_', $filename) . '.html';
+
         return $filename;
     }
 }
-?>

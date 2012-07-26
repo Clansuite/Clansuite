@@ -424,7 +424,6 @@ class Router implements RouterInterface, \ArrayAccess
         $this->loadDefaultRoutes();
 
         // map match uri
-
         return $this->match();
 
         // results: route is "dispatchable" or route to "404"
@@ -723,17 +722,14 @@ class Router implements RouterInterface, \ArrayAccess
                     return true;
                 } else {
                     // @todo Hint: Please enable mod_rewrite in htaccess.
-
                     return false;
                 }
             } else {
                 // @todo Hint: No htaccess file found. Create and enable mod_rewrite.
-
                 return false;
             }
         } else {
             // @todo Hint: Please enable mod_rewrite module for Apache.
-
             return false;
         }
     }

@@ -112,8 +112,7 @@ class User
                     #->leftJoin('u.CsGroups g')
                     ->where('u.user_id = ?')
                     ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
-        } elseif( empty($email) === false )
-        {
+        } elseif ( empty($email) === false ) {
             // Get the user from the email
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
@@ -122,8 +121,7 @@ class User
                     #->leftJoin('u.CsGroups g')
                     ->where('u.email = ?')
                     ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
-        } elseif( empty($nick) === false )
-        {
+        } elseif ( empty($nick) === false ) {
             // Get the user from the nick
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
@@ -296,11 +294,9 @@ class User
             $this->moduleconfig['login']['hash_algorithm']))
         {
             // ok, the user with nick or email exists and the passwords matched, then return the user_id
-
             return $user['user_id'];
         } else {
             // no user was found with this combination of either nick and password or email and password
-
             return false;
         }
     }

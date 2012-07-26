@@ -95,7 +95,6 @@ class Wysiwygnicedit extends Textarea implements FormelementInterface
                 </style>';
 
         // if we are in inheritance mode, skip this, the parent class handles this already
-
         return $javascript.$html;
     }
 }

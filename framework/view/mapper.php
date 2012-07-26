@@ -42,7 +42,7 @@ use Koch\MVC\HttpRequest;
  * layout_template selection, depends on the main configuration and user selection (settings).
  *
  */
-class Mapper
+class mapper
 {
     /**
      * @var string Template name.
@@ -254,7 +254,6 @@ class Mapper
             $renderer = HttpRequest::getRoute()->getRenderEngine();
 
             // the template with that name is not found on our default paths
-
             return ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . $renderer . DIRECTORY_SEPARATOR . 'template_not_found.tpl';
         }
     }
@@ -274,13 +273,11 @@ class Mapper
 
             if (is_file($file) === true) {
                 // file found
-
                 return $file;
             }
         }
 
         // file not found
-
         return false;
     }
 }
