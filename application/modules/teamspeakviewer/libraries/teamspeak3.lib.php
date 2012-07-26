@@ -356,8 +356,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
             // read server response till a message string "msg=" was found
             do {
                 $data .= fgets($this->socket);
-            }
-            while(strpos($data, 'msg=') === false);
+            } while (strpos($data, 'msg=') === false);
 
             #Clansuite_Debug::printR($data);
 
