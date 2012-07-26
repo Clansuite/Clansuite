@@ -349,9 +349,9 @@ class TargetRoute extends Mapper
         return self::$parameters;
     }
 
-    public static function _debug()
+    public static function debug()
     {
-        Koch\Debug::printR(self::$parameters);
+        \Koch\Debug\Debug::printR(self::$parameters);
     }
 
     /**
