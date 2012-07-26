@@ -2,8 +2,8 @@
 /**
  * Clansuite_Sniffs_Commenting_OneLineCommentSniff.
  *
- * This sniff prohibits the usage of "//" on one line comments.
- * Usage of Perl-style (hash) comments "#" is enforced.
+ * This sniff prohibits the usage of perl-style (#, hashed) one line comments.
+ * The usage of two forward slashes (//) for single line comments is enforced.
  *
  * @author    Jens-Andre Koch
  * @copyright 2005-onwards
@@ -39,12 +39,10 @@ class Clansuite_Sniffs_Commenting_OneLineCommentSniff implements PHP_CodeSniffer
         $tokens = $phpcsFile->getTokens();
         $content = $tokens[$stackPtr]['content'];
 
-        if(preg_match('[//]', $content) === true)
+        if(preg_match('[#]', $content) === true)
         {
-            $error = 'Single-line comments must begin with "#" (e.g. # My comment)';
+            $error = 'Single-line comments must begin with "//" (e.g. // My comment)';
             $phpcsFile->addError($error, $stackPtr);
         }
     }
 }
-
-?>
