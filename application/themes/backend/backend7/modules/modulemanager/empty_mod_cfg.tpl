@@ -9,27 +9,10 @@
     *
     * Purpose:      Configuration of Clansuite Module Class - {$name}
     *               {$description}
-
     *
-    * @license    GNU/GPL, see COPYING.txt
-    *
-    * @author     Jens-Andre Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andre Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
-    *
-    * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
-    *
-
     */
 
-/**
- *  Security Handler
- */
-if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.'); {rdelim}
-
-/**
+/*
  * Subfiles of the module
  * -----------------------
  * Subfiles are used to extend the usage of a module,
