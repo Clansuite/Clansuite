@@ -4,51 +4,50 @@ class ClassRepository
 {
     private static $reflection = false;
 
-    function __construct()
+    public function __construct()
     {
-        if(false === self::$reflection)
-        {
+        if (false === self::$reflection) {
             self::$reflection = new ReflectionCache();
         }
         self::$reflection->refresh();
     }
 
-    function candidatesFor($interface)
+    public function candidatesFor($interface)
     {
         return array_merge(
            self::$reflection->concreteSubgraphOf($interface),
                 self::$reflection->implementationsOf($interface));
     }
 
-    function isSupertype($class, $type)
+    public function isSupertype($class, $type)
     {
         $supertypes = array_merge(
                 array($class), self::$reflection->interfacesOf($class),
                 self::$reflection->parentsOf($class));
+
         return in_array($type, $supertypes);
     }
 
-    function getConstructorParameters($class)
+    public function getConstructorParameters($class)
     {
         $reflection = self::$reflection->reflection($class);
 
         $constructor = '';
         $constructor = $reflection->getConstructor();
-        if($constructor)
-        {
+        if ($constructor) {
             return $constructor->getParameters();
         }
 
         return array();
     }
 
-    function getParameters($class, $method)
+    public function getParameters($class, $method)
     {
         $reflection = self::$reflection->reflection($class);
-        if(false === $reflection->hasMethod($method))
-        {
+        if (false === $reflection->hasMethod($method)) {
             throw new SetterDoesNotExist();
         }
+
         return $reflection->getMethod($method)->getParameters();
     }
 
@@ -62,39 +61,35 @@ class ReflectionCache
     private $subclasses = array();
     private $parents = array();
 
-    function refresh()
+    public function refresh()
     {
         $this->buildIndex(array_diff(get_declared_classes(), $this->indexed()));
         $this->subclasses = array();
     }
 
-    function implementationsOf($interface)
+    public function implementationsOf($interface)
     {
         return isset($this->implementations_of[$interface]) ?
                 $this->implementations_of[$interface] : array();
     }
 
-    function interfacesOf($class)
+    public function interfacesOf($class)
     {
         return isset($this->interfaces_of[$class]) ?
                 $this->interfaces_of[$class] : array();
     }
 
-    function concreteSubgraphOf($class)
+    public function concreteSubgraphOf($class)
     {
-        if(false === class_exists($class))
-        {
+        if (false === class_exists($class)) {
             return array();
         }
 
-        if(false === isset($this->subclasses[$class]))
-        {
+        if (false === isset($this->subclasses[$class])) {
             $this->subclasses[$class] = $this->isConcrete($class) ? array($class) : array();
 
-            foreach($this->indexed() as $candidate)
-            {
-                if(true === is_subclass_of($candidate, $class) && $this->isConcrete($candidate))
-                {
+            foreach ($this->indexed() as $candidate) {
+                if (true === is_subclass_of($candidate, $class) && $this->isConcrete($candidate)) {
                     $this->subclasses[$class][] = $candidate;
                 }
             }
@@ -103,20 +98,18 @@ class ReflectionCache
         return $this->subclasses[$class];
     }
 
-    function parentsOf($class)
+    public function parentsOf($class)
     {
-        if(false === isset($this->parents[$class]))
-        {
+        if (false === isset($this->parents[$class])) {
             $this->parents[$class] = class_parents($class);
         }
 
         return $this->parents[$class];
     }
 
-    function reflection($class)
+    public function reflection($class)
     {
-        if(false === isset($this->reflections[$class]))
-        {
+        if (false === isset($this->reflections[$class])) {
             $this->reflections[$class] = new ReflectionClass($class);
         }
 
@@ -135,12 +128,10 @@ class ReflectionCache
 
     private function buildIndex($classes)
     {
-        foreach($classes as $class)
-        {
+        foreach ($classes as $class) {
             $interfaces = array_values(class_implements($class));
             $this->interfaces_of[$class] = $interfaces;
-            foreach($interfaces as $interface)
-            {
+            foreach ($interfaces as $interface) {
                 $this->crossReference($interface, $class);
             }
         }
@@ -150,8 +141,7 @@ class ReflectionCache
 
     private function crossReference($interface, $class)
     {
-        if(false === isset($this->implementations_of[$interface]))
-        {
+        if (false === isset($this->implementations_of[$interface])) {
             $this->implementations_of[$interface] = array();
         }
         $this->implementations_of[$interface][] = $class;
@@ -160,5 +150,3 @@ class ReflectionCache
     }
 
 }
-
-?>

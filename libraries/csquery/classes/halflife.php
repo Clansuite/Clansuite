@@ -1,9 +1,9 @@
 <?php
 
 /*
- *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith. 
+ *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith.
  *  It's also inspired by gameq, squery, phgstats
- *  and several other projectes like kquery and hlsw. 
+ *  and several other projectes like kquery and hlsw.
  *
  *  csQuery - gameserver query class
  *  Copyright (c) 2005-2006 Jens-André Koch <jakoch@web.de>
@@ -47,56 +47,60 @@
  */
 class halflife extends csQuery
 {
-  var $playerFormat = '/sscore/x2/ftime';
+  public $playerFormat = '/sscore/x2/ftime';
 
-  function rcon_query_server($command, $rcon_pwd)
+  public function rcon_query_server($command, $rcon_pwd)
   {
     $get_challenge="\xFF\xFF\xFF\xFFchallenge rcon\n";
-    if(!($challenge_rcon=$this->_sendCommand($this->address,$this->queryport,$get_challenge))) {
+    if (!($challenge_rcon=$this->_sendCommand($this->address,$this->queryport,$get_challenge))) {
       $this->debug['Command send ' . $command]='No challenge rcon received';
+
       return FALSE;
     }
     if (!ereg("challenge rcon ([0-9]+)", $challenge_rcon)) {
       $this->debug['Command send ' . $command]='No valid challenge rcon received';
+
       return FALSE;
     }
     $challenge_rcon=substr($challenge_rcon, 19,10);
     $command="\xFF\xFF\xFF\xFFrcon \"".$challenge_rcon."\" ".$rcon_pwd.' '.$command."\n";
-    if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+    if (!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
       $this->debug['Command send ' . $command]='No reply received';
+
       return FALSE;
     } else {
       return substr($result, 5);
     }
   }
- 
-  function getGameJoinerURI()
+
+  public function getGameJoinerURI()
   {
     return 'hlsw://hlife@'. $this->address .':'. $this->hostport .'/'. $this->gametype;
   }
 
-  
-  function query_server($getPlayers=TRUE,$getRules=TRUE)
-  {     
+
+  public function query_server($getPlayers=TRUE,$getRules=TRUE)
+  {
     // flushing old data if necessary
-    if($this->online) {
+    if ($this->online) {
       $this->_init();
     }
-    
+
     $starttime = microtime();
-    
+
     //query the basic server info
       $command= "\xFF\xFF\xFF\xFFTSource Engine Query\x00";
-      if(!($result=$this->_sendCommand($this->address,$this->queryport, $command))) { 	
+      if (!($result=$this->_sendCommand($this->address,$this->queryport, $command))) {
         echo '_sendCommand Problem while query_server halflife';
+
         return FALSE;
       }
-       
-     $endtime=microtime(); 
+
+     $endtime=microtime();
      $diff = round(($endtime - $starttime) * 1000, 0);
      // response time
      $this->response = round($diff,2);
-     
+
       //unlike the other protocols implemented in this class the return value here
       //is a defined structure.  Because php can't handle structures unpack the string
       //into an array and step through the elements reading a bytes as required
@@ -109,19 +113,18 @@ class halflife extends csQuery
 
       $data = unpack("Iheader/cindicator/c*", $result);
 
-      if (!$data[header]==-1)
-      {
+      if (!$data[header]==-1) {
         $this->debug[$command]="Not a hl server, expected 0xFF 0xFF 0xFF 0xFF in first 4 bytes";
+
         return FALSE;
       }
 
-      if (!chr($data[indicator])=="\x6D")
-      {
+      if (!chr($data[indicator])=="\x6D") {
         $this->debug[$command]="Not a hl server, expected 0x6D in byte 5";
+
         return FALSE;
       }
-    
-    
+
     $pos=1;
 
       $gameip = $this->_get_string($data, $pos);
@@ -161,8 +164,7 @@ class halflife extends csQuery
       $pos++;
 
       //if this is a mod, get mod specific information
-      if ($ismod==1)
-      {
+      if ($ismod==1) {
 
         $modurlinfo = $this->_get_string($data, $pos);
         $pos += strlen($modurlinfo) + 1;
@@ -207,21 +209,21 @@ class halflife extends csQuery
 
       //Before you can query the players and rules you have to get a 4 byte challenge number
       $command= "\xFF\xFF\xFF\xFF\x57";
-      if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+      if (!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
         return FALSE;
       }
 
       $data = unpack("Iheader/cindicator/c4", $result); //Long followed by bytes
 
-      if (!$data[header]==-1)
-      {
+      if (!$data[header]==-1) {
         $this->debug[$command]="Invalid challenge no reponse, expected 0xFF 0xFF 0xFF 0xFF in first 4 bytes";
+
         return FALSE;
       }
 
-      if (!$data[indicator]=="\x41")
-      {
+      if (!$data[indicator]=="\x41") {
         $this->debug[$command]="Invalid challenge no reponse, expected 0x41 in byte 5";
+
         return FALSE;
       }
 
@@ -229,39 +231,37 @@ class halflife extends csQuery
       $challengeno = chr($data[1]).chr($data[2]).chr($data[3]).chr($data[4]);
 
       // get players
-      if($this->numplayers && $getPlayers) {
+      if ($this->numplayers && $getPlayers) {
 
         $command= "\xFF\xFF\xFF\xFF\x55" . $challengeno;
-        if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+        if (!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
           return FALSE;
         }
 
         $data = unpack("Iheader/cindicator/cnumplayers/c*", $result);
 
-        if (!$data[header]==-1)
-        {
+        if (!$data[header]==-1) {
           $this->debug[$command]="Invlaid player reponse, expected 0xFF 0xFF 0xFF 0xFF in first 4 bytes";
+
           return FALSE;
         }
 
-        if (!$data[indicator]=="\x44")
-        {
+        if (!$data[indicator]=="\x44") {
           $this->debug[$command]="Invlaid player reponse, expected 0x44 in byte 5";
+
           return FALSE;
         }
 
         $numplayers = $data[numplayers];
 
         $pos = 1;
-        for ($i=0; $i<$numplayers; $i++)
-        {
+        for ($i=0; $i<$numplayers; $i++) {
 
           $index = $data[$pos];
           $pos++;
 
           $players[$index]["name"] = $this->_get_string($data, $pos);
           $pos += strlen($players[$index]["name"]) + 1;
-
 
           $players[$index]["score"] = $this->_get_long($data, $pos);
           $pos += 4;
@@ -279,7 +279,7 @@ class halflife extends csQuery
 
       //get the server rules
       $command= "\xFF\xFF\xFF\xFF\x56" . $challengeno;
-      if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+      if (!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
         return FALSE;
       }
 
@@ -288,8 +288,7 @@ class halflife extends csQuery
       //I assume this is some kind of packet check, if anyone can explain to me, please do - BH
       $offset = 0;
       $newresult = "";
-      while ($offset < strlen($result))
-      {
+      while ($offset < strlen($result)) {
         $newresult = $newresult.substr($result, $offset + 9, 1391);
         $offset+=1400;
       }
@@ -299,23 +298,22 @@ class halflife extends csQuery
       // s = 2 byte integer
       $data = unpack("Iheader/cindicator/snumrules/c*", $result);
 
-      if (!$data[header]==-1)
-      {
+      if (!$data[header]==-1) {
         $this->debug[$command]="Invlaid rules reponse, expected 0xFF 0xFF 0xFF 0xFF in first 4 bytes";
+
         return FALSE;
       }
 
-      if (!$data[indicator]=="\x45")
-      {
+      if (!$data[indicator]=="\x45") {
         $this->debug[$command]="Invlaid rules reponse, expected 0x45 in byte 5";
+
         return FALSE;
       }
 
       $numrules = $data[numrules];
 
       $pos = 1;
-      for ($i=1; $i<$numrules; $i++)
-      {
+      for ($i=1; $i<$numrules; $i++) {
 
         $rulename = $this->_get_string($data, $pos);
         $pos += strlen($rulename) + 1;
@@ -328,13 +326,14 @@ class halflife extends csQuery
       }
 
       return TRUE;
-    
+
   }
 
-  function getDebugDumps($html=FALSE, $dumper=NULL) {
-    require_once(csQuery_DIR . 'includes/HexDumper.class.php');    
+  public function getDebugDumps($html=FALSE, $dumper=NULL)
+  {
+    require_once(csQuery_DIR . 'includes/HexDumper.class.php');
 
-    if(!isset($dumper)) {
+    if (!isset($dumper)) {
       $dumper = new HexDumper();
       $dumper->setDelimiter(0x00);
       $dumper->setEndOfHeader(0x04);
@@ -344,54 +343,52 @@ class halflife extends csQuery
   }
 
 
-  function _processPlayers($data, $format, $formatLength) 
+  public function _processPlayers($data, $format, $formatLength)
   {
     $len = strlen($data);
 
     $posNextPlayer=$len;
 
-    for($i=6;$i<$len;$i=$endPlayerName+$formatLength+1) { 
+    for ($i=6;$i<$len;$i=$endPlayerName+$formatLength+1) {
       // finding end of player name
       $endPlayerName = strpos($data, "\x00", ++$i);
-      if($endPlayerName == FALSE) { return FALSE; } // abort on bogus data
+      if ($endPlayerName == FALSE) { return FALSE; } // abort on bogus data
       // unpacking player's score and time
       $curPlayer = unpack('@'.($endPlayerName+1).$format, $data);
       // format time
-      if(array_key_exists('time', $curPlayer)) {
-	$curPlayer['time'] = date('H:i:s', mktime(0, 0, $curPlayer['time']));
+      if (array_key_exists('time', $curPlayer)) {
+    $curPlayer['time'] = date('H:i:s', mktime(0, 0, $curPlayer['time']));
       }
       // extract player name
       $curPlayer['name'] = substr($data, $i, $endPlayerName-$i);
       // add player to the list of players
-      $this->players[] = $curPlayer; 
+      $this->players[] = $curPlayer;
     }
   }
 
     //from an array of bytes keep reading as string until 0x00 terminator
-    function _get_string($data, $pos)
+    public function _get_string($data, $pos)
     {
         $string = "";
-        while (!$data[$pos]==0)
-        {
+        while (!$data[$pos]==0) {
           $string = $string.chr($data[$pos]);
           $pos++;
         }
+
         return $string;
     }
 
-    //from an array of bytes, take 4 bytes starting at $pos and convert to little endian long 
-    function _get_long($data, $pos)
+    //from an array of bytes, take 4 bytes starting at $pos and convert to little endian long
+    public function _get_long($data, $pos)
     {
         $long = $data[$pos];
-        for ($i=1; $i<4; $i++)
-        {
+        for ($i=1; $i<4; $i++) {
           $pos++;
           $long << 8;
           $long += $data[$pos];
         }
+
         return $long;
     }
- 
-}
 
-?>
+}

@@ -1,9 +1,9 @@
 <?php
 
 /*
- *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith. 
+ *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith.
  *  It's also inspired by gameq, squery, phgstats
- *  and several other projectes like kquery and hlsw. 
+ *  and several other projectes like kquery and hlsw.
  *
  *  csQuery - gameserver query class
  *  Copyright (c) 2005-2006 Jens-André Koch <jakoch@web.de>
@@ -55,16 +55,16 @@ class quake extends csQuery
    * @param rcon_pwd rcon password to authenticate with
    * @return the result of the command or FALSE on failure
    */
-  function rcon_query_server($command, $rcon_pwd)
+  public function rcon_query_server($command, $rcon_pwd)
   {
     $command="\xFF\xFF\xFF\xFF\x02rcon ".$rcon_pwd." ".$command."\x0a\x00";
-    if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+    if (!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
       $this->errstr="Error sending rcon command";
       $this->debug['Command send ' . $command]='No reply received';
+
       return FALSE;
     } else {
       return $result;
     }
-  } 
+  }
 }
-?>

@@ -1,9 +1,9 @@
 <?php
 
 /*
- *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith. 
+ *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith.
  *  It's also inspired by gameq, squery, phgstats
- *  and several other projectes like kquery and hlsw. 
+ *  and several other projectes like kquery and hlsw.
  *
  *  csQuery - gameserver query class
  *  Copyright (c) 2005-2006 Jens-André Koch <jakoch@web.de>
@@ -41,31 +41,30 @@ require_once csQuery_DIR . 'classes/halflife.php';
  * @brief This class implements the protocol used by halflife 2
  * @author Curtis Brown <webmaster@2dementia.com>
  * @version $Rev$
- * @todo preventing DoS with data containing no \x00's 
+ * @todo preventing DoS with data containing no \x00's
  * @todo clean up for basic info retrieval required
  */
 class halflife2 extends halflife
 {
- 
-  function query_server($getPlayers=TRUE,$getRules=TRUE)
-  {     
+
+  public function query_server($getPlayers=TRUE,$getRules=TRUE)
+  {
     // flushing old data if necessary
-    if($this->online) {
+    if ($this->online) {
       $this->_init();
     }
-           
+
     $command="\xFF\xFF\xFF\xFFT";
-    if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+    if (!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
       return FALSE;
     }
-   
+
     $i=5;// start after header
-    
+
     $this->gameversion=ord($result{5});
     $this->hostport = $this->queryport;
 
     $basic = explode("\x00", substr($result, 6));
-
 
     // XXX: Replace old code
     $this->rules['gamedir']='';
@@ -92,41 +91,41 @@ class halflife2 extends halflife
     $this->mapname = $basic[1];
     $this->rules['gamedir'] = $basic[2];
     $this->gamename = preg_replace('/[ :]/', '_', strtolower($basic[3]));
-   
+
     // do rules
     $command="\xFF\xFF\xFF\xFFV";
-    if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+    if (!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
       return FALSE;
     }
-     
+
     $exploded_data = explode("\x00", $result);
-    
+
     $z=count($exploded_data);
-    for($i=1;$i<$z;$i++) {
-      switch($exploded_data[$i++]) {
+    for ($i=1;$i<$z;$i++) {
+      switch ($exploded_data[$i++]) {
       case 'sv_password':
-	$this->password=$exploded_data[$i];
-	break;
+    $this->password=$exploded_data[$i];
+    break;
       case 'deathmatch':
-	if ($exploded_data[$i]=='1') $this->gametype='Deathmatch';
-	break;
+    if ($exploded_data[$i]=='1') $this->gametype='Deathmatch';
+    break;
       case 'coop':
-	if ($exploded_data[$i]=='1') $this->gametype='Cooperative';
-	break;
+    if ($exploded_data[$i]=='1') $this->gametype='Cooperative';
+    break;
       default:
-	if(isset($exploded_data[$i-1]) && isset($exploded_data[$i])) {
-	  $this->rules[$exploded_data[$i-1]]=$exploded_data[$i];
-	}
+    if (isset($exploded_data[$i-1]) && isset($exploded_data[$i])) {
+      $this->rules[$exploded_data[$i-1]]=$exploded_data[$i];
+    }
       }
     }
 
-    if($getPlayers) {
+    if ($getPlayers) {
       // do players
       $command="\xFF\xFF\xFF\xFFU";
-      if(!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
-	return FALSE;
+      if (!($result=$this->_sendCommand($this->address,$this->queryport,$command))) {
+    return FALSE;
       }
-   
+
       $this->_processPlayers($result, $this->playerFormat, 8);
 
       $this->playerkeys['name']=TRUE;
@@ -135,8 +134,7 @@ class halflife2 extends halflife
     }
 
     $this->online = TRUE;
+
     return TRUE;
   }
 }
-
-?> 

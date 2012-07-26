@@ -1,9 +1,9 @@
 <?php header("Content-type: text/plain", TRUE); ?>
 <?php
 /*
- *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith. 
+ *  csQuery is a fork of the deprecated gsQuery by Jeremias Reith.
  *  It's also inspired by gameq, squery, phgstats
- *  and several other projectes like kquery and hlsw. 
+ *  and several other projectes like kquery and hlsw.
  *
  *  csQuery - gameserver query class
  *  Copyright (c) 2005-2006 Jens-André Koch <jakoch@web.de>
@@ -35,11 +35,11 @@
  *  SVN: $Id$
  */
 
-include_once("../csQuery.php"); 
+include_once '../csQuery.php';
 
 $gameserver=csQuery::createInstance($_GET["protocol"], $_GET["host"], $_GET["queryport"]);
-  
-if(!$gameserver) {
+
+if (!$gameserver) {
   echo serialize($gameserver);
   exit(0);
 }
@@ -47,5 +47,3 @@ if(!$gameserver) {
 $gameserver->query_server(TRUE, TRUE);
 
 echo $gameserver->serialize();
-
-?>

@@ -4,7 +4,7 @@ abstract class Lifecycle
 {
     public $class;
 
-    function __construct($class)
+    public function __construct($class)
     {
         $this->class = $class;
 
@@ -12,24 +12,24 @@ abstract class Lifecycle
         class_exists($class, true);
     }
 
-    function isOneOf($candidates)
+    public function isOneOf($candidates)
     {
         return in_array($this->class, $candidates);
     }
 
-    abstract function instantiate($dependencies);
+    abstract public function instantiate($dependencies);
 }
 
 class Value extends Lifecycle
 {
     private $instance;
 
-    function __construct($instance)
+    public function __construct($instance)
     {
         $this->instance = $instance;
     }
 
-    function instantiate($dependencies)
+    public function instantiate($dependencies)
     {
         return $this->instance;
     }
@@ -39,7 +39,7 @@ class Value extends Lifecycle
 class Factory extends Lifecycle
 {
 
-    function instantiate($dependencies)
+    public function instantiate($dependencies)
     {
         return call_user_func_array(
                         array(new ReflectionClass($this->class), 'newInstance'), $dependencies);
@@ -51,13 +51,13 @@ class Reused extends Lifecycle
 {
     private $instance;
 
-    function instantiate($dependencies)
+    public function instantiate($dependencies)
     {
-        if(false === isset($this->instance))
-        {
+        if (false === isset($this->instance)) {
             $this->instance = call_user_func_array(
                     array(new ReflectionClass($this->class), 'newInstance'), $dependencies);
         }
+
         return $this->instance;
     }
 
@@ -67,23 +67,21 @@ class Sessionable extends Lifecycle
 {
     private $slot;
 
-    function __construct($class, $slot = false)
+    public function __construct($class, $slot = false)
     {
         parent::__construct($class);
         $this->slot = $slot ? $slot : $class;
     }
 
-    function instantiate($dependencies)
+    public function instantiate($dependencies)
     {
         @session_start();
-        if(false === isset($_SESSION[$this->slot]))
-        {
+        if (false === isset($_SESSION[$this->slot])) {
             $_SESSION[$this->slot] = call_user_func_array(
                     array(new ReflectionClass($this->class), 'newInstance'), $dependencies);
         }
+
         return $_SESSION[$this->slot];
     }
 
 }
-
-?>
