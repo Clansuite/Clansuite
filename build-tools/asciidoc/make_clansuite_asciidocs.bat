@@ -4,7 +4,6 @@
 @REM   | for clansuite.com                  |
 @REM   | LICENCE: GPL                    <3 |
 @REM   `------------------------------------'
-@REM SVN: $Id$
 
 @REM Asciidoc Configuration File "asciidoc-options.ini" is used for the generation.
 @REM For the original AsciiDoc Configuration File use "--conf-file=D:/asciidoc/xhtml11.conf"

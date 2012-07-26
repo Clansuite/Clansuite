@@ -1,5 +1,5 @@
 # robots.txt for Clansuite
-# SVN: $Id$
+
 #
 # For further informations review:
 # http://de.selfhtml.org/diverses/robots.htm

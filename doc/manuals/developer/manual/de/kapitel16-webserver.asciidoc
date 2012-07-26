@@ -13,7 +13,7 @@ http://powerman.name/doc/asciidoc-compact
 For the Clansuite Documentation visit:
 http://docs.clansuite.com/
 
-SVN: $Id$
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -23,7 +23,7 @@ SVN: $Id$
 
 XAMPP htdocs Symlinks
 
-Windows 2000 / XP 
+Windows 2000 / XP
 Junctions
 
 Windows Vista höher

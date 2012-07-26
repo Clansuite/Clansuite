@@ -13,7 +13,7 @@ http://powerman.name/doc/asciidoc-compact
 For the Clansuite Documentation visit:
 http://docs.clansuite.com/
 
-SVN: $Id$
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -164,8 +164,8 @@ in der Datei "Setup.inc.php" auch gleich nach "error_reporting" suchen und es au
 === Doxygen
 
 Die Clansuite API wird durch Doxygen automatisch dokumentiert. Genau wie bei alle anderen Dokumentationstools wird auch hier
-zun‰chst der Clansuite Quellcode geparsed und anschlieﬂend analysiert. Doxygen beherrscht die Kunst, das 
-zugrunde liegende Klassenmodel aus dem Quellcode zu extrahieren und zu visualisieren. Die so entstehende grafische 
+zun‰chst der Clansuite Quellcode geparsed und anschlieﬂend analysiert. Doxygen beherrscht die Kunst, das
+zugrunde liegende Klassenmodel aus dem Quellcode zu extrahieren und zu visualisieren. Die so entstehende grafische
 Klassen-Hierarchie erleichtert neuen Entwickern den Einstieg.
 
 Link zur Clansuite API Dokumentation mittels Doxygen: http://docs.clansuite.com/developer/doxygen/

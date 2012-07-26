@@ -13,7 +13,7 @@ http://powerman.name/doc/asciidoc-compact
 For the Clansuite Documentation visit:
 http://docs.clansuite.com/
 
-SVN: $Id$
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -74,14 +74,14 @@ Das Clansuite Git-Archiv wird von GitHub gehostet.
 Es ist unter der Adresse https://github.com/jakoch/Clansuite.git zu finden.
 Nach der Benutzerregistrierung auf Github, kann das Repository geforked werden.
 
-Voraussetzung für den Checkout über die Konsole ist die Installation des Git Tools 
+Voraussetzung für den Checkout über die Konsole ist die Installation des Git Tools
 "msysgit" footnote:[http://code.google.com/p/msysgit/, msysgit].
 Download unter: http://code.google.com/p/msysgit/downloads/list
 
 Als grafisches Interface empfehle ich TortoiseGIT.
 Download unter: http://code.google.com/p/tortoisegit/downloads/list
 
-Danach einfach den folgenden Code in der "Git Bash" ausführen, um deine Kopie 
+Danach einfach den folgenden Code in der "Git Bash" ausführen, um deine Kopie
 des Repositories zu klonen.
 
 [source, txt]
@@ -89,9 +89,9 @@ des Repositories zu klonen.
 git clone git@github.com:dein_username/Clansuite.git
 ---------------------------------------------------------------------
 
-Wenn das Repository geklont wird, dann zeigt es standardmäßig auf dein entferntes (engl. remote) 
-Repository (origin), welches dein Fork des Originals (username/Clansuite.git) und nicht das von 
-dir geforkte Repository (jakoch/Clansuite.git) ist. Damit Updates eingespielt werden können, 
+Wenn das Repository geklont wird, dann zeigt es standardmäßig auf dein entferntes (engl. remote)
+Repository (origin), welches dein Fork des Originals (username/Clansuite.git) und nicht das von
+dir geforkte Repository (jakoch/Clansuite.git) ist. Damit Updates eingespielt werden können,
 ist für das ausgecheckte Repository noch das entfernte Original-Repository festzulegen.
 
 Dazu wird ein weiteres Remote-Repository namens "upstream" festgelegt:
@@ -304,7 +304,7 @@ Unter "Optionen" lassen sich die Entwicklermenüs ein- und ausschalten, sowie die
 Entwicklungsumgebung anpassen.
 
 Eine Besonderheit stellen die Links des Menüs "Goto" dar. Als die Basis-URL der Links,
-können Sie beispielsweise einen virtuellen Host in den Optionen definieren. Somit könnten Sie 
+können Sie beispielsweise einen virtuellen Host in den Optionen definieren. Somit könnten Sie
 beispielsweise "clansuite-dev.com" im Browser aufrufen.
 
 .Links des "Go to"-Menüs in der Clansuite Toolbar
@@ -393,8 +393,8 @@ Falls "php_xdebug.dll" nicht vorhanden ist, dann kann man sie von http://xdebug.
 Entsprechend umbenennen und ins Verzeichnis "C:\xampplite\php\ext" ablegen.
 
 Um die richtige Binary für Xdebug zu finden kann auf die Projektwebseite zurückgegriffen werden.
-Unter http://xdebug.org/find-binary.php findet man ein Formular um den Inhalt der eigenen phpinfo() 
-Ausgabe zu posten. Nach der Auswertung der Versionsangaben der Serversoftware, wird die entsprechende 
+Unter http://xdebug.org/find-binary.php findet man ein Formular um den Inhalt der eigenen phpinfo()
+Ausgabe zu posten. Nach der Auswertung der Versionsangaben der Serversoftware, wird die entsprechende
 Xdebug-Binary und eine Installationsanleitung dafür angezeigt.
 
 .Tailored Installation Instructions for Xdebug

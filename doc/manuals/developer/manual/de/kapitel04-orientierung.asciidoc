@@ -13,8 +13,6 @@ http://powerman.name/doc/asciidoc-compact
 For the Clansuite Documentation visit:
 http://docs.clansuite.com/
 
-SVN: $Id$
-
 ////////////////////////////////////////////////////////////////////////////////
 
 == Kapitel 4 - Grundlegende Orientierung und Verzeichnisübersicht
@@ -76,12 +74,12 @@ clansuite
 Das Verzeichnis Themes enthält zunächst die drei Verzeichnisse frontend, backend und core.
 Frontend-Themes liegen in eigenen Verzeichnissen unterhalb von /themes/frontend.
 Backend-Themes liegen in eigenen Verzeichnissen unterhalb von /themes/backend.
-Systemweit verfügbare Bilder, Javascript, CSS, Schriften und Templates werden 
+Systemweit verfügbare Bilder, Javascript, CSS, Schriften und Templates werden
 unterhalb von /themes/core in jeweils eigenen Verzeichnissen abgelegt.
 
 [source,txt]
 --------------------------------------------------------------------------------
-+---themes              Hauptverzeichnis für Themes. 
++---themes              Hauptverzeichnis für Themes.
 ¦   +---frontend        Unterverzeichnis für Frontend-Themes.
 ¦       +---xyz         Verzeichnis eines Frontend-Themes.
 ¦   +---backend         Unterverzeichnis für Frontend-Themes.

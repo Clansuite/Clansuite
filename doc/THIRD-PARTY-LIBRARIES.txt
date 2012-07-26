@@ -1,6 +1,6 @@
 CLANSUITE USES THE FOLLOWING THIRD PARTY LIBRARIES:
 ===================================================
-SVN: $Id$
+
 
 The Folder "/trunk/libraries/" contains the following libraries:
 

@@ -13,7 +13,7 @@ http://powerman.name/doc/asciidoc-compact
 For the Clansuite Documentation visit:
 http://docs.clansuite.com/
 
-SVN: $Id$
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -263,7 +263,7 @@ Er vereinfacht die tabellarische Anzeige von Daten eines Models erheblich und tr
 
 Es ist einstellbar, ob auch Navigations-, Sortierungs-, Such- sowie Paginierungselemente in die Ansicht eingefügt werden sollen.
 Wenn mehr als die Darstellung der an das Datagrid übergebenen Daten erfolgen soll,
-also interaktive Elemente zur Steuerung der Tabelle und ihrer Daten hinzukommen, 
+also interaktive Elemente zur Steuerung der Tabelle und ihrer Daten hinzukommen,
 dann muss die Tabelle immer auch in ein Formular eingebettet werden.
 
 

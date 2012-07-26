@@ -43,15 +43,6 @@
  * TeamSpeak Community Forums > TeamSpeak 3 Customization >> Addons & Scripts
  * @link http://forum.teamspeak.com/forumdisplay.php?f=114
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards).
- * GNU/GPL v2 or any later version; see LICENSE file
- * @version    0.1 SVN: $Id$
- *
- * This library is based on TS3Admin.class. Thanks and credits to:
- * @author     Stefan Z. <webmaster@par0noid.de>
- * @license    GNU/GPL
- *
  * @category    Clansuite
  * @package     Libraries
  * @subpackage  Teamspeak

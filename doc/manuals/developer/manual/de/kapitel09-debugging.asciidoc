@@ -13,7 +13,7 @@ http://powerman.name/doc/asciidoc-compact
 For the Clansuite Documentation visit:
 http://docs.clansuite.com/
 
-SVN: $Id$
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -37,8 +37,8 @@ Fehler unterhalb der Wahrnehmungsgrenze für den Entwickler bewegt. Für beide Ber
 nur im Entwicklungsmodus eines Systems verfügbar sein sollten, da sie ansonsten Tür und Tor für eine
 unbestimmte Vielzahl von Angriffen eröffnen.
 
-Dies führt zur Feststellung das das Fehlerhandling teilweise automatisiert ist und teilweise durch den 
-Entwickler gesteuert werden kann. So wird PHP automatisch einen Fehler werfen, wenn sie eine 
+Dies führt zur Feststellung das das Fehlerhandling teilweise automatisiert ist und teilweise durch den
+Entwickler gesteuert werden kann. So wird PHP automatisch einen Fehler werfen, wenn sie eine
 Syntaxregel misachten. Das Exceptionhandling und der Einsatz von Debugging-Befehlen sind
 hingegen vollständig vom Entwickler steuerbar.
 
@@ -114,7 +114,7 @@ Clansuite_Debug::firebug($variable, 'error');
 
 TIP: Setzen Sie Codevervollständigung ein, um dieses oft benötigte Kommando nicht ständig tippen zu müssen.
 Ich schlage Ihnen die Verwendung der Zeichenkette "fbg" für den Textschnippsel "Clansuite_Debug::firebug($variable);"
-vor. So brauchen Sie nur noch den Variablennamen ersetzen und sparen sich Zeit und Tipparbeit. 
+vor. So brauchen Sie nur noch den Variablennamen ersetzen und sparen sich Zeit und Tipparbeit.
 
 ==== Clansuite_Debug und Clansuite_Xdebug
 
@@ -196,9 +196,9 @@ Verwendet man Smarty als RenderEngine, dann eignen sich die folgenden drei, die 
 ===== Profiling mit XDebug
 
 Das Profiling mit XDebug gestaltet sich sehr einfach.
-XDebug protokolliert im Hintergrund die Funktionsaufrufe und die 
+XDebug protokolliert im Hintergrund die Funktionsaufrufe und die
 relevanten Daten der Systemumgebung (Speicherverbrauch, Zeit) in eine Logdatei.
-Diese Logdatei kann anschließend mittels eines Analysewerkezugs wie 
+Diese Logdatei kann anschließend mittels eines Analysewerkezugs wie
 wie KCachegrind oder Webgrind ausgewertet und visualisiert werden.
 Grundlegende Voraussetzung ist, dass die PHP-Erweiterung XDebug geladen ist.
 Als weitere Voraussetzung kommt das Aktivieren des XDebug Profilers hinzu.
@@ -206,10 +206,10 @@ Als weitere Voraussetzung kommt das Aktivieren des XDebug Profilers hinzu.
 Es gibt zwei Möglichkeiten den XDebug-Profiler zu aktivieren.
 Einerseits kann man ihn dauerhaft aktivieren.
 Hierfür setzt man in der php.ini die Einstellung "xdebug.profiler_enable = 1".
-Alternativ dazu, kann man eine Aktivierung des Profilers über 
+Alternativ dazu, kann man eine Aktivierung des Profilers über
 einen den GET/POST Requestparameter XDEBUG_PROFILE veranlassen,
 beispielsweise durch den GET-Aufruf http://localhost/clansuite/index.php?XDEBUG_PROFILE.
-Denn unter Umständen soll nicht jede Scriptausführung durch den Profiler 
+Denn unter Umständen soll nicht jede Scriptausführung durch den Profiler
 mitgeloggt werden, denn dies verursacht schließlich zusätzliche Last.
 Hierfür setzt man in der php.ini die Einstellung "xdebug.profiler_enable_trigger = 1".
 
@@ -219,16 +219,16 @@ XHProf wurde ursprünglich als Profiler für Facebook entwickelt und im März 2009 
 Facebook setzt XHProf im Rahmen der hauseigenen closed-source Monitoring-Lösung XHProfLive ein.
 Es ist ein hierarchischer Profiler, der in C implementiert wurde und als Zend Extension zur Verfügung steht.
 
-Der Profiler arbeitet auf Ebene der Funktionsaufrufe. Er misst deren Verarbeitungszeit (Wall Time), die CPU-Last und 
+Der Profiler arbeitet auf Ebene der Funktionsaufrufe. Er misst deren Verarbeitungszeit (Wall Time), die CPU-Last und
 den Speicherverbrauch, sowie die Anzahl der Aufrufe pro Funktion.
 Die während des Profilings gesammelten Daten sind über ein einfaches Webinterface (PHP) einsehbar.
-Die Aufrufreihenfolge wird mittels eines Call-Graphen visualisiert. Die Visualisierung mittels Call-Graphen trägt dazu bei, 
-den Überblick über größere Applikationen und Frameworks zu bewahren und ermöglicht so ein besseres Verstehen des Systems. 
+Die Aufrufreihenfolge wird mittels eines Call-Graphen visualisiert. Die Visualisierung mittels Call-Graphen trägt dazu bei,
+den Überblick über größere Applikationen und Frameworks zu bewahren und ermöglicht so ein besseres Verstehen des Systems.
 
 PECL Projekt Webseite: http://pecl.php.net/package/xhprof
 Github "facebook XHProf": http://github.com/facebook/xhprof
 Github "XHProf GUI": https://github.com/preinheimer/xhprof
-Webseite: http://mirror.facebook.net/facebook/xhprof/ 
+Webseite: http://mirror.facebook.net/facebook/xhprof/
 Dokumentation: http://mirror.facebook.net/facebook/xhprof/doc.html
 
 === Das Testen
@@ -261,7 +261,7 @@ werden soll. Lässt man den Test nun laufen, bekommt man logischerweise einen neg
 Test. Er wurde nicht erfolgreich durchlaufen. Nun schreibt man die eigentliche Funktion für Clansuite. Lässt
 man den Test erneut laufen, wird er erfolgreich durchlaufen und man kann sicher sein, dass dieses Feature
 funktioniert. Bei diesem Verfahren spricht man von "Test getriebener Entwicklung" (engl. Test-Driven-Development,
-abgekürzt auch TDD). 
+abgekürzt auch TDD).
 
 Das Verfahren lässt sich in die drei typische TDD-Schritte aufteilen:
 1. Einen neuen Test schreiben [Neues Feature bzw. Neue Funktion beschreiben]
@@ -276,61 +276,61 @@ Man spricht von "Test getriebenen Bugfixing" footnote:[http://xunitpatterns.com/
 
 .Regressionstests
 An dieser Stelle ist es sinnvoll auch die sogenannten Regressionstests anzusprechen.
-Unter einem Regressionstest versteht man die Wiederholung von Testfällen, um Verschlechterungen, 
+Unter einem Regressionstest versteht man die Wiederholung von Testfällen, um Verschlechterungen,
 also Brüche, in der Software zu finden. Regressionstests haben mehrere Voraussetzungen.
 Zunächst ist ein testabgedecktes und erfolgreich getestetes Feature erforderlich.
-Dann ist eine Veränderung erforderlich, die zu einem Bruch in der Software 
+Dann ist eine Veränderung erforderlich, die zu einem Bruch in der Software
 und somit des bereits erfolgreich bestandenen Tests führt. Insoweit kann man sagen,
 dass eine Verschlechterung durch einen Verbesserungsversuch (mit-)verursacht wurde.
 
 Regressionstests knüpfen an den Zusammenhang zwischen dem alten Testlauf, dem verschlechterten Testlauf
 und dem wieder ausgebesserten Testlauf an. In der Praxis werden Testfälle lediglich "kontinuierlich" wiederholt.
-An dieser Stelle setzen Werkzeuge zur kontinuierlichen Integration an (bspw. Hudson/Jenkins , CruiseControl, Atlassian Bamboo), 
-die dem Entwickler die Arbeit des ständigen Wiederholens des Testens abnehmen und für eine automatisierte Wiederholung 
+An dieser Stelle setzen Werkzeuge zur kontinuierlichen Integration an (bspw. Hudson/Jenkins , CruiseControl, Atlassian Bamboo),
+die dem Entwickler die Arbeit des ständigen Wiederholens des Testens abnehmen und für eine automatisierte Wiederholung
 der Testfälle sorgen. In welchem Testlauf ein Testfehler auftrat und/oder wieder behoben wurde ist dabei irrelevant.
 Ich bezeichne diese Art des Testens als "vertikales" Testen.
 
-Theoretisch müsste ein Regressionstest jedoch durch die Testformulierung einen Bezug zwischen dem letzten 
-erfolgreichen Test (Testlauf-1), dem nachfolgenden erfolglosen Test aufgrund der Modifikation (Testlauf-2) 
+Theoretisch müsste ein Regressionstest jedoch durch die Testformulierung einen Bezug zwischen dem letzten
+erfolgreichen Test (Testlauf-1), dem nachfolgenden erfolglosen Test aufgrund der Modifikation (Testlauf-2)
 und dem Beheben des Regressionsfehlers (Testlauf-3) hergestellt werden. Mir ist jedoch kein Testsystem bekannt,
 dass eine solche Erwartung bereitstellt, um eine Rückverknüpfung zwischen den Testergebnissen mehrerer Testläufe herzustellen.
-Ich bezeichne diese Art des Testens als "horizontal", da durch Regressionstests horizontale Verknüpfungen zwischen 
+Ich bezeichne diese Art des Testens als "horizontal", da durch Regressionstests horizontale Verknüpfungen zwischen
 den "vertikalen" Testläufen hergestellt werden.
 
 .Vorteile Test-getriebener Entwicklung
 Die Test schaffen Sicherheit darüber, dass der Code auch tatsächlich das tut, was in der Funktionsprüfung beschrieben wurde.
 Beim Implementieren des Code wird der Entwickler durch die Tests geführt.
 Dabei wird keine Zeile Code geschrieben, die nicht tatsächlich auch gebraucht wurde.
-Der geschriebene Code ist in der Zukunft leicht änderbar und man wird durch Tests darauf hingewiesen, 
+Der geschriebene Code ist in der Zukunft leicht änderbar und man wird durch Tests darauf hingewiesen,
 wenn etwas kaputt gemacht wurde. Somit lassen sich beispielsweise die angesprochenen Regressionsfehler in den Griff bekommen.
 
 a) Überblick wahren
 Es ist grundsätzlich sehr schwierig die Übersicht über die Tests zu behalten.
 Schon für eine kleine Applikation wächst die Anzahl der Testfälle sehr schnell an.
 Allerdings ist die Wahrung der Zuordung von Test zu Programmcode sehr wichtig.
-Daher ist eine systematische und kontextabhängige Ablage und Ordnung der Tests im Dateisystem 
+Daher ist eine systematische und kontextabhängige Ablage und Ordnung der Tests im Dateisystem
 zu empfehlen. Beispielsweise können Tests nach Klassen und Funktionen sortiert abgelegt werden.
 Jeder Test sollte zudem im Dokumentationsblock einen natürlich-sprachlicher Kommentar enthalten,
-der Aufschluss über die Absicht des Tests gibt. Damit kann auch nach längerer Zeit und mehreren 
+der Aufschluss über die Absicht des Tests gibt. Damit kann auch nach längerer Zeit und mehreren
 beteiligten Entwicklern die Frage beantwortet werden, warum der Test existiert.
 
 b) Tests erstellen, die die Datenbank verwenden
 Das Arbeiten mit einer Datenbank und Tests kann sich am Anfang recht schwierig gestalten.
-Die Lösung ist das Einrichten einer gleichbleibenden Testumgebung, welche die Datenbank 
+Die Lösung ist das Einrichten einer gleichbleibenden Testumgebung, welche die Datenbank
 vor den auszuführenden Tests initialisiert. Dazu wird vor jedem Test ein Script aufgerufen,
-dass die Datenbank klont, ohne aber Daten zu übernehmen. 
+dass die Datenbank klont, ohne aber Daten zu übernehmen.
 Für die Dauer des/der Tests wird so eine reine Testdatenbank eingesetzt.
 Grundsätzlich werden bei diesem Verfahren also mehrere Datenbanken eingesetzt.
 
 c) Testszenario entwerfen
 Es ist wichtig mit Daten zu arbeiten, die nah an der Realität sind.
-Grundsätzlich neigen Programmierer dazu, lediglich Testdaten im Stil von "Blabla123" oder "Test123". 
-Testdaten sind jedoch Daten, die real aussehen. Nach Möglichkeit kann für die Generierung von Testdaten 
+Grundsätzlich neigen Programmierer dazu, lediglich Testdaten im Stil von "Blabla123" oder "Test123".
+Testdaten sind jedoch Daten, die real aussehen. Nach Möglichkeit kann für die Generierung von Testdaten
 auf Hilfswerkzeuge, wie z.B. die Beispieldaten-Bibliotheken "Faker" zurückgegriffen werden.
 
 d) Stubs
-Stubs ersetzen Objekte oder Methoden für den Zeitraum des Tests durch Test-Dummys. So lassen sich beispielsweise 
-Schnittstellenaufrufe bzw. API Aufrufe von Onlinediensten wie PayPal oder GoogleMaps "ersetzen". Der Code wird für 
+Stubs ersetzen Objekte oder Methoden für den Zeitraum des Tests durch Test-Dummys. So lassen sich beispielsweise
+Schnittstellenaufrufe bzw. API Aufrufe von Onlinediensten wie PayPal oder GoogleMaps "ersetzen". Der Code wird für
 den Moment des Tests von externen Abhängigkeiten, Nebenwirkungen und langwierigen Abläufen (Verbindung zum Onlineservice)
 befreit werden.
 
@@ -364,9 +364,9 @@ Die Tests befinden bei der Entwicklerversion im Verzeichnis "/tests".
 Dieser Ordner wird jedoch bei Neubildung von Clansuite entfernt.
 Um alle Tests im Browser auszuführen, ruft man "/tests/runAllTests.php" auf.
 
-Wir "runAllTests.php" auf der CommandLine aufgerufen, so bewirkt dies die 
+Wir "runAllTests.php" auf der CommandLine aufgerufen, so bewirkt dies die
 XML Ausgabe im JUnit Format. Die erste Version dieser Ausgabe wurde von Steven Jones
-footnote:[http://www.computerminds.co.uk/hudson-and-simpletest] 
+footnote:[http://www.computerminds.co.uk/hudson-and-simpletest]
 erarbeitet und später als Extension in den SimpleTest Core aufgenommen.
 
 Nachfolgend finden Sie die Webseite des Simpletest Projekts:
@@ -375,13 +375,13 @@ https://sourceforge.net/project/showfiles.php?group_id=76550
 
 ===== Kontinuierliche Integration mit Jenkins (früher Hudson)
 
-Jenkins und Hudson sind synonyme Begriffe für Butler oder Diener. 
-Es ist ein java-basierter modularer Serverdaemon. Die Einrichtung und der Umgang mit einem 
+Jenkins und Hudson sind synonyme Begriffe für Butler oder Diener.
+Es ist ein java-basierter modularer Serverdaemon. Die Einrichtung und der Umgang mit einem
 Server zur kontinuierlichen Integration gestaltet sich wie nachfolgend beschrieben.
 
-Voraussetzung ist eine kontinuierliche Integration von Quellcode. Das bedeutet, dass die 
+Voraussetzung ist eine kontinuierliche Integration von Quellcode. Das bedeutet, dass die
 Mitglieder des Entwicklungsteams ihre Arbeitsanteile in regelmäßigen Abständen
-in das zentrale Quellcode-Repository einstellen. Natürlich können hierbei mehrfache 
+in das zentrale Quellcode-Repository einstellen. Natürlich können hierbei mehrfache
 Integrationen an einem Tag vorkommen. Jede Integration wird getestet und man bekommt
 ein Feedback, ob die Integration das System nachteilig verändert hat.
 
@@ -394,7 +394,7 @@ Ein CI-Server nimmt hier lediglich qualitätssichernde Aufgaben wahr.
 
 Der Server arbeitet folgende Schritte ab:
 1) Er stellt eine Verbindung zum Quellcode-Repository her
-   Dies kann zeitgesteuert oder ereignisgesteuert erfolgen, beispielsweise ausgelöst 
+   Dies kann zeitgesteuert oder ereignisgesteuert erfolgen, beispielsweise ausgelöst
    durch die letzte Integration bzw. den letzten Commit.
 2) Der Arbeitsbereich wird geupdatet
    Dazu wird der Arbeitsbereich zunächst gesäubert.
@@ -411,12 +411,12 @@ eine Übersicht über alle ausgeführten Shellscripte für jeden Build, sowie eine
 Aufgrund der modularen Architektur des Systems können weitere Reportingwerkzeuge sehr einfach integriert werden.
 Gleiches gilt natürlich für den Bereich der Benachrichtigungswerkzeuge.
 Hier gibt es bereits viele verschiedene Benachrichtungs-Plugins.
-Neben den grundsätzlichen Funktionen wie Start, Changelog, Stop, Status, ist es auch 
+Neben den grundsätzlichen Funktionen wie Start, Changelog, Stop, Status, ist es auch
 möglich eine Blame-Funktion (Autor X broke the build) bzw. Praise-Funktion (Autor X fixes the build)
 einzusetzen.
 
 5) Zu guter Letzt kommt Hudson als Deploymentwerkzeug ins Spiel.
-   Nach erfolgreichem Test wird die Software zusammengepackt und zum Download bereitgestellt. 
+   Nach erfolgreichem Test wird die Software zusammengepackt und zum Download bereitgestellt.
 
 ===== Selenium als Testwerkzeug
 

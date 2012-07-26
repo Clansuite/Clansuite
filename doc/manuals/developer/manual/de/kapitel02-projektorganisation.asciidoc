@@ -13,7 +13,7 @@ http://powerman.name/doc/asciidoc-compact
 For the Clansuite Documentation visit:
 http://docs.clansuite.com/
 
-SVN: $Id$
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -271,8 +271,8 @@ Sie können das Forum unter der URL http://forum.clansuite.com/ erreichen.
 
 ==== Pastebin
 
-Für die Schnellkommunikation zwischen den Entwicklern kann auf eines der bekannten Pastebin-Systeme 
-(oft auch NoPaste genannt) zurückgegriffen werden. Er dient dazu Quellcode, zumeist Codeschnipsel und 
+Für die Schnellkommunikation zwischen den Entwicklern kann auf eines der bekannten Pastebin-Systeme
+(oft auch NoPaste genannt) zurückgegriffen werden. Er dient dazu Quellcode, zumeist Codeschnipsel und
 Auszüge, aber auch längere Codesegmente zu veröffentlichen.
 Dabei wird der Quellcode automatisch mit Syntaxhervorhebungen dargestellt. Zudem ist das Einfügen von
 Markierungen möglich. Die Codeschnipsel stehen für einen Zeitraum zwischen einem Monat und sechs Monaten zur
@@ -350,7 +350,7 @@ unseren Livesupport Button finden. Dazu klicken Sie beispielsweise unter "Hilfe"
 Support", um ein Dialogfenster zu öffnen. Sie können an der grünen oder roten Farbe des Buttons vorher
 erkennen, ob die Supportzentrale besetzt ist. Wenn ein Mitarbeiter des Supportteams verfügbar ist, dann werden
 Sie direkt mit ihm verbunden und können Ihre Fragen stellen oder Probleme im Chat schildern.
-Sollte kein Mitarbeiter verfügbar sein, so können Sie zumindest eine Textnachricht hinterlassen, damit wir 
+Sollte kein Mitarbeiter verfügbar sein, so können Sie zumindest eine Textnachricht hinterlassen, damit wir
 Sie zu einem späteren Zeitpunkt per Email kontaktieren können.
 
 http://support.clansuite.com/

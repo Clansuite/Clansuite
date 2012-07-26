@@ -3,7 +3,7 @@
 # Apache Configuration File
 # httpd.apache.org/docs/2.2/mod/quickreference.html
 #
-# SVN: $Id$
+
 
 # (1) Rename "htaccess.txt" to ".htaccess"
 # (2) If you don't need htaccess, then DELETE IT. It just slow's down Webserver processing.

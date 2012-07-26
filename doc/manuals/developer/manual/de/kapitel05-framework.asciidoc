@@ -13,7 +13,7 @@ http://powerman.name/doc/asciidoc-compact
 For the Clansuite Documentation visit:
 http://docs.clansuite.com/
 
-SVN: $Id$
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -984,7 +984,7 @@ Durch Caching werden Templates zwischengespeichert und können beim nachfolgenden
 Request, ohne weitere Verarbeitungsschritte direkt wieder ausgegeben werden.
 Das Caching ist zeitgesteuert, wobei die Dauer konfiguriert werden kann.
 Wenn die vorgegebene Zeit verstrichen ist, werden die zwischengespeicherten Templates
-gelöscht und beim nachfolgenden Request mit frischen Daten neu generiert und dann 
+gelöscht und beim nachfolgenden Request mit frischen Daten neu generiert und dann
 wiederrum für die konfigurierte Zeit zwischengespeichert.
 
 Die wesentlichen Methoden für den Umgang mit dem Caching im View sind:
