@@ -41,7 +41,7 @@ class Teamspeakviewer extends Controller
      */
     public function _initializeModule()
     {
-        # load library / init libacts2
+        // load library / init libacts2
         include ROOT_LIBRARIES . 'libacts2/Absurd.php';
     }
 
@@ -51,10 +51,10 @@ class Teamspeakviewer extends Controller
         $starttime = '';
         $diff = '';
 
-        # Switch to Windows-Client-like sorting (default is Absurd_TeamSpeak2_Object::SORT_LINUX [faster])
+        // Switch to Windows-Client-like sorting (default is Absurd_TeamSpeak2_Object::SORT_LINUX [faster])
         define('LIBACTS2_SORTING_TYPE', Absurd_TeamSpeak2_Object::SORT_LINUX);
 
-        # hardcoded for testing
+        // hardcoded for testing
         $server_address  = 'clansuite.com';
         $server_tcpport  = '10011';
         $server_udpport  = '9987';
@@ -68,7 +68,7 @@ class Teamspeakviewer extends Controller
         $time = microtime(true) - $starttime;
         $server = $adv_viewer->getView();
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
         $view->assign('server', $server);
         $view->assign('time', $time);
@@ -80,10 +80,10 @@ class Teamspeakviewer extends Controller
     {
         $view = $this->getView();
 
-        # Load Teamspeak3 Library
+        // Load Teamspeak3 Library
         include __DIR__.'/libraries/teamspeak3.lib.php';
 
-        # hardcoded for testing
+        // hardcoded for testing
         $server_ip         = 'clansuite.com';
         $server_port       = '9987';
         $server_queryport  = '10011';
@@ -92,10 +92,10 @@ class Teamspeakviewer extends Controller
         $ts3 = new Clansuite_Teamspeak3_ServerQueryInterface($server_ip, $server_queryport, $vserver_id);
         $ts3->selectVirtualServer(1);
         #Clansuite_Debug::printR($ts3->serverViewer());
-        #Clansuite_Debug::printR($ts3->version()); # ok
+        #Clansuite_Debug::printR($ts3->version()); // ok
         #Clansuite_Debug::printR($ts3->channellist());
-        #Clansuite_Debug::printR($ts3->instanceinfo()); # ok
-        #Clansuite_Debug::printR($ts3->serverinfo()); # ??? what is wrong here?? no return values
+        #Clansuite_Debug::printR($ts3->instanceinfo()); // ok
+        #Clansuite_Debug::printR($ts3->serverinfo()); // ??? what is wrong here?? no return values
         #$ts3->close();
 
         #Clansuite_Debug::printR($serverinfo);
@@ -108,14 +108,14 @@ class Teamspeakviewer extends Controller
         $view = $this->getView();
 
         /*
-        # get data
+        // get data
         $tsviewer = Doctrine_Query::create()
                     ->select('s.*')
                     ->from('CStsviewer s')
                     ->execute(array(), Doctrine::HYDRATE_ARRAY);
         */
 
-        # hardcoded for testing
+        // hardcoded for testing
         $server_address  = 'clansuite.com';
         $server_tcpport  = '51234';
         $server_udpport  = '8000';
@@ -124,11 +124,11 @@ class Teamspeakviewer extends Controller
         $server_location = 'Somewhere';
         $guest_nickname  = 'Guest';
 
-        # get server object
+        // get server object
         $server = Absurd_TeamSpeak2::connect('tcp://'.$server_address.':'.$server_tcpport)->getServerByUdp($server_udpport);
         $serverinfo = $server->getNodeInfo();
 
-        # unregister the autoloader for performance, because it's only needed (once) here
+        // unregister the autoloader for performance, because it's only needed (once) here
         spl_autoload_unregister('Absurd::autoload');
 
         #var_dump($serverinfo);
@@ -138,7 +138,7 @@ class Teamspeakviewer extends Controller
 
             $serverinfo['request_ok'] = true;
 
-            # assign
+            // assign
             $serverinfo['server_address']  = $server_address;
             $serverinfo['server_tcpport']  = $server_tcpport;
             $serverinfo['guest_nickname']  = $guest_nickname;
@@ -159,17 +159,17 @@ class Teamspeakviewer extends Controller
         $view = $this->getView();
 
         /*
-        # get data
+        // get data
         $serverinfo = Doctrine_Query::create()
                     ->select('s.*')
                     ->from('CStsviewer s')
                     ->execute(array(), Doctrine::HYDRATE_ARRAY);
         */
 
-        # hardcoded for testing
+        // hardcoded for testing
         $serverinfo['server_id'] = '77135';
 
-        # assign
+        // assign
         $view->assign('serverinfo', $serverinfo);
     }
 
@@ -178,17 +178,17 @@ class Teamspeakviewer extends Controller
         $view = $this->getView();
 
         /*
-        # get data
+        // get data
         $serverinfo = Doctrine_Query::create()
                     ->select('s.*')
                     ->from('CStsviewer s')
                     ->execute(array(), Doctrine::HYDRATE_ARRAY);
         */
 
-        # hardcoded for testing
+        // hardcoded for testing
         $serverinfo['server_id'] = '77135';
 
-        # assign
+        // assign
         $view->assign('serverinfo', $serverinfo);
     }
 }
@@ -207,25 +207,25 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
 
     public function displayObject(Absurd_TeamSpeak2_Object $object, array $moreSiblings)
     {
-        # define image path constant
+        // define image path constant
         if(!defined('TSVIEWER_IMAGES'))
         {
             define('TSVIEWER_IMAGES', WWW_ROOT . 'modules/teamspeakviewer/images/');
         }
 
-        # Image A = |
+        // Image A = |
         $image_a = '<img src="'.TSVIEWER_IMAGES.'treeimage1.png" alt="tree |"/>';
-        # Image B = |-
+        // Image B = |-
         $image_b = '<img src="'.TSVIEWER_IMAGES.'treeimage2.png" alt="tree |-"/>';
-        # Image C = |_
+        // Image C = |_
         $image_c = '<img src="'.TSVIEWER_IMAGES.'treeimage3.png" alt="tree |_"/>';
-        # Image D = " " (spacer)
+        // Image D = " " (spacer)
         $image_d = '<img src="'.TSVIEWER_IMAGES.'treeimage4.png" alt="space  "/>';
 
-        # Channel
+        // Channel
         $image_channel = '<img src="'.TSVIEWER_IMAGES.'channel.png" alt="Chan:"/>';
 
-        # TS Logo
+        // TS Logo
         $image_ts_logo = '<img src="'.TSVIEWER_IMAGES.'teamspeak_online.png" alt="TS Logo"/>';
 
         if (count($moreSiblings))
@@ -239,31 +239,31 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
             $this->view .= '&nbsp;';
         }
 
-        # USER CLIENT
+        // USER CLIENT
         if ($object instanceof Absurd_TeamSpeak2_Client)
         {
-            # pre Image
+            // pre Image
             $this->view .= $this->getUserFlagImage($object);
-            # Name
+            // Name
             $this->view .= (string) $object;
-            # post (R SA CA)
+            // post (R SA CA)
             $this->view .= ' ('. implode(' ', $object->getFlags()). ')';
             $this->view .= $this->getUserPrivilegeImage($object);
         }
-        # CHANNEL
+        // CHANNEL
         else if ($object instanceof Absurd_TeamSpeak2_Channel && $object['parent'] == -1)
         {
             $this->view .= (string) $image_channel.'&nbsp;';
             $this->view .= (string) $object;
             $this->view .= ' ('. implode('', $object->getFlags()). ')';
         }
-        # SUBCHANNEL
+        // SUBCHANNEL
         else if ($object instanceof Absurd_TeamSpeak2_Channel)
         {
             $this->view .= (string) $image_channel.'&nbsp;';
             $this->view .= (string) $object;
         }
-        # TOPLEVEL / ROOT Node
+        // TOPLEVEL / ROOT Node
         else
         {
             $this->view .= (string) $image_ts_logo.'&nbsp; <b>'.$object.'</b>';
@@ -300,12 +300,12 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
      */
     public function getUserFlagImage(Absurd_TeamSpeak2_Client $client)
     {
-        # initialize Variables
+        // initialize Variables
         $icon = '';
         $playerPrivs = '';
         $privs = '';
 
-        # fetch Client Info from Absurd_TS2_Object
+        // fetch Client Info from Absurd_TS2_Object
         $client = $client->getNodeInfo();
 
         if (array_key_exists('pflags', $client))
@@ -315,35 +315,35 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
             if ($privs == 0 )
             {
                 $icon = 'player_normal.png';
-            }             # User default
+            }             // User default
             if ($privs & 0x01)
             {
                 $icon = 'player_channelcommander.png';
-            }   # Channel Commander
+            }   // Channel Commander
             if ($privs & 0x02)
             {
                 $icon = 'player_requestvoice.png';
-            }       # Voice Request
+            }       // Voice Request
             if ($privs & 0x04)
             {
                 $icon = 'player_blockwhispers.png';
-            }      # Block Whispers
+            }      // Block Whispers
             if ($privs & 0x08)
             {
                 $icon = 'player_away.png';
-            }               # Away
+            }               // Away
             if ($privs & 0x10)
             {
                 $icon = 'player_mutemicrophone.png';
-            }     # Mute Microphone
+            }     // Mute Microphone
             if ($privs & 0x20)
             {
                 $icon = 'player_mutespeakers.png';
-            }       # Mute Speakers
+            }       // Mute Speakers
             if ($privs & 0x40)
             {
                 $icon = 'player_record.png';
-            }             # Recording
+            }             // Recording
 
             return '<img src="'.TSVIEWER_IMAGES.$icon.'" />&nbsp;';
         }
@@ -351,32 +351,32 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
 
     public function getUserPrivilegeImage(Absurd_TeamSpeak2_Client $client)
     {
-        # initialize Variables
+        // initialize Variables
         $playerPrivs = '';
         $privs = '';
 
-        # fetch Client Info from Absurd_TS2_Object
+        // fetch Client Info from Absurd_TS2_Object
         $client = $client->getNodeInfo();
 
         if (array_key_exists('pprivs', $client))
         {
             $privs = $client['pprivs'];
-            #if ($privs & 0x10) $playerPrivs .= '';    # Stickey
-            #if ($privs & 0x08) $playerPrivs .= '';    # Internal Use
-            if ($privs & 0x04) $playerPrivs .= 'R ';   # Registered
-            if ($privs & 0x02) $playerPrivs .= 'r';    # Allow Registration
-            if ($privs & 0x01) $playerPrivs .= 'SA ';  # ServerAdmin
-            if ($privs == 0) $playerPrivs .= 'U ';     # User
+            #if ($privs & 0x10) $playerPrivs .= '';    // Stickey
+            #if ($privs & 0x08) $playerPrivs .= '';    // Internal Use
+            if ($privs & 0x04) $playerPrivs .= 'R ';   // Registered
+            if ($privs & 0x02) $playerPrivs .= 'r';    // Allow Registration
+            if ($privs & 0x01) $playerPrivs .= 'SA ';  // ServerAdmin
+            if ($privs == 0) $playerPrivs .= 'U ';     // User
         }
 
         if (array_key_exists('cprivs', $client))
         {
             $privs = $client['cprivs'];
-            if ($privs & 0x01) $playerPrivs .= 'CA '; # Channel Admin
-            if ($privs & 0x02) $playerPrivs .= 'O ';  # Operator
-            if ($privs & 0x04) $playerPrivs .= 'V ';  # Voice
-            if ($privs & 0x08) $playerPrivs .= 'AO '; # AutoOperator
-            if ($privs & 0x10) $playerPrivs .= 'AV '; # AutoVoice
+            if ($privs & 0x01) $playerPrivs .= 'CA '; // Channel Admin
+            if ($privs & 0x02) $playerPrivs .= 'O ';  // Operator
+            if ($privs & 0x04) $playerPrivs .= 'V ';  // Voice
+            if ($privs & 0x08) $playerPrivs .= 'AO '; // AutoOperator
+            if ($privs & 0x10) $playerPrivs .= 'AV '; // AutoVoice
         }
 
         return $playerPrivs;

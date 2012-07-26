@@ -59,7 +59,7 @@ class ACM
      */
     public function removeAccess(Doctrine_Record $record, $resource = null, $permission = null)
     {
-        # ensure $record is either object of type User or Group
+        // ensure $record is either object of type User or Group
         if ($record instanceof Koch_User) {
             $accessClass = 'Koch_Acl_UserAccess';
             $linkField = 'user_id';

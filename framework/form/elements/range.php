@@ -30,7 +30,7 @@ class Range extends Input implements FormelementInterface
 {
     public function __construct()
     {
-        $this->type = 'range'; # displays a slider
+        $this->type = 'range'; // displays a slider
 
         return $this;
     }

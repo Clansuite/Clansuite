@@ -46,7 +46,7 @@ class Modulemanager_Admin extends Controller
      */
     public function action_admin_show()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/modulemanager/admin/show');
 
         $moduleinfo = new Clansuite_ModuleInfoController();
@@ -54,7 +54,7 @@ class Modulemanager_Admin extends Controller
         $modules_summary = $modules_info_array['yy_summary'];
         array_pop($modules_info_array);
 
-        # Fetch view and assign vars
+        // Fetch view and assign vars
         $view = $this->getView();
 
         $view->assign('modules_summary', $modules_summary);
@@ -70,7 +70,7 @@ class Modulemanager_Admin extends Controller
 
     public function action_admin_edit_info()
     {
-         # Set Pagetitle and Breadcrumbs
+         // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit Info'), '/modulemanager/admin/edit_info');
 
         $modulename = $this->request->getParameterFromGet('modulename');
@@ -87,7 +87,7 @@ class Modulemanager_Admin extends Controller
      */
     public function action_admin_install()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/modulemanager/admin/install_new');
 
         // Set Layout Template
@@ -102,7 +102,7 @@ class Modulemanager_Admin extends Controller
      */
     public function action_admin_export()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Export'), '/modulemanager/admin/export');
 
         // Set Layout Template
@@ -117,7 +117,7 @@ class Modulemanager_Admin extends Controller
      */
     public function action_admin_imexport()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Import & Export'), '/modulemanager/admin/imexport');
 
         // Set Layout Template
@@ -136,7 +136,7 @@ class Modulemanager_Admin extends Controller
      */
     public function action_admin_builder()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Builder'), '/modulemanager/admin/builder');
 
         $existing_modules_js = '[';
@@ -164,14 +164,14 @@ class Modulemanager_Admin extends Controller
     {
         $view = $this->getView();
 
-        # get parameter for module data
+        // get parameter for module data
         $mod = $this->request->getParameter('m');
         var_dump($mod);
 
-        # serialize the module data
+        // serialize the module data
         $mod['data'] = base64_encode(serialize($mod));
 
-        # assign the whole pack to smarty
+        // assign the whole pack to smarty
         $view->assign( 'mod', $mod );
 
         #$smarty->autoload_filters = array();
@@ -265,23 +265,23 @@ class Modulemanager_Admin extends Controller
      */
     public function action_admin_create()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create'), '/modulemanager/admin/create');
 
         $mod = $this->request->getParameter('mod_data');
 
         if($mod)
         {
-            # unserialize module data
+            // unserialize module data
             $mod = unserialize(base64_decode($mod));
 
-            # Check if the Modules folder is writeable
+            // Check if the Modules folder is writeable
             if ( !is_writeable( ROOT_MOD ) )
             {
                 $err['mod_folder_not_writeable'] = 1;
             }
 
-            # Check if the Module directory is not already existing
+            // Check if the Module directory is not already existing
             if (!is_dir(ROOT_MOD .  $mod['modulename']))
             {
                 // CREATE DIRECTORIES
@@ -325,28 +325,28 @@ class Modulemanager_Admin extends Controller
                 file_put_contents(ROOT_MOD .  $mod['modulename'] . DIRECTORY_SEPARATOR . $mod['modulename'] . '.admin.php', $backend );
             }
 
-            # Config
+            // Config
             $this->createConfigFromTemplate($mod['modulename']);
 
-            # Setup
+            // Setup
             $this->createSetupFromTemplate($mod['modulename']);
 
-            # Frontend Templates
+            // Frontend Templates
             $this->createFrontendTemplatesFromTemplate($mod['modulename'], $mod['frontend']);
 
-            # Backend Templates = Adminmodule Templates
+            // Backend Templates = Adminmodule Templates
             $this->createBackendTemplatesFromTemplate($mod['modulename'], $mod['backend']);
 
-            # Widget Method and Templates (Standalone Widget?)
+            // Widget Method and Templates (Standalone Widget?)
             #$this->createWidgetFromTemplate($mod['modulename'], $mod['widget']);
 
-            # Documentation
+            // Documentation
             #$this->createModuleDocumentationFromTemplate($mod['modulename']);
 
-            # Unittest
+            // Unittest
             #$this->createUnitTestFromTemplate($mod['modulename']);
 
-            # MODULE META INFORMATIONS
+            // MODULE META INFORMATIONS
 
             $view = $this->getView();
             $view->assign( 'mod', $mod );
@@ -354,7 +354,7 @@ class Modulemanager_Admin extends Controller
             // Set Layout Template
             #$this->getView()->setLayoutTemplate('index.tpl');
         }
-        else # display a preview dialog of the module to be created
+        else // display a preview dialog of the module to be created
         {
             $view = $this->getView();
             $mod = array();
@@ -380,15 +380,15 @@ class Modulemanager_Admin extends Controller
       */
      public function createConfigFromTemplate($modulename)
      {
-        # get smarty
+        // get smarty
         $view = $this->getView();
 
-        # load scaffolding template
+        // load scaffolding template
         $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
 
-        # inject modifications
+        // inject modifications
 
-        # save to file
+        // save to file
         file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php' , $config);
      }
 
@@ -399,15 +399,15 @@ class Modulemanager_Admin extends Controller
       */
      public function createMenuFromTemplate($modulename)
      {
-        # get smarty
+        // get smarty
         $view = $this->getView();
 
-        # load scaffolding template
+        // load scaffolding template
         $menu_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');
 
-        # inject modifications
+        // inject modifications
 
-        # save to file
+        // save to file
         file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.menu.php', $menu_template_content);
      }
 
@@ -416,15 +416,15 @@ class Modulemanager_Admin extends Controller
      */
     public function createSetupFromTemplate($modulename)
     {
-        # get smarty
+        // get smarty
         $view = $this->getView();
 
-        # load scaffolding template
+        // load scaffolding template
         $setup = $smarty->fetch( ROOT_MOD . 'scaffolding/module_setup.tpl');
 
-        # inject modifications
+        // inject modifications
 
-        # save to file
+        // save to file
         file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.setup.php' , $setup);
     }
 
@@ -472,11 +472,11 @@ class Modulemanager_Admin extends Controller
      */
     public function createWidgetTemplateFromTemplate($module, $module_widget)
     {
-        # Create the Widget Method
-        # @todo
+        // Create the Widget Method
+        // @todo
 
 
-        # Create Widget Template
+        // Create Widget Template
         if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
         {
             foreach( $mod['widget']['widget_methods'] as $key => $value )
@@ -496,15 +496,15 @@ class Modulemanager_Admin extends Controller
      */
     public function createModuleDocumentationTemplateFromTemplate($module)
     {
-        # check, if the documentation file exists, if not create documentation from template
+        // check, if the documentation file exists, if not create documentation from template
         if( is_file($module.'_docu.asc') == false )
         {
-            # get some moduleinfos from module_info.xml
+            // get some moduleinfos from module_info.xml
 
-            # fill the documentation template with the moduleinfo data
+            // fill the documentation template with the moduleinfo data
             $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_documentation.tpl');
 
-            # write the documentation file to the moduledir
+            // write the documentation file to the moduledir
             file_put_contents( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . $module . '_documentation.asc', $documentation_template_content);
         }
     }
@@ -517,25 +517,25 @@ class Modulemanager_Admin extends Controller
      */
     public function createModuleMenunavigationTemplateFromTemplate($module)
     {
-        # check, if the modulename.menu.php file exists, if not create menu from template
+        // check, if the modulename.menu.php file exists, if not create menu from template
         if( is_file( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . $module . '.menu.asc') == false )
         {
-            # get some moduleinfos from module_info.xml
+            // get some moduleinfos from module_info.xml
 
-            # one menu entry
+            // one menu entry
             /*array = ( '1' => array(
                                     'action'  => 'show',
                                     'name'    => 'Overview',
-                                    'url'      => 'index.php?mod=news&sub=admin', # &action=show
+                                    'url'      => 'index.php?mod=news&sub=admin', // &action=show
                                     'icon'    => '',
                                     'tooltip' => ''
                                         )
                     )*/
 
-            # fill the documentation template with the moduleinfo data
+            // fill the documentation template with the moduleinfo data
             $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');
 
-            # write the documentation file to the moduledir
+            // write the documentation file to the moduledir
             file_put_contents( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . '.menu.asc', $documentation_template_content);
         }
     }
@@ -602,10 +602,10 @@ class Modulemanager_Admin extends Controller
 
             $module->remove();
 
-            # report position to the eventdispatcher
+            // report position to the eventdispatcher
             $this->triggerEvent('onAfterModuleRemove');
 
-            # redirect back to the administration area of the modulemanager
+            // redirect back to the administration area of the modulemanager
             $this->redirect('index.php?mod=modulemanager/admin');
         }
     }
@@ -623,7 +623,7 @@ class Modulemanager_Admin extends Controller
      */
     public function action_admin_firsttimeinstall()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/modulemanager/admin/firsttimeinstall');
 
         // Set Layout Template
@@ -670,7 +670,7 @@ class Modulemanager_Admin extends Controller
         // image
         $modul['image_name'] = 'module_'.$modules_info['name'].'.jpg';
 
-        # *************** global ***************
+        // *************** global ***************
 
         $modul['name'] = $modules_info['name'];
         $modul['title'] = ucfirst($modules_info['name']);
@@ -683,13 +683,13 @@ class Modulemanager_Admin extends Controller
             $modul['description'] = '';
         }
 
-        # --- core modul ----------
+        // --- core modul ----------
         $modul['core'] = ($modules_info['core']?1:0);
 
 
-        # *************** Section: Settings ***************
+        // *************** Section: Settings ***************
 
-        # --- modul active ----------
+        // --- modul active ----------
         //$modul['enabled'] = ($modules_info['active']?1:0);
         if( isset( $modules_info['settings']['active'] ) )
         {
@@ -699,7 +699,7 @@ class Modulemanager_Admin extends Controller
             $modul['enabled'] = false;
         }
 
-        # --- section ----------
+        // --- section ----------
         if( isset( $modules_info['settings']['section'] ) )
         {
             $modul['section_id'] = $modules_info['settings']['section'];
@@ -708,9 +708,9 @@ class Modulemanager_Admin extends Controller
             $modul['section_id'] = null;
         }
 
-        # *************** Section: Info Info ***************
+        // *************** Section: Info Info ***************
 
-        # --- author/copyright ----------
+        // --- author/copyright ----------
         if( isset( $modules_info['info'][$modules_info['name'].'_info']['author'] ) )
         {
             $modul['author'] = utf8_encode($modules_info['info'][$modules_info['name'].'_info']['author']);
@@ -720,7 +720,7 @@ class Modulemanager_Admin extends Controller
             $modul['module_version'] = '0.2';
         }
 
-        # --- license ----------
+        // --- license ----------
         if( isset( $modules_info['info'][$modules_info['name'].'_info']['license'] ) )
         {
             $modul['license'] = $modules_info['info'][$modules_info['name'].'_info']['license'];
@@ -729,7 +729,7 @@ class Modulemanager_Admin extends Controller
             $modul['license'] = 'GPLv2';
         }
 
-        # --- link ----------
+        // --- link ----------
         if( isset( $modules_info['info'][$modules_info['name'].'_info']['link'] ) )
         {
             $modul['homepage'] = $modules_info['info'][$modules_info['name'].'_info']['link'];
@@ -738,9 +738,9 @@ class Modulemanager_Admin extends Controller
             $modul['homepage'] = '';
         }
 
-        # *************** Section: Info Package ***************
+        // *************** Section: Info Package ***************
 
-        # --- version ----------
+        // --- version ----------
         if( isset( $modules_info['info'][$modules_info['name'].'_package']['version'] ) )
         {
             $modul['module_version'] = $modules_info['info'][$modules_info['name'].'_package']['version'];
@@ -749,7 +749,7 @@ class Modulemanager_Admin extends Controller
             $modul['module_version'] = '0.2';
         }
 
-        # --- require_version ----------
+        // --- require_version ----------
         // require_version
         if( isset( $modules_info['info'][$modules_info['name'].'_package']['require_version'] ) )
         {
@@ -759,7 +759,7 @@ class Modulemanager_Admin extends Controller
             $modul['clansuite_version'] = '0.2';
         }
 
-        # save module record (cs_module)
+        // save module record (cs_module)
         $modules = new CsModules();
         $modules->parent_id = 0;
         $modules->section_id = $modul['section_id'];
@@ -789,18 +789,18 @@ class Modulemanager_Admin extends Controller
 
         if(null !== $lastModuleID)
         {
-            # write module-Id in config
-            # @todo
-            # *************** Section: acl ***************
-            # read modules rights and prepare acl-array for DB includes (table: cs_acl_actions and cs_acl_rules)
+            // write module-Id in config
+            // @todo
+            // *************** Section: acl ***************
+            // read modules rights and prepare acl-array for DB includes (table: cs_acl_actions and cs_acl_rules)
             if(isset($modules_info['acl']))
             {
                 foreach($modules_info['acl'] as $key => $val)
                 {
                     //$lastid++;
-                    # ---------------
-                    # create and save resources
-                    # ---------------
+                    // ---------------
+                    // create and save resources
+                    // ---------------
                     $resour = new CsAclActions();
                     $resour->modulname = $modul['name'];
                     $resour->action = $key;
@@ -809,14 +809,14 @@ class Modulemanager_Admin extends Controller
                     $resource_id = $lastModuleID;
                     $lastResourceID = Clansuite_DoctrineTools::lastTableInsertId('CsAclActions', 'action_id');
 
-                    # ---------------
-                    # create and save permissions
-                    # role_id 1 = root
-                    # role_id 2 = bot
-                    # role_id 3 = guest
-                    # role_id 4 = member
-                    # role_id 5 = admin
-                    # ---------------
+                    // ---------------
+                    // create and save permissions
+                    // role_id 1 = root
+                    // role_id 2 = bot
+                    // role_id 3 = guest
+                    // role_id 4 = member
+                    // role_id 5 = admin
+                    // ---------------
                     if($val == 'all')
                     {
                         for($i = 1; $i < 6; $i++)

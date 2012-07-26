@@ -63,9 +63,9 @@ class Phptal extends Renderer_Base
      */
     public function initializeEngine()
     {
-        # prevent redeclaration
+        // prevent redeclaration
         if (class_exists('PHPTAL', false) === false) {
-            # check if Smarty library exists
+            // check if Smarty library exists
             if (is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') === true) {
                 include ROOT_LIBRARIES . 'phptal/PHPTAL.php';
             } else {
@@ -73,7 +73,7 @@ class Phptal extends Renderer_Base
             }
         }
 
-        # Do it with phptal style > eat like a bird, poop like an elefant!
+        // Do it with phptal style > eat like a bird, poop like an elefant!
         $this->renderer = new PHPTAL();
     }
 
@@ -131,7 +131,7 @@ class Phptal extends Renderer_Base
     public function setEngine(PHPTAL $phptal)
     {
         $this->renderer = $phptal;
-        # @todo check, if $this should be injected into phptal?
+        // @todo check, if $this should be injected into phptal?
         #$this->renderer->set('this', $this);
 
         return $this;
@@ -156,7 +156,7 @@ class Phptal extends Renderer_Base
      */
     protected function render($template = null, $returnContent = false)
     {
-        # get the template from the parent class
+        // get the template from the parent class
         if ($template === null) {
             $template = $this->getTemplate();
         }
@@ -164,10 +164,10 @@ class Phptal extends Renderer_Base
         $this->renderer->setTemplate($template);
 
         try {
-            # let PHPTAL process the template
+            // let PHPTAL process the template
             $output = $this->renderer->execute();
 
-            # return or echo the content
+            // return or echo the content
             if ($returnContent === true) {
                 return $content;
             } else {

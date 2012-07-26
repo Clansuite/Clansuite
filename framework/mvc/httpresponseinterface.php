@@ -35,13 +35,13 @@ namespace Koch\MVC;
  */
 interface HttpResponseInterface
 {
-    # Output Methods
+    // Output Methods
     public static function setStatusCode($statusCode);
     public static function addHeader($name, $value);
     public static function setContent($content, $replace = false);
     public static function sendResponse();
 
-    # Cookie Methods
+    // Cookie Methods
     public static function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
     public static function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null);
 }

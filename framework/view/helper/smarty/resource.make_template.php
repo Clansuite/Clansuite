@@ -4,7 +4,7 @@ function smarty_make_template($resource_type, $resource_name, &$template_source,
 {
     if ($resource_type == 'file') {
         if (false === is_readable($resource_name)) {
-            # create the template file, return contents.
+            // create the template file, return contents.
             $template_source = "This is a new template.";
 
             if (false === function_exists('smarty_core_write_file')) {
@@ -16,7 +16,7 @@ function smarty_make_template($resource_type, $resource_name, &$template_source,
 
             return true;
         }
-    } else { # not a file
+    } else { // not a file
 
         return false;
     }

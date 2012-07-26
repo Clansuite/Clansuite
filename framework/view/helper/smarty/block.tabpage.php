@@ -17,7 +17,7 @@
  */
 function smarty_block_tabpage($params, $content, $smarty, &$repeat)
 {
-    # check for name
+    // check for name
     if (isset($params['name'])) {
         $name = _($params['name']);
     } else {
@@ -26,12 +26,12 @@ function smarty_block_tabpage($params, $content, $smarty, &$repeat)
         return;
     }
 
-    # Start TAB Page
+    // Start TAB Page
     $start_tabpage  = '<!-- START - TABPAGE "'.$name.'" -->' . CR;
     $start_tabpage .= '<div class="tab-page">' . CR;
     $start_tabpage .= '<h2 class="tab">'.$name.'</h2>' . CR;
 
-    # End TAB Page
+    // End TAB Page
     $end_tabpage = '</div><!-- END - TABPAGE "'.$name.'" -->' . CR;
 
     /**
@@ -41,7 +41,7 @@ function smarty_block_tabpage($params, $content, $smarty, &$repeat)
      * is present.
      */
     if (isset($content)) {
-        # Construct content for whole BLOCK
+        // Construct content for whole BLOCK
 
         return $start_tabpage . $content . $end_tabpage;
     }

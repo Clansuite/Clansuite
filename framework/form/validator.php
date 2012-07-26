@@ -132,7 +132,7 @@ abstract class Validator
         foreach ($properties as $property_name => $value) {
             $setter_method = 'set' . $property_name;
 
-            # Set the value via a Setter Method
+            // Set the value via a Setter Method
             $this->{$setter_method}($value);
         }
     }

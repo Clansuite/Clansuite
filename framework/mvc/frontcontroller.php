@@ -168,7 +168,7 @@ class FrontController implements FrontControllerInterface
      */
     public function forward($request, $response)
     {
-        # fetch the target route from the request
+        // fetch the target route from the request
         $route = $request->getRoute();
 
         if ($route === null) {
@@ -219,7 +219,7 @@ class FrontController implements FrontControllerInterface
             $controllerInstance->_beforeFilter();
         }
 
-        # @todo move into a prefilter / and consider the request being ajax :) = no breadcrumbs
+        // @todo move into a prefilter / and consider the request being ajax :) = no breadcrumbs
         Breadcrumb::initialize($route->getModuleName(), $route->getSubmoduleName());
 
         /**

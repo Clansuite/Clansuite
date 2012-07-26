@@ -101,23 +101,23 @@ class Javascripts extends Layout
      */
     public static function addJS_JQuery_Service($version = null, $service = 'google')
     {
-        # determine service
+        // determine service
         if ($service == 'jquery') {
-            # load from jquery.com
+            // load from jquery.com
             if ($version === null) {
                 self::addJS('http://code.jquery.com/jquery-latest.pack.js');
             } else {
                 /**
                  * JQuery version whitelist ensures a certain compatibilty frame
                  */
-                $jquery_version_whitelist = array( '1.4.2', '1.4.1' ); # not 'latest'
+                $jquery_version_whitelist = array( '1.4.2', '1.4.1' ); // not 'latest'
 
                 if ( in_array($version, $jquery_version_whitelist) ) {
                     self::addJS('http://code.jquery.com/jquery-'.$version.'.pack.js');
                 }
             }
         } else {
-            # load from google.com
+            // load from google.com
             self::addJS_JQuery_GoogleCDN_Service($version);
         }
     }
@@ -141,7 +141,7 @@ class Javascripts extends Layout
             /**
              * JQuery version whitelist ensures a certain compatibilty frame
              */
-            $jquery_version_whitelist = array( '1.4.2', '1.4.1' ); # not 'latest'
+            $jquery_version_whitelist = array( '1.4.2', '1.4.1' ); // not 'latest'
 
             if ( in_array($version, $jquery_version_whitelist) ) {
                 $this->jquery_initscript  = '';

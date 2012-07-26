@@ -59,17 +59,17 @@ class Extractor extends Extractor_Tool
      */
     public function __construct()
     {
-        # clean up
+        // clean up
         $this->removeAllExtractors();
 
-        # set basic extractors for php and smarty template files
+        // set basic extractors for php and smarty template files
         $this->setExtractor('php', 'PHP')
              ->setExtractor('tpl', 'Template');
 
-        # register the tags/functions to extract
+        // register the tags/functions to extract
         $this->getExtractor('PHP')->addTags(array('translate', 't', '_'));
 
-        # register the tags/placeholders to extract
+        // register the tags/placeholders to extract
         $this->getExtractor('Template')->addTags(array('_', 't'));
     }
 
@@ -151,10 +151,10 @@ class Tool
      */
     public function __construct($logToFile = false)
     {
-        # default log file
+        // default log file
         if (false === $logToFile) {
             $this->logHandler = fopen(ROOT_LOGS . 'gettext-extractor.log', 'w');
-        } else { # custom log file
+        } else { // custom log file
             $this->logHandler = fopen($logToFile, 'w');
         }
     }
@@ -220,7 +220,7 @@ class Tool
             return;
         }
 
-        # It's a directory
+        // It's a directory
         $resource = realpath($resource);
 
         if (false === $resource) {
@@ -283,11 +283,11 @@ class Tool
 
             $this->log('Extracting data from file ' . $inputFile);
 
-            # Check file extension
+            // Check file extension
             $fileExtension = pathinfo($inputFile, PATHINFO_EXTENSION);
 
             foreach ($this->extractors as $extension => $extractor) {
-                # check, if the extractor handles a file extension like this
+                // check, if the extractor handles a file extension like this
                 if ($fileExtension !== $extension) {
                     continue;
                 }
@@ -300,7 +300,7 @@ class Tool
 
                     $this->log(' Extractor ' . $extractorName . ' applied.');
 
-                    # do not merge if incomming array is empty
+                    // do not merge if incomming array is empty
                     if (false === empty($extractorData)) {
                         $this->data = array_merge_recursive($this->data, $extractorData);
                     }
@@ -329,7 +329,7 @@ class Tool
         }
 
         if (false === class_exists($extractor_classname, false)) {
-            # /core/gettext/extractors/*NAME*.gettext.php
+            // /core/gettext/extractors/*NAME*.gettext.php
             $extractor_file = ROOT_CORE . 'gettext/extractors/' . $extractor . '.gettext.php';
 
             if (true === is_file($extractor_file)) {
@@ -360,10 +360,10 @@ class Tool
      */
     public function setExtractor($extension, $extractor)
     {
-        # not already set
+        // not already set
         if (false === isset($this->extractor[$extension]) and false === in_array($extractor, $this->extractor[$extension])) {
             $this->extractor[$extension][] = $extractor;
-        } else { # already set
+        } else { // already set
 
             return $this;
         }
@@ -395,18 +395,18 @@ class Tool
             $data = $this->data;
         }
 
-        # get dirname and check if dirs exist, else create it
+        // get dirname and check if dirs exist, else create it
         $dir = dirname($file);
         if (false === is_dir($dir) and false === @mkdir($dir, 0777, true)) {
            $this->throwException('ERROR: make directory failed!');
         }
 
-        # check file permissions on output file
+        // check file permissions on output file
         if (true === is_file($file) and false === is_writable($file)) {
             $this->throwException('ERROR: Output file is not writable!');
         }
 
-        # write data formatted to file
+        // write data formatted to file
         file_put_contents($file, $this->formatData($data));
 
         $this->log('Output file ' . $file . ' created.');
@@ -424,11 +424,11 @@ class Tool
     public static function getPOFileHeader($return_as_string = true)
     {
         $output = array();
-        $output[] = '# Gettext Portable Object Translation File.';
+        $output[] = '// Gettext Portable Object Translation File.';
         $output[] = '#';
-        $output[] = '# Koch Framework';
-        $output[] = '# Copyright © Jens-André Koch 2005 - onwards.';
-        $output[] = '# The file is distributed under the GNU/GPL v2 or any later version.';
+        $output[] = '// Koch Framework';
+        $output[] = '// Copyright © Jens-André Koch 2005 - onwards.';
+        $output[] = '// The file is distributed under the GNU/GPL v2 or any later version.';
         $output[] = '#';
         $output[] = 'msgid ""';
         $output[] = 'msgstr ""';
@@ -436,13 +436,13 @@ class Tool
         $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
         $output[] = '"PO-Revision-Date: ' . date('Y-m-d H:iO') . '\n"';
         $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
-        # @todo http://trac.clansuite.com/ticket/224 - fetch plural form from locale description array
+        // @todo http://trac.clansuite.com/ticket/224 - fetch plural form from locale description array
         $output[] = '"Plural-Forms: nplurals=2; plural=(n != 1);\n"';
         $output[] = '';
 
         if ($return_as_string === true) {
             return implode("\n", $output);
-        } else { # return array
+        } else { // return array
 
             return $output;
         }
@@ -470,17 +470,17 @@ class Tool
             $slashed_key = self::addSlashes($key);
 
             foreach ($files as $file) {
-                $output[] = '#: ' . $file; # = reference
+                $output[] = '#: ' . $file; // = reference
             }
 
             $output[] = 'msgid "' . $slashed_key . '"';
 
-            # check for plural
+            // check for plural
             if (0 < preg_match($pluralMatchRegexp, $key)) {
                 $output[] = 'msgid_plural "' . $slashed_key . '"';
                 $output[] = 'msgstr[0] "' . $slashed_key . '"';
                 $output[] = 'msgstr[1] "' . $slashed_key . '"';
-            } else { # no plural
+            } else { // no plural
                 $output[] = 'msgstr "' . $slashed_key . '"';
             }
 
@@ -522,14 +522,14 @@ class Extractor_Base
      */
     public function addTags($tags)
     {
-        # multiple tags to add
+        // multiple tags to add
         if (is_array($tags) === true) {
             foreach ($tags as $tag) {
                 if (false === array_key_exists($tag, array_flip($this->tags_to_scan))) {
                     $this->tags_to_scan[] = $tag;
                 }
             }
-        } else { # just one element (string)
+        } else { // just one element (string)
             $this->tags_to_scan[] = $tags;
         }
 

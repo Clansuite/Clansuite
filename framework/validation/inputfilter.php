@@ -172,7 +172,7 @@ class Inputfilter
 
                     // Normal RegExp Cases
                     // Is integer?
-                    # @todo preg_match("![0-9]+!", $foo); SLOWER THAN ctype_digit($foo);
+                    // @todo preg_match("![0-9]+!", $foo); SLOWER THAN ctype_digit($foo);
                     case 'is_int':
                         $reg_exp .= '0-9';
                         break;

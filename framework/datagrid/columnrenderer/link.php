@@ -48,13 +48,13 @@ class Link extends ColumnRenderer implements ColumnRendererInterface
      */
     public function renderCell($oCell)
     {
-        # assign values to internal var
+        // assign values to internal var
         $values = $oCell->getValues();
 
-        # set internal link
+        // set internal link
         $this->link = parent::getColumn()->getBaseURL();
 
-        # validate
+        // validate
         if ( false == isset($values['name']) ) {
             throw new Clansuite_Exception(_('A link needs a name. Please define "name" in the ResultKeys'));
         } else {
@@ -63,7 +63,7 @@ class Link extends ColumnRenderer implements ColumnRendererInterface
             }
         }
 
-        # render
+        // render
 
         return $this->_replacePlaceholders( $values,
                                             Clansuite_HTML::renderElement(  'a',

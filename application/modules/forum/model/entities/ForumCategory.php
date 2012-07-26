@@ -35,9 +35,9 @@ class ForumCategory
      */
     protected $description;
 
-    ### ===================================
-    ### Setter and Getter methodes
-    ### ===================================
+    ##// ===================================
+    ##// Setter and Getter methodes
+    ##// ===================================
 
 
 

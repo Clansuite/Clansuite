@@ -168,15 +168,15 @@ abstract class Decorator implements DecoratorInterface
      */
     public function hasMethod($method)
     {
-        # check if method exists in this object
+        // check if method exists in this object
         if (method_exists($this, $method)) {
             return true;
         }
-        # check if method exists in the decorator of this object
+        // check if method exists in the decorator of this object
         elseif($this->form instanceof Koch_Form_Decorator)
         {
             return $this->form->hasMethod($method);
-        } else { # nope, method does not exist
+        } else { // nope, method does not exist
 
             return false;
         }

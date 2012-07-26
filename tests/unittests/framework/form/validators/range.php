@@ -14,7 +14,7 @@ class Koch_Form_Validator_Range_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new \Koch\Form\Validators\Range;
     }
 
@@ -33,18 +33,18 @@ class Koch_Form_Validator_Range_Test extends Clansuite_UnitTestCase
         $maximum_length = '1980';
         $this->validator->setRange($minimum_length, $maximum_length);
 
-        # string != int
+        // string != int
         $this->assertNotIdentical($minimum_length,
                            $this->validator->options['options']['min_range']);
 
         $this->assertNotIdentical($maximum_length,
                            $this->validator->options['options']['max_range']);
 
-        # string to int
+        // string to int
         $this->assertEqual($minimum_length,
                            $this->validator->options['options']['min_range']);
 
-         # string to int
+         // string to int
         $this->assertEqual($maximum_length,
                            $this->validator->options['options']['max_range']);
 
@@ -64,7 +64,7 @@ class Koch_Form_Validator_Range_Test extends Clansuite_UnitTestCase
         $this->assertFalse($this->validator->validate('0'));
         $this->assertFalse($this->validator->validate(false));
 
-        # strings.. are not in range
+        // strings.. are not in range
         $this->assertFalse($this->validator->validate('Evolution'));
     }
 

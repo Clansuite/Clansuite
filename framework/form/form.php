@@ -227,11 +227,11 @@ class Form implements FormInterface
             throw new Exception('Missing argument 1 - has to be string (Name of Form) or array (Form Description Array).');
         }
 
-        # case 1: $name is a string, the name of the form
+        // case 1: $name is a string, the name of the form
         if (is_string($name_or_attributes)) {
             $this->setName($name_or_attributes);
         }
-        # case 2: $name is an array with several attribute => value relationships
+        // case 2: $name is an array with several attribute => value relationships
         elseif(is_array($name_or_attributes))
         {
             $this->setAttributes($name_or_attributes);
@@ -269,7 +269,7 @@ class Form implements FormInterface
      */
     public function getMethod()
     {
-        # defaults to post
+        // defaults to post
         if ($this->method == '') {
             $this->method = 'post';
         }
@@ -416,11 +416,11 @@ class Form implements FormInterface
              * Array is a form description array for the formgenerator
              */
             if (isset($attributes['form'])) {
-                # generate a form with the formgenerator by passing the attributes array in
+                // generate a form with the formgenerator by passing the attributes array in
                 $form = new Koch\Form\Generator\AssocArray($attributes);
-                # and copy all properties of the inner form object to ($this) outer form object =)
+                // and copy all properties of the inner form object to ($this) outer form object =)
                 $this->copyObjectProperties($form, $this);
-                # unset inner form
+                // unset inner form
                 unset($form);
             } else {
                 /**
@@ -444,7 +444,7 @@ class Form implements FormInterface
         $varArray = get_object_vars($object_to_copy);
 
         foreach ($varArray as $key => $value) {
-            # use this object, if no target object is specified
+            // use this object, if no target object is specified
             if ($target == null) {
                 $this->$key = $value;
             } else {
@@ -727,26 +727,26 @@ class Form implements FormInterface
     */
     public function renderAllFormelements()
     {
-        # init var
+        // init var
         $html_form = '';
         $html_formelement = '';
 
-        # fetch all formelements
+        // fetch all formelements
         $formelements = $this->getFormelements();
 
         #\Koch\Debug::printR($formelements);
 
-        # developer hint: when $form->render() was triggered, but no formelement was added before
+        // developer hint: when $form->render() was triggered, but no formelement was added before
         if (count($formelements) == 0) {
             throw new Koch_Exception('Formelement rendering failure. No formelements on form object. Consider adding some formelements using addElement().');
         }
 
-        # sort formelements by index
+        // sort formelements by index
         ksort($formelements);
 
-        # loop over all registered formelements of this form and render them
+        // loop over all registered formelements of this form and render them
         foreach ($formelements as $formelement) {
-            # fetch all decorators of this formelement
+            // fetch all decorators of this formelement
             $formelementdecorators = $formelement->getDecorators();
 
             /**
@@ -755,23 +755,23 @@ class Form implements FormInterface
              * 2) if the feature is disabled (setting is then incomming from inside the formelement)
              */
             if (empty($formelementdecorators) and ($formelement->disableDefaultDecorators == false)) {
-                # apply default decorators to the formelement
+                // apply default decorators to the formelement
                 $this->registerDefaultFormelementDecorators($formelement);
 
-                # fetch again all decorators of this formelement
+                // fetch again all decorators of this formelement
                 $formelementdecorators = $formelement->getDecorators();
             }
 
-            # then render this formelement (pure)
+            // then render this formelement (pure)
             $html_formelement = $formelement->render();
 
-            # for each decorator, decorate the formelement and render it
+            // for each decorator, decorate the formelement and render it
             foreach ($formelementdecorators as $formelementdecorator) {
                 $formelementdecorator->decorateWith($formelement);
                 $html_formelement = $formelementdecorator->render($html_formelement);
             }
 
-            # append the form html with the decorated formelement html
+            // append the form html with the decorated formelement html
             $html_form .= $html_formelement;
         }
 
@@ -787,36 +787,36 @@ class Form implements FormInterface
      */
     public function render()
     {
-        # the content of the form are the formelements
+        // the content of the form are the formelements
         $html_form = $this->renderAllFormelements();
 
         if (empty($this->formdecorators) === true) {
-            # should the default form decorators be applied?
+            // should the default form decorators be applied?
             if ($this->useDefaultFormDecorators === true) {
-                # set a common style to the form by registering one or more decorators
+                // set a common style to the form by registering one or more decorators
                 $this->registerDefaultFormDecorators();
             }
         }
 
-        # iterate over all decorators
+        // iterate over all decorators
         foreach ($this->getDecorators() as $decorator) {
-            # thereby sticking this form in each decorator
+            // thereby sticking this form in each decorator
             $decorator->decorateWith($this);
 
-            # apply some settings or call some methods on the decorator
-            # before rendering
-            # $decorator->$value;
-            # $decorator->$method($value);
-            # combined $decorator->setAttributes();
+            // apply some settings or call some methods on the decorator
+            // before rendering
+            // $decorator->$value;
+            // $decorator->$method($value);
+            // combined $decorator->setAttributes();
             $this->applyDecoratorAttributes();
 
-            # then rendering it
+            // then rendering it
             $html_form = $decorator->render($html_form);
 
-            # remove the processed decorator from the decorators stack
+            // remove the processed decorator from the decorators stack
             $this->removeDecorator($decorator);
 
-            # unset the decorator var in the foreach context
+            // unset the decorator var in the foreach context
             unset($decorator);
         }
 
@@ -867,13 +867,13 @@ class Form implements FormInterface
             $formelement = $this->formelementFactory($formelement);
         }
 
-        # little helper for easier use of the formelement "file"
-        # this switches the "encytype" attribute of form tag automatically
+        // little helper for easier use of the formelement "file"
+        // this switches the "encytype" attribute of form tag automatically
         if (($formelement instanceof \Koch\Form\Formelement\File) === true) {
             $this->setEncoding('multipart/form-data');
         }
 
-        # helper for setting formelement attributes directly when adding
+        // helper for setting formelement attributes directly when adding
         if (is_array($attributes) === true) {
             $formelement->setAttributes($attributes);
         }
@@ -886,27 +886,27 @@ class Form implements FormInterface
             $formelement->setID($formelement->type . '-formelement-' . count($this->formelements));
         }
 
-        # if we don't have a position to order the elements, we just add an element
-        # this is the default behaviour
+        // if we don't have a position to order the elements, we just add an element
+        // this is the default behaviour
         if ($position === null) {
             $this->formelements[] = $formelement;
         }
-        # else we position the element under it's number to keep things in an order
+        // else we position the element under it's number to keep things in an order
         elseif(is_int($position) === true)
         {
-            # hmpf, there is already an element at this position
+            // hmpf, there is already an element at this position
             if (isset($this->formelements[$position]) === true) {
-                # insert the new element to the requested position and reorder
+                // insert the new element to the requested position and reorder
                 $this->formelements = $this->array_insert($formelement, $position, $this->formelements);
 
-                # after repositioning we need to recalculate the formelement ids
+                // after repositioning we need to recalculate the formelement ids
                 $this->regenerateFormelementIdentifiers();
-            } else { # just add to the requested position
+            } else { // just add to the requested position
                 $this->formelements[$position] = $formelement;
             }
         }
 
-        # return object -> fluent interface / method chaining
+        // return object -> fluent interface / method chaining
 
         return $formelement;
     }
@@ -937,7 +937,7 @@ class Form implements FormInterface
            $pos = strlen($id) - $pos_lastpart;
            $firstpart = substr ($id, 0, -$pos);
 
-           # the new id is then appended to the remaining firstpart of the string
+           // the new id is then appended to the remaining firstpart of the string
            $id = $firstpart .= $i;
 
            $formelement->setID($id);
@@ -1025,16 +1025,16 @@ class Form implements FormInterface
     {
         $formelement_object = '';
 
-        # if no position is incomming we return the last formelement item
-        # this is the normal call to this method, while chaining
+        // if no position is incomming we return the last formelement item
+        // this is the normal call to this method, while chaining
         if ($position === null) {
-           # fetch last item of array = last_formelement
+           // fetch last item of array = last_formelement
            $formelement_object = end($this->formelements);
         } elseif(is_numeric($position))
         {
-            # uh, not the last element of the formelements array requested, but some position
+            // uh, not the last element of the formelements array requested, but some position
             $formelement_object = $this->getElementByPosition($position);
-        } else { # is_string
+        } else { // is_string
             $formelement_object = $this->getElementByName($position);
         }
 
@@ -1055,10 +1055,10 @@ class Form implements FormInterface
      */
     public static function formelementFactory($formelement)
     {
-        # class = namespace "Koch\Form\Element\" + formelement name
+        // class = namespace "Koch\Form\Element\" + formelement name
         $class = 'Koch\Form\Elements\\' . ucfirst($formelement);
 
-        # if not already loaded, require formelement file
+        // if not already loaded, require formelement file
         if (false === class_exists($class, false)) {
             $file = KOCH . 'form/elements/' . $formelement . '.php';
 
@@ -1069,7 +1069,7 @@ class Form implements FormInterface
             }
         }
 
-        # instantiate the new formelement and return
+        // instantiate the new formelement and return
 
         return new $class;
     }
@@ -1089,13 +1089,13 @@ class Form implements FormInterface
      */
     public function processForm()
     {
-        # check if form has been submitted properly
+        // check if form has been submitted properly
         if ($this->validate() === false) {
-            # if not, redisplay the form (decorate with errors + render)
+            // if not, redisplay the form (decorate with errors + render)
             $this->addDecorator('errors');
             $this->render();
 
-        } else { # form was properly filled, display a success web page or a flashmessage
+        } else { // form was properly filled, display a success web page or a flashmessage
             /**
              * Success - form content valid.
              * The "noerror" decorator implementation decides,
@@ -1132,11 +1132,11 @@ class Form implements FormInterface
      */
     public function setValues($data = null)
     {
-        # because $data might be an object, typecast $data object to array
+        // because $data might be an object, typecast $data object to array
         if (is_object($data) === true) {
             $data = (array) $data;
         }
-        # fetch data from POST
+        // fetch data from POST
         elseif(null === $data)
         {
             if ('POST' === Koch_HttpRequest::getRequestMethod() ) {
@@ -1144,7 +1144,7 @@ class Form implements FormInterface
             }
         }
 
-        # now we got an $data array to populate all the formelements with (setValue)
+        // now we got an $data array to populate all the formelements with (setValue)
         foreach ($data as $key => $value) {
             foreach ($this->formelements as $formelement) {
                 $type = $formelement->getType();
@@ -1157,7 +1157,7 @@ class Form implements FormInterface
                     continue;
                 }
 
-                # data[key] and formelement[name] have to match
+                // data[key] and formelement[name] have to match
                 if ($formelement->getName() == ucfirst($key)) {
                     $formelement->setValue($value);
                 }
@@ -1187,7 +1187,7 @@ class Form implements FormInterface
             $values[$formelement->getId()] = $formelement->getValue();
         }
 
-        # return validated values, ready for further processing (model insert)
+        // return validated values, ready for further processing (model insert)
 
         return $values;
     }
@@ -1220,7 +1220,7 @@ class Form implements FormInterface
      */
     public function addDecorators($decorators)
     {
-        # address each one of those decorators
+        // address each one of those decorators
         foreach ($decorators as $decorator) {
             $this->addDecorator($decorator);
         }
@@ -1239,25 +1239,25 @@ class Form implements FormInterface
      */
     public function addDecorator($decorator, $attributes = null)
     {
-        # check if multiple decorator are incomming at once
+        // check if multiple decorator are incomming at once
         if (is_array($decorator)) {
             $this->addDecorators($decorator);
         }
 
-        # if we got a string
+        // if we got a string
         if (is_string($decorator)) {
-            # turn string into an decorator object
+            // turn string into an decorator object
             $decorator = $this->decoratorFactory($decorator);
         }
 
-        # and check if it is an object implementing the right interface
+        // and check if it is an object implementing the right interface
         if ($decorator instanceof \Koch\Form\DecoratorInterface) {
-            # if so, fetch this decorator objects name
+            // if so, fetch this decorator objects name
             $decoratorname = '';
             $decoratorname = $decorator->name;
         }
 
-        # apply attributes (2nd param) to the decorator
+        // apply attributes (2nd param) to the decorator
         if (isset($attributes)) {
             foreach ($attributes as $attribute => $value) {
                 $decorator->$attribute = $value;
@@ -1266,16 +1266,16 @@ class Form implements FormInterface
             #\Koch\Debug::printR($decorator);
         }
 
-        # now check if this decorator is not already set (prevent decorator duplications)
+        // now check if this decorator is not already set (prevent decorator duplications)
         if (false === in_array($decorator, $this->formdecorators)) {
-            # set this decorator object under its name into the array
+            // set this decorator object under its name into the array
             $this->formdecorators[$decoratorname] = $decorator;
         }
 
-        # WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
-        # We dont return $this here, because $this would be the FORM.
-        # Instead the decorator is returned, to apply some properties.
-        # @return decorator object
+        // WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+        // We dont return $this here, because $this would be the FORM.
+        // Instead the decorator is returned, to apply some properties.
+        // @return decorator object
 
         return $this->formdecorators[$decoratorname];
     }
@@ -1353,10 +1353,10 @@ class Form implements FormInterface
      */
     public function decoratorFactory($decorator)
     {
-        # construct Koch\Form\Decorator\Name
+        // construct Koch\Form\Decorator\Name
         $class = 'Koch\Form\Decorators\Form\\' . ucfirst($decorator);
 
-        # if not already loaded, require forelement file
+        // if not already loaded, require forelement file
         if (false === class_exists($class, false)) {
             $file = KOCH . 'form/decorators/form/' . $decorator . '.php';
 
@@ -1365,7 +1365,7 @@ class Form implements FormInterface
             }
         }
 
-        # instantiate the new $formdecorator and return
+        // instantiate the new $formdecorator and return
 
         return new $class();
     }
@@ -1419,16 +1419,16 @@ class Form implements FormInterface
 
         #\Koch\Debug::printR($attributes);
 
-        # level 1
+        // level 1
         foreach ($attributes as $decorator_type => $decoratorname_array) {
-            # apply settings for the form itself
+            // apply settings for the form itself
             if ($decorator_type === 'form') {
-                # level 2
+                // level 2
                 foreach ($decoratorname_array as $decoratorname => $attribute_and_value) {
                     $decorator = $this->getDecorator($decoratorname);
                     #\Koch\Debug::printR($attribute_and_value);
 
-                    # level 3
+                    // level 3
                     foreach ($attribute_and_value as $attribute => $value) {
                         $decorator->$attribute = $value;
                     }
@@ -1436,14 +1436,14 @@ class Form implements FormInterface
                 }
             }
 
-            # apply settings to a formelement of the form
+            // apply settings to a formelement of the form
             if ($decorator_type === 'formelement') {
-                # level 2
+                // level 2
                 foreach ($decoratorname_array as $decoratorname => $attribute_and_value) {
                     $decorator = $this->getFormelementDecorator($decoratorname);
                     #\Koch\Debug::printR($attribute_and_value);
 
-                    # level 3
+                    // level 3
                     foreach ($attribute_and_value as $attribute => $value) {
                         $decorator->$attribute = $value;
                     }
@@ -1509,8 +1509,8 @@ class Form implements FormInterface
             $formelement_object = $this->getElement($formelement_pos_name_obj);
         }
 
-        # add the decorator
-        # WATCH OUT! this is a forwarding call to formelement.core.php->addDecorator()
+        // add the decorator
+        // WATCH OUT! this is a forwarding call to formelement.core.php->addDecorator()
 
         return $formelement_object->addDecorator($decorator);
     }
@@ -1539,7 +1539,7 @@ class Form implements FormInterface
     /*
     public function addGroup($groupname)
     {
-        # @todo groupname becomes ID of decorator (e.g. a fieldset)
+        // @todo groupname becomes ID of decorator (e.g. a fieldset)
 
         $this->formgroups[] = $groupname;
 
@@ -1578,16 +1578,16 @@ class Form implements FormInterface
     {
         foreach ($this->formelements as $formelement) {
             if ($formelement->validate() === false) {
-                # raise error flag on the form
+                // raise error flag on the form
                 $this->setErrorState(true);
 
-                # and transfer errormessages from formelement to form errormessages stack
+                // and transfer errormessages from formelement to form errormessages stack
                 $this->addErrorMessage($formelement->getErrorMessages());
             }
         }
 
         if ($this->getErrorState() === true) {
-            # form has errors and does not validate
+            // form has errors and does not validate
 
             return false;
         } else {

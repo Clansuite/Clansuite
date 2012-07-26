@@ -75,7 +75,7 @@ class English implements \ArrayAccess
 
         $this->language['STEP2_FIX_REQUIRED_SETTINGS_TOOLTIP'] = 'In order to proceed you need to fix the required settings.';
 
-        # REQUIRED SETTINGS (in order)
+        // REQUIRED SETTINGS (in order)
         $this->language['PHP_VERSION'] = 'PHP version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Functions';
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
@@ -90,7 +90,7 @@ class English implements \ArrayAccess
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Can read: config-template file';
         $this->language['DATE_TIMEZONE'] = 'Timezone set: "date.timezone"';
 
-        # RECOMMENDED SETTINGS (in order)
+        // RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit';
         $this->language['FILE_UPLOADS'] = 'File Uploads enabled?';
         $this->language['MAX_UPLOAD_FILESIZE'] = 'Checking maximal upload filesize';
@@ -222,15 +222,15 @@ class English implements \ArrayAccess
 
         // GLOBAL
 
-        # Buttons
+        // Buttons
         $this->language['NEXTSTEP'] = 'Next &gt;&gt;';
         $this->language['BACKSTEP'] = '&lt;&lt; Back';
 
-        # Help Text for Buttons
+        // Help Text for Buttons
         $this->language['CLICK_NEXT_TO_PROCEED'] = 'Click the Button ['. $this->language['NEXTSTEP'] .'] to proceed with the next Installstep.';
         $this->language['CLICK_BACK_TO_RETURN'] = 'Click the Button ['. $this->language['BACKSTEP'] .'] to return to the prior one.';
 
-        # Right Side Menu
+        // Right Side Menu
         $this->language['INSTALL_PROGRESS'] = 'Install Progress';
         $this->language['SELECT_LANGUAGE'] = 'Please select your language.';
         $this->language['COMPLETED'] = 'COMPLETED';
@@ -239,7 +239,7 @@ class English implements \ArrayAccess
         $this->language['LIVESUPPORT'] = 'Need Support?';
         $this->language['GETLIVESUPPORT_STATIC'] = 'Live Support (Start Chat.)';
 
-        # Left Side Menu
+        // Left Side Menu
         $this->language['MENU_HEADING'] = 'Installationsteps';
         $this->language['MENUSTEP1'] = '[1] Select Language';
         $this->language['MENUSTEP2'] = '[2] Systemcheck';

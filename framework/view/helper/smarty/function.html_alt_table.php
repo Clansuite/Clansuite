@@ -95,11 +95,11 @@
 
 function smarty_function_html_alt_table($params, $smarty)
 {
-    # init vars
+    // init vars
     $table_id = 'table';
     $header = true;
 
-    # mandatory parameter loop
+    // mandatory parameter loop
     if (!isset($params['loop'])) {
         trigger_error('html_alt_table: missing "loop" parameter');
 
@@ -126,10 +126,10 @@ function smarty_function_html_alt_table($params, $smarty)
         }
     }
 
-    # init
+    // init
     $rows_count=count($loop);
 
-    # if the array is empty, there's no need to go further
+    // if the array is empty, there's no need to go further
     if ($rows_count==0) return;
 
     $first_line=$loop[0];

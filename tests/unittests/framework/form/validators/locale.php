@@ -12,7 +12,7 @@ class Koch_Form_Validators_Locale_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new \Koch\Form\Validators\Locale;
     }
 
@@ -36,10 +36,10 @@ class Koch_Form_Validators_Locale_Test extends Clansuite_UnitTestCase
 
         $this->assertTrue($this->validator->validate('de-DE'));
 
-        # zh-TW - Chinese Taiwan
+        // zh-TW - Chinese Taiwan
         $this->assertTrue($this->validator->validate('zh-Hant-TW'));
 
-        # fr-CA Canadian Frenchy
+        // fr-CA Canadian Frenchy
         $this->assertTrue($this->validator->validate('fr-CA'));
 
         $this->assertTrue($this->validator->validate('en-US'));

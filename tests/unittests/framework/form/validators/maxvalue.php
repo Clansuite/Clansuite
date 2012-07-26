@@ -12,7 +12,7 @@ class Koch_Form_Validator_Maxvalue_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new \Koch\Form\Validators\Maxvalue;
     }
 
@@ -29,16 +29,16 @@ class Koch_Form_Validator_Maxvalue_Test extends Clansuite_UnitTestCase
     {
         $this->validator->maxvalue = 1980;
 
-		# getter returns integer
+		// getter returns integer
         $this->assertEqual(1980, $this->validator->getMaxvalue());
 
-        # getter returns integer not string
+        // getter returns integer not string
         $this->assertNotIdentical('1980', $this->validator->getMaxvalue());
     }
 
     public function testMethod_setMaxvalue()
     {
-         # setter accepts numeric
+         // setter accepts numeric
          $this->validator->setMaxvalue(19);
          $this->assertEqual(19, $this->validator->getMaxvalue());
 

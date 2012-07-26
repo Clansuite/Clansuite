@@ -65,7 +65,7 @@ class Users extends Controller
                 ->leftJoin('u.CsProfiles p')
                 #->setHydrationMode(Doctrine::HYDRATE_NONE)
                 ->orderby('u.user_id ASC'),
-                # The following is Limit  ?,? =
+                // The following is Limit  ?,? =
                 $currentPage, // Current page of request
                 $resultsPerPage // (Optional) Number of results per page Default is 25
                 ),
@@ -88,7 +88,7 @@ class Users extends Controller
         // Get Number of Rows
         $count = count($userslist);
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
         // Assign $userslist array to Smarty for template output
@@ -98,7 +98,7 @@ class Users extends Controller
         $view->assignGlobal('pager', $pager);
         $view->assignGlobal('pager_layout', $pager_layout);
 
-        # specifiy the template manually
+        // specifiy the template manually
         #$view->setTemplate('userslist/view/show.tpl');
 
         $this->display();
@@ -117,15 +117,15 @@ class Users extends Controller
      */
     public function widget_lastregisteredusers($numberUsers)
     {
-        # set cfg value,
-        # or set the the incomming value
-        # or the default value for the number of user to display
+        // set cfg value,
+        // or set the the incomming value
+        // or the default value for the number of user to display
         $numberUsers = self::getConfigValue('items_lastregisteredusers', $numberUsers, '5');
 
-        # fetch specified num of last registered users
+        // fetch specified num of last registered users
         $last_registered_users = $this->getModel('Entities\User')->getLastRegisteredUsers($numberUsers);
 
-        # assign data to view
+        // assign data to view
         $this->getView()->assign('last_registered_users', $last_registered_users);
     }
 

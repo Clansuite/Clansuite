@@ -13,7 +13,7 @@
 
 $os = array(
 
-    # Windows
+    // Windows
     'Windows' =>
         array (
             'search' =>

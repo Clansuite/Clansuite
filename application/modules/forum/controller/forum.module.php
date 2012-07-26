@@ -67,10 +67,10 @@ class Forum extends Controller
     {
         $subboards = array();
 
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/forum/show');
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
         $resultCategory = $this->getModel( 'Entities\ForumCategory' )->findAllCategories();

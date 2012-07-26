@@ -39,7 +39,7 @@ class Testunit extends Controller
 
     public function action_show()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), 'testunit/show');
 
         $view = $this->getView();
@@ -55,7 +55,7 @@ class Testunit extends Controller
      */
     public function action_ajaxswfupload()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('swfupload'), 'testunit/ajaxswfupload');
 
         $view = $this->getView();
@@ -69,7 +69,7 @@ class Testunit extends Controller
      */
     public function action_ajaxuploadify()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('uploadify'), 'testunit/ajaxuploadify');
 
         $view = $this->getView();
@@ -82,7 +82,7 @@ class Testunit extends Controller
      */
     public function action_ajaxprettyphoto()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('prettyphoto'), 'testunit/ajaxprettyphoto');
 
         $view = $this->getView();
@@ -96,28 +96,28 @@ class Testunit extends Controller
      */
     public function action_xtemplate()
     {
-        # fetch xtemplate as renderengine
+        // fetch xtemplate as renderengine
         $xtpl = $this->getView('xtemplate');
 
-        # this renderengine is a block parser / frontloading one, so initalize it with template
+        // this renderengine is a block parser / frontloading one, so initalize it with template
         $xtpl->initializeEngine( $this->getTemplateName() );
 
-        # simple placeholder replace
+        // simple placeholder replace
         $xtpl->assign('PLACEHOLDER_VARIABLE', 'TEST-123-TEST');
 
-        # Debug XTemplate Engine
+        // Debug XTemplate Engine
         #Clansuite_Debug::printR($xtpl);
 
-        # parse the Block main
+        // parse the Block main
         $xtpl->parse('main');
 
-        # direct content output = display
-        # $xtpl->out('main');
+        // direct content output = display
+        // $xtpl->out('main');
 
-        # indirect content output = fetch
+        // indirect content output = fetch
         $content = $xtpl->text('main');
 
-        # push content to the response object
+        // push content to the response object
         $this->response->setContent($content);
     }
 }

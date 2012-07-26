@@ -32,7 +32,7 @@ $modulenavigation = array(
     '1' => array(
         'action' => 'show',
         'name' => 'Overview',
-        'url' => '/cronjobs/admin', # &action=show
+        'url' => '/cronjobs/admin', // &action=show
         'icon' => '',
         'title' => ''
     ),

@@ -51,7 +51,7 @@ class DoctrineProfiler
      */
     public static function attachProfiler()
     {
-        # instantiate Profiler and attach to doctrine connection
+        // instantiate Profiler and attach to doctrine connection
         Doctrine_Manager::connection()->setListener(new Doctrine_Connection_Profiler);
 
         register_shutdown_function('Koch_Doctrine_Profiler::shutdown');
@@ -132,10 +132,10 @@ class DoctrineProfiler
             }
             */
 
-            # increase query counter
+            // increase query counter
             $query_counter++;
 
-            # increase time
+            // increase time
             $time += $event->getElapsedSecs();
 
             $html .= '<tr>';
@@ -170,7 +170,7 @@ class DoctrineProfiler
      */
     public static function shutdown()
     {
-        # append Doctrine's SQL-Profiling Report
+        // append Doctrine's SQL-Profiling Report
         self::displayProfilingHTML();
     }
 }

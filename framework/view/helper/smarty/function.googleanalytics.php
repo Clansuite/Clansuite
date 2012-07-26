@@ -25,15 +25,15 @@
  */
 function smarty_function_googleanalytics($params, $smarty)
 {
-    # get the google analytics code to insert it later on into the script
+    // get the google analytics code to insert it later on into the script
     if (empty($params['code'])) {
-        # fallback to config, if nothing was given
+        // fallback to config, if nothing was given
         $config = Clansuite_CMS::getInjector('Koch_Config');
         $google_id = $config->getConfigValue('googleanalytics_id');
 
         if (empty($google_id) == false) {
 
-        } else { # no code provided via smarty function nor config
+        } else { // no code provided via smarty function nor config
             trigger_error("google_analytics: the parameter 'code' is missing. please specifiy your GA urchin id.");
 
             return;
@@ -54,7 +54,7 @@ function smarty_function_googleanalytics($params, $smarty)
     }
 
     if ('async' == $params['type']) {
-        # asynchronous ga script
+        // asynchronous ga script
         $return = '
             <script type="text/javascript">
             // <![CDATA[
@@ -76,7 +76,7 @@ function smarty_function_googleanalytics($params, $smarty)
     }
 
     if ('jquery' == $params['type']) {
-        # asynchronous and cached loading via jquery ajax
+        // asynchronous and cached loading via jquery ajax
         $return = '
               <script type="text/javascript">
               // <![CDATA[

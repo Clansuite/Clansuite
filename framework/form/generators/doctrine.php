@@ -73,37 +73,37 @@ class Doctrine extends Form implements FormGeneratorInterface
      */
     public function generateFormByTable($DoctrineTableName)
     {
-        # init form
+        // init form
         $form = array();
 
-        # fetch doctrine table by record name
+        // fetch doctrine table by record name
         $table = Doctrine::getTable($DoctrineTableName);
 
-        # fetch all columns of that table
+        // fetch all columns of that table
         $tableColumns = $table->getColumnNames();
 
-        # loop over all columns
-        foreach ( $tableColumns as $columnName) # => $columnType
+        // loop over all columns
+        foreach ( $tableColumns as $columnName) // => $columnType
 
         {
-            # and check wheather the $columnName is to exclude
+            // and check wheather the $columnName is to exclude
             if (in_array($columnName, $this->excludeColumns)) {
-                # stop the foreach-loop here and reenter it
+                // stop the foreach-loop here and reenter it
                 continue;
             }
 
-            # combine classname and columnname as fieldname
+            // combine classname and columnname as fieldname
             $fieldName = $table->getClassnameToReturn() . '[$columnName]';
 
-            # if columnname is identifier
+            // if columnname is identifier
             if ( $table->isIdentifier($columnName) ) {
-                # add it as an hidden field
+                // add it as an hidden field
                 #$form[] = new Koch_Form->formfactory( 'hidden', $fieldName);
             } else {
-                # transform columnName to a printable name
+                // transform columnName to a printable name
                 $printableName = ucwords(str_replace('_','',$columnName));
 
-                # determine the columnname type and add the formfield
+                // determine the columnname type and add the formfield
                 #$form[] = new Koch_Form->formfactory( $table->getTypeOf($columnName), $fieldName, $printableName);
             }
         }

@@ -46,14 +46,14 @@ class Permissions implements FilterInterface
     public function __construct(Koch\User\User $user)
     {
         $this->user = $user;
-        # @todo RBACL class
+        // @todo RBACL class
         $rbacl = Koch_RBACL::getInstance();
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         if (false === $rbacl->isAuthorized($actionname, $this->user->getUserId())) {
-            # @todo errorpage, no permission to perform this action. access denied.
+            // @todo errorpage, no permission to perform this action. access denied.
             $response->redirect();
         }
     }

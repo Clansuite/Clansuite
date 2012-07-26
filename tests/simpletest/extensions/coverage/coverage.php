@@ -23,7 +23,7 @@ class CodeCoverage  {
     var $maxDirectoryDepth = 20; // reasonable, otherwise arbitrary
     var $title = "Code Coverage";
 
-    # NOTE: This assumes all code shares the same current working directory.
+    // NOTE: This assumes all code shares the same current working directory.
     var $settingsFile = './code-coverage-settings.dat';
 
     static $instance;
@@ -70,7 +70,7 @@ class CodeCoverage  {
     }
 
     function resetLog() {
-        # echo 'Resting Code-Coverage Logfile: ' . $this->log;
+        // echo 'Resting Code-Coverage Logfile: ' . $this->log;
         $new_file = fopen($this->log, 'w');
         if (!$new_file) {
             throw new Exception("Could not create ". $this->log);
@@ -82,17 +82,17 @@ class CodeCoverage  {
         $handler = new CoverageDataHandler($this->log);
         $handler->createSchema();
     }
-    
+
     function setRootDirectory($dir)
     {
         $this->root = $dir;
     }
-    
+
     function getRootDirectory()
     {
         if(empty($this->root))
         {
-            $this->root = getcwd();           
+            $this->root = getcwd();
         }
         return $this->root;
     }
@@ -108,12 +108,12 @@ class CodeCoverage  {
     function stopCoverage() {
         $coverage = xdebug_get_code_coverage();
         $this->filter($coverage);
-        
+
         $data = new CoverageDataHandler($this->log);
         chdir($this->root);
         $data->write($coverage);
-        unset($data); # releases sqlite connection
-        
+        unset($data); // releases sqlite connection
+
         xdebug_stop_code_coverage();
         // make sure we wind up on same current working directory, otherwise
         // coverage handler writer doesn't know what directory to chop off
@@ -148,10 +148,10 @@ class CodeCoverage  {
     }
 
     function filter(&$coverage) {
-        
+
         foreach ($coverage as $file => $line) {
             if (!$this->isFileIncluded($file)) {
-                # echo '<br/>Excluded -> '. $file;
+                // echo '<br/>Excluded -> '. $file;
                 unset($coverage[$file]);
             }
         }

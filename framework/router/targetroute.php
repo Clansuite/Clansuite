@@ -35,16 +35,16 @@ use Koch\MVC\HttpRequest;
 class TargetRoute extends Mapper
 {
     public static $parameters = array(
-        # File
+        // File
         'filename'      => null,
         'classname'     => null,
-        # Call
+        // Call
         'controller'    => 'index',
         'subcontroller' => null,
         'action'        => 'index',
         'method'        => null,
         'params'        => null,
-        # Output
+        // Output
         'format'        => 'html',
         'language'      => 'en',
         'request'       => 'get',
@@ -191,11 +191,11 @@ class TargetRoute extends Mapper
 
     public static function getMethod()
     {
-        # check if method is correctly prefixed with 'action_'
+        // check if method is correctly prefixed with 'action_'
         if (isset(self::$parameters['method']) and mb_strpos(self::$parameters['method'], 'action_')) {
             return self::$parameters['method'];
         } else {
-            # add method prefix (action_) and subcontroller prefix (admin_)
+            // add method prefix (action_) and subcontroller prefix (admin_)
             $method = self::mapActionToActioname(self::getAction(), self::getSubController());
             self::setMethod($method);
         }
@@ -298,9 +298,9 @@ class TargetRoute extends Mapper
         $filename = self::getFilename();
         $method = self::getMethod();
 
-        # was the class loaded before? no? then autoload it.
+        // was the class loaded before? no? then autoload it.
         if (class_exists($classname) === false) {
-            # if still no luck, lets try loading manually
+            // if still no luck, lets try loading manually
             if (is_file(ROOT_CORE . $filename)) {
                 include ROOT_CORE . $filename;
             }
@@ -320,16 +320,16 @@ class TargetRoute extends Mapper
     public static function reset()
     {
         $reset_params = array(
-            # File
+            // File
             'filename' => null,
             'classname' => null,
-            # Call
+            // Call
             'controller' => 'index',
             'subcontroller' => null,
             'action' => 'index',
             'method' => null,
             'params' => null,
-            # Output
+            // Output
             'format' => 'html',
             'language' => 'en',
             'request' => 'get',

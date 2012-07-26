@@ -43,10 +43,10 @@ class Mibbitirc extends Controller
 
     public function action_list()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/mibbitirc/show');
 
-        # Try to get Mibbit Options from config or set default ones
+        // Try to get Mibbit Options from config or set default ones
         $mibbit_options['nick']        = preg_replace('/ /', '_', $_SESSION['user']['nick']);
 
         $mibbit_options['title']       = self::getConfigValue('mibbit_irc_page_title',      'Clansuite Live Chat');
@@ -56,10 +56,10 @@ class Mibbitirc extends Controller
         $mibbit_options['width']       = self::getConfigValue('mibbit_irc_width',           '500');
         $mibbit_options['height']      = self::getConfigValue('mibbit_irc_height',          '280');
 
-        # Set options to the view
+        // Set options to the view
         $this->getView()->assign('mibbit_options', $mibbit_options);
 
-        # Output
+        // Output
         $this->display();
     }
 }

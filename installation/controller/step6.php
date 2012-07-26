@@ -60,7 +60,7 @@ class Step6 extends \Clansuite\Installation_Page
          */
         require ROOT . 'core/security.php';
 
-        # generate salted hash
+        // generate salted hash
         $hashArray = \Koch\Security::build_salted_hash(
                         $_POST['admin_password'], $_SESSION['encryption']
         );

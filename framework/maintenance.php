@@ -72,20 +72,20 @@ class maintenance
 
     public function configure(array $config, $filePath = null)
     {
-        # set language for maintenance msg via $config value
+        // set language for maintenance msg via $config value
         self::$language = $config['language']['default'];
 
-        # fetch reason integer from $config
+        // fetch reason integer from $config
         if ($config['mainteance']['reason'] > 0) {
             self::$reason = $config['mainteance']['reason'];
         }
 
-        # read timeout value from $config
+        // read timeout value from $config
         self::$timeout = $config['mainteance']['timeout'];
 
         if (isset($filePath) === true) {
             self::$filePath = $filePath;
-        } else { # use the default maintenance template
+        } else { // use the default maintenance template
             self::$filePath = ROOT_THEMES_CORE . 'view/smarty/maintenance.tpl';
         }
     }
@@ -104,7 +104,7 @@ class maintenance
         $reason = self::$aText[self::$reason][self::$language]['reason'];
         $sorry = self::$aText[self::$reason][self::$language]['sorry'];
 
-        # replacement for "Please try back in %d %s."
+        // replacement for "Please try back in %d %s."
         $back = sprintf(self::$aText[self::$reason][self::$language]['back'],
                         self::$timeout, self::$aText[self::$reason][self::$language]['min']);
 

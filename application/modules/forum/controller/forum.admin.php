@@ -43,10 +43,10 @@ class Forum_Admin extends Controller
 
     public function action_admin_show()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/forum/show');
 
-        # Set Layout Template
+        // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
         $this->display();
@@ -54,7 +54,7 @@ class Forum_Admin extends Controller
 
     public function action_admin_create_category()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create Category'), '/forum/create_category');
 
         // Set Layout Template
@@ -65,7 +65,7 @@ class Forum_Admin extends Controller
 
     public function action_admin_create_board()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create Board'), '/forum/create_board');
 
         // Set Layout Template
@@ -76,7 +76,7 @@ class Forum_Admin extends Controller
 
     public function action_admin_edit_category()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit Category'), '/forum/edit_category');
 
         // Set Layout Template
@@ -87,7 +87,7 @@ class Forum_Admin extends Controller
 
     public function action_admin_edit_board()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit Board'), '/forum/edit_board');
 
         // Set Layout Template
@@ -98,7 +98,7 @@ class Forum_Admin extends Controller
 
     public function action_admin_delete_category()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Delete Category'), '/forum/delete_category');
 
         // Set Layout Template
@@ -109,7 +109,7 @@ class Forum_Admin extends Controller
 
     public function action_admin_delete_board()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Delete Board'), '/forum/delete_board');
 
         // Set Layout Template
@@ -120,7 +120,7 @@ class Forum_Admin extends Controller
 
     public function action_admin_settings ()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/forum/admin/settings');
 
         $settings = array();
@@ -166,16 +166,16 @@ class Forum_Admin extends Controller
 
         $form = new Clansuite_Form($settings);
 
-        # display formgenerator object
+        // display formgenerator object
         #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
-        # display form html
+        // display form html
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -183,17 +183,17 @@ class Forum_Admin extends Controller
 
     public function action_admin_settings_update()
     {
-        # Incomming Data
-        # @todo get post via request object, sanitize
+        // Incomming Data
+        // @todo get post via request object, sanitize
         $data = $this->request->getParameter('forum_settings');
 
-        # Get Configuration from Injector and write Config
+        // Get Configuration from Injector and write Config
         $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache('/forum/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }

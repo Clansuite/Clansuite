@@ -31,25 +31,25 @@ namespace Koch\Form;
  */
 interface FormInterface
 {
-    # output the html representation of the form
+    // output the html representation of the form
     public function render();
 
-    # set action, method, name
+    // set action, method, name
     public function setAction($action);
     public function setMethod($method);
     public function setName($method);
 
-    # add/remove a formelement
+    // add/remove a formelement
     public function addElement($formelement, $position = null);
     public function delElementByName($name);
 
-    # load/save the XML description of the form
+    // load/save the XML description of the form
     #public function loadDescriptionXML($xmlfile);
     #public function saveDescriptionXML($xmlfile);
 
-    # shortcut method / factory method for accessing the formelements
+    // shortcut method / factory method for accessing the formelements
     public static function formelementFactory($formelement);
 
-    # callback for validation on the whole form (all formelements)
+    // callback for validation on the whole form (all formelements)
     #public function processForm();
 }

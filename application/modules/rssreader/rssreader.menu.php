@@ -32,7 +32,7 @@ $modulenavigation = array(
     '1' => array(
         'action' => 'show',
         'name' => 'Overview',
-        'url' => '/rssreader/admin', # &action=show
+        'url' => '/rssreader/admin', // &action=show
         'icon' => '',
         'title' => ''
     ),

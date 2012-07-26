@@ -45,11 +45,11 @@ class Guestbook extends Controller
 
     public function action_show()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/guestbook/show');
 
-        # Defining initial variables
-        # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
+        // Defining initial variables
+        // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         $currentPage = $this->request->getParameter('page');
         $resultsPerPage = (int) self::getConfigValue('resultsPerPage', '10');
 
@@ -64,7 +64,7 @@ class Guestbook extends Controller
                                     #->where('c.module_id = 7')
                                     #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby('g.gb_added DESC'),
-                                 # The following is Limit  ?,? =
+                                 // The following is Limit  ?,? =
                                  $currentPage, // Current page of request
                                  $resultsPerPage // (Optional) Number of results per page Default is 25
                              ),

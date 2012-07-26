@@ -5,9 +5,9 @@
  * @package        SimpleTest
  * @subpackage     Extensions
  */
-# optional arguments:
-#  --reportDir=some/directory    the default is ./coverage-report
-#  --title='My Coverage Report'  title the main page of your report
+// optional arguments:
+//  --reportDir=some/directory    the default is ./coverage-report
+//  --title='My Coverage Report'  title the main page of your report
 
 /**#@+
  * include coverage files

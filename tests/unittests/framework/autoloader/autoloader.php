@@ -23,7 +23,7 @@ class LoaderTest extends Clansuite_UnitTestCase
     {
         parent::setUp();
 
-        # Fixtures
+        // Fixtures
         set_include_path(realpath(__DIR__ . '/fixtures') . PATH_SEPARATOR . get_include_path());
 
         /**
@@ -75,13 +75,13 @@ class LoaderTest extends Clansuite_UnitTestCase
      */
     public function testMethod_autoload()
     {
-        # workflow of autoloading
+        // workflow of autoloading
 
-        # 1. testMethod_autoloadExclusions()
-        # 2. testMethod_autoloadInclusions()
-        # 3. testMethod_autoloadByApcOrFileMap()
-        # 4. testMethod_autoloadIncludePath()
-        # 5. testMethod_autoloadTryPathsAndMap()
+        // 1. testMethod_autoloadExclusions()
+        // 2. testMethod_autoloadInclusions()
+        // 3. testMethod_autoloadByApcOrFileMap()
+        // 4. testMethod_autoloadIncludePath()
+        // 5. testMethod_autoloadTryPathsAndMap()
     }
 
     /**
@@ -89,22 +89,22 @@ class LoaderTest extends Clansuite_UnitTestCase
      */
     public function testMethod_autoloadExclusions()
     {
-        # exclude "Cs" classes
+        // exclude "Cs" classes
         #$this->assertTrue(Loader::autoloadExclusions('Cs_SomeClass'));
 
-        # exclude "Smarty_Internal" classes
+        // exclude "Smarty_Internal" classes
         $this->assertTrue(Loader::autoloadExclusions('Smarty_Internal_SomeClass'));
 
-        # exclude "Doctrine" classes
+        // exclude "Doctrine" classes
         $this->assertTrue(Loader::autoloadExclusions('Doctrine_SomeClass'));
 
-        # but not, our own namespaced doctrine classes "Koch\Doctrine\"
+        // but not, our own namespaced doctrine classes "Koch\Doctrine\"
         $this->assertFalse(Loader::autoloadExclusions('Koch\Doctrine\SomeClass'));
 
-        # exclude "Smarty" classes
+        // exclude "Smarty" classes
         $this->assertTrue(Loader::autoloadExclusions('Smarty_'));
 
-        # but not, our own smarty class "\Smarty"
+        // but not, our own smarty class "\Smarty"
         $this->assertFalse(Loader::autoloadExclusions('\Smarty'));
     }
 
@@ -113,11 +113,11 @@ class LoaderTest extends Clansuite_UnitTestCase
      */
     public function testMethod_autoloadInclusions()
     {
-        # try to load an unknown class
+        // try to load an unknown class
         $this->assertFalse(Loader::autoloadInclusions('SomeUnknownClass'));
 
-        # try to load "Clansuite_Staging" class
-        # no definitions atm
+        // try to load "Clansuite_Staging" class
+        // no definitions atm
         #$this->assertTrue(Loader::autoloadInclusions('Clansuite_Staging'));
     }
 
@@ -126,7 +126,7 @@ class LoaderTest extends Clansuite_UnitTestCase
      */
     public function testMethod_autoloadByApcOrFileMap()
     {
-        # try to load an unknown class
+        // try to load an unknown class
         $this->assertFalse(Loader::autoloadByApcOrFileMap('SomeUnknownClass'));
 
         Loader::addToMapping( TESTSUBJECT_DIR . 'framework/tools/sysinfo.php', 'Clansuite_Sysinfo' );
@@ -138,14 +138,14 @@ class LoaderTest extends Clansuite_UnitTestCase
      */
     public function testMethod_autoloadIncludePath()
     {
-        # try to load an unknown class
+        // try to load an unknown class
         $this->assertFalse(Loader::autoloadIncludePath('\Namespace\Library\SomeUnknownClass'));
 
-        # set the include path to our fixtures directory, where a namespaces class exists
+        // set the include path to our fixtures directory, where a namespaces class exists
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures';
         set_include_path($path . PATH_SEPARATOR . get_include_path());
 
-        # try to load existing namespaced class
+        // try to load existing namespaced class
         $this->assertTrue(Loader::autoloadIncludePath('\Clansuite\NamespacedClass'));
    }
 
@@ -156,7 +156,7 @@ class LoaderTest extends Clansuite_UnitTestCase
         {
             unlink($classmap_file);
         }
-        # file will be created
+        // file will be created
         $this->assertIdentical(array(), Loader::readAutoloadingMapFile());
         $this->assertTrue(is_file($classmap_file));
 
@@ -172,7 +172,7 @@ class LoaderTest extends Clansuite_UnitTestCase
         {
             unlink($classmap_file);
         }
-        # file will be created
+        // file will be created
         $this->assertIdentical(array(), Loader::readAutoloadingMapFile());
         $this->assertTrue(is_file($classmap_file));
 
@@ -204,25 +204,25 @@ class LoaderTest extends Clansuite_UnitTestCase
         if(extension_loaded('apc'))
         {
             Loader::$use_apc = true;
-            # test return value true, means it's written
+            // test return value true, means it's written
             $this->assertTrue(Loader::addToMapping(__DIR__ . '/fixtures/notloaded/addToMapping.php', 'addToMappingClass'));
         }
         else
         {
             Loader::$use_apc = false;
-            # test return value true, means it's written
+            // test return value true, means it's written
             $this->assertTrue(Loader::addToMapping(__DIR__ . '/fixtures/notloaded/addToMapping.php', 'addToMappingClass'));
         }
 
-        # test if the entry was added to the autoloader class map array
+        // test if the entry was added to the autoloader class map array
         $map = Loader::getAutoloaderClassMap();
         $this->assertTrue(true, array_key_exists('addToMappingClass', $map));
         $this->assertTrue($map['addToMappingClass'], __DIR__ . '/fixtures/notloaded/addToMapping.php');
 
-        # file not loaded, just mapped
+        // file not loaded, just mapped
         #$this->assertFalse(class_exists('addToMappingClass', false));
 
-        # triggering autoload via class_exists
+        // triggering autoload via class_exists
         $this->assertTrue(class_exists('addToMappingClass', true));
     }
 
@@ -230,27 +230,27 @@ class LoaderTest extends Clansuite_UnitTestCase
     {
         Loader::includeFileAndMap( __DIR__ . '/fixtures/includeFileAndMap.php', 'includeFileAndMapClass' );
 
-        # test if the entry was added to the autoloader class map array
+        // test if the entry was added to the autoloader class map array
         $map = Loader::getAutoloaderClassMap();
         $this->assertTrue(true, array_key_exists('includeFileAndMapClass', $map));
         $this->assertTrue($map['includeFileAndMapClass'], __DIR__ . '/fixtures/includeFileAndMap.php');
 
-        # file already loaded
+        // file already loaded
         $this->assertTrue(class_exists('includeFileAndMapClass', false));
     }
 
     public function testMethod_requireFile()
     {
-        # a) include file
+        // a) include file
         $this->assertTrue( Loader::requireFile( __DIR__ . '/fixtures/ClassForRequireFile1.php') );
 
-        # b) include class
+        // b) include class
         $this->assertTrue( Loader::requireFile( __DIR__ . '/fixtures/ClassForRequireFile2.php', 'ClassForRequireFile2') );
 
-        # c) include class (second parameter), but class does not exist
+        // c) include class (second parameter), but class does not exist
         $this->assertFalse( Loader::requireFile('nonExistantFile.php'), 'ThisClassDoesNotExist' );
 
-        # d) file not found returns false
+        // d) file not found returns false
         $this->assertFalse( Loader::requireFile('nonExistantFile.php') );
 
     }

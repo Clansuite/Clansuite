@@ -15,7 +15,7 @@ class Koch_Form_Validator_Minlength_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new \Koch\Form\Validators\Minlength;
     }
 
@@ -30,24 +30,24 @@ class Koch_Form_Validator_Minlength_Test extends Clansuite_UnitTestCase
 
     public function testMethod_getMinlength()
     {
-        # set property
+        // set property
         $this->validator->minlength = 1980;
 
-        # getter returns integer
+        // getter returns integer
         $this->assertEqual(1980, $this->validator->getMinlength());
 
-        # getter returns integer not string
+        // getter returns integer not string
         $this->assertNotIdentical('1980', $this->validator->getMinlength());
     }
 
     public function testMethod_setMinlength()
     {
-        # set property
+        // set property
         $this->validator->setMinlength('1980');
 
         $this->assertEqual(1980, $this->validator->getMinlength());
 
-        # property
+        // property
         $this->assertEqual('1980', $this->validator->minlength);
     }
 
@@ -58,7 +58,7 @@ class Koch_Form_Validator_Minlength_Test extends Clansuite_UnitTestCase
          * validate() on the parent class, which then calls processValidationLogic()
          */
 
-        $value = '12345678901234567890'; # 20 chars
+        $value = '12345678901234567890'; // 20 chars
 
         $this->validator->setMinlength('10');
         $this->assertTrue($this->validator->validate($value));
@@ -66,11 +66,11 @@ class Koch_Form_Validator_Minlength_Test extends Clansuite_UnitTestCase
         $this->validator->setMinlength('20');
         $this->assertTrue($this->validator->validate($value));
 
-        # text to short
+        // text to short
         $this->validator->setMinlength('21');
         $this->assertFalse($this->validator->validate($value));
 
-        $value = ''; # 0 chars
+        $value = ''; // 0 chars
         $this->validator->setMinlength('0');
         $this->assertTrue($this->validator->validate($value));
     }

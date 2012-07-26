@@ -25,17 +25,17 @@
  *
  */
 
-# setup env(error/date/paths)
+// setup env(error/date/paths)
 require_once 'bootstrap.php';
-# setup simpletest
+// setup simpletest
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/test_case.php';
 require_once 'simpletest/reporter.php';
 require_once 'simpletest/web_tester.php';
-# hmm, we need to load this, to get rid of the "No runnable test cases in runAlltest" error
+// hmm, we need to load this, to get rid of the "No runnable test cases in runAlltest" error
 #require_once 'simpletest/autorun.php';
 
-# setup our testsuite and reporter
+// setup our testsuite and reporter
 require_once 'reporter.php';
 require_once 'testsuite.php';
 require_once 'unittester.php';
@@ -46,11 +46,11 @@ if(PERFORM_CODECOVERAGE == true)
     Clansuite_CodeCoverage::start();
 }
 
-# Tests -> instantiate Clansuite Testsuite
+// Tests -> instantiate Clansuite Testsuite
 $testsuite = new ClansuiteTestsuite();
 $success = false;
 
-# Tests -> determine, if we are in commandline mode, then output pure text
+// Tests -> determine, if we are in commandline mode, then output pure text
 if(TextReporter::inCli())
 {
     #require_once 'simpletest/extensions/colortext_reporter.php';
@@ -64,7 +64,7 @@ if(TextReporter::inCli())
     ob_end_clean();
     $success = true;
 }
-else # display nice html report
+else // display nice html report
 {
     $success = $testsuite->run(new Reporter);
 }
@@ -75,10 +75,10 @@ if(PERFORM_CODECOVERAGE == true)
     Clansuite_CodeCoverage::getReport();
 }
 
-# Tests -> exit with status
+// Tests -> exit with status
 if(false === $success)
 {
-    # Exit with error code to let the build fail, when the test is unsuccessfull.
+    // Exit with error code to let the build fail, when the test is unsuccessfull.
     exit(1);
 }
 ?>

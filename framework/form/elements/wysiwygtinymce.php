@@ -55,10 +55,10 @@ class Wysiwygtinymce extends Textarea implements FormelementInterface
      */
     public function render()
     {
-        # a) loads the tinymce javascript file
+        // a) loads the tinymce javascript file
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . 'javascript/tiny_mce/tiny_mce.js" type="text/javascript"></script>';
 
-        # b) handler to attach tinymce to a textarea named "mceSimple" and "mceAdvanced"
+        // b) handler to attach tinymce to a textarea named "mceSimple" and "mceAdvanced"
         $javascript .= '<script type="text/javascript">// <![CDATA[
                             tinyMCE.init({
                                 mode : "textareas",

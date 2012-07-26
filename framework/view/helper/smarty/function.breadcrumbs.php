@@ -28,7 +28,7 @@
  */
 function smarty_function_breadcrumbs($params, $smarty)
 {
-    # handle trail params set directly to the smarty function call in the template
+    // handle trail params set directly to the smarty function call in the template
     if (isset($params['trail']) && is_array($params['trail'])) {
         $trail = $params['trail'];
     } else {
@@ -37,10 +37,10 @@ function smarty_function_breadcrumbs($params, $smarty)
 
     #Koch_Debug::firebug($trail);
 
-    # is the seperator element set via the smarty function call?
+    // is the seperator element set via the smarty function call?
     if (isset($params['separator'])) {
         $separator = $params['separator'];
-    } else { # no, take default seperator
+    } else { // no, take default seperator
         $separator = ' &gt; ';
     }
 
@@ -62,7 +62,7 @@ function smarty_function_breadcrumbs($params, $smarty)
         }
 
         if (isset($trail[$i]['link']) && $i < $trailSize - 1) {
-            # if parameter "title" (only) is not set, give links
+            // if parameter "title" (only) is not set, give links
             if (isset($params['title']) === false) {
                 $links[] = sprintf('<a href="%s" title="%s">%s</a>',
                     htmlspecialchars($trail[$i]['link']),
@@ -70,7 +70,7 @@ function smarty_function_breadcrumbs($params, $smarty)
                     htmlspecialchars($trail[$i]['title'])
                 );
             }
-            # if parameter "title" is set, render title only
+            // if parameter "title" is set, render title only
             else {
                 $links[] = $title;
             }

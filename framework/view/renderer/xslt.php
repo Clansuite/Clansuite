@@ -60,7 +60,7 @@ class Xslt extends AbstractRenderer
     {
         parent::__construct($config);
 
-        # instantiate the render engine
+        // instantiate the render engine
         $this->xslt = new \XSLTProcessor;
     }
 
@@ -101,12 +101,12 @@ class Xslt extends AbstractRenderer
      */
     public function render($data)
     {
-        # $this->response()->setContentType('text/html');
+        // $this->response()->setContentType('text/html');
 
-        # import the stylesheet for later transformation
+        // import the stylesheet for later transformation
         $this->xslt->importStyleSheet( \DOMDocument::load($this->getXSLStyleSheet()));
 
-        # then import the xml data (or file) into the XSLTProcessor and start the transform
+        // then import the xml data (or file) into the XSLTProcessor and start the transform
         $dom = $this->xslt->transformToXML( \DOMDocument::load( $data ) );
 
         return $dom;

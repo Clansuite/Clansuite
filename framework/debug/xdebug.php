@@ -65,13 +65,13 @@ class Xdebug
     public static function configure()
     {
         if (static::$initialized === false) {
-            # loop over all settings and set them
+            // loop over all settings and set them
             foreach (static::$initSettings as $key => $value) {
                 ini_set("xdebug.{$key}", $value);
             }
         }
 
-        # set initialized status flag
+        // set initialized status flag
         static::$initialized = true;
     }
 
@@ -92,22 +92,22 @@ class Xdebug
      */
     public static function start_xdebug()
     {
-        # Start XDEBUG Tracing and Coverage
+        // Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active()) {
-            # do some xdebug configuration
+            // do some xdebug configuration
             self::configure();
 
             self::$xdebug_memory_before = self::roundMB(xdebug_memory_usage());
 
-            # set some more values manually
+            // set some more values manually
 
-            # tracing
+            // tracing
             #ini_set('xdebug.auto_trace', 'On');
             #ini_set('xdebug.trace_output_dir', ROOT_LOGS);
             #ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
             #xdebug_start_trace(ROOT_LOGS . 'clansuite_trace', XDEBUG_TRACE_HTML);
 
-            # stop tracing and display infos
+            // stop tracing and display infos
             register_shutdown_function('clansuite_xdebug::shutdown');
         }
     }
@@ -117,7 +117,7 @@ class Xdebug
      */
     public static function render()
     {
-        # Start XDEBUG Tracing and Coverage
+        // Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active()) {
             /**
              * This is the CSS for XDebug Fatal Error
@@ -285,7 +285,7 @@ class Xdebug
             echo '<td class="td1">Memory Peak</td>';
             echo '<td class="td2">' . self::roundMB(xdebug_peak_memory_usage()) . ' MB</td>';
             echo '</tr>';
-            # stop tracings and var_dump
+            // stop tracings and var_dump
             #var_dump(xdebug_get_code_coverage());
             echo '</table>';
 
@@ -313,7 +313,7 @@ class Xdebug
 
     public static function showConstants()
     {
-        # fetch all defined constants ordered by categories as key
+        // fetch all defined constants ordered by categories as key
         $aConsts = get_defined_constants(true);
 
         /**
@@ -322,7 +322,7 @@ class Xdebug
          * (b) the order of their appearance in the constants table.
          */
         $aCategoriesToShow = array(
-            'user', # user category contains clansuite system defines - leave at first position!
+            'user', // user category contains clansuite system defines - leave at first position!
             'apc',
             'mbstring',
             'xdebug',
@@ -333,20 +333,20 @@ class Xdebug
         echo '<table class="xdebug-console" id="table-konstanten" style="display:none;">';
 
         foreach ($aCategoriesToShow as $category) {
-            # display only the categories to show / whitelist
+            // display only the categories to show / whitelist
             if (isset($aConsts[$category]) === true) {
-                # adjust headline
+                // adjust headline
                 if ($category == 'user') {
                     echo '<tr><th colspan="2">Application Constants</th></tr>';
                 } else {
                     echo '<tr><th colspan="2">Constants for [' . $category . ']</th></tr>';
                 }
 
-                # table row for the constant
+                // table row for the constant
                 foreach ($aConsts[$category] as $name => $value) {
                     echo '<tr><td class="td1">' . $name . '</td>';
 
-                    # handle true and false
+                    // handle true and false
                     if (gettype($value) === 'boolean') {
                         echo '<td class="td2">' . (int) $value . '</td></tr>';
                     } else {
@@ -441,7 +441,7 @@ class Xdebug
      */
     public static function shutdown()
     {
-        # Stop the tracing and show debugging infos.
+        // Stop the tracing and show debugging infos.
         clansuite_xdebug::render();
     }
 

@@ -75,22 +75,22 @@ if (false === function_exists('utf8_check')) {
         for ($i = 0; $i < $len; $i++) {
             $b = ord($Str[$i]);
             if($b < 0x80)
-                continue;# 0bbbbbbb
+                continue;// 0bbbbbbb
             elseif(($b & 0xE0) == 0xC0)
-                $n = 1;# 110bbbbb
+                $n = 1;// 110bbbbb
             elseif(($b & 0xF0) == 0xE0)
-                $n = 2;# 1110bbbb
+                $n = 2;// 1110bbbb
             elseif(($b & 0xF8) == 0xF0)
-                $n = 3;# 11110bbb
+                $n = 3;// 11110bbb
             elseif(($b & 0xFC) == 0xF8)
-                $n = 4;# 111110bb
+                $n = 4;// 111110bb
             elseif(($b & 0xFE) == 0xFC)
-                $n = 5;# 1111110b
+                $n = 5;// 1111110b
             else
 
-                return false;# Does not match any model
+                return false;// Does not match any model
 
-            for ($j = 0; $j < $n; $j++) { # n bytes matching 10bbbbbb follow ?
+            for ($j = 0; $j < $n; $j++) { // n bytes matching 10bbbbbb follow ?
                 if((++$i == $len) || ((ord($Str[$i]) & 0xC0) != 0x80))
 
                     return false;
@@ -521,7 +521,7 @@ if (false === function_exists('utf8_romanize')) {
     function utf8_romanize($string)
     {
         if (utf8_isASCII($string)) {
-            return $string; # nothing to do
+            return $string; // nothing to do
         }
 
         return strtr($string, Koch_UTF8_Character_Table::romanize());
@@ -998,23 +998,23 @@ if (false === function_exists('unicode_to_utf8')) {
         foreach (array_keys($arr) as $k) {
 
             if ( ($arr[$k] >= 0) && ($arr[$k] <= 0x007f) ) {
-                # ASCII range (including control chars)
+                // ASCII range (including control chars)
 
                 echo chr($arr[$k]);
 
             } else if ($arr[$k] <= 0x07ff) {
-                # 2 byte sequence
+                // 2 byte sequence
 
                 echo chr(0xc0 | ($arr[$k] >> 6));
                 echo chr(0x80 | ($arr[$k] & 0x003f));
 
             } else if($arr[$k] == 0xFEFF) {
-                # Byte order mark (skip)
+                // Byte order mark (skip)
 
                 // nop -- zap the BOM
 
             } else if ($arr[$k] >= 0xD800 && $arr[$k] <= 0xDFFF) {
-                # Test for illegal surrogates
+                // Test for illegal surrogates
 
                 // found a surrogate
                 if($strict){
@@ -1027,14 +1027,14 @@ if (false === function_exists('unicode_to_utf8')) {
                 }
 
             } else if ($arr[$k] <= 0xffff) {
-                # 3 byte sequence
+                // 3 byte sequence
 
                 echo chr(0xe0 | ($arr[$k] >> 12));
                 echo chr(0x80 | (($arr[$k] >> 6) & 0x003f));
                 echo chr(0x80 | ($arr[$k] & 0x003f));
 
             } else if ($arr[$k] <= 0x10ffff) {
-                # 4 byte sequence
+                // 4 byte sequence
 
                 echo chr(0xf0 | ($arr[$k] >> 18));
                 echo chr(0x80 | (($arr[$k] >> 12) & 0x3f));
@@ -1121,15 +1121,15 @@ if (false === function_exists('utf8_bad_replace')) {
     function utf8_bad_replace($str, $replace = '')
     {
         $UTF8_BAD =
-                '([\x00-\x7F]' . # ASCII (including control chars)
-                '|[\xC2-\xDF][\x80-\xBF]' . # non-overlong 2-byte
-                '|\xE0[\xA0-\xBF][\x80-\xBF]' . # excluding overlongs
-                '|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}' . # straight 3-byte
-                '|\xED[\x80-\x9F][\x80-\xBF]' . # excluding surrogates
-                '|\xF0[\x90-\xBF][\x80-\xBF]{2}' . # planes 1-3
-                '|[\xF1-\xF3][\x80-\xBF]{3}' . # planes 4-15
-                '|\xF4[\x80-\x8F][\x80-\xBF]{2}' . # plane 16
-                '|(.{1}))';                              # invalid byte
+                '([\x00-\x7F]' . // ASCII (including control chars)
+                '|[\xC2-\xDF][\x80-\xBF]' . // non-overlong 2-byte
+                '|\xE0[\xA0-\xBF][\x80-\xBF]' . // excluding overlongs
+                '|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}' . // straight 3-byte
+                '|\xED[\x80-\x9F][\x80-\xBF]' . // excluding surrogates
+                '|\xF0[\x90-\xBF][\x80-\xBF]{2}' . // planes 1-3
+                '|[\xF1-\xF3][\x80-\xBF]{3}' . // planes 4-15
+                '|\xF4[\x80-\x8F][\x80-\xBF]{2}' . // plane 16
+                '|(.{1}))';                              // invalid byte
         ob_start();
         while (preg_match('/' . $UTF8_BAD . '/S', $str, $matches)) {
             if (false === isset($matches[2])) {

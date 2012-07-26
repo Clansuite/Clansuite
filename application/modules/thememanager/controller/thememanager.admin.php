@@ -82,33 +82,33 @@ class Thememanager_Admin extends Controller
 
     public function getThemes($themes_directory)
     {
-        # init themes array
+        // init themes array
         $theme_info = array();
         $dirs = $dir = '';
         $i = 1;
 
-        # loop through ROOT_THEMES dir
+        // loop through ROOT_THEMES dir
         $dirs = new DirectoryIterator($themes_directory);
         foreach($dirs as $dir)
         {
             $i++;
-            # exclude  core dir, take only dirs with theme_info.xml in it
+            // exclude  core dir, take only dirs with theme_info.xml in it
             if((!$dir->isDot()) and ($dir != 'framework') and (is_file($dir->getPathName() . DIRECTORY_SEPARATOR . 'theme_info.xml')))
             {
-                # add xml infos from file
+                // add xml infos from file
                 $theme_info[$i] = self::parseThemeInformations($themes_directory . $dir);
 
-                # add fullpath
+                // add fullpath
                 $theme_info[$i]['fullpath'] = $dir->getPathName();
 
-                # add templatefilename
+                // add templatefilename
                 if(isset($theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl']))
                 {
                     $theme_info[$i]['layouttpl'] = $theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl'];
                     $theme_info[$i]['layoutpath'] = $theme_info[$i]['fullpath'] . DIRECTORY_SEPARATOR . $theme_info[$i]['layouttpl'];
                 }
 
-                # add dirname
+                // add dirname
                 $theme_info[$i]['dirname'] = (string) $dir;
 
                 /**
@@ -125,8 +125,8 @@ class Thememanager_Admin extends Controller
                     $theme_info[$i]['globally_active'] = false;
                 }
 
-                # is this theme active for the individual user?
-                if($_SESSION['user']['frontend_theme'] == $dir) # or $_SESSION['user']['backend_theme']  == $dir)
+                // is this theme active for the individual user?
+                if($_SESSION['user']['frontend_theme'] == $dir) // or $_SESSION['user']['backend_theme']  == $dir)
                 {
                     $theme_info[$i]['user_active'] = true;
                 }
@@ -135,10 +135,10 @@ class Thememanager_Admin extends Controller
                     $theme_info[$i]['user_active'] = false;
                 }
 
-                # add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)
+                // add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)
                 $preview_image = glob($themes_directory . $dir . DIRECTORY_SEPARATOR . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
 
-                # turn ROOT_THEMES path into a WWW_ROOT path
+                // turn ROOT_THEMES path into a WWW_ROOT path
                 if(true === (bool) $theme_info[$i]['backendtheme'])
                 {
                     $preview_image = str_replace(ROOT_THEMES_BACKEND, WWW_ROOT_THEMES_BACKEND . '', $preview_image);
@@ -148,22 +148,22 @@ class Thememanager_Admin extends Controller
                     $preview_image = str_replace(ROOT_THEMES_FRONTEND, WWW_ROOT_THEMES_FRONTEND . '', $preview_image);
                 }
 
-                # fix slashes
+                // fix slashes
                 $preview_image = str_replace('\\', '/', $preview_image);
 
                 if(is_array($preview_image) and (empty($preview_image) == false))
                 {
-                    $theme_info[$i]['preview_image'] = $preview_image[0];  # path to [0]preview
-                    $theme_info[$i]['preview_thumbnail'] = $preview_image[1];  # path to [1]preview_thumb
+                    $theme_info[$i]['preview_image'] = $preview_image[0];  // path to [0]preview
+                    $theme_info[$i]['preview_thumbnail'] = $preview_image[1];  // path to [1]preview_thumb
                 }
-                else # show only nopreview.gif as thumbnail
+                else // show only nopreview.gif as thumbnail
                 {
                     $theme_info[$i]['preview_thumbnail'] = WWW_ROOT_THEMES . 'core/images/nopreview.jpg';
                 }
             }
         }
 
-        # sort and return
+        // sort and return
         asort($theme_info);
         return $theme_info;
     }
@@ -191,7 +191,7 @@ class Thememanager_Admin extends Controller
     {
         $theme_info_file = $themedir . DIRECTORY_SEPARATOR . 'theme_info.xml';
 
-        # ensure we have simplexml available
+        // ensure we have simplexml available
         if(false == function_exists('simplexml_load_file'))
         {
             throw new Clansuite_Exception('Missing simplexml_load_file() function');
@@ -199,8 +199,8 @@ class Thememanager_Admin extends Controller
 
         if(is_file($theme_info_file) and is_readable($theme_info_file))
         {
-            # get simple xml dataobject by loading theme.xml file
-            # @todo i wonder if there is a way to get rid of the error-supression, without adding to much overhead
+            // get simple xml dataobject by loading theme.xml file
+            // @todo i wonder if there is a way to get rid of the error-supression, without adding to much overhead
             $themeinfos_XML_obj = @simplexml_load_file($theme_info_file);
         }
         else
@@ -208,13 +208,13 @@ class Thememanager_Admin extends Controller
             throw new Clansuite_Exception('The Theme Description File (' . $theme_info_file . ') is missing or not readable.');
         }
 
-        # die in case we fetched no object
+        // die in case we fetched no object
         if(false === $themeinfos_XML_obj)
         {
             throw new Clansuite_Exception('The Description File (' . $theme_info_file . ') of the "' . $themedir . '" Theme is corrupted! Check it\'s XML Syntax and Structure.');
         }
 
-        # structure object to array
+        // structure object to array
         $themeinfos = Clansuite_Functions::object2array($themeinfos_XML_obj);
 
         return $themeinfos;
@@ -258,7 +258,7 @@ class Thememanager_Admin extends Controller
 
         if($this->request->getRequestMethod() == 'POST')
         {
-            # @todo remove $_POST
+            // @todo remove $_POST
             $config['compileCore'] = isset($_POST['compileCore']) ? true : false;
             $config['coreImport'] = isset($_POST['coreImport']) ? true : false;
             $config['compileThemeFrontend'] = isset($_POST['compileThemeFrontend']) ? true : false;
@@ -315,7 +315,7 @@ class Thememanager_Admin extends Controller
             }
         }
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
         $view->assign('browserinfo', $this->cssbuilder->getBrowsers());
         $view->assign('cssbuilder', $config);

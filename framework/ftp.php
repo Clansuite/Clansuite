@@ -100,17 +100,17 @@ class FTP
      */
     private function open_connection()
     {
-        # open connection
+        // open connection
         if (!$connection = @ftp_connect($this->server, $this->port)) {
             $this->errors[] = 'Cannot connect to FTP Server, please check server and port settings.';
         }
 
-        # authenticate user / login
+        // authenticate user / login
         if (false === @ftp_login($connection, $this->username, $this->password)) {
             $this->errors[] = 'Connected to server but unable to authenticate the user, please check credentials.';
         }
 
-        # set connection mode
+        // set connection mode
         if (false === @ftp_pasv($connection, $this->passive)) {
             $this->errors[] = 'Unable to set connection mode to passive.';
         }
@@ -137,14 +137,14 @@ class FTP
             return false;
         }
 
-        # check local file
+        // check local file
         if (is_file($source_file) === false) {
             $this->errors[] = 'Unable to find local file to send.';
 
             return false;
         }
 
-        # attempt to send file
+        // attempt to send file
         if (false === @ftp_put($this->connection, $destination_file, $source_file, $transfer_mode)) {
             $this->errors[] = 'Unable to send file to remote server, does destination folder exist?';
             $this->close_connection();
@@ -171,7 +171,7 @@ class FTP
             return false;
         }
 
-        # download file
+        // download file
         if (false === @ftp_get($this->connection, $destination_file, $source_file, $transfer_mode)) {
             $this->errors[] = 'Unable to download file, does local folder exist.';
             $this->close_connection();
@@ -196,7 +196,7 @@ class FTP
             return false;
         }
 
-        # delete file
+        // delete file
         if (false === @ftp_delete($this->connection, $file)) {
             $this->errors[] = 'Unable to delete remote file, have you checked permissions.';
             $this->close_connection();
@@ -218,7 +218,7 @@ class FTP
      */
     public function rename_or_move($source_file, $renamed_file)
     {
-        # if source and target files are equal, do nothing and return early
+        // if source and target files are equal, do nothing and return early
         if ($source_file == $renamed_file) {
             return true;
         }

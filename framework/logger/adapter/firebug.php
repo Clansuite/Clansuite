@@ -94,9 +94,9 @@ class Firebug implements Logger
             case 'TABLE':
                 return FirePHP::TABLE;
             case 'TRACE':
-                return FirePHP::TRACE; # backtracing
+                return FirePHP::TRACE; // backtracing
             case 'DUMP':
-                return FirePHP::DUMP; # variable dumps
+                return FirePHP::DUMP; // variable dumps
             default:
                 return FirePHP::ERROR;
         }

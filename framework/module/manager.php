@@ -46,10 +46,10 @@ class Manager
 {
     public function __construct($module)
     {
-        # load the relavant stuff of the module
-        # $this->config = loadRelevantStuff($module);
+        // load the relavant stuff of the module
+        // $this->config = loadRelevantStuff($module);
 
-        # allow fluent chaining
+        // allow fluent chaining
 
         return this;
     }
@@ -61,10 +61,10 @@ class Manager
      */
     public function enable()
     {
-        # a) get config
-        # b) change disabled to enabled
-        # c) invalidate global module autoload cache?
-        # d) re-charge the cache with the new value?
+        // a) get config
+        // b) change disabled to enabled
+        // c) invalidate global module autoload cache?
+        // d) re-charge the cache with the new value?
 
         return false;
     }

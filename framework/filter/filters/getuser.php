@@ -53,10 +53,10 @@ class GetUser implements FilterInterface
     {
         unset($request, $response);
 
-        # Create a user (Guest)
+        // Create a user (Guest)
         $this->user->createUserSession();
 
-        # Check for login cookie (Guest/Member)
+        // Check for login cookie (Guest/Member)
         $this->user->checkLoginCookie();
         unset($this->user);
     }

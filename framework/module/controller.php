@@ -107,7 +107,7 @@ abstract class Controller
     {
         $entityNameArray = explode('_', get_called_class());
 
-        # add entities namespace prefix
+        // add entities namespace prefix
         $this->entityName = 'Entities\\' . $entityNameArray[2];
 
         return $this->entityName;
@@ -168,13 +168,13 @@ abstract class Controller
 
         $module_models_path = ROOT_MOD . mb_strtolower($modulename) . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
 
-        # check if the module has a models dir
+        // check if the module has a models dir
         if (is_dir($module_models_path) === true) {
            if (isset($entity) === true) {
-               # use second parameter of method
+               // use second parameter of method
                $entity = $module_models_path . 'entities' . DIRECTORY_SEPARATOR . ucfirst($entity) . '.php';
            } else {
-               # build entity filename by modulename
+               // build entity filename by modulename
                $entity = $module_models_path . 'entities' . DIRECTORY_SEPARATOR . ucfirst($modulename) . '.php';
            }
 
@@ -188,7 +188,7 @@ abstract class Controller
                include $repos;
            }
         }
-        # else Module has no Model Data
+        // else Module has no Model Data
     }
 
     /**
@@ -224,15 +224,15 @@ abstract class Controller
      */
     public static function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
-        # if we don't have a moduleconfig array yet, get it
+        // if we don't have a moduleconfig array yet, get it
         if (self::$moduleconfig === null) {
             self::$moduleconfig = self::getModuleConfig();
         }
 
-        # try a lookup of the value by keyname
+        // try a lookup of the value by keyname
         $value = Koch_Functions::array_find_element_by_key($keyname, self::$moduleconfig);
 
-        # return value or default
+        // return value or default
         if (empty($value) === false) {
             return $value;
         } elseif( $default_one != null )
@@ -274,16 +274,16 @@ abstract class Controller
      */
     public function getView($renderEngineName = null)
     {
-        # set the renderengine name
+        // set the renderengine name
         if (isset($renderEngineName) === true) {
             $this->setRenderEngine($renderEngineName);
         }
 
-        # if already set, get the rendering engine from the view variable
+        // if already set, get the rendering engine from the view variable
         if (isset($this->view) === true) {
             return $this->view;
         }
-        # else, set the RenderEngine to the view variable and return it
+        // else, set the RenderEngine to the view variable and return it
         else {
             $this->view = $this->getRenderEngine();
 
@@ -312,12 +312,12 @@ abstract class Controller
      */
     public function getRenderEngineName()
     {
-        # check if the requesttype is xmlhttprequest (ajax) is incomming, then we will return data in json format
+        // check if the requesttype is xmlhttprequest (ajax) is incomming, then we will return data in json format
         if (self::getHttpRequest()->isAjax() === true) {
             $this->setRenderEngine('json');
         }
 
-        # use smarty as default, if renderEngine is not set and it's not an ajax request
+        // use smarty as default, if renderEngine is not set and it's not an ajax request
         if (empty($this->renderEngineName) === true) {
             $this->setRenderEngine('smarty');
         }
@@ -374,13 +374,13 @@ abstract class Controller
      */
     public function display($templates = null)
     {
-        # get the view
+        // get the view
         $this->view = $this->getView();
 
-        # get the view mapper
+        // get the view mapper
         $view_mapper = $this->view->getViewMapper();
 
-        # set layout and content template by parameter array
+        // set layout and content template by parameter array
         if (is_array($templates) === true) {
             if (isset($templates['layout_template']) === true) {
                 $view_mapper->setLayoutTemplate($templates['layout_template']);
@@ -391,20 +391,20 @@ abstract class Controller
             }
         }
 
-        # only the "content template" is set
+        // only the "content template" is set
         if (is_string($templates)) { $view_mapper->setTemplate($templates); }
 
-        # get the templatename
+        // get the templatename
         $template = $view_mapper->getTemplateName();
 
-        # Debug display of Layout Template and Content Template
+        // Debug display of Layout Template and Content Template
         #Koch_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
         #Koch_Debug::firebug('Template Name: ' . $templatename . '<br />');
 
-        # render the content / template
+        // render the content / template
         $content = $this->view->render($template);
 
-        # push content to the response object
+        // push content to the response object
         $this->response->setContent($content);
 
         unset($content, $template);
@@ -429,23 +429,23 @@ abstract class Controller
         }
 
         if (null === $formname) {
-            # construct formname like "news"_"action_admin_show"
+            // construct formname like "news"_"action_admin_show"
             $formname  = ucfirst($module) . '_' . ucfirst($action);
         }
 
-        # construct formname, classname, filename, load file, instantiate the form
+        // construct formname, classname, filename, load file, instantiate the form
         $classname = 'Koch_Form_' . $formname;
         $filename  = mb_strtolower($formname) . '.form.php';
         $directory = ROOT_MOD . mb_strtolower($module) . DIRECTORY_SEPARATOR . 'form/';
 
         Loader::requireFile( $directory . $filename, $classname );
 
-        # form preparation stage (combine description and add additional formelements)
+        // form preparation stage (combine description and add additional formelements)
         $form = new $classname;
 
-        # assign form object directly to the view or return to work with it
+        // assign form object directly to the view or return to work with it
         if ($assign_to_view === true) {
-            # do not call $form->render(), it's already done
+            // do not call $form->render(), it's already done
             $this->getView()->assign('form', $form);
         } else {
             return $form;
@@ -459,13 +459,13 @@ abstract class Controller
     {
         $referer = self::getHttpRequest()->getReferer();
 
-        # we have a referer in the environment
+        // we have a referer in the environment
         if (empty($referer) === false) {
             $this->redirect(SERVER_URL . $referer);
-        } else { # build referer on base of the current module
+        } else { // build referer on base of the current module
             $route = HttpRequest::getRoute();
 
-            # we use internal rewrite style here: /module/action
+            // we use internal rewrite style here: /module/action
             $redirect_to = '/' . $route->getModuleName();
 
             $submodule = $route->getSubModuleName();
@@ -474,7 +474,7 @@ abstract class Controller
                 $redirect_to .= '/'. $submodule;
             }
 
-            # redirect() builds the url
+            // redirect() builds the url
             $this->getHttpResponse()->redirect($redirect_to);
         }
     }

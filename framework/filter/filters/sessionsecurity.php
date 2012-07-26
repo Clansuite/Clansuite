@@ -109,27 +109,27 @@ class SessionSecurity implements FilterInterface
          * 4. Check maximal password tries
          */
 
-        # take the initiative, if maximal_password_tries is enabled (greater 0)in Koch\Config
-        # or pass to the next filter / do nothing
+        // take the initiative, if maximal_password_tries is enabled (greater 0)in Koch\Config
+        // or pass to the next filter / do nothing
         /*if ($this->config['session']['maximal_password_tries'] > 0) {
-            # if PW_TRIES is lower than the configvalue
+            // if PW_TRIES is lower than the configvalue
             if ($_SESSION['PW_TRIES'] < $this->config['session']['maximal_password_tries']) {
-                # check, if a form field input $_POST['password'] exists
+                // check, if a form field input $_POST['password'] exists
                 if (true == $this->request->issetParameter('POST','password')) {
-                    # if PW_TRIES does not exist, it's the first try of a password
+                    // if PW_TRIES does not exist, it's the first try of a password
                     if (!isset($_SESSION['PW_TRIES'])) {
                         $_SESSION['PW_TRIES'] = 1;
                     }
 
-                    # if PW_TRIES exists, and is lower or equal to max_tries configvalue, then increase it
+                    // if PW_TRIES exists, and is lower or equal to max_tries configvalue, then increase it
                     if ($_SESSION['PW_TRIES'] <= $this->config['session']['maximal_password_tries']) {
                         $_SESSION['PW_TRIES']++;
                     }
 
-                    # @todo
-                    # EVENT => check the password provided, if invalid show the password form again here.
+                    // @todo
+                    // EVENT => check the password provided, if invalid show the password form again here.
                 } else {
-                    # reset our session variables.
+                    // reset our session variables.
                     unset($_SESSION['PW_TRIES']);
                 }
             }

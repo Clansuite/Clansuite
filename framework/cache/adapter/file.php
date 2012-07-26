@@ -66,15 +66,15 @@ class File extends AbstractCache implements CacheInterface
     {
         $file = $this->filesystemKey($key);
 
-        # try to open file, read-only
+        // try to open file, read-only
         if ((is_file($file)) and fopen($file, 'r')) {
-            # get the expiration time stamp
+            // get the expiration time stamp
             $expires = (int) fread($file, 10);
-            # if expiration time exceeds the current time, return the cache
+            // if expiration time exceeds the current time, return the cache
             if (!$expires || $expires > time()) {
                 $realsize = filesize($block) - 10;
                 $cache = '';
-                # read in a loop, because fread returns after 8192 bytes
+                // read in a loop, because fread returns after 8192 bytes
                 while ($chunk = fread($file, $realsize)) {
                     $cache .= $chunk;
                 }
@@ -82,7 +82,7 @@ class File extends AbstractCache implements CacheInterface
 
                 return unserialize($cache);
             } else {
-                # close and delete the expired cache
+                // close and delete the expired cache
                 fclose($block);
                 $this->delete($key);
             }
@@ -102,14 +102,14 @@ class File extends AbstractCache implements CacheInterface
      */
     public function store($key, $data, $cache_lifetime = 0)
     {
-        # get name and lifetime
+        // get name and lifetime
         $file = $this->filesystemKey($key);
         $cache_lifetime = str_pad( (int) $cache_lifetime, 10, '0', STR_PAD_LEFT);
 
-        # write key file
+        // write key file
         $success = (bool) file_put_contents($file, $cache_lifetime * 60, FILE_EX);
 
-        # append serialized value to file
+        // append serialized value to file
         if ($success) {
             return (bool) file_put_contents($file, serialize($data), FILE_EX | FILE_APPEND);
         }
@@ -139,7 +139,7 @@ class File extends AbstractCache implements CacheInterface
      */
     public function stats()
     {
-        # @todo implement statistics for file cache usage
+        // @todo implement statistics for file cache usage
 
         return;
     }

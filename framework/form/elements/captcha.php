@@ -43,7 +43,7 @@ class Captcha extends Formelement implements FormelementInterface
 
     public function __construct()
     {
-        # formfield type
+        // formfield type
         $this->type  = 'captcha';
 
         return $this;
@@ -57,7 +57,7 @@ class Captcha extends Formelement implements FormelementInterface
      */
     public function setCaptcha($captcha = null)
     {
-        # if no captcha is given, take the one definied in configuration
+        // if no captcha is given, take the one definied in configuration
         if ($captcha == null) {
             $config = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
             $captcha = $config['antispam']['captchatype'];
@@ -74,7 +74,7 @@ class Captcha extends Formelement implements FormelementInterface
      */
     public function getCaptcha()
     {
-        # cut "captcha" (last 7 chars)
+        // cut "captcha" (last 7 chars)
 
         return mb_substr($this->captcha, 0, -7);
     }
@@ -111,15 +111,15 @@ class Captcha extends Formelement implements FormelementInterface
     {
         $name = $this->getCaptcha();
 
-        # construct classname
+        // construct classname
         $classname = 'Koch_Formelement_'. $name .'Captcha';
 
-        # load file
+        // load file
         if (class_exists($classname, false) === false) {
             include ROOT_CORE .'viewhelper/form/formelements/'. $name .'captcha.php';
         }
 
-        # instantiate
+        // instantiate
         $editor_formelement = new $classname();
 
         return $editor_formelement;
@@ -133,26 +133,26 @@ class Captcha extends Formelement implements FormelementInterface
      */
     private function transferPropertiesToCaptcha()
     {
-        # get captcha formelement
+        // get captcha formelement
         $formelement = $this->getCaptchaFormelement();
 
-        # transfer props from $this to captcha formelement
+        // transfer props from $this to captcha formelement
         $formelement->setRequired($this->required);
         $formelement->setLabel($this->label);
         $formelement->setName($this->name);
         $formelement->setValue($this->value);
 
-        # a) attach an decorator of type formelement (chain returns the decorator)
+        // a) attach an decorator of type formelement (chain returns the decorator)
         $formelement->addDecorator('formelement')
-        # b) create a new formelement inside this decorator (chain returns the formelement)
+        // b) create a new formelement inside this decorator (chain returns the formelement)
                     ->newFormelement('input')
-        # c) and attach some properties, like the required captcha value for later validation
+        // c) and attach some properties, like the required captcha value for later validation
                     ->setLabel($this->label)
                     ->setName($this->name);
                     #->setRequired()
                     #->setValidation();
 
-        # return the formelement, to call e.g. render() on it
+        // return the formelement, to call e.g. render() on it
 
         return $formelement;
     }
@@ -171,10 +171,10 @@ class Captcha extends Formelement implements FormelementInterface
          * at this point we have $_SESSION['user']['simple_captcha_string']
          * it's needed as string for the validation rule to the captcha formelement
          */
-        # @todo validation object
+        // @todo validation object
         #$this->getCaptchaFormelement()->setRequired()->setValidator($validator);
 
-        # renders the decorators of the captcha formelement
+        // renders the decorators of the captcha formelement
         foreach ($this->getCaptchaFormelement()->formelementdecorators as $formelementdecorator) {
             $html = $formelementdecorator->render($html);
         }

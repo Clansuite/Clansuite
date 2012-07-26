@@ -35,26 +35,26 @@ namespace Koch\View\Helper;
  */
 class Partials extends Layout
 {
-    # var $_blocks contains all block elements as Separate Objects
+    // var $_blocks contains all block elements as Separate Objects
     private $_blockObjects = array();
 
-    # no constructor
+    // no constructor
     public function __construct()
     {
 
     }
 
-    # add block object
+    // add block object
     public function addBlock($name, Block $block)
     {
         $this->_blockObjects[$name] = $block;
     }
 
-    # execute each block in the container
+    // execute each block in the container
     public function execute()
     {
         foreach ($this->_blockObjects as $block) {
-            $block->execute(); # $_blocks[] = $smarty->fetch("blockTemplate.tpl");
+            $block->execute(); // $_blocks[] = $smarty->fetch("blockTemplate.tpl");
         }
     }
 
@@ -63,16 +63,16 @@ class Partials extends Layout
      */
     public function render($params, $smarty)
     {
-        # Set Smarty as View to each Block
+        // Set Smarty as View to each Block
         foreach ($this->_blockObjects as $block) {
             $block->setView($smarty);
         }
 
-        # Assign BlockObjects to Smarty
+        // Assign BlockObjects to Smarty
         $smarty->assign('block', $this->_blockObjects);
 
-        # Display it via /core/tools/sidebar.tpl
-        # which loops over each Array Element (one block) and displays it
+        // Display it via /core/tools/sidebar.tpl
+        // which loops over each Array Element (one block) and displays it
         $smarty->display('core/tools/sidebar.tpl');
     }
 

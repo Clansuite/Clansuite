@@ -54,7 +54,7 @@ class Description extends Decorator
      */
     public function render($html_formelement)
     {
-        # add description
+        // add description
         if ( isset($this->formelement->description) == true) {
             $html_formelement .= '<br />'. CR;
             $html_formelement .= '<span class="formdescription">' . $this->formelement->getDescription() . '</span>' . CR;

@@ -38,17 +38,17 @@ use DoctrineExtensions\Paginate\Paginate;
  * Datagrid builds a table with the following structure:
  *
  * #--------------------------------------------------#
- * # Caption             (<caption>Caption</caption>) #
+ * // Caption             (<caption>Caption</caption>) #
  * #--------------------------------------------------#
- * # Pagination        (<tr><td>Pagination</td></tr>) #
+ * // Pagination        (<tr><td>Pagination</td></tr>) #
  * #--------------------------------------------------#
- * # Header     (<tr><th>Col1</th><th>Col2</th></tr>) #
+ * // Header     (<tr><th>Col1</th><th>Col2</th></tr>) #
  * #--------------------------------------------------#
- * # Rows            (<tr><td>DataField</td>...</tr>) #
+ * // Rows            (<tr><td>DataField</td>...</tr>) #
  * #--------------------------------------------------#
- * # Pagination        (<tr><td>Pagination</td></tr>) #
+ * // Pagination        (<tr><td>Pagination</td></tr>) #
  * #--------------------------------------------------#
- * # Footer                (<tr><td>Footer</td></tr>) #
+ * // Footer                (<tr><td>Footer</td></tr>) #
  * #--------------------------------------------------#
  */
 class Datagrid extends Base
@@ -346,17 +346,17 @@ class Datagrid extends Base
     {
         $resultsPerPage = null;
 
-        # $resultsPerPage is incomming via Session, URL GET or Set to 1 as default
+        // $resultsPerPage is incomming via Session, URL GET or Set to 1 as default
         if ( isset($_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage']) ) {
             $resultsPerPage = $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'];
         } elseif( isset($_REQUEST[$this->getParameterAlias('ResultsPerPage')]) )
         {
             $resultsPerPage = (int) $_REQUEST[$this->getParameterAlias('ResultsPerPage')];
-        } else { # if page is not inside session or request, we are on the first page
-            $resultsPerPage = $this->_resultsPerPage; # default via setResultsPerPage / config
+        } else { // if page is not inside session or request, we are on the first page
+            $resultsPerPage = $this->_resultsPerPage; // default via setResultsPerPage / config
         }
 
-        # Add to session
+        // Add to session
         $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'] = $resultsPerPage;
 
         return $resultsPerPage;
@@ -431,33 +431,33 @@ class Datagrid extends Base
         }
         unset($value);
 
-        # sets the doctrine entity to use for the datagrid
-        # set manually        'Entity'        => 'Entities\News',
-        # or automatically    getEntityNameFromClassname()
+        // sets the doctrine entity to use for the datagrid
+        // set manually        'Entity'        => 'Entities\News',
+        // or automatically    getEntityNameFromClassname()
         if (isset($options['Entity'])) {
             $this->setDoctrineEntityName($options['Entity']);
         }
 
-        # Set all columns
-        # @todo load from columnset definition file / remove array from module
+        // Set all columns
+        // @todo load from columnset definition file / remove array from module
         $this->setColumnSets($options['ColumnSets']);
 
-        # construct url by appending to the baseURL
+        // construct url by appending to the baseURL
         $this->setBaseUrl($options['Url']);
 
-        # disable some features
-        # @todo css for these elements
+        // disable some features
+        // @todo css for these elements
         $this->disableFeature(array('Label', 'Caption', 'Description'));
 
-        # set scalar values
+        // set scalar values
         $this->setAlias( $this->getDoctrineEntityName() );
 
-        # reset session?
+        // reset session?
         if ( isset($_REQUEST[$this->getParameterAlias('Reset')]) ) {
                $_SESSION['Datagrid_' . $this->getAlias()] = '';
         }
 
-        # set properties to datagrid
+        // set properties to datagrid
         $this->setId('DatagridId-' . $this->getAlias());
         $this->setName('DatagridName-' . $this->getAlias());
         $this->setClass('Datagrid-' . $this->getAlias());
@@ -465,10 +465,10 @@ class Datagrid extends Base
         $this->setCaption($this->getAlias());
         $this->setDescription(_('This is the datagrid of ') . $this->getAlias());
 
-        # generate the columns
+        // generate the columns
         $this->generateColumns();
 
-        # update the query
+        // update the query
         #$this->_generateQuery();
     }
 
@@ -477,12 +477,12 @@ class Datagrid extends Base
      */
     public function execute()
     {
-        # generate the doctrine query
+        // generate the doctrine query
         $query = $this->assembleQuery();
 
         $result = $query->getArrayResult();
 
-        # Debug
+        // Debug
         #Clansuite_Debug::printR($result);
 
         /**
@@ -525,10 +525,10 @@ class Datagrid extends Base
      */
     private function assembleQuery()
     {
-        # get the "finder" method to use on the repository
+        // get the "finder" method to use on the repository
         #$methodname = $this->getRepositoryMethodName();
 
-        # call repository method with variable methodname
+        // call repository method with variable methodname
         #$this->query = $this->getDoctrineRepository()->$methodname();
 
         /**
@@ -571,7 +571,7 @@ class Datagrid extends Base
      */
     public function enableFeature($features)
     {
-        # if $features is only one feature; then it's just a string, so we typecast
+        // if $features is only one feature; then it's just a string, so we typecast
         $features = (array) $features;
 
         foreach ($features as $feature) {
@@ -589,10 +589,10 @@ class Datagrid extends Base
      */
     public function disableFeature($features)
     {
-        # if $features is only one feature; then it's just a string, so we typecast
+        // if $features is only one feature; then it's just a string, so we typecast
         $features = (array) $features;
 
-        # disable several datagrid features
+        // disable several datagrid features
         foreach ($features as $feature) {
             $this->_features[$feature] = false;
         }
@@ -605,10 +605,10 @@ class Datagrid extends Base
      */
     public function render()
     {
-        # Execute the datagrid!
+        // Execute the datagrid!
         $this->execute();
 
-        # attach Datagrid to renderer
+        // attach Datagrid to renderer
         $renderer = new Clansuite_Datagrid_Renderer($this);
 
         return $renderer->render();
@@ -624,9 +624,9 @@ class Datagrid extends Base
     {
         #$columnKey = ucfirst($columnKey);
 
-        # No alias given
+        // No alias given
         if ( (isset($columnSet[$columnKey]) == false) or ($columnSet[$columnKey] == '') ) {
-            # define exception message string for usage with sprintf + gettext
+            // define exception message string for usage with sprintf + gettext
             $exception_sprintf = _('The datagrid columnset has an error. The array key "%s" is missing.)');
 
             throw new Clansuite_Exception(sprintf($exception_sprintf, $columnKey));
@@ -644,25 +644,25 @@ class Datagrid extends Base
 
         foreach ($_columnSets as $key => $columnSet) {
             #Clansuite_Debug::firebug($key);
-            # No alias given
+            // No alias given
             self::checkColumnKeyExist($columnSet, 'Alias');
-             # No resultset given
+             // No resultset given
             self::checkColumnKeyExist($columnSet, 'ResultSet');
-            # No name given
+            // No name given
             self::checkColumnKeyExist($columnSet, 'Name');
 
-            # No SortCol although sorting is enabled
+            // No SortCol although sorting is enabled
             if ( isset($columnSet['Sort']) and !isset($columnSet['SortCol']) ) {
                 throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (sorting is enabled but "SortCol" is missing)'), $key));
             }
 
-            # Default type: String
+            // Default type: String
             if ( !isset($columnSet['Type']) || $columnSet['Type'] == '') {
                 $columnSet['Type'] = 'String';
             }
         }
 
-        # Everything validates
+        // Everything validates
         $this->_columnSets = $_columnSets;
     }
 
@@ -703,7 +703,7 @@ class Datagrid extends Base
             $oCol->setPosition($colKey);
             $oCol->setRenderer($colSet['Type']);
 
-            # set the column object under its alias into the array of all columns
+            // set the column object under its alias into the array of all columns
             $this->columnObjects[$colSet['Alias']] = $oCol;
         }
     }
@@ -756,7 +756,7 @@ class Datagrid extends Base
 
                 $values = $this->_getCellValues($columnSet, $rowValues);
 
-                # Set empty values if not in dataset
+                // Set empty values if not in dataset
                 $oCell->setValues($values);
             }
         }
@@ -777,14 +777,14 @@ class Datagrid extends Base
             throw new Clansuite_Exception(_('You have not supplied any columnset to validate.'));
         }
 
-        # Standard for ResultSets is an array
+        // Standard for ResultSets is an array
         if ( false === is_array($_ColumnSet['ResultSet'])) {
             $aResultSet = array($_ColumnSet['ResultSet']);
         } else {
             $aResultSet = $_ColumnSet['ResultSet'];
         }
 
-        # init vars used inside foreach
+        // init vars used inside foreach
         $i = 0;
         $values = array();
 
@@ -818,24 +818,24 @@ class Datagrid extends Base
      */
     private function addSortingToQuery()
     {
-        # columnname
+        // columnname
         $SortColumn    = '';
-        # asc/desc
+        // asc/desc
         $SortOrder  = '';
 
-        # Set SortColumn and sortorder if in session
+        // Set SortColumn and sortorder if in session
         if ( isset($_SESSION['Datagrid_' . $this->getAlias()]['SortColumn']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SortOrder']) ) {
             $SortColumn = $_SESSION['Datagrid_' . $this->getAlias()]['SortColumn'];
             $SortOrder  = $_SESSION['Datagrid_' . $this->getAlias()]['SortOrder'];
         }
 
-        # Prefer requests
+        // Prefer requests
         if ( isset($_REQUEST[$this->getParameterAlias('SortColumn')]) and isset($_REQUEST[$this->getParameterAlias('SortOrder')]) ) {
             $SortColumn = $_REQUEST[$this->getParameterAlias('SortColumn')];
             $SortOrder  = $_REQUEST[$this->getParameterAlias('SortOrder')];
         }
 
-        # Check for valid formats of key and value
+        // Check for valid formats of key and value
         if( ($SortColumn != '' and $SortOrder != '') AND
             ( preg_match('#^([0-9a-z_]+)#i', $SortColumn) and preg_match('#([a-z]+)$#i', $SortOrder) ) )
         {
@@ -882,21 +882,21 @@ class Datagrid extends Base
         $_SESSION['Datagrid_' . $this->getAlias()]['SearchColumn']     = $SearchColumn;
         $_SESSION['Datagrid_' . $this->getAlias()]['SearchForValue']   = $SearchForValue;
 
-        # DEBUG
-        # var_dump( $this->queryBuilder->getDQL() ); exit;
+        // DEBUG
+        // var_dump( $this->queryBuilder->getDQL() ); exit;
 
-        # Check for valid formats of key and value
+        // Check for valid formats of key and value
         if ( ($SearchColumn != '' and $SearchForValue != '') ) {
             $this->queryBuilder->add('andWhere',
-                    # string = ANDWHERE a.fieldname LIKE :SearchForValue
+                    // string = ANDWHERE a.fieldname LIKE :SearchForValue
                     $this->queryBuilder->expr()->like(
                             'a.' . $this->getColumn($SearchColumn)->getSortField(),
                             '%' . $SearchForValue . '%'
                             )
             );
 
-            # DEBUG
-            # var_dump( $this->queryBuilder->getDQL() ); exit;
+            // DEBUG
+            // var_dump( $this->queryBuilder->getDQL() ); exit;
         }
     }
 
@@ -904,18 +904,18 @@ class Datagrid extends Base
     {
         $page = null;
 
-        # Page is incomming via Session, URL GET or Set to 1 as default
+        // Page is incomming via Session, URL GET or Set to 1 as default
         if (isset($_SESSION['Datagrid_' . $this->getAlias()]['Page'])) {
             $page = $_SESSION['Datagrid_' . $this->getAlias()]['Page'];
         } elseif(isset($_REQUEST[$this->getParameterAlias('Page')]))
         {
             $page = (int) $_REQUEST[$this->getParameterAlias('Page')];
         } else {
-            # default value: first page
+            // default value: first page
             $page = 1;
         }
 
-        # add page to session
+        // add page to session
         $_SESSION['Datagrid_' . $this->getAlias()]['Page'] = $page;
 
         return $page;
@@ -928,13 +928,13 @@ class Datagrid extends Base
      */
     private function addPaginationLimitToQuery()
     {
-        # Page (URL alias => p)
+        // Page (URL alias => p)
         $page = $this->getPage();
 
-        # Results Per Page (URL alias => rpp)
+        // Results Per Page (URL alias => rpp)
         $resultsPerPage = $this->getResultsPerPage();
 
-        # calculate offset = current page
+        // calculate offset = current page
         $offset = ($page - 1) * $resultsPerPage;
 
         /**
@@ -946,14 +946,14 @@ class Datagrid extends Base
         #$query->setFirstResult( $offset )->setMaxResults( $resultsPerPage );
         #Clansuite_Debug::printR($query->getArrayResult());
 
-        # Step 1 - count total results
+        // Step 1 - count total results
         $count = Paginate::getTotalQueryResults($query);
         $this->setTotalResultsCount($count);
 
-        # Step 2 - adding limit and offset to the query
+        // Step 2 - adding limit and offset to the query
         $paginateQuery = Paginate::getPaginateQuery($query, $offset, $resultsPerPage);
 
-        # fetching the paginated results set
+        // fetching the paginated results set
         #Clansuite_Debug::printR($paginateQuery->getArrayResult());
 
         return $paginateQuery;

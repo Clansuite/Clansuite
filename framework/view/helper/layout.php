@@ -42,12 +42,12 @@ interface ViewNodeInterface
     /**
      * Set the data
      */
-    public function setData(array $data); # array | assign placeholders 'data' = $data
+    public function setData(array $data); // array | assign placeholders 'data' = $data
 
     /**
      * Set the default content or to overwrite the leaf-content
      */
-    public function setContent($content); # string | set content / placeholders 'data'
+    public function setContent($content); // string | set content / placeholders 'data'
 
     /**
      * Set the default content

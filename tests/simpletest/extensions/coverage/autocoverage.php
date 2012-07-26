@@ -16,7 +16,7 @@ if (CodeCoverage::isCoverageOn()) {
 }
 
 function stop_coverage() {
-    # hack until i can think of a way to run tests first and w/o exiting
+    // hack until i can think of a way to run tests first and w/o exiting
     $autorun = function_exists("run_local_tests");
     if ($autorun) {
         $result = run_local_tests();

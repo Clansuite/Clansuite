@@ -50,19 +50,19 @@ class ThemeViaGet implements FilterInterface
 
     public function __construct(Config $config, Inputfilter $input)
     {
-        # reduce array size by selection of the section
+        // reduce array size by selection of the section
         $this->config = $config['switches'];
         $this->input  = $input;
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        # themeswitching must is enabled in configuration
+        // themeswitching must is enabled in configuration
         if ($this->config['themeswitch_via_url'] == 1) {
             return;
         }
 
-        # check for "?theme=mytheme" URL parameter
+        // check for "?theme=mytheme" URL parameter
         if (false === $request->issetParameter('theme', 'GET')) {
             return;
         }
@@ -81,7 +81,7 @@ class ThemeViaGet implements FilterInterface
         $themedir = '';
         $themedir = ROOT_THEMES_FRONTEND . $theme . DIRECTORY_SEPARATOR;
 
-        # theme exists, set it as session-user-theme
+        // theme exists, set it as session-user-theme
         if (is_dir($themedir) and is_file($themedir . 'theme_info.xml')) {
             $_SESSION['user']['frontend_theme'] = $theme;
         }

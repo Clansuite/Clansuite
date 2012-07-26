@@ -267,22 +267,22 @@ abstract class AbstractRenderer
          * d) Page related
          */
 
-        # Page Title
+        // Page Title
         $template_constants['pagetitle'] = $this->config['template']['pagetitle'];
 
-        # Normal CSS (mainfile)
+        // Normal CSS (mainfile)
         $template_constants['css'] = $this->getTheme()->getCSSFile();
 
-        # Normal Javascript (mainfile)
+        // Normal Javascript (mainfile)
         $template_constants['javascript'] = $this->getTheme()->getJSFile();
 
-        # Breadcrumb
+        // Breadcrumb
         $template_constants['trail'] = \Koch\View\Helper\Breadcrumb::getTrail();
 
-        # Templatename itself
+        // Templatename itself
         $template_constants['templatename'] = $this->getTemplate();
 
-        # Help Tracking
+        // Help Tracking
         $template_constants['helptracking'] = $this->config['help']['tracking'];
 
         /**
@@ -388,7 +388,7 @@ abstract class AbstractRenderer
         }
     }
 
-    # object duplication / cloning is not permitted
+    // object duplication / cloning is not permitted
     protected function __clone()
     {
         return;

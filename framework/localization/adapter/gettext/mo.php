@@ -53,13 +53,13 @@ class MOFile
      */
     public function write($hash, $file)
     {
-        # sort by msgid
+        // sort by msgid
         ksort($hash, SORT_STRING);
 
-        # our mo file data
+        // our mo file data
         $mo = '';
 
-        # header data
+        // header data
         $offsets = array();
         $ids = '';
         $strings = '';
@@ -71,35 +71,35 @@ class MOFile
                 $id .= "\x00" . $entry['msgid_plural'];
             }
 
-            # context is merged into id, separated by EOT (\x04)
+            // context is merged into id, separated by EOT (\x04)
             if ((isset($entry['msgctxt']) === true) or (array_key_exists('msgctxt', $entry) === true)) {
                 $id = $entry['msgctxt'] . "\x04" . $id;
             }
 
-            # plural msgstrs are NUL-separated
+            // plural msgstrs are NUL-separated
             $str = implode("\x00", $entry['msgstr']);
 
-            # keep track of offsets
+            // keep track of offsets
             $offsets[] = array(mb_strlen($ids), mb_strlen($id), mb_strlen($strings), mb_strlen($str));
 
-            # plural msgids are not stored (?)
+            // plural msgids are not stored (?)
             $ids .= $id . "\x00";
 
             $strings .= $str . "\x00";
         }
 
-        # keys start after the header (7 words) + index tables ($#hash * 4 words)
-        # originally: 7 * 4 + count($hash) * 4 * 4
+        // keys start after the header (7 words) + index tables ($#hash * 4 words)
+        // originally: 7 * 4 + count($hash) * 4 * 4
         $key_start = 28 + count($hash) * 16;
 
-        # values start right after the keys
+        // values start right after the keys
         $value_start = $key_start + mb_strlen($ids);
 
-        # first all key offsets, then all value offsets
+        // first all key offsets, then all value offsets
         $key_offsets = array();
         $value_offsets = array();
 
-        # calculate
+        // calculate
         foreach ($offsets as $v) {
             list ($o1, $l1, $o2, $l2) = $v;
             $key_offsets[] = $l1;
@@ -110,25 +110,25 @@ class MOFile
 
         $offsets = array_merge($key_offsets, $value_offsets);
 
-        # write header
-        $mo .= pack('Iiiiiii', 0x950412de, # magic number
-                0, # version
-                count($hash), # number of entries in the catalog
-                28, # key index offset (7*4)
-                28 + count($hash) * 8, # value index offset (7*4 + length of hash*8)
-                0, # hashtable size (unused, thus 0)
-                $key_start                      # hashtable offset
+        // write header
+        $mo .= pack('Iiiiiii', 0x950412de, // magic number
+                0, // version
+                count($hash), // number of entries in the catalog
+                28, // key index offset (7*4)
+                28 + count($hash) * 8, // value index offset (7*4 + length of hash*8)
+                0, // hashtable size (unused, thus 0)
+                $key_start                      // hashtable offset
         );
 
-        # offsets
+        // offsets
         foreach ($offsets as $offset) {
             $mo .= pack('i', $offset);
         }
 
-        # ids
+        // ids
         $mo .= $ids;
 
-        # strings
+        // strings
         $mo .= $strings;
 
         file_put_contents($file, $mo);

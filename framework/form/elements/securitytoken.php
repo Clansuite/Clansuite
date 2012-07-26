@@ -52,10 +52,10 @@ class Securitytoken extends Hidden implements FormelementInterface
         return $this;
     }
 
-    # getHash
-    # setHashToSession
-    # getHashFromSession
-    # compare
+    // getHash
+    // setHashToSession
+    // getHashFromSession
+    // compare
 
     public function render()
     {

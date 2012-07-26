@@ -37,9 +37,9 @@
                             <label class="formularleft" for="encrytion"><?php echo $language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']; ?></label>
                             <select class="formularright" id="encryption" name="encryption"
                                     title="<?php echo $language['STEP5_ACCOUNT_CRYPT_TOOLTIP']; ?>">
-                                <?php # SHA1 ?>
+                                <?php // SHA1 ?>
                                 <option value="sha1"<?php echo ($values['encryption']=='sha1') ? ' selected="selected"' : ''; ?>>SHA1</option>
-                                <?php # HASH Options ?>
+                                <?php // HASH Options ?>
                                 <?php
                                 if (extension_loaded('hash')) {
                                     $hash_algos = hash_algos();
@@ -56,7 +56,7 @@
                         </li>
                         */ ?>
                         <li>
-                            <?php # timezone selection ?>
+                            <?php // timezone selection ?>
                             <label class="formularleft" for="timezone"><?php echo $language['STEP5_CONFIG_GMTOFFSET']; ?></label>
                             <select class="formularright" id="timezone"
                                     name="config[language][gmtoffset]" class="form"

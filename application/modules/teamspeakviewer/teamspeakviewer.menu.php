@@ -32,7 +32,7 @@ $modulenavigation = array(
     '1' => array(
         'action' => 'show',
         'name' => 'Overview',
-        'url' => '/teamspeakviewer/admin', # &action=show
+        'url' => '/teamspeakviewer/admin', // &action=show
         'icon' => '',
         'title' => ''
     ),

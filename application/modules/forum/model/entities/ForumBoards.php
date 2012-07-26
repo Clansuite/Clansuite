@@ -96,9 +96,9 @@ class ForumBoards
     protected $redirect;
 
 
-    ### ===================================
-    ### Setter and Getter methodes
-    ### ===================================
+    ##// ===================================
+    ##// Setter and Getter methodes
+    ##// ===================================
 
 
 

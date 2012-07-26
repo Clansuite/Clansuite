@@ -63,16 +63,16 @@ class Mapper extends \ArrayObject
         $filename = '';
         $filename_postfix = '';
 
-        # construct the module_path, like "/clansuite/modules/news/" + "controller/"
+        // construct the module_path, like "/clansuite/modules/news/" + "controller/"
         $module_path = $module_path . 'controller' . DIRECTORY_SEPARATOR;
 
-        # subcontroller
+        // subcontroller
         if (isset($subcontroller) and 'admin' == $subcontroller) {
             $filename_postfix = '.admin.php';
-        } elseif(isset($subcontroller) and $subcontroller != 'admin') # any subcontroller name as postfix
+        } elseif(isset($subcontroller) and $subcontroller != 'admin') // any subcontroller name as postfix
         {
             $filename_postfix = '.'.$subcontroller.'.php';
-        } else { # apply standard postfix
+        } else { // apply standard postfix
             $filename_postfix = '.module.php';
         }
 
@@ -94,10 +94,10 @@ class Mapper extends \ArrayObject
     {
         $classname = '';
 
-        # attach controller
+        // attach controller
         $classname .= '\\' . ucfirst($controller);
 
-        # attach subcontroller to classname
+        // attach subcontroller to classname
         if (isset($subcontroller)) {
             $classname .= '\\' . ucfirst($subcontroller);
         }
@@ -120,17 +120,17 @@ class Mapper extends \ArrayObject
      */
     public static function mapActionToActioname($action, $submodule = null)
     {
-        # set default value for action, when not set by URL
+        // set default value for action, when not set by URL
         if (false === isset($action)) {
             $action = self::DEFAULT_ACTION;
         }
 
-        # if a $submodule is set, use it as a PREFIX on $action
+        // if a $submodule is set, use it as a PREFIX on $action
         if (isset($submodule)) {
             $action = $submodule . '_' . $action;
         }
 
-        # all clansuite actions are prefixed with 'action_'
+        // all clansuite actions are prefixed with 'action_'
 
         return self::METHOD_PREFIX . '_' . $action;
     }

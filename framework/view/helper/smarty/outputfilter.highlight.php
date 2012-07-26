@@ -31,7 +31,7 @@ if (mb_strpos($_SERVER['SCRIPT_NAME'],basename(__FILE__)) !== false) {
 function smarty_outputfilter_highlight($source, $smarty)
 {
     $highlight = $_REQUEST['highlight'];
-    $feature_referer_highlight = $GLOBALS['feature_referer_highlight']; # @todo remove globals
+    $feature_referer_highlight = $GLOBALS['feature_referer_highlight']; // @todo remove globals
 
     if (isset($feature_referer_highlight) && $$feature_referer_highlight == 'y') {
         $refererhi = _refererhi();
@@ -49,11 +49,11 @@ function smarty_outputfilter_highlight($source, $smarty)
     }
 
     $source = preg_replace_callback(
-            '~(?:<head>.*?</head>                          # head blocks
-      |<div[^>]*nohighlight.*?</div>\{\*nohighlight  # div with nohightlight
-      |<script[^>]+>.*?</script>                     # script blocks
-      |onmouseover=(?:"[^"]*"|\'[^\']*\')            # onmouseover (user popup)
-      |<[^>]*?>                                      # all html tags
+            '~(?:<head>.*?</head>                          // head blocks
+      |<div[^>]*nohighlight.*?</div>\{\*nohighlight  // div with nohightlight
+      |<script[^>]+>.*?</script>                     // script blocks
+      |onmouseover=(?:"[^"]*"|\'[^\']*\')            // onmouseover (user popup)
+      |<[^>]*?>                                      // all html tags
       |(' . _enlightColor($highlight) . '))~xsi',
             '_enlightColor',  $source);
 

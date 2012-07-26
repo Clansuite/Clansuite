@@ -32,13 +32,13 @@ session_start();
 
 @set_time_limit(0);
 
-# Security Handler
+// Security Handler
 define('IN_CS', true);
 
-# Debugging Handler
+// Debugging Handler
 define('DEBUG', false);
 
-# Define: DS; INSTALLATION_ROOT; ROOT; HTML Break; Carriage Return
+// Define: DS; INSTALLATION_ROOT; ROOT; HTML Break; Carriage Return
 define('DS', DIRECTORY_SEPARATOR);
 define('INSTALLATION_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 define('ROOT', dirname(INSTALLATION_ROOT) . DIRECTORY_SEPARATOR);
@@ -51,11 +51,11 @@ define('WWW_ROOT_THEMES_CORE', WWW_ROOT . 'themes/core/');
 define('NL', "<br />\r\n", false);
 define('CR', "\n");
 
-# load Clansuite Version constants
+// load Clansuite Version constants
 require ROOT . 'application/version.php';
 \Clansuite\Version::setVersionInformation();
 
-# Error Reporting Level
+// Error Reporting Level
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', true);
 ini_set('display_errors', true);
@@ -76,7 +76,7 @@ if(DEBUG)
  * Startup Checks
  */
 
-# PHP Version Check
+// PHP Version Check
 define('REQUIRED_PHP_VERSION', '5.3.0');
 if(version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<=') === true)
 {
@@ -84,14 +84,14 @@ if(version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<=') === true)
             'Your PHP Version is <b>' . PHP_VERSION . '</b>. Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b>.', 1);
 }
 
-# PDO extension must be available
+// PDO extension must be available
 if(false === class_exists('PDO'))
 {
     throw new Installation_Exception(
             '"<i>PHP_PDO</i>" extension not enabled. The extension is needed for accessing the database.', 2);
 }
 
-# php_pdo_mysql driver must be available
+// php_pdo_mysql driver must be available
 if(false === in_array('mysql', \PDO::getAvailableDrivers()))
 {
     throw new Installation_Exception(
@@ -169,10 +169,10 @@ class Installation
             return;
         }
 
-        # remove namespace = classname to filename conversion
+        // remove namespace = classname to filename conversion
         $filename = str_replace('clansuite\installation\\', '', $classname);
 
-        # load
+        // load
         include INSTALLATION_ROOT . 'controller' . DIRECTORY_SEPARATOR . $filename . '.php';
     }
 
@@ -196,7 +196,7 @@ class Installation
      */
     public function handleRequest_deleteInstallationFolder()
     {
-        # allow session reset only in debug mode
+        // allow session reset only in debug mode
         if(DEBUG == true and isset($_GET['reset_session']))
         {
             $_SESSION = array();
@@ -212,7 +212,7 @@ class Installation
 
             \Clansuite\Installation_Helper::removeDirectory(__DIR__);
 
-            # display success message
+            // display success message
             if(false === file_exists(__DIR__))
             {
                 echo '<p>
@@ -237,20 +237,20 @@ class Installation
     {
         date_default_timezone_set('Europe/Berlin');
 
-        # Get language from GET
+        // Get language from GET
         if(isset($_GET['lang']) and empty($_GET['lang']) === false)
         {
             $this->locale = (string) htmlspecialchars($_GET['lang'], ENT_QUOTES, 'UTF-8');
         }
         else
         {
-            # Get language from SESSION
+            // Get language from SESSION
             if(isset($_SESSION['lang']))
             {
                 $this->locale = $_SESSION['lang'];
             }
 
-            # SET DEFAULT locale
+            // SET DEFAULT locale
             if($this->step == 1 or empty($_SESSION['lang']))
             {
                 $this->locale = 'german';
@@ -301,7 +301,7 @@ class Installation
      */
     public function determineCurrentStep()
     {
-        # update the session with the given variables!
+        // update the session with the given variables!
         $_SESSION = \Clansuite\Installation_Helper::array_merge_rec($_POST, $_SESSION);
 
         /**
@@ -336,7 +336,7 @@ class Installation
             $this->step = 1;
         }
 
-        # remove not needed values
+        // remove not needed values
         unset($_SESSION['step_forward'], $_SESSION['step_backward'], $_SESSION['submitted_step']);
     }
 
@@ -350,7 +350,7 @@ class Installation
 
     public function processPreviousStep()
     {
-        # there isn't a controller before step 1
+        // there isn't a controller before step 1
         if($this->step == 1)
         {
             return;
@@ -451,7 +451,7 @@ class Installation_Helper
      */
     public static function write_config_settings($data_array)
     {
-        # Read/Write Handler for config files
+        // Read/Write Handler for config files
         include ROOT . 'core/config/adapter/ini.php';
 
         /**
@@ -461,20 +461,20 @@ class Installation_Helper
         unset($data_array['lang']);
         unset($data_array['database']['create_database']);
 
-        # base class is needed for \Koch\Config\Adpater\INI
+        // base class is needed for \Koch\Config\Adpater\INI
         if(false === class_exists('AbstractConfig', false))
         {
             require ROOT . 'core/config/abstractconfig.php';
         }
 
-        # read skeleton settings = minimum settings for initial startup
-        # (not asked from user during installation, but required paths, default actions, etc.)
+        // read skeleton settings = minimum settings for initial startup
+        // (not asked from user during installation, but required paths, default actions, etc.)
         $installer_config = \Koch\Config\Adapter\Ini::readConfig(INSTALLATION_ROOT . 'config.skeleton.ini');
 
-        # array merge: overwrite the array to the left, with the array to the right, when keys identical
+        // array merge: overwrite the array to the left, with the array to the right, when keys identical
         $data_array = array_merge_recursive($data_array, $installer_config);
 
-        # Write Config File to ROOT Directory
+        // Write Config File to ROOT Directory
         if(false === \Koch\Config\Adapter\Ini::writeConfig(ROOT_APP . 'configuration/clansuite.php', $data_array))
         {
             // config not written
@@ -519,7 +519,7 @@ class Installation_Helper
      */
     public static function removeDirectory($dir)
     {
-        # get files
+        // get files
         $files = array_merge(glob($dir . '/*'), glob($dir . '/.*'));
         if(strpos($dir, 'installation') === false)
         {
@@ -528,13 +528,13 @@ class Installation_Helper
 
         foreach($files as $file)
         {
-            # skip the index.php
+            // skip the index.php
             if(preg_match('#[\\|/]\.$#', $file) || preg_match('#[\\|/]\.\.$#', $file))
             {
                 continue;
             }
 
-            # skip dirs
+            // skip dirs
             if(is_dir($file))
             {
                 self::removeDirectory($file);
@@ -547,25 +547,25 @@ class Installation_Helper
             }
         }
 
-        # try to apply delete permissiosn
+        // try to apply delete permissiosn
         if(chmod($dir, 0777) === false)
         {
             echo '[Deleting Directory] Setting the permission to delete the directory on directory ' . $dir . ' failed!<br/>';
         }
         else
         {
-            # echo '[Deleting Directory] Successfully applied permission to delete the directory on directory '.$dir.'!<br/>';
+            // echo '[Deleting Directory] Successfully applied permission to delete the directory on directory '.$dir.'!<br/>';
         }
 
-        # try to remove directory
+        // try to remove directory
         if(rmdir($dir) === false)
         {
             echo '[Deleting Directory] Removing of directory ' . $dir . ' failed! Please remove it manually.<br/>';
         }
         else
         {
-            # rmdir sucessfull
-            # echo '[Deleting Directory] Removing of directory '.$dir.'<br/>';
+            // rmdir sucessfull
+            // echo '[Deleting Directory] Removing of directory '.$dir.'<br/>';
         }
     }
 
@@ -577,16 +577,16 @@ class Installation_Helper
      */
     public static function getTotalNumberOfSteps()
     {
-        # count the files only once
+        // count the files only once
         if(isset($_SESSION['total_steps']))
         {
             return $_SESSION['total_steps'];
         }
 
-        # get array with all installaton step files
+        // get array with all installaton step files
         $step_files = glob('controller/step*.php');
 
-        # count the number of files named "stepX"
+        // count the number of files named "stepX"
         $_SESSION['total_steps'] = count($step_files);
 
         return $_SESSION['total_steps'];
@@ -626,7 +626,7 @@ class Installation_Helper
 
         foreach($dirs as $key => $dir_path)
         {
-            # Entity Path
+            // Entity Path
             $entity_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR;
 
             if(is_dir($entity_path))
@@ -634,7 +634,7 @@ class Installation_Helper
                 $model_dirs[] = $entity_path;
             }
 
-            # Repository Path
+            // Repository Path
             $repos_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'repositories' . DIRECTORY_SEPARATOR;
 
             if(is_dir($repos_path))
@@ -648,7 +648,7 @@ class Installation_Helper
          */
         $model_dirs[] = ROOT_APP . 'doctrine';
 
-        # array_unique
+        // array_unique
         $model_dirs = array_keys(array_flip($model_dirs));
 
         #Clansuite_Debug::printR($model_dirs);
@@ -663,41 +663,41 @@ class Installation_Helper
             {
                 include ROOT . 'core/config/adapter/ini.php';
 
-                # get clansuite config
+                // get clansuite config
                 $clansuite_config = \Koch\Config\Adapter\INI::readConfig(ROOT_APP . 'configuration/clansuite.php');
 
-                # reduce config array to the dsn/connection settings
+                // reduce config array to the dsn/connection settings
                 $connectionParams = $clansuite_config['database'];
             }
 
-            # connect
+            // connect
             $config = new \Doctrine\DBAL\Configuration();
             $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
             $connection->setCharset('UTF8');
 
-            # get Event and Config
+            // get Event and Config
             $event = $connection->getEventManager();
             $config = new \Doctrine\ORM\Configuration();
 
-            # add Table Prefix
+            // add Table Prefix
             $prefix = $connectionParams['prefix'];
             $tablePrefix = new \DoctrineExtensions\TablePrefix\TablePrefix($prefix);
             $event->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
-            # setup Cache
+            // setup Cache
             $cache = new \Doctrine\Common\Cache\ArrayCache();
             $config->setMetadataCacheImpl($cache);
 
-            # setup Proxy Dir
+            // setup Proxy Dir
             $config->setProxyDir(realpath(ROOT . 'application\doctrine'));
             $config->setProxyNamespace('proxies');
 
-            # setup Annotation Driver
+            // setup Annotation Driver
             $driverImpl = $config->newDefaultAnnotationDriver(
                 \Clansuite\Installation_Helper::getModelPathsForAllModules());
             $config->setMetadataDriverImpl($driverImpl);
 
-            # finally: instantiate EntityManager
+            // finally: instantiate EntityManager
             $entityManager = \Doctrine\ORM\EntityManager::create($connection, $config, $event);
 
             return $entityManager;
@@ -770,7 +770,7 @@ class Installation_Page
 
     public function setErrorMessage($error)
     {
-        # if we already have an error message, then append the next one
+        // if we already have an error message, then append the next one
         if($this->error != '')
         {
             $this->error .= $error;
@@ -815,7 +815,7 @@ class Installation_Exception extends \Exception
      */
     public function __toString()
     {
-        # Header
+        // Header
         $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
@@ -868,7 +868,7 @@ class Installation_Exception extends \Exception
         $html .= '</p></fieldset>';
         $html .= '</body></html>';
 
-        # stfu...
+        // stfu...
         exit($html);
     }
 }

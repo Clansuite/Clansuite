@@ -36,10 +36,10 @@ class Uploadajax extends File implements FormelementInterface
      */
     public function render()
     {
-        # a) loads the ajaxupload javascript file
+        // a) loads the ajaxupload javascript file
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . 'javascript/jquery/ajaxupload.js'. '" type="text/javascript"></script>';
 
-        # b) handler for the ajaxupload
+        // b) handler for the ajaxupload
         $javascript .= "
         <script type=\"text/javascript\">// <![CDATA[
         $(function(){
@@ -74,7 +74,7 @@ class Uploadajax extends File implements FormelementInterface
             });
             // ]]></script>";
 
-        # c) css style
+        // c) css style
         $html = '<STYLE type="text/css">'.CR.'
                  #upload{
                      margin:30px 200px; padding:15px;
@@ -90,7 +90,7 @@ class Uploadajax extends File implements FormelementInterface
                      }'.CR.
                 '</STYLE>';
 
-        # d) output div elements (Button, Status, Files)
+        // d) output div elements (Button, Status, Files)
         $html .= '<!-- Ajax Upload Button --><div id="upload">Upload File</div>
                   <!-- Ajax Upload Status --><span id="upload_status"></span>
                   <!-- List Files --><ul id="files"></ul>';

@@ -56,14 +56,14 @@ class Compositum implements Logger
     {
         $data = array();
 
-        # first parameter might be an array or an string
+        // first parameter might be an array or an string
         if (is_array($data_or_msg)) {
             $data = $data_or_msg;
             $data['message'] = $data['0'];
             $data['label'] = $data['1'];
             $data['level'] = $data['2'];
         }
-        # first parameter is string
+        // first parameter is string
         else {
             $data['message'] = $data_or_msg;
             $data['label'] = $label;
@@ -82,7 +82,7 @@ class Compositum implements Logger
      */
     public function addLogger($loggers)
     {
-        # loggers might be an object, so it's typecasted to array, because of foreach
+        // loggers might be an object, so it's typecasted to array, because of foreach
         $loggers = array($loggers);
 
         foreach ($loggers as $logger) {

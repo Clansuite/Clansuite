@@ -48,16 +48,16 @@ class Modulesettings_Admin extends Controller
     {
         $success = $error = array();
 
-        # Permission check
+        // Permission check
         #$Clansuite_ACL::checkPermission('modulesettings.action_admin_show');
 
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/modulesettings/admin/show');
 
         $formdata = array();
         $modulename = $this->request->getParameterFromGet('modulename');
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
         $view->assign( 'modulename', $modulename );
 
@@ -68,7 +68,7 @@ class Modulesettings_Admin extends Controller
 
         if( $submitted === true )
         {
-            # get parameter for module data
+            // get parameter for module data
             $configfile = $this->request->getParameter('mod_settings_configfile');
 
             if ( !is_writeable( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' ) )
@@ -85,9 +85,9 @@ class Modulesettings_Admin extends Controller
          else
         --------------------------------------------------------- */
 
-        # --------------------------------------------
-        #  read module config file
-        # --------------------------------------------
+        // --------------------------------------------
+        //  read module config file
+        // --------------------------------------------
         if( file_exists( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' ))
         {
             $configfile = file_get_contents( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' );
@@ -97,9 +97,9 @@ class Modulesettings_Admin extends Controller
         }
         $view->assign( 'mod_settings_configfile', $configfile );
 
-        # --------------------------------------------
-        #  read module info file
-        # --------------------------------------------
+        // --------------------------------------------
+        //  read module info file
+        // --------------------------------------------
         if( file_exists( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' ))
         {
             $infofile = file_get_contents( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' );
@@ -109,14 +109,14 @@ class Modulesettings_Admin extends Controller
         }
         $view->assign( 'mod_settings_infofile', utf8_encode($infofile) );
 
-        # --------------------------------------------
-        #  read routes
-        # --------------------------------------------
+        // --------------------------------------------
+        //  read routes
+        // --------------------------------------------
 
 
-        # --------------------------------------------
-        #  output
-        # --------------------------------------------
+        // --------------------------------------------
+        //  output
+        // --------------------------------------------
         $view->assign('error', $error);
         $view->assign('success', $success);
         $this->display();

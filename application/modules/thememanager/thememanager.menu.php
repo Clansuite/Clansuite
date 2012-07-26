@@ -32,7 +32,7 @@ $modulenavigation = array(
     '1' => array(
         'action' => 'show_frontend',
         'name' => 'Frontend',
-        'url' => '/thememanager/admin', # &action=show_frontend
+        'url' => '/thememanager/admin', // &action=show_frontend
         'icon' => '',
         'title' => ''
     ),

@@ -45,7 +45,7 @@ class Renderer
      *
      * @var string
      */
-    # static
+    // static
     /**
      * The items for results per page
      *
@@ -233,13 +233,13 @@ class Renderer
             $max_page_number = $number_of_pages;
         }
 
-        # init
+        // init
         $pages = $first = $prev = $next = $last = '';
 
-        # pager render modes:
-        # a) [1][2][3][4][5]
-        # b) first [1][2][3][4][5] last
-        # c) first prev [1][2][3][4][5] next last
+        // pager render modes:
+        // a) [1][2][3][4][5]
+        // b) first [1][2][3][4][5] last
+        // c) first prev [1][2][3][4][5] next last
 
         if ($selected_page > 1 and $number_of_pages > 1) {
             $url = self::getURLForPageInRange(self::getFirstPage());
@@ -274,7 +274,7 @@ class Renderer
 
         $html = '';
         $html .= '<ul class="pagination3">';
-        # $html .= self::getPaginationCSSdynamically();
+        // $html .= self::getPaginationCSSdynamically();
         $html .= "$first$prev$pages$next$last";
         $html .= '</ul>';
 
@@ -311,7 +311,7 @@ class Renderer
         for ($p = $min_page_number; $p <= $max_page_number; $p++) {
             if ($p != $selected_page) {
                 $html .= str_replace(array('{$url}', '{$page}'), array($url, $p), $PageInRangeString);
-            } else { # render the current page
+            } else { // render the current page
                 $html .= str_replace('{$page}', $p, $currentPageString);
             }
         }
@@ -357,8 +357,8 @@ class Renderer
 
         $tableContent = '';
         $tableContent .= self::renderTableCaption();
-        $tableContent .= self::renderTableBody('one');   # search + pagination
-        $tableContent .= self::renderTableHeader();      # this isn't a <thead> tag, but <tbody>
+        $tableContent .= self::renderTableBody('one');   // search + pagination
+        $tableContent .= self::renderTableHeader();      // this isn't a <thead> tag, but <tbody>
         $tableContent .= self::renderTableBody('two');
         $tableContent .= self::renderTableBody('three');
         $tableContent .= self::renderTableFooter();
@@ -437,11 +437,11 @@ class Renderer
         $html = '';
 
         if (self::getDatagrid()->isEnabled('Header')) {
-            $html .= '<tbody>' . CR; # @todo OH MY GODDON! <thead> is not working here
+            $html .= '<tbody>' . CR; // @todo OH MY GODDON! <thead> is not working here
             $html .= '<tr>' . CR;
             $html .= self::renderTableRowsHeader();
             $html .= '</tr>' . CR;
-            $html .= '</tbody>' . CR; # @todo OMG^2
+            $html .= '</tbody>' . CR; // @todo OMG^2
         }
 
         return $html;
@@ -482,7 +482,7 @@ class Renderer
 
             $html .= self::renderPager();
 
-            # results per page drop down
+            // results per page drop down
             if ($_ShowResultsPerPage) {
                 $html .= '<div class="ResultsPerPage">';
                 $html .= '<select name="' . self::getDatagrid()->getParameterAlias('ResultsPerPage') . '" onchange="this.form.submit();">';
@@ -492,7 +492,7 @@ class Renderer
                 }
                 $html .= '</select>';
                 $html .= '</div>';
-            } else { # show total number of items in results set
+            } else { // show total number of items in results set
                 $html .= '<div class="ResultsPerPage">';
                 $html .= self::getDatagrid()->getTotalResultsCount() . _(' items');
                 $html .= '</div>';
@@ -593,11 +593,11 @@ class Renderer
         $i = 0;
         foreach ($rows as $rowKey => $row) {
             $i++;
-            # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
+            // @todo consider removing the css alternating code, in favor of css3 tr:nth-child
             $html .= self::renderTableRow($row, !($i % 2));
         }
 
-        # render a "no results" row
+        // render a "no results" row
         if ($html == '') {
             $html .= '<tr class="DatagridRow DatagridRow-NoResults">';
             $html .= '<td class="DatagridCell DatagridCell-NoResults" colspan="' . self::getDatagrid()->getColumnCount() . '">';
@@ -627,7 +627,7 @@ class Renderer
             $_alternateClass = 'Alternate';
         }
 
-        # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
+        // @todo consider removing the css alternating code, in favor of css3 tr:nth-child
         $html = null;
         $html = '<tr class="DatagridRow DatagridRow-' . $row->getAlias() . ' ' . $_alternateClass . '">';
 
@@ -702,7 +702,7 @@ class Renderer
         if (self::getDatagrid()->isEnabled('Footer')) {
             $html = '';
             $html .= '<tfoot>' . CR;
-            # @todo getter for footer html
+            // @todo getter for footer html
             $html .= '</tfoot>' . CR;
 
             return $html;
@@ -749,7 +749,7 @@ class Renderer
      */
     public static function render()
     {
-        # Build htmlcode
+        // Build htmlcode
         $html = '';
 
         $html .= '<link rel="stylesheet" type="text/css" href="' . WWW_ROOT_THEMES_CORE . 'css/pagination.css" />' . CR;

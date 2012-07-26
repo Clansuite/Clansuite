@@ -49,9 +49,9 @@ class File extends Input implements FormelementInterface
     {
         $this->type = 'file';
 
-        # Watch out, that the opening form tag needs the enctype="multipart/form-data"
-        # else you'll get the filename only and not the content of the file.
-        # Correct encoding is automatically set, when using $form->addElement() method.
+        // Watch out, that the opening form tag needs the enctype="multipart/form-data"
+        // else you'll get the filename only and not the content of the file.
+        // Correct encoding is automatically set, when using $form->addElement() method.
     }
 
     /**

@@ -50,10 +50,10 @@ class Widget
     {
         $modulename = mb_strtolower($modulename);
 
-        # apply classname prefix to the modulename
+        // apply classname prefix to the modulename
         $modulename = \Koch\Functions::ensurePrefixedWith($modulename, 'clansuite_module_');
 
-        # build classname from modulename
+        // build classname from modulename
         $classname = \Koch\Functions::toUnderscoredUpperCamelCase($modulename);
 
         /**
@@ -66,25 +66,25 @@ class Widget
         unset($modulename);
         $filename = ROOT_MOD;
 
-        # if there is a part [3], we have to require a submodule filename
+        // if there is a part [3], we have to require a submodule filename
         if (isset($moduleinfos['3'])) {
-            # and if part [3] is "admin", we have to require a admin submodule filename
+            // and if part [3] is "admin", we have to require a admin submodule filename
             if ($moduleinfos['3'] == 'admin') {
-                # admin submodule filename, like news.admin.php
+                // admin submodule filename, like news.admin.php
                 $filename .= $moduleinfos['2'] . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . $moduleinfos['2'] . '.admin.php';
             } else {
-                # normal submodule filename, like menueditor.module.php
+                // normal submodule filename, like menueditor.module.php
                 $filename .= $moduleinfos['3'] . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . $moduleinfos['3'] . '.module.php';
             }
         } else {
-            # module filename
+            // module filename
             $filename .= $moduleinfos['2'] . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . $moduleinfos['2'] . '.module.php';
         }
 
         return class_exists($classname);
         #if(false === class_exists($classname))
         #{
-        #    return \Koch\Autoload\Loader::requireFile($filename, $classname);
+        //    return \Koch\Autoload\Loader::requireFile($filename, $classname);
         #}
     }
 

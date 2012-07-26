@@ -22,7 +22,7 @@ function smarty_function_serverload($params)
 
             if ($nr_cpus > 0) {
                 $loadcpu.= ' | ' . $cpuload . '%';
-            } else { # first one
+            } else { // first one
                 $loadcpu.= $cpuload . '%';
             }
 
@@ -34,15 +34,15 @@ function smarty_function_serverload($params)
         if ($nr_cpus == 1) {
             echo '[ ' . $loadcpu . ' ]';
         } else {
-            # list all processor loads and total load
+            // list all processor loads and total load
             echo '[ ' . $loadcpu . ' ] [ ' . $cpuload . ' ]';
         }
     } else {
-        # check if exists, else define
+        // check if exists, else define
         if ( false === function_exists('sys_getloadavg') ) {
             function sys_getloadavg()
             {
-                # get average server load in the last minute. Keep quiet cause virtual hosts can give perm denied
+                // get average server load in the last minute. Keep quiet cause virtual hosts can give perm denied
                 if (is_readable('/proc/loadavg') and $load = file('/proc/loadavg')) {
                     $serverload = array();
                     list($serverload) = explode(' ', $load[0]);
@@ -52,7 +52,7 @@ function smarty_function_serverload($params)
             }
         }
 
-        # get
+        // get
         $cpuload = sys_getloadavg();
         if (empty($cpuload)) {
             $cpuload = array(0, 0, 0);

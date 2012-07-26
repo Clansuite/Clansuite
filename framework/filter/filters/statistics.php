@@ -54,7 +54,7 @@ class Statistics implements FilterInterface
         $this->curDate = date('d.m.Y', $this->curTimestamp);
         $this->user = $user;
 
-        # Load Models
+        // Load Models
         Doctrine::loadModels( ROOT_MOD . 'statistics/model/records/generated/' );
         Doctrine::loadModels( ROOT_MOD . 'statistics/model/records/' );
 
@@ -65,14 +65,14 @@ class Statistics implements FilterInterface
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        # take the initiative or pass through (do nothing)
+        // take the initiative or pass through (do nothing)
         if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1) {
             return;
         }
 
-        # @todo aquire pieces of informtion from current visitor
-        # Determine the client's browser and system information based on
-        # $_SERVER['HTTP_USER_AGENT']
+        // @todo aquire pieces of informtion from current visitor
+        // Determine the client's browser and system information based on
+        // $_SERVER['HTTP_USER_AGENT']
 
         /**
             * The Who logics, must be processed in a seperate filter
@@ -123,7 +123,7 @@ class Statistics implements FilterInterface
      */
     private function updateStatistics($visitorIp)
     {
-        # if there is no entry for this ip, increment hits
+        // if there is no entry for this ip, increment hits
         if (false == Doctrine::getTable('CsStatistic')->existsIpEntryWithIp($visitorIp)) {
             Doctrine::getTable('CsStatistic')->incrementHitsByOne();
             $this->updateStatisticStats();

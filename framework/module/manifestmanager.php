@@ -112,11 +112,11 @@ class ManifestManager
      */
     public static function isACoreModule($modulename)
     {
-        # hardcoded map with core modules
+        // hardcoded map with core modules
         static $core_modules = array( 'account', 'categories', 'controlcenter', 'doctrine', 'menu', 'modulemanager',
                                       'users', 'settings', 'systeminfo', 'thememanager', 'templatemanager');
 
-        # @todo extract from module info file if core module or not
+        // @todo extract from module info file if core module or not
 
         return in_array($modulename, $core_modules);
     }
@@ -151,7 +151,7 @@ class ManifestManager
         $module_dirs = self::getModuleDirectories();
 
         foreach ($module_dirs as $module_path) {
-            # strip path off
+            // strip path off
             $modulename = str_replace( ROOT_MOD, '', $module_path);
 
             if ($only_modulenames === true) {
@@ -200,12 +200,12 @@ class ManifestManager
      */
     public static function isModuleActive($module)
     {
-        # load module registry, if not available yet
+        // load module registry, if not available yet
         if (empty(self::$modulesregistry[$module])) {
             self::$modulesregistry = self::readModuleRegistry();
         }
 
-        # check, if the module is
+        // check, if the module is
         if (isset(self::$modulesregistry[$module]['active']) and self::$modulesregistry[$module]['active'] == true) {
             return true;
         } else {
@@ -223,12 +223,12 @@ class ManifestManager
     {
         $modulename = strtolower($module);
 
-        # check if the infos of this specific module were catched before
+        // check if the infos of this specific module were catched before
         if (isset(self::$modulesinfo[$modulename])) {
             return self::$modulesinfo[$modulename];
         }
 
-        # fetch infos for the requested $module
+        // fetch infos for the requested $module
 
         return self::loadModuleInformations($module);
     }
@@ -236,7 +236,7 @@ class ManifestManager
     public static function buildModuleRegistry()
     {
         foreach ($module_directories as $module_path) {
-            # strip off path info and get the modulename
+            // strip off path info and get the modulename
             $modulename = str_replace( ROOT_MOD, '', $module_path);
         }
 
@@ -252,7 +252,7 @@ class ManifestManager
      */
     public static function loadModuleInformations($module = null)
     {
-        # Init vars
+        // Init vars
         $module_directories = array();
         $number_of_modules = 0;
 
@@ -263,7 +263,7 @@ class ManifestManager
         if ($module === null) {
             $module_directories = self::getModuleDirectories();
         } else {
-            # cast string to array
+            // cast string to array
             $module_directories[] = ROOT_MOD . $module;
         }
 
@@ -272,7 +272,7 @@ class ManifestManager
              * create array with pieces of information about a module
              */
 
-            # 1) get the modulename, by stripping off the path info
+            // 1) get the modulename, by stripping off the path info
             $modulename = str_replace( ROOT_MOD, '', $modulepath);
 
             self::$modulesinfo[$modulename]['name']   = $modulename;
@@ -280,37 +280,37 @@ class ManifestManager
             self::$modulesinfo[$modulename]['path']   = $modulepath;
             self::$modulesinfo[$modulename]['core']   = self::isACoreModule($modulename);
 
-            # active - based on /configuration/modules.config.php
+            // active - based on /configuration/modules.config.php
             self::$modulesinfo[$modulename]['active'] = self::isModuleActive($modulename);
 
-            # hasMenu / ModuleNavigation
+            // hasMenu / ModuleNavigation
             self::$modulesinfo[$modulename]['menu']   = is_file($modulepath . DIRECTORY_SEPARATOR . $modulename .'.menu.php');
 
-            # hasInfo
+            // hasInfo
             $module_infofile = $modulepath . DIRECTORY_SEPARATOR . $modulename . '.info.php';
             $config_object = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
             if (is_file($module_infofile) === true) {
                 #Koch_Debug::firebug($module_infofile);
 
                 self::$modulesinfo[$modulename]['info'] = $config_object->readConfig($module_infofile);
-            } else { # create file in DEV MODE
-                # if the info file for a module does not exists yet, create it
+            } else { // create file in DEV MODE
+                // if the info file for a module does not exists yet, create it
                 $config_object->writeConfig($module_infofile);
             }
 
-            # hasRoutes
+            // hasRoutes
 
-            # hasConfig
+            // hasConfig
             $config = self::readModuleConfig($modulename);
             if (isset($config[$modulename])) {
                 self::$modulesinfo[$modulename]['config'] = $config[$modulename];
 
-                # properties
+                // properties
                 if ( isset($config['properties'])) {
                     self::$modulesinfo[$modulename]['settings'] = $config['properties'];
                 }
 
-                # acl
+                // acl
                 if ( isset($config['properties_acl'])) {
                     self::$modulesinfo[$modulename]['acl'] = $config['properties_acl'];
                 }
@@ -319,10 +319,10 @@ class ManifestManager
                 $modules[$modulename]['config'] = $config;
             }*/
 
-            # hasLanguages
+            // hasLanguages
             self::$modulesinfo[$modulename]['languages'] = self::getLanguageInfosForModule($modulepath);
 
-            # take some stats: increase the module counter
+            // take some stats: increase the module counter
             self::$modulesinfo['yy_summary']['counter'] = ++$number_of_modules;
         }
 
@@ -337,35 +337,35 @@ class ManifestManager
     {
         $langinfo = array();
 
-        # we are looking at the languages folder for the given module path
+        // we are looking at the languages folder for the given module path
         $module_lang_dir = $modulepath . DIRECTORY_SEPARATOR . 'languages';
 
-        # return early, if languages directory does not exist
+        // return early, if languages directory does not exist
         if (false === is_dir($module_lang_dir)) {
             return 'No language dir.';
         }
 
-        # lets recurse this directory
+        // lets recurse this directory
         $iterator = new \RecursiveIteratorIterator(
                         new \RecursiveDirectoryIterator($module_lang_dir),
                             \RecursiveIteratorIterator::LEAVES_ONLY);
 
-        # some leaves found (dirs and files)
+        // some leaves found (dirs and files)
         foreach ($iterator as $file) {
-            # proceed with iteration instantly, if file is not a gettext file
+            // proceed with iteration instantly, if file is not a gettext file
             if (0 === preg_match('/.(mo|po)$/', $file->getFileName())) {
                  continue;
             }
 
-            # fetch locale from path (en_UK, de_DE)
+            // fetch locale from path (en_UK, de_DE)
             if (1 === preg_match('/[a-z]{2}_[A-Z]{2}/', $file->getPathName(), $match)) {
                 $locale = $match[0];
             }
 
-            # fetch file extension (mo|po)
+            // fetch file extension (mo|po)
             if (version_compare(PHP_VERSION, '5.3.6') >= 0) {
                 $extension = $file->getExtension();
-            } else { # php lower then 5.3.6
+            } else { // php lower then 5.3.6
                 $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
             }
 
@@ -387,21 +387,21 @@ class ManifestManager
          * Add some more pieces of information about the locale
          */
 
-         # if the language definitions are not already loaded, load them
+         // if the language definitions are not already loaded, load them
         if (empty(self::$l10n_sys_locales)) {
-            # fetch arrays containing locale data
+            // fetch arrays containing locale data
             require ROOT_CORE . 'gettext/locales.gettext.php';
             self::$l10n_sys_locales = $l10n_sys_locales;
         }
 
         foreach ($langinfo as $locale => $filedata) {
-            # get more data about that locale from the locales array
+            // get more data about that locale from the locales array
             if (isset(self::$l10n_sys_locales[$locale]) == true) {
                 $langinfo[$locale]['country_www']   = self::$l10n_sys_locales[$locale]['country-www'];
                 $langinfo[$locale]['lang_native']   = self::$l10n_sys_locales[$locale]['lang-native'];
                 $langinfo[$locale]['lang_www']      = self::$l10n_sys_locales[$locale]['lang-www'];
                 $langinfo[$locale]['lang']          = self::$l10n_sys_locales[$locale]['lang'];
-            } else { # locale not in locales array
+            } else { // locale not in locales array
                 $langinfo[$locale]['country_www']   = 'unknown';
                 $langinfo[$locale]['lang_native']   = '<em>locale: </em>' . $locale;
                 $langinfo[$locale]['lang_www']  = '';

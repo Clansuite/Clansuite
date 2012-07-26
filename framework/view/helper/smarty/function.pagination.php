@@ -25,21 +25,21 @@
  */
 function smarty_function_pagination($params, $smarty)
 {
-    # check if a alphabet pagination is requested
+    // check if a alphabet pagination is requested
     if ( isset($params['type']) and $params['type'] == 'alphabet' ) {
-        # check if file exists
+        // check if file exists
         if ( $smarty->templateExists('pagination-alphabet.tpl') == false ) {
             echo 'Pagination Template for alphabet not found.';
-        } else { # load the generic pagination template
+        } else { // load the generic pagination template
 
             return $smarty->fetch('pagination-alphabet.tpl');
         }
     }
 
-    # check if file exists
+    // check if file exists
     if ( $smarty->templateExists('pagination-generic.tpl') == false ) {
         echo 'Pagination Template not found.';
-    } else { # load the generic pagination template
+    } else { // load the generic pagination template
 
         return $smarty->fetch('pagination-generic.tpl');
     }

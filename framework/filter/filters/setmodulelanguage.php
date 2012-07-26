@@ -48,7 +48,7 @@ class SetModuleLanguage implements FilterInterface
 
     public function __construct(Localization $locale)
     {
-        # set instance of localization to class
+        // set instance of localization to class
         $this->locale = $locale;
     }
 

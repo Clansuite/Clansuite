@@ -43,8 +43,8 @@ class Systeminfo_Admin extends Controller
 
     public function action_admin_list()
     {
-        # Set Pagetitle and Breadcrumbs - not needed
-        # Clansuite_Breadcrumb::add( _('Show'), '/sysinfo/show');
+        // Set Pagetitle and Breadcrumbs - not needed
+        // Clansuite_Breadcrumb::add( _('Show'), '/sysinfo/show');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -64,10 +64,10 @@ class Systeminfo_Admin extends Controller
      */
     private function assembleSystemInfos()
     {
-        # get system informations and server variables
+        // get system informations and server variables
         $sysinfos = array();
 
-        # WEBSERVER
+        // WEBSERVER
         if ( is_callable('apache_get_version') )
         {
             $sysinfos['apache_get_version'] = apache_get_version();
@@ -75,16 +75,16 @@ class Systeminfo_Admin extends Controller
             asort($sysinfos['apache_modules']);
         }
 
-        # fetch server's IP address and it's name
+        // fetch server's IP address and it's name
         $sysinfos['server_ip']   = gethostbyname($_SERVER['SERVER_NAME']);
         $sysinfos['server_name'] = gethostbyaddr($sysinfos['server_ip']);
 
-        # PHP
-        # Get Interface Webserver<->PHP (Server-API)
+        // PHP
+        // Get Interface Webserver<->PHP (Server-API)
         $sysinfos['php_sapi_name']      = php_sapi_name();
 
-        # Is the SERVER-API an CGI (until PHP 5.3) or CGI_FCGI?
-        if ( substr($sysinfos['php_sapi_name'], 0, 3) == 'cgi') # this will take care of 'cgi' and 'cgi-fcgi'
+        // Is the SERVER-API an CGI (until PHP 5.3) or CGI_FCGI?
+        if ( substr($sysinfos['php_sapi_name'], 0, 3) == 'cgi') // this will take care of 'cgi' and 'cgi-fcgi'
 
         {
             $sysinfos['php_sapi_cgi'] = true;
@@ -93,7 +93,7 @@ class Systeminfo_Admin extends Controller
         $sysinfos['php_uname']                    = php_uname();
         $sysinfos['php_os']                       = PHP_OS;
         $sysinfos['php_os_bit']                   = (PHP_INT_SIZE * 8).'Bit';
-        $sysinfos['php_sapi']                     = PHP_SAPI; # @todo check out, if this is the same as php_sapi_name?
+        $sysinfos['php_sapi']                     = PHP_SAPI; // @todo check out, if this is the same as php_sapi_name?
         $sysinfos['phpversion']                   = phpversion();
         $sysinfos['php_extensions']               = get_loaded_extensions();
         asort($sysinfos['php_extensions']);
@@ -131,16 +131,16 @@ class Systeminfo_Admin extends Controller
     {
         $sysinfos = array();
 
-        # get PDO Object from Doctrine
+        // get PDO Object from Doctrine
         $pdo = $this->doctrine_em->getConnection()->getWrappedConnection();
         #Clansuite_Debug::printR($pdo);
-        # fetch PDO::getAttributes and store them in
+        // fetch PDO::getAttributes and store them in
         $sysinfos['pdo']['driver_name']        = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
         $sysinfos['pdo']['server_version']     = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
         $sysinfos['pdo']['client_info']        = $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION);
-        # Driver does not support this function: driver does not support that attribute
-        # $sysinfos['pdo']['timeout']          = $pdo->getAttribute(PDO::ATTR_TIMEOUT);
-        # $sysinfos['pdo']['prefetch']         = $pdo->getAttribute(PDO::ATTR_PREFETCH);
+        // Driver does not support this function: driver does not support that attribute
+        // $sysinfos['pdo']['timeout']          = $pdo->getAttribute(PDO::ATTR_TIMEOUT);
+        // $sysinfos['pdo']['prefetch']         = $pdo->getAttribute(PDO::ATTR_PREFETCH);
         $sysinfos['pdo']['oracle_nulls']       = $pdo->getAttribute(PDO::ATTR_ORACLE_NULLS);
         $sysinfos['pdo']['connection_status']  = $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
         $sysinfos['pdo']['persistent']         = (int) $pdo->getAttribute(PDO::ATTR_PERSISTENT);
@@ -168,14 +168,14 @@ class Systeminfo_Admin extends Controller
          * (1) get DATA for Visualization
          */
 
-        # get apc cache
+        // get apc cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc');
         $apc_stats = $cache_apc->stats();
 
-        # debug display of the stats data
-        # var_dump($apc_stats);
+        // debug display of the stats data
+        // var_dump($apc_stats);
 
-        # setup the data array
+        // setup the data array
         $data = array();
         $data[] = $apc_stats['cache_info']['num_hits'];
         $data[] = $apc_stats['cache_info']['num_misses'];
@@ -189,10 +189,10 @@ class Systeminfo_Admin extends Controller
         /**
          * (3) draw the ofc chart
          */
-        # title
+        // title
         $g->title( 'APC Hitrate', '{font-size:18px; color: #d01f3c}' );
 
-        # ok, now draw one piece of the pie :)
+        // ok, now draw one piece of the pie :)
         $g->pie(60,'#505050','{font-size: 11px; color: #404040;');
 
         /**
@@ -202,10 +202,10 @@ class Systeminfo_Admin extends Controller
          */
         $g->pie_values( $data, array('Hits','Misses') );
 
-        # colours for each slice (hits = green, misses = red)
+        // colours for each slice (hits = green, misses = red)
         $g->pie_slice_colours( array('#acb132','#d01f3c') );
 
-        # mouseover tooltip displayes the values
+        // mouseover tooltip displayes the values
         $g->set_tool_tip( '#val#' );
 
         /**
@@ -214,8 +214,8 @@ class Systeminfo_Admin extends Controller
 
         echo $g->render();
 
-        # eject here unnicely, because of headers exist error
-        # @todo debug and find out, where after $g->render any output is done
+        // eject here unnicely, because of headers exist error
+        // @todo debug and find out, where after $g->render any output is done
         exit();
     }
 
@@ -224,16 +224,16 @@ class Systeminfo_Admin extends Controller
      */
     public function action_admin_show_apc()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Alternative PHP Cache'), '/sysinfo/showapc');
 
-        # Get APC Cache
+        // Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc');
 
-        # Assign Data to the View
+        // Assign Data to the View
         $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
 
-        # Set Layout Template
+        // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
         $this->display();
@@ -241,16 +241,16 @@ class Systeminfo_Admin extends Controller
 
     public function action_admin_show_logfiles()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/sysinfo/showapc');
 
-        # Get APC Cache
+        // Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc');
 
-        # Assign Data to the View
+        // Assign Data to the View
         $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
 
-        # Set Layout Template
+        // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
         $this->display();

@@ -89,7 +89,7 @@ class JQSelectImage extends Select implements FormelementInterface
     {
         $files = $this->getFiles();
 
-        # set "images" hardcoded to identify the select options and append the Name
+        // set "images" hardcoded to identify the select options and append the Name
         parent::setID('images_'.$this->getNameWithoutBrackets());
 
         if (empty($files)) {
@@ -97,9 +97,9 @@ class JQSelectImage extends Select implements FormelementInterface
         } else {
             $this->setOptions($files);
 
-            # @todo first image is not displayed... display it.
+            // @todo first image is not displayed... display it.
 
-            # Watch out, that the div images/preview is present in the dom, before you assign js function to it via $('#image')
+            // Watch out, that the div images/preview is present in the dom, before you assign js function to it via $('#image')
             $javascript = '<script type="text/javascript">
                            $(document).ready(function() {
                               $("#images_'.$this->getNameWithoutBrackets().'").change(function() {

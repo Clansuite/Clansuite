@@ -47,16 +47,16 @@ class Json
             throw new Koch_Exception( _('JSON Config File not existing or not readable.') );
         }
 
-        # read file
+        // read file
         $json_content = file_get_contents($filename);
 
-        # transform JSON to PHP Array
+        // transform JSON to PHP Array
         $json = json_decode($json_content, true);
 
-        # fetch any error
+        // fetch any error
         $json_error_type = json_last_error();
 
-        # handle the error
+        // handle the error
         if (($json === null) or ($json_error_type != JSON_ERROR_NONE)) {
             $json_error_message = self::getJsonErrorMessage($json_error_type);
 
@@ -65,7 +65,7 @@ class Json
             throw new Koch_Exception( sprintf($msg, $filename, $json_error_message) );
         }
 
-        # return json as PHP array
+        // return json as PHP array
 
         return $json;
     }
@@ -78,10 +78,10 @@ class Json
      */
     public function writeConfig($file, array $array)
     {
-        # transform array to json object notation
+        // transform array to json object notation
         $json_content = json_encode($array);
 
-        # write to json to file
+        // write to json to file
         file_put_contents($file, $json_content);
     }
 

@@ -65,8 +65,8 @@ class JQSelectDate extends Koch_Formelement implements Koch_Formelement_Interfac
      *
      * @var string
      */
-     # <script type="text/javascript" src="http://jqueryui.com/latest/jquery-1.3.2.js"></script>
-     # <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.core.js"></script>
+     // <script type="text/javascript" src="http://jqueryui.com/latest/jquery-1.3.2.js"></script>
+     // <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.core.js"></script>
     private $javascript_libraries =  '<link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
                                       <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.datepicker.js"></script>';
 
@@ -127,7 +127,7 @@ class JQSelectDate extends Koch_Formelement implements Koch_Formelement_Interfac
      */
     public function asIcon()
     {
-        # define relevat attributes to display the datepicker as an icon
+        // define relevat attributes to display the datepicker as an icon
         $datepicker_attributes = array(
                                        'firstDay' => '1',
                                        'format' => 'yy-mm-dd',
@@ -137,10 +137,10 @@ class JQSelectDate extends Koch_Formelement implements Koch_Formelement_Interfac
                                        'constrainInput' => 'false',
                                       );
 
-        # set the relevant attributes
+        // set the relevant attributes
         $this->setAttributes($datepicker_attributes);
 
-        # datepicker icon trigger needs a input element, so we replace the original (div) string
+        // datepicker icon trigger needs a input element, so we replace the original (div) string
         $this->html = '<input type="text" id="datepicker">';
 
         return $this;
@@ -153,7 +153,7 @@ class JQSelectDate extends Koch_Formelement implements Koch_Formelement_Interfac
     {
         $html = '';
         $html .= $this->html;
-        # Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
+        // Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
         $html .= $this->getJavascript();
 
         return $html;

@@ -42,7 +42,7 @@ class Guestbook_Admin extends Controller
 
     public function action_admin_show()
     {
-        # Incoming Variables
+        // Incoming Variables
         $currentPage    = (int) $this->request->getParameter('page');
         $resultsPerPage = (int) self::getConfigValue('resultsPerPage', '10');
 
@@ -57,27 +57,27 @@ class Guestbook_Admin extends Controller
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
-        # fetch entries
+        // fetch entries
         $guestbookQuery = Doctrine::getTable('CsGuestbook')->fetchAllGuestbookEntries($currentPage, $resultsPerPage, true, $sortorder);
 
-        # import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
+        // import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
         extract($guestbookQuery);
         unset($guestbookQuery);
 
-        # fetch the BBCode formatter object
+        // fetch the BBCode formatter object
         $bbcode = new Clansuite_Bbcode($this->getInjector());
 
-        # Transform RAW text from DB to BB-formatted Text
+        // Transform RAW text from DB to BB-formatted Text
         foreach( $guestbook_entries as $key => $value )
         {
             $guestbook_entries[$key]['gb_text']     = $bbcode->parse($value['gb_text']);
             $guestbook_entries[$key]['gb_comment']  = $bbcode->parse($value['gb_comment']);
         }
 
-        # get Number of Rows
+        // get Number of Rows
         $count = count($guestbook_entries);
 
-        # Get view and assign placeholders
+        // Get view and assign placeholders
         $view = $this->getView();
         $view->assign('guestbook_counter', $count);
         $view->assign('guestbook', $guestbook_entries);
@@ -89,7 +89,7 @@ class Guestbook_Admin extends Controller
 
     public function action_admin_testformgenerator()
     {
-        # Create a new form
+        // Create a new form
         $form = new Clansuite_Form('news_create_form', 'POST', 'upload-file.php');
         $form->setId('news_create_form')
              ->setTarget('hidden_upload')
@@ -97,7 +97,7 @@ class Guestbook_Admin extends Controller
              ->setEncoding('multipart/form-data')
              ->setDescription('My news create form...');
 
-        # Assign some Formlements
+        // Assign some Formlements
         /*$form->addElement('captcha')->setLabel('captcha label');
 
         $form->addElement('checkbox')->setLabel('checkbox label');
@@ -105,8 +105,8 @@ class Guestbook_Admin extends Controller
         $form->addElement('confirmsubmitbutton')->setLabel('confirmsubmitbutton label');
         */
 
-        # you can specify several uploadTypes: uploadify, apc, ajaxupload
-        # or no uploadType at all (for default upload)
+        // you can specify several uploadTypes: uploadify, apc, ajaxupload
+        // or no uploadType at all (for default upload)
         #$form->addElement('file')->setUploadType('uploadify')->setLabel('file upload label');
 /*
         #form->addElement('jqconfirmsubmitbutton')->setFormId('news_create_form')->setLabel('jqconfirmsubmitbutton label');
@@ -135,15 +135,15 @@ class Guestbook_Admin extends Controller
         #$form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
         #$form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
 /*
-        $form->addElement('imagebutton')->setValue('Reset')->setLabel('Image Button'); # setSource
+        $form->addElement('imagebutton')->setValue('Reset')->setLabel('Image Button'); // setSource
 */
-        # Debugging Form Object
+        // Debugging Form Object
         #Clansuite_Debug::printR($form);
 
-        # Debugging Form HTML Output
+        // Debugging Form HTML Output
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -154,13 +154,13 @@ class Guestbook_Admin extends Controller
         $gb_id      = $this->request->getParameterFromGet('gb_id');
         $comment    = $this->request->getParameterFromPost('value');
 
-        # Add/Modify comment
+        // Add/Modify comment
         Doctrine_Query::create()
                       ->update('CsComments')
                       ->set('gb_comment', $comment)
                       ->whereIn('gb_id = ?', $gb_id);
 
-        # Transform RAW text to BB-formatted Text
+        // Transform RAW text to BB-formatted Text
         Clansuite_Loader::loadLibrary('bbcode');
         $bbcode = new bbcode();
         $parsed_comment = $bbcode->parse($comment);
@@ -230,7 +230,7 @@ class Guestbook_Admin extends Controller
 
             $this->getView()->assign('infos', $result);
             $this->getView()->assign('front', $front);
-            # $tpl->fetch('guestbook/admin_edit.tpl');
+            // $tpl->fetch('guestbook/admin_edit.tpl');
         }
         else
         {
@@ -266,7 +266,7 @@ class Guestbook_Admin extends Controller
             $infos['gb_added'] = time();
             $infos['user_id'] = $_SESSION['user']['user_id'];
 
-            # Get an image, if existing
+            // Get an image, if existing
             if( $infos['user_id'] != 0 )
             {
                 $result = Doctrine_Query::create()
@@ -339,7 +339,7 @@ class Guestbook_Admin extends Controller
      */
     public function action_admin_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/guestbook/admin/settings');
 
         $settings = array();
@@ -357,16 +357,16 @@ class Guestbook_Admin extends Controller
 
         $form = new Clansuite_Form($settings);
 
-        # display formgenerator object
+        // display formgenerator object
         #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
-        # display form html
+        // display form html
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -374,17 +374,17 @@ class Guestbook_Admin extends Controller
 
     public function action_admin_settings_update()
     {
-        # Incomming Data
-        # @todo get post via request object, sanitize
+        // Incomming Data
+        // @todo get post via request object, sanitize
         $data = $this->request->getParameter('guestbook_settings');
 
-        # Get Configuration from Injector and write Config
+        // Get Configuration from Injector and write Config
         $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache('/guestbook/admin', 2, 302, _('The config file has been successfully updated.'));
     }
 }

@@ -15,7 +15,7 @@
 
 $browser = array(
 
-    # Firefox
+    // Firefox
     'Firefox' =>
         array (
             'search' =>
@@ -28,7 +28,7 @@ $browser = array(
             'eparam' => 'rv:',
         ),
 
-    # Safari
+    // Safari
     'Safari' =>
         array (
             'search' =>
@@ -41,7 +41,7 @@ $browser = array(
             'eparam' => 'applewebkit/',
         ),
 
-    # Google Chrome
+    // Google Chrome
     'Google Chrome' =>
         array (
             'search' =>
@@ -54,7 +54,7 @@ $browser = array(
             'eparam' => 'applewebkit/',
         ),
 
-    # Opera
+    // Opera
     'Opera' =>
         array (
             'search' =>
@@ -68,7 +68,7 @@ $browser = array(
             'eparam' => 'presto/',
         ),
 
-    # Internet Explorer
+    // Internet Explorer
     'Internet Explorer' =>
         array (
             'search' =>
@@ -82,7 +82,7 @@ $browser = array(
             'eparam' => 'trident/',
         ),
 
-    # Konqueror
+    // Konqueror
     'Konqueror' =>
         array (
             'search' =>

@@ -145,7 +145,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         $this->queryport  = $queryport;
         $this->vserver_id = $virtualserver_id;
 
-        # open remote connection to the server
+        // open remote connection to the server
         $this->socket = @fsockopen($this->server_ip, (int) $this->queryport, $errno, $errstr, 5);
 
         if($this->socket === false)
@@ -154,7 +154,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         }
         else
         {
-            # check if the socket response qualifies the server as a TS3 instance
+            // check if the socket response qualifies the server as a TS3 instance
             if( (string) fgets($this->socket, 4) == 'TS3')
             {
                 $this->setConnectionActive();
@@ -360,12 +360,12 @@ class Clansuite_Teamspeak3_ServerQueryInterface
     {
         if($this->hasActiveConnection())
         {
-            # write command to server
+            // write command to server
             fputs($this->socket, $command."\n");
 
             $data = null;
 
-            # read server response till a message string "msg=" was found
+            // read server response till a message string "msg=" was found
             do
             {
                 $data .= fgets($this->socket);
@@ -374,7 +374,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
 
             #Clansuite_Debug::printR($data);
 
-            # now check if the server response data contains an error
+            // now check if the server response data contains an error
             if(strpos($data, 'error id=0') === false)
             {
                 trigger_error('ServerQueryCommand Error: '.$this->replaceText($data));
@@ -397,34 +397,34 @@ class Clansuite_Teamspeak3_ServerQueryInterface
      */
     public function toArray($responseData)
     {
-        # prefilter the response string
+        // prefilter the response string
         $responseData = $this->stripText($responseData);
 
-        # init the array to be returned later
+        // init the array to be returned later
         $data = array();
 
-        # build chunks array by exploding at whitespaces
+        // build chunks array by exploding at whitespaces
         $chunks = explode(' ', $responseData);
 
-        # count the elements of the array
+        // count the elements of the array
         $array_counter = count($chunks);
 
         do
         {
-            # get last element of array stack
-            # this reduces the array with each iteration of the while command
+            // get last element of array stack
+            // this reduces the array with each iteration of the while command
             $chunk_element = array_pop($chunks);
 
-            # and because of array_pop, it's now one element less
+            // and because of array_pop, it's now one element less
             $array_counter--;
 
-            # at least we know the key is always a string "command_name="
-            # so we are able to explode after the first occurence of an equal character
-            # which makes the rest of the string the value
+            // at least we know the key is always a string "command_name="
+            // so we are able to explode after the first occurence of an equal character
+            // which makes the rest of the string the value
             $keyValuePair = explode('=', $chunk_element, 2);
 
-            # assign the key/value pair as element of the data array
-            # and clean the value from odd characters
+            // assign the key/value pair as element of the data array
+            // and clean the value from odd characters
             if(isset($keyValuePair[1]))
             {
                 $data[$keyValuePair[0]] = $this->replaceText($keyValuePair[1]);
@@ -436,7 +436,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         }
         while($array_counter > 0);
 
-        # cleanup, remove the original chunks array (which is now empty)
+        // cleanup, remove the original chunks array (which is now empty)
         unset($chunks);
 
         return $data;
@@ -526,12 +526,12 @@ class Clansuite_Teamspeak3_ServerQueryInterface
      */
     public function replaceText($text)
     {
-        # b) replace some special chars
+        // b) replace some special chars
         $chars        = array('\s','\p','\/');
         $replacements = array( ' ', '|', '/');
         $text = str_replace($chars, $replacements, $text);
 
-        # c) remove some chars
+        // c) remove some chars
         $text = str_replace(array("\t", "\v", "\r", "\n", "\f"), '', $text);
 
         return $text;
@@ -547,13 +547,13 @@ class Clansuite_Teamspeak3_ServerQueryInterface
      */
     public function stripText($text)
     {
-        # a) remove the "success message"
+        // a) remove the "success message"
         $text = str_replace('error id=0 msg=ok', ' ', $text);
 
-        # b) remove "white"spaces
+        // b) remove "white"spaces
         $text = trim($text);
 
-        # c) replace pipes with spaces
+        // c) replace pipes with spaces
         $text = str_replace('|', ' ', $text);
 
         return $text;
@@ -573,20 +573,20 @@ class Clansuite_Teamspeak3_ServerQueryInterface
      */
     public function __call($method, $arguments)
     {
-        # Because value of $name is case sensitive, its forced to be lowercase.
+        // Because value of $name is case sensitive, its forced to be lowercase.
         $method = strtolower($method);
 
-        # debug message for Method Overloading
-        # makes it easier to see which method is called magically
+        // debug message for Method Overloading
+        // makes it easier to see which method is called magically
         #echo 'DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n";
 
-        # construct the filename of the command
+        // construct the filename of the command
         $command_filename = __DIR__.DIRECTORY_SEPARATOR.'commands'.DIRECTORY_SEPARATOR.$method.'.php';
 
-        # check if name is valid
+        // check if name is valid
         if(is_file($command_filename) and is_readable($command_filename))
         {
-            # dynamically include the command
+            // dynamically include the command
             include_once $command_filename;
             $classname = 'Teamspeak3_ServerQueryCommand_'.$method;
             $object = new $classname($this->server_ip, $this->queryport, $this->vserver_id);

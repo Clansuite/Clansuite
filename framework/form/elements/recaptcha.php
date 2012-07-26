@@ -58,7 +58,7 @@ class ReCaptcha extends Captcha implements FormelementInterface
     {
         $this->request = Clansuite_CMS::getInjector()->instantiate('Koch_HttpRequest');
 
-        # Load Recaptcha Library
+        // Load Recaptcha Library
         include_once ROOT_LIBRARIES . 'recaptcha/recaptchalib.php';
 
         /**

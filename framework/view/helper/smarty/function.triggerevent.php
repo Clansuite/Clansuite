@@ -19,18 +19,18 @@
  */
 function smarty_function_triggerevent($params, $smarty)
 {
-    # we need an valid eventname to trigger it
+    // we need an valid eventname to trigger it
     if (empty($params['name'])) {
         trigger_error("name: Please add an event name.");
 
         return;
     }
 
-    # @todo consider passing smarty or more template infos as context to the event
+    // @todo consider passing smarty or more template infos as context to the event
     $context = array();
     $context['params'] = $params;
 
-    # pass the modulename as info
+    // pass the modulename as info
     $info = array();
     $info['modulename'] = Koch_Module_Controller_Resolver::getModuleName();
 

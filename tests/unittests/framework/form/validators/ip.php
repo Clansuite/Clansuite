@@ -12,7 +12,7 @@ class Koch_Form_Validators_Ip_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new \Koch\Form\Validators\Ip;
     }
 
@@ -32,23 +32,23 @@ class Koch_Form_Validators_Ip_Test extends Clansuite_UnitTestCase
          * validate() on the parent class, which then calls processValidationLogic()
          */
 
-        # ipv4 - num
+        // ipv4 - num
         $this->assertTrue($this->validator->validate('127.0.0.1'));
 
-        # ipv4 - num false
+        // ipv4 - num false
         $this->assertFalse($this->validator->validate('127.0.0.1.127'));
 
         $ipv6 = '2001:0db8:85a3:08d3:1319:8a2e:0370:7344';
         $this->assertTrue($this->validator->validate($ipv6));
 
-        # IDNA URL based on intl extension
+        // IDNA URL based on intl extension
         if(function_exists('idn_to_ascii'))
         {
             $this->assertEqual(idn_to_ascii('url-ästhetik.de'),
                         $this->validator->validate('url-ästhetik.de'));
         }
 
-        # does not accept URLs
+        // does not accept URLs
         $this->assertFalse($this->validator->validate('clansuite.com'));
     }
 

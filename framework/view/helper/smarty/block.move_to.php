@@ -59,11 +59,11 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
      * define possible moveto positions
      * The x marks the position, the content will be moved to.
      */
-    $valid_movement_positions = array('PRE_HEAD_CLOSE',  #  x</head>
-                                      'POST_BODY_OPEN',  #  <body>x
-                                      'PRE_BODY_CLOSE'); #  x</body>
+    $valid_movement_positions = array('PRE_HEAD_CLOSE',  //  x</head>
+                                      'POST_BODY_OPEN',  //  <body>x
+                                      'PRE_BODY_CLOSE'); //  x</body>
 
-    # whitelist: check if tag is a valid movement position
+    // whitelist: check if tag is a valid movement position
     if ( !in_array($target, $valid_movement_positions) ) {
         trigger_error("Parameter 'target' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
 

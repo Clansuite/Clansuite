@@ -56,17 +56,17 @@ function smarty_function_array($params, $smarty)
         return;
     }
 
-    # set up temporary array
+    // set up temporary array
     $temporary_array = array();
-    # explode values at delimiter into the array
+    // explode values at delimiter into the array
     $temporary_array = explode($params['delimiter'], $params['values']);
 
-    # ok, check the assigned template vars and see if a variable name exists and if it's an array
+    // ok, check the assigned template vars and see if a variable name exists and if it's an array
     if (is_array($smarty->getTemplateVars($params['name']))) {
-        # if yes, we append our array to the existing one
+        // if yes, we append our array to the existing one
         $smarty->append($params['name'], $temporary_array, true);
     } else {
-        # we assign the array with the given name
+        // we assign the array with the given name
         $smarty->assign($params['name'], $temporary_array);
     }
 }

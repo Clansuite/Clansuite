@@ -169,15 +169,15 @@ class Textarea extends Formelement implements FormelementInterface
     {
         $name = $this->getEditor();
 
-        # construct classname
+        // construct classname
         $classname = 'Koch_Formelement_Wysiwyg'. $name;
 
-        # load file
+        // load file
         if (class_exists($classname, false) === false) {
             include ROOT_CORE . 'viewhelper/form/elements/wysiwyg' . $name . '.php';
         }
 
-        # instantiate
+        // instantiate
         $editor_formelement = new $classname();
 
         return $editor_formelement;
@@ -191,10 +191,10 @@ class Textarea extends Formelement implements FormelementInterface
      */
     private function transferPropertiesToEditor()
     {
-        # get editor formelement
+        // get editor formelement
         $formelement = $this->getEditorFormelement();
 
-        # transfer props from $this to editor formelement
+        // transfer props from $this to editor formelement
         $formelement->setRequired($this->required);
         $formelement->setRows($this->rows);
         $formelement->setCols($this->cols);
@@ -202,7 +202,7 @@ class Textarea extends Formelement implements FormelementInterface
         $formelement->setName($this->name);
         $formelement->setValue($this->value);
 
-        # return the editor formelement, to call e.g. render() on it
+        // return the editor formelement, to call e.g. render() on it
 
         return $formelement;
     }

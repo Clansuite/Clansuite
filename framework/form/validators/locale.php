@@ -47,14 +47,14 @@ class Locale extends Validator
     {
         require KOCH . 'localization/locales.php';
 
-        # turns "de_DE" into "de"
+        // turns "de_DE" into "de"
         $short_code = mb_substr($locale, 0, 2);
 
         if ((isset($l10n_langs[$short_code]) === true) or (array_key_exists($short_code, $l10n_langs) === true)) {
-            # looks in "de" array, returns "de_AT", "de_CH", "de_DE"...
+            // looks in "de" array, returns "de_AT", "de_CH", "de_DE"...
             $sublocales = $l10n_langs[$short_code];
         } else {
-            # there are no sublocales for this locale short code
+            // there are no sublocales for this locale short code
 
             return false;
         }

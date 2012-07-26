@@ -32,7 +32,7 @@ $modulenavigation = array(
     '1' => array(
         'action' => 'show',
         'name' => 'Overview',
-        'url' => '/users/admin', # &action=show
+        'url' => '/users/admin', // &action=show
         'icon' => '',
         'title' => ''
     ),

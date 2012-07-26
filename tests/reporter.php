@@ -66,7 +66,7 @@ class Reporter extends HtmlReporter
        #parent::paintPass($message);
         $breadcrumb = $this->getTestList();
         array_shift($breadcrumb);
-        $testsubject_classname = $breadcrumb['1'] . '-&gt;' . $breadcrumb['2']; # combine classname + methodname
+        $testsubject_classname = $breadcrumb['1'] . '-&gt;' . $breadcrumb['2']; // combine classname + methodname
         $dot = '<span class="pass">.</span>';
         print '<a href="#hint" class="tooltip" title="' .$testsubject_classname. '">' . $dot . '</a>';
     }
@@ -76,7 +76,7 @@ class Reporter extends HtmlReporter
         parent::paintPass($message);
         $breadcrumb = $this->getTestList();
         array_shift($breadcrumb);
-        $testsubject_classname = $breadcrumb['1'] . '-&gt;' . $breadcrumb['2'] . '()'; # combine classname + methodname
+        $testsubject_classname = $breadcrumb['1'] . '-&gt;' . $breadcrumb['2'] . '()'; // combine classname + methodname
         echo '<span class="pass">'.$testsubject_classname.'</span><br />';
     }
 
@@ -86,7 +86,7 @@ class Reporter extends HtmlReporter
      */
     function paintError($message)
     {
-        # Explicitly call grandparent, not HtmlReporter::paintError.
+        // Explicitly call grandparent, not HtmlReporter::paintError.
         SimpleScorer::paintError($message);
         print "<span class=\"fail\">Exception</span>: <br />\n";
         $breadcrumb = $this->getTestList();

@@ -78,7 +78,7 @@ class Apc extends AbstractCache implements CacheInterface
         } elseif($overwrite == false)
         {
             return apc_add($key, $data, $cache_lifetime * 60);
-        } else { # overwrite
+        } else { // overwrite
 
             return apc_store($key, $data, $cache_lifetime * 60);
         }
@@ -142,7 +142,7 @@ class Apc extends AbstractCache implements CacheInterface
     public function stats()
     {
         $apc_sysinfos = array();
-        # Retrieve APC Version
+        // Retrieve APC Version
         $apc_sysinfos['version'] = phpversion('apc');
         $apc_sysinfos['phpversion'] = phpversion();
 
@@ -153,19 +153,19 @@ class Apc extends AbstractCache implements CacheInterface
          */
         if (function_exists('apc_sma_info')) {
 
-        $apc_sysinfos['sma_info'] = apc_sma_info(); # set "false" for details
-        # Calculate "APC Memory Size" (Number of Segments * Size of Segment)
+        $apc_sysinfos['sma_info'] = apc_sma_info(); // set "false" for details
+        // Calculate "APC Memory Size" (Number of Segments * Size of Segment)
         $apc_sysinfos['sma_info']['mem_size'] = $apc_sysinfos['sma_info']['num_seg'] * $apc_sysinfos['sma_info']['seg_size'];
 
-        # Calculate "APC Memory Usage" ( mem_size - avail_mem )
+        // Calculate "APC Memory Usage" ( mem_size - avail_mem )
         $apc_sysinfos['sma_info']['mem_used'] = $apc_sysinfos['sma_info']['mem_size'] - $apc_sysinfos['sma_info']['avail_mem'];
 
-        # Calculate "APC Free Memory Percentage" ( mem_size*100/mem_used )
+        // Calculate "APC Free Memory Percentage" ( mem_size*100/mem_used )
         $apc_sysinfos['sma_info']['mem_avail_percentage'] = sprintf('(%.1f%%)', $apc_sysinfos['sma_info']['avail_mem'] * 100 / $apc_sysinfos['sma_info']['mem_size']);
         }
 
         if (function_exists('apc_cache_info') and false === extension_loaded('Zend Data Cache')) {
-        # Retrieves cached information and meta-data from APC's data store
+        // Retrieves cached information and meta-data from APC's data store
         $apc_sysinfos['cache_info'] = apc_cache_info();
         #Koch_Debug::printR(apc_cache_info());
         $apc_sysinfos['cache_info']['cached_files'] = count($apc_sysinfos['cache_info']['cache_list']);
@@ -176,11 +176,11 @@ class Apc extends AbstractCache implements CacheInterface
          *   System Cache Informations
          * ========================================================
          */
-        $apc_sysinfos['system_cache_info'] = apc_cache_info('system', false); # set "false" for details
-        # Calculate "APC Hit Rate Percentage"
+        $apc_sysinfos['system_cache_info'] = apc_cache_info('system', false); // set "false" for details
+        // Calculate "APC Hit Rate Percentage"
         $total_hits = ($apc_sysinfos['system_cache_info']['num_hits'] + $apc_sysinfos['system_cache_info']['num_misses']);
 
-        # div by zero fix
+        // div by zero fix
         if ($total_hits == 0) {
             $total_hits = 1;
         }
@@ -188,18 +188,18 @@ class Apc extends AbstractCache implements CacheInterface
         $hit_rate = $apc_sysinfos['system_cache_info']['num_hits'] * 100 / $total_hits;
         $apc_sysinfos['system_cache_info']['hit_rate_percentage'] = sprintf('(%.1f%%)', $hit_rate);
 
-        # Calculate "APC Miss Rate Percentage"
+        // Calculate "APC Miss Rate Percentage"
         $apc_sysinfos['system_cache_info']['miss_rate_percentage'] = sprintf('(%.1f%%)', $apc_sysinfos['system_cache_info']['num_misses'] * 100 / $total_hits);
         $apc_sysinfos['system_cache_info']['files_cached'] = count($apc_sysinfos['system_cache_info']['cache_list']);
         $apc_sysinfos['system_cache_info']['files_deleted'] = count($apc_sysinfos['system_cache_info']['deleted_list']);
 
         $time = time();
-        # Request Rate (hits, misses) / cache requests/second
+        // Request Rate (hits, misses) / cache requests/second
         $apc_sysinfos['system_cache_info']['req_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_hits'] + $apc_sysinfos['system_cache_info']['num_misses']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         $apc_sysinfos['system_cache_info']['hit_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_hits']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         $apc_sysinfos['system_cache_info']['miss_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_misses']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         $apc_sysinfos['system_cache_info']['insert_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_inserts']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
-        # size
+        // size
         $apc_sysinfos['system_cache_info']['size_files'] = Koch_Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
         }
 
@@ -215,7 +215,7 @@ class Apc extends AbstractCache implements CacheInterface
                 if ($key2 == 'access') {
                     $name = '';
 
-                    # accessvalue => constantname
+                    // accessvalue => constantname
                     if ($value2 == '1') {
                         $name = 'PHP_INI_USER';
                     }
@@ -229,7 +229,7 @@ class Apc extends AbstractCache implements CacheInterface
                         $name = 'PHP_INI_ALL';
                     }
 
-                    # add accessname to the original array
+                    // add accessname to the original array
                     $apc_sysinfos['settings'][$key]['accessname'] = $name;
                     unset($name);
                 }
@@ -265,14 +265,14 @@ class Apc extends AbstractCache implements CacheInterface
         $compiled = true;
 
         switch ($recursively) {
-            # compile files in subdirectories
-            # WATCH OUT ! RECURSION
+            // compile files in subdirectories
+            // WATCH OUT ! RECURSION
             case true:
                 foreach (glob($root . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR) as $dir) {
                     $compiled = $compiled && $this->compile_dir($dir, $recursively);
                 }
 
-            # compile files in root directory
+            // compile files in root directory
             case false:
                 foreach (glob($root . DIRECTORY_SEPARATOR . '*.php') as $filename) {
                     $compiled = $compiled && $this->compile_file($filename);

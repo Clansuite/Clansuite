@@ -57,7 +57,7 @@ class News_Admin extends Controller
      */
     public function action_admin_index()
     {
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
         //--------------------------
@@ -130,15 +130,15 @@ class News_Admin extends Controller
                                     'Name'      => _('Delete selected items'),
                                     'Action'    => 'delete' );
 
-        # Instantiate the datagrid
+        // Instantiate the datagrid
         $datagrid = new Clansuite_Datagrid( array(
-                # Set only the name manually
+                // Set only the name manually
                 #'Entity'       => 'Entities\News',
-                # Set the name automatically
+                // Set the name automatically
                 'Entity'        => $this->getEntityNameFromClassname(),
-                # Table Column Descriptions
+                // Table Column Descriptions
                 'ColumnSets'    => $ColumnSets,
-                # Pagination URL
+                // Pagination URL
                 'Url'           => '?mod=news&sub=admin'
         ) );
 
@@ -157,7 +157,7 @@ class News_Admin extends Controller
 
         $datagrid->setResultsPerPage(self::getConfigValue('resultsPerPage_adminshow', '5'));
 
-        # Assing datagrid
+        // Assing datagrid
         $view->assign('datagrid', $datagrid->render());
 
         $this->display();
@@ -198,11 +198,11 @@ class News_Admin extends Controller
      */
     public function action_admin_new()
     {
-        # Create a new form
+        // Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
         $form->setLegend('News Editor')->setClass('News');
 
-        # Add formelements
+        // Add formelements
         $form->addElement('text')
                 ->setName('news_form[news_title]')->setLabel(_('Title'));
 
@@ -224,7 +224,7 @@ class News_Admin extends Controller
         $form->addElement('buttonbar')
                 ->getButton('cancelbutton')->setCancelURL('index.php?mod=news&sub=admin');
 
-        # Assign the html of the form to the view
+        // Assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -237,20 +237,20 @@ class News_Admin extends Controller
      */
     public function action_admin_edit()
     {
-        # get id
+        // get id
         $news_id = $this->request->getParameter('id');
 
-        # fetch news data by id
+        // fetch news data by id
         $news = $this->getModel()->fetchSingleNews($news_id);
 
-        # create a new form
+        // create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
         $form->setLegend('News Editor')->setClass('News');
 
-        # news_id as hidden field
+        // news_id as hidden field
         $form->addElement('hidden')->setName('news_form[news_id]')->setValue($news['news_id']);
 
-        # user_id as hidden field
+        // user_id as hidden field
         $form->addElement('hidden')->setName('news_form[user_id]')->setValue($news['user_id']);
 
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);
@@ -263,10 +263,10 @@ class News_Admin extends Controller
                 ->setCols('30')->setRows('12')->setLabel(_('Your Article:'))->setValue($news['news_body'])
                 ->setEditor();
 
-        # add the buttonbar
+        // add the buttonbar
         $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=news/admin');
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -279,21 +279,21 @@ class News_Admin extends Controller
      */
     public function action_admin_update()
     {
-        # get incoming data
+        // get incoming data
         $data = $this->request->getParameter('news_form');
 
-        # fetch the news to update by news_id
+        // fetch the news to update by news_id
         $news = $this->getModel()->find($data['news_id']);
 
-        # the same as above, but explicitly named entity in a short version
+        // the same as above, but explicitly named entity in a short version
         #$news = $this->doctrine_em->find('Entities\News', $data['news_id']);
 
-        # the same as above, but explicitly named entity in the long version
-        # $news = $this->doctrine_em->getRepository('Entities\News')->find($data['news_id']);
+        // the same as above, but explicitly named entity in the long version
+        // $news = $this->doctrine_em->getRepository('Entities\News')->find($data['news_id']);
 
         #Clansuite_Debug::dump($news);
 
-        # if that news exist, update values and save
+        // if that news exist, update values and save
         if ($news !== false)
         {
             /**
@@ -313,11 +313,11 @@ class News_Admin extends Controller
         }
         else
         {
-            # redirect
+            // redirect
             $this->response->redirectNoCache('/news/admin', 2, 302, _('The news doesn\'t exist.'));
         }
 
-        # redirect
+        // redirect
         $this->response->redirectNoCache('/news/admin', 2, 302, _('The news has been edited.'));
     }
 
@@ -331,12 +331,12 @@ class News_Admin extends Controller
         $news->setNewsStatus($data['news_status']);
 
         $em = $this->getDoctrineEntityManager();
-        # registering $news object with Entity Manager (object -> table)
+        // registering $news object with Entity Manager (object -> table)
         $em->persist($news);
-        # flush all changes to database
+        // flush all changes to database
         $em->flush();
 
-        # redirect
+        // redirect
         $this->response->redirectNoCache('/news/admin', 2, 302, _('The news has been created.'));
     }
 
@@ -352,13 +352,13 @@ class News_Admin extends Controller
             $numDeleted = 0;
             foreach( $aDelete as $id )
             {
-                # delete the news with id
+                // delete the news with id
                 $em = $this->getDoctrineEntityManager();
                 $news = $em->find('Entities\News', $id);
                 $em->remove($news);
                 $em->flush();
 
-                # increase delete counter by 1
+                // increase delete counter by 1
                 $numDeleted++;
             }
             $this->response->redirectNoCache('/news/admin', 2, 302, $numDeleted . _(' News deleted.'));
@@ -374,7 +374,7 @@ class News_Admin extends Controller
      */
     public function action_admin_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/news/admin/settings');
 
         $this->loadForm();
@@ -385,13 +385,13 @@ class News_Admin extends Controller
     {
         $data = $this->request->getParameter('news_settings');
 
-        # Get Configuration from Injector and write Config
+        // Get Configuration from Injector and write Config
         $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache('/news/admin', 2, 302, _('success#The config file has been successfully updated.'));
     }
 }

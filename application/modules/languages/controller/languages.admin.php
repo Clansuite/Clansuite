@@ -38,7 +38,7 @@ class Languages_Admin extends Controller
 {
     public function _initializeModule()
     {
-        # raise time limit for scanning and extraction
+        // raise time limit for scanning and extraction
         @set_time_limit(900);
     }
 
@@ -60,12 +60,12 @@ class Languages_Admin extends Controller
          * Gettext needs a "locale" and "LC_MESSAGES" folder: /languages/<ll_CC>/LC_MESSAGES/
          */
 
-        # path to gettext messages folder
+        // path to gettext messages folder
         $path = ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'LC_MESSAGES';
 
         if(false === is_dir($path))
         {
-            # create dir
+            // create dir
             if(false === mkdir($path, 0777, true))
             {
                 throw new Clansuite_Exception('Gettext folder creation failed.');
@@ -76,17 +76,17 @@ class Languages_Admin extends Controller
          * Create gettext portable object file
          */
 
-        # path to po file
+        // path to po file
         $file = $path . DIRECTORY_SEPARATOR . $module . '.po';
 
         if(false === is_file($file))
         {
-            # gettext is needed to fetch the po fileheader
+            // gettext is needed to fetch the po fileheader
             include ROOT_CORE . 'gettext.core.php';
 
             $fileheader = Clansuite_Gettext_Extractor_Tool::getPOFileHeader(true);
 
-            # create file
+            // create file
             if(false === file_put_contents($file, $fileheader))
             {
                 throw new Clansuite_Exception('Gettext PO file creation failed.');
@@ -144,10 +144,10 @@ class Languages_Admin extends Controller
      */
     public function action_admin_scanTheme()
     {
-        # name is the themename
+        // name is the themename
         $theme_name = $this->request->getParameter('name', 'GET');
 
-        # with type (frontend/backend), we know also the correct folder
+        // with type (frontend/backend), we know also the correct folder
         $theme_type = $this->request->getParameter('type', 'GET');
 
         ob_start();
@@ -155,7 +155,7 @@ class Languages_Admin extends Controller
         $scan_log_content = ob_get_contents();
         ob_end_clean();
 
-        # display scanner log
+        // display scanner log
         $view = $this->getView();
         $view->assign('scan_log', $scan_log_content);
         $this->display();
@@ -183,7 +183,7 @@ class Languages_Admin extends Controller
          * This file is written to the locale directory en_GB for each module processed.
          */
 
-        # ROOT_THEMES/{theme_type}/{theme_name}/languages/en_GB/LC_MESSAGES/{theme_name}.po
+        // ROOT_THEMES/{theme_type}/{theme_name}/languages/en_GB/LC_MESSAGES/{theme_name}.po
         $path = array();
         $path[] = ROOT_THEMES;
         $path[] = $theme_type;
@@ -191,7 +191,7 @@ class Languages_Admin extends Controller
         $path[] = 'languages/en_GB/LC_MESSAGES';
         $path[] = $theme_name . '.po';
 
-        # In the next step we build that filepath string from an array.
+        // In the next step we build that filepath string from an array.
         $path = implode(DIRECTORY_SEPARATOR, $path);
 
         $gettext_extractor->save( $path );
@@ -199,19 +199,19 @@ class Languages_Admin extends Controller
 
     public function action_admin_list()
     {
-        # get themes
+        // get themes
         $themes = Clansuite_Theme::getThemeDirectories();
 
-        # get modules
+        // get modules
         #$modules = Clansuite_ModuleInfoController::getModuleNames(true);
         $modules = Clansuite_ModuleInfoController::loadModuleInformations();
-        # pop the counter off the end
+        // pop the counter off the end
         array_pop($modules);
 
         $view = $this->getView();
         $view->assign('themes', $themes);
         $view->assign('modules', $modules);
-        $view->assign('cores', array()); # @todo fetch core language items
+        $view->assign('cores', array()); // @todo fetch core language items
         $this->display();
     }
 
@@ -222,13 +222,13 @@ class Languages_Admin extends Controller
     {
         $module = $this->request->getParameter('modulename', 'GET');
 
-        # scan module and buffer the log output
+        // scan module and buffer the log output
         ob_start();
         self::scanModule($module);
         $scan_log_content = ob_get_contents();
         ob_end_clean();
 
-        # display scanner log
+        // display scanner log
         $view = $this->getView();
         $view->assign('scan_log', $scan_log_content);
 
@@ -241,13 +241,13 @@ class Languages_Admin extends Controller
      */
     public function action_admin_scanallmodules()
     {
-        # scan modules and buffer the log output
+        // scan modules and buffer the log output
         ob_start();
         self::scanAllModules();
         $scan_log_content = ob_get_contents();
         ob_end_clean();
 
-        # display scanner log
+        // display scanner log
         $view = $this->getView();
         $view->assign('scan_log', $scan_log_content);
         $this->display();
@@ -264,11 +264,11 @@ class Languages_Admin extends Controller
     {
         if($this->request->getRequestMethod() == 'GET')
         {
-            # get "module" and target "locale" for editing
+            // get "module" and target "locale" for editing
             $module = $this->request->getParameter('module', 'GET');
             $locale = $this->request->getParameter('locale', 'GET');
 
-            # transform "de-DE" to "de_DE" because locale dirs have underscores
+            // transform "de-DE" to "de_DE" because locale dirs have underscores
             $locale = str_replace('-', '_', $locale);
 
             /**
@@ -319,7 +319,7 @@ class Languages_Admin extends Controller
             $form->setLegend('Edit Locale');
             $form->setHeading('You are editing the "'.$locale.'" locale of the module "'.ucfirst($module).'".');
 
-            # remove metadata from end of array
+            // remove metadata from end of array
             array_pop($english_data);
 
             $i = 0;
@@ -328,15 +328,15 @@ class Languages_Admin extends Controller
                 $msgid = htmlentities($data_set['msgid']);
 
                 $form->addElement('text')
-                        # use the gettext msgid as array key on $_POST
+                        // use the gettext msgid as array key on $_POST
                         ->setName('locale_form['.$msgid.']')
                         ->setLabel('Phrase ' . $i)
-                        # show the gettext msgid as description text
+                        // show the gettext msgid as description text
                         ->setDescription('"' . $msgid . '"');
 
                 $i = $i + 1;
             }
-            # add hidden formfields to transfers our target locale and module
+            // add hidden formfields to transfers our target locale and module
             $form->addElement('hidden')->setName('locale')->setValue($locale);
             $form->addElement('hidden')->setName('module')->setValue($module);
             $form->addElement('buttonbar');
@@ -346,7 +346,7 @@ class Languages_Admin extends Controller
             $this->display();
         }
 
-        # update
+        // update
         if($this->request->getRequestMethod() == 'POST')
         {
             $this->action_admin_update();
@@ -389,24 +389,24 @@ class Languages_Admin extends Controller
 
         foreach($locale_msgstr_array as $msgid => $msgstr)
         {
-            # only add something, if we got a translation string for this msgid
+            // only add something, if we got a translation string for this msgid
             if($msgstr != '')
             {
-                # if the msgstr already exists, then it's an update
+                // if the msgstr already exists, then it's an update
                 if(true === isset($target_locale_data[$msgid]))
                 {
                     $updated_counter = $updated_counter + 1;
                 }
                 else
                 {
-                    # a new language string is added
+                    // a new language string is added
                     $added_counter = $added_counter + 1;
                 }
 
                 $target_locale_data[$msgid]['msgid'] = $msgid;
                 $target_locale_data[$msgid]['msgstr'] = $msgstr;
 
-                # @todo add plural strings
+                // @todo add plural strings
                 #$target_locale_data[$msgid]['msgstr'] = array(0 => $msgstr);
             }
         }
@@ -432,11 +432,11 @@ class Languages_Admin extends Controller
 
     public function preparePODataForView($po_data)
     {
-        # remove the first array entry, which contains po file meta data
+        // remove the first array entry, which contains po file meta data
         array_shift($po_data);
 
-        # count the total number of items to translate
-        # and attach as meta data to the array
+        // count the total number of items to translate
+        // and attach as meta data to the array
         $po_data['meta']['total_num_items'] = count($po_data);
 
         return $po_data;
@@ -453,7 +453,7 @@ class Languages_Admin extends Controller
 
             #Clansuite_Logger::log('Deleted language '.$directory.' of module '.$module, 'adminaction', INFO);
 
-            # delete locale dir
+            // delete locale dir
             Clansuite_Functions::delete_dir_content($directory, false);
         }
     }
@@ -465,7 +465,7 @@ class Languages_Admin extends Controller
     {
         Clansuite_Breadcrumb::add( _('Add language'), '/languages/admin/new');
 
-        # handle get request
+        // handle get request
         if($this->request->getRequestMethod() == 'GET')
         {
             $module = $this->request->getParameter('modulename', 'GET');
@@ -473,9 +473,9 @@ class Languages_Admin extends Controller
             $form = new Clansuite_Form('languages_dropdown', 'post', WWW_ROOT . 'index.php?mod=languages&sub=admin&action=new');
             $form->setLegend(_('Select the language to add'));
 
-            # $_POST['locale']
+            // $_POST['locale']
             $form->addElement('selectlocale')->setDescription('Use the dropdown to select a locale by name or abbreviation.');
-            # $_POST['module']
+            // $_POST['module']
             $form->addElement('hidden')->setName('module')->setValue($module);
             $form->addElement('buttonbar');
 
@@ -492,21 +492,21 @@ class Languages_Admin extends Controller
      */
     public function action_admin_insert()
     {
-        # Handle Post Request
+        // Handle Post Request
         if($this->request->getRequestMethod() == 'POST' and
            $this->request->issetParameter('module', 'POST') and
            $this->request->issetParameter('locale', 'POST'))
         {
-            # fetch incomming post parameters
+            // fetch incomming post parameters
             $module = $this->request->getParameter('module', 'POST');
-            $locale = $this->request->getParameter('locale', 'POST'); # example: de_AT
+            $locale = $this->request->getParameter('locale', 'POST'); // example: de_AT
 
-            # create new language file
+            // create new language file
             self::createLanguage($module, $locale);
 
             $this->setFlashmessage('success', 'Yo!');
 
-            # Redirect
+            // Redirect
             $this->response->redirectNoCache('/languages/admin', 10, 302, 'success#The language file has been successfully created.');
         }
     }
@@ -519,22 +519,22 @@ class Languages_Admin extends Controller
      */
     public function ajax_action_admin_translate_google()
     {
-        # get the incomming string to translate
-        $message = htmlspecialchars($_POST['message']); # msgid
+        // get the incomming string to translate
+        $message = htmlspecialchars($_POST['message']); // msgid
 
-        # get the incomming target language
+        // get the incomming target language
         $targetlanguage = htmlspecialchars($_POST['targetlanguage']);
 
-        # prepare $message string
+        // prepare $message string
         $search = array('\\\\\\\"', '\\\\\"','\\\\n', '\\\\r', '\\\\t', '\\\\$','\\0', "\\'", '\\\\');
         $replace = array('\"', '"', "\n", "\r", "\\t", "\\$", "\0", "'", "\\");
 	       $message = str_replace( $search, $replace, $message );
 
-        # remote fetch
+        // remote fetch
         $google_api_url = 'http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&format=html';
         $translated_string = Clansuite_RemoteFetch::fetch($google_api_url."&q=".urlencode($message)."&langpair=en%7C".$targetlanguage);
 
-        # if google answered, output the translated string in json format
+        // if google answered, output the translated string in json format
         if($translated_string)
         {
             $this->getView('json')->assign($translated_string);

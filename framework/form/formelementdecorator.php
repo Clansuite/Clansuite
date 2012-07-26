@@ -42,7 +42,7 @@ interface DecoratorInterface
 
 abstract class Decorator implements DecoratorInterface
 {
-    # instance of formelement, which is to decorate
+    // instance of formelement, which is to decorate
     protected $formelement;
 
     private $name, $class;
@@ -107,15 +107,15 @@ abstract class Decorator implements DecoratorInterface
      */
     public function hasMethod($method)
     {
-        # check if method exists in this object
+        // check if method exists in this object
         if (method_exists($this, $method)) {
             return true;
         }
-        # check if method exists in the decorator of this object
+        // check if method exists in the decorator of this object
         elseif($this->formelement instanceof Koch_Formelement_Decorator)
         {
             return $this->formelement->hasMethod($method);
-        } else { # nope, method does not exist
+        } else { // nope, method does not exist
 
             return false;
         }

@@ -82,10 +82,10 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      */
     public function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
-        # try a lookup of the value by keyname
+        // try a lookup of the value by keyname
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->config);
 
-        # return value or default
+        // return value or default
         if (empty($value) === false) {
             return $value;
         } elseif( $default_one != null )

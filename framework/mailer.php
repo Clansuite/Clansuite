@@ -55,7 +55,7 @@ class Koch_Mailer
      */
     private function loadMailer()
     {
-        # Include the Swiftmailer Class
+        // Include the Swiftmailer Class
         include ROOT_LIBRARIES . 'swiftmailer/Swift.php';
 
         /**
@@ -91,7 +91,7 @@ class Koch_Mailer
                 $connection = new Swift_Connection_Sendmail;
         }
 
-        #  This globalizes $this->mailer and initialize the class
+        //  This globalizes $this->mailer and initialize the class
         $this->mailer = new Swift($connection, $this->config['email']['mailerhost']);
     }
 
@@ -108,10 +108,10 @@ class Koch_Mailer
     public function sendmail($to_address, $from_address, $subject, $body)
     {
         if ($this->mailer->isConnected()) {
-            # sends a simple email via the instantiated mailer
+            // sends a simple email via the instantiated mailer
             $this->mailer->send($to_address, $from_address, $subject, $body);
 
-            # close mailer
+            // close mailer
             $this->mailer->close();
 
             return true;

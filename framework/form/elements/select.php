@@ -78,7 +78,7 @@ class Select extends Formelement implements FormelementInterface
     public function setOptions($options, $addSelectText = true)
     {
         if ($addSelectText === true) {
-            # add one entry on top for the dropdown
+            // add one entry on top for the dropdown
             array_unshift($options, _('Select...'));
         }
 
@@ -128,7 +128,7 @@ class Select extends Formelement implements FormelementInterface
 
     public function render()
     {
-        # open the html select tag
+        // open the html select tag
         $html = '';
         $html .= '<select ';
         $html .= (bool) $this->name ? 'name="'.$this->name.'"' : null;
@@ -156,7 +156,7 @@ class Select extends Formelement implements FormelementInterface
         }
 
         if (empty($this->options) === false) {
-            # loop over all selectfield options
+            // loop over all selectfield options
             foreach ($this->options as $key => $value) {
                 if ($this->withValuesAsKeys === true) {
                     $html .= $this->renderOptionTag($value, $value);
@@ -168,7 +168,7 @@ class Select extends Formelement implements FormelementInterface
             $html .= '<option value="0">No Options given.</option>';
         }
 
-        # close the html select tag
+        // close the html select tag
         $html .= '</select>';
 
         return $html;
@@ -185,10 +185,10 @@ class Select extends Formelement implements FormelementInterface
             $key = '';
         }
 
-        # check if the value is the default one and in case it is, add html "selected"
+        // check if the value is the default one and in case it is, add html "selected"
         if ($key == $this->default) {
             return '<option value="' . $key . '" selected="selected">' . $value . '</option>';
-        } else { # a normal select element is rendered
+        } else { // a normal select element is rendered
 
             return '<option value="' . $key . '">' . $value . '</option>';
         }

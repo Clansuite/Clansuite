@@ -39,7 +39,7 @@ class Search extends Controller
 
     public function _initializeModule()
     {
-        # read module config
+        // read module config
         $this->getModuleConfig();
     }
 
@@ -50,7 +50,7 @@ class Search extends Controller
 
     public function action_multisearch()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/search/multisearch');
 
         #Clansuite_Debug::printR( $_POST );
@@ -62,7 +62,7 @@ class Search extends Controller
         $qstring = trim($this->request->getParameterFromPost('q'));
         $qstringOut = $qstring;
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
         $view->assign('qstring', $qstringOut);

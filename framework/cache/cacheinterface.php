@@ -35,21 +35,21 @@ namespace Koch\cache;
  */
 interface cacheinterface
 {
-    # Checks cache for a stored variable
+    // Checks cache for a stored variable
     public function contains($key);
 
-    # Fetch a stored variable from the cache
+    // Fetch a stored variable from the cache
     public function fetch($key);
 
-    # Cache a variable in the data store
+    // Cache a variable in the data store
     public function store($key, $data, $cache_lifetime = 0);
 
-    # Removes a stored variable from the cache
+    // Removes a stored variable from the cache
     public function delete($key);
 
-    # Clears the cache
+    // Clears the cache
     public function clear();
 
-    # Fetches cache adapter statistics
+    // Fetches cache adapter statistics
     public function stats();
 }

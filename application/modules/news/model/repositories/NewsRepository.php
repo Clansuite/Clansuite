@@ -145,8 +145,8 @@ class NewsRepository extends EntityRepository
         $q->setParameter('news_id', $news_id);
         #$r = $q->getScalarResult();
 
-        # the following line should work with 5.4.0
-        # return $q->getArrayResult()['0'];
+        // the following line should work with 5.4.0
+        // return $q->getArrayResult()['0'];
 
         $r = $q->getArrayResult();
 
@@ -166,8 +166,8 @@ class NewsRepository extends EntityRepository
      */
     public function fetchLatestNews($numberNews)
     {
-        # 12.2.4.1. Partial Object Syntax¶, partial c.{name, image}
-        # @link http://www.doctrine-project.org/docs/orm/2.0/en/reference/dql-doctrine-query-language.html
+        // 12.2.4.1. Partial Object Syntax¶, partial c.{name, image}
+        // @link http://www.doctrine-project.org/docs/orm/2.0/en/reference/dql-doctrine-query-language.html
         $query = $this->_em->createQuery('
                            SELECT n,
                                   partial u.{nick, user_id},
@@ -177,14 +177,14 @@ class NewsRepository extends EntityRepository
                            LEFT JOIN n.category c
                            WHERE c.module_id = 7
                            ORDER BY n.news_id DESC');
-        # Note: association via object#n.authored, real LEFT JOIN via table#n.user_id
-        # Note: removed limit, because its not working: LIMIT :number_of_news
-        # LIMIT is implemented via setMaxResults()
-        # $query->setParameter('number_of_news', $numberNews);
+        // Note: association via object#n.authored, real LEFT JOIN via table#n.user_id
+        // Note: removed limit, because its not working: LIMIT :number_of_news
+        // LIMIT is implemented via setMaxResults()
+        // $query->setParameter('number_of_news', $numberNews);
         $query->getMaxResults($numberNews);
         $latestnews = $query->getArrayResult();
 
-        # bah, get class from global space ;)
+        // bah, get class from global space ;)
         #\Clansuite_Debug::printR($latestnews);
         return $latestnews;
     }
@@ -225,7 +225,7 @@ class NewsRepository extends EntityRepository
 
     public function fetchNewsArchiveWidget()
     {
-        # fetch all newsentries, ordered by creation date ASCENDING
+        // fetch all newsentries, ordered by creation date ASCENDING
         $q = $this->_em->createQuery('
                                     SELECT n.news_id, n.created_at
                                     FROM Entities\News n

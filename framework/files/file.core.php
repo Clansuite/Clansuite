@@ -178,29 +178,29 @@ class File
      */
     public function moveTo($destination, $overwrite = false)
     {
-        # ensure upload was valid
+        // ensure upload was valid
         if ( false == $this->isValid()) {
             throw new Koch_Exception('File upload was not successful.', $this->getError());
         }
 
-        # ensure a valid file extension was used
+        // ensure a valid file extension was used
         if ( false == $this->hasValidExtension()) {
             throw new Koch_Exception('File does not have an allowed extension.');
         }
 
-        # ensure destination directory exists
+        // ensure destination directory exists
         if ( false == is_dir($destination)) {
             throw new Koch_Exception($destination . ' is not a directory.');
         }
 
-        # ensure destination directory is writeable
+        // ensure destination directory is writeable
         if ( false == is_writeable($destination)) {
             throw new Koch_Exception('Cannot write to destination directory ' . $destination);
         }
 
-        # check if the destination as a file exists
+        // check if the destination as a file exists
         if (is_file($destination)) {
-            # exit here, if overwrite is not requested
+            // exit here, if overwrite is not requested
             if (false == $overwrite) {
                 throw new Koch_Exception('File ' . $destination . ' already exists.');
             }
@@ -242,7 +242,7 @@ class Koch_FileFilterIterator extends FilterIterator
  */
 class Koch_ImagesOnlyFilterIterator extends FilterIterator
 {
-    # whitelist of allowed image filetypes, lowercase
+    // whitelist of allowed image filetypes, lowercase
     private $allowed_image_filetypes = array('png', 'gif', 'jpeg', 'jpg');
 
     /**
@@ -250,21 +250,21 @@ class Koch_ImagesOnlyFilterIterator extends FilterIterator
      */
     public function accept()
     {
-        # get the current element from the iterator to examine the fileinfos
+        // get the current element from the iterator to examine the fileinfos
         $current = $this->current();
 
-        # we want files, so we skip all directories
+        // we want files, so we skip all directories
         if ($current->getType() !== 'file') {
             return false;
         }
 
-        # set filename and pathinfo
+        // set filename and pathinfo
         $filename = $current->getFilename();
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
         if (in_array($extension, $this->allowed_image_filetypes)) {
             return true;
-        } else { # it's not a whitelisted extension
+        } else { // it's not a whitelisted extension
 
             return false;
         }
@@ -297,11 +297,11 @@ class Koch_Directory
 
     public function setDirectory($directory)
     {
-        # slash fix
+        // slash fix
         $directory = str_replace('/', DS, $directory);
         $directory = str_replace('\\', DS, $directory);
 
-        # prefix directory with ROOT for security purposes
+        // prefix directory with ROOT for security purposes
         if (stristr($directory, ROOT) == false) {
             $directory = ROOT . $directory;
         }
@@ -315,7 +315,7 @@ class Koch_Directory
     {
         if (empty($this->directory) === false) {
             return $this->directory;
-        } else { # default path
+        } else { // default path
 
             return ROOT . 'uploads/images/gallery';
         }
@@ -323,18 +323,18 @@ class Koch_Directory
 
     public function getFiles($return_as_array = false)
     {
-        # compose the full name of the filter class
+        // compose the full name of the filter class
         $classname = 'Koch_' . $this->filtername . 'FilterIterator';
 
-        # wrap the iterator in a filter class, when looking for a specific file type, like imagesOnly'
+        // wrap the iterator in a filter class, when looking for a specific file type, like imagesOnly'
         $iterator = new $classname(new DirectoryIterator($this->getDirectory()));
 
-        # return objects
+        // return objects
         if ($return_as_array === false) {
-            # create new array to take the SPL FileInfo Objects
+            // create new array to take the SPL FileInfo Objects
             $data = new ArrayObject();
 
-            # while iterating
+            // while iterating
             foreach ($iterator as $file) {
                 /**
                  * push the SPL FileInfo Objects into the array
@@ -344,11 +344,11 @@ class Koch_Directory
             }
 
             $data->ksort();
-        } else { # return array
-            # create array
+        } else { // return array
+            // create array
             $data = array();
 
-            # while iterating
+            // while iterating
             foreach ($iterator as $file) {
                 $wwwpath = WWW_ROOT . DIRECTORY_SEPARATOR . $this->getDirectory() . DIRECTORY_SEPARATOR . $file->getFilename();
                 $wwwpath = str_replace('//', '/', $wwwpath);
@@ -356,7 +356,7 @@ class Koch_Directory
             }
         }
 
-        # return the array with SPL FileInfo Objects
+        // return the array with SPL FileInfo Objects
 
         return $data;
     }

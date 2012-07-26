@@ -41,13 +41,13 @@ class Account extends Controller
      */
     public function _initializeModule()
     {
-        # read module config
+        // read module config
         $this->getModuleConfig();
     }
 
     public function action_show()
     {
-        # internal forward
+        // internal forward
         $this->action_login();
     }
 
@@ -56,9 +56,9 @@ class Account extends Controller
      */
     public function widget_login($item)
     {
-        # @todo assign not the whole config, only the parameters need
+        // @todo assign not the whole config, only the parameters need
 
-        # Get Render Engine & Assign vars
+        // Get Render Engine & Assign vars
         $this->getView()->assign('config', $this->getClansuiteConfig());
     }
 
@@ -70,7 +70,7 @@ class Account extends Controller
         if ( empty($_SESSION['login_attempts']) == false
              and $_SESSION['login_attempts'] >= self::$moduleconfig['login']['max_login_attempts'] )
         {
-            # @todo ban action
+            // @todo ban action
 
             $this->redirect( WWW_ROOT, 3, '200',
             _('You are temporarily banned. Please come back in <b>' .self::$moduleconfig['login']['login_ban_minutes'].'</b> minutes.'));
@@ -84,14 +84,14 @@ class Account extends Controller
      */
     public function action_login()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Login'), '/account/login');
 
-        # Get Objects
+        // Get Objects
         $config = $this->getClansuiteConfig();
         $user = $this->getInjector()->instantiate('Clansuite_User');
 
-        # Get Input Variables
+        // Get Input Variables
         $nick        = $this->request->getParameterFromPost('nickname');
         $email       = $this->request->getParameterFromPost('email');
         $password    = $this->request->getParameterFromPost('password');
@@ -99,7 +99,7 @@ class Account extends Controller
         $submit      = $this->request->getParameterFromPost('submit');
         $referer     = $this->request->getParameterFromGet('referer');
 
-        # Init Error Array
+        // Init Error Array
         $error = array();
         $value = '';
 
@@ -126,16 +126,16 @@ class Account extends Controller
         {
             self::checkLoginAttemps();
 
-            # check whether user_id + password match
+            // check whether user_id + password match
             $user_id = $user->checkUser( self::$moduleconfig['login']['login_method'], $value, $password );
 
-            # proceed if true
+            // proceed if true
             if ($user_id != false)
             {
-                # perform login for user_id
+                // perform login for user_id
                 $user->loginUser( $user_id, $remember_me, $password );
 
-                # register hook for onLogin and pass the user object as context
+                // register hook for onLogin and pass the user object as context
                 #$this->triggerEvent('onLogin', $user);
 
                 $this->setFlashmessage('success', _('You logged in successfully.'));
@@ -146,8 +146,8 @@ class Account extends Controller
             {
                 $this->triggerEvent('onInvalidLogin');
 
-                # @todo this is a plugin 'login_attempts' -> move it
-                # log the login attempts to ban the ip at a specific number
+                // @todo this is a plugin 'login_attempts' -> move it
+                // log the login attempts to ban the ip at a specific number
                 if (false === isset($_SESSION['login_attempts']))
                 {
                     $_SESSION['login_attempts'] = 1;
@@ -167,13 +167,13 @@ class Account extends Controller
             $error['not_filled'] = 1;
         }
 
-        # Login Form / User Center
+        // Login Form / User Center
         if( $_SESSION['user']['user_id'] == 0 )
         {
             $view = $this->getView();
             $view->assign('config', $config);
             $view->assign('error', $error);
-            # $view->assign('referer', $referer);
+            // $view->assign('referer', $referer);
 
             $this->display(array('content_template' => 'action_login.tpl'));
         }
@@ -197,7 +197,7 @@ class Account extends Controller
 
         if( $confirm == true )
         {
-            # log the user OUT
+            // log the user OUT
             $this->getInjector()->instantiate('Clansuite_User')->logoutUser();
             $this->setFlashmessage('success', _('Logout successfull. Have a nice day. Goodbye.'));
             $this->redirect(WWW_ROOT, 3, 200);
@@ -214,7 +214,7 @@ class Account extends Controller
      */
     public function action_register()
     {
-        # Request Controller
+        // Request Controller
         $config = $this->getInjector()->instantiate('Clansuite_Config');
 
         // Input filter
@@ -222,7 +222,7 @@ class Account extends Controller
 
         $user = $this->getInjector()->instantiate('Clansuite_User');
 
-        # Get Inputvariables from $_POST
+        // Get Inputvariables from $_POST
         $nick       = $this->request->getParameter('nick');
         $email      = $this->request->getParameter('email');
         $email2     = $this->request->getParameter('email2');
@@ -231,7 +231,7 @@ class Account extends Controller
         $submit     = $this->request->getParameter('submit');
         $captcha    = $this->request->getParameter('captcha');
 
-        # Set Error Array
+        // Set Error Array
         $error = array();
 
         // Perform checks on Inputvariables & Form filled?
@@ -351,13 +351,13 @@ class Account extends Controller
         }
 
         $view = $this->getView();
-        # Assign vars
+        // Assign vars
         $view->assign( 'config', self::$moduleconfig );
         $view->assign( 'min_length', self::$moduleconfig['login']['min_pass_length'] );
         $view->assign( 'err', $error );
         #$view->assign( 'captcha_url',  WWW_ROOT . 'index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
-        # Output
+        // Output
         $this->display();
     }
 
@@ -465,7 +465,7 @@ class Account extends Controller
         // Input filter
         $input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
 
-        # Inputvariables
+        // Inputvariables
         $user_id = (int) $this->request->getParameterFromGet('user_id');
         $code    = $input->check($this->request->getParameter('code'), 'is_int|is_abc') ? $this->request->getParameter('code') : false;
 
@@ -475,7 +475,7 @@ class Account extends Controller
             $this->setFlashmessage( 'error', _('The given email is not valid!.') );
         }
 
-        # Activation code is wrong
+        // Activation code is wrong
         if ( !$code )
         {
             #$error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
@@ -492,13 +492,13 @@ class Account extends Controller
 
         if ( is_array ( $result ) )
         {
-            # Account already activated
+            // Account already activated
             if ( $result['activated'] == 1 )
             {
                 $this->setFlashmessage('error', 'This account has been already activated.');
                 $this->redirectToReferer();
             }
-            else # activate this account
+            else // activate this account
             {
                 Doctrine_Query::create()->update('CsUsers')->set('activated', 1)->where('user_id', $user_id);
                 $this->setFlashmessage('success', _('Your account has been activated successfully. You may now login.'));
@@ -507,7 +507,7 @@ class Account extends Controller
         }
         else
         {
-            # Activation Code not matching user_id
+            // Activation Code not matching user_id
             $this->setFlashmessage('error', _('The activation code does not match to the given user id'));
             $this->redirectToReferer();
         }
@@ -622,7 +622,7 @@ class Account extends Controller
             return;
         }
 
-        # Select a DB Row
+        // Select a DB Row
         $result = Doctrine_Query::create()
                         ->select('user_id, activated, new_passwordhash, activation_code, new_salt')
                         ->from('CsUsers')
@@ -737,15 +737,15 @@ class Account extends Controller
     public function action_profile_edit ()
     {
 
-        # get id
+        // get id
         #$user_id = $this->request->getParameter('id');
         $user_id = 2;
 
-        # fetch userdata
+        // fetch userdata
         #$data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
-        # Create a new form
-        # @todo form object with auto-population of values
+        // Create a new form
+        // @todo form object with auto-population of values
         $form = new Clansuite_Form('userdata_form', 'post', '/account&sub=profile&action=update&type=editprofile');
 
         /**
@@ -753,7 +753,7 @@ class Account extends Controller
          */
         #$form->addElement('hidden')->setName('userdata_form[user_id]')->setValue($data['user_id']);
 
-        # Assign some formlements
+        // Assign some formlements
         #$form->addDecorator('fieldset')->setLegend('General Data');
         #$form->addGroup('general');
         $form->addElement('text')->setName('userdata_form[firstname]')->setLabel(_('First Name'));
@@ -786,13 +786,13 @@ class Account extends Controller
         $form->addElement('resetbutton')->setValue('Reset');
         $form->addElement('cancelbutton');
 
-        # Debugging Form Object
+        // Debugging Form Object
         #Clansuite_Debug::printR($form);
 
-        # Debugging Form HTML Output
+        // Debugging Form HTML Output
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -803,15 +803,15 @@ class Account extends Controller
      */
     public function action_profile_edit_avatar ()
     {
-        # get id
+        // get id
         #$user_id = $this->request->getParameter('id');
         $user_id = 2;
 
-        # fetch userdata
+        // fetch userdata
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
-        # Create a new form
-        # @todo form object with auto-population of values
+        // Create a new form
+        // @todo form object with auto-population of values
         $form = new Clansuite_Form('useravatar_form', 'post', '/account&sub=profile&action=update&type=edituseravatar');
 
         /**
@@ -819,7 +819,7 @@ class Account extends Controller
          */
         $form->addElement('hidden')->setName('useravatar_form[user_id]')->setValue($data['user_id']);
 
-        # Assign some formlements
+        // Assign some formlements
         $form->addDecorator('fieldset')->setLegend('Edit your User-Avatar');
         $form->addGroup('avatar');
         $form->addElement('jqselectimage')->addToGroup('avatar')->setName('useravatar_form[avatar]')->setLabel(_('Choose your Avatar:'));
@@ -829,13 +829,13 @@ class Account extends Controller
         $form->addElement('resetbutton')->setValue('Reset');
         $form->addElement('cancelbutton');
 
-        # Debugging Form Object
+        // Debugging Form Object
         #Clansuite_Debug::printR($form);
 
-        # Debugging Form HTML Output
+        // Debugging Form HTML Output
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -846,15 +846,15 @@ class Account extends Controller
      */
     public function action_profile_edit_userpic ()
     {
-        # get id
+        // get id
         #$user_id = $this->request->getParameter('id');
         $user_id = 2;
 
-        # fetch userdata
+        // fetch userdata
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
-        # Create a new form
-        # @todo form object with auto-population of values
+        // Create a new form
+        // @todo form object with auto-population of values
         $form = new Clansuite_Form('userpic_form', 'post', '/account&sub=profile&action=update&type=edituserpic');
 
         /**
@@ -862,7 +862,7 @@ class Account extends Controller
          */
         $form->addElement('hidden')->setName('userpic_form[user_id]')->setValue($data['user_id']);
 
-        # Assign some formlements
+        // Assign some formlements
         $form->addDecorator('fieldset')->setLegend('Edit your User-Picture');
         $form->addGroup('userpic');
         $form->addElement('jquploadify')->addToGroup('userpic')->setName('userpic_form[userpic]')->setLabel(_('Upload your User-Picture:'))->setDescription('max. 150x150px and max 1Mb');
@@ -871,13 +871,13 @@ class Account extends Controller
         $form->addElement('resetbutton')->setValue('Reset');
         $form->addElement('cancelbutton');
 
-        # Debugging Form Object
+        // Debugging Form Object
         #Clansuite_Debug::printR($form);
 
-        # Debugging Form HTML Output
+        // Debugging Form HTML Output
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();

@@ -19,7 +19,7 @@ namespace Koch\Tools;
  *
  * $trac = new Trac_RPC('http://trac.example.com/login/jsonrpc', array('username' => 'username', 'password' => 'password'));
  *
- * # Example single call
+ * // Example single call
  * $result = $trac->getTicket('32');
  * if ($result === false) {
  *   die('ERROR: '.$trac->getErrorMessage());
@@ -27,7 +27,7 @@ namespace Koch\Tools;
  *   var_dump($result);
  * }
  *
- * # Example multi call
+ * // Example multi call
  * $trac->setMultiCall(true);
  * $ticket = $trac->getTicket('32');
  * $attachments = $trac->getTicketAttachments('list', '32');
@@ -71,7 +71,7 @@ class Trac_RPC
      */
     public function __construct($tracURL='', $params=array())
     {
-        # CURL extension is required
+        // CURL extension is required
         if (function_exists('curl_init') === false) {
             exit('CURL extension disabled. Please enable it in "php.ini".');
         }
@@ -1216,7 +1216,7 @@ class Trac_RPC
             $this->_addRequest('system.multicall');
         }
 
-        # json_encode $this->_request
+        // json_encode $this->_request
         if (is_array($this->_request) === true) {
             $this->_request = json_encode(array_pop($this->_request));
 
@@ -1361,7 +1361,7 @@ class Trac_RPC
             if (empty($this->username) or empty($this->password)) {
                 throw new \Exception('You are trying an authenticated access without providing username and password.');
             } else {
-                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY); # CURLAUTH_BASIC | CURLAUTH_DIGEST
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY); // CURLAUTH_BASIC | CURLAUTH_DIGEST
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
         }

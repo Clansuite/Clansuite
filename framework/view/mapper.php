@@ -56,13 +56,13 @@ class Mapper
      */
     public static function checkTemplateExtension($template)
     {
-        # get extension of template
+        // get extension of template
         $template_extension = mb_strtolower(pathinfo($template, PATHINFO_EXTENSION));
 
-        # whitelist definition for listing all allowed template filetypes
+        // whitelist definition for listing all allowed template filetypes
         $allowed_extensions = array('html', 'php', 'tpl');
 
-        # check if extension is one of the allowed ones
+        // check if extension is one of the allowed ones
         if (false === in_array($template_extension, $allowed_extensions)) {
             $message = 'Template Extension invalid <strong>' . $template_extension . '</strong> on <strong>' . $template . '</strong>';
             trigger_error($message, E_USER_NOTICE);
@@ -77,9 +77,9 @@ class Mapper
      */
     public function getTemplateName()
     {
-        # if the templateName was not set manually, we construct it from module/action infos
+        // if the templateName was not set manually, we construct it from module/action infos
         if (empty($this->template) === true) {
-            # construct template name
+            // construct template name
             $template = TargetRoute::getActionName() . '.tpl';
 
             $this->setTemplate($template);
@@ -123,20 +123,20 @@ class Mapper
      */
     public static function getTemplatePath($template)
     {
-        # done: if template is a qualified path and template filename
+        // done: if template is a qualified path and template filename
         if (is_file($template) === true) {
             return $template;
         }
 
-        # fetch the template by searching in the Theme Template Paths
+        // fetch the template by searching in the Theme Template Paths
         $theme_template = self::getThemeTemplatePath($template);
 
-        # check if template was found there, else it's null
+        // check if template was found there, else it's null
         if ($theme_template != null) {
             #Koch_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
 
             return $theme_template;
-        } else { # fetch the template by searching in the Module Template Path
+        } else { // fetch the template by searching in the Module Template Path
             #Koch_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
 
             return self::getModuleTemplatePath($template);
@@ -150,7 +150,7 @@ class Mapper
      */
     public static function getThemeTemplatePaths()
     {
-        # get module, submodule, renderer names
+        // get module, submodule, renderer names
         $module = HttpRequest::getRoute()->getModuleName();
         $submodule = HttpRequest::getRoute()->getSubModuleName();
         #$renderer  = Koch_HttpRequest::getRoute()->getRenderEngine();
@@ -162,29 +162,29 @@ class Mapper
          * when controlcenter or admin is requested, it has to be a BACKEND theme
          */
         if ($module == 'controlcenter' or $submodule == 'admin') {
-            # get backend theme from session for path construction
+            // get backend theme from session for path construction
             $backendtheme = HttpRequest::getRoute()->getBackendTheme();
 
-            # (a) USER BACKENDTHEME - check in the active session backendtheme
-            # e.g. /themes/backend/ + admin/template_name.tpl
+            // (a) USER BACKENDTHEME - check in the active session backendtheme
+            // e.g. /themes/backend/ + admin/template_name.tpl
             $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DIRECTORY_SEPARATOR;
-            # e.g. /themes/backend/ + admin/modules/template_name.tpl
+            // e.g. /themes/backend/ + admin/modules/template_name.tpl
             $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR;
-            # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
+            // (b) BACKEND FALLBACK - check the fallback dir: themes/admin
             $theme_paths[] = ROOT_THEMES_BACKEND . 'admin' . DIRECTORY_SEPARATOR;
         }
         /**
          * 2. FRONTEND THEME
          */
         else {
-            # get frontend theme from session for path construction
+            // get frontend theme from session for path construction
             $frontendtheme = HttpRequest::getRoute()->getFrontendTheme();
 
-            # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
+            // (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
             $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DIRECTORY_SEPARATOR;
-            # (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
+            // (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
             $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR;
-            # (c) FRONTEND FALLBACK - check, if template exists in standard theme
+            // (c) FRONTEND FALLBACK - check, if template exists in standard theme
             $theme_paths[] = ROOT_THEMES_FRONTEND . 'standard' . DIRECTORY_SEPARATOR;
         }
 
@@ -215,13 +215,13 @@ class Mapper
      */
     public static function getModuleTemplatePaths()
     {
-        # fetch modulename for template path construction
+        // fetch modulename for template path construction
         $module = TargetRoute::getModuleName();
 
-        # fetch renderer name for template path construction
+        // fetch renderer name for template path construction
         $renderer = HttpRequest::getRoute()->getRenderEngine();
 
-        # compose templates paths in the module dir
+        // compose templates paths in the module dir
         $module_paths = array(
             ROOT_MOD,
             ROOT_MOD . $module . DIRECTORY_SEPARATOR,
@@ -244,16 +244,16 @@ class Mapper
 
         $module_template = null;
 
-        # check if template exists in one of the defined paths
+        // check if template exists in one of the defined paths
         $module_template = self::findFileInPaths($paths, $template);
 
         if ($module_template != null) {
             return $module_template;
         } else {
-            # fetch renderer name for template path construction
+            // fetch renderer name for template path construction
             $renderer = HttpRequest::getRoute()->getRenderEngine();
 
-            # the template with that name is not found on our default paths
+            // the template with that name is not found on our default paths
 
             return ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . $renderer . DIRECTORY_SEPARATOR . 'template_not_found.tpl';
         }
@@ -268,18 +268,18 @@ class Mapper
      */
     public static function findFileInPaths($paths, $filename)
     {
-        # check if the file exists in one of the defined paths
+        // check if the file exists in one of the defined paths
         foreach ($paths as $path) {
             $file = $path . $filename;
 
             if (is_file($file) === true) {
-                # file found
+                // file found
 
                 return $file;
             }
         }
 
-        # file not found
+        // file not found
 
         return false;
     }

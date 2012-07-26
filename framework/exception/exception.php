@@ -104,7 +104,7 @@ class Exception extends \Exception
      */
     public function exception_handler(\Exception $exception)
     {
-        # re/assign variables from an uncatched exception to this exception object
+        // re/assign variables from an uncatched exception to this exception object
         $this->message = $exception->getMessage();
         $this->string = $exception->getTraceAsString();
         $this->code = $exception->getCode();
@@ -112,12 +112,12 @@ class Exception extends \Exception
         $this->line = $exception->getLine();
         $this->trace = $exception->getTrace();
 
-        # if no errorcode is set, say that it's an rethrow
+        // if no errorcode is set, say that it's an rethrow
         if ($this->code === '0') {
             $this->code = '0 (This exception is uncatched and rethrown.)';
         }
 
-        # fetch exceptionTemplates, but not for $code = 0
+        // fetch exceptionTemplates, but not for $code = 0
         if ($this->code > 0) {
             self::fetchExceptionTemplates($this->code);
         }
@@ -146,10 +146,10 @@ class Exception extends \Exception
      */
     private static function fetchExceptionTemplates($code)
     {
-        # normal exception template
+        // normal exception template
         self::fetchExceptionTemplate($code);
 
-        # development template
+        // development template
         if (defined('DEVELOPMENT') and DEVELOPMENT == 1) {
             self::fetchExceptionDevelopmentTemplate($code);
         }
@@ -195,7 +195,7 @@ class Exception extends \Exception
      */
     private static function fetchExceptionDevelopmentTemplate($code)
     {
-        # construct filename with code
+        // construct filename with code
         $file = ROOT . 'themes/core/exceptions/exception-dev-' . $code . '.html';
 
         if (is_file($file) === true) {
@@ -205,7 +205,7 @@ class Exception extends \Exception
         }
         /*
         else {
-           # @todo propose to create a new rapid development template via tpleditor
+           // @todo propose to create a new rapid development template via tpleditor
         }
         */
     }
@@ -246,12 +246,12 @@ class Exception extends \Exception
          * @todo add backlink to the exception codes list
          */
         if ($this->code > 0) {
-            $code = '(# ' . $this->code . ')';
+            $code = '(// ' . $this->code . ')';
         } else {
             $code = '';
         }
 
-        # Header
+        // Header
         $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
         $html .= '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
         $html .= '<head>';
@@ -259,21 +259,21 @@ class Exception extends \Exception
         $html .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
         $html .= '</head>';
 
-        # Body
+        // Body
         $html .= '<body>';
 
-        # Fieldset
+        // Fieldset
         $html .= '<fieldset id="top" class="error_yellow">';
 
-        # Errorlogo
+        // Errorlogo
         $html .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
         $html .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-exception.png" ';
         $html .= 'style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
 
-        # Fieldset Legend
+        // Fieldset Legend
         $html .= '<legend>Clansuite Exception</legend>';
 
-        # Exception Table
+        // Exception Table
         $html .= '<table width="80%"><tr><td>';
 
         /**
@@ -293,7 +293,7 @@ class Exception extends \Exception
          * Debug Backtrace
          */
         if (defined('DEBUG') and DEBUG == 1) {
-            # lets get the backtrace as html table
+            // lets get the backtrace as html table
             $html .= Errorhandler::getDebugBacktrace($this->trace);
         }
 
@@ -334,7 +334,7 @@ class Exception extends \Exception
          * Rapid Development
          */
         $placeholders = array();
-        # assign placeholders for replacements in the html
+        // assign placeholders for replacements in the html
         if (strpos($this->message, 'action_')) {
             $placeholders['actionname'] = substr($this->message, strpos($this->message, 'action_'));
         } elseif(strpos($this->message, 'module_'))
@@ -348,7 +348,7 @@ class Exception extends \Exception
             $placeholders['modulename'] = '';
         }
 
-        # add development helper template to exceptions
+        // add development helper template to exceptions
         if (defined('DEVELOPMENT') and DEVELOPMENT == 1 and defined('RAPIDDEVTPL') and RAPIDDEVTPL == 1) {
             $html .= '<div id="panel5" class="panel">';
             $html .= '<h3>Rapid Application Development</h3>';
@@ -363,7 +363,7 @@ class Exception extends \Exception
          */
         $html .= Errorhandler::getBugtrackerBacklinks($this->message, $this->file, $this->line, $this->trace);
 
-        # close all html element table
+        // close all html element table
         $html   .= '</table>';
 
         /**
@@ -373,21 +373,21 @@ class Exception extends \Exception
          */
         $html  .= Errorhandler::getSupportBacklinks($this);
 
-        # close all html elements: fieldset, body+page
+        // close all html elements: fieldset, body+page
         $html   .= '</fieldset>';
         $html   .= '</body></html>';
 
-        # save session before exit
+        // save session before exit
         if ((bool) session_id()) {
             session_write_close();
         }
 
-        # clear all output buffers
+        // clear all output buffers
         if ( ob_get_length() ) {
             ob_end_clean();
         }
 
-        # Output the errormessage
+        // Output the errormessage
 
         return $html;
     }

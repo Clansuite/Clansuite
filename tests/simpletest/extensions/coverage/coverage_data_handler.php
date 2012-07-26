@@ -44,7 +44,7 @@ class CoverageDataHandler {
             $coverageStr = serialize($lines);
             $relativeFilename = self::ltrim(getcwd() . '/', $file);
             $sql = "insert into coverage (name, coverage) values ('$relativeFilename', '$coverageStr')";
-            # if this fails, check you have write permission
+            // if this fails, check you have write permission
             $this->db->queryExec($sql);
         }
     }

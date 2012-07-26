@@ -20,17 +20,17 @@ class FormTest extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject - Clansuite_Form
+        // Test Subject - Clansuite_Form
         #require_once TESTSUBJECT_DIR . 'framework/form/forminterface.php';
         #require_once TESTSUBJECT_DIR . 'framework/form/form.php';
         $this->form = new Form('TestForm');
 
-        # setAction requires Clansuite_Router for URL building
+        // setAction requires Clansuite_Router for URL building
         require_once TESTSUBJECT_DIR . 'framework/router/router.php';
-        # url building needs this
+        // url building needs this
         //require_once TESTSUBJECT_DIR . 'framework/functions.php';
 
-        # addElement() needs Clansuite_Formelement
+        // addElement() needs Clansuite_Formelement
         //require_once TESTSUBJECT_DIR . 'framework/form/formelement.php';
         require_once TESTSUBJECT_DIR . 'framework/form/formelementdecorator.php';
         require_once TESTSUBJECT_DIR . 'framework/form/formdecorator.php';
@@ -49,11 +49,11 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setMethod('POST');
 
-        # via getter not uppercased
+        // via getter not uppercased
         $this->assertNotEqual('POST', $this->form->getMethod());
-        # via getter lowercased
+        // via getter lowercased
         $this->assertEqual('post', $this->form->getMethod());
-        # via property
+        // via property
         $this->assertEqual('post', $this->form->method);
     }
 
@@ -61,13 +61,13 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setMethod('GET');
 
-        # via getter lowercased
+        // via getter lowercased
         $this->assertEqual('get', $this->form->getMethod());
     }
 
     public function testSetAction()
     {
-        # set internal url - rebuilds the external url via router
+        // set internal url - rebuilds the external url via router
         $this->form->setAction('/news/show');
         if(defined('REWRITE_ENGINE_ON') and REWRITE_ENGINE_ON == false)
         {
@@ -78,18 +78,18 @@ class FormTest extends Clansuite_UnitTestCase
             $this->assertEqual( WWW_ROOT . 'news/show', $this->form->getAction());
         }
 
-        # set external url
+        // set external url
         $this->form->setAction(WWW_ROOT .'index.php?mod=news&action=show');
         $this->assertEqual( WWW_ROOT . 'index.php?mod=news&action=show', $this->form->getAction());
 
-        # set external url withput www_root (http root)
+        // set external url withput www_root (http root)
         $this->form->setAction('index.php?mod=news&action=show');
         $this->assertEqual( WWW_ROOT . 'index.php?mod=news&action=show', $this->form->getAction());
     }
 
     public function testGetAction()
     {
-        # via getter - qualified url
+        // via getter - qualified url
         $url = WWW_ROOT . 'index.php?mod=news&action=show';
         $this->form->setAction( $url );
         $this->assertEqual( $url, $this->form->getAction());
@@ -99,7 +99,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setAutocomplete(false);
 
-        # via getter
+        // via getter
         $this->assertEqual('off', $this->form->getAutocomplete());
     }
 
@@ -107,12 +107,12 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setAutocomplete(false);
 
-        # via getter
+        // via getter
         $this->assertEqual('off', $this->form->getAutocomplete());
 
         $this->form->setAutocomplete(true);
 
-        # via getter
+        // via getter
         $this->assertEqual('on', $this->form->getAutocomplete());
     }
 
@@ -120,7 +120,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setNoValidation(true);
 
-        # via getter
+        // via getter
         $this->assertEqual('novalidate', $this->form->getNoValidation());
     }
 
@@ -128,12 +128,12 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setNoValidation(false);
 
-        # via getter - returns empty string
+        // via getter - returns empty string
         $this->assertEqual('', $this->form->getNoValidation());
 
         $this->form->setNoValidation(true);
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('novalidate', $this->form->getNoValidation());
     }
 
@@ -141,7 +141,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setAttribute('myAttribute', true);
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual(true, $this->form->getAttribute('myAttribute'));
     }
 
@@ -149,7 +149,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setAttribute('myAttribute', true);
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual(true, $this->form->getAttribute('myAttribute'));
     }
 
@@ -159,25 +159,25 @@ class FormTest extends Clansuite_UnitTestCase
 
         $this->form->setAttributes($array);
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('val1',  $this->form->getAttribute('attr1'));
         $this->assertEqual(true,  $this->form->getAttribute('attr2'));
 
         unset($array);
 
-        # @todo $attributes['form'] = array contains ['form']
+        // @todo $attributes['form'] = array contains ['form']
     }
 
     public function testCopyObjectProperties()
     {
-        # prefilled object
+        // prefilled object
         $from_object_a = new stdClass();
         $from_object_a->attribute_string = 'value_of_attr_a';
         $from_object_a->attribute_int = 9;
         $from_object_a->attribute_bool = true;
         $from_object_a->attribute_array = array('key' => 'value');
 
-        # empty target object
+        // empty target object
         $to_object_b = new stdClass();
 
         $this->form->copyObjectProperties($from_object_a, $to_object_b);
@@ -196,7 +196,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setId('identifier1');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('identifier1', $this->form->getId());
     }
 
@@ -204,7 +204,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setId('identifier2');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('identifier2', $this->form->getId());
     }
 
@@ -212,7 +212,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setName('name1');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('name1', $this->form->getName());
     }
 
@@ -220,7 +220,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setName('name2');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('name2', $this->form->getName());
     }
 
@@ -228,18 +228,18 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setAcceptCharset('iso-8859-1');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('iso-8859-1', $this->form->getAcceptCharset());
     }
 
     public function testGetAcceptCharset()
     {
-        # via getter - returns default value utf-8 as string
+        // via getter - returns default value utf-8 as string
         $this->assertEqual('utf-8', $this->form->getAcceptCharset());
 
         $this->form->setAcceptCharset('iso-8859-1');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('iso-8859-1', $this->form->getAcceptCharset());
     }
 
@@ -247,7 +247,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setClass('cssclassname1');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('cssclassname1', $this->form->getClass());
     }
 
@@ -255,7 +255,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setClass('cssclassname2');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('cssclassname2', $this->form->getClass());
     }
 
@@ -263,7 +263,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setDescription('description1');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('description1', $this->form->getDescription());
     }
 
@@ -271,7 +271,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setDescription('description2');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('description2', $this->form->getDescription());
     }
 
@@ -279,7 +279,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setHeading('heading2');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('heading2', $this->form->getHeading());
     }
 
@@ -287,18 +287,18 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setHeading('heading2');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('heading2', $this->form->getHeading());
     }
 
     public function testGetEncoding()
     {
-        # via getter - returns default value as string
+        // via getter - returns default value as string
         $this->assertEqual('multipart/form-data', $this->form->getEncoding());
 
         $this->form->setEncoding('text/plain');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('text/plain', $this->form->getEncoding());
     }
 
@@ -306,10 +306,10 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setLegend('legend-set');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('legend-set', $this->form->getLegend());
 
-        # allows method chaining
+        // allows method chaining
         $this->assertEqual($this->form, $this->form->setLegend('returns form object'));
     }
 
@@ -324,7 +324,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setLegend('legend-get');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('legend-get', $this->form->getLegend());
     }
 
@@ -332,13 +332,13 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->setEncoding('text/plain');
 
-        # via getter - returns string
+        // via getter - returns string
         $this->assertEqual('text/plain', $this->form->getEncoding());
     }
 
     public function testGetFormelements()
     {
-       # via getter - returns inital empty array
+       // via getter - returns inital empty array
        $this->assertEqual(array(), $this->form->getFormelements()); ;
     }
 
@@ -479,7 +479,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testAddElement_withSettingAttributes()
     {
-        # test element
+        // test element
         $attributes = array('class' => 'myFormelementClass',
                             'maxlength' => '20',
                             'label' => 'myFormelementLabel',
@@ -499,22 +499,22 @@ class FormTest extends Clansuite_UnitTestCase
      */
     public function testAddElement_ToCertainPosition()
     {
-        # PREPARE:
-        # this will take position 0
+        // PREPARE:
+        // this will take position 0
         $this->form->addElement('file');
-        # this will take position 1
+        // this will take position 1
         $this->form->addElement('captcha');
 
-        # TEST:
-        # this will take position 0 + reorders the array
+        // TEST:
+        // this will take position 0 + reorders the array
         $this->form->addElement('text', null, 0);
 
         $array = array();
-        $array[] = new Koch\Form\Elements\Text;    # 0 - Text
-        $array[] = new Koch\Form\Elements\File;    # 1 - File
-        $array[] = new Koch\Form\Elements\Captcha; # 2 - Captcha
+        $array[] = new Koch\Form\Elements\Text;    // 0 - Text
+        $array[] = new Koch\Form\Elements\File;    // 1 - File
+        $array[] = new Koch\Form\Elements\Captcha; // 2 - Captcha
 
-        # manually reapply formelement identifiers
+        // manually reapply formelement identifiers
         $array['0']->setID('text-formelement-0');
         $array['1']->setID('file-formelement-1');
         $array['2']->setID('captcha-formelement-2');
@@ -531,22 +531,22 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testregenerateFormelementIdentifiers()
     {
-        # PREPARE:
-        # this will take position 0
+        // PREPARE:
+        // this will take position 0
         $this->form->addElement('file');
-        # this will take position 1
+        // this will take position 1
         $this->form->addElement('captcha');
 
-        # TEST:
-        # this will take position 0 + reorders the array
+        // TEST:
+        // this will take position 0 + reorders the array
         $this->form->addElement('text', null, 0);
 
         $array = array();
-        $array[] = new \Koch\Form\Elements\Text;    # 0 - Text
-        $array[] = new \Koch\Form\Elements\File;    # 1 - File
-        $array[] = new \Koch\Form\Elements\Captcha; # 2 - Captcha
+        $array[] = new \Koch\Form\Elements\Text;    // 0 - Text
+        $array[] = new \Koch\Form\Elements\File;    // 1 - File
+        $array[] = new \Koch\Form\Elements\Captcha; // 2 - Captcha
 
-        # manually reapply formelement identifiers
+        // manually reapply formelement identifiers
         $array['0']->setID('text-formelement-0');
         $array['1']->setID('file-formelement-1');
         $array['2']->setID('captcha-formelement-2');
@@ -583,15 +583,15 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->addElement('button')->setName('myButton1');
 
-        # ByName
+        // ByName
         $formelement_object = $this->form->getElement('myButton1');
         $this->assertIdentical('myButton1', $formelement_object->getName());
 
-        # ByPosition
+        // ByPosition
         $formelement_object = $this->form->getElement('0');
         $this->assertIdentical('myButton1', $formelement_object->getName());
 
-        # Default Value null as param
+        // Default Value null as param
         $formelement_object = $this->form->getElement();
         $this->assertIdentical('myButton1', $formelement_object->getName());
     }
@@ -605,12 +605,12 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testsetValues_DataArrayPassedToMethod()
     {
-        # create multiselect "Snacks" with three options
+        // create multiselect "Snacks" with three options
         $this->form->addElement('multiselect')->setName('Snacks')->setOptions(
             array('cola' => 'Cola', 'popcorn' => 'Popcorn', 'peanuts' => 'Peanuts')
         );
 
-        # two options were selected (array is incomming via post)
+        // two options were selected (array is incomming via post)
         $data = array('snacks' => array('cola', 'popcorn'));
 
         $this->form->setValues($data);
@@ -724,10 +724,10 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testapplyDecoratorAttributes()
     {
-        # decorator type will be form
-        # this is just another way of setting attributes to the form itself
+        // decorator type will be form
+        // this is just another way of setting attributes to the form itself
         $attributes = array('form' =>
-            array('form' => # this is Clansuite_Form_Decorator_Form
+            array('form' => // this is Clansuite_Form_Decorator_Form
                 array('heading' => 'This is the Heading of the form.',
                       'description' => 'This is a form description text.')
         ));
@@ -758,16 +758,16 @@ class FormTest extends Clansuite_UnitTestCase
                 ->setName('Textarea-Validate-Test')
                 ->setRequired()
                 ->setRules('required, string, maxlength=20');
-        # ->setValue() is missing intentionally
+        // ->setValue() is missing intentionally
 
-        # no value set, but required
+        // no value set, but required
         $this->assertFalse($this->form->validateForm());
 
-        # set a value, exceeding maxlength
+        // set a value, exceeding maxlength
         $element = $this->form->getElementByName('Textarea-Validate-Test');
-        $element->setValue('0123456789-0123456789'); # 21 chars
+        $element->setValue('0123456789-0123456789'); // 21 chars
 
-        # max length exceeded
+        // max length exceeded
         $this->assertFalse($this->form->validateForm());
     }
 
@@ -778,9 +778,9 @@ class FormTest extends Clansuite_UnitTestCase
                 ->setRequired()
                 ->setRules('required, string, maxlength=20');
 
-        # set value, length ok
+        // set value, length ok
         $element = $this->form->getElementByName('Textarea-Validate-Test');
-        $element->setValue('01234567890123456789'); # 20 chars
+        $element->setValue('01234567890123456789'); // 20 chars
 
         $this->assertTrue($this->form->validateForm());
     }
@@ -863,7 +863,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function test__set()
     {
-        # this will call __set
+        // this will call __set
         $this->form->method = 'methodname';
 
         $this->assertEqual('methodname', $this->form->getMethod());
@@ -871,10 +871,10 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function test__get()
     {
-        # this will call __set
+        // this will call __set
         $this->form->method = 'methodname';
 
-        # this will call __get
+        // this will call __get
         $this->assertEqual('methodname', $this->form->method);
     }
 }

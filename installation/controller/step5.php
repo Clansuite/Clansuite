@@ -23,7 +23,7 @@ class Step5 extends \Clansuite\Installation_Page
     {
         $error = '';
 
-        # check if input-fields are filled
+        // check if input-fields are filled
         if(isset($_POST['config']['template']['pagetitle'])
             and isset($_POST['config']['email']['from'])
             and isset($_POST['config']['language']['gmtoffset']))
@@ -67,7 +67,7 @@ class Step5 extends \Clansuite\Installation_Page
         // transform the GMTOFFSET (3600 = GMT+1) into a timezone name, like "Europe/Berlin".
         $config_array['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['gmtoffset'], 0);
 
-        # write Settings to clansuite.config.php
+        // write Settings to clansuite.config.php
         if(false === \Clansuite\Installation_Helper::write_config_settings($config_array))
         {
             $this->setStep(5);

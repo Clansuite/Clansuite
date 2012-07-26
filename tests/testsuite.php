@@ -31,20 +31,20 @@ class ClansuiteTestsuite extends TestSuite
 
     function __construct()
     {
-        # add a headline to know where we are ,)
+        // add a headline to know where we are ,)
         parent::__construct('Testsuite for "Clansuite - just an eSports CMS"');
 
-        # walk through dir /unittests and grab all tests
+        // walk through dir /unittests and grab all tests
         $this->scanDirForTests(dirname(__FILE__) . '/unittests');
 
-        # Debug array with test files
-        # var_dump($this->files);
+        // Debug array with test files
+        // var_dump($this->files);
 
         if(count($this->files) > 0)
         {
             foreach($this->files as $test_file)
             {
-                # echo '<p>File '. $test_file.' was added to the tests.</p>';
+                // echo '<p>File '. $test_file.' was added to the tests.</p>';
 
                 $this->addFile($test_file);
             }
@@ -62,18 +62,18 @@ class ClansuiteTestsuite extends TestSuite
             $sourcedir = opendir($dir);
             while(false !== ( $file = readdir($sourcedir) ))
             {
-                # fix slashes
+                // fix slashes
                 $source_file = strtr($dir . '/' . $file, '\\', '/');
 
                 if(is_dir($source_file))
                 {
-                    # exlude some dirs
+                    // exlude some dirs
                     if($file == '.' || $file == '..' || $file == '.svn' || $file == 'fixtures')
                     {
                         continue;
                     }
 
-                    # WATCH IT ! RECURSION !
+                    // WATCH IT ! RECURSION !
                     $this->scanDirForTests($source_file);
                 }
                 else
@@ -85,13 +85,13 @@ class ClansuiteTestsuite extends TestSuite
                          */
                         if(PERFORM_WEBTESTS == false && $this->isWebTestFile($file))
                         {
-                            continue; # with next file in while loop
+                            continue; // with next file in while loop
                         }
 
-                        # add file to array
+                        // add file to array
                         $this->files[] = realpath($source_file);
 
-                        # echo "<p>File {$source_file} was added to the tests array.</p>\n";
+                        // echo "<p>File {$source_file} was added to the tests array.</p>\n";
                     }
                 }
             }

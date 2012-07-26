@@ -75,7 +75,7 @@ class German implements \ArrayAccess
 
         $this->language['STEP2_FIX_REQUIRED_SETTINGS_TOOLTIP']  = 'Bevor Sie mit dem nächsten Installationsschritt fortfahren können, müssen Sie die erforderlichen Einstellungen überprüfen und abändern.';
 
-        # REQUIRED SETTINGS (in order)
+        // REQUIRED SETTINGS (in order)
         $this->language['PHP_VERSION'] = 'PHP Version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
@@ -90,7 +90,7 @@ class German implements \ArrayAccess
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Lesbar: Config-Vorlagedatei';
         $this->language['DATE_TIMEZONE'] = 'Zeitzone eingestellt "date.timezone"';
 
-        # RECOMMENDED SETTINGS (in order)
+        // RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'PHP Memory Limit';
         $this->language['FILE_UPLOADS'] = 'Dateiuploads erlaubt?';
         $this->language['MAX_UPLOAD_FILESIZE'] = 'Maximale Dateigröße für Uploads';
@@ -228,15 +228,15 @@ class German implements \ArrayAccess
 
         // GLOBAL
 
-        # Buttons
+        // Buttons
         $this->language['NEXTSTEP'] = 'Weiter &gt;&gt;';
         $this->language['BACKSTEP'] = '&lt;&lt; Zurück';
 
-        # Help Text for Buttons
+        // Help Text for Buttons
         $this->language['CLICK_NEXT_TO_PROCEED'] = 'Klicken Sie den Button ['. $this->language['NEXTSTEP'] .'] um fortzufahren.';
         $this->language['CLICK_BACK_TO_RETURN'] = 'Klicken Sie den Button ['. $this->language['BACKSTEP'] .'] um zum vorherigen Installationsschritt zurückzukehren.';
 
-        # Right Side Menu
+        // Right Side Menu
         $this->language['INSTALL_PROGRESS'] = 'Installations- fortschritt';
         $this->language['SELECT_LANGUAGE'] = 'Bitte wählen Sie Ihre Sprache aus.';
         $this->language['COMPLETED'] = 'Fertig';
@@ -245,7 +245,7 @@ class German implements \ArrayAccess
         $this->language['LIVESUPPORT'] = 'Möchten Sie Hilfe?';
         $this->language['GETLIVESUPPORT_STATIC'] = 'Live Support (Starte Chat.)';
 
-        # Left Side Menu
+        // Left Side Menu
         $this->language['MENU_HEADING'] = 'Installationsschritte';
         $this->language['MENUSTEP1'] = '[1] Sprachauswahl';
         $this->language['MENUSTEP2'] = '[2] Systemprüfung';

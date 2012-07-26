@@ -37,13 +37,13 @@ class Selectyesno extends Select implements FormelementInterface
 
     public function render()
     {
-        # check if we have options
+        // check if we have options
         if ($this->options == null) {
-            # if we don't have options, we set only 'yes' and 'no'
+            // if we don't have options, we set only 'yes' and 'no'
             $this->setOptions($this->getYesNo());
         } else {
-            # if options is set, it means that a options['select'] is given
-            # we combine it with yes/no
+            // if options is set, it means that a options['select'] is given
+            // we combine it with yes/no
             $this->setOptions( $this->options += $this->getYesNo() );
         }
 

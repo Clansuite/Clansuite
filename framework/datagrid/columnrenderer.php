@@ -94,15 +94,15 @@ class ColumnRenderer extends Renderer
         $placeholders   = array();
         $replacements   = array();
 
-        # search for placeholders %{...}
+        // search for placeholders %{...}
         preg_match_all('#%\{([^\}]+)\}#', $format, $placeholders, PREG_PATTERN_ORDER );
 
-        # check if placeholders are used
-        # @todo replace count() with check for first placeholder element: if(isset($_Placeholders[1][0]))
-        #       and move count into the if
+        // check if placeholders are used
+        // @todo replace count() with check for first placeholder element: if(isset($_Placeholders[1][0]))
+        //       and move count into the if
         $_PlacerholderCount = count($placeholders[1]);
         if ($_PlacerholderCount > 0) {
-            # loop over placeholders
+            // loop over placeholders
             for ($i=0;$i<$_PlacerholderCount;$i++) {
                 if ( isset($values[$placeholders[1][$i]]) ) {
                     $replacements['%{' . $placeholders[1][$i] . '}'] = $values[$placeholders[1][$i]];
@@ -110,7 +110,7 @@ class ColumnRenderer extends Renderer
             }
         }
 
-        # return substituted string
+        // return substituted string
 
         return strtr($format, $replacements);
     }

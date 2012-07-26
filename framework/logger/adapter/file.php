@@ -70,7 +70,7 @@ class File implements Logger
      */
     public function writeLog($string)
     {
-        # append string to file
+        // append string to file
         file_put_contents($this->getErrorLogFilename(), $string, FILE_APPEND & LOCK_EX);
     }
 
@@ -92,27 +92,27 @@ class File implements Logger
      */
     public static function readLog($logfilename = null)
     {
-        # errorlog filename as set bei ini_set('error_log')
+        // errorlog filename as set bei ini_set('error_log')
         #$logfilename = ini_get('error_log');
 
         if ($logfilename == null) {
-            # hardcoded errorlog filename
+            // hardcoded errorlog filename
             $logfilename = 'logs/clansuite_errorlog.txt';
         }
 
-        # determine size of file
+        // determine size of file
         $logfilesize = filesize($logfilename);
 
-        # size greater zero, means we have entries in that file
+        // size greater zero, means we have entries in that file
         if ($logfilesize > 0) {
-            # so open and read till eof
+            // so open and read till eof
             $logfile = fopen($logfilename, 'r');
             $logfile_content = fread($logfile, $logfilesize);
 
-            # @todo: split or explode logfile_content into an array
-            # to select a certain number of entries to display
+            // @todo: split or explode logfile_content into an array
+            // to select a certain number of entries to display
 
-            # returns the complete logfile
+            // returns the complete logfile
             #return printf("<pre>%s</pre>", $logfile_content);
 
             return $logfile_content;
@@ -129,12 +129,12 @@ class File implements Logger
     {
         $filename = ROOT_LOGS . 'error';
 
-        # if rotation is active we add a date to the filename
+        // if rotation is active we add a date to the filename
         if ($this->config['log']['rotation'] == true) {
-            # construct name of the log file ( FILENAME_log_DATE.txt )
+            // construct name of the log file ( FILENAME_log_DATE.txt )
             $filename =  $filename . '_log_' . date('m-d-y') . '.txt';
         } else {
-            # construct name of the log file ( FILENAME_log.txt )
+            // construct name of the log file ( FILENAME_log.txt )
             $filename = $filename . '_log.txt';
         }
 
@@ -150,7 +150,7 @@ class File implements Logger
      */
     public static function returnEntriesFromLogfile($entriesToFetch = 5, $logfilename = null)
     {
-        # setup default logfilename
+        // setup default logfilename
         if ($logfilename == null) {
             $logfilename = ROOT_LOGS . 'clansuite_errorlog.txt.php';
         }
@@ -158,27 +158,27 @@ class File implements Logger
          $logEntries = '';
 
         if (true === is_file($logfilename)) {
-            # get logfile as array
+            // get logfile as array
             $logfile_array = file($logfilename);
             $logfile_cnt = count($logfile_array);
 
             if ($logfile_cnt > 0) {
-                # count array elements = total number of logfile entries
+                // count array elements = total number of logfile entries
                 $i = $logfile_cnt - 1;
 
-                # subtract from total number of logfile entries the number to fetch
+                // subtract from total number of logfile entries the number to fetch
                 $max_entries = max(0, $i - $entriesToFetch);
 
-                # reverse for loop over the logfile_array
+                // reverse for loop over the logfile_array
                 for ($i; $i > $max_entries; $i--) {
-                    # remove linebreaks
+                    // remove linebreaks
                     $entry = str_replace(array('\r', '\n'), '', $logfile_array[$i]);
 
                     $logEntries .= '<b>Entry ' . $i . '</b>';
                     $logEntries .= '<br />' . htmlentities($entry) . '<br />';
                 }
 
-                # cleanup
+                // cleanup
                 unset($logfilename, $logfile_array, $i, $max_entries, $entry);
             } else {
                 $logEntries .= '<b>No Entries</b>';

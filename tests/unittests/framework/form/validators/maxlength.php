@@ -12,7 +12,7 @@ class Koch_Form_Validator_Maxlength_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new Koch\Form\Validators\Maxlength;
     }
 
@@ -29,20 +29,20 @@ class Koch_Form_Validator_Maxlength_Test extends Clansuite_UnitTestCase
     {
         $this->validator->maxlength = 1980;
 
-		# getter returns integer
+		// getter returns integer
         $this->assertEqual(1980, $this->validator->getMaxlength());
 
-        # getter returns integer not string
+        // getter returns integer not string
         $this->assertNotIdentical('1980', $this->validator->getMaxlength());
     }
 
     public function testMethod_setMaxlength()
     {
-         # setter accepts numeric
+         // setter accepts numeric
          $this->validator->setMaxlength(19);
          $this->assertEqual(19, $this->validator->getMaxlength());
 
-         # setter accepts string
+         // setter accepts string
          $this->validator->setMaxlength('19');
          $this->assertEqual(19, $this->validator->getMaxlength());
     }
@@ -54,7 +54,7 @@ class Koch_Form_Validator_Maxlength_Test extends Clansuite_UnitTestCase
          * validate() on the parent class, which then calls processValidationLogic()
          */
 
-        $value = '12345678901234567890'; # 20 chars
+        $value = '12345678901234567890'; // 20 chars
 
         $this->validator->setMaxlength('19');
         $this->assertFalse($this->validator->validate($value));
@@ -65,7 +65,7 @@ class Koch_Form_Validator_Maxlength_Test extends Clansuite_UnitTestCase
         $this->validator->setMaxlength('21');
         $this->assertTrue($this->validator->validate($value));
 
-        $value = ''; # 0 chars
+        $value = ''; // 0 chars
         $this->validator->setMaxlength('0');
         $this->assertTrue($this->validator->validate($value));
     }

@@ -11,20 +11,20 @@
 
     */
 
-# Set Security Handler
+// Set Security Handler
 define('IN_CS', true);
 
-# Error Reporting Level
+// Error Reporting Level
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', true);
 ini_set('html_errors', false);
 ini_set('log_errors', false);
 
-# Tests take some time and memory
+// Tests take some time and memory
 set_time_limit(0);
 ini_set('memory_limit', '256M');
 
-# PHP Version Check
+// PHP Version Check
 $REQUIRED_PHP_VERSION = '5.3.2';
 if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true)
 {
@@ -33,31 +33,31 @@ if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true)
 }
 unset($REQUIRED_PHP_VERSION);
 
-# well this should be defined in PHP.ini.. fallback
+// well this should be defined in PHP.ini.. fallback
 date_default_timezone_set('Europe/Berlin');
 
 $paths = array(
-    # add the TEST SUBJECT dir
-    realpath(dirname(__DIR__) . '/framework'),      # /trunk/framework
-    realpath(dirname(__DIR__) . '/application'),    # /trunk/application
-    realpath(dirname(__DIR__)),                     # /trunk
-    # adjust include path to TESTS dir
-    realpath(__DIR__),                  # /trunk/tests
-    realpath(__DIR__ . '/unittests'),   # /trunk/tests/unittests
+    // add the TEST SUBJECT dir
+    realpath(dirname(__DIR__) . '/framework'),      // /trunk/framework
+    realpath(dirname(__DIR__) . '/application'),    // /trunk/application
+    realpath(dirname(__DIR__)),                     // /trunk
+    // adjust include path to TESTS dir
+    realpath(__DIR__),                  // /trunk/tests
+    realpath(__DIR__ . '/unittests'),   // /trunk/tests/unittests
 );
 #var_dump($paths);
 
-# attach original include paths
+// attach original include paths
 set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
 unset($paths);
 
-# needed if, run from CLI
+// needed if, run from CLI
 if(empty($_SERVER['SERVER_NAME']))
 {
     $_SERVER['SERVER_NAME'] = gethostname();
 }
 
-#  acquire clansuite path constants
+//  acquire clansuite path constants
 include '/application/bootstrap.php';
 \Clansuite\CMS::define_ConstantsAndPaths();
 \Clansuite\CMS::initialize_Loader();
@@ -73,12 +73,12 @@ include '/application/bootstrap.php';
  * define_ConstantsAndPaths().
  */
 define('REWRITE_ENGINE_ON', 1);
-define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (trunk)
+define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); // /../tests (trunk)
 
-# Toggle for codecoverage (depends on Xdebug)
+// Toggle for codecoverage (depends on Xdebug)
 define('PERFORM_CODECOVERAGE', false);
 
-# Toggle, whether to run WebTests
+// Toggle, whether to run WebTests
 define('PERFORM_WEBTESTS', false);
 
 /**
@@ -115,7 +115,7 @@ function isCli()
     }
 }
 
-# put more bootstrapping code here
+// put more bootstrapping code here
 
 /**
  * Netbeans Hint

@@ -42,7 +42,7 @@ class ControlCenter extends Controller
 
     public function action_list()
     {
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
         $images = '';
@@ -56,7 +56,7 @@ class ControlCenter extends Controller
 
     public function action_bugs()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Report Bugs &amp; Issues'), '/controlcenter/bugs');
 
         $this->display();
@@ -64,7 +64,7 @@ class ControlCenter extends Controller
 
     public function action_about()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('About Clansuite'), '/controlcenter/about');
 
         $this->display();
@@ -72,7 +72,7 @@ class ControlCenter extends Controller
 
     public function action_supportlinks()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Links for Help & Support'), '/help/admin/supportlinks');
 
         $this->display();
@@ -103,10 +103,10 @@ class ControlCenter extends Controller
     {
         $feedcontent = null;
 
-        # get Feed Data (from Cache or File)
+        // get Feed Data (from Cache or File)
         $feedcontent = Clansuite_Feed::fetchRawRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
-        # try to read as xml
+        // try to read as xml
         if(is_null($feedcontent) == false)
         {
             if(class_exists('SimpleXMLElement'))
@@ -125,10 +125,10 @@ class ControlCenter extends Controller
             $xml = '';
         }
 
-        # set output var
+        // set output var
         $output = '';
 
-        # process output
+        // process output
         $i = 0;
         $max_rss_items = self::getConfigValue('news_rss_items', '5');
 
@@ -138,7 +138,7 @@ class ControlCenter extends Controller
             $output .= '<p><strong>#'.$i.' - <a href="' . $items->link . '">' . htmlspecialchars($items->title) . '</a></strong><br />';
             $output .= '<span style="font-size: 11px;">' . htmlspecialchars($items->pubDate) . '</span><br /></p>';
 
-            # show 10 items @todo configvalue for itemnumber
+            // show 10 items @todo configvalue for itemnumber
             if ( $i == $max_rss_items )
             {
                 break(0);
@@ -150,7 +150,7 @@ class ControlCenter extends Controller
 
     public function action_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/controlcenter/admin/settings');
 
         $settings = array();
@@ -190,16 +190,16 @@ class ControlCenter extends Controller
 
         $form = new Clansuite_Form($settings);
 
-        # display formgenerator object
+        // display formgenerator object
         #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
-        # display form html
+        // display form html
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -207,20 +207,20 @@ class ControlCenter extends Controller
 
     public function action_settings_update()
     {
-        # Incomming Data
-        # @todo get post via request object, sanitize
+        // Incomming Data
+        // @todo get post via request object, sanitize
         $data = $this->request->getParameter('controlcenter_settings');
 
-        # Get Configuration from Injector
+        // Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');
 
-        # write config
+        // write config
         $config->writeConfig( ROOT_MOD . 'controlcenter/controlcenter.config.php', $data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache('/controlcenter', 2, 302, 'The config file has been successfully updated.');
     }
 }

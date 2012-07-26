@@ -52,12 +52,12 @@ class Bbcode
 
     public function __construct()
     {
-        # Include Stringpaser_bbcode Class
+        // Include Stringpaser_bbcode Class
         if (false === class_exists('StringParser_BBCode', false)) {
             include ROOT_LIBRARIES . 'bbcode/stringparser_bbcode.class.php';
         }
 
-        # Instantiate the object
+        // Instantiate the object
         $this->bbcode = new StringParser_BBCode();
 
         $this->setupDefaultBBCodes();
@@ -138,17 +138,17 @@ class Bbcode
      */
     public function initializeBBCodesFromDatabase()
     {
-        # Load all BB Code Definition from Database
+        // Load all BB Code Definition from Database
         $bbcodes = Doctrine_Query::create()->select('*')->from('CsBbCode')->execute();
 
         /**
          * Add the BBCodes from DB via addCode
          */
         foreach ($bbcodes as $key => $code) {
-            # allowed
+            // allowed
             $allowed_in = explode(',', $code['allowed_in']);
 
-            # not allowed
+            // not allowed
             $not_allowed_in = explode(',', $code['not_allowed_in']);
 
             /**
@@ -223,7 +223,7 @@ class Bbcode
             return true;
         }
 
-        # Include & Instantiate GeSHi
+        // Include & Instantiate GeSHi
         if ( false === class_exists('GeSHi',false) ) {
             include ROOT_LIBRARIES . 'geshi/geshi.php';
         }

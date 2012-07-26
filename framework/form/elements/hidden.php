@@ -72,7 +72,7 @@ class Hidden extends Input implements FormelementInterface
         $data = '';
 
         if (is_array($value)) {
-            # transform the array to a string by imploding it with comma
+            // transform the array to a string by imploding it with comma
             $data = implode(',', $value);
 
             /**

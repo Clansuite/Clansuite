@@ -143,7 +143,7 @@ class Loader
      */
     public static function autoloadExclusions($classname)
     {
-        # define parts of classnames for exclusion
+        // define parts of classnames for exclusion
         foreach (array('Smarty_Internal') as $classname_to_exclude) {
             if (false !== strpos($classname, $classname_to_exclude)) {
                 return true;
@@ -155,12 +155,12 @@ class Loader
          * But include our own wrapper classes for both libraries.
          */
 
-        # this means if 'Doctrine" is found, but not 'Koch\Doctrine', exclude from our autoloading
+        // this means if 'Doctrine" is found, but not 'Koch\Doctrine', exclude from our autoloading
         if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch\Doctrine')) {
             return true;
         }
 
-        # this means if 'Smarty" is found, but not 'Koch\Smarty', exclude from our autoloading
+        // this means if 'Smarty" is found, but not 'Koch\Smarty', exclude from our autoloading
         if (false !== strpos($classname, 'Smarty') and
             false === strpos($classname, 'Koch\Smarty') and
             false === strpos($classname, 'Filters\SmartyMoves'))
@@ -177,12 +177,12 @@ class Loader
      */
     public static function autoloadInclusions($classname)
     {
-        # autoloading map
+        // autoloading map
         self::$inclusions_map = array(
             'Clansuite\Module\Controller' => ROOT_CORE . 'module\controller.php',
         );
 
-        # check if classname is in autoloading map
+        // check if classname is in autoloading map
         if (isset(self::$inclusions_map[$classname]) === true) {
             include self::$inclusions_map[$classname];
 
@@ -203,7 +203,7 @@ class Loader
         if (empty(self::$autoloader_map) === true) {
             if (self::$use_apc === true) {
                 self::$autoloader_map = self::readAutoloadingMapApc();
-            } else { # load the mapping from file
+            } else { // load the mapping from file
                 self::$autoloader_map = self::readAutoloadingMapFile();
             }
         }
@@ -228,39 +228,39 @@ class Loader
      */
     public static function autoloadIncludePath($classname)
     {
-        #echo "Class requested $classname <br>";
+        //echo "Class requested $classname <br>";
 
-        # trim opening namespace separator
+        // trim opening namespace separator
         $classname = ltrim($classname, '\\');
 
-        # subtract our namespace
+        // subtract our namespace
         $classname = str_replace('Koch\\', '', $classname);
 
         $filename  = '';
         $namespace = '';
 
-        # determine position of last namespace separator
+        // determine position of last namespace separator
         if (false !== ($lastNsPos = strripos($classname, '\\'))) {
-            # everything before it, is the namespace
+            // everything before it, is the namespace
             $namespace = substr($classname, 0, $lastNsPos);
-            # everything after it, is the classname
+            // everything after it, is the classname
             $classname = substr($classname, $lastNsPos + 1);
 
-            # replace every namespace separator with a directory separator
+            // replace every namespace separator with a directory separator
             $filename  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         }
 
-        # convert underscore to DS
+        // convert underscore to DS
         $filename .= str_replace('_', DIRECTORY_SEPARATOR, $classname) . '.php';
 
         $filename = strtolower($filename);
 
-        #echo "$classname => $filename <br>";
+        //echo "$classname => $filename <br>";
 
-        # searches on include path for the file and returns absolute path
+        // searches on include path for the file and returns absolute path
         $filename = stream_resolve_include_path($filename);
 
-        #echo "$classname => $filename <br>";
+        //echo "$classname => $filename <br>";
 
         if (is_string($filename) === true) {
             return self::includeFileAndMap($filename, $classname);
@@ -282,10 +282,10 @@ class Loader
     {
         $filename = realpath($filename);
 
-        # conditional include
+        // conditional include
         include $filename;
 
-        # add class and filename to the mapping array
+        // add class and filename to the mapping array
         self::addToMapping($filename, $classname);
 
         return true;
@@ -305,7 +305,7 @@ class Loader
         if (is_file($filename) === true) {
             include $filename;
 
-            if (null === $classname) { # just a file include, classname unimportant
+            if (null === $classname) { // just a file include, classname unimportant
 
                 return true;
             } elseif(class_exists($classname, false) === true)
@@ -351,18 +351,18 @@ class Loader
      */
     public static function readAutoloadingMapFile()
     {
-        # check if file for the autoloading map exists
+        // check if file for the autoloading map exists
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
 
-        # create file, if not existant
+        // create file, if not existant
         if (is_file($mapfile) === false) {
             $file_resource = fopen($mapfile, 'a', false);
             fclose($file_resource);
             unset($file_resource);
 
             return array();
-        } else { # load map from file
-            # Note: delete the autoloader.config.php file, if you get an unserialization error like "error at offset xy"
+        } else { // load map from file
+            // Note: delete the autoloader.config.php file, if you get an unserialization error like "error at offset xy"
 
             return unserialize(file_get_contents($mapfile));
         }
@@ -424,7 +424,7 @@ class Loader
      */
     public static function loadLibrary($classname, $path = null)
     {
-        # check if class was already loaded
+        // check if class was already loaded
         if (true === class_exists($classname, false)) {
             return true;
         }
@@ -434,7 +434,7 @@ class Loader
         if (isset($path)) {
             $map = array($classname, $path);
         } else {
-            # autoloading map - ROOT_LIBRARIES/..
+            // autoloading map - ROOT_LIBRARIES/..
             $map = array(
                 'snoopy'        => ROOT_LIBRARIES . 'snoopy/Snoopy.class.php',
                 'simplepie'     => ROOT_LIBRARIES . 'simplepie/simplepie.inc',
@@ -447,12 +447,12 @@ class Loader
             );
         }
 
-        # check if classname is in autoloading map
+        // check if classname is in autoloading map
         if (isset($map[$classname]) === true) {
-            # get filename for that classname
+            // get filename for that classname
             $filename = $map[$classname];
 
-            # and include that one
+            // and include that one
             if (true === self::requireFile($filename, $classname)) {
                 return true;
             } else {

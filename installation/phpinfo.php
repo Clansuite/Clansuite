@@ -1,4 +1,4 @@
 <?php
-# display environment informations via phpinfo
+// display environment informations via phpinfo
 phpinfo();
 ?>

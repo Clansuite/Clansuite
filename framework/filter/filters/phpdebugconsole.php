@@ -47,12 +47,12 @@ class PhpDebugConsole implements FilterInterface
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        # webdebug must be enabled in configuration
+        // webdebug must be enabled in configuration
         if (isset($this->config['error']['webdebug']) and $this->config['error']['webdebug'] == 1) {
             return;
         }
 
-        # DEBUG mode must be on
+        // DEBUG mode must be on
         if (defined('DEBUG') and DEBUG == true) {
             return;
         }
@@ -63,29 +63,29 @@ class PhpDebugConsole implements FilterInterface
          * ================================================
          */
 
-        # Additional ini path for PHPDEBUG
+        // Additional ini path for PHPDEBUG
         define('ADD_PHPDEBUG_ROOT', ROOT_LIBRARIES . 'phpdebug' );
         set_include_path(ADD_PHPDEBUG_ROOT . PATH_SEPARATOR. get_include_path());
 
-        # Load Library
+        // Load Library
         if (false === class_exists('PHP_Debug', false)) {
             include ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php';
         }
 
-        # Setup Options for the PHPDebug Object
+        // Setup Options for the PHPDebug Object
         $options = array(
-            # General Options
-            'render_type'          => 'HTML',    # Renderer type
-            'render_mode'          => 'div',     # Renderer mode
-            'restrict_access'      => false,     # Restrict access of debug
-            'allow_url_access'     => true,      # Allow url access
-            'url_key'              => 'key',     # Url key
-            'url_pass'             => 'nounou',  # Url pass
-            'enable_watch'         => true,      # Enable wath of vars
-            'replace_errorhandler' => true,      # Replace the php error handler
-            'lang'                 => 'EN',      # Lang
+            // General Options
+            'render_type'          => 'HTML',    // Renderer type
+            'render_mode'          => 'div',     // Renderer mode
+            'restrict_access'      => false,     // Restrict access of debug
+            'allow_url_access'     => true,      // Allow url access
+            'url_key'              => 'key',     // Url key
+            'url_pass'             => 'nounou',  // Url pass
+            'enable_watch'         => true,      // Enable wath of vars
+            'replace_errorhandler' => true,      // Replace the php error handler
+            'lang'                 => 'EN',      // Lang
 
-            # Renderer specific
+            // Renderer specific
             'HTML_DIV_view_source_script_name' => ROOT . 'libraries/phpdebug/PHP_Debug_ShowSource.php',
             'HTML_DIV_images_path' =>  WWW_ROOT . 'libraries/phpdebug/images',
             'HTML_DIV_css_path' =>  WWW_ROOT . 'libraries/phpdebug/css',
@@ -94,10 +94,10 @@ class PhpDebugConsole implements FilterInterface
             #'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
         );
 
-        # Initialiaze Object
+        // Initialiaze Object
         $debug = new PHP_Debug($options);
 
-        # Set Title to Debug Console
+        // Set Title to Debug Console
         $debug->add('Koch Framework DEBUG INFO');
 
         /**
@@ -108,13 +108,13 @@ class PhpDebugConsole implements FilterInterface
 
         unset($options);
 
-        # combine the html output
+        // combine the html output
         $debugbarHTML = $html . $debug->getOutput();
 
-        # push output into event object
+        // push output into event object
         $event = new DebugConsoleResponse_Event($debugbarHTML);
 
-        # and output the debugging console at the end of the application runtime
+        // and output the debugging console at the end of the application runtime
         Koch_Eventdispatcher::instantiate()->addEventHandler('onApplicationShutdown', $event);
     }
 }
@@ -122,7 +122,7 @@ class PhpDebugConsole implements FilterInterface
 /**
  * Helper Object for echoing the HTML content
  */
-class DebugConsoleResponse_Event # implements Koch_Event_Interface
+class DebugConsoleResponse_Event // implements Koch_Event_Interface
 {
     public $name = 'DebugConsoleResponse';
 

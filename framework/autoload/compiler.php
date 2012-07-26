@@ -60,39 +60,39 @@ class Compiler
      */
     public static function build()
     {
-        # remove existing monolith
+        // remove existing monolith
         if (is_file(self::$monolith_file) === true) {
             unlink(self::$monolith_file);
         }
 
-        # this directory
+        // this directory
         $directory = '.';
 
         $iterator = new DirectoryIterator($directory);
 
         foreach ($iterator as $phpfile) {
-            # no dots, no dirs, not this file and not the target file
+            // no dots, no dirs, not this file and not the target file
             if($phpfile->isDot() === false and
                $phpfile->isDir() === false and
                $phpfile->getFilename() != basename($_SERVER['PHP_SELF']) and
                $phpfile->getFilename() != self::$monolith_file)
             {
-                #echo 'Processing: ' . $phpfile . '<br>';
+                //echo 'Processing: ' . $phpfile . '<br>';
 
-                # get file content
+                // get file content
                 $content = file_get_contents(self::$monolith_file);
 
-                # apply string modification (strips unnessecary things off)
+                // apply string modification (strips unnessecary things off)
                 $new_content = self::remove_comments_from_string($content);
-                #$new_content = self::strip_php_tags($new_content);
-                #$new_content = self::strip_empty_lines($new_content);
+                //$new_content = self::strip_php_tags($new_content);
+                //$new_content = self::strip_empty_lines($new_content);
 
-                # write the modified content to the monolith file
+                // write the modified content to the monolith file
                 file_put_contents(self::$monolith_file, $new_content, FILE_APPEND);
             }
         }
 
-        #echo 'Monolith successfully build!';
+        //echo 'Monolith successfully build!';
 
         return true;
     }
@@ -105,37 +105,37 @@ class Compiler
      */
     public static function remove_comments_from_string($sourcecode)
     {
-        # check if sourcecode is set
+        // check if sourcecode is set
         if ($sourcecode === null) {
             return null;
         }
 
-        # ensure token_get_all is available
+        // ensure token_get_all is available
         if (false === function_exists('token_get_all')) {
             return $sourcecode;
         }
 
-        # tokenize the sourcecode
+        // tokenize the sourcecode
         $tokens = token_get_all($sourcecode);
 
-        # init return var
+        // init return var
         $stripped_sourcecode = '';
 
-        # loop over all tokens
+        // loop over all tokens
         foreach ($tokens as $token) {
-            # if token is a string append to sourcecode
+            // if token is a string append to sourcecode
             if (is_string($token) === true) {
                 $stripped_sourcecode .= $token;
             } else {
                 $token_element = '';
                 $text = '';
 
-                # identify elements
+                // identify elements
                 list($token_element, $text) = $token;
 
-                # filter out comments
+                // filter out comments
                 if ($token_element != T_COMMENT and $token_element != T_DOC_COMMENT) {
-                    # append only, if not comment or doc_comment
+                    // append only, if not comment or doc_comment
                     $stripped_sourcecode .= $text;
                 }
             }
@@ -166,16 +166,16 @@ class Compiler
      */
     public static function strip_php_tags($string)
     {
-        # remove php opening and closing tag from beginning and end
+        // remove php opening and closing tag from beginning and end
         $string = substr($string, strlen('<?php' . PHP_EOL));
         $string = substr($string, 0, -strlen('?>' . PHP_EOL));
 
-        # remove (defined or exit) security line from the string
-        # @todo remove 4 lines when "if (defined('IN_CS')" is found
+        // remove (defined or exit) security line from the string
+        // @todo remove 4 lines when "if (defined('IN_CS')" is found
         //$string = str_replace("if (defined('IN_CS') === false) { die('Koch Framework not loaded. Direct Access forbidden.'); }" . PHP_EOL, "", $string);
         //$string = str_replace("if (defined('IN_CS') === false) { die('Koch Framework not loaded. Direct Access forbidden.'); }", '', $string);
 
-        # remove php opening tag from whole string
+        // remove php opening tag from whole string
         $string = str_replace('<?php', '', $string);
 
         return $string;

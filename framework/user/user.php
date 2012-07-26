@@ -61,12 +61,12 @@ class User
      */
     public function getUser($user_id = null)
     {
-        # init user_id
+        // init user_id
         if ($user_id == null and $_SESSION['user']['user_id'] > 0) {
-            # incomming via session
+            // incomming via session
             $user_id = $_SESSION['user']['user_id'];
         } else {
-            # incomming via method parameter
+            // incomming via method parameter
             $user_id = (int) $user_id;
         }
 
@@ -92,7 +92,7 @@ class User
      */
     public function createUserSession($user_id = '', $email = '', $nick = '')
     {
-        # Initialize the User Object
+        // Initialize the User Object
         $this->user = null;
 
         /**
@@ -104,7 +104,7 @@ class User
          */
 
         if ( empty($user_id) === false ) {
-            # Get the user from the user_id
+            // Get the user from the user_id
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
@@ -114,7 +114,7 @@ class User
                     ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
         } elseif( empty($email) === false )
         {
-            # Get the user from the email
+            // Get the user from the email
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
@@ -124,7 +124,7 @@ class User
                     ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
         } elseif( empty($nick) === false )
         {
-            # Get the user from the nick
+            // Get the user from the nick
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
@@ -142,7 +142,7 @@ class User
         if (is_array($this->user) and $this->user['activated'] == 0) {
             $this->logoutUser();
 
-            # redirect
+            // redirect
             Clansuite_CMS::getInjector()
                     ->instantiate('Koch_HttpResponse')
                     ->redirect('/account/activation_email', 5, 403, _('Your account is not yet activated.'));
@@ -226,7 +226,7 @@ class User
                     )
                 )
              */
-            # Initialize User Session Arrays
+            // Initialize User Session Arrays
             $_SESSION['user']['group'] = '';
             $_SESSION['user']['rights'] = '';
 
@@ -240,7 +240,7 @@ class User
 
             #Koch_Debug::firebug($_SESSION);
         } else {
-            # this resets the $_SESSION['user'] array
+            // this resets the $_SESSION['user'] array
             GuestUser::instantiate();
 
             #Koch\Debug\Debug::printR($_SESSION);
@@ -266,9 +266,9 @@ class User
     {
         $user = null;
 
-        # check if a given nick or email exists
+        // check if a given nick or email exists
         if ($login_method == 'nick') {
-            # get user_id and passwordhash with the nick
+            // get user_id and passwordhash with the nick
             $user = Doctrine_Query::create()
                     ->select('u.user_id, u.passwordhash, u.salt')
                     ->from('CsUsers u')
@@ -276,9 +276,9 @@ class User
                     ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
-        # check if a given email exists
+        // check if a given email exists
         if ($login_method == 'email') {
-            # get user_id and passwordhash with the email
+            // get user_id and passwordhash with the email
             $user = Doctrine_Query::create()
                     ->select('u.user_id, u.passwordhash, u.salt')
                     ->from('CsUsers u')
@@ -288,18 +288,18 @@ class User
 
         $this->moduleconfig = $this->config->readModuleConfig('account');
 
-        # if user was found, check if passwords match each other
+        // if user was found, check if passwords match each other
         if( true === (bool) $user and
             true === Koch\Security::check_salted_hash(
             $passwordhash,
             $user['passwordhash'], $user['salt'],
             $this->moduleconfig['login']['hash_algorithm']))
         {
-            # ok, the user with nick or email exists and the passwords matched, then return the user_id
+            // ok, the user with nick or email exists and the passwords matched, then return the user_id
 
             return $user['user_id'];
         } else {
-            # no user was found with this combination of either nick and password or email and password
+            // no user was found with this combination of either nick and password or email and password
 
             return false;
         }
@@ -352,7 +352,7 @@ class User
      */
     private function setRememberMeCookie($user_id, $passwordhash)
     {
-        # calculate cookie lifetime and combine cookie string
+        // calculate cookie lifetime and combine cookie string
         $cookie_lifetime = time() + round($this->moduleconfig['login']['remember_me_time']*24*60*60);
         $cookie_string = $user_id.'#'.$passwordhash;
 
@@ -366,10 +366,10 @@ class User
      */
     public function logoutUser()
     {
-        # Destroy the old session
+        // Destroy the old session
         session_regenerate_id(true);
 
-        # Delete cookie
+        // Delete cookie
         setcookie('cs_cookie', false );
     }
 
@@ -378,7 +378,7 @@ class User
      */
     public function checkLoginCookie()
     {
-        # Check for login cookie
+        // Check for login cookie
         if ( isset($_COOKIE['cs_cookie']) ) {
             $cookie_array = explode('#', $_COOKIE['cs_cookie']);
             $cookie_user_id = (int) $cookie_array['0'];
@@ -405,15 +405,15 @@ class User
                             $this->moduleconfig['login']['hash_algorithm']) and
                     $_COOKIE['cs_cookie_user_id'] == $this->user['user_id'] )
             {
-                # Update the cookie
+                // Update the cookie
                 $this->setRememberMeCookie($_COOKIE['cs_cookie_user_id'], $_COOKIE['cs_cookie_password']);
 
-                # Create the user session array ($this->session['user'] etc.) by using this user_id
+                // Create the user session array ($this->session['user'] etc.) by using this user_id
                 $this->createUserSession($this->user['user_id']);
 
-                # Update Session in DB
+                // Update Session in DB
                 $this->sessionSetUserId($this->user['user_id']);
-            } else # Delete cookies, if no match
+            } else // Delete cookies, if no match
 
             {
                 setcookie('cs_cookie_user_id', false );

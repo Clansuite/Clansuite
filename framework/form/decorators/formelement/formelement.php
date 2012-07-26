@@ -70,10 +70,10 @@ class Formelement extends Decorator
      */
     public function newFormelement($formelementname)
     {
-        # set name of the formelement to class
+        // set name of the formelement to class
         $this->formelementname = $formelementname;
 
-        # instantiate, set to class and return formelement object
+        // instantiate, set to class and return formelement object
 
         return $this->formelement_object = Koch_Form::formelementFactory($formelementname);
     }
@@ -84,7 +84,7 @@ class Formelement extends Decorator
     public function render($html_formelement)
     {
         if (is_object($this->formelement_object)) {
-            # WATCH THE DOT to render after formelement (A)
+            // WATCH THE DOT to render after formelement (A)
             $html_formelement .= CR . $this->formelement_object->render();
 
             return $html_formelement;

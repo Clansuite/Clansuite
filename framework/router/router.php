@@ -102,10 +102,10 @@ class Router implements RouterInterface, \ArrayAccess
     {
         $this->request = $request;
 
-        # Set config object to the router for later access to config variables.
+        // Set config object to the router for later access to config variables.
         $this->config = \Clansuite\CMS::getClansuiteConfig();
 
-        # get URI from request, clean it and set it as a class property
+        // get URI from request, clean it and set it as a class property
         $this->setRequestURI(self::prepareRequestURI($request->getRequestURI()));
     }
 
@@ -135,14 +135,14 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function prepareRequestURI($uri)
     {
-        # add slash in front + remove slash at the end
+        // add slash in front + remove slash at the end
         if ($uri !== "/") {
-            return '/' . trim($uri, '/'); #  . '/';
+            return '/' . trim($uri, '/'); //  . '/';
         } else {
             return $uri;
         }
 
-        # subtract PHP_SELF from uri
+        // subtract PHP_SELF from uri
         if (defined('REWRITE_ENGINE_ON') and !REWRITE_ENGINE_ON) {
             $url_directory_prefix_length = strlen(dirname($_SERVER['PHP_SELF']));
             $this->uri = substr($this->uri, $url_directory_prefix_length);
@@ -179,10 +179,10 @@ class Router implements RouterInterface, \ArrayAccess
             $url_pattern = self::placeholdersToRegexp($url_pattern);
         }
 
-        # explode the uri pattern to get uri segments
+        // explode the uri pattern to get uri segments
         $segments = explode('/', $url_pattern);
 
-        # combines all regexp patterns of segements to one regexp pattern for the route
+        // combines all regexp patterns of segements to one regexp pattern for the route
         $regexp = $this->processSegmentsRegExp($segments, $requirements);
 
         $options = array(
@@ -209,10 +209,10 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function processSegmentsRegExp(array $segments, array $requirements = null)
     {
-        # start regular expression
+        // start regular expression
         $regexp = '#';
 
-        # process all segments
+        // process all segments
         foreach ($segments as $segment) {
 
             /**
@@ -222,27 +222,27 @@ class Router implements RouterInterface, \ArrayAccess
              * Then this is a name of an index variable.
              */
             if (strpos($segment, ':') !== false) {
-                $name = substr($segment, 1); # remove :
+                $name = substr($segment, 1); // remove :
 
-                # is there a requirement for this param?
+                // is there a requirement for this param?
                 if (true === isset($requirements[$name])) {
-                    # add it to the regex
+                    // add it to the regex
                     $regexp .= '(?P<' . $name . '>' . $requirements[$name] . ')';
-                    # and remove the requirement
+                    // and remove the requirement
                     unset($requirements[$name]);
-                } else { # no requirement
+                } else { // no requirement
                     $regexp .= '(?P<' . $name . '>[a-z0-9_-]+)';
                 }
             } else {
-                # process static parameter = string => "/index" or "/news"
+                // process static parameter = string => "/index" or "/news"
                 $regexp .= '\\/' . $segment;
             }
 
-            # regexp between segments
+            // regexp between segments
             $regexp .= '\/?';
         }
 
-        # finish regular expression
+        // finish regular expression
         $regexp .= '#';
 
         return $regexp;
@@ -308,7 +308,7 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function generateURL($url_pattern, array $params = null, $absolute = false)
     {
-        # @todo merge with buildURL + routing rules + parameters
+        // @todo merge with buildURL + routing rules + parameters
     }
 
     /**
@@ -319,22 +319,22 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public static function buildURL($urlstring, $encode = true, $force_modrewrite_on = true)
     {
-        # return, if urlstring is already a qualified url (http://...)
+        // return, if urlstring is already a qualified url (http://...)
         if (false !== strpos($urlstring, WWW_ROOT . 'index.php?')) {
             return $urlstring;
         }
 
-        # only the http prefix is missing
+        // only the http prefix is missing
         if (false !== strpos($urlstring, 'index.php?')) {
             return WWW_ROOT . $urlstring;
         }
 
-        # cleanup: remove all double slashes
+        // cleanup: remove all double slashes
         while (false !== strpos($urlstring, '//')) {
             $urlstring = str_replace('//', '/', $urlstring);
         }
 
-        # cleanup: remove space and slashes from begin and end of string
+        // cleanup: remove space and slashes from begin and end of string
         $urlstring = trim($urlstring, ' /');
 
         /**
@@ -349,13 +349,13 @@ class Router implements RouterInterface, \ArrayAccess
          * ROOT/index.php?mod=new&action=show&id=2
          */
         else {
-            # get only the part after "index.php?"
+            // get only the part after "index.php?"
             if (false !== strpos($urlstring, 'index.php?')) {
                 $urlstring = strstr($urlstring, 'index.php?');
             }
 
-            # $urlstring contains something like "/news/show/2"
-            # explode the string into an indexed array
+            // $urlstring contains something like "/news/show/2"
+            // explode the string into an indexed array
             $url_parameters = explode('/', $urlstring);
 
             /**
@@ -371,10 +371,10 @@ class Router implements RouterInterface, \ArrayAccess
              * Then a reverse lookup in the routes table. For now this is static.
              */
             if (isset($url_parameters[1]) and $url_parameters[1] === 'admin') {
-                # module admin whitelist
+                // module admin whitelist
                 $url_keys = array('mod', 'sub', 'action', 'id', 'type');
             } else {
-                # public module whitelist
+                // public module whitelist
                 $url_keys = array('mod', 'action', 'id', 'type');
             }
 
@@ -417,17 +417,17 @@ class Router implements RouterInterface, \ArrayAccess
             self::dispatchToDefaultRoute();
         }
 
-        # attach more routes to this object via the event "onInitializeRoutes"
+        // attach more routes to this object via the event "onInitializeRoutes"
         #Clansuite_CMS::triggerEvent('onInitializeRoutes', $this);
 
-        # initalize Routes
+        // initalize Routes
         $this->loadDefaultRoutes();
 
-        # map match uri
+        // map match uri
 
         return $this->match();
 
-        # results: route is "dispatchable" or route to "404"
+        // results: route is "dispatchable" or route to "404"
     }
 
     public static function dispatchToDefaultRoute()
@@ -452,12 +452,12 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function match()
     {
-        # do we have some routes now?
+        // do we have some routes now?
         if (0 === count($this->getRoutes())) {
             throw new \OutOfBoundsException(_('The routes lookup table is empty. Define some routes.'));
         }
 
-        # get URI from request, clean it and set it as a class property
+        // get URI from request, clean it and set it as a class property
         $this->setRequestURI(self::prepareRequestURI($this->uri));
 
         /**
@@ -521,7 +521,7 @@ class Router implements RouterInterface, \ArrayAccess
                 #TargetRoute::_debug();
 
                 if (TargetRoute::dispatchable() === true) {
-                    # route found
+                    // route found
                     break;
                 } else {
                     TargetRoute::reset();
@@ -543,7 +543,7 @@ class Router implements RouterInterface, \ArrayAccess
         $this->request->setRoute($targetRoute);
 
         return $targetRoute;
-        # Clansuite_CMS::triggerEvent('onAfterInitializeRoutes', $this);
+        // Clansuite_CMS::triggerEvent('onAfterInitializeRoutes', $this);
     }
 
     /**
@@ -586,14 +586,14 @@ class Router implements RouterInterface, \ArrayAccess
         $pos = mb_strpos($uri, '.');
         if ($pos !== false) {
             $uri_dot_array = array();
-            # Segmentize the url into an array
+            // Segmentize the url into an array
             $uri_dot_array = explode('.', $uri);
-            # chop off the last piece as the extension
+            // chop off the last piece as the extension
             self::$extension = array_pop($uri_dot_array);
-            # there might be multiple dots in the url
-            # thats why implode is used to reassemble the segmentized array to a string again
-            # but note the different glue string: the dots are now replaced by slashes ,)
-            # = ini_get('arg_separator.output')
+            // there might be multiple dots in the url
+            // thats why implode is used to reassemble the segmentized array to a string again
+            // but note the different glue string: the dots are now replaced by slashes ,)
+            // = ini_get('arg_separator.output')
             $uri = implode('/', $uri_dot_array);
             unset($uri_dot_array);
         }
@@ -628,7 +628,7 @@ class Router implements RouterInterface, \ArrayAccess
             return array(0 => $uri);
         }
 
-        # use some parse_url magic to get the url_query part from the uri
+        // use some parse_url magic to get the url_query part from the uri
         $uri_query_string = parse_url($uri, PHP_URL_QUERY);
         unset($uri);
 
@@ -684,7 +684,7 @@ class Router implements RouterInterface, \ArrayAccess
 
             return true;
         } else {
-            # Apache Mod_Rewrite not available
+            // Apache Mod_Rewrite not available
             define('REWRITE_ENGINE_ON', false);
 
             return false;
@@ -710,29 +710,29 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function checkEnvForModRewrite()
     {
-        # ensure apache has module mod_rewrite active
+        // ensure apache has module mod_rewrite active
         if( true === function_exists('apache_get_modules')
         and true === in_array('mod_rewrite', apache_get_modules()))
         {
             if (true === is_file(ROOT . '.htaccess')) {
-                # load htaccess and check if RewriteEngine is enabled
+                // load htaccess and check if RewriteEngine is enabled
                 $htaccess_content = file_get_contents(ROOT . '.htaccess');
                 $rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
 
                 if (true === (bool) $rewriteEngineOn) {
                     return true;
                 } else {
-                    # @todo Hint: Please enable mod_rewrite in htaccess.
+                    // @todo Hint: Please enable mod_rewrite in htaccess.
 
                     return false;
                 }
             } else {
-                # @todo Hint: No htaccess file found. Create and enable mod_rewrite.
+                // @todo Hint: No htaccess file found. Create and enable mod_rewrite.
 
                 return false;
             }
         } else {
-            # @todo Hint: Please enable mod_rewrite module for Apache.
+            // @todo Hint: Please enable mod_rewrite module for Apache.
 
             return false;
         }
@@ -757,12 +757,12 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function setSegmentsToTargetRoute($array)
     {
-        # if array is an found route, the values are in the requirements subarray
+        // if array is an found route, the values are in the requirements subarray
         if (array_key_exists('requirements', $array)) {
             $array = $array['requirements'];
         }
 
-        # Controller
+        // Controller
         if (true === isset($array['mod'])) {
             TargetRoute::setController($array['mod']);
             unset($array['mod']);
@@ -771,7 +771,7 @@ class Router implements RouterInterface, \ArrayAccess
             TargetRoute::setController($array['controller']);
             unset($array['controller']);
         }
-        # SubController
+        // SubController
         if (true === isset($array['sub'])) {
             TargetRoute::setSubController($array['sub']);
             unset($array['sub']);
@@ -782,14 +782,14 @@ class Router implements RouterInterface, \ArrayAccess
             unset($array['subcontroller']);
         }
 
-        # action
+        // action
         if (true === isset($array['action'])) {
             TargetRoute::setAction($array['action']);
             unset($array['action']);
         }
 
 
-        # Parameters
+        // Parameters
         if (count($array) > 0) {
             TargetRoute::setParameters($array);
             unset($array);
@@ -860,16 +860,16 @@ class Router implements RouterInterface, \ArrayAccess
     {
         $this->checkRouteCachingActive();
 
-        # Load Routes from Cache
+        // Load Routes from Cache
         if (true === self::$use_cache and empty($this->routes) and \Koch\Cache::contains('clansuite.routes')) {
             $this->addRoutes(\Koch\Cache::read('clansuite.routes'));
         }
 
-        # Load Routes from Config "routes.config.php"
+        // Load Routes from Config "routes.config.php"
         if (empty($this->routes)) {
             $this->addRoutes(Manager::loadRoutesFromConfig());
 
-            # and save these routes to cache
+            // and save these routes to cache
             if (true === self::$use_cache) {
                 Koch\Cache::store('clansuite.routes', $this->getRoutes());
             }

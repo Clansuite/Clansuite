@@ -60,7 +60,7 @@ class Ini
      */
     public static function writeConfig($file, array $array)
     {
-        # ensure we got an array
+        // ensure we got an array
         if (is_array($array) === false) {
             throw new Koch_Exception('writeConfig Parameter $array is not an array.');
         }
@@ -69,24 +69,24 @@ class Ini
             throw new Koch_Exception('writeConfig Parameter $filename is not given.');
         }
 
-        # when ini_filename exists, get old config array
+        // when ini_filename exists, get old config array
         if (is_file($file) === true) {
             $old_config_array = self::readConfig($file);
 
-            # array merge: overwrite the array to the left, with the array to the right, when keys identical
+            // array merge: overwrite the array to the left, with the array to the right, when keys identical
             $config_array = array_replace_recursive($old_config_array, $array);
         } else {
-            # create file
+            // create file
             touch($file);
 
-            # the config array = the incoming assoc_array
+            // the config array = the incoming assoc_array
             $config_array = $array;
         }
 
-        # slash fix
+        // slash fix
         $file = str_replace('/', '\\', $file);
 
-        # attach an security header at the top of the ini file
+        // attach an security header at the top of the ini file
         $content = '';
         $content .= "; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>\n";
         $content .= "; \n";
@@ -96,43 +96,43 @@ class Ini
         $content .= '; This file was generated on ' . date('d-m-Y H:i') . "\n";
         $content .= ";\n\n";
 
-        # loop over every array element
+        // loop over every array element
         foreach ($config_array as $key => $item) {
-            # checking if it's an array
+            // checking if it's an array
             if (is_array($item)) {
-                # write an comment header block
+                // write an comment header block
                 $content .= CR;
                 $content .= ';----------------------------------------' . CR;
                 $content .= '; ' . $key . CR;
                 $content .= ';----------------------------------------' . CR;
 
-                # write an parseable [array_header] block
+                // write an parseable [array_header] block
                 $content .= '[' . $key . ']' . CR;
 
-                # for every element after that
+                // for every element after that
                 foreach ($item as $key2 => $item2) {
                     if (is_numeric($item2) || is_bool($item2)) {
-                        # write numeric and boolean values without quotes
+                        // write numeric and boolean values without quotes
                         $content .= $key2 . ' = ' . $item2 . CR;
                     } else {
-                        # write value with quotes
+                        // write value with quotes
                         $content .= $key2 .' = "' . $item2 . '"'.CR;
                     }
                 }
             }
-            # if it's not an array
+            // if it's not an array
             else {
                 if (is_numeric($item) || is_bool($item)) {
-                    # write numeric and boolean values without quotes
+                    // write numeric and boolean values without quotes
                     $content .= $key . ' = ' . $item . CR;
                 } else {
-                    # write value with quotes
+                    // write value with quotes
                     $content .= $key2 .' = "' . $item2 . '"'.CR;
                 }
             }
         }
 
-        # add php closing tag
+        // add php closing tag
         $content .= CR . '; DO NOT REMOVE THIS LINE */ ?>';
 
         if (is_writable($file)) {
@@ -166,7 +166,7 @@ class Ini
      */
     public static function readConfig($file)
     {
-        # check ini_filename exists
+        // check ini_filename exists
         if (is_file($file) === false or is_readable($file) === false) {
             throw new \Exception('File not found: ' . $file, 4);
         }

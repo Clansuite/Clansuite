@@ -44,21 +44,21 @@ class conversion
      */
     public static function arrayToXml($array)
     {
-        # initalize new XML Writer in memory
+        // initalize new XML Writer in memory
         $xml = new \XmlWriter();
         $xml->openMemory();
 
-        # with <root> element as top level node
+        // with <root> element as top level node
         $xml->startDocument('1.0', 'UTF-8');
         $xml->startElement('root');
 
-        # add the $array data in between
+        // add the $array data in between
         $this->writeArray($xml, $array);
 
-        # close with </root>
+        // close with </root>
         $xml->endElement();
 
-        # dump memory
+        // dump memory
 
         return $xml->outputMemory(true);
     }
@@ -78,7 +78,7 @@ class conversion
             if (is_array($value)) {
                 $xml->startElement($key);
 
-                # recursive call
+                // recursive call
                 self::writeArray($xml, $value);
 
                 $xml->endElement();
@@ -114,7 +114,7 @@ class conversion
         if (count($array) > 0) {
             return $array;
         } else {
-            # WARNING! Type Conversion drops childs and attributes.
+            // WARNING! Type Conversion drops childs and attributes.
 
             return (string) $simplexml;
         }
@@ -162,7 +162,7 @@ class conversion
                 $name = mb_strtolower(trim($name));
 
                 if (empty($name) === false) {
-                    # WATCH OUT ! Recursion.
+                    // WATCH OUT ! Recursion.
                     $object->$name = self::array2Object($value);
                 }
             }

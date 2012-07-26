@@ -82,17 +82,17 @@ class Functions
     public static function ensurePrefixedWith($string, $prefix)
     {
         $spos = null;
-        # get prefix position in string
+        // get prefix position in string
         $spos = mb_strpos($string, $prefix);
 
-        # when prefix starts at string position 0,
+        // when prefix starts at string position 0,
         if (is_int($spos) and ($spos == 0)) {
-            # ok, prefixed, do nothing
+            // ok, prefixed, do nothing
             unset($spos);
-            # just return the string
+            // just return the string
 
             return $string;
-        } else { # add the prefix
+        } else { // add the prefix
             unset($spos);
 
             return $prefix . $string;
@@ -131,7 +131,7 @@ class Functions
             $pr_bits .= @ fread($fp, 16);
             fclose($fp);
         } else {
-            # If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
+            // If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
             $pr_bits = '';
             for ($cnt = 0; $cnt < 16; $cnt++) {
                 $pr_bits .= chr(mt_rand(0, 255));
@@ -185,7 +185,7 @@ class Functions
         $size = 0;
         $dh = opendir($dir);
         while (($entry = readdir($dh)) !== false) {
-            # exclude ./..
+            // exclude ./..
             if ($entry == '.' or $entry == '..') {
                 continue;
             }
@@ -193,7 +193,7 @@ class Functions
             $direntry = $dir . '/' . $entry;
 
             if (is_dir($direntry) === false) {
-                # recursion
+                // recursion
                 $size += self::dirsize($direntry);
             } else {
                 $size += filesize($direntry);
@@ -272,17 +272,17 @@ class Functions
      */
     public static function array_find_element_by_key($needle, array $haystack)
     {
-        # take a look for the needle
+        // take a look for the needle
         if ((isset($haystack[$needle]) === true) or (array_key_exists($needle, $haystack))) {
-            # if found, return it
+            // if found, return it
 
             return $haystack[$needle];
         }
 
-        # dig a little bit deeper in the array structure
+        // dig a little bit deeper in the array structure
         foreach ($haystack as $k => $v) {
             if (is_array($v)) {
-                # recursion
+                // recursion
 
                 return self::array_find_element_by_key($needle, $v);
             }
@@ -304,7 +304,7 @@ class Functions
     {
         $diff = false;
 
-        # Left-to-right
+        // Left-to-right
         foreach ($array1 as $key => $value) {
             if (array_key_exists($key, $array2) === false) {
                 $diff[0][$key] = $value;
@@ -330,7 +330,7 @@ class Functions
             }
         }
 
-        # Right-to-left
+        // Right-to-left
         foreach ($array2 as $key => $value) {
             if (array_key_exists($key, $array1) === false) {
                 $diff[1][$key] = $value;
@@ -369,17 +369,17 @@ class Functions
         $key = '';
         $index = 0;
 
-        # more keys than values, reduce keys array
+        // more keys than values, reduce keys array
         while (count($keyArray) > count($valueArray)) {
             array_pop($keyArray);
         }
 
-        # @todo more values than keys ?
-        # add pseudo keys a la "key-0"
+        // @todo more values than keys ?
+        // add pseudo keys a la "key-0"
 
         foreach ($keyArray as $key) {
             if (isset($valueArray[$index])) {
-                # index is used, then incremented for the next turn in foreach (post-increment-operator)
+                // index is used, then incremented for the next turn in foreach (post-increment-operator)
                 $returnArray[$key] = $valueArray[$index++];
             }
         }
@@ -555,7 +555,7 @@ class Functions
      */
     public static function getsize($bytes)
     {
-        static $s = array('B', 'KB', 'MB', 'GB', 'TB'); #  'PB', 'EB', 'ZB', 'YB');
+        static $s = array('B', 'KB', 'MB', 'GB', 'TB'); //  'PB', 'EB', 'ZB', 'YB');
         $e = (int) (log($bytes) / (M_LN2 * 10));
 
         return sprintf('%.2f' . $s[$e], $bytes / pow(1024, $e));
@@ -747,25 +747,25 @@ class Functions
         {
             return false;
         } else {
-            # loop over all elements in that directory
+            // loop over all elements in that directory
             $handle = opendir($directory);
             while (false !== ( $item = readdir($handle))) {
                 if ($item != '.' and $item != '..') {
-                    # path of that element (dir/file)
+                    // path of that element (dir/file)
                     $path = $directory . '/' . $item;
 
-                    # delete dir
+                    // delete dir
                     if (is_dir($path) === true) {
-                        # remove the content and the directory itself
+                        // remove the content and the directory itself
                         self::delete_dir_content($path, true);
-                    } else { # delete file
+                    } else { // delete file
                        unlink($path);
                     }
                 }
             }
             closedir($handle);
 
-            # remove that subdir
+            // remove that subdir
             if ($delete_dir_itself === true) {
                 if (rmdir($directory) == false) {
                     return false;
@@ -795,16 +795,16 @@ class Functions
      */
     public static function UTF8_to_HTML($utf8, $encodeTags = false)
     {
-        # check if this function was aleady loaded
+        // check if this function was aleady loaded
         if (isset(self::$already_loaded[__FUNCTION__]) === false) {
-            # if not, load function
+            // if not, load function
             include KOCH . 'functions' . DIRECTORY_SEPARATOR . mb_strtolower(__FUNCTION__) . '.php';
 
-            # function loaded successfully
+            // function loaded successfully
             self::$already_loaded[__FUNCTION__] = true;
         }
 
-        # calling the loaded function
+        // calling the loaded function
 
         return UTF8_to_HTML($utf8, $encodeTags);
     }
@@ -819,18 +819,18 @@ class Functions
      */
     public static function __callStatic($method, $arguments)
     {
-        # Because value of $name is case sensitive, its forced to be lowercase.
+        // Because value of $name is case sensitive, its forced to be lowercase.
         $method = mb_strtolower($method);
 
-        # Debug message for Method Overloading
-        # Making it easier to see which static method is called magically
+        // Debug message for Method Overloading
+        // Making it easier to see which static method is called magically
         Koch_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
-        # construct the filename of the command
+        // construct the filename of the command
         $filename = ROOT_CORE . 'functions' . DIRECTORY_SEPARATOR . $method . '.function.php';
 
-        # check if name is valid
+        // check if name is valid
         if (is_file($filename) === true and is_readable($filename) === true) {
-            # dynamically include the command
+            // dynamically include the command
             include_once $filename;
 
             return call_user_func_array($method, $arguments);
@@ -853,18 +853,18 @@ class Functions
      */
     public function __call($method, $arguments)
     {
-        # Because value of $name is case sensitive, its forced to be lowercase.
+        // Because value of $name is case sensitive, its forced to be lowercase.
         $method = mb_strtolower($method);
 
-        # Debug message for Method Overloading
-        # Making it easier to see which method is called magically
-        # Koch_Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
-        # construct the filename of the command
+        // Debug message for Method Overloading
+        // Making it easier to see which method is called magically
+        // Koch_Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
+        // construct the filename of the command
         $filename = ROOT_CORE . 'functions' . DIRECTORY_SEPARATOR . $method . '.function.php';
 
-        # check if name is valid
+        // check if name is valid
         if (is_file($filename) === true and is_readable($filename) === true) {
-            # dynamically include the command
+            // dynamically include the command
             include_once $filename;
 
             return call_user_func_array($method, $arguments);

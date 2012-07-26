@@ -201,7 +201,7 @@ class HTML /* extends DOMDocument */
         $html .= '<ul>';
         foreach ($attributes as $attribute) {
             if (is_array($attribute)) {
-                # watch out! recursion
+                // watch out! recursion
                 $html .= self::liste($attribute);
             } else {
                 $html .= '<li>' . $attribute . '</li>' . CR;
@@ -256,9 +256,9 @@ class HTML /* extends DOMDocument */
         $html = '';
 
         if (is_array($attributes)) {
-            # insert all attributes
+            // insert all attributes
             foreach ($attributes as $key => $value) {
-                # ignore null values
+                // ignore null values
                 if (is_null($value)) {
                     continue;
                 }
@@ -302,10 +302,10 @@ class HTML /* extends DOMDocument */
             $html = '<' . $tagname;
             $html .= self::renderAttributes($attributes);
 
-            # close tag with slash, if we got no text to append
+            // close tag with slash, if we got no text to append
             if ($text === null) {
                 $html .= '/>';
-            } else { # just close the opening tag
+            } else { // just close the opening tag
                 $html .= '>';
                 $html .= $text;
                 $html .= '</' . $tagname . '>' . CR;

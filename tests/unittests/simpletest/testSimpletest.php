@@ -1,12 +1,12 @@
 <?php
 
-# Simpletest
+// Simpletest
 #require_once 'simpletest/extensions/phpunit_test_case.php';
 
-# PHPUnit
+// PHPUnit
 #require_once 'PHPUnit/Framework.php';
 
-# Test Subject
+// Test Subject
 #require_once dirname(__FILE__) . '/../../../core/xy.core.php';
 
 /**

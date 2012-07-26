@@ -64,8 +64,8 @@ class GuestUser
          * Fill $_SESSION[user] with Guest-User-infos
          */
 
-        $_SESSION['user']['authed']         = 0;  # guests are not authed
-        $_SESSION['user']['user_id']        = 0;  # guests have user_id 0
+        $_SESSION['user']['authed']         = 0;  // guests are not authed
+        $_SESSION['user']['user_id']        = 0;  // guests have user_id 0
         $_SESSION['user']['nick']           = _('Guest');
 
         $_SESSION['user']['passwordhash']   = '';
@@ -96,14 +96,14 @@ class GuestUser
             $_SESSION['user']['frontend_theme'] = $this->config['template']['frontend_theme'];
         }
 
-        # @todo remove this line, when user login is reactivated
+        // @todo remove this line, when user login is reactivated
         $_SESSION['user']['backendend_theme'] = 'admin';
 
         /**
          * Permissions for Guests
          */
 
-        $_SESSION['user']['group']  = 1; # @todo hardcoded for now
+        $_SESSION['user']['group']  = 1; // @todo hardcoded for now
         $_SESSION['user']['role']   = 3;
         #$_SESSION['user']['rights'] = Koch_ACL::createRightSession( $_SESSION['user']['role'] );
 

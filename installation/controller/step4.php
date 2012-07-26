@@ -96,7 +96,7 @@ class Step4 extends \Clansuite\Installation_Page
         {
             try
             {
-                # connection without dbname (must be blank for create table)
+                // connection without dbname (must be blank for create table)
                 $connectionParams = array(
                     'user' => $_POST['config']['database']['user'],
                     'password' => $_POST['config']['database']['password'],
@@ -124,7 +124,7 @@ class Step4 extends \Clansuite\Installation_Page
                 #$sql = $db->getCreateDatabaseSQL('databasename');
                 #$connection->exec($sql);
 
-                # Drop Connection.
+                // Drop Connection.
                 unset($connection);
             }
             catch(\Exception $e)
@@ -142,7 +142,7 @@ class Step4 extends \Clansuite\Installation_Page
         /**
          * 3) Connect to Database
          */
-        # Setup Connection Parameters. This time with "dbname".
+        // Setup Connection Parameters. This time with "dbname".
         $connectionParams = array(
             'dbname' => $_POST['config']['database']['dbname'],
             'user' => $_POST['config']['database']['user'],
@@ -159,16 +159,16 @@ class Step4 extends \Clansuite\Installation_Page
          */
         try
         {
-            # instantiate validator
+            // instantiate validator
             $validator = new \Doctrine\ORM\Tools\SchemaValidator($entityManager);
 
-            # validate
+            // validate
             $validation_error = $validator->validateMapping();
 
-            # handle validation errors
+            // handle validation errors
             if($validation_error)
             {
-                # @todo this is experimental...
+                // @todo this is experimental...
                 $this->setErrorMessage( var_export($validation_error, false) );
             }
         }

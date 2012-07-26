@@ -76,12 +76,12 @@ class Memcached extends AbstractCache implements CacheInterface
             throw new Exception('The PHP extension memcache (cache) is not loaded! You may enable it in "php.ini"!', 300);
         }
 
-        # instantiate object und set to class
+        // instantiate object und set to class
         $this->memcached = new \Memcached;
         $this->memcached->addServer(SERVER_HOST, SERVER_PORT, SERVER_WEIGTH);
 
         $this->memcached->setOption(Memcached::OPT_COMPRESSION, true);
-        # LIBKETAMA compatibility will implicitly declare the following two things:
+        // LIBKETAMA compatibility will implicitly declare the following two things:
         #$this->memcached->setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT);
         #$this->memcached->setOption(Memcached::OPT_HASH, Memcached::MD5);
         $this->memcached->setOption(Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
@@ -126,7 +126,7 @@ class Memcached extends AbstractCache implements CacheInterface
         if ($result === false) {
             return false;
         } else {
-            # typecast $key to array
+            // typecast $key to array
             if (is_array($result) === false) {
                 $result = (array) $result;
             }
@@ -158,7 +158,7 @@ class Memcached extends AbstractCache implements CacheInterface
      */
     public function store($key, $data, $cache_lifetime = 0)
     {
-        # typecast $data to array
+        // typecast $data to array
         if (is_array($data) === false) {
             $data = (array) $data;
         }
@@ -177,7 +177,7 @@ class Memcached extends AbstractCache implements CacheInterface
      */
     public function delete($keys)
     {
-        # typecast $keys to array
+        // typecast $keys to array
         if (is_array($keys) === false) {
             $keys = (array) $keys;
         }
@@ -206,7 +206,7 @@ class Memcached extends AbstractCache implements CacheInterface
         $stats      = $this->memcached->getstats();
         $serverlist = $this->memcached->getserverlist();
 
-        # combine arrays
+        // combine arrays
 
         return compact($version, $stats, $serverlist);
     }

@@ -60,8 +60,8 @@ class Smarty extends AbstractRenderer
 
         $this->configureEngine();
 
-        # debug display of all smarty related directories
-        # $this->renderer->testInstall();
+        // debug display of all smarty related directories
+        // $this->renderer->testInstall();
     }
 
     /**
@@ -71,9 +71,9 @@ class Smarty extends AbstractRenderer
      */
     public function initializeEngine($template = null)
     {
-        # prevent redeclaration
+        // prevent redeclaration
         if (class_exists('Smarty', false) === false) {
-            # check if Smarty library exists
+            // check if Smarty library exists
             if (is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') === true) {
                 include ROOT_LIBRARIES . 'smarty/Smarty.class.php';
             } else {
@@ -81,7 +81,7 @@ class Smarty extends AbstractRenderer
             }
         }
 
-        # Do it with smarty style > eat like a bird, poop like an elefant!
+        // Do it with smarty style > eat like a bird, poop like an elefant!
         $this->renderer = new \Smarty();
     }
 
@@ -101,15 +101,15 @@ class Smarty extends AbstractRenderer
         /**
          * Debugging
          */
-        $this->renderer->debugging = DEBUG ? true : false; # set smarty debugging, when debug on
+        $this->renderer->debugging = DEBUG ? true : false; // set smarty debugging, when debug on
         if ($this->renderer->debugging === true) {
-            $this->renderer->debug_tpl = ROOT_THEMES_CORE . 'view/smarty/debug.tpl';   # set debugging template for smarty
-            #$this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
-            $this->renderer->clearCompiledTemplate(); # clear compiled tpls in case of debug
-            $this->renderer->clearAllCache();         # clear cache
+            $this->renderer->debug_tpl = ROOT_THEMES_CORE . 'view/smarty/debug.tpl';   // set debugging template for smarty
+            #$this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   // set debugging template for smarty
+            $this->renderer->clearCompiledTemplate(); // clear compiled tpls in case of debug
+            $this->renderer->clearAllCache();         // clear cache
         }
 
-        $this->renderer->auto_literal = true;     # auto delimiter of javascript/css (The literal tag of Smarty v2.x)
+        $this->renderer->auto_literal = true;     // auto delimiter of javascript/css (The literal tag of Smarty v2.x)
 
         /**
          * SMARTY FILTERS
@@ -119,7 +119,7 @@ class Smarty extends AbstractRenderer
             $autoload_filters = array('pre' => array('inserttplnames'));
         }
         $this->renderer->autoload_filters = $autoload_filters;
-        #array(       # indicates which filters will be auto-loaded
+        #array(       // indicates which filters will be auto-loaded
         #'pre'    => array('inserttplnames'),
         #'post'   => array(),
         #'output' => array('trimwhitespaces')
@@ -128,19 +128,19 @@ class Smarty extends AbstractRenderer
         /**
          * COMPILER OPTIONS
          */
-        # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
-        # $this->renderer->compiler_class   = "Smarty_Compiler";
-        # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
-        # $this->renderer->compile_id       = 0;
+        // defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
+        // $this->renderer->compiler_class   = "Smarty_Compiler";
+        // set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
+        // $this->renderer->compile_id       = 0;
 
         /**
          * recompile/rewrite templates only in debug mode
          * @see http://www.smarty.net/manual/de/variable.compile.check.php
          */
         if ($this->renderer->debugging === true) {
-            # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+            // if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
             $this->renderer->compile_check = true;
-            # if true compiles each template everytime, overwrites $compile_check
+            // if true compiles each template everytime, overwrites $compile_check
             $this->renderer->force_compile = true;
         } else {
             $this->renderer->compile_check = false;
@@ -153,32 +153,32 @@ class Smarty extends AbstractRenderer
         #\Koch\Debug\Debug::printr($this->config['smarty']);
         if ($this->renderer->debugging === true) {
             $this->renderer->caching                = 0;
-            $this->renderer->cache_lifetime         = 0;       # refresh templates on every load
-            # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
-            $this->renderer->cache_modified_check   = 0;       # set to 1 to activate
+            $this->renderer->cache_lifetime         = 0;       // refresh templates on every load
+            // $this->renderer->cache_handler_func   = "";      // Specify your own cache_handler function
+            $this->renderer->cache_modified_check   = 0;       // set to 1 to activate
         } else {
-            # $this->renderer->setCaching(true);
+            // $this->renderer->setCaching(true);
             $this->renderer->caching = (bool) $this->config['smarty']['cache'];
-            # -1 ... dont expire, 0 ... refresh everytime
+            // -1 ... dont expire, 0 ... refresh everytime
             $this->renderer->cache_lifetime = isset($this->config['smarty']['cache_lifetime']) ? $this->config['smarty']['cache_lifetime'] : 0;
-            # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
-            $this->renderer->cache_modified_check   = 1;       # set to 1 to activate
+            // $this->renderer->cache_handler_func   = "";      // Specify your own cache_handler function
+            $this->renderer->cache_modified_check   = 1;       // set to 1 to activate
         }
 
         /**
          * DEFAULT TEMPLATE HANDLER FUNCTION
          */
-        # $this->renderer->default_template_handler_func = "";
+        // $this->renderer->default_template_handler_func = "";
 
         /**
          *  ENGINE SETTINGS
          */
-        # $this->renderer->left_delimiter           = "{";    # default : {
-        # $this->renderer->right_delimiter          = "}";    # default : }
-        #$this->renderer->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
-        #$this->renderer->show_info_include          = false;  # if true : adds an HTML comment at start and end of template files
-        # $this->renderer->request_vars_order       = "";     # order in which the request variables were set, same as 'variables_order' in php.ini
-        #$this->renderer->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
+        // $this->renderer->left_delimiter           = "{";    // default : {
+        // $this->renderer->right_delimiter          = "}";    // default : }
+        #$this->renderer->show_info_header           = false;  // if true : Smarty Version and Compiler Date are displayed as comment in template files
+        #$this->renderer->show_info_include          = false;  // if true : adds an HTML comment at start and end of template files
+        // $this->renderer->request_vars_order       = "";     // order in which the request variables were set, same as 'variables_order' in php.ini
+        #$this->renderer->use_sub_dirs               = true;   // set to false if creating subdirs is not allowed, but subdirs are more efficiant
 
         /**
          * Smarty Template Directories
@@ -194,13 +194,13 @@ class Smarty extends AbstractRenderer
          * 6) "/themes/"
          */
         $tpl_array = array(
-            Mapper::getThemeTemplatePaths(), # 1 + 2
-            Mapper::getModuleTemplatePaths(), # 3 + 4
-            ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . 'smarty', # 5
-            ROOT_THEMES # 6
+            Mapper::getThemeTemplatePaths(), // 1 + 2
+            Mapper::getModuleTemplatePaths(), // 3 + 4
+            ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . 'smarty', // 5
+            ROOT_THEMES // 6
         );
 
-        # flatten that thing
+        // flatten that thing
         $this->renderer->template_dir = \Koch\Functions::array_flatten($tpl_array);
 
         #\Koch\Debug\Debug::printR($this->renderer->template_dir);
@@ -225,14 +225,14 @@ class Smarty extends AbstractRenderer
 
         #\Koch\Debug\Debug::printR($this->renderer->plugins_dir);
 
-        # $this->renderer->registerPlugin('modifier', 'timemarker',  array('benchmark', 'timemarker'));
+        // $this->renderer->registerPlugin('modifier', 'timemarker',  array('benchmark', 'timemarker'));
 
         #$this->renderer->registerFilter(Smarty::FILTER_VARIABLE, 'htmlspecialchars');
 
-        # Auto-Escape all variables
+        // Auto-Escape all variables
         #$this->renderer->default_modifiers = array('escape:"html":"UTF-8"');
 
-        # compile time setting, tpls need recompiling
+        // compile time setting, tpls need recompiling
         $this->renderer->merge_compiled_includes = true;
     }
 
@@ -244,14 +244,14 @@ class Smarty extends AbstractRenderer
     public function getEngine()
     {
         if (is_object($this->renderer) === true) {
-            # reset all prior assigns and configuration settings
+            // reset all prior assigns and configuration settings
             $this->renderer->clearAllAssign();
             $this->renderer->clearConfig();
         } else {
             self::initializeEngine();
         }
 
-        # reload the base configuration to have default template paths and debug-settings
+        // reload the base configuration to have default template paths and debug-settings
         self::configureEngine();
 
         return $this->renderer;
@@ -373,10 +373,10 @@ class Smarty extends AbstractRenderer
      */
     public function fetch($template, $cache_id = null, $compile_id = null, $parent = null, $display = false)
     {
-        # ask the view mapper for the template path
+        // ask the view mapper for the template path
         $template = Mapper::getTemplatePath($template);
 
-        # create cache_id
+        // create cache_id
         if ($cache_id === null) {
             $cache_id = $this->createCacheId();
         }
@@ -408,7 +408,7 @@ class Smarty extends AbstractRenderer
      */
     public function display($template, $cache_id = null, $compile_id = null, $parent = null)
     {
-        # redirect to fetch, but set display to true
+        // redirect to fetch, but set display to true
         $this->fetch($template, $cache_id, $compile_id, $parent, true);
     }
 
@@ -450,9 +450,9 @@ class Smarty extends AbstractRenderer
      */
     public function resetCache()
     {
-        # empty cache folder
+        // empty cache folder
         $this->renderer->clearAllCache();
-        # empty compile folder
+        // empty compile folder
         $this->renderer->clearCompiledTemplate();
     }
 
@@ -511,7 +511,7 @@ class Smarty extends AbstractRenderer
             $this->assign($viewdata);
         }
 
-        # 1. assign common template values and Application constants as Smarty Template Variables.
+        // 1. assign common template values and Application constants as Smarty Template Variables.
         $this->renderer->assignGlobal($this->getConstants());
 
         /**
@@ -535,10 +535,10 @@ class Smarty extends AbstractRenderer
         }
 
         if ($this->getRenderMode() === 'LAYOUT') {
-            # ensure that smarty tags {$content} and {copyright} are present in the layout template
+            // ensure that smarty tags {$content} and {copyright} are present in the layout template
             #if(true === $this->preRenderChecks())
             #{
-                # assign the modulecontent
+                // assign the modulecontent
                 $this->assign('content', $this->fetch($template));
 
                 return $this->fetch($this->getLayoutTemplate());

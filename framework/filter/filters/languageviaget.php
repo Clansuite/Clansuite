@@ -59,7 +59,7 @@ class LanguageViaGet implements FilterInterface
 
     public function __construct(Config $config)
     {
-        # only subarray is relevant
+        // only subarray is relevant
         $this->config = $config['switches'];
     }
 
@@ -73,7 +73,7 @@ class LanguageViaGet implements FilterInterface
             return;
         }
 
-        # fetch URL parameter "&lang=" from $_GET['lang']
+        // fetch URL parameter "&lang=" from $_GET['lang']
         $language = $request->getParameterFromGet('lang');
 
         if (isset($language) and (mb_strlen($language) == 2)) {

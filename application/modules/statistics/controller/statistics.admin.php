@@ -51,7 +51,7 @@ class Statistics_Admin extends Controller
 
     public function action_admin_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/statistics/admin/settings');
 
         $settings = array();
@@ -74,13 +74,13 @@ class Statistics_Admin extends Controller
                                                 'formfieldtype' => 'text',
                                                 'value' => self::getConfigValue('timoutWho', '5'));
 
-        # fill the settings array into the formgenerator
+        // fill the settings array into the formgenerator
         $form = new Clansuite_Form($settings);
-        # add additional buttons to the form
+        // add additional buttons to the form
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -88,17 +88,17 @@ class Statistics_Admin extends Controller
 
     public function action_admin_settings_update()
     {
-        # Incomming Data
-        # @todo get post via request object, sanitize
+        // Incomming Data
+        // @todo get post via request object, sanitize
         $data = $this->request->getParameter('statistic_settings');
 
-        # Get Configuration from Injector and write Config
+        // Get Configuration from Injector and write Config
         $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache(WWW_ROOT . '/statistics/admin/settings', 2, 302, 'The config file has been successfully updated.');
     }
 }

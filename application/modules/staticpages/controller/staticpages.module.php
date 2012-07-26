@@ -38,11 +38,11 @@ class Staticpages extends Controller
      */
     public function _initializeModule()
     {
-        # read module config
+        // read module config
         $this->getModuleConfig();
     }
 
-    #  Show a specific static page
+    //  Show a specific static page
 
     public function action_show()
     {
@@ -62,7 +62,7 @@ class Staticpages extends Controller
         // get inputfilter class
         #$input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
 
-        // check if page was set and is sanitized # and $input->check( $page, 'is_abc|is_int|is_custom', '_\s' )
+        // check if page was set and is sanitized // and $input->check( $page, 'is_abc|is_int|is_custom', '_\s' )
         if ( !empty($page)  )
         {
             $result = Doctrine_Query::create()
@@ -79,13 +79,13 @@ class Staticpages extends Controller
                 {
                     #$this->mod_page_title = $result['title'] . ' - ' . $result['description'];
 
-                    # Get Render Engine
+                    // Get Render Engine
                     $view = $this->getView();
                     $view->assign('staticpagecontent', $result);
 
                     #$this->output .= $result['0']['html'];
                 }
-                /*else # static page is iframe??
+                /*else // static page is iframe??
                 {
                     $this->mod_page_title = $result['title'] . ' - ' . $result['description'];
                     if ( $result['iframe'] == 1 )
@@ -130,7 +130,7 @@ class Staticpages extends Controller
 
         if ( is_array($result) )
         {
-            # Get Render Engine
+            // Get Render Engine
             $this->getView()->assign('overview', $result);
             $view->setTemplate('overview.tpl');
         }

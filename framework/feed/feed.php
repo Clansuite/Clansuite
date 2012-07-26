@@ -63,31 +63,31 @@ class Feed
         $old_errorlevel = error_reporting();
         error_reporting(0);
 
-        # load simplepie
+        // load simplepie
         include ROOT_LIBRARIES . 'simplepie/simplepie.inc';
 
-        # instantiate simplepie
+        // instantiate simplepie
         $simplepie = new \SimplePie();
 
-        # if cache_location was not specified manually
+        // if cache_location was not specified manually
         if ($cache_location == null) {
-            # we set it to the default cache directory for feeds
-            $cache_location = ROOT_CACHE; # . 'feeds';
+            // we set it to the default cache directory for feeds
+            $cache_location = ROOT_CACHE; // . 'feeds';
         }
 
-        # if cache_duration was not specified manually
+        // if cache_duration was not specified manually
         if ($cache_duration == null) {
-            # we set it to the default cache duration time of 1800
+            // we set it to the default cache duration time of 1800
             $cache_duration = 1800;
         }
 
-        # if number of items to fetch is null
+        // if number of items to fetch is null
         if ($number_of_items == null) {
-            # we set it to the default value of 5 items
+            // we set it to the default value of 5 items
             $number_of_items = 5;
         }
 
-        # finally: fetch the feed and cache it!
+        // finally: fetch the feed and cache it!
         $simplepie->set_feed_url($feed_url);
         $simplepie->set_cache_location($cache_location);
         $simplepie->set_cache_duration($cache_duration);
@@ -97,7 +97,7 @@ class Feed
         $simplepie->init();
         $simplepie->handle_content_type();
 
-        # set old error reporting level
+        // set old error reporting level
         error_reporting($old_errorlevel);
 
         return $simplepie;
@@ -114,26 +114,26 @@ class Feed
     public static function fetchRawRSS($feed_url, $cache = true)
     {
         if ($cache === true) {
-            # Cache Filename and Path
+            // Cache Filename and Path
             $cachefile = ROOT_CACHE . md5($feed_url);
 
-            # define cache lifetime
-            $cachetime = 60*60*3; # 10800min = 3h
+            // define cache lifetime
+            $cachetime = 60*60*3; // 10800min = 3h
         }
 
-        # try to return the file from cache
+        // try to return the file from cache
         if (true === $cache and is_file($cachefile) and (time() - filemtime($cachefile)) < $cachetime) {
             return file_get_contents($cachefile);
-        } else { # get the feed from the source
+        } else { // get the feed from the source
             if ($cache === true) {
-                # ensure cachefile exists, before we write
+                // ensure cachefile exists, before we write
                 touch($cachefile);
                 chmod($cachefile, 0666);
             }
-            # Get Feed from source, Write File
+            // Get Feed from source, Write File
             $feedcontent = file_get_contents($feed_url, FILE_TEXT);
 
-            # ensure that we have rss content
+            // ensure that we have rss content
             if (mb_strlen($feedcontent) > 0) {
                 if ($cache === true) {
                     $fp = fopen($cachefile, 'w');

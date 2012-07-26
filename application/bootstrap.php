@@ -135,7 +135,7 @@ class CMS
      */
     private static function setMemoryLimit($limit)
     {
-        # in general the memory limit is determined by php.ini, it's only raised if lower 32MB and not -1
+        // in general the memory limit is determined by php.ini, it's only raised if lower 32MB and not -1
         $memory_limit = intval(ini_get('memory_limit'));
         if($memory_limit != -1 and $memory_limit < (int) $limit )
         {
@@ -282,20 +282,20 @@ class CMS
      */
     public static function initialize_ConstantsAndPaths()
     {
-        # ensure that apc is loaded as extension
+        // ensure that apc is loaded as extension
         define('APC', (bool) extension_loaded('apc'));
 
-        # try to load constants from APC
+        // try to load constants from APC
         if(APC === true)
         {
-            # constants retrieved from APC
+            // constants retrieved from APC
             apc_load_constants('CLANSUITE_CONSTANTS', true);
             return;
         }
 
-        # if apc is off or
-        # if apc is on, but apc_load_constants did not retrieve any constants yet (first run)
-        # then define constants
+        // if apc is off or
+        // if apc is on, but apc_load_constants did not retrieve any constants yet (first run)
+        // then define constants
         if(APC === false or defined('NL') == false)
         {
             self::define_ConstantsAndPaths();
@@ -305,10 +305,10 @@ class CMS
              */
             if(APC === true)
             {
-                # catch user-defined constants as array
+                // catch user-defined constants as array
                 $constantsarray = get_defined_constants(true);
 
-                # remove security constant and starttime
+                // remove security constant and starttime
                 unset($constantsarray['user']['IN_CS']);
                 unset($constantsarray['user']['STARTTIME']);
 
@@ -337,7 +337,7 @@ class CMS
             ROOT_LIBRARIES . 'PEAR' . DIRECTORY_SEPARATOR
         );
 
-        # attach original include paths
+        // attach original include paths
         set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
 
         unset($paths);
@@ -387,14 +387,14 @@ class CMS
          */
         define('DEBUG', (bool) self::$config['error']['debug']);
 
-        # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
+        // If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if(DEBUG == true)
         {
             ini_set('max_execution_time', '300');
             ini_set('display_startup_errors', true);
-            ini_set('display_errors', true);    # display errors in the browser
+            ini_set('display_errors', true);    // display errors in the browser
 
-            error_reporting(E_ALL | E_STRICT);  # all errors and strict standard optimizations
+            error_reporting(E_ALL | E_STRICT);  // all errors and strict standard optimizations
 
             /**
              * Toggle for Rapid Application Development
@@ -416,24 +416,24 @@ class CMS
              */
             define('XDEBUG', (bool) self::$config['error']['xdebug']);
 
-            # If XDebug is enabled, load xdebug helpers and start the debug/tracing
+            // If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if(XDEBUG == true)
             {
                 include KOCH . 'debug/xdebug.php';
                 Clansuite_XDebug::start_xdebug();
             }
         }
-        else # application is in live/production mode. errors are not shown, but logged to file!
+        else // application is in live/production mode. errors are not shown, but logged to file!
         {
-            # enable error_logging
+            // enable error_logging
             ini_set('log_errors', true);
-            # do not display errors in the browser
+            // do not display errors in the browser
             ini_set('display_errors', false);
-            # log only certain errors
+            // log only certain errors
             error_reporting(E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_ERROR | E_CORE_ERROR);
-            # do not report any errors
+            // do not report any errors
             #error_reporting(0);
-            # write to errorlog
+            // write to errorlog
             ini_set('error_log', ROOT_LOGS . 'clansuite_error.log');
         }
     }
@@ -501,7 +501,7 @@ class CMS
      */
     private static function initialize_Config()
     {
-        # 1. load the main clansuite configuration file
+        // 1. load the main clansuite configuration file
         $clansuite_cfg_cached = false;
 
         if(APC === true and apc_exists('clansuite.config'))
@@ -520,20 +520,20 @@ class CMS
         }
         unset($clansuite_cfg_cached);
 
-        # 2. Maintenance check
+        // 2. Maintenance check
         if( isset(self::$config['maintenance']['maintenance']) and
             true === (bool) self::$config['maintenance']['maintenance'] )
         {
             $token = false;
 
-            # incoming maintenance token via GET
+            // incoming maintenance token via GET
             if(isset($_GET['mnt']) === true)
             {
                 $tokenstring = $_GET['mnt'];
                 $token = Clansuite_Securitytoken::ckeckToken($tokenstring);
             }
 
-            # if token is false (or not valid) show maintenance
+            // if token is false (or not valid) show maintenance
             if( false === $token )
             {
                 Clansuite_Maintenance::show(self::$config);
@@ -542,12 +542,12 @@ class CMS
             {
                 self::$config['maintenance']['maintenance'] = 0;
                 \Koch\Config\INI::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
-                # redirect to remove the token from url
+                // redirect to remove the token from url
                 header('Location: ' . SERVER_URL);
             }
         }
 
-        # 3. load staging configuration (overloading clansuite.config.php)
+        // 3. load staging configuration (overloading clansuite.config.php)
         if( true === (bool) self::$config['config']['staging'] )
         {
             self::$config = \Koch\Config\Staging::overloadWithStagingConfig(self::$config);
@@ -590,7 +590,7 @@ class CMS
      */
     private static function register_DI_Core()
     {
-        # define the core classes to load
+        // define the core classes to load
         static $core_classes = array(
             'Koch\Config\Config',
             #'Koch\MVC\HttpRequest',
@@ -604,7 +604,7 @@ class CMS
             'Koch\Router\Router',
         );
 
-        # register them to the DI as singletons
+        // register them to the DI as singletons
         foreach($core_classes as $class)
         {
             self::$injector->register($class);
@@ -616,7 +616,7 @@ class CMS
      */
     private static function register_DI_Filters()
     {
-        # define prefilters to load
+        // define prefilters to load
         self::$prefilter_classes = array(
             'Koch\Filter\Filters\GetUser',
             #'Koch\Filter\Filters\SessionSecurity',
@@ -627,19 +627,19 @@ class CMS
             #'Koch\Filter\Filters\Statistics'
         );
 
-        # define postfilters to load
+        // define postfilters to load
         self::$postfilter_classes = array(
             #'Clansuite_Filter_HtmlTidy',
             'Koch\Filter\Filters\SmartyMoves'
         );
 
-        # register the debug console only in DEBUG mode and before all other filters
+        // register the debug console only in DEBUG mode and before all other filters
         if(DEBUG == true)
         {
             self::$injector->register('Koch\Filter\Filters\PhpDebugConsole');
         }
 
-        # combine pre- and postfilters and register at DI
+        // combine pre- and postfilters and register at DI
         $filter_classes = self::$prefilter_classes + self::$postfilter_classes;
 
         foreach($filter_classes as $class)
@@ -655,7 +655,7 @@ class CMS
      */
     private static function execute_Frontcontroller()
     {
-        # Get request and response objects for Filter and Request processing
+        // Get request and response objects for Filter and Request processing
         $request  = self::$injector->instantiate('Koch\MVC\HttpRequest');
         $response = self::$injector->instantiate('Koch\MVC\HttpResponse');
 
@@ -686,7 +686,7 @@ class CMS
             $clansuite->addPostfilter(self::$injector->instantiate($class));
         }
 
-        # Take off.
+        // Take off.
         $clansuite->processRequest();
     }
 
@@ -706,10 +706,10 @@ class CMS
      */
     private static function start_Session()
     {
-        # Initialize Session
+        // Initialize Session
         self::$injector->create('\Koch\Session\Session');
 
-        # register the session-depending user object manually
+        // register the session-depending user object manually
         self::$injector->instantiate('\Koch\User\User');
     }
 
@@ -727,25 +727,25 @@ class CMS
      */
     private static function initialize_Timezone()
     {
-        # apply timezone defensivly
+        // apply timezone defensivly
         if(isset(self::$config['language']['timezone']) === true)
         {
-            # set always if incomming via config
+            // set always if incomming via config
             date_default_timezone_set(self::$config['language']['timezone']);
         }
-        # the timezone should already be set in php.ini
-        # this is just an fallback, if the system is not configured
+        // the timezone should already be set in php.ini
+        // this is just an fallback, if the system is not configured
         elseif(ini_get('date.timezone') === '')
         {
             date_default_timezone_set('Europe/Berlin');
         }
 
-        # set date formating via config
+        // set date formating via config
         if(isset(self::$config['locale']['dateformat']) === true)
         {
             define('DATE_FORMAT', self::$config['locale']['dateformat']);
         }
-        else # set default value
+        else // set default value
         {
             define('DATE_FORMAT', 'd.m.Y H:i');
         }
@@ -806,7 +806,7 @@ class CMS
         {
             echo \Koch\Doctrine\Doctrine::getStats();
 
-            # Display the General Application Runtime
+            // Display the General Application Runtime
             echo ' Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
         }
     }

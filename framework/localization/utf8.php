@@ -39,30 +39,30 @@ class UTF8
 {
     public static function initialize()
     {
-        # detect, if the mbstring extension is loaded and set flag constant
+        // detect, if the mbstring extension is loaded and set flag constant
         define('UTF8_MBSTRING', extension_loaded('mbstring'));
 
-        # mbstring extension is loaded
+        // mbstring extension is loaded
         if (UTF8_MBSTRING === true) {
-            # we do not accept mbstring function overloading set in php.ini
+            // we do not accept mbstring function overloading set in php.ini
             if (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING) {
                 $msg = _('The string functions are overloaded by mbstring. Please stop that.
                           Check php.ini - setting: mbstring.func_overload.');
                 trigger_error($msg, E_USER_ERROR);
             }
 
-            # if not already set, set internal encoding to UTF-8
+            // if not already set, set internal encoding to UTF-8
             mb_internal_encoding('UTF-8');
 
-        } else { # mbstring extension is NOT loaded, we provide mbstring function fallbacks
+        } else { // mbstring extension is NOT loaded, we provide mbstring function fallbacks
 
-            # load functional replacements for mbstring functions
+            // load functional replacements for mbstring functions
             include KOCH . 'localization\mbstringwrapper.php';
 
-            # load utf-8 character tables for lookups
+            // load utf-8 character tables for lookups
             include KOCH . 'localization\utf8\utf8tables.php';
 
-            # load utf8 functions
+            // load utf8 functions
             include KOCH . 'localization\utf8\utf8.php';
         }
     }

@@ -37,7 +37,7 @@ use Koch\Exception\Exception;
  */
 class Session implements SessionInterface, \ArrayAccess
 {
-    # stop applications to influcence each other by applying a session_name
+    // stop applications to influcence each other by applying a session_name
     const SESSION_NAME = 'CsuiteSID';
 
     /**
@@ -80,7 +80,7 @@ class Session implements SessionInterface, \ArrayAccess
     {
         $this->config = $config;
 
-        # session auto_start must be disabled
+        // session auto_start must be disabled
         if (ini_get('session.auto_start') != 0) {
             throw new Exception('PHP Setting session.auto_start must be disabled.');
         }
@@ -95,7 +95,7 @@ class Session implements SessionInterface, \ArrayAccess
             $this->session_expire_time = $this->config['session']['session_expire_time'] * 60;
         }
 
-        # configuration not needed any longer, free some memory
+        // configuration not needed any longer, free some memory
         unset($this->config);
 
         /**
@@ -113,18 +113,18 @@ class Session implements SessionInterface, \ArrayAccess
         ini_set('session.gc_probability', $this->session_probability);
         ini_set('session.gc_divisor', 100);
 
-        # use_trans_sid off -> because spiders will index with PHPSESSID
-        # use_trans_sid on  -> considered evil
+        // use_trans_sid off -> because spiders will index with PHPSESSID
+        // use_trans_sid on  -> considered evil
         ini_set('session.use_trans_sid', 0);
 
-        # @todo check if there is a problem with rewriting
+        // @todo check if there is a problem with rewriting
         #ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
-        # use a cookie to store the session id (no session_id's in URL)
-        # session cookies are forced!
+        // use a cookie to store the session id (no session_id's in URL)
+        // session cookies are forced!
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
 
-        # stop javascript accessing the cookie (XSS)
+        // stop javascript accessing the cookie (XSS)
         ini_set('session.cookie_httponly', 1);
 
         /**
@@ -132,16 +132,16 @@ class Session implements SessionInterface, \ArrayAccess
          * Userspace Session Storage
          */
         session_set_save_handler(
-                array($this, 'session_open'), array($this, 'session_close'), array($this, 'session_read'), array($this, 'session_write'), # this redefines session_write_close()
-                array($this, 'session_destroy'), # this redefines session_destroy()
+                array($this, 'session_open'), array($this, 'session_close'), array($this, 'session_read'), array($this, 'session_write'), // this redefines session_write_close()
+                array($this, 'session_destroy'), // this redefines session_destroy()
                 array($this, 'session_gc')
         );
 
 
-        # Start Session
+        // Start Session
         self::startSession($this->session_expire_time);
 
-        # Apply and Check Session Security
+        // Apply and Check Session Security
         self::validateAndSecureSession();
     }
 
@@ -150,12 +150,12 @@ class Session implements SessionInterface, \ArrayAccess
      */
     private static function startSession($time = 1800)
     {
-        # set cookie parameters
+        // set cookie parameters
         session_set_cookie_params($time);
 
-        # START THE SESSION
+        // START THE SESSION
         if (true === session_start()) {
-            # Set Cookie + adjust the expiration time upon page load
+            // Set Cookie + adjust the expiration time upon page load
             setcookie(self::SESSION_NAME, session_id(), time() + $time, '/');
         } else {
             throw new Koch_Exception('The session start failed!', 200);
@@ -182,17 +182,17 @@ class Session implements SessionInterface, \ArrayAccess
              */
             session_regenerate_id(true);
 
-            # session fixation
+            // session fixation
             $_SESSION['application']['initiated'] = true;
 
             /**
              * Session Security Token
              * CSRF: http://shiflett.org/articles/cross-site-request-forgeries
              */
-            # session token
+            // session token
             $_SESSION['application']['token'] = md5(uniqid(rand(), true));
 
-            # session time
+            // session time
             $_SESSION['application']['token_time'] = time();
         }
     }
@@ -243,7 +243,7 @@ class Session implements SessionInterface, \ArrayAccess
             $result = $query->getResult();
 
             if ($result) {
-                return (string) $result[0]['session_data'];  # unserialize($result['session_data']);
+                return (string) $result[0]['session_data'];  // unserialize($result['session_data']);
             }
         } catch (Exception $e) {
             $msg = '';
@@ -298,8 +298,8 @@ class Session implements SessionInterface, \ArrayAccess
             'id' => $session_id,
             'name' => self::SESSION_NAME,
             'time' => (int) time(),
-            'data' => $data, # @todo serialize($data)
-            'visibility' => '1', # @todo ghost mode
+            'data' => $data, // @todo serialize($data)
+            'visibility' => '1', // @todo ghost mode
             'where' => 'session_start',
             'user_id' => '0')
         );

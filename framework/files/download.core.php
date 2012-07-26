@@ -63,17 +63,17 @@ class Download
      */
     private static function sendRated($filePath, $rate = 0)
     {
-        # Check if file exists
+        // Check if file exists
         if (is_file($filePath) == false) {
             throw new Koch_Exception('File not found.');
         }
 
-        # get more information about the file
+        // get more information about the file
         $filename = basename($filePath);
         $size = filesize($filePath);
         $mimetype = self::getMimeType($filePath);
 
-        # Create file handle
+        // Create file handle
         $fp = fopen($filePath, 'rb');
 
         $seekStart = 0;
@@ -84,7 +84,7 @@ class Download
          * multipart-download and resume-download
          */
         if (isset($_SERVER['HTTP_RANGE'])) {
-            # calculate the range to use
+            // calculate the range to use
             $range = explode('-', mb_substr($_SERVER['HTTP_RANGE'], 6));
 
             $seekStart = intval($range[0]);
@@ -93,18 +93,18 @@ class Download
                 $seekEnd = intval($range[1]);
             }
 
-            # Seek to the start
+            // Seek to the start
             fseek($fp, $seekStart);
 
-            # Set headers including the range info
+            // Set headers including the range info
             header('HTTP/1.1 206 Partial Content');
             header(sprintf('Content-Range: bytes %d-%d/%d', $seekStart, $seekEnd, $size));
         } else {
-            # Set headers for full file
+            // Set headers for full file
             header('HTTP/1.1 200 OK');
         }
 
-        # Output some headers
+        // Output some headers
         header('Cache-Control: private');
         header('Content-Type: ' . $mimetype);
         header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -116,28 +116,28 @@ class Download
 
         $block = 1024;
 
-        # limit download speed
+        // limit download speed
         if ($rate > 0) {
             $block *= $rate;
         }
 
-        # disable timeout before download starts
+        // disable timeout before download starts
         set_time_limit(0);
 
-        # Send file until end is reached
+        // Send file until end is reached
         while (feof($fp) == false) {
             $timeStart = microtime(true);
             echo fread($fp, $block);
             flush();
             $wait = (microtime(true) - $timeStart) * 1000000;
 
-            # if speedlimit is defined, make sure to only send specified bytes per second
+            // if speedlimit is defined, make sure to only send specified bytes per second
             if ($rate > 0) {
                 usleep(1000000 - $wait);
             }
         }
 
-        # Close handle
+        // Close handle
         fclose($fp);
     }
 

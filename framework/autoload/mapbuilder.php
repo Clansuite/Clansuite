@@ -79,14 +79,14 @@ class MapBuilder
         $php_files = array();
 
         foreach ($dir as $file) {
-            # skip dirs
+            // skip dirs
             if (!$file->isFile()) {
                 continue;
             }
 
             $file = $file->getRealPath();
 
-            # skip non PHP files
+            // skip non PHP files
             if (pathinfo($file, PATHINFO_EXTENSION) !== 'php') {
                 continue;
             }
@@ -105,7 +105,7 @@ class MapBuilder
      */
     public static function extractClassname($file)
     {
-        # tokenize the content of the file
+        // tokenize the content of the file
         $contents = file_get_contents($file);
         $tokens = token_get_all($contents);
 

@@ -45,7 +45,7 @@ class JQSelectColor extends Formelement implements FormelementInterface
     public function getValue()
     {
         if (empty($this->value)) {
-            # set a default color as return value
+            // set a default color as return value
 
             return '#123456';
         }
@@ -55,12 +55,12 @@ class JQSelectColor extends Formelement implements FormelementInterface
 
     public function render()
     {
-        # add the javascripts to the queue of the page (@todo queue, duplication check)
+        // add the javascripts to the queue of the page (@todo queue, duplication check)
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . 'javascript/jquery/jquery.farbtastic.js"></script>
                              <link rel="stylesheet" href="'.WWW_ROOT_THEMES_CORE . 'css/farbtastic.css" type="text/css" />';
 
-        # Add the jQuery UI Date Select Dialog.
-        # Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
+        // Add the jQuery UI Date Select Dialog.
+        // Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
         $datepicker_js   = "<script type=\"text/javascript\">
                                           $(document).ready(function() {
                                             $('#colorpicker').farbtastic('#color');

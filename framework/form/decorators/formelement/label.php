@@ -53,9 +53,9 @@ class Label extends Decorator
      */
     public function render($html_formelement)
     {
-        # add label
+        // add label
         if ( $this->formelement->hasLabel() == true) {
-            # for attribute points to formelements id tag
+            // for attribute points to formelements id tag
             $html_formelement = CR . '<label for="'. $this->formelement->getId() .'">' . $this->formelement->getLabel() . '</label>'. CR . $html_formelement;
         }
 

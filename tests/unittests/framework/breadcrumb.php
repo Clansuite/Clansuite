@@ -36,7 +36,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
      */
     public function testAdd()
     {
-        # test data
+        // test data
         $array = array( array('title' => 'modulenameA', 'link' => 'index.php?mod=modulenameA'),
                         array('title' => 'modulenameB', 'link' => '/index.php?mod=modulenameB'));
 
@@ -45,14 +45,14 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
 
         $t_array = $this->object->getTrail(false);
 
-        # title is uppercased on first char
+        // title is uppercased on first char
         $this->assertIdentical('ModulenameA', $t_array[0]['title']);
-        # short url to qualified url
+        // short url to qualified url
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=modulenameA', $t_array[0]['link']);
 
-        # title is uppercased on first char
+        // title is uppercased on first char
         $this->assertIdentical('ModulenameB', $t_array[1]['title']);
-        # slash at the start is removed and shorturl to qualified url
+        // slash at the start is removed and shorturl to qualified url
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=modulenameB', $t_array[1]['link']);
     }
 
@@ -61,13 +61,13 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
      */
     public function testReplace()
     {
-        # test data
+        // test data
         $array = array( array('title' => 'modulenameA', 'link' => 'index.php?mod=modulenameA'),
                         array('title' => 'modulenameC', 'link' => '/index.php?mod=modulenameC'));
 
-        # add array[0]
+        // add array[0]
         $this->object->add($array[0]['title'], $array[0]['link']);
-        # replace array[0]
+        // replace array[0]
         $this->object->replace($array[1]['title'], $array[1]['link'], 0);
 
         $t_array = $this->object->getTrail(false);
@@ -87,26 +87,26 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
          * expected path = Home >> News >> Show
          */
 
-        # add Level 1 - Home
+        // add Level 1 - Home
         $this->object->resetBreadcrumbs();
         $this->object->initialize();
         TargetRoute::reset();
         TargetRoute::setController('news');
         TargetRoute::setAction('action_show');
 
-        # fetch with dynamical trail building
+        // fetch with dynamical trail building
         $t_array = $this->object->getTrail(true);
         #var_dump($t_array);
 
-        # Level 1 - expected Home
+        // Level 1 - expected Home
         $this->assertIdentical('Home', $t_array[0]['title']);
         $this->assertIdentical(WWW_ROOT, $t_array[0]['link']);
 
-        # Level 2 - Modulename News
+        // Level 2 - Modulename News
         $this->assertIdentical('News', $t_array[1]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=news', $t_array[1]['link']);
 
-        # Level 3 - Action  Show
+        // Level 3 - Action  Show
         $this->assertIdentical('Show', $t_array[2]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=news&amp;action=show', $t_array[2]['link']);
 
@@ -116,7 +116,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
          * expected path = Controlcenter >> News Admin >> Show
          */
 
-        # add Level 1 - Home
+        // add Level 1 - Home
         $this->object->resetBreadcrumbs();
         $this->object->initialize('news', 'admin');
         TargetRoute::reset();
@@ -124,19 +124,19 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         TargetRoute::setSubController('admin');
         TargetRoute::setAction('action_show');
 
-        # fetch with dynamical trail building
+        // fetch with dynamical trail building
         $t_array = $this->object->getTrail(true);
         #var_dump($t_array);
 
-        # Level 1 - expected
+        // Level 1 - expected
         $this->assertIdentical('Control Center', $t_array[0]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=controlcenter', $t_array[0]['link']);
 
-        # Level 2 - Modulename News
+        // Level 2 - Modulename News
         $this->assertIdentical('News Admin', $t_array[1]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=news&amp;sub=admin', $t_array[1]['link']);
 
-        # Level 3 - Action  Show
+        // Level 3 - Action  Show
         $this->assertIdentical('Show', $t_array[2]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=news&amp;sub=admin&amp;action=show', $t_array[2]['link']);
 
@@ -146,7 +146,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
          * expected path = Controlcenter
          */
 
-        # add Level 1 - Home
+        // add Level 1 - Home
         $this->object->resetBreadcrumbs();
         $this->object->initialize('controlcenter');
         TargetRoute::reset();
@@ -154,19 +154,19 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         TargetRoute::setSubController(null);
         TargetRoute::setAction('show');
 
-        # fetch with dynamical trail building
+        // fetch with dynamical trail building
         $t_array = $this->object->getTrail(true);
         #var_dump($t_array);
 
-        # Level 1 - expected
+        // Level 1 - expected
         $this->assertIdentical('Control Center', $t_array[0]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=controlcenter', $t_array[0]['link']);
 
-        # Level 2 - Modulename News
+        // Level 2 - Modulename News
         $this->assertIdentical('News', $t_array[1]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=news', $t_array[1]['link']);
 
-        # Level 3 - Action  Show
+        // Level 3 - Action  Show
         $this->assertIdentical('Show', $t_array[2]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=news&amp;action=show', $t_array[2]['link']);
 
@@ -177,18 +177,18 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
      */
     public function testGetTrail()
     {
-        # test data
+        // test data
         $array = array( array('title' => 'modulenameA', 'link' => 'index.php?mod=modulenameA'));
 
-        # insert
+        // insert
         $this->object->add($array[0]['title'], $array[0]['link']);
 
-        # fetch
+        // fetch
         $t_array = $this->object->getTrail(false);
 
-        # return value is an array
+        // return value is an array
         $this->assertIsA($t_array, 'array');
-        # array is not empty
+        // array is not empty
         $bool = empty($t_array) ? true : false;
         $this->assertFalse($bool);
     }
@@ -198,7 +198,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
      */
     public function testinitialize()
     {
-        # case HOME
+        // case HOME
         $this->object->resetBreadcrumbs();
         $this->object->initialize();
 
@@ -207,7 +207,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         $this->assertIdentical('Home', $t_array[0]['title']);
         $this->assertIdentical(WWW_ROOT, $t_array[0]['link']);
 
-        # case CONTROLCENTER module
+        // case CONTROLCENTER module
 
         $this->object->resetBreadcrumbs();
         $this->object->initialize('controlcenter');
@@ -217,7 +217,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         $this->assertIdentical('Control Center', $t_array[0]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=controlcenter', $t_array[0]['link']);
 
-        # case ADMIN submodule => the first breadcrumb is also the controlcenter (because backend of module)
+        // case ADMIN submodule => the first breadcrumb is also the controlcenter (because backend of module)
 
         $this->object->resetBreadcrumbs();
         $this->object->initialize('testmodule', 'admin');
@@ -230,9 +230,9 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
 
     public function testResetBreadcrumbs()
     {
-       # lets add an HOME entry on [0]
+       // lets add an HOME entry on [0]
        $this->object->initialize();
-       # and reset the paths array
+       // and reset the paths array
        $this->object->resetBreadcrumbs();
 
        $t_array = $this->object->getTrail(false);

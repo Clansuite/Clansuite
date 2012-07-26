@@ -12,7 +12,7 @@ class Koch_Form_Validator_Url_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new \Koch\Form\Validators\Url;
     }
 
@@ -32,23 +32,23 @@ class Koch_Form_Validator_Url_Test extends Clansuite_UnitTestCase
          * validate() on the parent class, which then calls processValidationLogic()
          */
 
-        # IDNA URL based on intl extension
+        // IDNA URL based on intl extension
         if(function_exists('idn_to_ascii'))
         {
             $this->assertEqual(idn_to_ascii('url-ästhetik.de'),
                         $this->validator->validate('url-ästhetik.de'));
         }
 
-        # hmm... this puny doesn't ride...
+        // hmm... this puny doesn't ride...
         $this->assertFalse($this->validator->validate('http://www.täst.com'));
 
-        # no dash
+        // no dash
         $this->assertTrue($this->validator->validate('http://clansuite.com'));
 
-        # 1 dash
+        // 1 dash
         $this->assertTrue($this->validator->validate('http://clan-cms.com'));
 
-        # 2 dashes
+        // 2 dashes
         $this->assertTrue($this->validator->validate('http://jens-andre-koch.de'));
     }
 

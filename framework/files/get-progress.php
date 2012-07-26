@@ -20,18 +20,18 @@ header('Pragma: no-cache');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $status = apc_fetch('upload_'.$_POST['APC_UPLOAD_PROGRESS']);
-    #echo round($status['current']/$status['total']*100);
+    //echo round($status['current']/$status['total']*100);
     $status['done']=1;
-    # direct encoding of the whole data-array with json
+    // direct encoding of the whole data-array with json
     echo json_encode($status);
 } elseif(isset($_GET['uniqueID']))
 {
     $status = apc_fetch('upload_' . $_GET['uniqueID']);
-    #echo round($status['current']/$status['total']*100);
+    //echo round($status['current']/$status['total']*100);
 
-    # direct encoding of the whole data-array with json
+    // direct encoding of the whole data-array with json
     echo json_encode($status);
 }
 
-# debugging the status array
-# var_dump($status); exit;
+// debugging the status array
+// var_dump($status); exit;

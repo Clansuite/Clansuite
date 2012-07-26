@@ -165,11 +165,11 @@ class StringExpectation extends SimpleExpectation
     {
         if(strpos($compare, $this->getString()) !== false)
         {
-            return true; # string is found
+            return true; // string is found
         }
         else
         {
-            return false; # string not found
+            return false; // string not found
         }
     }
 

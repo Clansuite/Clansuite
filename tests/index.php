@@ -25,6 +25,6 @@
  *
  */
 
-# redirect to allTests
+// redirect to allTests
 header('Location: runAllTests.php');
 ?>

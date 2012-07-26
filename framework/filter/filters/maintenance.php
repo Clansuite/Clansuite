@@ -29,11 +29,6 @@ namespace Koch\Filter;
 use Koch\MVC\HttpRequestInterface;
 use Koch\MVC\HttpResponseInterface;
 
-# Security Handler
-if (defined('IN_CS') === false) {
-    die('Koch Framework not loaded. Direct Access forbidden.' );
-}
-
 /**
  * Koch Framework - Filter for displaying a maintenace mode screen.
  *
@@ -46,11 +41,11 @@ if (defined('IN_CS') === false) {
  */
 class Maintenance implements FilterInterface
 {
-    private $config = null;     # holds instance of config
+    private $config = null;     // holds instance of config
 
     public function __construct(Koch\Config $config)
     {
-        $this->config = $config;      # set instance of config to class
+        $this->config = $config;      // set instance of config to class
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
@@ -66,15 +61,16 @@ class Maintenance implements FilterInterface
          * @todo b) create override of maintenance mode, in case it's an admin user?
          */
 
-        # fetch renderer
+        // fetch renderer
         $smarty = Koch_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
 
-        # fetch maintenance template
+        // fetch maintenance template
         $html = $smarty->fetch(ROOT_THEMES . 'core/view/smarty/maintenance.tpl', true);
 
-        # output
+        // output
         $response->setContent($html);
         $response->flush();
+
         exit();
     }
 }

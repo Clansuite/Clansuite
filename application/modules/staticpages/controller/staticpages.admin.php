@@ -41,7 +41,7 @@ class Staticpages_Admin extends Controller
      */
     public function action_admin_show()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Overview'), '/staticpages/admin/show');
 
         $model = $this->getModel()->findAll();
@@ -56,16 +56,16 @@ class Staticpages_Admin extends Controller
 
     function create_staticpages()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create'), '/staticpages/admin/create');
 
-        # fetch entity
+        // fetch entity
         $model = $this->getModel();
 
-        # insert entity into the create form
+        // insert entity into the create form
         $form = $this->loadForm($formname, $module, $action, $assign_to_view);
 
-        # @todo define form array
+        // @todo define form array
         $html           = $_POST['html'];
         $description    = $_POST['description'];
         $title          = $_POST['title'];
@@ -74,7 +74,7 @@ class Staticpages_Admin extends Controller
         $iframe         = $_POST['iframe'];
         $iframe_height  = $_POST['iframe_height'];
 
-        # @todo form validation
+        // @todo form validation
         if ( !empty( $submit ) )
         {
             if ( empty( $description ) OR
@@ -103,7 +103,7 @@ class Staticpages_Admin extends Controller
                 $error['static_already_exist'] = 1;
             }
 
-            # ----
+            // ----
 
             if ( count( $error ) == 0 )
             {
@@ -128,9 +128,9 @@ class Staticpages_Admin extends Controller
         $view->assign( 'html'        , $html);
         $view->assign( 'error'       , $error);
 
-        # Set Layout Template
+        // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
-        # specifiy the template manually
+        // specifiy the template manually
         #$view->setTemplate('staticpages/create.tpl');
 
         $this->display();
@@ -138,7 +138,7 @@ class Staticpages_Admin extends Controller
 
     public function edit_staticpages()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit'), '/staticpages/admin/edit');
 
         $info['html']           = $_POST['html'];
@@ -202,7 +202,7 @@ class Staticpages_Admin extends Controller
         }
         else
         {
-            # $info
+            // $info
         }
 
         $view = $this->getView();
@@ -218,7 +218,7 @@ class Staticpages_Admin extends Controller
      */
     public function action_admin_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/staticpages/admin/settings');
 
         $settings = array();
@@ -235,16 +235,16 @@ class Staticpages_Admin extends Controller
 
         $form = new Clansuite_Form($settings);
 
-        # display formgenerator object
+        // display formgenerator object
         #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
-        # display form html
+        // display form html
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -252,16 +252,16 @@ class Staticpages_Admin extends Controller
 
     public function action_admin_settings_update()
     {
-        # Incomming Data
+        // Incomming Data
         $data = $this->request->getParameter('staticpages_settings');
 
-        # Get Configuration from Injector and write Config
+        // Get Configuration from Injector and write Config
         $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache('/staticpages/admin');
     }
 }

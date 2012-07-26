@@ -33,7 +33,7 @@ class Timetoken extends Formelement implements FormelementInterface
 {
     public function generateToken()
     {
-       # @todo consider using PHP Spam Kit Class
+       // @todo consider using PHP Spam Kit Class
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 namespace Entities;
 
-#use Doctrine\ORM\Mapping as ORM; # we are currently not using @ORM annotions
+//use Doctrine\ORM\Mapping as ORM; // we are currently not using @ORM annotions
 
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -58,7 +58,7 @@ class News
      */
     protected $news_status;
 
-    ### Setter and Getter for existing Columns IN THIS OBJECT
+    ##// Setter and Getter for existing Columns IN THIS OBJECT
 
     public function getNewsTitle()
     {

@@ -15,7 +15,7 @@ class Koch_Form_Validator_Minvalue_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new \Koch\Form\Validators\Minvalue;
     }
 
@@ -30,13 +30,13 @@ class Koch_Form_Validator_Minvalue_Test extends Clansuite_UnitTestCase
 
     public function testMethod_getMinvalue()
     {
-        # set property
+        // set property
         $this->validator->minvalue = 1980;
 
-        # getter returns integer
+        // getter returns integer
         $this->assertEqual(1980, $this->validator->getMinvalue());
 
-        # getter returns integer not string
+        // getter returns integer not string
         $this->assertNotIdentical('1980', $this->validator->getMinvalue());
     }
 
@@ -58,21 +58,21 @@ class Koch_Form_Validator_Minvalue_Test extends Clansuite_UnitTestCase
          * validate() on the parent class, which then calls processValidationLogic()
          */
 
-        $value = 10; # 20 chars
+        $value = 10; // 20 chars
 
-        # int
+        // int
         $this->validator->setMinvalue(10);
         $this->assertTrue($this->validator->validate($value));
 
-        # float, too small
+        // float, too small
         $this->validator->setMinvalue(9.99);
         $this->assertTrue($this->validator->validate($value));
 
-         # float, too big
+         // float, too big
         $this->validator->setMinvalue(10.01);
         $this->assertFalse($this->validator->validate($value));
 
-        # int, too big
+        // int, too big
         $this->validator->setMinvalue(11);
         $this->assertFalse($this->validator->validate($value));
     }

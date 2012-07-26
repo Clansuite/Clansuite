@@ -45,7 +45,7 @@ class News extends Controller
      */
     public function _initializeModule()
     {
-        # read module config
+        // read module config
         $this->getModuleConfig();
     }
 
@@ -60,36 +60,36 @@ class News extends Controller
      */
     public function action_show()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/news/show');
 
-        # get resultsPerPage from ModuleConfig
+        // get resultsPerPage from ModuleConfig
         $resultsPerPage = self::getConfigValue('resultsPerPage_show', '3');
 
-        # Defining initial variables
+        // Defining initial variables
         $currentPage = (int) $this->request->getParameterFromGet('page');
         $category    = (int) $this->request->getParameterFromGet('cat');
 
-        # if cat is no set, we need a query to show all news regardless which category,
+        // if cat is no set, we need a query to show all news regardless which category,
         if(empty($category))
         {
             $newsQuery = $this->getModel()->findAllNews($currentPage, $resultsPerPage);
         }
-        else # else we need a qry with the where(cat) statement
+        else // else we need a qry with the where(cat) statement
         {
             #$newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage);
         }
 
-        # import array variables into the current symbol table
+        // import array variables into the current symbol table
         //extract($newsQuery);
         //unset($newsQuery);
         $news = $newsQuery;
         #Clansuite_Debug::printR( $news );
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
-        # UTF8 to HTML
+        // UTF8 to HTML
         /*$nr_news = count($news);
         for($i = 0; $i < $nr_news; $i++)
         {
@@ -97,7 +97,7 @@ class News extends Controller
             $news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
         }*/
 
-        # Assign $news array and pager objects to smarty to Smarty for template output
+        // Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
         #$view->assignGlobal('pager', $pager);
         #$view->assignGlobal('pager_layout', $pager_layout);
@@ -112,7 +112,7 @@ class News extends Controller
       */
      public function action_showone($params)
      {
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
         #Clansuite_Debug::firebug($params);
@@ -121,27 +121,27 @@ class News extends Controller
         #(int) $this->request->getParameterFromGet('id');
         if($news_id === null) { $news_id = 1;  }
 
-        # fetch the news to update by news_id
-        # $news = $this->getModel()->find($data['news_id']);
+        // fetch the news to update by news_id
+        // $news = $this->getModel()->find($data['news_id']);
 
         $news = $this->getModel()->fetchSingleNews($news_id);
         Clansuite_Debug::printR($news);
 
-        # if a news was found
+        // if a news was found
         if(!empty($news) && is_array($news))
         {
-            # Set Pagetitle and Breadcrumbs
+            // Set Pagetitle and Breadcrumbs
             Clansuite_Breadcrumb::replace( _('Show News'), '/news/show', 1);
             Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&action=show');
 
             $view->assign('news', $news);
         }
-        else # no news found for this id
+        else // no news found for this id
         {
             $view->setTemplate('newsnotfound.tpl');
         }
 
-        # Prepare Output
+        // Prepare Output
         $this->display();
      }
 
@@ -152,7 +152,7 @@ class News extends Controller
      */
     public function action_getfeed()
     {
-        # Load Feedcreator Class
+        // Load Feedcreator Class
         if(false === class_exists('UniversalFeedCreator', false))
         {
             include ROOT_LIBRARIES . 'feedcreator/feedcreator.class.php';
@@ -163,7 +163,7 @@ class News extends Controller
          */
         $feed_items = (int) $this->request->getParameter('items');
 
-        # Set Number of Items Range 0<15 || MAX 30
+        // Set Number of Items Range 0<15 || MAX 30
         if($feed_items == null or $feed_items < 15)
         {
             $feed_items = self::getConfigValue('feed_items', '15');
@@ -176,11 +176,11 @@ class News extends Controller
         /**
          * Get Format of Feed to create
          */
-        # white list for valid feed format strings
+        // white list for valid feed format strings
         $feed_format_array = array('RSS0.91', 'RSS1.0', 'RSS2.0', 'MBOX', 'OPML', 'ATOM', 'ATOM0.3', 'HTML', 'JS');
-        # get format from request
+        // get format from request
         $feed_format = (string) $this->request->getParameter('format');
-        # check its a valid string or set default
+        // check its a valid string or set default
         if(in_array($feed_format, $feed_format_array) == false or $feed_format === null)
         {
             $feed_format = self::getConfigValue('feed_format', 'RSS2.0');
@@ -194,7 +194,7 @@ class News extends Controller
         $rss->title = self::getConfigValue('feed_title', 'Feedname');
         $rss->description = self::getConfigValue('feed_description', 'Descriptiontext');
 
-        # optional
+        // optional
         $rss->descriptionTruncSize = 500;
         $rss->descriptionHtmlSyndicated = true;
 
@@ -210,14 +210,14 @@ class News extends Controller
         $image->link = self::getConfigValue('feed_imageurl', 'http://www.clanwebsite.net');
         $image->description = self::getConfigValue('feed_imagedescription', 'Feed provided by clanwebsite.net. Click to visit.');
 
-        # optional
+        // optional
         $image->descriptionTruncSize = 500;
         $image->descriptionHtmlSyndicated = true;
 
-        # Set Feed Image Object to Main Feed Object
+        // Set Feed Image Object to Main Feed Object
         $rss->image = $image;
 
-        # Fetch News via Doctrine
+        // Fetch News via Doctrine
         $news_array = Doctrine::getTable('CsNews')->fetchNewsForFeed();
 
         /**
@@ -233,7 +233,7 @@ class News extends Controller
             $item->link =  WWW_ROOT . 'index.php?mod=news&action=showone&id='.$news['news_id'];
             $item->description = $news['news_body'];
 
-            # optional
+            // optional
             $item->descriptionTruncSize = 500;
             $item->descriptionHtmlSyndicated = true;
 
@@ -241,7 +241,7 @@ class News extends Controller
             $item->source = "http://www.clanwebsite.net";
             $item->author = $news['CsUsers']['nick'];
 
-            # Set Feed Item Object to Main Feed Object
+            // Set Feed Item Object to Main Feed Object
             $rss->addItem($item);
         }
 
@@ -269,50 +269,50 @@ class News extends Controller
      */
     public function action_archive()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Archive'), '/news/archive');
 
-        # Defining initial variables
+        // Defining initial variables
         $currentPage = (int) $this->request->getParameter('page');
         $date        = $this->request->getParameter('date');
 
-        # if date is an string
+        // if date is an string
         if($date != null)
         {
-            # check if only year is given
+            // check if only year is given
             if(strpos($date, '-') === false)
             {
-                # convert date string like "2008"
+                // convert date string like "2008"
                 $startdate  = date('Y-m-d', strtotime($date . '-01-01'));
                 $enddate    = date('Y-m-d', strtotime($date . '-01-01 + 1 year'));
             }
-            else # the string is a year-month combination
+            else // the string is a year-month combination
             {
-                # convert date string like "2008-Jul" to "2008-07-01"
+                // convert date string like "2008-Jul" to "2008-07-01"
                 $startdate  = date('Y-m-d', strtotime($date));
                 $enddate    = date('Y-m-d', strtotime($date . '+ 1 month'));
             }
         }
-        else # set custom starting and ending date
+        else // set custom starting and ending date
         {
             $startdate = '1980-04-19';
             $enddate = date('Y-m-d');
         }
 
-        # get resultsPerPage from ModuleConfig
+        // get resultsPerPage from ModuleConfig
         $resultsPerPage = self::getConfigValue('resultsPerPage_archive', '3');
 
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
 
-        # import array variables into the current symbol table
+        // import array variables into the current symbol table
         extract($newsQuery);
         unset($newsQuery);
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
-        # Assign $news array and pager objects to smarty to Smarty for template output
+        // Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
         $view->assignGlobal('pager', $pager);
         $view->assignGlobal('pager_layout', $pager_layout);
@@ -335,42 +335,42 @@ class News extends Controller
      */
     public function action_fullarchive()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Archiv'), '/news/fullarchive');
 
-        # Defining initial variables
+        // Defining initial variables
         $currentPage = (int) $this->request->getParameter('page');
 
-        # SmartyColumnSort -- Easy sorting of html table columns.
+        // SmartyColumnSort -- Easy sorting of html table columns.
         include ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php';
-        # A list of database columns to use in the table.
+        // A list of database columns to use in the table.
         $columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nr_news_comments');
-        # Create the columnsort object
+        // Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
-        # And set the the default sort column and order.
+        // And set the the default sort column and order.
         $columnsort->setDefault('n.created_at', 'desc');
-        # Get sort order from columnsort
-        $sortorder = $columnsort->sortOrder(); # Returns 'name ASC' as default
+        // Get sort order from columnsort
+        $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
-        # set custom starting and ending date
+        // set custom starting and ending date
         $startdate = '1980-04-19';
         $enddate   = date('Y-m-d');
 
-        # get resultsPerPage from ModuleConfig
+        // get resultsPerPage from ModuleConfig
         $resultsPerPage = self::getConfigValue('resultsPerPage_fullarchive', '25');
 
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
 
-        # import array variables into the current symbol table
+        // import array variables into the current symbol table
         extract($newsQuery);
         unset($newsQuery);
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
-        # Assign $news array to Smarty for template output
-        # Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign()
+        // Assign $news array to Smarty for template output
+        // Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign()
         $view->assign('news', $news);
         $view->assignGlobal('pager', $pager);
         $view->assignGlobal('pager_layout', $pager_layout);
@@ -431,28 +431,28 @@ class News extends Controller
      */
     public function widget_archive()
     {
-        # fetch all newsentries, ordered by creation date ASCENDING
-        # get catdropdown options from database
+        // fetch all newsentries, ordered by creation date ASCENDING
+        // get catdropdown options from database
         $widget_archive = $this->getModel()->fetchNewsArchiveWidget();
 
-        # init a new array, to assign the year-month structured entries to
+        // init a new array, to assign the year-month structured entries to
         $archive = array();
 
-        # loop over all entries
+        // loop over all entries
         foreach($widget_archive as $entry)
         {
-            # extract year and month from created_at
+            // extract year and month from created_at
             $year  = date('Y',strtotime($entry['created_at']));
             $month = date('M',strtotime($entry['created_at']));
 
-            # use extracted year and month to build up the new array
-            # and reassign the entry itself
+            // use extracted year and month to build up the new array
+            // and reassign the entry itself
             $archive[$year][$month][] = $entry;
 
             #$archive['years'][$year]['months'][$month]['entries'][] = $entry;
         }
 
-        # assign the fetched news to the view
+        // assign the fetched news to the view
         $this->getView()->assign('widget_archive', $archive);
     }
 
@@ -461,7 +461,7 @@ class News extends Controller
      */
     public function widget_newsfeeds()
     {
-        # nothing to assign, it a pure template widget
+        // nothing to assign, it a pure template widget
     }
 
     /**
@@ -504,7 +504,7 @@ class News extends Controller
         $view->assign('news', $aNews);
         $view->assign('publishImage', 0);
 
-        # Prepare Output
+        // Prepare Output
         $this->display();
     }
 

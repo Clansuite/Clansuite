@@ -12,7 +12,7 @@ class Koch_Form_Validator_String_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
+        // Test Subject
         $this->validator = new \Koch\Form\Validators\String;
     }
 

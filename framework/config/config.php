@@ -55,7 +55,7 @@ class Config extends AbstractConfig
      */
     public function __construct()
     {
-        # if empty get from Clansuite_CMS
+        // if empty get from Clansuite_CMS
         if (empty($this->config)) {
             $this->config = \Clansuite\CMS::getClansuiteConfig();
         }
@@ -84,7 +84,7 @@ class Config extends AbstractConfig
      */
     public function readModuleConfig($modulename = null)
     {
-        # if no modulename is set, determine the name of the current module
+        // if no modulename is set, determine the name of the current module
         if ($modulename === null) {
             $modulename = Koch\Router\TargetRoute::getModuleName();
         }
@@ -93,7 +93,7 @@ class Config extends AbstractConfig
 
         if (is_file($file)) {
             return Factory::getConfiguration($configfile);
-        } else { # module has no configuration file
+        } else { // module has no configuration file
 
             return array();
         }

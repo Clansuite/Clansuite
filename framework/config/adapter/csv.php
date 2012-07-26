@@ -42,23 +42,23 @@ class Csv
 
         $csvarray = array();
 
-        # read file
+        // read file
         if (($handle = fopen($file, "r+")) !== false) {
-            # set the parent multidimensional array key to 0
+            // set the parent multidimensional array key to 0
             $key = 0;
 
             while (($data = fgetcsv($handle, 1000, ",")) !== false) {
-                # count the total keys in the row
+                // count the total keys in the row
                 $c = count($data);
 
-                # populate the multidimensional array
+                // populate the multidimensional array
                 for ($x = 0; $x < $c; $x++) {
                     $csvarray[$key][$x] = $data[$x];
                 }
                 $key++;
             }
 
-            # close the File.
+            // close the File.
             fclose($handle);
         }
 
@@ -74,7 +74,7 @@ class Csv
     public function writeConfig($file, array $array)
     {
         if (($handle = fopen($file, "r+")) !== false) {
-            # transform array to csv notation
+            // transform array to csv notation
             foreach ($array as $key => $value) {
                 if (is_string($value)) {
                     $value = explode(',', $value);
@@ -82,7 +82,7 @@ class Csv
                 }
             }
 
-            # write to csv to file
+            // write to csv to file
 
             return fputcsv($handle, $value, ',', '"');
         }

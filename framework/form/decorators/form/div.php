@@ -48,20 +48,20 @@ class Div extends Decorator
 
     public function render($html_form_content)
     {
-        # open opening div tag (unclosed first tag)
+        // open opening div tag (unclosed first tag)
         $html_deco = CR . '<div ';
 
-        # add class
+        // add class
         if ( mb_strlen($this->getClass()) > 0 ) {
              $html_deco .= 'class="' . $this->getClass() .'" ';
         }
 
-        # add class
+        // add class
         if ( mb_strlen($this->getId()) > 0 ) {
              $html_deco .= 'id="' . $this->getId() .'" ';
         }
 
-        # close opening div tag (close unclosed first tag)
+        // close opening div tag (close unclosed first tag)
         $html_deco .= '>';
 
         return  $html_deco . $html_form_content . '</div>' . CR;

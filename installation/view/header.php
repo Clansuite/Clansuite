@@ -1,5 +1,5 @@
 <?php
-# Security Handler
+// Security Handler
 if (defined('IN_CS') === false)
 {
     die( 'Direct Access forbidden.' );

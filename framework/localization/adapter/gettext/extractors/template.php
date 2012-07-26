@@ -65,48 +65,48 @@ class Template extends Base implements Extractor
      */
     public function extract($file)
     {
-        # load file
+        // load file
         $filecontent = file($file);
 
-        # ensure we got the filecontent
+        // ensure we got the filecontent
         if (empty($filecontent)) {
             return;
         }
 
-        # ensure we got defined some tags to scan for
+        // ensure we got defined some tags to scan for
         if (false === count($this->tags_to_scan)) {
             return;
         }
 
-        # init vars
+        // init vars
         $pathinfo = pathinfo($file);
         $data = array();
 
         /**
          *  construct the regular expression pattern
          */
-        # join placeholders for multi-tag scan
+        // join placeholders for multi-tag scan
         #$tags = $this->tags_to_scan[0];
         $tags = join('|', $this->tags_to_scan);
 
-        # setup search/replace arrays
+        // setup search/replace arrays
         $search  = array('__TAGS__', '__LD__', '__RD__');
         $replace = array($tags, self::L_DELIMITER, self::R_DELIMITER);
 
-        # replace tags and delimiters in regexp pattern
+        // replace tags and delimiters in regexp pattern
         $pattern = str_replace($search, $replace, self::REGEXP);
 
-        # parse file by lines
+        // parse file by lines
         foreach ($filecontent as $line => $line_content) {
-            # grab the prefixed tags
+            // grab the prefixed tags
             preg_match_all($pattern, $line_content, $matches);
 
-            # no match
+            // no match
             if (empty($matches)) {
                 continue;
             }
 
-            # correct line number, because file[line1] = array[0]
+            // correct line number, because file[line1] = array[0]
             $calc_line = 1 + $line;
 
             foreach ($matches[3] as $match) {

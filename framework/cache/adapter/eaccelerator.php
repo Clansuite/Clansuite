@@ -56,8 +56,8 @@ class Eaccelerator extends AbstractCache implements CacheInterface
             throw new Exception('The PHP extension eAccelerator (cache) is not loaded! You may enable it in "php.ini!"', 300);
         }
 
-        # @todo ensure eaccelerator 0.9.5 is in use
-        # from 0.9.6 the user cache functions are removed
+        // @todo ensure eaccelerator 0.9.5 is in use
+        // from 0.9.6 the user cache functions are removed
         if (false === function_exists('eaccelerator_info')) {
             die('eAccelerator isn\'t compiled with info support!');
         } else {
@@ -128,10 +128,10 @@ class Eaccelerator extends AbstractCache implements CacheInterface
      */
     public function stats()
     {
-        # get info Get info about eAccelerator
+        // get info Get info about eAccelerator
         $eac_sysinfos['infos'] = eaccelerator_info();
 
-        # List cached keys
+        // List cached keys
         $keys = eaccelerator_list_keys();
 
         if (is_array($keys)) {

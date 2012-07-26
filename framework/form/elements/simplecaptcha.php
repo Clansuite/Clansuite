@@ -51,8 +51,8 @@ class SimpleCaptcha extends Captcha implements FormelementInterface
      */
     public function validate()
     {
-        # @todo comparision of form input with session string
-        # $_SESSION['user']['simple_captcha_string']
+        // @todo comparision of form input with session string
+        // $_SESSION['user']['simple_captcha_string']
     }
 }
 <<<<<<< .mine

@@ -26,10 +26,6 @@
 
 namespace Koch\event;
 
-# Security Handler
-if (defined('IN_CS') === false) {
-    exit('Koch Framework not loaded. Direct Access forbidden.');
-}
 /**
  * Eventloader
  *
@@ -47,7 +43,7 @@ class loader
      */
     public static function loadEvents()
     {
-        #self::loadAllModuleEvents();
+        //self::loadAllModuleEvents();
         self::loadCoreEvents();
     }
 
@@ -61,21 +57,21 @@ class loader
     {
         if (empty($events) or is_array($events) === false) {
             return;
-        } else { # ok, we got an array with some event names
+        } else { // ok, we got an array with some event names
             foreach ($events as $event) {
-                # array[0] filename
+                // array[0] filename
                 $filename = $array[0];
 
-                # array[1] classname
+                // array[1] classname
                 $classname = Koch_Functions::ensurePrefixedWith($array[1], 'Koch_Event_');
 
-                # load eventhandler
+                // load eventhandler
                 Koch_Loader::requireFile($filename, $classname);
 
-                # instantiate eventhandler
+                // instantiate eventhandler
                 $event_object = new $classname();
 
-                # add the eventhandler to the dispatcher
+                // add the eventhandler to the dispatcher
                 $eventdispatcher = Koch_Eventdispatcher::instantiate();
                 $eventdispatcher->addEventHandler($event, $event_object);
             }
@@ -114,10 +110,10 @@ class loader
      */
     public static function loadAllModuleEvents()
     {
-        # fetch all activated modules
+        // fetch all activated modules
         $modules = Koch_ModuleInfoController::getAllActivatedModules();
 
-        # load eventhandlers for each module
+        // load eventhandlers for each module
         foreach ($modules as $module) {
             self::loadModuleEvents($module);
         }

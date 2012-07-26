@@ -43,26 +43,26 @@ class Templatemanager_Admin extends Controller
 
     public function action_admin_list()
     {
-        # fetch modulenames as numeric indexed array
+        // fetch modulenames as numeric indexed array
         $modules = Clansuite_ModuleInfoController::getModuleNames(false, true);
         $themes = Clansuite_Theme::getThemeDirectories();
 
-        # create a new form
+        // create a new form
         $form = new Clansuite_Form('module_select_dropdown_form', 'post', '/templatemanager/admin/edit');
         $form->setLegend(_('Select Module or Theme to edit'));
 
-        # select dropdown for modules
+        // select dropdown for modules
         $form->addElement('select')->setName('select_form[module]')->setLabel(_('Module'))
                 ->setOptions($modules)->withValuesAsKeys();
 
-        # select dropdown for themes
+        // select dropdown for themes
         $form->addElement('select')->setName('select_form[theme]')->setLabel(_('Theme'))
                 ->setOptions($themes)->withValuesAsKeys();;
 
-        # add the buttonbar
+        // add the buttonbar
         $form->addElement('buttonbar')->setCancelButtonURL('index.php?mod=templatemanager&sub=admin');
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('module_select_dropdown_form', $form->render());
 
         $this->display();
@@ -73,10 +73,10 @@ class Templatemanager_Admin extends Controller
      */
     public function action_admin_showmoduletemplates()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Editor'), '/templatemanager/admin/showmoduletemplates');
 
-        # Incomming Variables
+        // Incomming Variables
         $modulename = $this->request->getParameter('modulename', 'GET');
         $modulename = strtolower(stripslashes($modulename));
 
@@ -93,12 +93,12 @@ class Templatemanager_Admin extends Controller
 
     public function action_admin_edit()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit'), '/templatemanager/admin/edit');
 
         $view = $this->getView();
 
-        # Incomming Variables
+        // Incomming Variables
         if($this->request->getRequestMethod() == 'GET')
         {
             $module = $this->request->getParameterFromGet('tplmod');
@@ -138,7 +138,7 @@ class Templatemanager_Admin extends Controller
         {
             $relative_file = '';
 
-            # construct relative template filename
+            // construct relative template filename
             if(isset($module))
             {
                 $relative_file = 'modules'. DIRECTORY_SEPARATOR .$file;
@@ -160,20 +160,20 @@ class Templatemanager_Admin extends Controller
         $templateContent = '';
         $templateeditor_newfile = '';
 
-        # let's check, if this template exists
+        // let's check, if this template exists
         if(is_file($file))
         {
-            # ok, it does exist - fetch it's content
+            // ok, it does exist - fetch it's content
             $handle = fopen($file, 'r') or die('Unable to open the file. Apply correct permissions.');
             $templateContent = fread($handle, filesize($file));
             fclose($handle);
 
             $templateeditor_newfile = false;
         }
-        else # template does not exist
+        else // template does not exist
 
         {
-            # fetch a template for rapidly setting up the new template :)
+            // fetch a template for rapidly setting up the new template :)
             $templateContent =  $view->fetch('create_new_template.tpl');
 
             $templateeditor_newfile = true;
@@ -208,7 +208,7 @@ class Templatemanager_Admin extends Controller
 
     public function action_admin_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/templatemanager/admin/settings');
 
         $this->display();

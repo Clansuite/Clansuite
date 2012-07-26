@@ -68,7 +68,7 @@ class Category
 
     #public function __construct()
     #{
-    #    $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    //    $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     #}
 
 }

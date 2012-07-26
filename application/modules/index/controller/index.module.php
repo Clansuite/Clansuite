@@ -38,7 +38,7 @@ class Index extends Controller //implements Koch\Module\ModuleInterface
 {
     public function action_index()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         $this->addBreadcrumb( _('Show'), '/index/index');
 
         /***
@@ -77,18 +77,18 @@ class Index extends Controller //implements Koch\Module\ModuleInterface
         * Even an empty module function would result in an rendering - a good starting point i guess!
         *
         */
-        # Direct Path Assignments
-        # a) call the template in root_tpl (themefolder) + path
-        # This is also automagically called, when no template was set!
+        // Direct Path Assignments
+        // a) call the template in root_tpl (themefolder) + path
+        // This is also automagically called, when no template was set!
         #$view->setTemplate('index/show.tpl');
-        # OR
-        # b) directly call template in module path
+        // OR
+        // b) directly call template in module path
         #$view->setTemplate( ROOT_MOD . 'index/view/show.tpl' );
 
-        # Starting the View
+        // Starting the View
         #$this->setView($this->getRenderEngine());
 
-        # Applying a Layout Template
+        // Applying a Layout Template
         #$view = $this->getView()->setLayoutTemplate('admin/index.tpl');
 
         $this->display();
@@ -99,7 +99,7 @@ class Index extends Controller //implements Koch\Module\ModuleInterface
     */
     public function action_edit()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         $this->addBreadcrumb( _('Show'), '/index/show');
 
         $view->setTemplate( 'show.tpl' );
@@ -120,12 +120,12 @@ class Index extends Controller //implements Koch\Module\ModuleInterface
      */
     public function widget_about()
     {
-        # nothing to assign, it a pure template widget
+        // nothing to assign, it a pure template widget
     }
 
     public function widget_toolbox()
     {
-        # nothing to assign, it a pure template widget
+        // nothing to assign, it a pure template widget
     }
 }
 ?>

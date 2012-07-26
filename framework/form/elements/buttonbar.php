@@ -49,7 +49,7 @@ class Buttonbar extends Formelement implements FormelementInterface
      */
     public function __construct()
     {
-        # apply CSS class attribute
+        // apply CSS class attribute
         $this->setClass('buttonbar');
 
         return $this;
@@ -58,16 +58,16 @@ class Buttonbar extends Formelement implements FormelementInterface
     public function addButton($buttonname)
     {
         if (is_string($buttonname)) {
-            # fetch the formelement (the button)
+            // fetch the formelement (the button)
             $formelement = Koch_Form::formelementFactory($buttonname);
         }
 
-        # @todo use instanceof Koch_Formelement_Button
+        // @todo use instanceof Koch_Formelement_Button
         if (is_object($buttonname) and (!$buttonname instanceof Koch_Formelement_Input)) {
             throw new Koch_Exception('The button must a be formelement object.');
         }
 
-        # attach button object to buttons array
+        // attach button object to buttons array
         $this->_buttons[$buttonname] = $formelement;
 
         return $this;
@@ -81,11 +81,11 @@ class Buttonbar extends Formelement implements FormelementInterface
      */
     public function getButton($buttonname)
     {
-        # return the button object
+        // return the button object
         if (isset($this->_buttons[$buttonname]) and is_object($this->_buttons[$buttonname])) {
             return $this->_buttons[$buttonname];
         }
-        # instantiate the button object first and then return
+        // instantiate the button object first and then return
         elseif(isset($this->_buttons[$buttonname]) and false === is_object($this->_buttons[$buttonname]))
         {
             $this->addButton($buttonname);
@@ -130,7 +130,7 @@ class Buttonbar extends Formelement implements FormelementInterface
         foreach ($this->_buttons as $buttonname => $buttonobject) {
             if (is_object($buttonobject)) {
                 $htmlString .= $buttonobject->render();
-            } else { # does this ever happen???, see addButton!
+            } else { // does this ever happen???, see addButton!
                 $formelement = Koch_Form::formelementFactory($buttonname);
                 $htmlString .= $formelement->render();
             }

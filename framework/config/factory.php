@@ -52,22 +52,22 @@ class Factory
      */
     public static function determineConfigurationHandlerTypeBy($configfile)
     {
-        # init var
+        // init var
         $adapter = '';
         $extension  = '';
 
-        # use the filename only to detect adapter
-        # @todo simplify extension detection, but watch out for .info.php
+        // use the filename only to detect adapter
+        // @todo simplify extension detection, but watch out for .info.php
         #$extension = strtolower(pathinfo($configfile, PATHINFO_EXTENSION));
 
         $configfile = basename($configfile);
         preg_match('^(.config.php|.config.xml|.config.yaml|.info.php)$^', $configfile, $extension);
         $extension = $extension[0];
 
-        # the fileextensions .config.php means it's an .ini file
-        # the content of the file IS NOT a php-array as you might think
+        // the fileextensions .config.php means it's an .ini file
+        // the content of the file IS NOT a php-array as you might think
         if ($extension == '.config.php' or $extension == '.info.php') {
-            $adapter = 'ini'; # @todo change this to 'php' (read/write of php-array)
+            $adapter = 'ini'; // @todo change this to 'php' (read/write of php-array)
         } elseif($extension == '.config.xml')
         {
             $adapter = 'xml';
@@ -121,7 +121,7 @@ class Factory
      */
     public static function getConfigurationHandler($adapter)
     {
-        # path to configuration handler classes
+        // path to configuration handler classes
         $file = ROOT_CORE . 'config' . DIRECTORY_SEPARATOR . strtolower($adapter) . '.config.php';
 
         if (is_file($file) === true) {
@@ -132,7 +132,7 @@ class Factory
             }
 
             if (true === class_exists($class, false)) {
-                # instantiate and return the specific confighandler with the $configfile to read
+                // instantiate and return the specific confighandler with the $configfile to read
 
                 return $class::getInstance();
             } else {

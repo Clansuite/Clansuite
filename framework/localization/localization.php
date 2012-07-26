@@ -37,7 +37,7 @@ use Koch\Config\Config;
  */
 class Localization
 {
-    # Locale Variables
+    // Locale Variables
     public $locale    = null;
 
     /**
@@ -50,19 +50,19 @@ class Localization
      */
     private $encoding  = null;
 
-    # References
+    // References
     private static $config    = null;
 
     public function __construct(Config $config)
     {
-        # Set Reference to Config
+        // Set Reference to Config
         self::$config = $config;
 
-        # Set Locale Defaults
+        // Set Locale Defaults
         $this->domain = 'clansuite';
         $this->encoding = self::$config['language']['outputcharset'];
 
-        # Get Locale
+        // Get Locale
         $locale = $this->getLocale();
 
         /**
@@ -90,7 +90,7 @@ class Localization
             include ROOT_LIBRARIES . 'php-gettext/gettext.inc';
         }
 
-        # Load Domain
+        // Load Domain
         $this->loadTextDomain('LC_ALL', $this->domain, $locale);
     }
 
@@ -102,16 +102,16 @@ class Localization
      */
     public function getLocale()
     {
-        # if language_via_url was used, the filter set the URL value to the session
+        // if language_via_url was used, the filter set the URL value to the session
         if(isset($_SESSION['user']['language_via_url']) === true and ($_SESSION['user']['language_via_url'] == 1))
         {
-            # use language setting from session
+            // use language setting from session
             $this->locale = $_SESSION['user']['language'];
         } else {
-            # get language from browser
+            // get language from browser
             $this->locale = $this->getLanguage();
 
-            if (empty($this->locale)) { # 3) get the default language from config as fallback
+            if (empty($this->locale)) { // 3) get the default language from config as fallback
                 $this->locale = self::$config['language']['default'];
             }
 
@@ -141,12 +141,12 @@ class Localization
     {
         #Koch_Debug::firebug($module);
 
-        # if, $locale string is not over 3 chars long -> $locale = "en", build "en_EN"
+        // if, $locale string is not over 3 chars long -> $locale = "en", build "en_EN"
         if (isset($locale{3}) == false) {
             $locale = mb_strtolower($locale) . '_' . mb_strtoupper($locale);
         }
 
-        # Environment Variable LANGUAGE has priority above any local setting
+        // Environment Variable LANGUAGE has priority above any local setting
         putenv('LANGUAGE=' . $locale);
         putenv('LANG=' . $locale);
         setlocale(LC_ALL, $locale . '.UTF-8');
@@ -156,13 +156,13 @@ class Localization
          * Set the domain_directory (where look for MO files named $domain.po)
          */
         if ($module === null) {
-            # for domain 'clansuite', it's the ROOT_LANGUAGES directory
+            // for domain 'clansuite', it's the ROOT_LANGUAGES directory
             $domain_directory = ROOT_LANGUAGES;
-        } else { # set a specific module directory
+        } else { // set a specific module directory
             $domain_directory = ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages';
         }
 
-        # Set the Domain
+        // Set the Domain
         T_bindtextdomain($domain, $domain_directory);
         T_bind_textdomain_codeset($domain, $this->encoding);
         T_textdomain($domain);
@@ -184,22 +184,22 @@ class Localization
      */
     public function getLanguage($supported = array('en', 'de'))
     {
-        # start with the default language
+        // start with the default language
         $language = $supported[0];
 
-        # get the list of languages supported by the browser
+        // get the list of languages supported by the browser
         $browserLanguages = $this->getBrowserLanguages();
 
-        # look if the browser language is a supported language, by checking the array entries
+        // look if the browser language is a supported language, by checking the array entries
         foreach ($browserLanguages as $browserLanguage) {
-            # if a supported language is found, set it and stop
+            // if a supported language is found, set it and stop
             if (in_array($browserLanguage, $supported)) {
                 $language = $browserLanguage;
                 break;
             }
         }
 
-        # return the found language
+        // return the found language
 
         return $language;
     }
@@ -226,9 +226,9 @@ class Localization
      */
     public function getBrowserLanguages()
     {
-        # check if environment variable HTTP_ACCEPT_LANGUAGE exists
+        // check if environment variable HTTP_ACCEPT_LANGUAGE exists
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) === false) {
-            # if not return an empty language array
+            // if not return an empty language array
 
             return array();
         } elseif(extension_loaded('intl') === true)
@@ -240,21 +240,21 @@ class Localization
             $lang =  Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
             return (array) mb_substr($lang, 0, 2);
-        } else { # fallback for non "ext/intl" environments
-            # explode environment variable HTTP_ACCEPT_LANGUAGE at ,
+        } else { // fallback for non "ext/intl" environments
+            // explode environment variable HTTP_ACCEPT_LANGUAGE at ,
             $browserLanguages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
-            # convert the headers string to an array
+            // convert the headers string to an array
             $browserLanguagesSize = count($browserLanguages);
 
             for ($i = 0; $i < $browserLanguagesSize; $i++) {
-                # explode string at ;
+                // explode string at ;
                 $browserLanguage = explode(';', $browserLanguages[$i]);
-                # cut string and place into array
+                // cut string and place into array
                 $browserLanguages[$i] = mb_substr($browserLanguage[0], 0, 2);
             }
 
-            # remove the duplicates and return the browser languages
+            // remove the duplicates and return the browser languages
 
             return array_values(array_keys(array_flip($browserLanguages)));
         }

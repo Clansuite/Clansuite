@@ -55,49 +55,49 @@ function smarty_function_icon($params, $smarty)
         }
     }
 
-    # we have two alternatives :
-    # a) src => user has set src, defining the path to the image and imagename
-    # b) icondir, name => user has defined the icons dir (relative to core/images folder) and the name of a png file
+    // we have two alternatives :
+    // a) src => user has set src, defining the path to the image and imagename
+    // b) icondir, name => user has defined the icons dir (relative to core/images folder) and the name of a png file
 
-    # check if it is a valid one
+    // check if it is a valid one
     $icondir_whitelist = array( 'icons', 'lullacons' );
     if (isset($icondir) and in_array($icondir, $icondir_whitelist)) {
-        # valid
-        $icondir .= ''; # leave this. would else be an empty if statement
-    } else # fallback to a valid default
+        // valid
+        $icondir .= ''; // leave this. would else be an empty if statement
+    } else // fallback to a valid default
 
     {
         $icondir = 'icons';
     }
 
-    # transform name into a valid image src
+    // transform name into a valid image src
     $src = realpath(ROOT_THEMES . 'core/images/' . $icondir . DIRECTORY_SEPARATOR . $name . '.png');
 
-    # if we got no valid src, set a default image
+    // if we got no valid src, set a default image
     if (isset($src) and is_file($src) == false) {
         #$src = WWW_ROOT_THEMES_CORE . 'images/noimage.gif';
         $src = ROOT_THEMES . 'core/images/noimage.gif';
         $name = 'No Image found.'.$src;
     }
 
-    # we got no height, set it to zero
+    // we got no height, set it to zero
     if (empty($height)) {
         $height = 0;
     }
 
-    # we got no width, ok then its zero again
+    // we got no width, ok then its zero again
     if (empty($width)) {
         $width = 0;
     }
 
-    # we got no height nor width. well let's detect it automatically then.
+    // we got no height nor width. well let's detect it automatically then.
     if (($height == 0) or ($width == 0)) {
         $currentimagesize = getimagesize($src);
         $width = $currentimagesize[0];
         $height= $currentimagesize[1];
     }
 
-    # we got no alternative text. let's add a default text with $name;
+    // we got no alternative text. let's add a default text with $name;
     if (isset($src) and empty($alt)) {
         $file = $src;
 
@@ -106,12 +106,12 @@ function smarty_function_icon($params, $smarty)
         $alt = $file_name;
     }
 
-    # no extra attributes to add, then let it be an empty string
+    // no extra attributes to add, then let it be an empty string
     if (empty($extra)) {
         $extra = '';
     }
 
-    # prepare link: transform absolute path into webpath and apply slashfix
+    // prepare link: transform absolute path into webpath and apply slashfix
     $src = str_replace( ROOT_THEMES, WWW_ROOT_THEMES, $src );
     $src = str_replace( '\\', '/', $src );
 

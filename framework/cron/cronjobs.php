@@ -94,11 +94,11 @@ $cron = new Cronjobs;
  * in /index.php and your cronjobs are in /include/cronjobs, then your crontab file
  * looked like this:
  *
- * 10    1    *    *    *    include/cronjobs/dosomething.php    # do something
+ * 10    1    *    *    *    include/cronjobs/dosomething.php    // do something
  *
  * Now you have to change it to
  *
- * 10    1    *    *    *    cronjobs/dosomething.php            # do something
+ * 10    1    *    *    *    cronjobs/dosomething.php            // do something
  *
  * After you install the new version, each of your cronjobs will be run once,
  * and the .job files will have different names than before.
@@ -150,11 +150,11 @@ $cron = new Cronjobs;
  */
 class Cronjobs
 {
-    # Setting: How to load cronjobs from FILE or DB
+    // Setting: How to load cronjobs from FILE or DB
 
     private $loadCronjobsFrom = 'FILE';
 
-    # Constants
+    // Constants
     const const_PC_MINUTE = '1';
     const const_PC_HOUR = '2';
     const const_PC_DOM = '3';
@@ -199,7 +199,7 @@ class Cronjobs
         if ($this->loadCronjobsFrom == 'FILE') {
             $cronjobs = $this->parseCronFile($this->cronTabFile);
         }
-        # else { get cronjobs from alternative resource: database, etc. }
+        // else { get cronjobs from alternative resource: database, etc. }
 
         return $cronjobs;
     }
@@ -242,7 +242,7 @@ class Cronjobs
         for ($i = 0; $i < $nr_subelements; $i++) {
             if (preg_match('~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~', $subelements[$i], $matches)) {
                 if ($matches[1] == '*') {
-                    $matches[2] = 0;                    # from
+                    $matches[2] = 0;                    // from
                     $matches[4] = $numberOfElements;    #to
                 } elseif($matches[4] == '')
                 {
@@ -250,7 +250,7 @@ class Cronjobs
                 }
 
                 if ($matches[5][0] != '/') {
-                    $matches[6] = 1;        # step
+                    $matches[6] = 1;        // step
                 }
 
                 $a = $this->leftTrimZeros($matches[2]);
@@ -376,10 +376,10 @@ class Cronjobs
 
             $jobname = mb_substr($job[self::const_PC_CMD], 9, -12);
 
-            # instantiate job
+            // instantiate job
             $classname = 'Koch_Cronjob_' . ucfirst($jobname);
             $job_object = new $classname;
-            # execute
+            // execute
             $job_object->execute();
 
 
@@ -423,10 +423,10 @@ class Cronjobs
     private function parseCronFile($cronTabFile)
     {
         #echo $cronTabFile;
-        # incomming file
+        // incomming file
         $file = file($cronTabFile);
 
-        # init
+        // init
         $job = array();
         $jobs = array();
 
@@ -459,7 +459,7 @@ class Cronjobs
 
         $this->multisort($jobs, 'lastScheduled');
 
-        # Debug Display
+        // Debug Display
         /* if (defined('DEBUG') and DEBUG == true) {
          * ar_dump($jobs);
          } */

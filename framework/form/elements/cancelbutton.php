@@ -30,7 +30,7 @@ class Koch_Formelement_Cancelbutton extends Koch_Formelement_Input implements Ko
      *
      * @var string
      */
-    public $cancelURL = 'history.back(); return false;'; # depends on javascript
+    public $cancelURL = 'history.back(); return false;'; // depends on javascript
 
     public function __construct()
     {

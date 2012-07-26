@@ -54,10 +54,10 @@ class Wysiwygnicedit extends Textarea implements FormelementInterface
      */
     public function render()
     {
-        # a) loads the nicedit javascript file
+        // a) loads the nicedit javascript file
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . 'javascript/nicedit/nicedit.js'. '" type="text/javascript"></script>';
 
-        # b) handler to attach nicedit to all textareas
+        // b) handler to attach nicedit to all textareas
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[
                         var wysiwyg;
                             bkLib.onDomLoaded(function() {
@@ -71,7 +71,7 @@ class Wysiwygnicedit extends Textarea implements FormelementInterface
                             });
                             // ]]></script>";
 
-        # wysiwyg.instanceById('page_body').saveContent();
+        // wysiwyg.instanceById('page_body').saveContent();
 
         /**
          * c) css style
@@ -94,7 +94,7 @@ class Wysiwygnicedit extends Textarea implements FormelementInterface
                     }'.CR.'
                 </style>';
 
-        # if we are in inheritance mode, skip this, the parent class handles this already
+        // if we are in inheritance mode, skip this, the parent class handles this already
 
         return $javascript.$html;
     }

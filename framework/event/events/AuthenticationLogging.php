@@ -40,9 +40,9 @@ class AuthenticationLogging implements Interface
 
     public function __construct(Koch_Logger $logger, Koch_HttpRequest $request)
     {
-        # set request object
+        // set request object
         $this->request = $request;
-        # set logger object
+        // set logger object
         $this->logger = $logger;
     }
 
@@ -51,10 +51,10 @@ class AuthenticationLogging implements Interface
         $authdata = $event->getInfo();
 
         $logdata = array(
-                date(),                              # date
-                $this->request->getRemoteAddress(),  # remote adress
-                $event->getName(),                   # onLogin etc.
-                $authdata['username']                # username
+                date(),                              // date
+                $this->request->getRemoteAddress(),  // remote adress
+                $event->getName(),                   // onLogin etc.
+                $authdata['username']                // username
         );
 
         $this->logger->log($logdata);

@@ -88,7 +88,7 @@ class Categories_Admin extends Controller
                                 'SortCol'   => 'color',
                                 'Type'      => 'String' );
 
-        # Batchactions
+        // Batchactions
         $BatchActions[] = array(    'Alias'     => 'create',
                                     'Name'      => _('Create a news'),
                                     'Action'    => 'create' );
@@ -98,7 +98,7 @@ class Categories_Admin extends Controller
                                     'Action'    => 'delete' );
 
 
-        # Instantiate the datagrid
+        // Instantiate the datagrid
         $datagrid = new Clansuite_Datagrid( array(
                 'Datatable'  => Doctrine::getTable('CsCategories'),
                 'NamedQuery' => 'fetchAllCategories',
@@ -112,7 +112,7 @@ class Categories_Admin extends Controller
         $datagrid->getColumn('Name')->getRenderer()->linkFormat = '&action=edit&id=%{id}';
         $datagrid->getColumn('Name')->getRenderer()->linkTitle  = _('Edit this category');
 
-        # Assign to tpl
+        // Assign to tpl
         $this->getView()->assign('datagrid', $datagrid->render());
 
         $this->display();
@@ -137,11 +137,11 @@ class Categories_Admin extends Controller
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setDescription(_('Click Inputfield to toggle Colorwheel.'));
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
-        # @todo category image upload + db insert
+        // @todo category image upload + db insert
 
         $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=categories/admin');
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -149,14 +149,14 @@ class Categories_Admin extends Controller
 
     public function action_admin_edit()
     {
-        # get id
+        // get id
         $cat_id = $this->request->getParameter('id');
 
-        # fetch category
+        // fetch category
         $cat = Doctrine::getTable('CsCategories')->fetchSingleCategory($cat_id);
 
-        # Create a new form
-        # @todo form object with auto-population of values
+        // Create a new form
+        // @todo form object with auto-population of values
 
         $form = new Clansuite_Form('cat_form', 'post', '/categories/admin/update&type=edit');
 
@@ -165,7 +165,7 @@ class Categories_Admin extends Controller
          */
         $form->addElement('hidden')->setName('cat_form[cat_id]')->setValue($cat['cat_id']);
 
-        # Assign some formlements
+        // Assign some formlements
         $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'))->setValue($cat['name']);
         $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();
         $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setDefaultValue($cat['module_id'])->setOptions($modules)
@@ -179,7 +179,7 @@ class Categories_Admin extends Controller
         #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
         $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=categories/admin');
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -202,7 +202,7 @@ class Categories_Admin extends Controller
 
     public function action_admin_insert()
     {
-        # get incoming data
+        // get incoming data
         $data = $this->request->getParameter('cat_form');
 
         $cats = new CsCategories;
@@ -214,22 +214,22 @@ class Categories_Admin extends Controller
         $cats->icon = $data['icon'];
         $cats->save();
 
-        # redirect
+        // redirect
         $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been created.'));
     }
 
     public function action_admin_update()
     {
-        # get incoming data
+        // get incoming data
         $data = $this->request->getParameter('cat_form');
 
-        # get the categories table
+        // get the categories table
         $catsTable = Doctrine::getTable('CsCategories');
 
-        # fetch the category to update by cat_id
+        // fetch the category to update by cat_id
         $cats = $catsTable->findOneByCat_Id($data['cat_id']);
 
-        # if that category exist, update values and save
+        // if that category exist, update values and save
         if ($cats !== false)
         {
             $cats->cat_id       = $data['cat_id'];
@@ -243,14 +243,14 @@ class Categories_Admin extends Controller
             $cats->save();
         }
 
-        # redirect
+        // redirect
         $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been edited.'));
 
     }
 
     public function action_admin_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/categories/admin/settings');
 
         $settings = array();
@@ -268,16 +268,16 @@ class Categories_Admin extends Controller
 
         $form = new Clansuite_Form($settings);
 
-        # display formgenerator object
+        // display formgenerator object
         #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
-        # display form html
+        // display form html
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -285,17 +285,17 @@ class Categories_Admin extends Controller
 
     public function action_admin_settings_update()
     {
-        # Incomming Data
-        # @todo get post via request object, sanitize
+        // Incomming Data
+        // @todo get post via request object, sanitize
         $data = $this->request->getParameter('categories_settings');
 
-        # Get Configuration from Injector and write Config
+        // Get Configuration from Injector and write Config
         $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache('/categories/admin', 2, 302, 'The config file has been successfully updated.');
     }
 }

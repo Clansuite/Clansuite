@@ -49,20 +49,20 @@ function UTF8_to_HTML($utf8, $encodeTags = false)
         $ascii = ord($char);
 
         if ($ascii < 128) {
-            # one-byte character
+            // one-byte character
             $result .= ($encodeTags) ? htmlentities($char) : $char;
         } elseif ($ascii < 192)
         {
-            # non-utf8 character or not a start byte
-            $result .= ''; # leave this. would else be an empty elseif statement.
+            // non-utf8 character or not a start byte
+            $result .= ''; // leave this. would else be an empty elseif statement.
         } elseif ($ascii < 224)
         {
-            # two-byte character
+            // two-byte character
             $result .= htmlentities(substr($utf8, $i, 2), ENT_QUOTES, 'UTF-8');
             $i++;
         } elseif ($ascii < 240)
         {
-            # three-byte character
+            // three-byte character
             $ascii1 = ord($utf8[$i+1]);
             $ascii2 = ord($utf8[$i+2]);
             $unicode = (15 & $ascii)  * 4096 +
@@ -72,7 +72,7 @@ function UTF8_to_HTML($utf8, $encodeTags = false)
             $i += 2;
         } elseif ($ascii < 248)
         {
-            # four-byte character
+            // four-byte character
             $ascii1 = ord($utf8[$i+1]);
             $ascii2 = ord($utf8[$i+2]);
             $ascii3 = ord($utf8[$i+3]);

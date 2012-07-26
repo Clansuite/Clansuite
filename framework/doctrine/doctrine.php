@@ -62,7 +62,7 @@ class Doctrine
      */
     public static function checkDataSourceName($config)
     {
-        # check if database settings are available
+        // check if database settings are available
         if(empty($config['database']['driver']) === true
         or empty($config['database']['user']) === true
         or empty($config['database']['host']) === true
@@ -88,15 +88,15 @@ class Doctrine
     {
         self::checkDataSourceName($clansuite_config);
 
-        # ensure doctrine2 exists in the libraries folder
+        // ensure doctrine2 exists in the libraries folder
         if (is_file(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php') === false) {
             throw new Koch_Exception('Doctrine2 not found. Check Libraries Folder.', 100);
         }
 
-        # get isolated loader
+        // get isolated loader
         require ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php';
 
-        # setup autoloaders with namespace and path to search in
+        // setup autoloaders with namespace and path to search in
         $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', realpath(ROOT_LIBRARIES));
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Symfony', realpath(ROOT_LIBRARIES .  'Doctrine/Symfony'));
@@ -108,45 +108,45 @@ class Doctrine
         $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath(ROOT . 'doctrine'));
         $classLoader->register();
 
-        # Including Doctrine Extensions
+        // Including Doctrine Extensions
         $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', realpath(ROOT_LIBRARIES));
         $classLoader->register();
 
-        # fetch doctrine config handler
+        // fetch doctrine config handler
         $config = new \Doctrine\ORM\Configuration();
 
-        # cache: APC in production and Array in development mode
+        // cache: APC in production and Array in development mode
         if (extension_loaded('apc') and DEBUG == false) {
             $cache = new \Doctrine\Common\Cache\ApcCache;
         } else {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
         }
 
-        # set cache driver
+        // set cache driver
         $config->setMetadataCacheImpl($cache);
         $config->setQueryCacheImpl($cache);
 
-        # set annotation driver for entities
+        // set annotation driver for entities
         $config->setMetadataDriverImpl(
             $config->newDefaultAnnotationDriver(
                 self::getModelPathsForAllModules()));
 
-        # @todo workaround till i find a better way to acquire all the models
+        // @todo workaround till i find a better way to acquire all the models
         $config->getMetadataDriverImpl()->getAllClassNames();
         #Koch_Debug::firebug($config->getMetadataDriverImpl()->getAllClassNames());
 
-        # set proxy dirs
+        // set proxy dirs
         $config->setProxyDir(realpath(ROOT . 'doctrine'));
         $config->setProxyNamespace('Proxies');
 
-        # regenerate proxies only in debug and not in production mode
+        // regenerate proxies only in debug and not in production mode
         if (DEBUG == true) {
             $config->setAutoGenerateProxyClasses(true);
         } else {
             $config->setAutoGenerateProxyClasses(false);
         }
 
-        # use main configuration values for setting up the connection
+        // use main configuration values for setting up the connection
         $connectionOptions = array(
             'driver'    => $clansuite_config['database']['driver'],
             'user'      => $clansuite_config['database']['user'],
@@ -159,10 +159,10 @@ class Doctrine
             )
         );
 
-             # set up Logger
+             // set up Logger
         #$config->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSqlLogger);
 
-        # we need some more functions for mysql
+        // we need some more functions for mysql
         $config->addCustomNumericFunction('RAND', 'DoctrineExtensions\Query\Mysql\Rand');
 
         /**
@@ -206,10 +206,10 @@ class Doctrine
             }
         }
 
-        # Entity manager
+        // Entity manager
         $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config, $event);
 
-        # set DBAL DebugStack Logger (also needed for counting queries)
+        // set DBAL DebugStack Logger (also needed for counting queries)
         if (defined('DEBUG') and DEBUG == 1) {
             self::$sqlLoggerStack = new \Doctrine\DBAL\Logging\DebugStack();
             $em->getConfiguration()->setSQLLogger(self::$sqlLoggerStack);
@@ -222,7 +222,7 @@ class Doctrine
 
         self::$em = $em;
 
-        # done with config, remove to safe memory
+        // done with config, remove to safe memory
         unset($clansuite_config, $em, $event);
 
         return self::$em;
@@ -271,8 +271,8 @@ class Doctrine
     {
         $em = self::getEntityManager();
         $config = $em->getConfiguration();
-        #$config->addEntityNamespace('Core', $module_models_path); # = Core:Session
-        #$config->addEntityNamespace('Module', $module_models_path); # = Module:News
+        #$config->addEntityNamespace('Core', $module_models_path); // = Core:Session
+        #$config->addEntityNamespace('Module', $module_models_path); // = Module:News
         $classes_loaded = $config->getMetadataDriverImpl()->getAllClassNames();
         Koch_Debug::printR($classes_loaded);
     }
@@ -286,7 +286,7 @@ class Doctrine
     {
         $model_dirs = array();
 
-        # get all module directories
+        // get all module directories
         $dirs = glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR );
 
         foreach ($dirs as $key => $dir_path) {
@@ -295,14 +295,14 @@ class Doctrine
              * therefor the records have to be removed
              */
 
-            # Entity Path
+            // Entity Path
             $entity_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR;
 
             if (is_dir($entity_path)) {
                 $model_dirs[] = $entity_path;
             }
 
-            # Repository Path
+            // Repository Path
             $repos_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'repositories' . DIRECTORY_SEPARATOR;
 
             if (is_dir($repos_path)) {
@@ -363,7 +363,7 @@ class Doctrine
      */
     public static function getLoggerStack()
     {
-        # @todo debug dump to firebug?
+        // @todo debug dump to firebug?
         var_dump(self::$sqlLoggerStack);
     }
 }

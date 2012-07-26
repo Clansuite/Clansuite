@@ -42,7 +42,7 @@ class Menu_Admin extends Controller
 
     public function action_admin_list()
     {
-        # Assign Icon Filenames to View
+        // Assign Icon Filenames to View
         $this->getView()->assign('icons', self::fetchIcons());
 
         $this->display(array('content_template' => 'action_admin_menueditor.tpl'));
@@ -53,7 +53,7 @@ class Menu_Admin extends Controller
      */
     public function action_admin_menueditor()
     {
-        # Assign Icon Filenames to View
+        // Assign Icon Filenames to View
         $this->getView()->assign('icons', self::fetchIcons());
 
         $this->display();
@@ -76,10 +76,10 @@ class Menu_Admin extends Controller
      */
     private static function fetchIcons()
     {
-        # Setup Icons Array
+        // Setup Icons Array
         $icons = array();
 
-        # Get Icons from Directory
+        // Get Icons from Directory
         $dir = new Clansuite_Directory(ROOT_THEMES_CORE . 'images/icons/');
         $icons = $dir->setFilter('imagesOnly')->getFiles(true);
 
@@ -112,22 +112,22 @@ class Menu_Admin extends Controller
 
     public function action_admin_modulemenu_edit()
     {
-        # get modulename
+        // get modulename
         $modulename = $this->request->getParameter('module');
 
         $modulenavigation_file = ROOT_MOD. $modulename . DIRECTORY_SEPARATOR . $modulename . '.menu.php';
 
-        # read module menu file
+        // read module menu file
         if( is_file($modulenavigation_file) )
         {
-            # this includes the file, which contains a php array name $modulenavigation
+            // this includes the file, which contains a php array name $modulenavigation
             include $modulenavigation_file;
 
-            # convert URLs by callback
+            // convert URLs by callback
             $modulenavigation = array_map("convertURLs", $modulenavigation);
 
             $view->assign('modulenavigation', $modulenavigation);
-            # The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
+            // The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
             return $smarty->fetch('modulenavigation-generic.tpl');
         }
         else
@@ -137,10 +137,10 @@ class Menu_Admin extends Controller
             trigger_error($errormessage);
         }
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        # display
+        // display
         $this->display();
     }
 
@@ -148,24 +148,24 @@ class Menu_Admin extends Controller
     {
         $modulenames = Clansuite_ModuleInfoController::getModuleNames(false, true);
 
-        # create a new form
+        // create a new form
         $form = new Clansuite_Form('module_select_dropdown_form', 'post', '/menu/admin/modulemenu_edit');
 
-        # select dropdown for modules
+        // select dropdown for modules
         $form->addElement('select')->setName('menu_select_form[modulename]')->setLabel(_('Module'))
              ->setOptions($modulenames);
 
-        # add the buttonbar
+        // add the buttonbar
         $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=menu&sub=admin');
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('module_select_dropdown_form', $form->render());
         $this->display();
     }
 
     public function action_admin_menueditor2()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Adminmenu Editor II'), '/menu/admin/menueditor2');
 
         $model = 'CsAdminmenuShortcuts';
@@ -175,51 +175,51 @@ class Menu_Admin extends Controller
         $lastLevel = 0;
         $html = '';
 
-        # open unordered list tag
+        // open unordered list tag
         $html .= "\n\t<ul>\n";
 
-        # retrieve the roots
+        // retrieve the roots
         foreach($treeObject->fetchRoots() as $root)
         {
             $options = array('root_id' => $root->$rootColumnName);
 
-            # start iterating the tree beginning with a specific root_id
+            // start iterating the tree beginning with a specific root_id
             foreach($treeObject->fetchTree($options) as $node)
             {
-                # we are on the item of the same level, closing <li> tag before printing item
+                // we are on the item of the same level, closing <li> tag before printing item
                 if($lastLevel > 0 and $node['level'] == $lastLevel)
                 {
                     $html .= "</li>\n";
                 }
 
-                # we are printing a next-level item, starting a new <ul>
+                // we are printing a next-level item, starting a new <ul>
                 if($node['level'] > $lastLevel)
                 {
                     $html .= "\t\n<ul>\n";
                 }
-                # we are going back one or more levels, closing tags
+                // we are going back one or more levels, closing tags
                 elseif($node['level'] < $lastLevel)
                 {
                     $html .= str_repeat('</ul></li>', $lastLevel - $node['level']);
                 }
 
-                # Print the NODE
+                // Print the NODE
                 $html .= '<li id="node_' . $node['id'] . '">';
                 $html .= '<a href="#">Name: ' . $node['name'] . ' ID: ' . $node['id'] . '</a>';
                 #$html .= '</li>';
 
-                # Refreshing last level of the item
+                // Refreshing last level of the item
                 $lastLevel = $node['level'];
             }
         }
 
-        # close unordered list tag
+        // close unordered list tag
         $html .= "\n</ul>";
         $html .= "\n</div>";
 
         #Clansuite_Debug::printR($html);
 
-        # assign the html of the tree to the view
+        // assign the html of the tree to the view
         $view = $this->getView();
         $view->assign('modelname', $model);
         $view->assign('tree', $html);
@@ -237,13 +237,13 @@ class Menu_Admin extends Controller
      */
     public function action_admin_update()
     {
-        # fetch the container variable from post
+        // fetch the container variable from post
         $menu = $this->request->getParameter('container','POST');
 
-        # Check if we have some $menu values to insert
+        // Check if we have some $menu values to insert
         if(count($menu) == 0)
         {
-            # if not, tell the user about it and stop here
+            // if not, tell the user about it and stop here
             throw new Clansuite_Exception('No Menu Items defined for Action: '.__FUNCTION__);
         }
 
@@ -257,13 +257,13 @@ class Menu_Admin extends Controller
          *
          * @todo how to clone a table? with Doctrine clone / copy()?
          */
-        # Get PDO Object from Doctrine
+        // Get PDO Object from Doctrine
         $pdo = Doctrine_Manager::connection()->getDbh();
-        # prepare stmt
+        // prepare stmt
         $stmt2 = $pdo->prepare('INSERT INTO '. DB_PREFIX . 'adminmenu_backup
                                 SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `sortorder`, `icon`, `permission`
                                 FROM '. DB_PREFIX . 'adminmenu' );
-        # execute
+        // execute
         $stmt2->execute();
 
         /**
@@ -274,15 +274,15 @@ class Menu_Admin extends Controller
         /**
          * Insert the new values for the Adminmenu via Doctrine ActiveRecord
          */
-        # now loop over all menu values and prepare the temporary array to insert later
+        // now loop over all menu values and prepare the temporary array to insert later
         foreach ( $menu as $key => $value )
         {
             #Clansuite_Debug::printR($value);
 
-            # fetch activerecord of the adminmenu
+            // fetch activerecord of the adminmenu
             $adminmenu = new \Entities\CsAdminmenu;
 
-            # setup the new menuelement
+            // setup the new menuelement
             $adminmenu['id']            = (int) str_replace( 'tree-', '', $key );
             $adminmenu['parent']        = (int) str_replace( 'tree-', '', $value['parent'] );
             $adminmenu['type']          = $value['type'];
@@ -294,13 +294,13 @@ class Menu_Admin extends Controller
             $adminmenu['icon']          = (string) $value['icon'];
             $adminmenu['permission']    = (string) $value['permission'];
 
-            # save it
+            // save it
             $em->persist($adminmenu);
             $em->flush();        }
 
-        # message the user
+        // message the user
 
-        # redirect back to the menu manager
+        // redirect back to the menu manager
         #$this->redirect('index.php?mod=menu/admin', 1, 202, _('success#Menu successfully updated.'));
         $this->redirect('/menu/admin', 1, 202, _('success#Menu successfully updated.'));
     }
@@ -315,10 +315,10 @@ class Menu_Admin extends Controller
 
         if ( !empty($abort) )
         {
-            # tell the user, that the last action changed nothing on the menu
+            // tell the user, that the last action changed nothing on the menu
             $this->addFlashMessage('Menuediting was cancelled. Nothing has been changed.');
 
-            # redirect to menu manager
+            // redirect to menu manager
             $this->redirect('index.php?mod=menu/admin');
         }
 
@@ -330,42 +330,42 @@ class Menu_Admin extends Controller
 
             // Get PDO Object from Doctrine
             $pdo = Doctrine_Manager::connection()->getDbh();
-            # 1) get adminmenu table as variable $result
+            // 1) get adminmenu table as variable $result
             $stmt1 = $pdo->prepare( 'SELECT * FROM ' . DB_PREFIX .'adminmenu' );
             $stmt1->execute();
             $result = $stmt1->fetchAll(PDO::FETCH_NUM);
 
-            # 2) empty adminmenu table
+            // 2) empty adminmenu table
             $stmt2 = $pdo->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu' );
             $stmt2->execute();
 
-            # 3) insert into adminmenu the adminmenu_backup entries
+            // 3) insert into adminmenu the adminmenu_backup entries
             $stmt3 = $pdo->prepare( 'INSERT INTO '. DB_PREFIX . 'adminmenu SELECT `id`, `parent`, `type`, `text`, `href`, `title`, `target`, `sortorder`, `icon`, `permission` FROM '. DB_PREFIX . 'adminmenu_backup' );
             $stmt3->execute();
 
-            # 4) empty adminmenu_backup table
+            // 4) empty adminmenu_backup table
             $stmt4 = $pdo->prepare( 'TRUNCATE TABLE ' . DB_PREFIX . 'adminmenu_backup' );
             $stmt4->execute();
 
-            # 5) insert the former adminmenu into the adminmenu_backup table
+            // 5) insert the former adminmenu into the adminmenu_backup table
             $stmt5 = $pdo->prepare( 'INSERT INTO ' . DB_PREFIX . 'adminmenu_backup (`id`, `parent`, `type`, `text`, `href`, `title`, `target`, `sortorder`, `icon`, `permission`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' );
             foreach( $result as $data )
             {
                 $stmt5->execute( $data );
             }
 
-            # tell the user, that the last menu was restored on the next screen
+            // tell the user, that the last menu was restored on the next screen
             $this->addFlashMessage('The Last Menu was restored.');
 
-            # redirect  to menu manager
+            // redirect  to menu manager
             $this->redirect('index.php?mod=menu/admin');
         }
         else
         {
-            # confirm?
+            // confirm?
             #'confirm', 3, _( 'Do you really want to restore the old menu and delete the current menu?' ), 'admin' );
 
-            # redirect to menu restore
+            // redirect to menu restore
             $this->redirect('index.php?mod=menu/admin/restore');
         }
     }
@@ -382,7 +382,7 @@ class Menu_Admin extends Controller
      */
     public function get_html_div($menu = '')
     {
-        # $result is relevant to the recursion
+        // $result is relevant to the recursion
         if(false === isset($result))
         {
             $result = '';
@@ -407,7 +407,7 @@ class Menu_Admin extends Controller
             $entry['name']          = isset($entry['name'])             ? $entry['name']            : '';
             $entry['permission']    = isset($entry['permission'])       ? $entry['permission']      : '';
 
-            # Set empty image, if no image is given [ IE HACK ]
+            // Set empty image, if no image is given [ IE HACK ]
             if ( $entry['icon'] == '' )
             {
                 $entry['icon'] = 'empty.png';
@@ -417,12 +417,12 @@ class Menu_Admin extends Controller
              *  Build Menu Start
              */
 
-            # Toplevel
+            // Toplevel
             if ( $entry['type'] == 'folder')
             {
                  $result .= "\n\t";
 
-                 # we are at the toplevel, there are no parents
+                 // we are at the toplevel, there are no parents
                  if ( $entry['parent'] == 0)
                  {
                      $result .= '<td>';
@@ -438,13 +438,13 @@ class Menu_Admin extends Controller
                       * this conditional handles the opening of the tag.
                       * the tag is closed with the same conditional check some lines below.
                       */
-                     # it's an toplevel-menu-item WITHOUT link and we have to open the div container
+                     // it's an toplevel-menu-item WITHOUT link and we have to open the div container
                      if ( $entry['href'] == '' )
                      {
                         $result .= '<span class="button" onclick="aFunction(); return false;">';
 
                      }
-                     else # it's an toplevel-menu-item WITH link and we have to open the anchor href
+                     else // it's an toplevel-menu-item WITH link and we have to open the anchor href
                      {
                         $result .= '<a class="button" href="'.$entry['href'].'" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
                      }
@@ -454,13 +454,13 @@ class Menu_Admin extends Controller
                       */
                      $result .= '<img alt="Image of Folder" class="pic" src="' . WWW_ROOT_THEMES_CORE .'images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
 
-                     # if the icon empty is used, we do not need to put the name in an html span element
-                     # @todo because of what, we have to do this? is this an IE FIX with span element?
+                     // if the icon empty is used, we do not need to put the name in an html span element
+                     // @todo because of what, we have to do this? is this an IE FIX with span element?
                      if( $entry['icon'] == 'empty.png' )
                      {
                         $result .= htmlspecialchars(_($entry['name']));
                      }
-                     else # we are not using empty.png, put the entryname in span
+                     else // we are not using empty.png, put the entryname in span
                      {
                         $result .= '<span class="element">' . htmlspecialchars(_($entry['name'])) . '</span>';
                      }
@@ -473,12 +473,12 @@ class Menu_Admin extends Controller
                      /**
                       * Close Anchor or Div Element of Toplevel Item
                       */
-                     #  it's an toplevel-menu-item WITHOUT link and we have to close the div container
+                     //  it's an toplevel-menu-item WITHOUT link and we have to close the div container
                      if ( $entry['href'] == '' )
                      {
                         $result .= '</span>';
                      }
-                     else # it's an toplevel-menu-item WITH link, we have to close the anchor href
+                     else // it's an toplevel-menu-item WITH link, we have to close the anchor href
                      {
                         $result .= '</a>';
                      }
@@ -509,7 +509,7 @@ class Menu_Admin extends Controller
             if ( is_array($entry['content']) )
             {
                 $result .= "\n\t<div class=\"section\">";
-                # recursion
+                // recursion
                 $result .= $this->get_html_div($entry['content']);
                 $result .= "\t</div>\n";
             }
@@ -565,20 +565,20 @@ class Menu_Admin extends Controller
                 $result .= htmlspecialchars( _($entry['name'])) . '</a>';
             }
 
-            # it's an item
+            // it's an item
             if ( $entry['type'] == 'item')
             {
                 $result .= "\t<div class=\"doc\">";
             }
 
-            # it's an content array, call recursive !!
+            // it's an content array, call recursive !!
             if ( is_array($entry['content']) )
             {
                 $result .= $this->get_adminmenu_div($entry['content']);
             }
             else
             {
-                # it's not an content array, it's an folder
+                // it's not an content array, it's an folder
                 if ( $entry['type'] != 'folder' )
                 {
                     $result .= '<a href="'.$entry['href'];
@@ -587,14 +587,14 @@ class Menu_Admin extends Controller
                 }
             }
 
-            # it was an item, close it
+            // it was an item, close it
             if ( $entry['type'] == 'item')
             {
                 $result .= "</div>\n";
             }
 
-            # it was an folder, close it
-            # @todo combine both if's with OR?
+            // it was an folder, close it
+            // @todo combine both if's with OR?
             if ( $entry['type'] == 'folder')
             {
                 $result .= "</div>\n";
@@ -625,7 +625,7 @@ class Menu_Admin extends Controller
 
         foreach($menu as $entry)
         {
-            #  Init Vars
+            //  Init Vars
 
             $entry['type']              = isset($entry['type'])             ? $entry['type']            : '';
             $entry['content']           = isset($entry['content'])          ? $entry['content']         : '';
@@ -636,7 +636,7 @@ class Menu_Admin extends Controller
             $entry['name']              = isset($entry['name'])             ? $entry['name']            : '';
             $entry['permission']        = isset($entry['permission'])       ? $entry['permission']      : '';
 
-            #  Build Menu
+            //  Build Menu
 
             if ( $entry['type'] == 'folder')
             {
@@ -741,7 +741,7 @@ class Menu_Admin extends Controller
      */
     public function fetch_adminmenu( $perm_check = true, $result = '', $parent = 0, $level = 0 )
     {
-        # this is a recursive funtion, if this is the first call to it, fetch the menu
+        // this is a recursive funtion, if this is the first call to it, fetch the menu
         if(empty($result))
         {
             $query = $this->doctrine_em->createQuery('
@@ -751,17 +751,17 @@ class Menu_Admin extends Controller
             $result = $query->getArrayResult();
         }
 
-        # initialize the output array
+        // initialize the output array
         $output = array();
 
-        # count the menurows
+        // count the menurows
         $menuitems = count($result);
 
         for($i = 0; $i < $menuitems; $i++)
         {
             if($result[$i]['parent'] == $parent)
             {
-               # @todo - permission check?
+               // @todo - permission check?
                $output[$result[$i]['id']] = array(
                                                     'name'          => $result[$i]['text'],
                                                     'level'         => $level,

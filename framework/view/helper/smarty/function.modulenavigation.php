@@ -30,19 +30,19 @@ function smarty_function_modulenavigation($params, $smarty)
     $file = ROOT_MOD. $module . DIRECTORY_SEPARATOR . $module . '.menu.php';
 
     if ( is_file($file) ) {
-        # this includes the file, which contains a php array name $modulenavigation
+        // this includes the file, which contains a php array name $modulenavigation
         include $file;
 
-        # push the $modulenavigation array to a callback function
-        # for further processing of the menu items
+        // push the $modulenavigation array to a callback function
+        // for further processing of the menu items
         $modulenavigation = array_map("applyCallbacks", $modulenavigation);
 
         $smarty->assign('modulenavigation', $modulenavigation);
 
-        # The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
+        // The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
 
         return $smarty->fetch('modulenavigation-generic.tpl');
-    } else { # the module menu navigation file is missing
+    } else { // the module menu navigation file is missing
         $smarty->assign('modulename', $module);
         $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
         trigger_error($errormessage);

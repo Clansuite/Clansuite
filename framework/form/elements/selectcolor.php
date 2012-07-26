@@ -33,7 +33,7 @@ class SelectColor extends Input implements FormelementInterface
 {
     public function __construct()
     {
-        # Note: HTML5 <input type="color"> is not a select formelement.
+        // Note: HTML5 <input type="color"> is not a select formelement.
         $this->type = 'color';
 
         return $this;

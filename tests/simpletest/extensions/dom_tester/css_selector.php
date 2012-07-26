@@ -101,13 +101,13 @@ class CssSelector {
           $tagName = $matches[1] ? $matches[1] : '*';
           preg_match_all('/
             \[
-              (\w+)                 # attribute
-              ([=~\|\^\$\*]?)       # modifier (optional)
-              =?                    # equal (optional)
+              (\w+)                 // attribute
+              ([=~\|\^\$\*]?)       // modifier (optional)
+              =?                    // equal (optional)
               (
-                "([^"]*)"           # quoted value (optional)
+                "([^"]*)"           // quoted value (optional)
                 |
-                ([^\]]*)            # non quoted value (optional)
+                ([^\]]*)            // non quoted value (optional)
               )
             \]
           /x', $matches[2], $matches, PREG_SET_ORDER);

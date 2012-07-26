@@ -42,8 +42,8 @@ class Settings_Admin extends Controller
 
         $config = $this->getClansuiteConfig();
 
-        # Assign array with all cache driver to smarty
-        # @todo detect available cache drivers via sysinfo.core.php
+        // Assign array with all cache driver to smarty
+        // @todo detect available cache drivers via sysinfo.core.php
         $cache_driver = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
         $view->assign('cache_driver', $cache_driver);
 
@@ -61,7 +61,7 @@ class Settings_Admin extends Controller
 
         $config = $this->getClansuiteConfig();
 
-        # Assign array with all cache driver to smarty
+        // Assign array with all cache driver to smarty
         $cache_driver = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
         $view->assign('cache_driver', $cache_driver);
 
@@ -75,11 +75,11 @@ class Settings_Admin extends Controller
 
     public function action_admin_update()
     {
-        # Incomming Data
-        # @todo sanitize
+        // Incomming Data
+        // @todo sanitize
         $data = $_POST['config'];
 
-        # Get Configuration from Injector and main clansuite configuration file
+        // Get Configuration from Injector and main clansuite configuration file
         $config = $this->getInjector()->instantiate('Clansuite_Config');
         $config->writeConfig(ROOT_CONFIG . 'clansuite.config.php', $data);
 

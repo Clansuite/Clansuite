@@ -43,10 +43,10 @@ class Account_Admin extends Controller
 
     public function action_admin_avatar_edit()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Add Avatar'), '/users/admin/addavatar');
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
         $md5_email = md5($_SESSION['user']['email']);
@@ -88,19 +88,19 @@ class Account_Admin extends Controller
      */
     public function action_admin_usercenter()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Usercenter'), '/users/admin/usercenter');
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
-        # Get the user data
+        // Get the user data
         #SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
         #$_SESSION['user']['user_id']
 
         #$view->assign( 'usercenterdata', $data );
 
-        # Set Admin Layout Template
+        // Set Admin Layout Template
         $view->setLayoutTemplate('index.tpl');
 
         $this->display();
@@ -118,7 +118,7 @@ class Account_Admin extends Controller
 
     public function action_admin_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/account/admin/settings');
 
         $settings = array();
@@ -141,10 +141,10 @@ class Account_Admin extends Controller
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
-        # display form html
+        // display form html
         #Clansuite_Debug::printR($form->render());
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -152,17 +152,17 @@ class Account_Admin extends Controller
 
     public function action_admin_settings_update()
     {
-        # Incomming Data
-        # @todo get post via request object, sanitize
+        // Incomming Data
+        // @todo get post via request object, sanitize
         $data = $this->request->getParameter('account_settings');
 
-        # Get Configuration from Injector and write Config
+        // Get Configuration from Injector and write Config
         $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache('/account/admin', 2, 302, 'The config file has been successfully updated.');
     }
 }

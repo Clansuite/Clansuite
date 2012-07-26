@@ -96,11 +96,11 @@ final class Version
 
                 if ($cached_revision != DEPLOY_VERSION)
                 {
-                    # clear opcode cache and user cache
+                    // clear opcode cache and user cache
                     apc_clear_cache();
                     apc_clear_cache('user');
 
-                    # if newer version arrived, store the revision number to apc
+                    // if newer version arrived, store the revision number to apc
                     if($cached_revision < DEPLOY_VERSION)
                     {
                         apc_store($key, DEPLOY_VERSION);
@@ -116,10 +116,10 @@ final class Version
 
             if ($cached_revision != DEPLOY_VERSION)
             {
-                # clear realpath and stat cache
+                // clear realpath and stat cache
                 clearstatcache(true);
 
-                # if newer version arrived, store the revision number to apc
+                // if newer version arrived, store the revision number to apc
                 if($cached_revision < DEPLOY_VERSION)
                 {
                     apc_store($key, DEPLOY_VERSION);

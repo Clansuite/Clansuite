@@ -22,7 +22,7 @@
  */
 function smarty_function_link_to($params, $smarty)
 {
-    # method parameter "href"
+    // method parameter "href"
     if (empty($params['href'])) {
         $errormessage  = 'You are using the <font color="#FF0033">{link_to}</font> command, but the <font color="#FF0033">Parameter "href" is missing.</font>';
         $errormessage .= ' Try to append the parameter in the following way: <font color="#66CC00">href="/news/show"</font>.';
@@ -30,7 +30,7 @@ function smarty_function_link_to($params, $smarty)
 
         return;
     } else {
-        # convert from internal slashed format to URL
+        // convert from internal slashed format to URL
 
         return Koch_Router::buildURL($params['href']);
     }

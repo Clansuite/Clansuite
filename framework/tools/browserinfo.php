@@ -239,7 +239,7 @@ class Browserinfo
         return (bool) ($this->getOperatingSystemTyp() == self::SYSTEM_CONSOLE);
     }
 
-    # --------------- BROWSER ---------------
+    // --------------- BROWSER ---------------
 
     /**
      *  Get Browser name
@@ -395,7 +395,7 @@ class Browserinfo
         $this->browserVersionBuild = $value;
     }
 
-    # --------------- OPERATING SYSTEM ---------------
+    // --------------- OPERATING SYSTEM ---------------
 
     /**
      *  Get the operating system
@@ -472,7 +472,7 @@ class Browserinfo
         $this->operatingSystemName = $value;
     }
 
-    # --------------- ENGINE ---------------
+    // --------------- ENGINE ---------------
     /**
      *  Get the Engine Name
      *  @return String the engine name
@@ -509,7 +509,7 @@ class Browserinfo
         $this->engineVersion = $version;
     }
 
-    # --------------- USER AGENT ---------------
+    // --------------- USER AGENT ---------------
     /**
      *  Get the User Agent String
      *  @return String the User Agent string
@@ -528,7 +528,7 @@ class Browserinfo
         $this->userAgentString = $userAgentString;
     }
 
-    # --------------- INFO ---------------
+    // --------------- INFO ---------------
     public function __toString()
     {
         return $this->getFullName();
@@ -639,10 +639,10 @@ class UserAgentParser
             $userAgentString = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
         }
 
-        # parse quickly with medium accuracy
+        // parse quickly with medium accuracy
         $informations = $this->doParse($userAgentString);
 
-        # debug
+        // debug
         #var_dump( $informations );
 
         return $informations;
@@ -680,12 +680,12 @@ class UserAgentParser
             return $userAgent;
         }
 
-        # --------------- Parse Browser ---------------
+        // --------------- Parse Browser ---------------
         $found = false;
         $tmp_array = array();
 
         foreach ($this->getListBrowsers() as $name => $elements) {
-            # ----- read browser ----
+            // ----- read browser ----
             $exprReg = $elements['search'];
             foreach ($exprReg as $expr) {
                 if (preg_match($expr, $userAgent['string'], $tmp_array)) {
@@ -697,7 +697,7 @@ class UserAgentParser
                     }
                     $found = true;
 
-                    # ----- read version ----
+                    // ----- read version ----
                     if (isset($elements['vparam'])) {
                         $pattern = '';
                         $pv = $elements['vparam'];
@@ -712,14 +712,14 @@ class UserAgentParser
                         $userAgent['browser_version'] = self::TYPE_UNKNOW;
                     }
 
-                    # ----- read engine ----
+                    // ----- read engine ----
                     if (isset($elements['engine'])) {
                         $userAgent['engine'] = $elements['engine'];
                     } else {
                         $userAgent['engine'] = self::TYPE_UNKNOW;
                     }
 
-                    # ----- read engine version -----
+                    // ----- read engine version -----
                     $pattern = '';
                     if (isset($elements['eparam'])) {
                         $pe = $elements['eparam'];
@@ -736,7 +736,7 @@ class UserAgentParser
             $userAgent['browser_typ'] = self::TYPE_UNKNOW;
         }
 
-        # --------------- Parse Operating System ---------------
+        // --------------- Parse Operating System ---------------
         $found = false;
         $tmp_array = array();
         foreach ($this->getListOperatingSystems() as $name => $elements) {
@@ -806,9 +806,9 @@ class UserAgentParser
         return $userAgentString;
     }
 
-    # -----------------------------------------------------------
-    #  GET Browsers + OS  - Definitions
-    # -----------------------------------------------------------
+    // -----------------------------------------------------------
+    //  GET Browsers + OS  - Definitions
+    // -----------------------------------------------------------
 
     /**
      * Get browsers list
@@ -850,7 +850,7 @@ class UserAgentParser
         return $aList;
     }
 
-    # --------------------- OPERATING SYSTEM ---------------------
+    // --------------------- OPERATING SYSTEM ---------------------
     /**
      *  Get operating system list
      *

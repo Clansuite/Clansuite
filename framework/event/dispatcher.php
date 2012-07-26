@@ -98,11 +98,11 @@ class Dispatcher
      * }
      * $event = Koch_Eventdispatcher::instantiate();
      * $event->addEventHandler('event_name1', 'handler1');
-     * $event->triggerEvent('event_name1'); # Output: A
+     * $event->triggerEvent('event_name1'); // Output: A
      * $event->addEventHandler('event_name2', 'handler2');
-     * $event->triggerEvent('event_name2'); # Output: B
+     * $event->triggerEvent('event_name2'); // Output: B
      * $event->addEventHandler('event_name1', 'handler3');
-     * $event->triggerEvent('event_name1'); # Output: AC
+     * $event->triggerEvent('event_name1'); // Output: AC
      * </code>
      *
      * @param $eventName    Name of the Event
@@ -110,12 +110,12 @@ class Dispatcher
      */
     public function addEventHandler($eventName, EventInterface $event_object)
     {
-        # if eventhandler is not set already, initialize as array
+        // if eventhandler is not set already, initialize as array
         if (isset($this->eventhandlers[$eventName]) === false) {
             $this->eventhandlers[$eventName] = array();
         }
 
-        # add event to the eventhandler list
+        // add event to the eventhandler list
         $this->eventhandlers[$eventName][] = $event_object;
     }
 
@@ -129,9 +129,9 @@ class Dispatcher
      * }
      * $event = Koch_Eventdispatcher::instantiate();
      * $event->addEventHandler('event_name', 'handler1');
-     * $event->triggerEvent('event_name'); # Output: A
+     * $event->triggerEvent('event_name'); // Output: A
      * $event->removeEventHandler('event_name', 'handler1');
-     * $event->triggerEvent('event_name'); # No Output
+     * $event->triggerEvent('event_name'); // No Output
      * </code>
      *
      * @param string event name
@@ -139,15 +139,15 @@ class Dispatcher
      */
     public function removeEventHandler($eventName, EventInterface $event_object = null)
     {
-        # if eventhandler is not added, we have nothing to remove
+        // if eventhandler is not added, we have nothing to remove
         if (isset($this->eventhandlers[$eventName]) == false) {
             return false;
         }
 
         if ($event_object === null) {
-            # unset all eventhandlers for this eventName
+            // unset all eventhandlers for this eventName
             unset($this->eventhandlers[$eventName]);
-        } else { # unset a specific eventhandler
+        } else { // unset a specific eventhandler
             foreach ($this->eventhandlers[$eventName] as $key => $registered_event) {
                 if ($registered_event == $event_object) {
                     unset($this->$this->eventhandlers[$eventName][$key]);
@@ -166,7 +166,7 @@ class Dispatcher
      * }
      * $event = Koch_Eventdispatcher::instantiate();
      * $event->addEventHandler('event_name', 'handler1');
-     * $event->triggerEvent('event_name'); # Output: A
+     * $event->triggerEvent('event_name'); // Output: A
      * </code>
      *
      * @param $event Name of Event or Event object to trigger.
@@ -186,7 +186,7 @@ class Dispatcher
             $event = new Event($event, $context, $info);
         }
 
-        # get the Name
+        // get the Name
         $eventName = '';
         $eventName = $event->getName();
 
@@ -194,12 +194,12 @@ class Dispatcher
             return $event;
         }
 
-        # loop over all eventhandlers and look for that eventname
+        // loop over all eventhandlers and look for that eventname
         foreach ($this->eventhandlers[$eventName] as $eventhandler) {
-            # handle the event !!
+            // handle the event !!
             $eventhandler->execute($event);
 
-            # break, on cancelled
+            // break, on cancelled
             if (method_exists($event, 'isCancelled') and $event->isCancelled() == true) {
                 break;
             }
@@ -208,13 +208,13 @@ class Dispatcher
         return $event;
     }
 
-    # no construct (singleton)
+    // no construct (singleton)
     protected function __construct()
     {
         return;
     }
 
-    # no clone (singleton)
+    // no clone (singleton)
     private function __clone()
     {
         return;

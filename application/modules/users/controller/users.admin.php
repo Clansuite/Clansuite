@@ -51,10 +51,10 @@ class Users_Admin extends Controller
 
     public function action_admin_list()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/users/admin/show');
 
-        # Get Render Engine
+        // Get Render Engine
         $view = $this->getView();
 
         $currentPage    = (int) $this->request->getParameterFromGet('page');
@@ -81,7 +81,7 @@ class Users_Admin extends Controller
                                     ->from('CsUsers u')
                                     #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby($sortorder),
-                                 # The following is Limit  ?,? =
+                                 // The following is Limit  ?,? =
                                  $currentPage, // Current page of request
                                  $resultsPerPage // (Optional) Number of results per page Default is 25
                              ),
@@ -109,7 +109,7 @@ class Users_Admin extends Controller
         {
             $view->assign('users', $users);
 
-            # @todo smarty3 bug ? assign/assign global
+            // @todo smarty3 bug ? assign/assign global
             $view->assignGlobal('pager', $pager);
             $view->assignGlobal('pager_layout', $pager_layout);
         }
@@ -127,7 +127,7 @@ class Users_Admin extends Controller
      */
     public function action_admin_create()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create New Useraccount'), '/users/admin/create');
 
         $this->display();
@@ -145,7 +145,7 @@ class Users_Admin extends Controller
      */
     public function action_admin_search()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Search'), '/users/admin/search');
 
         $view = $this->getView();
@@ -163,7 +163,7 @@ class Users_Admin extends Controller
 
             foreach( $aDelete as $id )
             {
-                # Delete User Query
+                // Delete User Query
                 $numDeleted += Doctrine_Query::create()->delete('CsUsers')->whereIn('user_id', $id)->execute();
             }
 
@@ -180,7 +180,7 @@ class Users_Admin extends Controller
      */
     public function action_admin_settings()
     {
-        # Set Pagetitle and Breadcrumbs
+        // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/users/admin/settings');
 
         $settings = array();
@@ -201,7 +201,7 @@ class Users_Admin extends Controller
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
-        # assign the html of the form to the view
+        // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->display();
@@ -209,16 +209,16 @@ class Users_Admin extends Controller
 
     public function action_admin_settings_update()
     {
-        # Incomming Data
+        // Incomming Data
         $data = $this->request->getParameter('users_settings');
 
-        # Get Configuration from Injector and write Config
+        // Get Configuration from Injector and write Config
         $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
-        # clear the cache / compiled tpls
+        // clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
+        // Redirect
         $this->response->redirectNoCache('/users/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }

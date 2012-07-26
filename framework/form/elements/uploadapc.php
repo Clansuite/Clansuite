@@ -42,7 +42,7 @@ class Uploadapc extends File implements FormelementInterface
      */
     public function render()
     {
-        # APC RFC1867 File Upload Progress Hook check
+        // APC RFC1867 File Upload Progress Hook check
         if (ini_get('apc.rfc1867') == false) {
             echo 'No Upload with APC possible.';
         }
@@ -106,11 +106,11 @@ class Uploadapc extends File implements FormelementInterface
                             }
                             //]]></script>";
 
-        # add an iframe, so that the upload happens in there and is not blocking the website
+        // add an iframe, so that the upload happens in there and is not blocking the website
         $html = '<!-- Hidden iframe for performing the Upload -->'.CR.'
                      <iframe style="display:none" name="hidden_upload" src="'.WWW_ROOT . 'upload-file.php"></iframe>';
 
-        # add ajax status (upload_status, uploadFile, uploadSize, progressBar)
+        // add ajax status (upload_status, uploadFile, uploadSize, progressBar)
         $html .= '<!-- Ajax Upload Status -->
                       <div id="progressbar"></div>
                       <div id="upload_status" style="display:none;">
@@ -136,10 +136,10 @@ class Uploadapc extends File implements FormelementInterface
         $hidden->setName('APC_UPLOAD_PROGRESS')->setID('upload_status')->setValue($uniqueID);
         $html .= $hidden;
 
-        # add the input element
+        // add the input element
         $html .= '<input name="uploadfile" size="30" type="file">';
 
-        # add a submit button
+        // add a submit button
         if (false === class_exists('Koch_Formelement_Submitbutton',false)) {
             include __DIR__ . '/submitbutton.php';
         }

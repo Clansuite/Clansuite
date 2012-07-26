@@ -66,7 +66,7 @@ class Json extends AbstractRenderere
         if (empty($data)) {
             return '[]';
         } else {
-            # use php's json encode to modifiy data representation
+            // use php's json encode to modifiy data representation
 
             return json_encode($data);
         }

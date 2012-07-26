@@ -56,7 +56,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
             new Exception('You are trying an authenticated access without providing username and password.')
         );
 
-        # request to "/login" without credentials
+        // request to "/login" without credentials
         $this->trac = new Trac_RPC('http://trac.clansuite.com/login/jsonrpc');
         $response = $this->trac->getWikiPage('ClansuiteTeam');
         unset($response);
@@ -120,7 +120,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
 
         $real_response = self::objectToArray($response);
 
-        # datetime contains a string like "012-02-17T17:00:00"
+        // datetime contains a string like "012-02-17T17:00:00"
         $this->assertContainsString('T', $real_response['due']['1']);
         unset($response);
     }

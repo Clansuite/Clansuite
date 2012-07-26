@@ -49,9 +49,9 @@ class Xtemplate extends AbstractRenderer
 
     public function initializeEngine($template = null)
     {
-        # prevent redeclaration
+        // prevent redeclaration
         if (class_exists('XTemplate', false) == false) {
-            # check if library exists
+            // check if library exists
             if (is_file(ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php') === true) {
                 include ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php';
             } else {
@@ -63,7 +63,7 @@ class Xtemplate extends AbstractRenderer
 
         #Koch_Debug::firebug('Xtemplate loaded with Template: ' . $template);
 
-        # Do it with XTemplate style > eat like a bird, poop like an elefant!
+        // Do it with XTemplate style > eat like a bird, poop like an elefant!
 
         return $this->renderer = new XTemplate($template);
     }
@@ -105,7 +105,7 @@ class Xtemplate extends AbstractRenderer
      */
     public function getEngine()
     {
-        # clear assigns?
+        // clear assigns?
 
         return $this->renderer;
     }

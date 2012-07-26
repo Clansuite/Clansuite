@@ -24,7 +24,7 @@ class Smarty_CacheResource_APC
     {
         $this->smarty = $smarty;
 
-        # test if APC is present
+        // test if APC is present
         if (!function_exists('apc_cache_info')) {
             throw new Exception('APC Template Caching Error: APC is not installed');
         }

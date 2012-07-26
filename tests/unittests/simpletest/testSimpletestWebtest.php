@@ -32,7 +32,7 @@ class Simpletest_WebTest extends WebTestCase
     {
         $this->get('http://clansuite.com/');
 
-        # we want a "200 - OK" response
+        // we want a "200 - OK" response
         $this->assertResponse(200);
     }
 }

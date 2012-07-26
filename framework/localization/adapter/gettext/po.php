@@ -53,25 +53,25 @@ class POFile
      */
     public static function read($file)
     {
-        # read .po file
+        // read .po file
         $file_content = file_get_contents($file);
 
-        # normalize newlines
+        // normalize newlines
         $file_content = str_replace(array("\r\n", "\r"), array("\n", "\n"), $file_content);
 
-        # results array
+        // results array
         $hash = array();
 
-        # temporary array
+        // temporary array
         $temp = array();
 
-        # state
+        // state
         $state = null;
         $fuzzy = false;
 
         $fc_array = explode("\n", $file_content);
 
-        # iterate over lines
+        // iterate over lines
         foreach ($fc_array as $line) {
             $line = trim($line);
 
@@ -90,18 +90,18 @@ class POFile
             @list($key, $data) = explode(' ', $line, 2);
 
             switch ($key) {
-                case '#,': # flag...
+                case '#,': // flag...
 
                     $fuzzy = in_array('fuzzy', preg_split('/,\s*/', $data));
 
-                case '#':  # translator-comments
+                case '#':  // translator-comments
 
-                case '#.': # extracted-comments
+                case '#.': // extracted-comments
 
-                case '#:': # reference...
+                case '#:': // reference...
 
-                case '#|': # msgid previous-untranslated-string
-                    # start a new entry
+                case '#|': // msgid previous-untranslated-string
+                    // start a new entry
                     if (count($temp) && array_key_exists('msgid', $temp) && array_key_exists('msgstr', $temp)) {
                         if (false === $fuzzy) {
                             $hash[] = $temp;
@@ -113,17 +113,17 @@ class POFile
                     }
                     break;
 
-                case 'msgctxt': # context
+                case 'msgctxt': // context
 
-                case 'msgid': # untranslated-string
+                case 'msgid': // untranslated-string
 
-                case 'msgid_plural': # untranslated-string-plural
+                case 'msgid_plural': // untranslated-string-plural
 
                     $state = $key;
                     $temp[$state] = $data;
                     break;
 
-                case 'msgstr': # translated-string
+                case 'msgstr': // translated-string
 
                     $state = 'msgstr';
                     $temp[$state][] = $data;
@@ -132,11 +132,11 @@ class POFile
                 default :
 
                     if (strpos($key, 'msgstr[') !== false) {
-                        # translated-string-case-n
+                        // translated-string-case-n
                         $state = 'msgstr';
                         $temp[$state][] = $data;
                     } else {
-                        # continued lines
+                        // continued lines
                         switch ($state) {
                             case 'msgctxt':
 
@@ -154,7 +154,7 @@ class POFile
 
                             default :
 
-                                # parse error
+                                // parse error
 
                                 return false;
                         }
@@ -163,12 +163,12 @@ class POFile
             }
         }
 
-        # add final entry
+        // add final entry
         if ($state === 'msgstr') {
             $hash[] = $temp;
         }
 
-        # Cleanup data, merge multiline entries, reindex hash for ksort
+        // Cleanup data, merge multiline entries, reindex hash for ksort
         $temp = $hash;
         $hash = array();
 
@@ -177,7 +177,7 @@ class POFile
                 $v = self::po_clean_helper($v);
 
                 if ($v === false) {
-                    # parse error
+                    // parse error
 
                     return false;
                 }
@@ -192,7 +192,7 @@ class POFile
     {
         if (true === is_array($x)) {
             foreach ($x as $k => $v) {
-                # WATCH IT! RECURSION!
+                // WATCH IT! RECURSION!
                 $x[$k]= self::po_clean_helper($v);
             }
         } else {
@@ -203,7 +203,7 @@ class POFile
             $x = str_replace("\"\n\"", '', $x);
             $x = str_replace('$', '\\$', $x);
 
-            # @todo eval to clean ???
+            // @todo eval to clean ???
             #Koch_Debug:firebug($x);
             $x = @ eval ("return \"$x\";");
         }

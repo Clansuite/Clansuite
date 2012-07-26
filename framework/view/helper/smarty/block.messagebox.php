@@ -22,14 +22,14 @@ function smarty_block_messagebox($params, $text, $smarty)
     $textbox_type = null;
     $textbox_level = null;
 
-    # set default type of messagebox to "div", if no type was given
+    // set default type of messagebox to "div", if no type was given
     if (empty($params['type']) == true) {
         $textbox_type = 'div';
     } else {
         $textbox_type = $params['type'];
     }
 
-    # whitelist for messagebox_levels
+    // whitelist for messagebox_levels
     $messagebox_level = array( 'hint', 'notice', 'alert', 'info');
 
     if (isset($params['level']) and in_array(mb_strtolower($params['level']), $messagebox_level)) {

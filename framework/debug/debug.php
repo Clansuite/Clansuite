@@ -61,7 +61,7 @@ class Debug
         echo '<b>Debugging <font color=red>'.basename($trace['file']).'</font> on line <font color=red>'.$trace['line']."</font></b>:\r\n";
         echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($trace_line)."</div>\r\n";
 
-        echo '<b>Type</b>: '.gettype($var)."\r\n"; # uhhh.. gettype is slow like hell
+        echo '<b>Type</b>: '.gettype($var)."\r\n"; // uhhh.. gettype is slow like hell
 
         if (is_string($var) === true) {
             echo '<b>Length</b>: ' . strlen($var)."\r\n";
@@ -92,7 +92,7 @@ class Debug
             echo htmlspecialchars($var);
         } else {
             $print_r = print_r($var, true);
-            # str_contains < or >
+            // str_contains < or >
             if ((strstr($print_r, '<') !== false) or (strstr($print_r, '>') !== false)) {
                 $print_r = htmlspecialchars($print_r);
             }
@@ -101,7 +101,7 @@ class Debug
 
         echo '</pre>';
 
-        # save session before exit
+        // save session before exit
         if ((bool) session_id()) {
             session_write_close();
         }
@@ -118,7 +118,7 @@ class Debug
      */
     public static function dump($var, $stop = true)
     {
-        # var_dump the content into a buffer and store it to variable
+        // var_dump the content into a buffer and store it to variable
         ob_start();
         var_dump($var);
         $var_dump = ob_get_clean();
@@ -134,10 +134,10 @@ class Debug
             $var_dump = '<pre>' . htmlspecialchars($var_dump, ENT_QUOTES, 'UTF-8') . '</pre>';
         }
 
-        # display where this debug statement
+        // display where this debug statement
         echo self::getOriginOfDebugCall();
 
-        # output the content of the buffer
+        // output the content of the buffer
         echo $var_dump;
 
         if ($stop === true) {
@@ -155,7 +155,7 @@ class Debug
      */
     public static function firebug($var, $firebugmethod = 'log')
     {
-        # get firephp instance, if class not existant
+        // get firephp instance, if class not existant
         if ( class_exists('FirePHP', false) === false ) {
             include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         }
@@ -168,7 +168,7 @@ class Debug
          */
         $firephp->info(self::getOriginOfDebugCall());
 
-        # debug the var
+        // debug the var
         $firephp->{$firebugmethod}($var);
     }
 
@@ -229,21 +229,21 @@ class Debug
      */
     public static function getIncludedFiles()
     {
-        # init vars
+        // init vars
         $includedFiles = $files = array();
         $includedFilesTotalSize = $includedFilesCount = 0;
 
-        # fetch all included files
+        // fetch all included files
         $files = get_included_files();
 
-        # loop over all included files and sum up filesize
+        // loop over all included files and sum up filesize
         foreach ($files as $file) {
             $size = filesize($file);
             $includedFiles[] = array('name' => $file, 'size' => $size);
             $includedFilesTotalSize += $size;
         }
 
-        # total number of included files
+        // total number of included files
         $includedFilesCount = count($includedFiles);
         $includedFilesTotalSize = Koch_Functions::getsize($includedFilesTotalSize);
 
@@ -325,6 +325,6 @@ class Debug
      */
     public static function getRegisteredEventListeners()
     {
-        # @todo
+        // @todo
     }
 }

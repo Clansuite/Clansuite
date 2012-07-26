@@ -1,21 +1,21 @@
 <?php
 
-# ------------------------------------------
-# DEBUG
-# ------------------------------------------
+// ------------------------------------------
+// DEBUG
+// ------------------------------------------
     $debug = false;
     $debugArray = array();
 
-# ------------------------------------------
-# DEFINING $upload_directory
-# ------------------------------------------
-    # Must point to a PHP writable directory
-    # See http://www.onlamp.com/pub/a/php/2003/02/06/php_foundations.html for dealing with PHP permissions
+// ------------------------------------------
+// DEFINING $upload_directory
+// ------------------------------------------
+    // Must point to a PHP writable directory
+    // See http://www.onlamp.com/pub/a/php/2003/02/06/php_foundations.html for dealing with PHP permissions
     $upload_directory = '' ; // leave blank for default
 
-# ------------------------------------------
-# UPLOAD VAR Initialize
-# ------------------------------------------
+// ------------------------------------------
+// UPLOAD VAR Initialize
+// ------------------------------------------
     $uploadFieldName = "Filedata";                                                // e.g. $_FILES[$PostFieldName]["tmp_name"]
     $extension_whitelist = array("jpg", "png");                               // Allowed file extensions
     $valid_chars_regex = '.A-Z0-9_ !@#$%^&()+={}\[\]\',~`-';            // Characters allowed in the file name (in a Regular Expression format)
@@ -29,14 +29,14 @@
     $debugArray["MAX_FILENAME_LENGTH"] = $MAX_FILENAME_LENGTH;
 
 
-# ***************************************************************************************
-# NO MODIFICATIONS REQUIRED BELOW THIS LINE
-# ***************************************************************************************
-# ------------------------------------------------------------------------------
+// ***************************************************************************************
+// NO MODIFICATIONS REQUIRED BELOW THIS LINE
+// ***************************************************************************************
+// ------------------------------------------------------------------------------
 
-# ------------------------------------------
-# SESSION
-# ------------------------------------------
+// ------------------------------------------
+// SESSION
+// ------------------------------------------
     // Get the session Id passed from SWFUpload. We have to do this to work-around the Flash Player Cookie Bug
     if (isset($_POST["sess_name"]) and isset($_POST["sess_id"])) {
         session_name($_POST["sess_name"]);
@@ -49,23 +49,23 @@
         $_SESSION["file_info"] = array();
     }
 
-# ------------------------------------------
-# CREATE DEFAULT UPLOAD DIRECTY LOCATION
-# ------------------------------------------
+// ------------------------------------------
+// CREATE DEFAULT UPLOAD DIRECTY LOCATION
+// ------------------------------------------
     If ( !$upload_directory ) {
          if (isset($_POST["upload_directory"]) and $_POST["upload_directory"] !=='' ) { $upload_directory = $_POST["upload_directory"]; }
          else { $upload_directory = 'uploads';  }
 
         $parent_dir = array_pop(explode(DIRECTORY_SEPARATOR, dirname(__FILE__)));
-        $upload_directory = substr(dirname(__FILE__), 0, strlen(dirname(__FILE__)) - strlen($parent_dir) ) . $upload_directory ; 
+        $upload_directory = substr(dirname(__FILE__), 0, strlen(dirname(__FILE__)) - strlen($parent_dir) ) . $upload_directory ;
          if (isset($_POST["upload_subdirectory"]) and $_POST["upload_subdirectory"] !=='' ) { $upload_directory .= DIRECTORY_SEPARATOR.$_POST["upload_subdirectory"]; }
     }
 
     $debugArray["upload_directory"] = $upload_directory;
 
-# ------------------------------------------
-# TEST UPLOAD DIRECTORY
-# ------------------------------------------
+// ------------------------------------------
+// TEST UPLOAD DIRECTORY
+// ------------------------------------------
     if ( is_dir($upload_directory) and is_writable($upload_directory) ) {
         $upload_directory_writable = true ;
     } else {
@@ -73,9 +73,9 @@
         $upload_directory_writable = false ;
     }
 
-# ------------------------------------------
-# PREPARE FILENAME
-# ------------------------------------------
+// ------------------------------------------
+// PREPARE FILENAME
+// ------------------------------------------
     $file_name = preg_replace('/[^'.$valid_chars_regex.']|\.+$/i', "", basename($_FILES[$uploadFieldName]['name']));
     if (strlen($file_name) == 0 || strlen($file_name) > $MAX_FILENAME_LENGTH) {
         $msg .= "ERROR:Invalid file name (line:".__LINE__.")\n";
@@ -83,9 +83,9 @@
         //exit(0);
     }
 
-# ------------------------------------------
-# EXTENSION
-# ------------------------------------------
+// ------------------------------------------
+// EXTENSION
+// ------------------------------------------
     $path_info = pathinfo(basename($_FILES[$uploadFieldName]['name']));
     $file_extension = $path_info["extension"];
     $deldoble = '.'.$file_extension.'.'.$file_extension;
@@ -99,23 +99,23 @@
     $debugArray["upload_directory_writable"] = ($upload_directory_writable?'yes':'no');
 
 
-# ------------------------------------------
-# CHECK IS FILE UPLOADED
-# ------------------------------------------
+// ------------------------------------------
+// CHECK IS FILE UPLOADED
+// ------------------------------------------
     if ( !isset($_FILES[$uploadFieldName]) || !is_uploaded_file($_FILES[$uploadFieldName]["tmp_name"]) || $_FILES[$uploadFieldName]["error"] != 0) {
         switch ($_FILES[$upload_name]["error"]) {
             case 1: $error_msg = '#1 - File exceeded maximum server upload size of '.ini_get('upload_max_filesize').'.'; break;
             case 2: $error_msg = '#2 - File exceeded maximum file size.'; break;
             case 3: $error_msg = '#3 - File only partially uploaded.'; break;
-            case 4: $error_msg = '#4 - No file uploaded.'; break; 
+            case 4: $error_msg = '#4 - No file uploaded.'; break;
         }
         $msg .= $error_msg. " (line:".__LINE__.")\n";
         $debugArray["Error-Msg"] = $msg;
 
     } else {
-# ------------------------------------------
-# COPY UPLOAD SUCCESS
-# ------------------------------------------
+// ------------------------------------------
+// COPY UPLOAD SUCCESS
+// ------------------------------------------
         if ( move_uploaded_file( $_FILES[$uploadFieldName]['tmp_name'] , $uploadfile ) ) {
             @chmod( $uploadfile, 0666 );
         } else {

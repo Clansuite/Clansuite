@@ -37,7 +37,7 @@ class SelectDate extends Input implements FormelementInterface
 {
     public function __construct()
     {
-        # Note: HTML5 <input type="date"> is not a select formelement.
+        // Note: HTML5 <input type="date"> is not a select formelement.
         $this->type = 'date';
 
         return $this;

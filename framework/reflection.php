@@ -80,32 +80,32 @@ class Reflection
     {
         $methods_array = array();
 
-        # if exlcude_classnames is a string, turn into array
+        // if exlcude_classnames is a string, turn into array
         $exclude_classnames = (array) $exclude_classnames;
 
-        # check if the class to reflect is available
+        // check if the class to reflect is available
         if (class_exists($this->getClassName())) {
             $class = new ReflectionClass($this->getClassName());
         } else {
             echo 'Class not existing.';
         }
 
-        # get all methods of that class
+        // get all methods of that class
         $methods = $class->getMethods();
 
         foreach ($methods as $method) {
-            # get the declaring classname, might be the parent class
+            // get the declaring classname, might be the parent class
             $className = $method->getDeclaringClass()->getName();
 
-            # if the classname is not excluded
+            // if the classname is not excluded
             if (false === in_array($className, $exclude_classnames)) {
-                # add the method name to the array
+                // add the method name to the array
                 $methods_array[$className][] = $method->getName();
 
-                # get parameter names
+                // get parameter names
                 #foreach($method->getParameters() as $parameter)
                 #{
-                #    $parameterName = $parameter->getName();
+                //    $parameterName = $parameter->getName();
                 #}
             }
         }

@@ -52,17 +52,17 @@ class HtmlTidy implements FilterInterface
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        # htmltidy must be enabled in configuration
+        // htmltidy must be enabled in configuration
         if ( $this->config['htmltidy']['enabled'] == 1 and extension_loaded('tidy')) {
-            # bypass
+            // bypass
 
             return;
         }
 
-        # get output from response
+        // get output from response
         $content = $response->getContent();
 
-        # init tidy
+        // init tidy
         $tidy = new tidy;
 
         /*
@@ -101,13 +101,13 @@ class HtmlTidy implements FilterInterface
             'indent' => 'auto'
         );
 
-        # tidy the output
+        // tidy the output
         $tidy->parseString($content, $tidyoptions, 'utf8');
         $tidy->cleanRepair();
 
-        # @todo diagnose? errorreport?
+        // @todo diagnose? errorreport?
 
-        # set output to response
+        // set output to response
         $response->setContent(tidy_get_output($tidy), true);
     }
 }

@@ -43,7 +43,7 @@ class Cronjobs_Admin extends Controller
 
     public function action_admin_list()
     {
-        # Applying a Layout Template
+        // Applying a Layout Template
         $view = $this->getView()->setLayoutTemplate('index.tpl');
 
         $cronjobs = array();

@@ -44,25 +44,25 @@ class StartupChecks implements FilterInterface
 {
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        # ensure smarty "tpl_compile" folder exists
+        // ensure smarty "tpl_compile" folder exists
         if(false === is_dir(ROOT_CACHE . 'tpl_compile') and
           (false === @mkdir(ROOT_CACHE .'tpl_compile', 0755, true)))
         {
             throw new Exception('Smarty Template Directories not existant.', 9);
         }
 
-        # ensure smarty "cache" folder exists
+        // ensure smarty "cache" folder exists
         if(false === is_dir(ROOT_CACHE . 'tpl_cache') and
           (false === @mkdir(ROOT_CACHE .'tpl_cache', 0755, true)))
         {
             throw new Exception('Smarty Template Directories not existant.', 9);
         }
 
-        # ensure smarty folders are writable
+        // ensure smarty folders are writable
         if(false === is_writable(ROOT_CACHE . 'tpl_compile') or
           (false === is_writable(ROOT_CACHE . 'tpl_cache')))
         {
-            # if not, try to set writeable permission on the folders
+            // if not, try to set writeable permission on the folders
             if((false === chmod(ROOT_CACHE . 'tpl_compile', 0755)) and
                (false === chmod(ROOT_CACHE . 'tpl_cache', 0755)))
             {

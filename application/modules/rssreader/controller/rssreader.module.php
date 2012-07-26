@@ -38,10 +38,10 @@ class Rssreader extends Controller
 {
     public function widget_rssreader()
     {
-        # fetch the google group clansuite for latest news
+        // fetch the google group clansuite for latest news
         $feeditems = Clansuite_Feed::fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
-        # assign to smarty
+        // assign to smarty
         $view = $this->getView();
         $view->assign('items_newswidget', self::getConfigValue('items_newswidget', '3'));
         $view->assign('feed', $feeditems);

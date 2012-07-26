@@ -25,7 +25,7 @@
  */
 function smarty_function_icq($params, $smarty)
 {
-    # be sure icq parameter is present
+    // be sure icq parameter is present
     if (empty($params['number'])) {
         trigger_error('icq: missing the icq "number" as parameter');
 

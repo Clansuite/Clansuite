@@ -51,7 +51,7 @@ class XML extends Koch_Form implements FormGeneratorInterface
      */
     public function generateFormByXML($filename)
     {
-        # XML -> toArray -> Koch_Array_Formgenerator->generate($array)
+        // XML -> toArray -> Koch_Array_Formgenerator->generate($array)
         $array = array();
         $array = new Koch\Config($filename);
 

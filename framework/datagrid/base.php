@@ -164,7 +164,7 @@ class base
             $method = 'set' . ucfirst($key);
 
             if (method_exists($this, $method)) {
-                # setter method exists
+                // setter method exists
                 $this->$method($value);
             } else {
                 throw new Clansuite_Exception('Unknown property ' . $key . ' for Datagrid');

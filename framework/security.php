@@ -56,13 +56,13 @@ final class Security
      */
     public static function check_salted_hash( $passwordhash, $databasehash, $salt, $hash_algorithm )
     {
-        # combine incomming $salt and $passwordhash (which is already sha1)
+        // combine incomming $salt and $passwordhash (which is already sha1)
         $salted_string =  $salt . $passwordhash;
 
-        # get hash_algo from config and generate hash from $salted_string
+        // get hash_algo from config and generate hash from $salted_string
         $hash = self::generate_hash($hash_algorithm, $salted_string);
 
-        # then compare
+        // then compare
 
         return $databasehash === $hash;
     }
@@ -87,15 +87,15 @@ final class Security
      */
     public static function build_salted_hash( $string = '', $hash_algorithm = '')
     {
-        # set up the array
+        // set up the array
         $salted_hash_array = array();
-        # generate the salt with fixed length 6 and place it into the array
+        // generate the salt with fixed length 6 and place it into the array
         $salted_hash_array['salt'] = self::generate_salt(6);
-        # combine salt and string
+        // combine salt and string
         $salted_string = $salted_hash_array['salt'] . $string;
-        # generate hash from "salt+string" and place it into the array
+        // generate hash from "salt+string" and place it into the array
         $salted_hash_array['hash'] = self::generate_hash($hash_algorithm, $salted_string);
-        # return array with elements ['salt'], ['hash']
+        // return array with elements ['salt'], ['hash']
 
         return $salted_hash_array;
     }
@@ -123,15 +123,15 @@ final class Security
          * website: http://www.skein-hash.info/downloads
          */
         if (extension_loaded('skein') and ($hash_algorithm == 'skein')) {
-            # get the binary 512-bits hash of string
+            // get the binary 512-bits hash of string
 
             return skein_hash($string, 512);
         }
 
-        # check, if we can use hash()
+        // check, if we can use hash()
         if (function_exists('hash')) {
             return hash($hash_algorithm, $string);
-        } else {   # when hash() not available, do hashing the old way
+        } else {   // when hash() not available, do hashing the old way
             switch ($hash_algorithm) {
                 case 'md5':
                     return md5($string);
@@ -154,35 +154,35 @@ final class Security
      */
     public static function generate_salt($length)
     {
-        # set salt to empty
+        // set salt to empty
         $salt = '';
 
         if (true === function_exists('openssl_random_pseudo_bytes')) {
-            # generate a pseudo-random string of bytes
+            // generate a pseudo-random string of bytes
             $bytes = openssl_random_pseudo_bytes($length);
 
-            # encode bytes
+            // encode bytes
             $string = base64_encode($bytes);
 
-            # truncate the base64 string to correct length
+            // truncate the base64 string to correct length
             $salt = substr($string, 0, $length);
 
             return $salt;
-        } else { # use mt_srand, if extension openssl is not loaded
-            # seed the randoms generator with microseconds since last "whole" second
-            # Note: this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
+        } else { // use mt_srand, if extension openssl is not loaded
+            // seed the randoms generator with microseconds since last "whole" second
+            // Note: this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
             mt_srand((double) microtime()*1000000);
-            # set up the random chars to choose from
+            // set up the random chars to choose from
             $chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-            # count the number of random_chars
+            // count the number of random_chars
             $number_of_random_chars = strlen($chars)-1;
-            # add a char from the random_chars to the salt, until we got the wanted $length
+            // add a char from the random_chars to the salt, until we got the wanted $length
             while (strlen($salt) < $length) {
-                # get a random char of $chars
+                // get a random char of $chars
                 $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
-                # ensure that a random_char is not used twice in the salt
+                // ensure that a random_char is not used twice in the salt
                 if (strstr($salt, $char_to_add) === false) {
-                    # finally => add char to salt
+                    // finally => add char to salt
                     $salt .= $char_to_add;
                 }
             }

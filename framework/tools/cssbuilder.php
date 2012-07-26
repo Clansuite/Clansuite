@@ -153,7 +153,7 @@ class Cssbuilder
 
         $coreadditionalFiles = $themeadditionalFiles = $themeBackadditionalFiles = array();
 
-        # build browser specific configuration filename
+        // build browser specific configuration filename
         $browser = $config['browsers'];
         $postfix = $browser[$index]['postfix'];
         if ($postfix != '') {
@@ -357,7 +357,7 @@ class Cssbuilder
         $iniArray = parse_ini_file($inifile);
         #Koch_Debug::printR( $iniArray );
 
-        # replacements
+        // replacements
         $search = array(' ', "\t", "\r\n", "\r", CR);
         $replace = array('', '', '', '', '', '');
         $iniArray['files'] = str_replace( $search, $replace, $iniArray['files']);
@@ -487,21 +487,21 @@ class Cssbuilder
         $contents = '';
 
         if (file_exists($file) === true) {
-            # Load the local CSS stylesheet.
+            // Load the local CSS stylesheet.
             $contents = file_get_contents($file);
 
-            # image path anpassen
+            // image path anpassen
             #$contents = str_replace('../images', 'images', $contents);
             $contents = str_replace('../../images', '../images', $contents);
 
-            # Change to the current stylesheet's directory.
+            // Change to the current stylesheet's directory.
             $cwd = getcwd();
             chdir(dirname($file));
 
-            # Process the stylesheet.
+            // Process the stylesheet.
             $contents = self::load_stylesheet_content($contents, $optimize);
 
-            # Change back directory.
+            // Change back directory.
             chdir($cwd);
         }
 
@@ -541,14 +541,14 @@ class Cssbuilder
             // whitespace.
             // @see http://php.net/manual/en/regexp.reference.subpatterns.php
             $contents = preg_replace('<
-              # Strip leading and trailing whitespace.
+              // Strip leading and trailing whitespace.
                 \s*([@{};,])\s*
-              # Strip only leading whitespace from:
-              # - Closing parenthesis: Retain "@media (bar) and foo".
+              // Strip only leading whitespace from:
+              // - Closing parenthesis: Retain "@media (bar) and foo".
               | \s+([\)])
-              # Strip only trailing whitespace from:
-              # - Opening parenthesis: Retain "@media (bar) and foo".
-              # - Colon: Retain :pseudo-selectors.
+              // Strip only trailing whitespace from:
+              // - Opening parenthesis: Retain "@media (bar) and foo".
+              // - Colon: Retain :pseudo-selectors.
               | ([\(:])\s+
             >xS',
                     // Only one of the three capturing groups will match, so its reference

@@ -84,12 +84,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public function __construct($ids_on = false)
     {
-        # 1) Drop $_REQUEST and $GLOBALS. Usage is forbidden!
+        // 1) Drop $_REQUEST and $GLOBALS. Usage is forbidden!
         unset($_REQUEST);
         unset($GLOBALS);
 
         if ($ids_on === true) {
-            # 2) Run Intrusion Detection System (on GET, POST, COOKIES)
+            // 2) Run Intrusion Detection System (on GET, POST, COOKIES)
             $doorKeeper = new Koch_DoorKeeper;
             $doorKeeper->runIDS();
         }
@@ -98,7 +98,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
          *  3) Additional Security Checks
          */
 
-        # block XSS
+        // block XSS
         $_SERVER['PHP_SELF'] = htmlspecialchars($_SERVER['PHP_SELF']);
         $_SERVER['QUERY_STRING'] = htmlspecialchars($_SERVER['QUERY_STRING']);
 
@@ -106,12 +106,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
          *  5) Init Parameter Arrays and Assign the GLOBALS
          */
 
-        # Clear Parameters Array
+        // Clear Parameters Array
         $this->get_parameters       = array();
         $this->post_parameters      = array();
         $this->cookie_parameters    = array();
 
-        # Assign the GLOBALS $_GET, $_POST, $_COOKIE
+        // Assign the GLOBALS $_GET, $_POST, $_COOKIE
         $this->get_parameters     = $_GET;
         $this->post_parameters    = $_POST;
         $this->cookie_parameters  = $_COOKIE;
@@ -174,17 +174,17 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      *
      * $parameters array structure:
      * $parameters = array(
-     *  'parametername' => array (      # parametername as key for rules array
-     *      'source',                   # (GET|POST)
+     *  'parametername' => array (      // parametername as key for rules array
+     *      'source',                   // (GET|POST)
      *      'validation-rule'
      * );
      * 'modulename' => array ('GET', 'string|lowercase')
      *
      * @example
-     * # parameter names only
+     * // parameter names only
      * $this->expectParameters(array('modulename','language'));
-     * # parameters, one with rules
-     * # parameters, all with rules
+     * // parameters, one with rules
+     * // parameters, all with rules
      *
      * @param array $parameters
      */
@@ -195,8 +195,8 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
              * check if we have some rules to process
              */
             if (true === is_array($array_or_parametername)) {
-                $array_name         = $array_or_parametername[0];      # GET|POST|COOKIE
-                #$validation_rules   = $array_or_parametername[1];      # some validation commands
+                $array_name         = $array_or_parametername[0];      // GET|POST|COOKIE
+                #$validation_rules   = $array_or_parametername[1];      // some validation commands
 
                 /**
                  * ISSET or Exception
@@ -208,7 +208,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
                  */
                #$this->validateParameter($parameter, $validation_rules);
 
-            } else { # if(is_int($array_or_parametername))
+            } else { // if(is_int($array_or_parametername))
                 $this->expectParameter($array_or_parametername);
             }
         }
@@ -228,12 +228,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public function expectParameter($parameter, $arrayname = '')
     {
-        # when array is not defined issetParameter will searches (POST|GET|COOKIE)
+        // when array is not defined issetParameter will searches (POST|GET|COOKIE)
         if (is_string($arrayname) === true) {
             if (false === $this->issetParameter($parameter)) {
                 throw new Koch_Exception('Incoming Parameter missing: "' . $parameter . '".');
             }
-        } else { # when array is defined issetParameter will search the given array
+        } else { // when array is defined issetParameter will search the given array
             if (false === $this->issetParameter($parameter, $arrayname)) {
                 throw new Koch_Exception('Incoming Parameter missing: "' . $parameter . '" in Array "' . $arrayname . '".');
             }
@@ -299,12 +299,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
          * we use type hinting here to cast the string with array name to boolean
          */
         if ((bool) $parameter_array === true) {
-            # this returns a value from the parameterarray
+            // this returns a value from the parameterarray
 
             return $this->{mb_strtolower($parameter_array).'_parameters'}[$name];
         } elseif($default !== null)
         {
-            # this returns the default value,incomming via method property $default
+            // this returns the default value,incomming via method property $default
 
             return $default;
         } else {
@@ -454,13 +454,13 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     public static function getBaseURL()
     {
         if ( empty(self::$baseURL) ) {
-            # 1. Determine Protocol
+            // 1. Determine Protocol
             self::$baseURL = self::getServerProtocol();
 
-            # 2. Determine Servername
+            // 2. Determine Servername
             self::$baseURL .= self::getServerName();
 
-            # 3. Determine Port
+            // 3. Determine Port
             self::$baseURL .= self::getServerPort();
         }
 
@@ -488,7 +488,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
             return urldecode(mb_strtolower($_SERVER['REQUEST_URI']));
         }
 
-        # MS-IIS and ISAPI Rewrite Filter (only on windows platforms)
+        // MS-IIS and ISAPI Rewrite Filter (only on windows platforms)
         if (isset($_SERVER['HTTP_X_REWRITE_URL']) and stripos(PHP_OS, 'WIN') !== false) {
             return urldecode(mb_strtolower($_SERVER['HTTP_X_REWRITE_URL']));
         }
@@ -547,7 +547,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
             $ip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
             $ip = array_pop($ip);
         }
-        # NGINX - with natural russian config passes the IP as REAL_IP
+        // NGINX - with natural russian config passes the IP as REAL_IP
         elseif(isset($_SERVER['HTTP_X_REAL_IP']))
         {
             $ip =  $_SERVER['HTTP_X_REAL_IP'];
@@ -660,23 +660,23 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         $allowed_rest_methodnames = array('DELETE', 'PUT');
 
-        # request_method has to be POST AND GET has to to have the method GET
+        // request_method has to be POST AND GET has to to have the method GET
         if ($_SERVER['REQUEST_METHOD'] == 'POST' and $this->issetParameter('GET', 'method')) {
-            # check for allowed rest commands
+            // check for allowed rest commands
             if (in_array(mb_strtoupper($_GET['method']), $allowed_rest_methodnames)) {
-                # set the internal (tunneled) method as new REQUEST_METHOD
+                // set the internal (tunneled) method as new REQUEST_METHOD
                 self::setRequestMethod($_GET['method']);
 
-                # unset the tunneled method
+                // unset the tunneled method
                 unset($_GET['method']);
 
-                # now strip the methodname from the QUERY_STRING and rebuild REQUEST_URI
+                // now strip the methodname from the QUERY_STRING and rebuild REQUEST_URI
 
-                # rebuild the QUERY_STRING from $_GET
+                // rebuild the QUERY_STRING from $_GET
                 $_SERVER['QUERY_STRING'] = http_build_query($_GET);
-                # rebuild the REQUEST_URI
+                // rebuild the REQUEST_URI
                 $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
-                # append QUERY_STRING to REQUEST_URI if not empty
+                // append QUERY_STRING to REQUEST_URI if not empty
                 if ($_SERVER['QUERY_STRING'] != '') {
                     $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
                 }
@@ -685,7 +685,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
             }
         } elseif($_SERVER['REQUEST_METHOD'] == 'GET' and $this->issetParameter('GET', 'method'))
         {
-            # NOPE, there's no tunneling through GET!
+            // NOPE, there's no tunneling through GET!
             throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
         }
     }
@@ -706,12 +706,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         } else {
             $method = $_SERVER['REQUEST_METHOD'];
 
-            # get method from "http method override" header
+            // get method from "http method override" header
             if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
                 $method = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
             }
 
-            # add support for HEAD requests, which are GET requests
+            // add support for HEAD requests, which are GET requests
             if ($method == 'HEAD') {
                 $method = 'GET';
             }
@@ -806,13 +806,13 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         return $this->getParameter($offset);
     }
 
-    # not setting request vars
+    // not setting request vars
     public function offsetSet($offset, $value)
     {
         return;
     }
 
-    # not unsetting request vars
+    // not unsetting request vars
     public function offsetUnset($offset)
     {
         return;

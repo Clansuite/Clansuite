@@ -40,13 +40,13 @@ function smarty_block_tabpanel($params, $content, $smarty, &$repeat)
 {
     $name = isset($params['name']) ? $params['name'] : '1';
 
-    # replace whitespaces with underscore
-    # else javascript selection will not work properly
+    // replace whitespaces with underscore
+    // else javascript selection will not work properly
     $name = str_replace(' ', '_', $name);
 
-    # Initialize
-    # @todo addJavascript('header', 'once', $js)
-    # @todo addCss('once', $css);
+    // Initialize
+    // @todo addJavascript('header', 'once', $js)
+    // @todo addCss('once', $css);
     $start_tabpane  = '<!-- Tabs with jQuery + YAML Accessible Tabs Plugin -->' . CR;
     $start_tabpane .= '<link rel="stylesheet" type="text/css" href="' . WWW_ROOT_THEMES_CORE . 'css/tabs.css" />' . CR;
     $start_tabpane .= '<script type="text/javascript" src="' . WWW_ROOT_THEMES_CORE . 'javascript/jquery/jquery.tabs.js"></script>' . CR;
@@ -68,14 +68,14 @@ EOF;
 
     $start_tabpane .= $js . CR;
 
-    # Start TAB Pane
+    // Start TAB Pane
     $start_tabpane .= '<!-- START - TAB PANEL "'.$name.'" -->' . CR;
     $start_tabpane .= '<div class="tabs" id="tab-panel-'.$name.'"> ' . CR;
 
-    # End TAB Pane
+    // End TAB Pane
     $end_tabpane = '</div><!-- END - TAB PANEL "'.$name.'" -->' . CR;
 
-    # Construct content for whole BLOCK
+    // Construct content for whole BLOCK
     /**
      * As of Smarty v3.1.6 the block tag is rendered at the opening AND closing tag
      * This results in a duplication of content.

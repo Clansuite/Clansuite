@@ -48,7 +48,7 @@ class Email implements Logger
     {
         $this->config = $config;
 
-        # mailing of critical errors makes only sense, if we have a email of the sysadmin
+        // mailing of critical errors makes only sense, if we have a email of the sysadmin
         if ($config['mail']['to_sysadmin'] == true) {
             $this->mailer = new Koch_Mailer($config);
         }
@@ -78,7 +78,7 @@ class Email implements Logger
     {
         $to_address   = $this->config['mail']['to_sysadmin'];
         $from_address = $this->config['mail']['from'];
-        # append date/time to msg
+        // append date/time to msg
         $subject      = '[' . date(DATE_FORMAT, mktime()) . '] ' . $data['label'];
         $body         = var_export($data);
 

@@ -11,13 +11,13 @@ class SecurityTest extends Clansuite_UnitTestCase
      */
     public function testMethod_generate_salt()
     {
-        # generate a salt with length
+        // generate a salt with length
         $salt = \Koch\Security::generate_salt(12);
 
-        # ensure $salt is a string
+        // ensure $salt is a string
         $this->assertTrue(is_string($salt), true);
 
-        # ensure $salt has correct length
+        // ensure $salt has correct length
         $this->assertEqual(strlen($salt), 12);
     }
 
@@ -41,11 +41,11 @@ class SecurityTest extends Clansuite_UnitTestCase
 
     public function testMethod_check_salted_hash()
     {
-        # md5('admin'); from form input
+        // md5('admin'); from form input
         $passwordhash = '21232f297a57a5a743894a0e4a801fc3';
-        # expected, from db
+        // expected, from db
         $databasehash = '7ff3adfa18a8ad7f115e90ce2c44a0ec';
-        # from db
+        // from db
         $salt = 'Sko5ie';
         $hash_algorithm = 'md5';
 

@@ -55,7 +55,7 @@ class Theme
 
     public function setThemename($theme)
     {
-        # set theme
+        // set theme
         if (isset($theme)) {
             $this->theme = $theme;
         } else {
@@ -70,7 +70,7 @@ class Theme
      */
     public function getCurrentThemeInfoFile()
     {
-        # get array for frontend or backend theme
+        // get array for frontend or backend theme
         $themepaths = AbstractRenderer::getThemeTemplatePaths();
 
         foreach ($themepaths as $themepath) {
@@ -117,12 +117,12 @@ class Theme
             $theme = $this->getName();
         }
 
-        # check absolute, return www
+        // check absolute, return www
         if (is_dir(ROOT_THEMES_FRONTEND . $theme )) {
              return WWW_ROOT_THEMES_FRONTEND . $theme . '/';
         }
 
-        # check absolute, return www
+        // check absolute, return www
         if (is_dir(ROOT_THEMES_BACKEND . $theme)) {
             return WWW_ROOT_THEMES_BACKEND . $theme . '/';
         }
@@ -158,12 +158,12 @@ class Theme
     {
         $theme_info_file = $this->getInfoFile($theme);
 
-        # read theme info xml file into array
+        // read theme info xml file into array
         $theme_info_array = \Koch\Config\Adapter\XML::readConfig($theme_info_file);
 
         #\Koch\Debug\Debug::printR($theme_info_array);
 
-        # when setting array as object property remove the inner theme array
+        // when setting array as object property remove the inner theme array
         $this->theme_info = $theme_info_array['theme'];
 
         return $this->theme_info;
@@ -238,20 +238,20 @@ class Theme
             return $this->getWebPath() . 'css/' . $cssname;
         } elseif(false === isset($this->theme_info['css']['mainfile']))
         {
-            # maybe we have a theme css file named after the theme
+            // maybe we have a theme css file named after the theme
             $css_file = $this->getWebPath() . 'css/' . $this->getName() . '.css';
 
             if (is_file($css_file)) {
                 return $css_file;
             }
 
-            # maybe we have a "import.css" file inside the theme dir
+            // maybe we have a "import.css" file inside the theme dir
             $css_file = $this->getWebPath() . 'css/import.css';
 
             if (is_file($css_file)) {
                 return $css_file;
             }
-        } else { # css is hopefully hardcoded or missing !
+        } else { // css is hopefully hardcoded or missing !
 
             return null;
         }
@@ -265,14 +265,14 @@ class Theme
             return $this->theme_info['layout']['mainfile'];
         } elseif(false === isset($this->theme_info['layout']['mainfile']))
         {
-            # maybe we have a main template css file named after the theme
-            # $layout_file = $this->getPath() . $this->getName() . '.tpl';
+            // maybe we have a main template css file named after the theme
+            // $layout_file = $this->getPath() . $this->getName() . '.tpl';
             $layout_file = $this->getName() . '.tpl';
 
             if (is_file($layout_file)) {
                 return $layout_file;
             }
-        } else { # no main layout found !
+        } else { // no main layout found !
             throw new \Exception('No Layout File defined. Check ThemeInfo File of ' . $this->getName(), 9090);
         }
     }
@@ -283,13 +283,13 @@ class Theme
             return $this->getWebPath() . 'javascript/' . $this->theme_info['javascript']['mainfile'];
         } elseif(false === isset($this->theme_info['javascript']['mainfile']))
         {
-            # maybe we have a main javascript file named after the theme
+            // maybe we have a main javascript file named after the theme
             $js_file = $this->getWebPath() . 'javascript/' . $this->getName() . '.js';
 
             if (is_file($js_file)) {
                 return $js_file;
             }
-        } else { # no main javascript file found !
+        } else { // no main javascript file found !
 
             return null;
         }
@@ -362,16 +362,16 @@ class Theme
                 $i = $i + 1;
 
                 if ($only_index_name === false) {
-                    # add fullpath
+                    // add fullpath
                     $themes[$i]['path'] = $dir->getPathName();
 
-                    # set frontend as type
+                    // set frontend as type
                     $themes[$i]['type']    = $type;
 
-                    # add dirname
+                    // add dirname
                     $themes[$i]['name'] = $type . DIRECTORY_SEPARATOR .  (string) $dir;
                 } else {
-                    # add dirname
+                    // add dirname
                     $themes[$i] = $type . DIRECTORY_SEPARATOR . (string) $dir;
                 }
             }

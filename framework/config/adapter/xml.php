@@ -71,10 +71,10 @@ class XML
      */
     public static function writeConfig($file, $array)
     {
-        # transform associative PHP array to XML
+        // transform associative PHP array to XML
         $xml = \Koch\Datatype\Conversion::arrayToXML($array);
 
-        # write xml into the file
+        // write xml into the file
         file_put_contents($file, $xml);
     }
 
@@ -90,10 +90,10 @@ class XML
             throw new \Exception('XML File not existing or not readable.');
         }
 
-        # read file
+        // read file
         $xml = simplexml_load_file($file);
 
-        # transform (SimpleXMLElement or XML) to PHP Array
+        // transform (SimpleXMLElement or XML) to PHP Array
 
         return \Koch\Datatype\XML::toArray($xml);
     }

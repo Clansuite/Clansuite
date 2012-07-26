@@ -50,8 +50,8 @@ class CoverageCalculator {
     }
 
     function lineCoverage($total, $line) {
-        # NOTE: counting dead code as covered, as it's almost always an executable line
-        # strange artifact of xdebug or underlying system
+        // NOTE: counting dead code as covered, as it's almost always an executable line
+        // strange artifact of xdebug or underlying system
         return $total + ($line > 0 || $line == -2 ? 1 : 0);
     }
 

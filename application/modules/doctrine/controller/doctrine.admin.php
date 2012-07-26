@@ -69,7 +69,7 @@ class Doctrine_Admin extends Controller
      */
     public function _initializeModule()
     {
-        # Path to Doctrine Library
+        // Path to Doctrine Library
         Doctrine_Core::setPath( ROOT_LIBRARIES . 'doctrine/' );
 
         /**
@@ -107,16 +107,16 @@ class Doctrine_Admin extends Controller
      */
     public static function setupDoctrinePaths($modulename = null)
     {
-        # default path for models of the core
+        // default path for models of the core
         $path = ROOT . 'doctrine' . DIRECTORY_SEPARATOR;
 
-        # path to models of a module
+        // path to models of a module
         if(isset($modulename))
         {
             $path = ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
         }
 
-        # compose the paths accordingly
+        // compose the paths accordingly
         $config = array(
                         'models_path'        => $path . 'models',
                         'yaml_schema_path'   => $path,
@@ -125,7 +125,7 @@ class Doctrine_Admin extends Controller
                         'migrations_path'    => $path . 'migrations'
                        );
 
-        # declare path constants
+        // declare path constants
         define('DOCTRINE_MODELS_PATH',        $config['models_path']);
         define('DOCTRINE_YAML_SCHEMA_PATH',   $config['yaml_schema_path']);
         define('DOCTRINE_SQL_PATH',           $config['sql_path']);
@@ -144,7 +144,7 @@ class Doctrine_Admin extends Controller
      */
     public static function getDoctrineOptions()
     {
-        # Setup Configuration Array for the Generation of Models
+        // Setup Configuration Array for the Generation of Models
         $config['generate_models_options'] = array(
                         /**
                          *  PHP Documentor Comment Settings
@@ -156,15 +156,15 @@ class Doctrine_Admin extends Controller
                         /**
                          * Classname and Filename Settings
                          */
-                        # generate BaseClasses too
+                        // generate BaseClasses too
                         'generateBaseClasses'   => true,
                         #'baseClassPrefix'       => 'Clansuite_ModelBase_',
                         'baseClassPrefix'       => 'Base_',
                        #'baseClassName'         => '',
                         'baseClassesDirectory'  => 'records',
-                        'generateTableClasses'  => true,              # generate Tables and Records
+                        'generateTableClasses'  => true,              // generate Tables and Records
                         'baseTableClassName'    => '',
-                        'classPrefix'           => 'Clansuite_Model_', # determines the pear style naming convention for autoload
+                        'classPrefix'           => 'Clansuite_Model_', // determines the pear style naming convention for autoload
                         'classPrefixFiles'      => true,
                         'pearStyle'             => true,
                         'suffix'                => '.model.php'
@@ -198,7 +198,7 @@ class Doctrine_Admin extends Controller
      */
     public function action_admin_db2yaml()
     {
-        # load sfYAML (it's somehow not loaded by doctrine autoload)
+        // load sfYAML (it's somehow not loaded by doctrine autoload)
         include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
         Doctrine_Core::generateYamlFromDb( DOCTRINE_YAML_SCHEMA_PATH . 'schema.yml', array(), self::$options);
         $message  = '<b>The YAML schema file has been successfully generated from DATABASE.</b>';
@@ -236,7 +236,7 @@ class Doctrine_Admin extends Controller
      */
     public function action_admin_models2yaml()
     {
-        # load sfYAML (it's somehow not loaded by doctrine autoload)
+        // load sfYAML (it's somehow not loaded by doctrine autoload)
         include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
         #Doctrine_Core::dropDatabases();
         #Doctrine_Core::createDatabases();
@@ -259,7 +259,7 @@ class Doctrine_Admin extends Controller
      */
     public function action_admin_yaml2models()
     {
-        # load sfYAML (it's somehow not loaded by doctrine autoload)
+        // load sfYAML (it's somehow not loaded by doctrine autoload)
         include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
         #Doctrine_Core::dropDatabases();
         #Doctrine_Core::createDatabases();

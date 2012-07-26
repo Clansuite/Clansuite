@@ -53,7 +53,7 @@ class Php extends Renderer_Base
         $file = '';
 
         if ($filename === null) {
-            # @todo where does dir come from???
+            // @todo where does dir come from???
             $file = $directory . DIRECTORY_SEPARATOR . $filename . '.tpl';
         } else {
             $file = $this->file;
@@ -68,7 +68,7 @@ class Php extends Renderer_Base
             extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
 
             ob_start();
-            include $file; # conditional include; not require !
+            include $file; // conditional include; not require !
 
             return ob_get_clean();
         } else {
@@ -86,7 +86,7 @@ class Php extends Renderer_Base
     public function assign($key, $value=null)
     {
         if (is_object($key)) {
-            # @todo pull object props to array
+            // @todo pull object props to array
             $this->data[$key] = $value->fetch();
         } elseif(is_array($key))
         {

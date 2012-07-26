@@ -31,7 +31,7 @@ function smarty_function_memusage($params)
             $memunit='GB';
         }
 
-        # append the missing B of MB :)
+        // append the missing B of MB :)
         echo (number_format($memusage,2).$memunit) . ' / ' . ini_get('memory_limit') .'B';
     }
 }
