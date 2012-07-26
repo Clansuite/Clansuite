@@ -39,7 +39,7 @@ use Koch\MVC\HttpResponseInterface;
  *
  * @category    Koch
  * @package     Core
- * @subpackage  Modulecontroller
+ * @subpackage  Module
  */
 abstract class Controller
 {

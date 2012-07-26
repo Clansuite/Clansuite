@@ -24,7 +24,7 @@
  *
  */
 
-namespace Koch\module;
+namespace Koch\Module;
 
 /**
  * Module Manager
@@ -36,10 +36,13 @@ namespace Koch\module;
  * - uninstall and
  * - update of a module.
  *
- * You might select the module with selectModule() or
- * via constructor injection.
+ * You might select the module with selectModule() or via constructor injection.
+ *
+ * @category    Koch
+ * @package     Core
+ * @subpackage  Module
  */
-class manager
+class Manager
 {
     public function __construct($module)
     {

@@ -31,7 +31,10 @@ namespace Koch\Module;
  *
  * Purpose: attach plugins and methods at runtime to the module by nesting (wrapping) them.
  * Pattern: @book "GOF:175" - Decorator (structural pattern)
- * @version    0.1
+ *
+ * @category    Koch
+ * @package     Core
+ * @subpackage  Module
  */
 class ControllerDecorator
 {
