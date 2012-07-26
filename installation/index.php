@@ -21,13 +21,6 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * GNU/GPL v2 or any later version; see LICENSE file
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    * @author     Florian Wolf <xsign.dll@clansuite.com>
-    * @copyright  Florian Wolf (2005-2006)
-    *
-
     */
 
 namespace Clansuite;
@@ -696,7 +689,7 @@ class Installation_Helper
             $config->setMetadataCacheImpl($cache);
 
             # setup Proxy Dir
-            $config->setProxyDir(realpath(ROOT . 'doctrine'));
+            $config->setProxyDir(realpath(ROOT . 'application\doctrine'));
             $config->setProxyNamespace('proxies');
 
             # setup Annotation Driver

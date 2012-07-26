@@ -1,5 +1,4 @@
 # This is a ".htaccess" template for Clansuite
-# SVN: $Id$
 
 # Don't show directory listings for URLs which map to a directory.
 DirectoryIndex index.php

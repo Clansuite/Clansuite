@@ -1,12 +1,10 @@
 # Clansuite - just an eSports CMS
-# 
+#
 # -- SVN Checkout and Export --
 # Author:   Jens-André Koch
-# Version:  0.1 
+# Version:  0.1
 # Date:     28.11.2007
 # Licence:  GPL
-#
-# SVN: $Id$
 #
 # Working Procedure
 # -----------------
@@ -30,7 +28,7 @@ SVN_DIR_TRUNK=http://svn.gna.org/svn/clansuite/trunk/
 CHECKOUT_DIR=/home/clansuite/svn
 EXPORT_DIR=/home/clansuite/svn-export
 
-# CHECKOUT 
+# CHECKOUT
 # check if we have an checked out version already, (.svn) dir would exist then
 if [ -d $CHECKOUT_DIR/.svn ]; then
     # SVN UPDATE (incremental)
@@ -39,20 +37,20 @@ if [ -d $CHECKOUT_DIR/.svn ]; then
 else
     # if directory exists, remove
     rm -rf $CHECKOUT_DIR
-    # SVN CHECKOUT 
+    # SVN CHECKOUT
     svn checkout $SVN_DIR_TRUNK $CHECKOUT_DIR
     echo "SVN CHECKOUT -- done --"
 fi
 
 # EXPORT
-# export the /trunk from SVN to the export directory  
+# export the /trunk from SVN to the export directory
 #rm -rf $EXPORT_DIR
 #svn export $SVN_DIR_TRUNK $EXPORT_DIR
 #echo "SVN EXPORT from GNA -- done --"
 svn export --force -rHEAD $CHECKOUT_DIR $EXPORT_DIR
 echo "SVN EXPORT from local SVN -- done --"
 
-exit; 
+exit;
 #--------
 # CLEANUP + FOLDER COPY because of NAMING (/clansuite) inside the Archives
 rm -rf /home/clansuite/clansuite/
@@ -72,8 +70,8 @@ rm -rf /home/clansuite/clansuite/tests
 rm /home/clansuite/clansuite/clansuite.config.php
 echo ">>> remove DIR and STUFF from BUILD DIR!"
 
-# ARCHIVE 
-# ZIP 
+# ARCHIVE
+# ZIP
 # a new, mx=compresslevel7, t = zip, r recurse
 7z a -mx7 -tzip /home/clansuite/downloads/clansuite.zip -r /home/clansuite/clansuite/
 echo "ZIP created!"

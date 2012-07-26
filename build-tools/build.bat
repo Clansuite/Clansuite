@@ -5,7 +5,6 @@ REM   | by Jens-André Koch (jakoch@web.de) |
 REM   | for clansuite.com                  |
 REM   | LICENCE: GPL                    <3 |
 REM   `------------------------------------'
-REM SVN: $Id$
 
 REM Script workflow:
 REM a) check for PHING_COMMAND env, if found, use it
