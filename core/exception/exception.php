@@ -335,11 +335,11 @@ class Exception extends \Exception
          */
         $placeholders = array();
         # assign placeholders for replacements in the html
-        if (mb_strpos($this->message, 'action_')) {
-            $placeholders['actionname'] = mb_substr($this->message, mb_strpos($this->message, 'action_'));
-        } elseif(mb_strpos($this->message, 'module_'))
+        if (strpos($this->message, 'action_')) {
+            $placeholders['actionname'] = substr($this->message, strpos($this->message, 'action_'));
+        } elseif(strpos($this->message, 'module_'))
         {
-            $placeholders['classname'] = mb_substr($this->message, mb_strpos($this->message, 'module_'));
+            $placeholders['classname'] = substr($this->message, strpos($this->message, 'module_'));
         }
 
         if (empty($_GET['mod']) == false) {
