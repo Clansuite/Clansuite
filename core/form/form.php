@@ -1322,14 +1322,15 @@ class Form implements FormInterface
      */
     public function removeDecorator($decorator)
     {
-        # check if it is an object implementing the right interface
-        if ($decorator instanceof Koch\Form\DecoratorInterface) {
-            # if so, fetch this decorator objects name
-            # overwriting $decorator object with decorator name string
+        // check if it is an object implementing the right interface
+        if ($decorator instanceof \Koch\Form\DecoratorInterface) {
+            // if so, fetch this decorator objects name
+            // and overwrite $decorator variable containing the object
+            // with the decorator name string
             $decorator = (string) $decorator->name;
         }
 
-        # $decorator need to be string
+        // here variable $decorator must be string
         if (array_key_exists($decorator, $this->formdecorators)) {
             unset($this->formdecorators[$decorator]);
         }
