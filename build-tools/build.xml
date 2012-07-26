@@ -67,7 +67,6 @@
         - all-docs            : generate documentation (doxygen, asciidoc)
         - doc-doxygen         : generate the api docs via doxygen
         - doc-asciidoc        : generate the manuals from asciidoc files
-        - visualize-buildfile : generates a visualization of the clansuite build file
 
         List of Subversion Commands
         ---------------------------
@@ -471,35 +470,6 @@
     <!-- ======================================== -->
     <!-- =======     6) Visualization      ====== -->
     <!-- ======================================== -->
-
-    <!-- Note: this depends on the "dot"-tool of Graphviz. Please adjust the property "dot.path.win".
-         Thanks and credits to the author of the following target:
-         @author Raphael Stolt
-         @link http://raphaelstolt.blogspot.com/2008/10/getting-visualization-of-phing.html
-    -->
-    <target name="visualize-buildfile" description="Generates a visualization of the Clansuite Build File">
-
-        <property name="buildfile" value="build.xml" />
-        <property name="phing2dot.xsl" value="${project.basedir}/ant2dot.xsl" /> <!-- ${base.directory} -->
-        <property name="dot.file" value="${buildfile}.dot" />
-        <property name="png.file" value="${buildfile}.png" />
-        <property name="dot.path.win" value="D:\Programme\ATT\Graphviz\bin\" />
-        <property name="dot.command.win" value="dot.exe -Tpng ${dot.file} -o ${png.file}" />
-        <property name="dot.command.mac" value="dot -Tpng ${dot.file} -o ${png.file}" />
-
-        <!-- Transform buildfile into DOT file -->
-        <xslt file="${buildfile}" style="${phing2dot.xsl}" overwrite="true" tofile="${project.basedir}/${dot.file}">
-            <param name="graph.label" expression="{$project.basedir}${buildfile}" />
-            <param name="use.target.description" expression="true" />
-        </xslt>
-
-        <!-- Generate image from DOT file -->
-        <exec command="${dot.path.win}${dot.command.win}" dir="${project.basedir}" os="WINNT" />
-        <exec command="${dot.command.mac}" dir="${project.basedir}" os="Linux" /> <!-- Command is the same on MAC -->
-
-        <delete file="${project.basedir}/${dot.file}" />
-
-    </target>
 
     <target name="visualize-uml" description="Generates UML diagrams for Clansuite">
         <taskdef name="phpuml" classname=".usr.local.home.forge-hudson.helpers.tools.PhingTasks.phpumlTask" />
