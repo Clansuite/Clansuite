@@ -40,7 +40,6 @@
          <br />
          <font size=1>
          Version {$smarty.const.CLANSUITE_VERSION} {$smarty.const.CLANSUITE_VERSION_NAME} {$smarty.const.CLANSUITE_VERSION_STATE}
-       - Revision #{$smarty.const.CLANSUITE_REVISION}
         </font>
     </h2>
 

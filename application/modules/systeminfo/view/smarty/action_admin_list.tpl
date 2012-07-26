@@ -13,7 +13,7 @@
 
     <h3>Clansuite Information</h3><br/>
     <p>
-        Clansuite {$clansuite_version} - Milestone: {$clansuite_version_name} - State: {$clansuite_version_state} - SVN: [{$clansuite_revision}]
+        Clansuite {$clansuite_version} - Milestone: {$clansuite_version_name} - State: {$clansuite_version_state}
     </p>
 
     <br />

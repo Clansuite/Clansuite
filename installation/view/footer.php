@@ -9,8 +9,6 @@
             $version = CLANSUITE_VERSION . ' - ' . date('l, jS F Y', getlastmod()); ?>
             Clansuite Installation v<?php echo $version; ?>
             <br />
-            SVN: $Rev$ $Author$
-            <br />
             &copy; 2005-<?php echo date('Y'); ?> by <a href="http://www.jens-andre-koch.de" target="_blank">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team.
         </p>
         <span style="float:left; text-align:left; margin-top: -65px;" id="footer-left">

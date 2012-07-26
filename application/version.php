@@ -50,19 +50,6 @@ final class Version
         define('CLANSUITE_VERSION_NAME',    'Trajan');
         define('CLANSUITE_VERSION_STATE',   'alpha-dev');
         define('CLANSUITE_URL',             'http://www.clansuite.com');
-
-        /**
-         * Define Clansuite SVN Revision
-         */
-        # File used: "root/.svn/entries"
-        if (is_file(ROOT . '.svn' . DIRECTORY_SEPARATOR . 'entries') === true)
-        {
-            define ('CLANSUITE_REVISION', self::getRevisionNumberFromFile());
-        }
-        else # get revision number from the Subversion Rev-property, if no SVN data available
-        {
-            define ('CLANSUITE_REVISION', self::getRevisionNumber());
-        }
     }
 
     /**
@@ -97,12 +84,7 @@ final class Version
     {
         if(APC === true)
         {
-            /**
-             * Currently we still rely on SVN, so we can use the SVN REVISION number as DEPLOY VERSION.
-             * But you might consider writing the DEPLOY_VERSION value to this file during the build process.
-             * So, when SCM moves from SVN to GIT, we have to set this by using a little deploy script.
-             */
-            define('DEPLOY_VERSION', CLANSUITE_REVISION);
+            define('DEPLOY_VERSION', CLANSUITE_VERSION);
 
             /**
              * APC
@@ -145,46 +127,4 @@ final class Version
             }
         }
     }
-
-    /**
-     * Detect SVN Revision Number from File
-     *
-     * Author: Andy Dawson (AD7six) for cakephp.org
-     * URL: http://bakery.cakephp.org/articles/view/using-your-application-svn-revision-number
-     */
-    public static function getRevisionNumberFromFile()
-    {
-        $svn = file(ROOT . '.svn' . DIRECTORY_SEPARATOR . 'entries');
-        if (is_numeric(trim($svn[3])) === true)
-        {
-            $version = $svn[3];
-        }
-        else # pre 1.4 svn used xml for this file
-        {
-            $version = explode('"', $svn[4]);
-            $version = $version[1];
-        }
-
-        unset($svn);
-
-        return trim($version);
-    }
-
-    /**
-     * Returns revision number from Subversion Rev-property
-     */
-    public static function getRevisionNumber()
-    {
-        # $Rev$ is substituted by SVN on commit
-        $svnrevision = '$Rev$';
-
-        # cut left:  "$Rev: "
-        $svnrevision = substr($svnrevision, 6);
-
-        # cut right: " $"
-        $svnrevision = substr($svnrevision , 0, -2);
-
-        return $svnrevision;
-    }
 }
-?>

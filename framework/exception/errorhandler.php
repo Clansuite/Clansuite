@@ -307,7 +307,7 @@ class Errorhandler
         $html .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
         $html .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
         $html .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
-        $html .= ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
+        $html .= ' (' . CLANSUITE_VERSION_NAME . ')</td></tr>';
         $html .= '</table></div>';
 
         # Panel 5 - Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket

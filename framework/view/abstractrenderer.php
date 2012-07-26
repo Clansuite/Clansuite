@@ -261,7 +261,6 @@ abstract class AbstractRenderer
         $template_constants['clansuite_version']       = CLANSUITE_VERSION;
         $template_constants['clansuite_version_state'] = CLANSUITE_VERSION_STATE;
         $template_constants['clansuite_version_name']  = CLANSUITE_VERSION_NAME;
-        $template_constants['clansuite_revision']      = CLANSUITE_REVISION;
         $template_constants['clansuite_url']           = CLANSUITE_URL;
 
         /**
