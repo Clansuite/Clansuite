@@ -92,8 +92,8 @@ class Thememanager_Admin extends Controller
         foreach($dirs as $dir)
         {
             $i++;
-            # exclude .svn and core dir, take only dirs with theme_info.xml in it
-            if((!$dir->isDot()) and ($dir != '.svn') and ($dir != 'core') and (is_file($dir->getPathName() . DIRECTORY_SEPARATOR . 'theme_info.xml')))
+            # exclude  core dir, take only dirs with theme_info.xml in it
+            if((!$dir->isDot()) and ($dir != 'framework') and (is_file($dir->getPathName() . DIRECTORY_SEPARATOR . 'theme_info.xml')))
             {
                 # add xml infos from file
                 $theme_info[$i] = self::parseThemeInformations($themes_directory . $dir);

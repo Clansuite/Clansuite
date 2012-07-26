@@ -199,7 +199,7 @@
     </table>
 
    <br />
-   <h3 align="center"><a href=" http://www.ohloh.net/p/clansuite/contributors">You might visit Ohloh for the complete list of Contributors (based on SVN Commits).</a></h3>
+   <h3 align="center"><a href=" http://www.ohloh.net/p/clansuite/contributors">You might visit Ohloh for the complete list of Contributors.</a></h3>
 
    </div>
 
@@ -238,7 +238,7 @@
           <td bgcolor="#dddddd"><strong>Author</strong></td>
           <td bgcolor="#dddddd" width="14%"><strong>Abbreviation</strong></td>
           <td bgcolor="#dddddd"><strong>License</strong></td>
-          <td bgcolor="#dddddd"><strong>Link to Licensefile in SVN</strong></td>
+          <td bgcolor="#dddddd"><strong>Link to License</strong></td>
         </tr>
         <tr>
           <td><a href="http://www.doctrine-project.org/">Doctrine</a></td>
@@ -256,7 +256,7 @@
           <td bgcolor="#dddddd"><strong>Author</strong></td>
           <td bgcolor="#dddddd" width="14%"><strong>Abbreviation</strong></td>
           <td bgcolor="#dddddd"><strong>License</strong></td>
-          <td bgcolor="#dddddd"><strong>Link to Licensefile in SVN</strong></td>
+          <td bgcolor="#dddddd"><strong>Link to License</strong></td>
         </tr>
         <tr>
           <td></td>
@@ -270,7 +270,7 @@
           <td bgcolor="#dddddd"><strong>Author</strong></td>
           <td bgcolor="#dddddd" width="14%"><strong>Abbreviation</strong></td>
           <td bgcolor="#dddddd"><strong>License</strong></td>
-          <td bgcolor="#dddddd"><strong>Link to Licensefile in SVN</strong></td>
+          <td bgcolor="#dddddd"><strong>Link to License</strong></td>
         </tr>
         <tr>
           <td>Crystal Project Icon Theme</td>
