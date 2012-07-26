@@ -69,7 +69,7 @@ class Equals extends Validator
 
     protected function processValidationLogic($value)
     {
-        if ($this->equalsTo == $value) # $this->element->getValue()) {
+        if ($this->equalsTo == $value) {
             return true;
         } else {
             return false;
