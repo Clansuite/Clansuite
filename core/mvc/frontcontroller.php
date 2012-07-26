@@ -47,19 +47,15 @@ interface FrontControllerInterface
 }
 
 /**
- * Koch FrameworkFrontController
+ * Koch Framework FrontController
  *
  * It's basically a FrontController (which should better be named RequestController)
- * with fassade (addPreFilter, addPostFilter) to both filtermanagers / filterchains on top.
+ * with fassade to both filtermanagers (addPreFilter, addPostFilter) on top.
  *
  * It's tasks are:
- * 1. intercepts all requests made by the client to the web server through central "index.php"
- * 2. gets all needed "pre action processing" things like Auth, Sessions, Logging, whatever... pluggable or not.
- * 3. decides then, which ModuleController we must dynamically invoking to process the request
- *
- * The constructor takes the ModuleController_Resolver_Interface (so it's an implementation against an interface),
- * the ActionController_Resolver_Interface (so it's again an implementation against an interface)
- * and the Dependency Injector.
+ * 1. to intercept all requests made by the client to the web server through central "index.php".
+ * 2. to get all needed "pre action processing" done; things like Auth, Sessions, Logging, whatever... pluggable or not.
+ * 3. to decide then, which ModuleController we must dynamically invoking to process the request.
  *
  * @category    Koch
  * @package     Core
@@ -85,12 +81,12 @@ class FrontController implements FrontControllerInterface
     /**
      * @var object \Koch_FilterManager for Prefilters
      */
-    private $pre_filtermanager;
+    private $pre_filter_manager;
 
     /**
      * @var object \Koch_FilterManager for Postfilters
      */
-    private $post_filtermanager;
+    private $post_filter_manager;
 
     /**
      * @var object \Koch_EventDispatcher
@@ -102,14 +98,12 @@ class FrontController implements FrontControllerInterface
      */
     public function __construct(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        $this->request            = $request;
-        $this->response           = $response;
-        $this->pre_filtermanager  = new \Koch\Filter\Manager();
-        $this->post_filtermanager = new \Koch\Filter\Manager();
-        $this->event_dispatcher   = \Koch\Event\Dispatcher::instantiate();
-        $this->router             = new \Koch\Router\Router($this->request);
-
-        $this->router->route();
+        $this->request             = $request;
+        $this->response            = $response;
+        $this->pre_filter_manager  = new \Koch\Filter\Manager();
+        $this->post_filter_manager = new \Koch\Filter\Manager();
+        $this->event_dispatcher    = \Koch\Event\Dispatcher::instantiate();
+        $this->router              = new \Koch\Router\Router($this->request);
     }
 
     /**
@@ -121,7 +115,7 @@ class FrontController implements FrontControllerInterface
      */
     public function addPreFilter(FilterInterface $filter)
     {
-        $this->pre_filtermanager->addFilter($filter);
+        $this->pre_filter_manager->addFilter($filter);
     }
 
     /**
@@ -133,7 +127,7 @@ class FrontController implements FrontControllerInterface
      */
     public function addPostFilter(FilterInterface $filter)
     {
-        $this->post_filtermanager->addFilter($filter);
+        $this->post_filter_manager->addFilter($filter);
     }
 
     /**
@@ -145,7 +139,9 @@ class FrontController implements FrontControllerInterface
      */
     public function processRequest()
     {
-        $this->pre_filtermanager->processFilters($this->request, $this->response);
+        $this->router->route();
+
+        $this->pre_filter_manager->processFilters($this->request, $this->response);
 
         $this->event_dispatcher->triggerEvent('onBeforeDispatcherForward');
 
@@ -153,13 +149,13 @@ class FrontController implements FrontControllerInterface
 
         $this->event_dispatcher->triggerEvent('onAfterDispatcherForward');
 
-        $this->post_filtermanager->processFilters($this->request, $this->response);
+        $this->post_filter_manager->processFilters($this->request, $this->response);
 
         $this->response->sendResponse();
     }
 
     /**
-     * The dispatcher accepts the found route from the router/mapper and
+     * The dispatcher accepts the found route from the route mapper and
      * invokes the correct controller and method.
      *
      * Workflow
@@ -168,7 +164,7 @@ class FrontController implements FrontControllerInterface
      * 3. tries to call the method "initializeModule" on the controller
      * 4. finally tries to call the controller with method(parms)!
      *
-     * The dispatcher forwards to the pagecontroller = modulecontroller + moduleaction
+     * The dispatcher forwards to the pagecontroller = modulecontroller + moduleaction.
      */
     public function forward($request, $response)
     {
@@ -178,6 +174,8 @@ class FrontController implements FrontControllerInterface
         if ($route === null) {
             throw new \Exception('The dispatcher is unable to forward. No route object given.', 99);
         }
+
+        //$route::debug();
 
         $classname    = $route::getClassname();
         $method       = $route::getMethod();
@@ -221,12 +219,14 @@ class FrontController implements FrontControllerInterface
             $controllerInstance->_beforeFilter();
         }
 
+        # @todo move into a prefilter / and consider the request being ajax :) = no breadcrumbs
         Breadcrumb::initialize($route->getModuleName(), $route->getSubmoduleName());
 
         /**
          * Finally: dispatch to the requested controller method
          */
         if (true === method_exists($controllerInstance, $method)) {
+
             $controllerInstance->$method($parameters);
         }
 
