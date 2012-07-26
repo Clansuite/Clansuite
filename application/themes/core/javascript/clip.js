@@ -7,13 +7,6 @@
  *
  * GNU/GPL v2 or any later version; see LICENSE file
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
- *
- * @link       http://www.clansuite.com
- * @link       http://gna.org/projects/clansuite
- *
-
  */
 
 /**
