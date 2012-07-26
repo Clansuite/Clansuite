@@ -30,9 +30,6 @@ namespace Clansuite\Module;
 /**
  * This is the Clansuite Module Class - Guestbook
  *
- * @author     Jens-Andr� Koch <vain@clansuite.com>, Florian Wolf <xsign.dll@clansuite.com>
- * @copyright  Jens-Andr� Koch (2005 - onwards), Florian Wolf (2006-2007)
- *
  * @category    Clansuite
  * @package     Modules
  * @subpackage  Guestbook
