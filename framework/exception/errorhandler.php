@@ -469,10 +469,6 @@ class Errorhandler
     /**
      * getErrorContext displayes some additional lines of sourcecode around the line with error.
      *
-     * This is based on a code-snippet posted on the php manual website by
-     * @author dynamicflurry [at] gmail dot com
-     * @link http://us3.php.net/manual/en/function.highlight-file.php#92697
-     *
      * @param string $file  file with the error in it
      * @param int    $scope the context scope (defining how many lines surrounding the error are displayed)
      * @param int    $line  the line with the error in it

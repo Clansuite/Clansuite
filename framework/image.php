@@ -29,8 +29,6 @@ namespace Koch;
 /**
  * Koch Framework - Class for Image Handling
  *
- * @author     Daniel Winterfeldt
- *
  * @package     Koch
  * @subpackage  Core
  * @category    Image
@@ -236,8 +234,6 @@ class Image
 /**
  * Koch Framework - Class for Image Watermarking
  *
- * @author     Daniel Winterfeldt
- *
  * @package     Koch
  * @subpackage  Core
  * @category    Image
@@ -259,8 +255,6 @@ class Koch_Watermark extends Koch_Image
 
 /**
  * Koch Framework - Class for Image Thumbnailing
- *
- * @author     Daniel Winterfeldt
  *
  * @package     Koch
  * @subpackage  Core
@@ -304,8 +298,6 @@ class Koch_Thumbnail extends Koch_Image
 
 /**
  * Koch Framework - Class for Image Cropping
- *
- * @author     Daniel Winterfeldt
  *
  * @package     Koch
  * @subpackage  Core

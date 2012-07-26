@@ -34,8 +34,6 @@ use Koch\MVC\HttpResponseInterface;
  *
  * This updates the statistics with the data of the current visitor.
  *
- * @author: raensen
- *
  * @category    Koch
  * @package     Core
  * @subpackage  Filters

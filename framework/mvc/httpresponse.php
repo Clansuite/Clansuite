@@ -265,8 +265,6 @@ class httpresponse implements HttpResponseInterface
     /**
      * A better alternative (RFC 2109 compatible) to the php setcookie() function
      *
-     * @author isooik at gmail-antispam dot com
-     * @link http://de.php.net/manual/de/function.setcookie.php#81398
      * @param string Name of the cookie
      * @param string Value of the cookie
      * @param int Lifetime of the cookie
