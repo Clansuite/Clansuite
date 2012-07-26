@@ -21,19 +21,19 @@ class FormTest extends Clansuite_UnitTestCase
     public function setUp()
     {
         # Test Subject - Clansuite_Form
-        #require_once TESTSUBJECT_DIR . 'core/form/forminterface.php';
-        #require_once TESTSUBJECT_DIR . 'core/form/form.php';
+        #require_once TESTSUBJECT_DIR . 'framework/form/forminterface.php';
+        #require_once TESTSUBJECT_DIR . 'framework/form/form.php';
         $this->form = new Form('TestForm');
 
         # setAction requires Clansuite_Router for URL building
-        require_once TESTSUBJECT_DIR . 'core/router/router.php';
+        require_once TESTSUBJECT_DIR . 'framework/router/router.php';
         # url building needs this
-        require_once TESTSUBJECT_DIR . 'core/functions.php';
+        //require_once TESTSUBJECT_DIR . 'framework/functions.php';
 
         # addElement() needs Clansuite_Formelement
-        require_once TESTSUBJECT_DIR . 'core/form/formelement.php';
-        require_once TESTSUBJECT_DIR . 'core/form/formelementdecorator.php';
-        require_once TESTSUBJECT_DIR . 'core/form/formdecorator.php';
+        //require_once TESTSUBJECT_DIR . 'framework/form/formelement.php';
+        require_once TESTSUBJECT_DIR . 'framework/form/formelementdecorator.php';
+        require_once TESTSUBJECT_DIR . 'framework/form/formdecorator.php';
     }
 
     /**

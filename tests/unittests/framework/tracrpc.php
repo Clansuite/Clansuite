@@ -19,7 +19,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        require_once TESTSUBJECT_DIR . '/core/tools/tracrpc.php';
+        require_once TESTSUBJECT_DIR . '/framework/tools/tracrpc.php';
     }
 
     /**

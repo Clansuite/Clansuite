@@ -19,7 +19,6 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        require_once TESTSUBJECT_DIR . 'core/view/helper/breadcrumb.php';
         $this->object = new \Koch\View\Helper\Breadcrumb;
     }
 

@@ -189,27 +189,27 @@ class CMS
          */
         define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 
-        define('KOCH', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR);
+        define('KOCH', dirname(__DIR__) . '/framework/');
 
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE', ROOT . 'cache' . DIRECTORY_SEPARATOR);
+        define('ROOT_CACHE', ROOT . 'cache/');
 
         /**
          * @var Root path of the config directory (with trailing slash)
          */
-        define('ROOT_CONFIG', ROOT . 'configuration' . DIRECTORY_SEPARATOR);
+        define('ROOT_CONFIG', ROOT . 'configuration/');
 
         /**
          * @var Root path of the core directory (with trailing slash)
          */
-        define('ROOT_CORE', ROOT . 'core' . DIRECTORY_SEPARATOR);
+        define('ROOT_CORE', ROOT . 'core/');
 
         /**
          * @var Root path of the languages directory (with trailing slash)
          */
-        define('ROOT_LANGUAGES', ROOT . 'languages' . DIRECTORY_SEPARATOR);
+        define('ROOT_LANGUAGES', ROOT . 'languages/');
 
         /**
          * @var Root path of the libraries directory (with trailing slash)
@@ -219,25 +219,25 @@ class CMS
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS', ROOT . 'logs' . DIRECTORY_SEPARATOR);
+        define('ROOT_LOGS', ROOT . 'logs/');
 
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
          */
-        define('ROOT_MOD', ROOT . 'modules' . DIRECTORY_SEPARATOR);
+        define('ROOT_MOD', ROOT . 'modules/');
 
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . 'themes' . DIRECTORY_SEPARATOR);
-        define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend' . DIRECTORY_SEPARATOR);
-        define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend' . DIRECTORY_SEPARATOR);
-        define('ROOT_THEMES_CORE', ROOT_THEMES . 'core' . DIRECTORY_SEPARATOR);
+        define('ROOT_THEMES', ROOT . 'themes/');
+        define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend/');
+        define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend/');
+        define('ROOT_THEMES_CORE', ROOT_THEMES . 'core/');
 
         /**
          * @var Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD', ROOT . 'uploads' . DIRECTORY_SEPARATOR);
+        define('ROOT_UPLOAD', ROOT . 'uploads/');
 
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)

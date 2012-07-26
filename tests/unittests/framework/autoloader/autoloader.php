@@ -26,9 +26,6 @@ class LoaderTest extends Clansuite_UnitTestCase
         # Fixtures
         set_include_path(realpath(__DIR__ . '/fixtures') . PATH_SEPARATOR . get_include_path());
 
-        # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.php';
-
         /**
          * The APC user cache needs a reset, so that the map is generated freshly each run.
          * APC is used by readAutoloadingMapApc() / writeAutoloadingMapApc().
@@ -132,7 +129,7 @@ class LoaderTest extends Clansuite_UnitTestCase
         # try to load an unknown class
         $this->assertFalse(Loader::autoloadByApcOrFileMap('SomeUnknownClass'));
 
-        Loader::addToMapping( TESTSUBJECT_DIR . 'core/tools/sysinfo.php', 'Clansuite_Sysinfo' );
+        Loader::addToMapping( TESTSUBJECT_DIR . 'framework/tools/sysinfo.php', 'Clansuite_Sysinfo' );
         $this->assertTrue(Loader::autoloadByApcOrFileMap('Clansuite_Sysinfo'));
     }
 

@@ -30,9 +30,6 @@ class RouterTest extends Clansuite_UnitTestCase
         $config = new Config();
 
         $this->router = new Router($request, $config);
-
-        # url building needs this
-        require_once TESTSUBJECT_DIR . 'core/functions.php';
     }
 
     /**

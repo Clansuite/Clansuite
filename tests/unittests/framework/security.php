@@ -4,9 +4,6 @@ class SecurityTest extends Clansuite_UnitTestCase
     public function setUp()
     {
         parent::setUp();
-
-        # Test Subject - \Koch\Security
-        require_once TESTSUBJECT_DIR . 'core/security.php';
     }
 
     /**
