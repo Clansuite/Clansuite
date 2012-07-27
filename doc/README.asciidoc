@@ -102,15 +102,8 @@
   Licensing
   ---------
 
-    Clansuite is licensed under
-
-    (a) GPL version 2 and any later version,
-        (You may find the GPL License Terms in the file named "COPYING.txt".)
-
-    and
-
-    (b)  the additional license terms you may find in the file "LICENSE".
-
+    Clansuite is licensed under GPL version 2 and any later version,
+    You may find the GPL License Terms in the file named "COPYING.txt".
 
     Clansuite's Documentation is licensed under the "GNU Free Documentation License".
 
@@ -122,16 +115,3 @@
     2 ) or submit them to the bugtracker at http://trac.clansuite.com/ .
     3 ) or mail them on the developer-mailinglist.
     More information can be found on the official website.
-
-
-  Last Words
-  ----------
-
-    Thanks for using Clansuite!
-
-      Best Regards,
-
-        Jens-André Koch
-        Clansuite Maintainer
-
-  Version: $Id$
