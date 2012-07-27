@@ -53,10 +53,12 @@ class POFile
     public static function read($file)
     {
         // read .po file
-        $file_content = file_get_contents($file);
+        $fh = fopen($file, 'r');
 
-        // normalize newlines
-        $file_content = str_replace(array("\r\n", "\r"), array("\n", "\n"), $file_content);
+        if ($fh === false) {
+            // could not open file resource
+            return false;
+        }
 
         // results array
         $hash = array();
@@ -68,25 +70,16 @@ class POFile
         $state = null;
         $fuzzy = false;
 
-        $fc_array = explode("\n", $file_content);
-
         // iterate over lines
-        foreach ($fc_array as $line) {
+        while(($line = fgets($fh, 65536)) !== false) {
+
             $line = trim($line);
 
             if ($line === '') {
                 continue;
             }
 
-            /**
-             * PHP Bug?
-             * When the silencing operator is removed an
-             * E_NOTICE Undefined offset: 1 will be thrown.
-             * It's utter bullshit...
-             *
-             * Note: leave the silence op!
-             */
-            @list($key, $data) = explode(' ', $line, 2);
+            list ($key, $data) = preg_split('/\s/', $line, 2);
 
             switch ($key) {
                 case '#,': // flag...
@@ -152,14 +145,16 @@ class POFile
                                 break;
 
                             default :
-
                                 // parse error
+                                fclose($fh);
                                 return false;
                         }
                     }
                     break;
             }
         }
+
+        fclose($fh);
 
         // add final entry
         if ($state === 'msgstr') {
@@ -200,9 +195,9 @@ class POFile
             $x = str_replace("\"\n\"", '', $x);
             $x = str_replace('$', '\\$', $x);
 
-            // @todo eval to clean ???
-            #Koch_Debug:firebug($x);
-            $x = @ eval ("return \"$x\";");
+            // @todo which use case has this eval?
+            // #Koch_Debug:firebug($x);
+            //$x = @ eval ("return \"$x\";");
         }
 
         return $x;
