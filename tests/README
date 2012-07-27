@@ -5,11 +5,11 @@
   --------------
 
   We use Simpletest for running automated tests on the Clansuite Core.
-  
-  You can run all the complete Clansuite Testsuite (all tests) by calling
-  /trunk/tests/runAllTests.php
-  
-  If you want to help, we are always looking to improve the Clansuite code coverage!  
+
+  You can run all tests by calling /trunk/tests/runAllTests.php.
+  That will run the complete Clansuite Testsuite.
+
+  If you want to help, we are always looking to improve the Clansuite code coverage!
   Please contact us at http://forum.clansuite.com
 
   WARNING: Don't use this in public environment.
@@ -17,19 +17,7 @@
 
   Simpletest Project
   ------------------
-  
-  You can find the SimpleTest project located at  
+
+  You can find the SimpleTest project located at
   http://sourceforge.net/projects/simpletest/
   https://sourceforge.net/project/showfiles.php?group_id=76550
-
-  Last Words
-  ----------
-
-    Thanks for using Clansuite!
-
-      Best Regards,
-
-        Jens-André Koch
-        Clansuite Maintainer
-
-  Version: $Id$

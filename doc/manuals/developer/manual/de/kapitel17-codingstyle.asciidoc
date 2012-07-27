@@ -211,8 +211,7 @@ Der Dateikopf einer PHP-Datei beginnt immer mit dem DocBlock des Projekts.
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, please visit the Free
- * Software Foundation website at <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
