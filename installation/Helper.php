@@ -46,7 +46,7 @@ class Helper
         unset($data_array['lang']);
         unset($data_array['database']['create_database']);
 
-        // base class is needed for \Koch\Config\Adpater\INI
+        // base class is needed for \Koch\Config\Adpater\Ini
         if (false === class_exists('AbstractConfig', false)) {
             require ROOT . 'core/config/abstractconfig.php';
         }
@@ -225,7 +225,7 @@ class Helper
                 include ROOT . 'core/config/adapter/ini.php';
 
                 // get clansuite config
-                $clansuite_config = \Koch\Config\Adapter\INI::readConfig(ROOT_APP . 'configuration/clansuite.php');
+                $clansuite_config = \Koch\Config\Adapter\Ini::readConfig(ROOT_APP . 'configuration/clansuite.php');
 
                 // reduce config array to the dsn/connection settings
                 $connectionParams = $clansuite_config['database'];

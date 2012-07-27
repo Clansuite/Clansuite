@@ -519,7 +519,7 @@ class CMS
                 Clansuite_Maintenance::show(self::$config);
             } else {
                 self::$config['maintenance']['maintenance'] = 0;
-                \Koch\Config\INI::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
+                \Koch\Config\Ini::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
                 // redirect to remove the token from url
                 header('Location: ' . SERVER_URL);
             }

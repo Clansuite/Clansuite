@@ -43,7 +43,7 @@ class Staging
     public static function overloadWithStagingConfig($array_to_overload)
     {
         // load staging config
-        $staging_config = \Koch\Config\Adapter\INI::readConfig(self::getFilename());
+        $staging_config = \Koch\Config\Adapter\Ini::readConfig(self::getFilename());
 
         // keys/values of array_to_overload are replaced with those of the staging_config
         return array_replace_recursive($array_to_overload, $staging_config);
