@@ -57,13 +57,13 @@ class UTF8
         } else { // mbstring extension is NOT loaded, we provide mbstring function fallbacks
 
             // load functional replacements for mbstring functions
-            include KOCH . 'localization\mbstringwrapper.php';
+            include KOCH . 'localization\MbstringWrapper.php';
 
             // load utf-8 character tables for lookups
-            include KOCH . 'localization\utf8\utf8tables.php';
+            include KOCH . 'localization\utf8\CharacterTable.php';
 
-            // load utf8 functions
-            include KOCH . 'localization\utf8\utf8.php';
+            // load utf8 fallback functions
+            include KOCH . 'localization\utf8\Utf8FallbackFunctions.php';
         }
     }
 }
