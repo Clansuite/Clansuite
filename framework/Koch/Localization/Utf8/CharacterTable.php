@@ -23,8 +23,10 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     */
 
+namespace Koch\Localization\Utf8;
+
 /**
- * Clansuite_UTF8_Character_Table
+ * UTF8 CharacterTable
  *
  * This class provides several UTF8 character lookup tables.
  *
@@ -32,7 +34,7 @@
  * @author Jens-André Koch
  * @license GPL v2+ and LGPLv2.1
  */
-class Koch_UTF8_Character_Table
+class CharacterTable
 {
     /**
      * UTF-8 lookup table for lowercased letters

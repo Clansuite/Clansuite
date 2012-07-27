@@ -30,7 +30,7 @@
  * @param <type> $long_url The long URL you want to shorten.
  * @return string A Shortened URL via TinyURL Service
  */
-function shortTinyUrl($long_url)
+function ShortUrl($long_url)
 {
     $long_url = urlencode($long_url);
 
