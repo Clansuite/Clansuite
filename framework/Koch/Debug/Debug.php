@@ -60,14 +60,14 @@ class debug
         echo '<b>Debugging <font color=red>'.basename($trace['file']).'</font> on line <font color=red>'.$trace['line'].'</font></b>:' . PHP_EOL;
         echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($trace_line).'</div>' . PHP_EOL;
 
-        echo '<b>Type</b>: '.gettype($var).' . PHP_EOL; // uhhh.. gettype is slow like hell
+        echo '<b>Type</b>: ' . gettype($var) .  PHP_EOL; // uhhh.. gettype is slow like hell
 
         if (is_string($var) === true) {
-            echo '<b>Length</b>: ' . strlen($var).' . PHP_EOL;
+            echo '<b>Length</b>: ' . strlen($var) . PHP_EOL;
         }
 
         if (is_array($var) === true) {
-            echo '<b>Length</b>: '.count($var).' . PHP_EOL;
+            echo '<b>Length</b>: ' . count($var) . PHP_EOL;
         }
 
         echo '<b>Value</b>: ';
