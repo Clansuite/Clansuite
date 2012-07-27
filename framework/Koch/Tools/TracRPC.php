@@ -17,7 +17,7 @@ namespace Koch\Tools;
  * <code>
  * include 'tracrpc.php';
  *
- * $trac = new Trac_RPC('http://trac.example.com/login/jsonrpc', array('username' => 'username', 'password' => 'password'));
+ * $trac = new TracRPC('http://trac.example.com/login/jsonrpc', array('username' => 'username', 'password' => 'password'));
  *
  * // Example single call
  * $result = $trac->getTicket('32');
@@ -64,7 +64,7 @@ class TracRPC
     private $_request_id = 0;
 
     /**
-     * Construtor for Trac_RPC
+     * Construtor for TracRPC
      *
      * @param	string	The complete url. Example: https://example.org/login/xmlrpc
      * @param	array	Name/Value paired array to set properties.
@@ -1452,7 +1452,7 @@ class TracRPC
     /**
      * Set the property user.
      *
-     * @return object Trac_RPC
+     * @return object TracRPC
      */
     public function setUser($username='')
     {
@@ -1464,7 +1464,7 @@ class TracRPC
     /**
      * Set the property password.
      *
-     * @return object Trac_RPC
+     * @return object TracRPC
      */
     public function setPassword($password='')
     {
@@ -1476,7 +1476,7 @@ class TracRPC
     /**
      * Set the property tracURL
      *
-     * @return object Trac_RPC
+     * @return object TracRPC
      */
     public function setTracURL($tracURL='')
     {
@@ -1500,7 +1500,7 @@ class TracRPC
     /**
      * Set the property json_decode.
      *
-     * @return object Trac_RPC
+     * @return object TracRPC
      */
     public function setJsonDecode($json_decode=false)
     {
