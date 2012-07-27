@@ -1,5 +1,5 @@
 <?php
-class includeFileAndMapClass
+class IncludeFileAndMapClass
 {
 
 }

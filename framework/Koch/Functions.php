@@ -791,7 +791,7 @@ class functions
         // check if this function was aleady loaded
         if (isset(self::$already_loaded[__FUNCTION__]) === false) {
             // if not, load function
-            include KOCH . 'functions' . DIRECTORY_SEPARATOR . mb_strtolower(__FUNCTION__) . '.php';
+            include KOCH . 'Functions' . DIRECTORY_SEPARATOR . __FUNCTION__ . '.php';
 
             // function loaded successfully
             self::$already_loaded[__FUNCTION__] = true;

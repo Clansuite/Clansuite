@@ -3,7 +3,7 @@ if (count(get_included_files()) == 1) {
     require_once 'autorun.php';
 }
 
-use \Koch\Tools\Trac_RPC;
+use \Koch\Tools\TracRPC;
 
 class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
 {
@@ -18,7 +18,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        require_once TESTSUBJECT_DIR . '/framework/tools/tracrpc.php';
+        //require_once TESTSUBJECT_DIR . '/framework/tools/tracrpc.php';
     }
 
     /**
@@ -32,7 +32,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
 
     public function testMethod_Constructor_setsProperties()
     {
-        $this->trac = new Trac_RPC('http://trac.clansuite.com/login/jsonrpc',
+        $this->trac = new TracRPC('http://trac.clansuite.com/login/jsonrpc',
                 array('username' => 'user',
                       'password' => 'password',
                       'multiCall' => '1',
@@ -56,7 +56,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
         );
 
         // request to "/login" without credentials
-        $this->trac = new Trac_RPC('http://trac.clansuite.com/login/jsonrpc');
+        $this->trac = new TracRPC('http://trac.clansuite.com/login/jsonrpc');
         $response = $this->trac->getWikiPage('ClansuiteTeam');
         unset($response);
     }
@@ -66,7 +66,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_Constructor_doRequest()
     {
-        $this->trac = new Trac_RPC('http://trac.clansuite.com/jsonrpc');
+        $this->trac = new TracRPC('http://trac.clansuite.com/jsonrpc');
         $response = $this->trac->getWikiPage('ClansuiteTeam');
 
         $this->assertNotNull($response);
@@ -80,7 +80,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_request_milestone_GetALL()
     {
-        $this->trac = new Trac_RPC('http://trac.clansuite.com/jsonrpc');
+        $this->trac = new TracRPC('http://trac.clansuite.com/jsonrpc');
         $response = $this->trac->getTicketMilestone();
 
         $this->assertNotNull($response);
@@ -94,7 +94,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_request_milestone_GetOne()
     {
-        $this->trac = new Trac_RPC('http://trac.clansuite.com/jsonrpc');
+        $this->trac = new TracRPC('http://trac.clansuite.com/jsonrpc');
         $response = $this->trac->getTicketMilestone('get', 'Clansuite 0.2.2');
 
         $this->assertNotNull($response);
@@ -111,7 +111,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_request_milestone_GetOne_GetDatetime()
     {
-        $this->trac = new Trac_RPC('http://trac.clansuite.com/jsonrpc');
+        $this->trac = new TracRPC('http://trac.clansuite.com/jsonrpc');
         $response = $this->trac->getTicketMilestone('get', 'Clansuite 0.2.2');
 
         $this->assertNotNull($response);

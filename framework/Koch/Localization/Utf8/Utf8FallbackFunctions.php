@@ -389,7 +389,7 @@ if (false === function_exists('utf8_strtolower')) {
             return mb_strtolower($string, 'utf-8');
         }
 
-        return strtr($string, Koch_UTF8_Character_Table::uppercase_to_lowercase());
+        return strtr($string, Koch\Localization\UTF8\CharacterTable::uppercase_to_lowercase());
     }
 
 }
@@ -411,7 +411,7 @@ if (false === function_exists('utf8_strtoupper')) {
             return mb_strtoupper($string, 'utf-8');
         }
 
-        return strtr($string, Koch_UTF8_Character_Table::lower_to_upper());
+        return strtr($string, Koch\Localization\UTF8\CharacterTable::lower_to_upper());
     }
 
 }
@@ -498,11 +498,11 @@ if (false === function_exists('utf8_deaccent')) {
     {
         if ($case <= 0) {
 
-            $string = strtr($string, Koch_UTF8_Character_Table::lowercaseaccents());
+            $string = strtr($string, Koch\Localization\UTF8\CharacterTable::lowercaseaccents());
         }
 
         if ($case >= 0) {
-            $string = strtr($string, Koch_UTF8_Character_Table::uppercaseaccents());
+            $string = strtr($string, Koch\Localization\UTF8\CharacterTable::uppercaseaccents());
         }
 
         return $string;
@@ -523,7 +523,7 @@ if (false === function_exists('utf8_romanize')) {
             return $string; // nothing to do
         }
 
-        return strtr($string, Koch_UTF8_Character_Table::romanize());
+        return strtr($string, Koch\Localization\UTF8\CharacterTable::romanize());
     }
 
 }
@@ -546,8 +546,8 @@ if (false === function_exists('utf8_stripspecials')) {
         static $specials = null;
 
         if (null === $specials) {
-            #$specials = preg_quote(unicode_to_utf8(Koch_UTF8_Character_Table::specialchars()), '/');
-            $specials = preg_quote(Koch_UTF8_Character_Table::specialchars2(), '/');
+            #$specials = preg_quote(unicode_to_utf8(Koch\Localization\UTF8\CharacterTable::specialchars()), '/');
+            $specials = preg_quote(Koch\Localization\UTF8\CharacterTable::specialchars2(), '/');
         }
 
         return preg_replace('/[' . $additional . '\x00-\x19' . $specials . ']/u', $repl, $string);
@@ -759,7 +759,7 @@ if (false === function_exists('utf8_convert_encoding')) {
 
 if (false === class_exists('utf8_entity_decoder')) {
 
-    class utf8_entity_decoder
+    class Utf8_Entity_Decoder
     {
         var $table;
 

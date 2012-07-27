@@ -127,8 +127,8 @@ class LoaderTest extends Clansuite_UnitTestCase
         // try to load an unknown class
         $this->assertFalse(Loader::autoloadByApcOrFileMap('SomeUnknownClass'));
 
-        Loader::addToMapping( TESTSUBJECT_DIR . 'framework/tools/sysinfo.php', 'Clansuite_Sysinfo' );
-        $this->assertTrue(Loader::autoloadByApcOrFileMap('Clansuite_Sysinfo'));
+        Loader::addToMapping( TESTSUBJECT_DIR . 'framework/Koch/Tools/SysInfo.php', 'Sysinfo' );
+        $this->assertTrue(Loader::autoloadByApcOrFileMap('Sysinfo'));
     }
 
     /**

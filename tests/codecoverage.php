@@ -24,6 +24,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  */
+
 class Clansuite_CodeCoverage
 {
     public static $coverage;

@@ -13,7 +13,7 @@ class FeedTest extends Clansuite_UnitTestCase
         parent::setUp();
 
         // Test Subject
-        require_once TESTSUBJECT_DIR . 'framework/feed/feed.php';
+        require_once TESTSUBJECT_DIR . 'framework/Koch/Feed/Feed.php';
 
         // valid rss feed online source
         #$this->feed_url = 'http://groups.google.com/group/clansuite/feed/rss_v2_0_msgs.xml';

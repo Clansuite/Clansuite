@@ -35,7 +35,7 @@ namespace Koch\Localization;
  * UTF8 functions and lookup tables are based on the Dokuwiki UTF-8 library written by Andreas Gohr.
  * @link http://github.com/splitbrain/dokuwiki/raw/master/inc/utf8.php
  */
-class UTF8
+class Utf8
 {
     public static function initialize()
     {

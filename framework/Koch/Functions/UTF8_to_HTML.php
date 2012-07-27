@@ -39,7 +39,7 @@
  * @param $encodeTags booloean TRUE will convert "<" to "&lt;", Default = false
  * @return returns the converted HTML-string
  */
-function Utf8ToHtml($utf8, $encodeTags = false)
+function UTF8_to_HTML($utf8, $encodeTags = false)
 {
     $result = '';
     $utf8_strlen = strlen($utf8);

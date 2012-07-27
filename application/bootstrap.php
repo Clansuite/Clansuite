@@ -185,7 +185,7 @@ class CMS
          */
         define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 
-        define('KOCH', dirname(__DIR__) . '/framework/');
+        define('KOCH', dirname(__DIR__) . '/framework/Koch/');
 
         /**
          * @var Root path of the cache directory (with trailing slash)
@@ -430,8 +430,9 @@ class CMS
      */
     public static function initialize_Loader()
     {
-        include KOCH . 'autoload/autoloader.php';
-        spl_autoload_register('\Koch\Autoload\Loader::autoload', true, true);
+        include KOCH . 'Autoload/Loader.php';
+
+        new \Koch\Autoload\Loader();
     }
 
     /**
@@ -568,7 +569,7 @@ class CMS
             'Koch\Config\Config',
             #'Koch\MVC\HttpRequest',
             #'Koch\MVC\HttpResponse',
-            'Koch\Filter\Manager',
+            #'Koch\Filter\Manager',
             'Koch\Localization\Localization',
             'Koch\Security',
             'Koch\Validation\Inputfilter',
