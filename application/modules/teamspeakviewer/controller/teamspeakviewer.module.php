@@ -257,7 +257,7 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         else {
             $this->view .= (string) $image_ts_logo.'&nbsp; <b>'.$object.'</b>';
         }
-        $this->view .= "<br />\r\n";
+        $this->view .= "<br />" . PHP_EOL;
     }
 
     /**
@@ -392,6 +392,6 @@ class TextTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         } elseif ($object instanceof Absurd_TeamSpeak2_Channel && $object['parent'] == -1) {
             echo ' (', implode('', $object->getFlags()), ')';
         }
-        echo "\r\n";
+        echo "" . PHP_EOL;
     }
 }

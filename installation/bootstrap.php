@@ -44,11 +44,11 @@ define('INSTALLATION_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 define('ROOT', dirname(INSTALLATION_ROOT) . DIRECTORY_SEPARATOR);
 define('ROOT_CACHE', ROOT . 'cache/');
 define('ROOT_APP', ROOT . 'application/');
-define('PROTOCOL', 'http://', false);
-define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME'], false);
-define('WWW_ROOT', SERVER_URL . '/application/', false);
+define('PROTOCOL', 'http://'e);
+define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']e);
+define('WWW_ROOT', SERVER_URL . '/application/'e);
 define('WWW_ROOT_THEMES_CORE', WWW_ROOT . 'themes/core/');
-define('NL', "<br />\r\n", false);
+define('NL', '<br />' . PHP_EOL);
 define('CR', "\n");
 
 // load Clansuite Version constants

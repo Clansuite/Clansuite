@@ -596,12 +596,12 @@ class account.module extends Controller
         $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
         $subject        = _('Account activation');
 
-        $body  = _("To activate your account click on the link below:\r\n");
-        $body .= WWW_ROOT."/index.php?mod=account&action=activate_account&user_id=%s&code=%s\r\n";
-        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-        $body .= _('Username').": %s\r\n";
+        $body  = _("To activate your account click on the link below:" . PHP_EOL);
+        $body .= WWW_ROOT."/index.php?mod=account&action=activate_account&user_id=%s&code=%s" . PHP_EOL;
+        $body .= "----------------------------------------------------------------------------------------------------------" . PHP_EOL;
+        $body .= _('Username').": %s" . PHP_EOL;
         $body .= _('Password').": *"._('hidden')."*";
-        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+        $body .= "----------------------------------------------------------------------------------------------------------" . PHP_EOL;
         $body  = sprintf($body, $user_id, $code, $nick);
 
         // Send mail
@@ -628,12 +628,12 @@ class account.module extends Controller
         $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
         $subject        = _('Account activation');
 
-        $body  = _("To reset your password, click the link below:\r\n");
-        $body .= WWW_ROOT . "index.php?mod=account&action=activate_password&user_id=%s&code=%s\r\n";
-        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
-        $body .= _('Username').": %s\r\n";
+        $body  = _("To reset your password, click the link below:" . PHP_EOL);
+        $body .= WWW_ROOT . "index.php?mod=account&action=activate_password&user_id=%s&code=%s" . PHP_EOL;
+        $body .= "----------------------------------------------------------------------------------------------------------" . PHP_EOL;
+        $body .= _('Username').": %s" . PHP_EOL;
         $body .= _('Password').": *"._('hidden')."*";
-        $body .= "----------------------------------------------------------------------------------------------------------\r\n";
+        $body .= "----------------------------------------------------------------------------------------------------------" . PHP_EOL;
         $body  = sprintf($body, $user_id, $code, $nick);
 
         // Send mail

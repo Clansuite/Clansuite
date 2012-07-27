@@ -162,17 +162,17 @@ class CMS
         /**
          * @var NL is a shorthand for a HTML NEWLINE (HTML Break + Carriage Return)
          */
-        define('NL', "<br />\r\n");
+        define('NL', '<br />'. PHP_EOL);
 
         /**
          * @var Carriage Return "\n"
          */
-        define('CR', "\n");
+        define('CR', PHP_EOL);
 
         /**
          * @var Carriage Return and Tabulator "\n\t"
          */
-        define('CRT', "\n\t");
+        define('CRT', PHP_EOL . "\t");
 
         /**
          * 2) Path Assignments
