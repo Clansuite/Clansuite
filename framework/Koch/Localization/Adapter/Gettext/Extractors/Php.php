@@ -34,7 +34,7 @@
  * @package     Core
  * @subpackage  Gettext
  */
-class PHP extends Base implements Extractor
+class Php extends Base implements Extractor
 {
     /**
      * The function tags to extract translation strings from
