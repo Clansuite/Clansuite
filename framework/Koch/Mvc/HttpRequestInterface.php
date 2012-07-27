@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\MVC;
+namespace Koch\Mvc;
 
 /**
  * Interface for the Request Object

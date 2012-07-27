@@ -25,8 +25,8 @@
 
 namespace Koch\Filter;
 
-use Koch\MVC\HttpRequestInterface;
-use Koch\MVC\HttpResponseInterface;
+use Koch\Mvc\HttpRequestInterface;
+use Koch\Mvc\HttpResponseInterface;
 
 /**
  * Koch Framework - Filter for HTML Tidy (postfilter).

@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\MVC;
+namespace Koch\Mvc;
 
 /**
  * Koch Framework - Class for Request Handling.

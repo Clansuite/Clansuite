@@ -1,5 +1,5 @@
 <?php
-use Koch\MVC\HttpResponse;
+use Koch\Mvc\HttpResponse;
 
 class Clansuite_HttpResponse_Test extends Clansuite_UnitTestCase
 {

@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\mvc;
+namespace Koch\Mvc;
 
 /**
  * Koch Framework - Class for Response Handling
@@ -241,7 +241,7 @@ class httpresponse implements HttpResponseInterface
 
         // Flush Compressed Buffer
         if (XDEBUG === false and DEBUG === false) {
-            \Koch\MVC\ResponseEncode::end_outputbuffering();
+            \Koch\Mvc\ResponseEncode::end_outputbuffering();
 
             // send response and do some more php processing afterwards
             if (is_callable('fastcgi_finish_request') === true) {

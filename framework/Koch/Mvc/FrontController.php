@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\MVC;
+namespace Koch\Mvc;
 
 use Koch\Filter\FilterInterface;
 use Koch\View\Helper\Breadcrumb;

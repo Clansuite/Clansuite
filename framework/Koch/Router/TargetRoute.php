@@ -25,8 +25,8 @@
 
 namespace Koch\Router;
 
-use Koch\MVC\Mapper;
-use Koch\MVC\HttpRequest;
+use Koch\Mvc\Mapper;
+use Koch\Mvc\HttpRequest;
 
 /**
  * Router_TargetRoute (processed RequestObject)

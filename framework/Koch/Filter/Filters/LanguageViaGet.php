@@ -26,8 +26,8 @@
 namespace Koch\Filter\Filters;
 
 use Koch\Filter\FilterInterface;
-use Koch\MVC\HttpRequestInterface;
-use Koch\MVC\HttpResponseInterface;
+use Koch\Mvc\HttpRequestInterface;
+use Koch\Mvc\HttpResponseInterface;
 use Koch\Config\Config;
 
 /**

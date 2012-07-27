@@ -94,7 +94,7 @@ class base
     public function setBaseURL($baseURL = null)
     {
         if (self::$baseURL === null) {
-            self::$baseURL = Koch\MVC\HttpRequest::getRequestURI();
+            self::$baseURL = Koch\Mvc\HttpRequest::getRequestURI();
         } else {
             self::$baseURL = $baseURL;
         }

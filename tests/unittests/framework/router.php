@@ -8,7 +8,7 @@ if (count(get_included_files()) == 1) {
 
 use Koch\Router\Router;
 use Koch\Router\TargetRoute;
-use Koch\MVC\HttpRequest;
+use Koch\Mvc\HttpRequest;
 use Koch\Config\Config;
 
 class RouterTest extends Clansuite_UnitTestCase

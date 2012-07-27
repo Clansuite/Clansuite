@@ -567,8 +567,8 @@ class CMS
         // define the core classes to load
         static $core_classes = array(
             'Koch\Config\Config',
-            #'Koch\MVC\HttpRequest',
-            #'Koch\MVC\HttpResponse',
+            #'Koch\Mvc\HttpRequest',
+            #'Koch\Mvc\HttpResponse',
             #'Koch\Filter\Manager',
             'Koch\Localization\Localization',
             'Koch\Security',
@@ -627,13 +627,13 @@ class CMS
     private static function execute_Frontcontroller()
     {
         // Get request and response objects for Filter and Request processing
-        $request  = self::$injector->instantiate('Koch\MVC\HttpRequest');
-        $response = self::$injector->instantiate('Koch\MVC\HttpResponse');
+        $request  = self::$injector->instantiate('Koch\Mvc\HttpRequest');
+        $response = self::$injector->instantiate('Koch\Mvc\HttpResponse');
 
         /**
          * Setup Frontcontroller and pass Request and Response
          */
-        $clansuite = new \Koch\MVC\FrontController($request, $response);
+        $clansuite = new \Koch\Mvc\FrontController($request, $response);
 
         /**
          * Add the Prefilters and Postfilters to the Frontcontroller

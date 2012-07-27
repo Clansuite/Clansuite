@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\MVC;
+namespace Koch\Mvc;
 
 /**
  * Mapper
