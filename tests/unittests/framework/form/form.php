@@ -375,7 +375,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $this->form->addElement('textarea');
 
-        $formelements_html_expected = "\n<div class=\"formline\"><textarea id=\"textarea-formelement-0\"></textarea></div>\n";
+        $formelements_html_expected = PHP_EOL . '<div class="formline"><textarea id="textarea-formelement-0"></textarea></div>' . PHP_EOL;
 
         $formelements_html = $this->form->renderAllFormelements();
         $this->assertFalse(empty($formelements_html));
