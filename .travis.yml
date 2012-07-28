@@ -1,4 +1,8 @@
+#
+# .travis.yml - configuration file for the travis continuous integration service
+#
 # see http://about.travis-ci.org/docs/user/languages/php for more hints
+#
 language: php
 
 # list any PHP version you want to test against
