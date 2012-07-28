@@ -33,3 +33,6 @@ cache/**/*
 
 # PHPUnit
 phpunit.xml
+
+# PHP composer related
+composer.lock
