@@ -1,0 +1,43 @@
+{
+    "name": "jakoch/Clansuite",
+    "description": "Clansuite - just an eSports CMS. PHP 5.3+, Doctrine 2, Smarty 3, Ajax. - Easy, comfortable, fast, flexible.",
+    "homepage": "http://clansuite.com/",
+    "license": "GPL-2.0+",
+    "keywords": ["cms", "cmf", "framework"],
+    "type": "library",
+    "authors": [
+        {
+            "name": "Jens-André Koch",
+            "email": "jakoch@web.de"
+        }
+    ],
+    "support": {
+        "irc": "irc://irc.freenode.org/clansuite",
+        "forum": "http://forum.clansuite.com/",
+        "source": "https://github.com/jakoch/Clansuite/",
+        "issues": "http://trac.clansuite.com/"
+    },
+    "require": {
+        "php": ">=5.3.3",
+
+        "doctrine/orm"       : "2.2.2",
+        "doctrine/dbal"      : "2.2.2",
+        "doctrine/common"    : "2.2.2",
+        "doctrine/migrations": "dev-master",
+
+        "gedmo/doctrine-extensions": "dev-master",
+
+        "smarty/smarty": "v3.1.11",
+
+        "ezyang/htmlpurifier" : "dev-master"
+    },
+    "suggest": {
+        "ext-intl" : "*",
+        "ext-apc"  : "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Koch": "framework/Koch"
+        }
+    }
+}
