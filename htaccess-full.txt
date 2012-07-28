@@ -133,4 +133,3 @@ php_value xdebug.remote_handler "dbgp"
 #  php_value max_execution_time 0
 #  php_value error_reporting 5
 #</IfModule>
-
