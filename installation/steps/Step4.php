@@ -37,7 +37,7 @@ namespace Clansuite\Installation\Controller;
  * 5) insert database schema
  * 6) write database settings to config file
  */
-class Step4 extends \Clansuite\Installation_Page
+class Step4 extends \Clansuite\Installation\Page
 {
     public function getDefaultValues()
     {

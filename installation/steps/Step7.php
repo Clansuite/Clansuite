@@ -27,9 +27,8 @@
 namespace Clansuite\Installation\Controller;
 
 /**
- * Step 1 - Language Selection
+ * STEP 7 - Installation Success. The END.
  */
-class Step1 extends \Clansuite\Installation_Page
+class Step7 extends \Clansuite\InstallationStepBase
 {
-
 }

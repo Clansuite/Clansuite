@@ -29,7 +29,7 @@ namespace Clansuite\Installation\Controller;
 /**
  * Step 6 - Create Administrator Account
  */
-class Step6 extends \Clansuite\Installation_Page
+class Step6 extends \Clansuite\Installation\Page
 {
     public function getDefaultValues()
     {

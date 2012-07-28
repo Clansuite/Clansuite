@@ -27,8 +27,8 @@
 namespace Clansuite\Installation\Controller;
 
 /**
- * Step 2 - System Check
+ * Step 3 - GPL License
  */
-class Step2 extends \Clansuite\Installation_Page
+class Step3 extends \Clansuite\Installation\Page
 {
 }

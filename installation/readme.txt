@@ -23,16 +23,3 @@
     ---------------------
 
     Icons by Tango Project - http://tango.freedesktop.org/ - Public Domain.
-
-
-    Last Words
-    ----------
-
-    The Clansuite Development Team hopes that you take pleasure in exploring and using Clansuite.
-
-      Best Regards,
-
-        Jens-André Koch
-        Clansuite Maintainer
-
-    Version: $Id$

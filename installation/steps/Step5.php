@@ -29,7 +29,7 @@ namespace Clansuite\Installation\Controller;
 /**
  * Step 5 - Website Configuration
  */
-class Step5 extends \Clansuite\Installation_Page
+class Step5 extends \Clansuite\Installation\Page
 {
     public function getDefaultValues()
     {

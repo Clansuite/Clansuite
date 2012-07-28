@@ -24,9 +24,9 @@
  *
  */
 
-namespace Clansuite\Installation\Controller;
+namespace Clansuite\Installation;
 
-class StepBase
+class Page
 {
     public $values;
     public $step;
