@@ -22,7 +22,7 @@ def check_smf_auth(user,passwd):
     #print dir(r)
     #print hash
     myhash=sha.sha(user.lower()+passwd).hexdigest()
-    #print myhash    
+    #print myhash
 
     if myhash==hash:
         return True

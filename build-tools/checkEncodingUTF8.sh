@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 
+#
 # CLI Tool for checking the UTF-8 encoding of files in a directory tree.
 #
 
