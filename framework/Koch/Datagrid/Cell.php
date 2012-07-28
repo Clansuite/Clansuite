@@ -23,14 +23,14 @@
  *
  */
 
-namespace Koch\datagrid;
+namespace Koch\Datagrid;
 
 /**
  * Datagrid Cell
  *
  * Defines a cell within the datagrid
  */
-class cell extends Base
+class Cell extends Base
 {
     /**
      * Value(s) of the cell

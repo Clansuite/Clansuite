@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
 
 use Koch\Mvc\HttpRequestInterface;
 use Koch\Mvc\HttpResponseInterface;
@@ -37,7 +37,7 @@ use Koch\Mvc\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class permissions implements FilterInterface
+class Permissions implements FilterInterface
 {
     private $user    = null;
     private $rbacl   = null;

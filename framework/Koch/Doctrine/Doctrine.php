@@ -32,7 +32,7 @@ namespace Koch\Doctrine;
  * @package     Core
  * @subpackage  Doctrine
  */
-class doctrine
+class Doctrine
 {
     /**
      * A DBAL Logger Object

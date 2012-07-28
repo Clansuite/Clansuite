@@ -34,7 +34,7 @@ namespace Koch\Event;
  * @package     Core
  * @subpackage  Event
  */
-interface interface
+interface Interface
 {
     public function execute(\Koch\Event\Event $event);
 }

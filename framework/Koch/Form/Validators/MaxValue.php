@@ -30,7 +30,7 @@ use Koch\Form\Validator;
 /**
  * Validates the value of an integer|float with maxvalue given.
  */
-class Maxvalue extends Validator
+class MaxValue extends Validator
 {
     public $maxvalue;
 

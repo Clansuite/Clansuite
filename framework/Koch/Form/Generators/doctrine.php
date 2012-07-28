@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Form\Generator;
+namespace Koch\Form\Generators;
 
 /**
  * Koch FrameworkForm Generator via Doctrine Records

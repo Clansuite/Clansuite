@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\cache;
+namespace Koch\Cache;
 
 /**
  * Interface for all Cache Adapters to implement.
@@ -32,7 +32,7 @@ namespace Koch\cache;
  * @package     Core
  * @subpackage  Cache
  */
-interface cacheinterface
+interface CacheInterface
 {
     // Checks cache for a stored variable
     public function contains($key);

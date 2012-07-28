@@ -27,7 +27,7 @@ $(function(){
             onComplete: function(event, ID, fileObj, response, data) {
                 // event:										The event object
                 // ID											The unique ID of the file queue item.
-                // fileObj: 
+                // fileObj:
                 //		[name]								The name of the uploaded file
                 //		[filePath]							The path on the server to the uploaded file
                 //		[size]									The size in bytes of the file

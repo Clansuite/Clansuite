@@ -847,7 +847,7 @@ class Formelement implements FormelementInterface
 
         // if not already loaded, require forelement file
         if (false == class_exists($class, false)) {
-            $file = ROOT_CORE . '/form/decorators/formelement/' . $decorator . '.php';
+            $file = ROOT_FRAMEWORK . '/form/decorators/formelement/' . $decorator . '.php';
 
             if (is_file($file) === true) {
                 include $file;

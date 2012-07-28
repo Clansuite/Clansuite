@@ -1,5 +1,5 @@
 <h1>{t}Guestbook{/t}</h1>
-{* Debugausgabe des Arrays: {$guestbook|var_dump} 
+{* Debugausgabe des Arrays: {$guestbook|var_dump}
 {html_alt_table loop=$guestbook}*}
 
 {*
@@ -35,9 +35,9 @@
         </div>
         <div class="gbleft">
             <span>{t}Name{/t}</span>: <span class="user-info">{$entry.gb_nick}</span><br />
-            
+
             {$entry.CsImage.type}
-            
+
             {if $entry.CsImage.type == 'url'}
                 <img src="{$entry.location}" alt="{$entry.gb_nick}" class="the_pic" />
             {elseif $entry.CsImage.type == 'upload'}

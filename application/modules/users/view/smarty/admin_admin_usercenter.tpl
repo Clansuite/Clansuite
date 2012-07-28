@@ -32,21 +32,21 @@ padding:5px;
 <div class="bodyline">
     <form onsubmit="return false" id="record" name="record" method="post" action="/trial/modules/base/myaccount.php">
     <input type="hidden" value="" name="command" id="command"/>
-    
+
     <h1><span>My Account</span></h1>
 
     <fieldset>
         <legend>Name</legend>
         <p id="nameP">Greg McSalesManager</p>
     </fieldset>
-    
+
     <fieldset>
         <legend>Change Password</legend>
         <p>
             <label for="curPass">current password</label><br/>
             <input type="password" maxlength="32" name="curPass" id="curPass"/>
         </p>
-        
+
         <p>
             <label for="newPass">new password</label><br/>
             <input type="password" maxlength="32" name="newPass" id="newPass"/>
@@ -59,7 +59,7 @@ padding:5px;
     <p>
         <button onclick="changePass()" class="Buttons" type="button">Change Password</button>
     </p>
-    
+
     <fieldset>
         <legend>Contact Information</legend>
 
@@ -69,12 +69,12 @@ padding:5px;
                 <button title="Send E-Mail" onclick="openEmail('email')" class="graphicButtons buttonEmail" type="button" id="emailButton">
                 <span>send e-mail</span></button>
             </p>
-            
+
             <p><label for="phone">phone/extension</label><br/><input type="text" maxlength="64" size="32" value="" name="phone" id="phone"/></p>
 
     </fieldset>
     <p><button onclick="changeContact()" class="Buttons" type="button">Update Contact Information</button></p>
-    
+
     <fieldset>
         <legend>Access / Assigned Roles</legend>
         <ul>

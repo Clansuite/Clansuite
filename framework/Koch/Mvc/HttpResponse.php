@@ -34,7 +34,7 @@ namespace Koch\Mvc;
  * @package     Core
  * @subpackage  HttpResponse
  */
-class httpresponse implements HttpResponseInterface
+class HttpResponse implements HttpResponseInterface
 {
     /**
      * Status of the response as integer value.

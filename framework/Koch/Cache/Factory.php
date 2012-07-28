@@ -34,7 +34,7 @@ namespace Koch\Cache;
  * @package     Core
  * @subpackage  Cache
  */
-class factory
+class Factory
 {
     /**
      * Returns the instance of the requested cache_adapter
@@ -44,7 +44,7 @@ class factory
      */
     public static function getCache($adapter)
     {
-        $file = ROOT_CORE . 'cache/' . strtolower($adapter) . '.cache.php';
+        $file = ROOT_FRAMEWORK . 'cache/' . strtolower($adapter) . '.cache.php';
 
         if (is_file($file) === true) {
             $class = 'Koch_Cache_' . $adapter;

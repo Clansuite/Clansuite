@@ -9,7 +9,7 @@
  */
 
 function XulMenu(id) {
-    
+
     this.type = "horizontal";
     this.position = {
         "level1": { "top": 0, "left": 0},

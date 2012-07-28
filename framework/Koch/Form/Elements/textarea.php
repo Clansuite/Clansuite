@@ -173,7 +173,7 @@ class Textarea extends Formelement implements FormelementInterface
 
         // load file
         if (class_exists($classname, false) === false) {
-            include ROOT_CORE . 'viewhelper/form/elements/wysiwyg' . $name . '.php';
+            include ROOT_FRAMEWORK . 'viewhelper/form/elements/wysiwyg' . $name . '.php';
         }
 
         // instantiate

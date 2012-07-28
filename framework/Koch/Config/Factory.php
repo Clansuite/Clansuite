@@ -35,7 +35,7 @@ namespace Koch\Config;
  * @package     Core
  * @subpackage  Config
  */
-class factory
+class Factory
 {
     /**
      * Instantiates the correct subclass determined by the fileextension
@@ -119,7 +119,7 @@ class factory
     public static function getConfigurationHandler($adapter)
     {
         // path to configuration handler classes
-        $file = ROOT_CORE . 'config' . DIRECTORY_SEPARATOR . strtolower($adapter) . '.config.php';
+        $file = ROOT_FRAMEWORK . 'config' . DIRECTORY_SEPARATOR . strtolower($adapter) . '.config.php';
 
         if (is_file($file) === true) {
             $class = 'Koch\Config_' . strtoupper($adapter);

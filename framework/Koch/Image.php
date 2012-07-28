@@ -32,7 +32,7 @@ namespace Koch;
  * @subpackage  Core
  * @category    Image
  */
-class image
+class Image
 {
     /**
      * @var string

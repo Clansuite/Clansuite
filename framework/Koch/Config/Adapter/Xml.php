@@ -32,7 +32,7 @@ namespace Koch\Config\Adapter;
  * @package     Core
  * @subpackage  Configuration
  */
-class xml
+class Xml
 {
     /**
      * Constructor.

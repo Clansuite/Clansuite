@@ -40,7 +40,7 @@ use Koch\Router\TargetRoute;
  * @package     Core
  * @subpackage  Filters
  */
-class setmodulelanguage implements FilterInterface
+class SetModuleLanguage implements FilterInterface
 {
     /* @var Koch\Localization */
     private $locale = null;

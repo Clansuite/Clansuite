@@ -23,12 +23,12 @@
  *
  */
 
-namespace Koch\datatype;
+namespace Koch\Datatype;
 
 /**
  * Koch Framework - Class for advanced Datatype Conversions.
  */
-class conversion
+class Conversion
 {
     public static function XMLToArray($xml, $recursionDepth = 0)
     {

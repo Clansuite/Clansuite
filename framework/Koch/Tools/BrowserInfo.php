@@ -32,7 +32,7 @@ namespace Koch\Tools;
  * @package     Tools
  * @subpackage  Browser
  */
-class browserinfo
+class BrowserInfo
 {
     /**
      * usrer agent

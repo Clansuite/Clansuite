@@ -45,7 +45,7 @@ namespace Koch\Config;
  * @package     Core
  * @subpackage  Config
  */
-class config extends AbstractConfig
+class Config extends AbstractConfig
 {
     /**
      * This object is injected via DI.

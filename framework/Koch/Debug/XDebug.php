@@ -35,7 +35,7 @@ namespace Koch\Debug;
  * @package     Core
  * @subpackage  XDebug
  */
-class xdebug
+class XDebug
 {
     public static $xdebug_memory_before = '';
 
@@ -360,7 +360,7 @@ class xdebug
     public static function showBrowserInfo()
     {
         if (false === class_exists('Koch_Browserinfo', false)) {
-            include ROOT_CORE . 'tools/browserinfo.core.php';
+            include ROOT_FRAMEWORK . 'tools/browserinfo.core.php';
         }
         $browserinfo = new Koch_Browserinfo();
         $browser = $browserinfo->getBrowserInfo();

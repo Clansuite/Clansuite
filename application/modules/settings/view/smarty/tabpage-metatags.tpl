@@ -82,12 +82,12 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:{/t}</small><br />
-            
+
             <label for="mod_rewrite_1">
                 <input type="radio" value="1" name="config[webserver][mod_rewrite]" {if isset($config.webserver.mod_rewrite) and $config.webserver.mod_rewrite == 1}checked="checked"{/if} />
                 {t}yes{/t}
             </label>
-            
+
             <label for="mod_rewrite_0">
                 <input type="radio" value="0" name="config[webserver][mod_rewrite]" {if empty($config.webserver.mod_rewrite) or  $config.webserver.mod_rewrite == 0}checked="checked"{/if} />
                 {t}no{/t}

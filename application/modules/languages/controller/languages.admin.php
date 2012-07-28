@@ -77,7 +77,7 @@ class Languages_Admin extends Controller
 
         if (false === is_file($file)) {
             // gettext is needed to fetch the po fileheader
-            include ROOT_CORE . 'gettext.core.php';
+            include ROOT_FRAMEWORK . 'gettext.core.php';
 
             $fileheader = Clansuite_Gettext_Extractor_Tool::getPOFileHeader(true);
 
@@ -266,7 +266,7 @@ class Languages_Admin extends Controller
              * English locale is the base for all translations.
              * This fetches all english language strings of the module.
              */
-            include ROOT_CORE . 'gettext/po.gettext.php';
+            include ROOT_FRAMEWORK . 'gettext/po.gettext.php';
             $english_data = Gettext_PO_File::read( $this->getModulePOFilename($module, 'en_GB') );
             $english_data = $this->preparePODataForView($english_data);
 
@@ -356,7 +356,7 @@ class Languages_Admin extends Controller
         /**
          * Fetch the po file data of the target locale.
          */
-        include ROOT_CORE . 'gettext/po.gettext.php';
+        include ROOT_FRAMEWORK . 'gettext/po.gettext.php';
         $target_locale_pofile = $this->getModulePOFilename($module, $locale);
         $target_locale_data = Gettext_PO_File::read( $target_locale_pofile );
 

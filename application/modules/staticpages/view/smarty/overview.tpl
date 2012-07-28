@@ -12,5 +12,5 @@
     <dt>({$staticpage.id}) <a href='index.php?mod=staticpages&amp;page={$staticpage.title}'>{$staticpage.title}</a> {$staticpage.description}</dt>
 
     {/foreach}
-    
+
 </dl>

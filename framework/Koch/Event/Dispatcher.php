@@ -41,7 +41,7 @@ namespace Koch\Event;
  * @package     Core
  * @subpackage  Eventdispatcher
  */
-class dispatcher
+class Dispatcher
 {
     /**
      * @var object Instance of Koch_Eventdispatcher (singleton)

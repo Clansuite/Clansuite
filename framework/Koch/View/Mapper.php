@@ -41,7 +41,7 @@ use Koch\Mvc\HttpRequest;
  * layout_template selection, depends on the main configuration and user selection (settings).
  *
  */
-class mapper
+class Mapper
 {
     /**
      * @var string Template name.

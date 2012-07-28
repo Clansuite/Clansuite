@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch;
+namespace Koch\Files;
 
 /**
  * Koch Framework - Class for download handling.
@@ -38,7 +38,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  Download
  */
-class download.core
+class Download
 {
     /**
      * Constructor and convenience/proxy method for sending a file as a download to the browser

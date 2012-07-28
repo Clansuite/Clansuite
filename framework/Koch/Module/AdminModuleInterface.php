@@ -35,7 +35,7 @@ namespace Koch\Module;
  * @package     Core
  * @subpackage  Module
  */
-interface adminmoduleinterface
+interface AdminModuleInterface
 {
     public function action_admin_list();     // GET     /foos
     public function action_admin_show();     // GET     /foos/:foo_id

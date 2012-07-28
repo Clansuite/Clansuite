@@ -35,7 +35,7 @@ class Selectlocale extends Select implements FormelementInterface
     public function __construct()
     {
         // include locale arrays
-        include ROOT_CORE . 'gettext/locales.gettext.php';
+        include ROOT_FRAMEWORK . 'gettext/locales.gettext.php';
 
         /**
          * prepare array structure for dropdown ( key => value )

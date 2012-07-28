@@ -71,7 +71,7 @@ class POFile
         $fuzzy = false;
 
         // iterate over lines
-        while(($line = fgets($fh, 65536)) !== false) {
+        while (($line = fgets($fh, 65536)) !== false) {
 
             $line = trim($line);
 
@@ -147,6 +147,7 @@ class POFile
                             default :
                                 // parse error
                                 fclose($fh);
+
                                 return false;
                         }
                     }

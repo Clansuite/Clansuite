@@ -79,7 +79,7 @@ class controlcenter.module extends Controller
 
     private function assignErrorlogInfos()
     {
-        include ROOT_CORE . 'logger/file.logger.php';
+        include ROOT_FRAMEWORK . 'logger/file.logger.php';
         $errorlog_entries = null;
         $errorlog_entries = Clansuite_Logger_File::returnEntriesFromLogfile(3);
 

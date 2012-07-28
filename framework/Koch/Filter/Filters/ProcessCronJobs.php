@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
 
 use Koch\Filter\FilterInterface;
 use Koch\Mvc\HttpRequestInterface;
@@ -38,7 +38,7 @@ use Koch\Mvc\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class processcronjobs implements FilterInterface
+class ProcessCronJobs implements FilterInterface
 {
     private $config     = null;
     private $cronjobs    = null;

@@ -57,25 +57,25 @@
         {foreach $guestbook  as entry}
 
         <tr class="tr_row1" id="guestbook-entry-{$entry.gb_id}">
-                
+
                 <td>{gravatar email="`$entry.gb_email`"}</td>
-                
+
                 <td><a href='index.php?mod=users&amp;id={$entry.user_id}'>{$entry.gb_nick}</a></td>
-                
+
                 <td>{$entry.gb_text}</td>
-                
+
                 <td>{* date_format:"%d.%m.%y" *}
                 <span>{t}Date{/t}</span>: {t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}
                 </td>
-                
+
                 <td><a href="{$entry.gb_website}" target="_blank">{$entry.gb_website}</a></td>
-                
+
                 <td>Mail <a href="mailto:{$entry.gb_email}">{$entry.gb_email} - ICQ {$entry.gb_icq}</a></td>
-                
+
                 <td>published (Set hide)</td>
-                
+
                 <td>
-                    <a class="ui-button ui-button-check ui-widget ui-state-default ui-corner-all ui-button-size-small ui-button-orientation-l" 
+                    <a class="ui-button ui-button-check ui-widget ui-state-default ui-corner-all ui-button-size-small ui-button-orientation-l"
                        href="index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={$entry.gb_id}" tabindex="0">
                         <span class="ui-button-icon">
                             <span class="ui-icon ui-icon-pencil"></span>
@@ -83,8 +83,8 @@
                         <span class="ui-button-label" unselectable="on" style="-moz-user-select: none;">Edit</span>
                     </a>
                 </td>
-                
-                <td align="center" width="1%">                    
+
+                <td align="center" width="1%">
                     <input name="delete[]" type="checkbox" value="{$entry.gb_id}" />
                 </td>
         </tr>

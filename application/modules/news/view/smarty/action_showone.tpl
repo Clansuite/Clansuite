@@ -55,7 +55,7 @@
 
 <!-- Start Comments /-->
 
-Debugoutput of Comments Array: {$news.comments|var_dump} 
+Debugoutput of Comments Array: {$news.comments|var_dump}
 
 <a id="comments" id="comments"></a>
 

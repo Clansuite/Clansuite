@@ -52,7 +52,7 @@ use Koch\Config\Config;
  * @package     Core
  * @subpackage  Filters
  */
-class languageviaget implements FilterInterface
+class LanguageViaGet implements FilterInterface
 {
     private $config = null;
 

@@ -218,7 +218,7 @@ class Smarty extends AbstractRenderer
             array(
                 ROOT_LIBRARIES . 'smarty/plugins',
                 KOCH . 'view/helper/smarty',
-                ROOT_CORE . 'view/helper/smarty',
+                ROOT_FRAMEWORK . 'view/helper/smarty',
                 ROOT_MOD . TargetRoute::getModuleName() . '/viewhelper/smarty'
         ));
 

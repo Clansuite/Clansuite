@@ -49,7 +49,7 @@ class JQSelectImage extends Select implements FormelementInterface
     public function getFiles()
     {
         if (false === class_exists('Koch_Directory',false)) {
-            include ROOT_CORE . 'files/file.core.php';
+            include ROOT_FRAMEWORK . 'files/file.core.php';
         }
 
         $dir = new Koch_Directory();

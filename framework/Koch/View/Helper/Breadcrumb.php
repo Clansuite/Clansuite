@@ -34,7 +34,7 @@ use Koch\Router\TargetRoute;
  * @package     Core
  * @subpackage  Breadcrumb
  */
-class breadcrumb
+class Breadcrumb
 {
     /**
      * @var array $path contains the complete path structured as array

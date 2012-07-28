@@ -185,7 +185,7 @@ class Loader
     {
         // autoloading map
         self::$inclusions_map = array(
-            'Clansuite\Module\Controller' => ROOT_CORE . 'module\controller.php',
+            'Clansuite\Module\Controller' => ROOT_FRAMEWORK . 'module\controller.php',
         );
 
         // check if classname is in autoloading map

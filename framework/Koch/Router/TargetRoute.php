@@ -31,7 +31,7 @@ use Koch\Mvc\HttpRequest;
 /**
  * Router_TargetRoute (processed RequestObject)
  */
-class targetroute extends Mapper
+class TargetRoute extends Mapper
 {
     public static $parameters = array(
         // File
@@ -300,8 +300,8 @@ class targetroute extends Mapper
         // was the class loaded before? no? then autoload it.
         if (class_exists($classname) === false) {
             // if still no luck, lets try loading manually
-            if (is_file(ROOT_CORE . $filename)) {
-                include ROOT_CORE . $filename;
+            if (is_file(ROOT_FRAMEWORK . $filename)) {
+                include ROOT_FRAMEWORK . $filename;
             }
         }
 

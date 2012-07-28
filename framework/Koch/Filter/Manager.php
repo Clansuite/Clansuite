@@ -35,7 +35,7 @@ use Koch\Mvc\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filter
  */
-interface manager
+interface Manager
 {
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response);
 }

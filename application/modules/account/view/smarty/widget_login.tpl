@@ -25,7 +25,7 @@ function hashLoginPassword(theForm)
         <td class="cell2"><input class="input_text" type="text" name="email"
                    onblur="if(this.value=='')this.value=this.defaultValue;"
                    onfocus="if(this.value==this.defaultValue)this.value='';"
-                   value="email" 
+                   value="email"
                    style="width: 100px;"/></td>
     </tr>
     {elseif isset($config.login.login_method) && $config.login.login_method == 'nick'}
@@ -34,7 +34,7 @@ function hashLoginPassword(theForm)
         <td class="cell2"><input class="input_text" type="text" name="nickname"
                    onblur="if(this.value=='')this.value=this.defaultValue;"
                    onfocus="if(this.value==this.defaultValue)this.value='';"
-                   value="nickname" 
+                   value="nickname"
                    style="width: 120px;"/></td>
     </tr>
     {/if}
@@ -43,7 +43,7 @@ function hashLoginPassword(theForm)
         <td class="cell2"><input class="input_text" type="password" name="password" id="block_password"
                    onblur="if(this.value=='')this.value=this.defaultValue;"
                    onfocus="if(this.value==this.defaultValue)this.value='';"
-                   value="******" 
+                   value="******"
                    style="width: 120px;"/></td>
     </tr>
     <tr>

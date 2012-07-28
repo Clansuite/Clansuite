@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
 
 use Koch\Filter\FilterInterface;
 use Koch\Mvc\HttpRequestInterface;
@@ -45,7 +45,7 @@ use Koch\Mvc\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class sessionsecurity implements FilterInterface
+class SessionSecurity implements FilterInterface
 {
     private $config     = null;
 

@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Cache;
+namespace Koch\Cache\Adapter;
 
 use Koch\Cache\AbstractCache;
 use Koch\Cache\CacheInterface;

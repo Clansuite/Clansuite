@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch;
+namespace Koch\Files;
 
 /**
  * Koch Framework - Class for the File Object
@@ -32,7 +32,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  File
  */
-class file.core
+class File
 {
     protected $name;
     protected $type;

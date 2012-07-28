@@ -36,7 +36,7 @@ namespace Koch\Debug;
  * @package     Core
  * @subpackage  Debug
  */
-class debug
+class Debug
 {
     /**
      * This is an replacement for the native php function print_r() with an upgraded display.

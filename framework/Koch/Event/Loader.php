@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\event;
+namespace Koch\Event;
 
 /**
  * Eventloader
@@ -35,7 +35,7 @@ namespace Koch\event;
  * @package     Core
  * @subpackage  Eventloader
  */
-class loader
+class Loader
 {
     /**
      * Loads and registers all events of the core and all activated modules.

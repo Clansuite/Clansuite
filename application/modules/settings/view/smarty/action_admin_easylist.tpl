@@ -107,7 +107,7 @@ fieldset legend {
         {foreach $array as $key => $value}
         <dl>
             <dt><label for="{$section}-{$key}">{$section}[{$key}]</label></dt>
-            <dd><input type="text" 
+            <dd><input type="text"
                  id="{$section}-{$key}" name="config[{$section}][{$key}]" value="{$value}" /></dd>
         </dl>
         {/foreach}

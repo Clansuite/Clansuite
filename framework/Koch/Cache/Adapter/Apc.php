@@ -40,7 +40,7 @@ use Koch\Exception\Exception;
  * @package     Core
  * @subpackage  Cache
  */
-class apc extends AbstractCache implements CacheInterface
+class Apc extends AbstractCache implements CacheInterface
 {
 
     public function __construct()

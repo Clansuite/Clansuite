@@ -42,7 +42,7 @@ namespace Koch\Exception;
  * @package     Core
  * @subpackage  Errorhandler
  */
-class errorhandler
+class Errorhandler
 {
     /**
      * Koch Framework - Error callback.

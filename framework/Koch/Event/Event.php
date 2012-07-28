@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\event;
+namespace Koch\Event;
 
 /**
  * Represents an Event
@@ -32,7 +32,7 @@ namespace Koch\event;
  * @package     Core
  * @subpackage  Event
  */
-class event implements \ArrayAccess
+class Event implements \ArrayAccess
 {
     /**
      * @var Name of the event

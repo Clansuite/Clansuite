@@ -11,14 +11,14 @@
             {foreach item=lastuser from=$last_registered_users}
                 {* {$lastuser.user_id} *}
                 {$lastuser.nick}
-                {* {$lastuser.email} *}           
+                {* {$lastuser.email} *}
                 {* {$lastuser.country} *}
-                ( {$lastuser.joined|duration} ago )              
+                ( {$lastuser.joined|duration} ago )
                 <br />
             {/foreach}
         </td>
     </tr>
-    
+
 </table>
 
 <!-- End: last_registered_users widget // -->

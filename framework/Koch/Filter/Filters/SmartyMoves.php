@@ -53,7 +53,7 @@ use \Koch\Mvc\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class smartymoves implements FilterInterface
+class SmartyMoves implements FilterInterface
 {
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {

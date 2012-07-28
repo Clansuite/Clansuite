@@ -37,7 +37,7 @@ namespace Koch\Cache;
  * @package     Core
  * @subpackage  Cache
  */
-class compositum
+class Compositum
 {
 // @todo
 }

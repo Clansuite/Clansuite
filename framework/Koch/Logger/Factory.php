@@ -25,7 +25,7 @@
 
 namespace Koch\Logger;
 
-class factory
+class Factory
 {
     /**
      * Its a Logger Factory Method, which includeds, instantiates and returns a logger object.
@@ -35,7 +35,7 @@ class factory
      */
     public static function instantiate($adapter = 'firebug')
     {
-        $file = ROOT_CORE . 'logger' . DIRECTORY_SEPARATOR . mb_strtolower($adapter) . '.logger.php';
+        $file = ROOT_FRAMEWORK . 'logger' . DIRECTORY_SEPARATOR . mb_strtolower($adapter) . '.logger.php';
 
         if (is_file($file) === true) {
             $class = 'Koch_Logger_' . $adapter;

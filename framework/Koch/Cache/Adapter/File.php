@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Cache;
+namespace Koch\Cache\Adapter;
 
 use Koch\Cache\AbstractCache;
 use Koch\Cache\CacheInterface;
@@ -37,7 +37,7 @@ use Koch\Cache\CacheInterface;
  * @package     Core
  * @subpackage  Cache
  */
-class file extends AbstractCache implements CacheInterface
+class File extends AbstractCache implements CacheInterface
 {
     /**
      * Contains checks if a key exists in the cache

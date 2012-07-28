@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
 
 use Koch\Mvc\HttpRequestInterface;
 use Koch\Mvc\HttpResponseInterface;
@@ -40,7 +40,7 @@ use Koch\Mvc\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class htmltidy implements FilterInterface
+class HtmlTidy implements FilterInterface
 {
     private $config     = null;
 

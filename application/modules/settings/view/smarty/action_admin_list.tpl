@@ -14,7 +14,7 @@
        {tabpage name="Developers"}  {include file='tabpage-developer.tpl'}  {/tabpage}
        {tabpage name="Date & Time"} {include file='tabpage-datetime.tpl'}   {/tabpage}
        {tabpage name="Cache"}       {include file='tabpage-cache.tpl'}      {/tabpage}
-       {tabpage name="Updates"}     {include file='tabpage-updates.tpl'}    {/tabpage}       
+       {tabpage name="Updates"}     {include file='tabpage-updates.tpl'}    {/tabpage}
     {/tabpanel}
 
     <br />

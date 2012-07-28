@@ -44,7 +44,7 @@ namespace Koch\View\Renderer;
  * @package     Core
  * @subpackage  View
  */
-class json extends AbstractRenderere
+class Json extends AbstractRenderere
 {
     public function initializeEngine()
     {

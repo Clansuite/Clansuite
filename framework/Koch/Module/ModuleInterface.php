@@ -35,7 +35,7 @@ namespace Koch\Module;
  * @package     Core
  * @subpackage  Module
  */
-interface moduleinterface
+interface ModuleInterface
 {
     public function action_list();     // GET     /foos
     public function action_show();     // GET     /foos/:foo_id

@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Form\Generator;
+namespace Koch\Form\Generators;
 
 /**
  * Koch Framework - Form Generator from and to YAML form description file.

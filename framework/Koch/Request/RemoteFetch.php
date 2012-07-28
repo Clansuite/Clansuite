@@ -23,17 +23,17 @@
  *
  */
 
-namespace Koch\Remote;
+namespace Koch\Request;
 
 /**
- * Koch FrameworkRemote Request Manager
+ * Koch Framework Remote Request Manager
  *
  * 1: Snoppy
  * 2: cURL
  * 3: Remote
  * (4: FTP)
  */
-class remotefetch
+class RemoteFetch
 {
     /**
      * Fetches remote content with Snoopy

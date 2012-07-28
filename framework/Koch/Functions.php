@@ -32,7 +32,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  Functions
  */
-class functions
+class Functions
 {
     /**
      * @var array This array contains the names of the loaded functions from directory /core/functions.
@@ -817,7 +817,7 @@ class functions
         // Making it easier to see which static method is called magically
         Koch_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         // construct the filename of the command
-        $filename = ROOT_CORE . 'functions' . DIRECTORY_SEPARATOR . $method . '.function.php';
+        $filename = ROOT_FRAMEWORK . 'functions' . DIRECTORY_SEPARATOR . $method . '.function.php';
 
         // check if name is valid
         if (is_file($filename) === true and is_readable($filename) === true) {
@@ -851,7 +851,7 @@ class functions
         // Making it easier to see which method is called magically
         // Koch_Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
         // construct the filename of the command
-        $filename = ROOT_CORE . 'functions' . DIRECTORY_SEPARATOR . $method . '.function.php';
+        $filename = ROOT_FRAMEWORK . 'functions' . DIRECTORY_SEPARATOR . $method . '.function.php';
 
         // check if name is valid
         if (is_file($filename) === true and is_readable($filename) === true) {

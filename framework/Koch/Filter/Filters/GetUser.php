@@ -39,7 +39,7 @@ use Koch\User\User;
  * @package     Core
  * @subpackage  Filters
  */
-class getuser implements FilterInterface
+class GetUser implements FilterInterface
 {
     private $user = null;
 

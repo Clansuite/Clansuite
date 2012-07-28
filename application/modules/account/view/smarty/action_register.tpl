@@ -85,8 +85,8 @@
             <td>{t}Email:{/t}</td>
             <td>
                 <input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()"
-                       onpaste="javascript:mailTest()" oncut="javascript:mailTest()" 
-                       type="text" id="email" name="register_form[email]" id="email" 
+                       onpaste="javascript:mailTest()" oncut="javascript:mailTest()"
+                       type="text" id="email" name="register_form[email]" id="email"
                        value="{$register_form.email|default|escape:"html"}">
             </td>
         </tr>
@@ -104,7 +104,7 @@
         <tr>
             <td valign='top'>{t}Password:{/t}</td>
             <td>
-                <input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" 
+                <input onkeyup="javascript:passTest()" oncopy="javascript:passTest()"
                        onpaste="javascript:passTest()" oncut="javascript:passTest()"
                        type="password" id="password" name="register_form[password]" value="">
                 <br />

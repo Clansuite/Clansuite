@@ -9,4 +9,3 @@
         {include file="/controlcenter/view/smarty/action_about1.tpl"}
     </body>
 </html>
-

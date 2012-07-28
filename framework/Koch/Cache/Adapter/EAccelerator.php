@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Cache;
+namespace Koch\Cache\Adapter;
 
 use Koch\Cache\AbstractCache;
 use Koch\Cache\CacheInterface;
@@ -44,7 +44,7 @@ use Koch\Exception\Exception;
  * @package     Core
  * @subpackage  Cache
  */
-class eaccelerator extends AbstractCache implements CacheInterface
+class EAccelerator extends AbstractCache implements CacheInterface
 {
     /**
      * Constructor.

@@ -23,14 +23,14 @@
  *
  */
 
-namespace Koch\datagrid;
+namespace Koch\Datagrid;
 
 /**
  * Datagrid Row
  *
  * Defines one single row for the datagrid
  */
-class row extends Base
+class Row extends Base
 {
     //--------------------
     // Class properties

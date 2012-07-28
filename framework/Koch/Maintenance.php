@@ -34,7 +34,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  Maintenance
  */
-class maintenance
+class Maintenance
 {
     private static $language;
     private static $reason = '1';

@@ -41,7 +41,7 @@ namespace Koch\Module;
  * @package     Core
  * @subpackage  Module
  */
-class manager
+class Manager
 {
     public function __construct($module)
     {

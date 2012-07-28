@@ -12,18 +12,18 @@
     {$entry.gb_text}
     {$entry.gb_ip}
 {/foreach}
-*}         
+*}
 
-<h1>{t}Guestbook{/t}</h1> 
-     
+<h1>{t}Guestbook{/t}</h1>
+
 <div class="guestbook">
     {pagination}
     <div class="options-top">
         <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" />
     </div>
-    
+
     {foreach $guestbook  as entry}
-    
+
     <div class="gb">
         <div class="gbhead">
             <div class="author">
@@ -35,24 +35,24 @@
         </div>
         <div class="gbleft">
             <span>{t}Name{/t}</span>: <span class="user-info">{$entry.gb_nick}</span>
-            <br />            
-            {gravatar email="`$entry.gb_email`"}            
+            <br />
+            {gravatar email="`$entry.gb_email`"}
             <br />
             <span>{t}Date{/t}</span>: {t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}<br />
         </div>
         <div class="gbright">
-            
-             <!-- GB ENTRY TEXT --> 
+
+             <!-- GB ENTRY TEXT -->
             {$entry.gb_text}
-            
-             <!-- Show Comment if one exists --> 
+
+             <!-- Show Comment if one exists -->
             {if !empty($entry.gb_comment)}
             <fieldset>
                 <legend>{t}Comment{/t}</legend>
                 {$entry.gb_comment}
             </fieldset>
             {/if}
-            
+
         </div>
         <div class="gbfooter">
         {* AJAX Needed *} {*

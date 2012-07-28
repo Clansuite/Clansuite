@@ -8,11 +8,11 @@
         <td width="30%">&nbsp;</td>
         <td width="40%" valign="top" align="left">
             <p>This has been made for testing purposes only. It covers functionalities of Clansuite in combination with 3th party libraries.</p>
-        
+
             <ol style="list-style: decimal">
 
-            <b>&raquo; Tests</b><br />            
-            
+            <b>&raquo; Tests</b><br />
+
                 <li><a href="index.php?mod=testunit&amp;action=ajaxuploadify">Ajax Upload mit Uploadify</a></li>
                 <li><a href="index.php?mod=testunit&amp;action=ajaxswfupload">Ajax Upload mit swfUpload</a></li>
                 <li><a href="index.php?mod=testunit&amp;action=ajaxprettyphoto">Ajax Flash-Video mit prettyPhoto</a><br/><span style="font-size:10px;">(vimeo|youtube|quicktime|flash|bildergallerie..)</span></li>

@@ -16,21 +16,21 @@
 		</tr>
 	</thead>
 	<tbody>
-	
+
 {foreach item=user from=$userslist}
 
     <tr>
     	<td>
-    	
+
     	{* Debugausgabe des Arrays: {$user.CsUsersGroups|var_dump} *}
         {foreach item=group from=$user.CsGroups}
-        			
+
         	<span style="color:{$group.color}">
         		{if isset($group.name)} {$group.name} {else} No Group! {/if}
         	</span>
-        
+
         {/foreach}
-        
+
         </td>
         <td>
     		<a href="#profile-link" title="{t}Go to the profile of $user.nick{/t}">{$user.nick}</a>
@@ -40,7 +40,7 @@
     	<td>{$user.joined}</td>
     	<td><a href="">PM</a></td>
     </tr>
-		
+
 {/foreach}
 
 	</tbody>

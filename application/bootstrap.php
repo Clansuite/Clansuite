@@ -185,6 +185,10 @@ class CMS
          */
         define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 
+        /**
+         * KOCH is the FRAMEWORK PATH
+         * @var Purpose of KOCH is to provide the absolute path to the top level of the KOCH Framework
+         */
         define('KOCH', dirname(__DIR__) . '/framework/Koch/');
 
         /**
@@ -324,14 +328,18 @@ class CMS
          * If you need to add something: use or absolute path constants (ROOT*) or realpath($your_path).
          */
         $paths = array(
+            dirname(KOCH),
             KOCH,
             ROOT,
+            ROOT_VENDOR,
+            // to be removed
             ROOT_LIBRARIES,
             ROOT_LIBRARIES . 'PEAR' . DIRECTORY_SEPARATOR
         );
 
         // attach original include paths
         set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
+        var_dump(get_include_path());
 
         unset($paths);
     }

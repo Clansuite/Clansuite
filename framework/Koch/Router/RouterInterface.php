@@ -34,7 +34,7 @@ namespace Koch\Router;
  * @package     Core
  * @subpackage  Router
  */
-interface routerinterface
+interface RouterInterface
 {
     public function addRoute($url_pattern, array $route_options = null);
     public function addRoutes(array $routes);

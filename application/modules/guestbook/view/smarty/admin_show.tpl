@@ -57,7 +57,7 @@ $(document).ready(function(){
     <tr class="tr_header">
         <td width="1%" align="center"> {columnsort html="ID"}</td>
         <td align="center">{columnsort html="Added"}</td>
-        <td align="center">{columnsort html="Author/Nick"}</td>        
+        <td align="center">{columnsort html="Author/Nick"}</td>
         <td align="center">{columnsort html="eMail"}</td>
         <td align="center">{columnsort html="ICQ"}</td>
         <td align="center">{columnsort html="Website"}</td>

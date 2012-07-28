@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
 
 use Koch\Mvc\HttpRequestInterface;
 use Koch\Mvc\HttpResponseInterface;
@@ -38,7 +38,7 @@ use Koch\Mvc\HttpResponseInterface;
  * @package     Core
  * @subpackage  Filters
  */
-class maintenance implements FilterInterface
+class Maintenance implements FilterInterface
 {
     private $config = null;     // holds instance of config
 

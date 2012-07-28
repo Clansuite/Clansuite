@@ -3,7 +3,7 @@
     /**
      * The {$item} method for the {$mod.module_name|capitalize} module
      * @param void
-     * @return void 
+     * @return void
      */
     {$mod.backend.backend_scopes.$key} function {$item}()
     {
@@ -12,14 +12,14 @@
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
-        
+
         {if isset($mod.backend.backend_snippets.$key) }
 
 {foreach from=$mod.backend.backend_snippets.$key item=item2 key=key2}
-{include file="snippets_$item2.tpl"}               
+{include file="snippets_$item2.tpl"}
 {/foreach}
         {/if}
-        
+
         {if $mod.backend.backend_outputs.$key == '1'}# Prepare the Output
         $this->prepareOutput();{/if}
     }

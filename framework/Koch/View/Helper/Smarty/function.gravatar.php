@@ -59,7 +59,7 @@ function smarty_function_gravatar($params, $smarty)
 
     // initialize gravatar library
     if (false === class_exists('clansuite_gravatar', false)) {
-        include ROOT_CORE . 'viewhelper/gravatar.core.php';
+        include ROOT_FRAMEWORK . 'viewhelper/gravatar.core.php';
     }
 
     return new clansuite_gravatar($email, $rating, $size, $defaultImage);

@@ -23,7 +23,7 @@
  *
  */
 
-namespace  Koch;
+namespace Koch\Files;
 
 /**
  * Koch Framework - Class for Upload Handling
@@ -32,7 +32,7 @@ namespace  Koch;
  * @package     Core
  * @subpackage  Upload
  */
-class upload.core implements ArrayAccess, IteratorAggregate, Countable
+class Upload implements ArrayAccess, IteratorAggregate, Countable
 {
     protected $files = array();
 

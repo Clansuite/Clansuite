@@ -12,7 +12,7 @@
         bCont.inject($(document.body));
         bCont.out = false;
         var bCont2 = new Element('div');
-        
+
         // A handler to store deleted widgets
         bCont2.setProperties( {
             id: 'all_widgets_cont'
@@ -25,8 +25,8 @@
             padding: '10px'
         });
         bCont2.innerHTML = '&nbsp;';
-        
-                
+
+
         // Click text for all widgets handler
         var bContClick = new Element('span');
         bContClick.setProperties( {
@@ -48,28 +48,28 @@
                 bCont.setStyles( {
                     overflow: 'hidden'
                 });
-                bCont.out = false;            
+                bCont.out = false;
             }
-                
+
         });
-        
+
         bContClick.inject(bCont);
         bCont2.inject(bCont);
-        
+
         // Save button
         var saveBar = new Element('div', {
             id: 'widget_save_bar'
         });
         saveBar.inject($(document.body));
-        
+
         var saveButton = new Element('input', {
             id: 'wdget_save_button',
             value: 'Save the widgets...',
             type: 'submit'
         });
-        
+
         saveButton.inject(saveBar);
-        
+
         saveButton.addEvent('click', function(event) {
             event.stop();
             ClanSuiteSort.serialize().each( function(list, i) {
@@ -78,14 +78,14 @@
                 });
             });
         });
-        
-        
-        
-        
-        
+
+
+
+
+
         $$('.widget').each(function(item)
         {
-            item.setStyle('display', 'inline-widget');            
+            item.setStyle('display', 'inline-widget');
             item.setStyle('position', 'relative');
         });
 
@@ -103,17 +103,17 @@
               'z-index': '15000',
               'width': element.getStyle('width')
             }).inject(this.list).position(element.getPosition(element.getOffsetParent()));
-            
+
             }
         });
-        
+
         $$('.widget .td_header').each( function(el) {
             el.setStyles( { cursor: 'w-resize' } );
-            
+
             // DELETE widget
-            var del = new Element('img').setProperties( { 
+            var del = new Element('img').setProperties( {
                 src: '/themes/core/images/crystal_clear/16/editdelete.png'
-            } ).setStyles( { 
+            } ).setStyles( {
                 right: '5px',
                 position: 'absolute',
                 cursor: 'pointer'
@@ -122,28 +122,28 @@
             del.addEvent('click', function() {
                 el.getParent('span').inject($('all_widgets_cont'));
             });
-            
+
             // WIDTH INCREASE
             el.addEvent('mousewheel', function(event) {
                 event = new Event(event).stop();
                 if (event.wheel > 0) {
                     el.getParent('span').setStyle('width', el.getParent('span').getSize().x+5);
                 }
-                
+
                 if (event.wheel < 0) {
                     el.getParent('span').setStyle('width', el.getParent('span').getSize().x-5);
-                }                
+                }
             });
-                        
-        });
-        
 
-        
-        
+        });
+
+
+
+
         /*
 
         */
-        
+
 
 
     });

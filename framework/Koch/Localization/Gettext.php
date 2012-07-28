@@ -328,8 +328,8 @@ class Tool
         }
 
         if (false === class_exists($extractor_classname, false)) {
-            // /core/gettext/extractors/*NAME*.gettext.php
-            $extractor_file = ROOT_CORE . 'gettext/extractors/' . $extractor . '.gettext.php';
+            // /framework/Koch/Gettext/Extractors/*NAME*.gettext.php
+            $extractor_file = ROOT_FRAMEWORK . 'Gettext/Extractors/' . $extractor . '.gettext.php';
 
             if (true === is_file($extractor_file)) {
                 include_once $extractor_file;

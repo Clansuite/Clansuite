@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\datagrid;
+namespace Koch\Datagrid;
 
 /**
  * Datagrid Base
@@ -31,7 +31,7 @@ namespace Koch\datagrid;
  * It is the parent class for the datagrid
  * and provides common methods.
  */
-class base
+class Base
 {
     /**
      * The data to render in the grid.
