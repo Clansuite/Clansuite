@@ -106,7 +106,7 @@ class Flashmessages /* extends Koch_Session */
      */
     private static function getMessagesFromSessionAndUnset()
     {
-        if (isset($_SESSION['user']['flashmessages']) === true) {
+        if ($_SESSION['user']['flashmessages'] !== null) {
             self::$flashmessages = $_SESSION['user']['flashmessages'];
             unset($_SESSION['user']['flashmessages']);
 
@@ -131,7 +131,7 @@ class Flashmessages /* extends Koch_Session */
     {
         $flashmessages = self::getMessagesFromSessionAndUnset();
 
-        if (isset($flashmessages) === true) {
+        if ($flashmessages !== null) {
             $html = '';
             foreach ($flashmessages as $flashmessage) {
                 foreach ($flashmessage as $type => $message) {

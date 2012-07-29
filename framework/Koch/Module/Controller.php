@@ -169,7 +169,7 @@ abstract class Controller
 
         // check if the module has a models dir
         if (is_dir($module_models_path) === true) {
-           if (isset($entity) === true) {
+           if ($entity !== null) {
                // use second parameter of method
                $entity = $module_models_path . 'entities' . DIRECTORY_SEPARATOR . ucfirst($entity) . '.php';
            } else {
@@ -272,12 +272,12 @@ abstract class Controller
     public function getView($renderEngineName = null)
     {
         // set the renderengine name
-        if (isset($renderEngineName) === true) {
+        if ($renderEngineName !== null) {
             $this->setRenderEngine($renderEngineName);
         }
 
         // if already set, get the rendering engine from the view variable
-        if (isset($this->view) === true) {
+        if ($this->view !== null) {
             return $this->view;
         }
         // else, set the RenderEngine to the view variable and return it
@@ -379,11 +379,11 @@ abstract class Controller
 
         // set layout and content template by parameter array
         if (is_array($templates) === true) {
-            if (isset($templates['layout_template']) === true) {
+            if ($templates['layout_template'] !== null) {
                 $view_mapper->setLayoutTemplate($templates['layout_template']);
             }
 
-            if (isset($templates['content_template']) === true) {
+            if ($templates['content_template'] !== null) {
                 $view_mapper->setTemplate($templates['content_template']);
             }
         }

@@ -333,7 +333,7 @@ class XDebug
 
         foreach ($aCategoriesToShow as $category) {
             // display only the categories to show / whitelist
-            if (isset($aConsts[$category]) === true) {
+            if (($aConsts[$category]) !== null) {
                 // adjust headline
                 if ($category == 'user') {
                     echo '<tr><th colspan="2">Application Constants</th></tr>';

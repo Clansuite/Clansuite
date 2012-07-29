@@ -276,7 +276,7 @@ class Formelement implements FormelementInterface
      */
     public function hasLabel()
     {
-        if (isset($this->label) === true) {
+        if ($this->label !== null) {
             return true;
         } else {
             return false;
@@ -291,7 +291,7 @@ class Formelement implements FormelementInterface
      */
     public function isRequired()
     {
-        if (isset($this->required) === true) {
+        if ($this->required !== null) {
             return true;
         } else {
             return false;
@@ -396,7 +396,7 @@ class Formelement implements FormelementInterface
      */
     public function getAttribute($attribute)
     {
-        if (isset($this->{$attribute}) === true) {
+        if ($this->{$attribute} !== null) {
             return $this->{$attribute};
         } else {
             return null;

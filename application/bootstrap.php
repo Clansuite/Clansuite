@@ -247,7 +247,7 @@ class CMS
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
          */
-        if (isset($_SERVER['HTTPS']) === true and strtolower($_SERVER['HTTPS']) == 'on') {
+        if (($_SERVER['HTTPS'] !== null) and strtolower($_SERVER['HTTPS']) == 'on') {
             define('PROTOCOL', 'https://');
         } else {
             define('PROTOCOL', 'http://');
@@ -339,7 +339,7 @@ class CMS
 
         // attach original include paths
         set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
-        var_dump(get_include_path());
+        //var_dump(get_include_path());
 
         unset($paths);
     }
@@ -535,7 +535,7 @@ class CMS
             $token = false;
 
             // incoming maintenance token via GET
-            if (isset($_GET['mnt']) === true) {
+            if ($_GET['mnt'] !== null) {
                 $tokenstring = $_GET['mnt'];
                 $token = Clansuite_Securitytoken::ckeckToken($tokenstring);
             }
@@ -723,7 +723,7 @@ class CMS
     private static function initialize_Timezone()
     {
         // apply timezone defensivly
-        if (isset(self::$config['language']['timezone']) === true) {
+        if (self::$config['language']['timezone'] !== null) {
             // set always if incomming via config
             date_default_timezone_set(self::$config['language']['timezone']);
         }
@@ -734,7 +734,7 @@ class CMS
         }
 
         // set date formating via config
-        if (isset(self::$config['locale']['dateformat']) === true) {
+        if (self::$config['locale']['dateformat'] !== null) {
             define('DATE_FORMAT', self::$config['locale']['dateformat']);
         } else { // set default value
             define('DATE_FORMAT', 'd.m.Y H:i');

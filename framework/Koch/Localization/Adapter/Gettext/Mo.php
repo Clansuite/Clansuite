@@ -71,7 +71,7 @@ class MOFile
             }
 
             // context is merged into id, separated by EOT (\x04)
-            if ((isset($entry['msgctxt']) === true) or (array_key_exists('msgctxt', $entry) === true)) {
+            if (($entry['msgctxt'] !== null) or (array_key_exists('msgctxt', $entry) === true)) {
                 $id = $entry['msgctxt'] . "\x04" . $id;
             }
 

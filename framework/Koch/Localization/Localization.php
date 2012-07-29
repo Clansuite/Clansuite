@@ -102,7 +102,7 @@ class Localization
     public function getLocale()
     {
         // if language_via_url was used, the filter set the URL value to the session
-        if (isset($_SESSION['user']['language_via_url']) === true and ($_SESSION['user']['language_via_url'] == 1)) {
+        if (($_SESSION['user']['language_via_url'] !== null) and ($_SESSION['user']['language_via_url'] == 1)) {
             // use language setting from session
             $this->locale = $_SESSION['user']['language'];
         } else {

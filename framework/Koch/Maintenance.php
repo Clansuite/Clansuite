@@ -82,7 +82,7 @@ class Maintenance
         // read timeout value from $config
         self::$timeout = $config['mainteance']['timeout'];
 
-        if (isset($filePath) === true) {
+        if ($filePath !== null) {
             self::$filePath = $filePath;
         } else { // use the default maintenance template
             self::$filePath = ROOT_THEMES_CORE . 'view/smarty/maintenance.tpl';

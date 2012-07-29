@@ -892,7 +892,7 @@ class Form implements FormInterface
         // else we position the element under it's number to keep things in an order
         elseif (is_int($position) === true) {
             // hmpf, there is already an element at this position
-            if (isset($this->formelements[$position]) === true) {
+            if ($this->formelements[$position] !== null) {
                 // insert the new element to the requested position and reorder
                 $this->formelements = $this->array_insert($formelement, $position, $this->formelements);
 

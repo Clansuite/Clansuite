@@ -583,7 +583,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getReferer()
     {
-        if (isset($_SERVER['HTTP_REFERER']) === true) {
+        if ($_SERVER['HTTP_REFERER'] !== null) {
             $refr = $_SERVER['HTTP_REFERER'];
             $refr = strip_tags($refr);
             $refr = filter_var($refr, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);

@@ -190,14 +190,14 @@ class Doctrine
         /**
          * Set UTF-8 handling of database data via Doctrine Event for MySQL.
          */
-        if(isset($clansuite_config['database']['driver']) === true and
+        if($clansuite_config['database']['driver'] !== null and
                  $clansuite_config['database']['driver'] == "pdo_mysql")
         {
              /**
               * @todo eval database.charset true?
               * wouldn't it be better to use utf-8 to name it explicitly
               */
-            if (isset($clansuite_config['database']['charset']) === true) {
+            if ($clansuite_config['database']['charset'] !== null) {
                 $event->addEventSubscriber(
                     new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit(
                             $clansuite_config['database']['charset'], 'utf8_unicode_ci')

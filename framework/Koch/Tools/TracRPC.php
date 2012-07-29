@@ -555,19 +555,19 @@ class TracRPC
             default:
                 $method = 'ticket.create';
                 $params = array(
-                    0 => (isset($data['summary']) === true) ? $data['summary'] : '',
-                    1 => (isset($data['desc']) === true) ? $data['desc'] : '',
-                    2 => (isset($data['attr']) === true) ? $data['attr'] : array(),
-                    3 => (isset($data['notify']) === true) ? $data['notify'] : false
+                    0 => ($data['summary'] !== null) ? $data['summary'] : '',
+                    1 => ($data['desc'] !== null) ? $data['desc'] : '',
+                    2 => ($data['attr'] !== null) ? $data['attr'] : array(),
+                    3 => ($data['notify'] !== null) ? $data['notify'] : false
                 );
                 break;
             case 'update':
                 $method = 'ticket.update';
                 $params = array(
                     0 => $id,
-                    1 => (isset($data['comment']) === true) ? $data['comment'] : '',
-                    2 => (isset($data['attr']) === true) ? $data['attr'] : array(),
-                    3 => (isset($data['notify']) === true) ? $data['notify'] : false
+                    1 => ($data['comment'] !== null) ? $data['comment'] : '',
+                    2 => ($data['attr'] !== null) ? $data['attr'] : array(),
+                    3 => ($data['notify'] !== null) ? $data['notify'] : false
                 );
                 break;
             case 'delete':
@@ -1399,9 +1399,9 @@ class TracRPC
             return false;
         }
 
-        if (isset($response->result) === true and is_array($response->result)) {
+        if (($response->result !== null) and is_array($response->result)) {
             foreach ($response->result as $key => $resp) {
-                if (isset($resp->result) === true) {
+                if ($resp->result !== null) {
                     $this->_parse_result($resp);
                     continue;
                 }
@@ -1433,14 +1433,14 @@ class TracRPC
         }
 
         $id = 0;
-        if (isset($response->id) === true and $response->id != null) {
+        if (($response->id !== null) and ($response->id != null)) {
             $id = $response->id;
         }
 
         $this->_response[$id] = $response->result;
         $this->error[$id] = false;
 
-        if (isset($response->error) === true and is_object($response->error) === true) {
+        if (($response->error !== null) and is_object($response->error) === true) {
             foreach ($response->error as $key => $value) {
                 $this->error[$id][$key] = $value;
             }
@@ -1567,7 +1567,7 @@ class TracRPC
                 return $ret;
             }
 
-            if (isset($this->error[$id]) === true) {
+            if ($this->error[$id] !== null) {
                 return $this->error[$id];
             }
         }

@@ -323,7 +323,7 @@ class Tool
     {
         $extractor_classname = 'Koch_Gettext_Extractor_' . $extractor;
 
-        if (isset($this->extractors[$extractor]) === true) {
+        if ($this->extractors[$extractor] !== null) {
             return $this->extractors[$extractor];
         }
 

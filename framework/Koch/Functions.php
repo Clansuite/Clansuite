@@ -271,7 +271,7 @@ class Functions
     public static function array_find_element_by_key($needle, array $haystack)
     {
         // take a look for the needle
-        if ((isset($haystack[$needle]) === true) or (array_key_exists($needle, $haystack))) {
+        if (($haystack[$needle] !== null) or (array_key_exists($needle, $haystack))) {
             // if found, return it
             return $haystack[$needle];
         }

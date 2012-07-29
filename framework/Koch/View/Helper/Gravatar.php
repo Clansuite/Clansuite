@@ -208,7 +208,7 @@ class Gravatar
             $html .= '<img src="'. $this->getGravatarURL() .'"';
 
             // add additional width and height
-            if (isset($this->gravatar_properties['size']) === true) {
+            if ($this->gravatar_properties['size'] !== null) {
                 $html .= ' width="'.$this->gravatar_properties['size'].'"';
                 $html .= ' height="'.$this->gravatar_properties['size'].'"';
             }

@@ -73,7 +73,7 @@ function applyCallbacks(array $modulenavigation)
      * If the condition of the menu item is not met,
      * then condition is set to false, otherwise true.
      */
-    if (isset($modulenavigation['condition']) === true) {
+    if ($modulenavigation['condition'] !== null) {
         /**
          * the if statement evaluates the content of the key condition
          * and compares it to false, then reassigns the boolean value as

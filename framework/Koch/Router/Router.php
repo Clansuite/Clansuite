@@ -482,7 +482,7 @@ class Router implements RouterInterface, \ArrayAccess
          * Example:
          * The request URI "/news/index" relates 1:1 to $routes['/news/index'].
          */
-        if (isset($this->routes[$this->uri]) === true) {
+        if ($this->routes[$this->uri] !== null) {
             $found_route = $this->routes[$this->uri];
 
             return $this->setSegmentsToTargetRoute($found_route);

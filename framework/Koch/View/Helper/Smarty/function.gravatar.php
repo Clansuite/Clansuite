@@ -34,7 +34,7 @@ function smarty_function_gravatar($params, $smarty)
     $email = $defaultImage = $size = $rating = '';
 
     // check for email adress
-    if (isset($params['email']) === true) {
+    if ($params['email'] !== null) {
         $email = trim(mb_strtolower($params['email']));
     } else {
         trigger_error("Gravatar Image couldn't be loaded! Parameter 'email' not specified!");
@@ -43,17 +43,17 @@ function smarty_function_gravatar($params, $smarty)
     }
 
     // default avatar
-    if (isset($params['default']) === true) {
+    if ($params['default'] !== null) {
         $defaultImage = urlencode($params['default']);
     }
 
     // size
-    if (isset($params['size']) === true) {
+    if ($params['size'] !== null) {
         $size = $params['size'];
     }
 
     // rating
-    if (isset($params['rating']) === true) {
+    if ($params['rating'] !== null) {
         $rating = $params['rating'];
     }
 
