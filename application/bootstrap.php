@@ -427,8 +427,6 @@ class CMS
             ini_set('display_errors', false);
             // log only certain errors
             error_reporting(E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_ERROR | E_CORE_ERROR);
-            // do not report any errors
-            #error_reporting(0);
             // write to errorlog
             ini_set('error_log', ROOT_LOGS . 'clansuite_error.log');
         }

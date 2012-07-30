@@ -107,14 +107,14 @@ class Doctrine
         $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath(ROOT . 'doctrine'));
         $classLoader->register();
 
-        // Including Doctrine Extensions
+        // include Doctrine Extensions
         $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', realpath(ROOT_LIBRARIES));
         $classLoader->register();
 
-        // fetch doctrine config handler
+        // fetch doctrine config handler for configuring
         $config = new \Doctrine\ORM\Configuration();
 
-        // cache: APC in production and Array in development mode
+        // fetch cache driver - APC in production and Array in development mode
         if (extension_loaded('apc') and DEBUG == false) {
             $cache = new \Doctrine\Common\Cache\ApcCache;
         } else {

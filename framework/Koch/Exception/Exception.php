@@ -375,8 +375,9 @@ class Exception extends \Exception
         $html   .= '</fieldset>';
         $html   .= '</body></html>';
 
-        // save session before exit
-        if ((bool) session_id()) {
+        // save session before exit - but only if this is not a pdo exception
+        // that would trigger a fatal error, when trying to write to the db during session save
+        if ((bool) session_id() and false === strpos($this->message, 'SQLSTATE')) {
             session_write_close();
         }
 
