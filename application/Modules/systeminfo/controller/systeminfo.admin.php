@@ -1,0 +1,256 @@
+<?php
+
+/**
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ *
+ * This file is part of "Clansuite - just an eSports CMS".
+ *
+ * License: GNU/GPL v2 or any later version, see LICENSE file.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+namespace Clansuite\Module;
+
+/**
+ * Clansuite_Module_Systeminfo_Admin
+ *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Systeminfo
+ */
+class Systeminfo_Admin extends Controller
+{
+    public function _initializeModule()
+    {
+        $this->getModuleConfig();
+    }
+
+    public function action_admin_list()
+    {
+        // Set Pagetitle and Breadcrumbs - not needed
+        // Clansuite_Breadcrumb::add( _('Show'), '/sysinfo/show');
+
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('index.tpl');
+
+        $sysinfo = array_merge($this->assembleSystemInfos(), $this->assembleDatabaseInfos());
+
+        $this->getView()->assign('sysinfos', $sysinfo);
+        unset($sysinfo);
+
+        $this->display();
+    }
+
+    /**
+     * Assemble the complete stack of System Informations
+     *
+     * @return array
+     */
+    private function assembleSystemInfos()
+    {
+        // get system informations and server variables
+        $sysinfos = array();
+
+        // WEBSERVER
+        if ( is_callable('apache_get_version') ) {
+            $sysinfos['apache_get_version'] = apache_get_version();
+            $sysinfos['apache_modules']     = apache_get_modules();
+            asort($sysinfos['apache_modules']);
+        }
+
+        // fetch server's IP address and it's name
+        $sysinfos['server_ip']   = gethostbyname($_SERVER['SERVER_NAME']);
+        $sysinfos['server_name'] = gethostbyaddr($sysinfos['server_ip']);
+
+        // PHP
+        // Get Interface Webserver<->PHP (Server-API)
+        $sysinfos['php_sapi_name']      = php_sapi_name();
+
+        // Is the SERVER-API an CGI (until PHP 5.3) or CGI_FCGI?
+        if ( substr($sysinfos['php_sapi_name'], 0, 3) == 'cgi') // this will take care of 'cgi' and 'cgi-fcgi'
+
+        {
+            $sysinfos['php_sapi_cgi'] = true;
+        }
+
+        $sysinfos['php_uname']                    = php_uname();
+        $sysinfos['php_os']                       = PHP_OS;
+        $sysinfos['php_os_bit']                   = (PHP_INT_SIZE * 8).'Bit';
+        $sysinfos['php_sapi']                     = PHP_SAPI; // @todo check out, if this is the same as php_sapi_name?
+        $sysinfos['phpversion']                   = phpversion();
+        $sysinfos['php_extensions']               = get_loaded_extensions();
+        asort($sysinfos['php_extensions']);
+        $sysinfos['zendversion']                  = zend_version();
+        $sysinfos['path_to_phpini']               = php_ini_loaded_file();
+        $sysinfos['cfg_include_path']             = get_cfg_var('include_path');
+        $sysinfos['cfg_file_path']                = realpath(get_cfg_var("cfg_file_path"));
+        $sysinfos['zend_thread_safty']            = (int) function_exists('zend_thread_id');
+        $sysinfos['open_basedir']                 = (int) ini_get('open_basedir');
+        $sysinfos['memory_limit']                 = ini_get('memory_limit');
+        $sysinfos['allow_url_fopen']              = (int) ini_get('allow_url_fopen');
+        $sysinfos['allow_url_include']            = (int) ini_get('allow_url_include');
+        $sysinfos['file_uploads']                 = ini_get('file_uploads');
+        $sysinfos['upload_max_filesize']          = ini_get('upload_max_filesize');
+        $sysinfos['post_max_size']                = ini_get('post_max_size');
+        $sysinfos['disable_functions']            = (int) ini_get('disable_functions');
+        $sysinfos['disable_classes']              = (int) ini_get('disable_classes');
+        $sysinfos['enable_dl']                    = (int) ini_get('enable_dl');
+        $sysinfos['filter_default']               = ini_get('filter.default');
+        $sysinfos['zend_ze1_compatibility_mode']  = (int) ini_get('zend.ze1_compatibility_mode');
+        $sysinfos['unicode_semantics']            = (int) ini_get('unicode.semantics');
+        $sysinfos['mbstring_func_overload']       = ini_get('mbstring.func_overload');
+        $sysinfos['max_input_time']               = ini_get('max_input_time');
+        $sysinfos['max_execution_time']           = ini_get('max_execution_time');
+
+        return $sysinfos;
+    }
+
+    /**
+     * Fetch Database infos from PDO
+     *
+     * @return array
+     */
+    private function assembleDatabaseInfos()
+    {
+        $sysinfos = array();
+
+        // get PDO Object from Doctrine
+        $pdo = $this->doctrine_em->getConnection()->getWrappedConnection();
+        #Clansuite_Debug::printR($pdo);
+        // fetch PDO::getAttributes and store them in
+        $sysinfos['pdo']['driver_name']        = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+        $sysinfos['pdo']['server_version']     = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
+        $sysinfos['pdo']['client_info']        = $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION);
+        // Driver does not support this function: driver does not support that attribute
+        // $sysinfos['pdo']['timeout']          = $pdo->getAttribute(PDO::ATTR_TIMEOUT);
+        // $sysinfos['pdo']['prefetch']         = $pdo->getAttribute(PDO::ATTR_PREFETCH);
+        $sysinfos['pdo']['oracle_nulls']       = $pdo->getAttribute(PDO::ATTR_ORACLE_NULLS);
+        $sysinfos['pdo']['connection_status']  = $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
+        $sysinfos['pdo']['persistent']         = (int) $pdo->getAttribute(PDO::ATTR_PERSISTENT);
+        $sysinfos['pdo']['attr_case']          = $pdo->getAttribute(PDO::ATTR_CASE);
+        $sysinfos['pdo']['server_infos']       = explode('  ', $pdo->getAttribute(PDO::ATTR_SERVER_INFO));
+
+        return $sysinfos;
+    }
+
+    /**
+     * action_admin_return_ofc_hitrates()
+     *
+     * the function returns dynamic data (hitrate of apc) and visualizes an piechart with ofc.
+     * function consists of 4 segments:
+     * (1) get data
+     * (2) init ofc
+     * (3) draw the chart
+     * (4) render it
+     *
+     * @return dynamic data for an open flash chart
+     */
+    public function action_admin_return_ofc_hitrates()
+    {
+        /**
+         * (1) get DATA for Visualization
+         */
+
+        // get apc cache
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc');
+        $apc_stats = $cache_apc->stats();
+
+        // debug display of the stats data
+        // var_dump($apc_stats);
+
+        // setup the data array
+        $data = array();
+        $data[] = $apc_stats['cache_info']['num_hits'];
+        $data[] = $apc_stats['cache_info']['num_misses'];
+
+        /**
+         * (2) initialize Open Flash Chart
+         */
+        include 'libraries/open-flash-chart/php-ofc-library/open-flash-chart.php';
+        $g = new graph();
+
+        /**
+         * (3) draw the ofc chart
+         */
+        // title
+        $g->title( 'APC Hitrate', '{font-size:18px; color: #d01f3c}' );
+
+        // ok, now draw one piece of the pie :)
+        $g->pie(60,'#505050','{font-size: 11px; color: #404040;');
+
+        /**
+         * we have to pass in 2 arrays
+         * (1) $data
+         * (2) labels for the data
+         */
+        $g->pie_values( $data, array('Hits','Misses') );
+
+        // colours for each slice (hits = green, misses = red)
+        $g->pie_slice_colours( array('#acb132','#d01f3c') );
+
+        // mouseover tooltip displayes the values
+        $g->set_tool_tip( '#val#' );
+
+        /**
+         * (4) output/generate the dynamic data for the swf
+         */
+
+        echo $g->render();
+
+        // eject here unnicely, because of headers exist error
+        // @todo debug and find out, where after $g->render any output is done
+        exit();
+    }
+
+    /**
+     * The action_admin_show method for the sysinfo module
+     */
+    public function action_admin_show_apc()
+    {
+        // Set Pagetitle and Breadcrumbs
+        Clansuite_Breadcrumb::add( _('Alternative PHP Cache'), '/sysinfo/showapc');
+
+        // Get APC Cache
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc');
+
+        // Assign Data to the View
+        $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
+
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('index.tpl');
+
+        $this->display();
+    }
+
+    public function action_admin_show_logfiles()
+    {
+        // Set Pagetitle and Breadcrumbs
+        Clansuite_Breadcrumb::add( _('Show'), '/sysinfo/showapc');
+
+        // Get APC Cache
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc');
+
+        // Assign Data to the View
+        $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
+
+        // Set Layout Template
+        $this->getView()->setLayoutTemplate('index.tpl');
+
+        $this->display();
+    }
+}
