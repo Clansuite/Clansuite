@@ -97,7 +97,7 @@ class ColumnRenderer extends Renderer
         preg_match_all('#%\{([^\}]+)\}#', $format, $placeholders, PREG_PATTERN_ORDER );
 
         // check if placeholders are used
-        // @todo replace count() with check for first placeholder element: if(isset($_Placeholders[1][0]))
+        // @todo replace count() with check for first placeholder element: if($_Placeholders[1][0] !== null)
         //       and move count into the if
         $_PlacerholderCount = count($placeholders[1]);
         if ($_PlacerholderCount > 0) {

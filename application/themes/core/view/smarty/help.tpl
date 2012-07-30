@@ -2,13 +2,13 @@
 <div id="help" class="admin_help" style="float: right; z-index: 99; position: absolute; right: 22px; top: 122px; font-size: 11px;">
 
     <ol type="I">
-        
+
         <li>
             <h3>Help Overview</h3>
         </li>
-        
+
         <!-- 1) Help for this specific module section displayed. -->
-        
+
         <li>
             Help for this Module
             <p>
@@ -17,7 +17,7 @@
         </li>
 
         <!-- 2) Help in general -->
-        
+
         <li>
             Help &amp; Support in general
             <p>
@@ -31,7 +31,7 @@
         </li>
 
         <!-- 3) Help Wiki -->
-        
+
         <li>
             Get Live Support
             <p>
@@ -56,10 +56,10 @@
                     /* ]]> */
                     </script><!-- http://www.LiveZilla.net Tracking Code -->
                {/if}
-               
+
             </p>
          </li>
-     
+
      </ol>
 </div>
 

@@ -5,7 +5,7 @@
 <div class="rss-inside">
 
     {* Initialize Accordion with jQuery *}
-    
+
     <script type="text/javascript">
         jQuery().ready(function(){
             jQuery('#accordion').accordion({
@@ -15,7 +15,7 @@
                 });
             });
     </script>
-    
+
 
     <!-- ## Start: RssReader Accordion ## /-->
     <div id="accordion">

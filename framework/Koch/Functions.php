@@ -312,9 +312,9 @@ class Functions
                     $new = self::array_compare($value, $array2[$key]);
 
                     if ($new !== false) {
-                        if(isset($new[0]))
+                        if($new[0] !== null)
                             $diff[0][$key] = $new[0];
-                        if(isset($new[1]))
+                        if($new[1] !== null)
                             $diff[1][$key] = $new[1];
                     }
                 }
@@ -372,7 +372,7 @@ class Functions
         // add pseudo keys a la "key-0"
 
         foreach ($keyArray as $key) {
-            if (isset($valueArray[$index])) {
+            if ($valueArray[$index] !== null)  {
                 // index is used, then incremented for the next turn in foreach (post-increment-operator)
                 $returnArray[$key] = $valueArray[$index++];
             }
@@ -594,7 +594,7 @@ class Functions
     public static function format_seconds_to_shortstring($seconds = 0)
     {
         $time = '';
-        if (isset($seconds)) {
+        if ($seconds !== null)  {
             $time = sprintf('%dD %02d:%02d:%02dh', $seconds / 60 / 60 / 24, ($seconds / 60 / 60) % 24, ($seconds / 60) % 60, $seconds % 60);
         } else {
             return '00:00:00';

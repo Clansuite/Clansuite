@@ -41,7 +41,7 @@ class Required extends Validator
 
     protected function processValidationLogic($value)
     {
-        if (isset($value) and ('' !== $value)) {
+        if ($value !== null and ('' !== $value)) {
             return true;
         } else {
             return false;

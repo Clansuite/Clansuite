@@ -29,7 +29,7 @@
 function smarty_function_breadcrumbs($params, $smarty)
 {
     // handle trail params set directly to the smarty function call in the template
-    if (isset($params['trail']) && is_array($params['trail'])) {
+    if ($params['trail'] !== null && is_array($params['trail'])) {
         $trail = $params['trail'];
     } else {
         $trail = \Koch\View\Helper\Breadcrumb::getTrail();
@@ -38,13 +38,13 @@ function smarty_function_breadcrumbs($params, $smarty)
     #Koch_Debug::firebug($trail);
 
     // is the seperator element set via the smarty function call?
-    if (isset($params['separator'])) {
+    if ($params['separator'] !== null)  {
         $separator = $params['separator'];
     } else { // no, take default seperator
         $separator = ' &gt; ';
     }
 
-    if (isset($params['length'])) {
+    if ($params['length'] !== null)  {
         $length = (int) $params['length'];
     } else {
         $length = 0;
@@ -81,7 +81,7 @@ function smarty_function_breadcrumbs($params, $smarty)
 
     $breadcrumb_string = join($separator . ' ', $links);
 
-    if (isset($params['assign'])) {
+    if ($params['assign'] !== null)  {
         $smarty->assign('breadcrumb',  $breadcrumb_string);
     } else {
         return $breadcrumb_string;

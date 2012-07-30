@@ -357,7 +357,7 @@ class HttpResponse implements HttpResponseInterface
     public static function detectTypeAndSetFlashmessage($message)
     {
         // detect if a flashmessage is tunneled
-        if (true === isset($message) and true === (bool) strpos($message, '#')) {
+        if ( $message !== null and true === (bool) strpos($message, '#')) {
             //  split at tunneling separator
             $array = explode('#', $message);
             // results in: array[0] = type and array[1] = message)

@@ -96,7 +96,7 @@ class Mapper extends \ArrayObject
         $classname .= '\\' . ucfirst($controller);
 
         // attach subcontroller to classname
-        if (isset($subcontroller)) {
+        if ($subcontroller !== null)  {
             $classname .= '\\' . ucfirst($subcontroller);
         }
 
@@ -124,7 +124,7 @@ class Mapper extends \ArrayObject
         }
 
         // if a $submodule is set, use it as a PREFIX on $action
-        if (isset($submodule)) {
+        if ($submodule !== null)  {
             $action = $submodule . '_' . $action;
         }
 

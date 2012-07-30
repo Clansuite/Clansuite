@@ -149,7 +149,7 @@ class Select extends Formelement implements FormelementInterface
          * Note: If the options array is incomming via a formgenerator: the generator has already performed this step!
          * $this->setDefault(options['selected']);
          */
-        if (isset($this->options['selected']) and empty($this->default)) {
+        if ($this->options['selected'] !== null and empty($this->default)) {
             $this->default = $this->options['selected'];
             unset($this->options['selected']);
         }

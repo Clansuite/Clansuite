@@ -3,7 +3,7 @@
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/luna.css" />
     <script type="text/javascript" src="{$www_root_themes_core}javascript/tabpane.js"></script>
-    
+
     <script type="text/javascript">
 
     function str_replace (search, replace, subject)
@@ -70,7 +70,7 @@
         {
             var new_obj=document.getElementById('enter_sub_name')
             new_obj.style.display=(new_obj.style.display!="block")? "block" : "none"
-            var xpos=getposOffset(object, "left")+((typeof opt_position!="undefined" && opt_position.indexOf("right")!=-1)? -(new_obj.offsetWidth-object.offsetWidth) : 0) 
+            var xpos=getposOffset(object, "left")+((typeof opt_position!="undefined" && opt_position.indexOf("right")!=-1)? -(new_obj.offsetWidth-object.offsetWidth) : 0)
             var ypos=getposOffset(object, "top")+((typeof opt_position!="undefined" && opt_position.indexOf("bottom")!=-1)? object.offsetHeight : 0) - 30
             new_obj.style.left=xpos+"px"
             new_obj.style.top=ypos+"px"
@@ -101,7 +101,7 @@
                 document.getElementById(mod_id+'_no_subs').innerHTML = '';
                 document.getElementById(mod_id+'_no_subs').outerHTML = '';
             }
-            
+
 
         }
     }
@@ -112,7 +112,7 @@
         {
             this.loaded = new Array;
         }
-        
+
         checkbox = checkboxen.split(",");
 
         for( x=0; x<checkbox.length; x++ )
@@ -120,7 +120,7 @@
             if( document.getElementById(caller).checked )
             {
                 document.getElementById(checkbox[x]).checked=1;
-                
+
                 if ( this.loaded[checkbox[x]] >= 1 )
                 {
                     this.loaded[checkbox[x]]++;
@@ -139,7 +139,7 @@
             }
         }
     }
-    
+
     </script>
 {/move_to}
 
@@ -157,7 +157,7 @@
 </div>
 
 <table id="subs_container" style="display: none;">
-    
+
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr1">
         <td width="40" height="20">
             <a id="{$wert.module_id}_{$key}">
@@ -193,7 +193,7 @@
         &nbsp;
         </td>
     </tr>
-    
+
 </table>
 
 
@@ -213,11 +213,11 @@
     <td class="cell1">
         <strong>{t}There is a module folder that is not stored in the databases whitelist.{/t}</strong>
     </td>
-    
+
     <td class="cell2">
         {$wert.folder}
     </td>
-    
+
     <td class="cell1">
         {if $wert.no_module_config == 1}
             <font color="red">{t}The modulename.config.php is missing! You have to add this file manually into the modules folder.{/t}</font>
@@ -285,7 +285,7 @@
     <td class="td_header_small" width="120px">              {t}Title{/t}        </td>
     <td class="td_header_small" width="80%">                {t}Information{/t}  </td>
     <td class="td_header_small" width="5%" align="center">  {t}Enabled{/t}      </td>
-    <td class="td_header_small" width="5%" align="center">  {t}Delete{/t}       </td>    
+    <td class="td_header_small" width="5%" align="center">  {t}Delete{/t}       </td>
 </tr>
 
 {foreach key=schluessel item=wert from=$content.whitelisted.normal}
@@ -296,23 +296,23 @@
         <strong>{$wert.title} </strong> (#{$wert.module_id})<br />
         <img width="100px" height="100px" src="{$www_root_themes_core}images/modules/{$wert.image_name}">
     </td>
-    
+
     <td class="cell2">
         <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;">
             <strong><font color="red">{t}Remember to press the "Update" Button below, to save your changes!{/t}</font></strong>
         </div>
-        
+
         <div class="tab-pane" id="{$wert.name}_tabs">
-    
+
         <script type="text/javascript">
         tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}_tabs" ) );
         </script>
-    	
+
     	<div class="tab-page" id="{$wert.name}_generals">
     	   <h2 class="tab">{t}General{/t}</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_generals" ) );</script>
             <table cellpadding="2" cellspacing="2" border="0">
-            
+
             {* Content of $content.generals = Title, Author, Description, Homepage *}
             {foreach key=key item=item from=$content.generals}
                 <tr>
@@ -321,16 +321,16 @@
                 <input onblur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
             {/foreach}
-                      
+
             </table>
         </div>
-    
+
     	<div class="tab-page" id="{$wert.name}_more">
     	   <h2 class="tab"{t}>Moduledetails{/t}</h2>
-    	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>    
-    
+    	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>
+
             <table cellpadding="2" cellspacing="2" border="0">
-    
+
             {foreach key=key item=item from=$content.more}
                 <tr>
                 <td width="90"><strong>{t}{$key}:{/t}</strong></td>
@@ -338,15 +338,15 @@
                 <input onblur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
             {/foreach}
-                    
+
             </table>
         </div>
-    
+
     	<div class="tab-page" id="{$wert.name}_subs">
     	   <h2 class="tab">{t}Submodules{/t}</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_subs" ) );</script>
-           
-           <table cellpadding="2" cellspacing="2" border="0">    
+
+           <table cellpadding="2" cellspacing="2" border="0">
             <tr>
                 <td><strong>{t}Submodules:{/t}</strong>
                 {if is_array($wert.subs)}
@@ -356,11 +356,11 @@
                 </td>
                 <td>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%" id="{$wert.module_id}_subs">
-                    
+
                     {if is_array($wert.subs)}
-                   
+
                    {* Debug Subs  *} {$wert.subs|var_dump}
-                    
+
                     {foreach key=key item=item from=$wert.subs}
                     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr1">
                        <td width="40" height="20"><strong>Name</strong> (#{$item.submodule_id}) :</td>
@@ -392,17 +392,17 @@
                         <td colspan="3" height="20">&nbsp;</td>
                     </tr>
                     {/foreach}
-                    
+
                     {else}
-                    
+
                     <tr id="{$wert.module_id}_no_subs">
-                    
+
                         <td>{t}No submodules{/t}</td>
-                    
+
                     </tr>
-                    
+
                     {/if}
-                    
+
                     </table>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                     <tr>
@@ -422,11 +422,11 @@
         </div>
 
     </td>
-    
+
     <td class="cell1" align="center">
         <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
     </td>
-    
+
     <td class="cell2" align="center">
         <input name="delete[]" type="checkbox" value="{$wert.module_id}">
     </td>
@@ -457,7 +457,7 @@
     <td class="td_header_small" width="120px">              {t}Title{/t}        </td>
     <td class="td_header_small" width="80%">                {t}Information{/t}  </td>
     <td class="td_header_small" width="5%" align="center">  {t}Enabled{/t}      </td>
-    <td class="td_header_small" width="5%" align="center">  {t}Delete{/t}       </td>    
+    <td class="td_header_small" width="5%" align="center">  {t}Delete{/t}       </td>
 </tr>
 {foreach key=schluessel item=wert from=$content.whitelisted.core}
 <tr>
@@ -466,11 +466,11 @@
         <strong>{$wert.title} </strong> (#{$wert.module_id})<br />
         <img width="100px" height="100px" src="{$www_root_themes_core}images/{$wert.image_name}">
     </td>
-    
+
     <td class="cell2">
         <div id="{$wert.module_id}_remember_to_update" style="display: none; padding: 10px;"><strong><font color="red">{t}Remember to press the update button below!{/t}</font></strong></div>
         <div class="tab-pane" id="{$wert.name}_tabs">
-    
+
         <script type="text/javascript">
         tp1 = new WebFXTabPane( document.getElementById( "{$wert.name}_tabs" ) );
         </script>
@@ -478,7 +478,7 @@
     	   <h2 class="tab">General</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_generals" ) );</script>
             <table cellpadding="2" cellspacing="2" border="0">
-            
+
             {foreach key=key item=item from=$content.generals}
                 <tr>
                 <td width="90"><strong>{t}{$key}:{/t}</strong></td>
@@ -486,16 +486,16 @@
                 <input onblur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
             {/foreach}
-                      
+
             </table>
         </div>
-    
+
     	<div class="tab-page" id="{$wert.name}_more">
     	   <h2 class="tab">Moduldetails</h2>
-    	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>    
-    
+    	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_more" ) );</script>
+
             <table cellpadding="2" cellspacing="2" border="0">
-    
+
             {foreach key=key item=item from=$content.more}
                 <tr>
                 <td width="90"><strong>{t}{$key}:{/t}</strong></td>
@@ -503,20 +503,20 @@
                 <input onblur="javascript:clip_edit('{$wert.module_id}','_{$wert.name}_{$item}');" class="input_text" type="textarea" id="{$wert.module_id}_{$wert.name}_{$item}" style="display: none;" name="info[{$wert.module_id}][{$item}]" value="{$wert.$item}" size="40"></td>
                 </tr>
             {/foreach}
-                    
+
             </table>
         </div>
-    
+
     	<div class="tab-page" id="{$wert.name}_subs">
     	   <h2 class="tab">Submodules</h2>
     	   <script type="text/javascript">tp1.addTabPage( document.getElementById( "{$wert.name}_subs" ) );</script>
-           
-           <table cellpadding="2" cellspacing="2" border="0">    
+
+           <table cellpadding="2" cellspacing="2" border="0">
             <tr>
                 <td><strong>{t}Submodules:{/t}</strong>{if is_array($wert.subs)}<br /><a href="javascript:void(0)" onclick="return sub_add('{$wert.module_id}_subs', '{$wert.module_id}', '', this);">Add a submodule</a>{/if}</td>
                 <td>
                     <table cellspacing="0" cellpadding="0" border="0" width="100%" id="{$wert.module_id}_subs">
-                    
+
                     {if is_array($wert.subs)}
                     {foreach key=key item=item from=$wert.subs}
                     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr1">
@@ -578,11 +578,11 @@
         </div>
 
     </td>
-    
+
     <td class="cell1" align="center">
         <input name="enabled[]" type="checkbox" value="{$wert.module_id}" {if $wert.enabled == 1} checked{/if}>
     </td>
-    
+
     <td class="cell2" align="center">
         <input type="checkbox" name="delete[]" value="{$wert.module_id}">
     </td>

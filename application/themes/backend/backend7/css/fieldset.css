@@ -25,12 +25,12 @@
 	border-top-color: #CCCCCC;
 	border-left-color: #CCCCCC;
     background: url(../images/background_form_element_lightblue.gif) repeat-x;
-	background-color: #E0F4FB;    
+	background-color: #E0F4FB;
 }
 
 .h3sForm fieldset label span
 {
-    width: 200px;	
+    width: 200px;
 	font-weight: bold;
 }
 
@@ -100,7 +100,7 @@
 	border-top-color: #CCCCCC;
 	border-left-color: #CCCCCC;
     background: url(../images/background_form_element_lightblue.gif) repeat-x;
-	background-color: #E0F4FB;  
+	background-color: #E0F4FB;
 }
 
 .box h1

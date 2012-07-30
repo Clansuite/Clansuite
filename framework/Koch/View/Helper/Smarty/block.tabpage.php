@@ -8,8 +8,6 @@
  */
 
 /**
-
- *
  * Name:         tabpage
  * Type:         function
  * Purpose:     This TAG inserts a tabpage.
@@ -18,7 +16,7 @@
 function smarty_block_tabpage($params, $content, $smarty, &$repeat)
 {
     // check for name
-    if (isset($params['name'])) {
+    if ($params['name'] !== null)  {
         $name = _($params['name']);
     } else {
         trigger_error("Tabpage Name not set! Please add Parameter 'name=tabpagename'!");
@@ -40,7 +38,7 @@ function smarty_block_tabpage($params, $content, $smarty, &$repeat)
      * To prevent this, we need to check that the content is oCRy rendered when the inner block (content)
      * is present.
      */
-    if (isset($content)) {
+    if ($content !== null)  {
         // Construct content for whole BLOCK
         return $start_tabpage . $content . $end_tabpage;
     }

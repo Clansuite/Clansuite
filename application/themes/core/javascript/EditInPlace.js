@@ -33,7 +33,7 @@ EditInPlace.defaults = {
 	empty_text:				'Click To Edit',
 	empty_class:			'eip_empty',
 	edit_title:				'Click To Edit',
-	click:					'click',  // or dblclick 
+	click:					'click',  // or dblclick
 	savefailed_text:		'Failed to save changes.',
 	ajax_data:				false,
 
@@ -91,7 +91,7 @@ EditInPlace.makeEditable = function(args) {
 	return(id_opt);
 };
 
-// **************  Private Functions ***************** 
+// **************  Private Functions *****************
 
 // Get a reference to the option set for a specific editable id.
 EditInPlace._getOptionsReference = function(id) {
@@ -171,7 +171,7 @@ EditInPlace._saveClick = function(event, id) {
 	}
 
 	// Build saving message.
-	var saving = '<span class="' 
+	var saving = '<span class="'
 		+ id_opt['saving_class'] + '">' + id_opt['saving_text'] + '</span>\n';
 
 	// Turn off event watching while saving changes.

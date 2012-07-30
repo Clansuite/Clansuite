@@ -104,7 +104,7 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      */
     public function __get($configkey)
     {
-        if (isset($this->config[$configkey])) {
+        if ($this->config[$configkey] !== null) {
             return $this->config[$configkey];
         } else {
             return null;

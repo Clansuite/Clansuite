@@ -35,8 +35,8 @@ function smarty_outputfilter_highlight($source, $smarty)
 
     if (isset($feature_referer_highlight) && $$feature_referer_highlight == 'y') {
         $refererhi = _refererhi();
-        if (isset($refererhi) && !empty($refererhi)) {
-            if (isset($highlight) && !empty($highlight)) {
+        if (($refererhi !== null) && !empty($refererhi)) {
+            if (($highlight !== null) && !empty($highlight)) {
                 $highlight = $highlight." ".$refererhi;
             } else {
                 $highlight = $refererhi;
@@ -84,7 +84,7 @@ function _enlightColor($matches)
         return $seaword;
     }
     // actual replacement callback
-    if (isset($matches[1])) {
+    if ($matches[1] !== null)  {
         return '<span style="color:black; background-color:'
                 . $colword[mb_strtolower($matches[1])] . ';">' . $matches[1] . '</span>';
     }
@@ -98,9 +98,9 @@ function _refererhi()
 {
     $referer = parse_url($_SERVER['HTTP_REFERER']);
     parse_str($referer['query'],$vars);
-    if (isset($vars['q'])) {
+    if ($vars['q'] !== null)  {
         return $vars['q'];
-    } else { if (isset($vars['p']))
+    } else { if ($vars['p'] !== null)
 
         return $vars['p'];
     }

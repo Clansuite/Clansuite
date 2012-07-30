@@ -506,7 +506,7 @@ class Smarty extends AbstractRenderer
      */
     public function render($template, $viewdata = null)
     {
-        if (isset($viewdata)) {
+        if ($viewdata !== null) {
             $this->assign($viewdata);
         }
 

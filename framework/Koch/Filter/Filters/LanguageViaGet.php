@@ -75,7 +75,7 @@ class LanguageViaGet implements FilterInterface
         // fetch URL parameter "&lang=" from $_GET['lang']
         $language = $request->getParameterFromGet('lang');
 
-        if (isset($language) and (mb_strlen($language) == 2)) {
+        if ($language !== null and (mb_strlen($language) == 2)) {
             /**
              * memorize in the user session
              * a) the selected language

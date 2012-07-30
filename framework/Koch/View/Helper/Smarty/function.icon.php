@@ -48,7 +48,7 @@ function smarty_function_icon($params, $smarty)
     if (isset($src) and empty($src) == false) {
         $needle = 'http://'.$_SERVER['SERVER_NAME'].DS;
         $pos = mb_strpos($src, $needle);
-        if (isset($src) and is_int($pos)) {
+        if ($src !== null and is_int($pos)) {
             #Koch_Debug::printR($pos);
             $src = mb_substr($src, $pos + mb_strlen($needle));
             $name = basename($src);
@@ -61,7 +61,7 @@ function smarty_function_icon($params, $smarty)
 
     // check if it is a valid one
     $icondir_whitelist = array( 'icons', 'lullacons' );
-    if (isset($icondir) and in_array($icondir, $icondir_whitelist)) {
+    if ( ($icondir !== null) and in_array($icondir, $icondir_whitelist)) {
         // valid
         $icondir .= ''; // leave this. would else be an empty if statement
     } else // fallback to a valid default
@@ -98,7 +98,7 @@ function smarty_function_icon($params, $smarty)
     }
 
     // we got no alternative text. let's add a default text with $name;
-    if (isset($src) and empty($alt)) {
+    if (($src !== null) and empty($alt)) {
         $file = $src;
 
         $info = pathinfo($file);

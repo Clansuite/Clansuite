@@ -105,7 +105,7 @@ class Errorhandler
         );
 
         // check if the error number exists in the errortypes array
-        if (true === isset($errorTypes[$errornumber])) {
+        if ($errorTypes[$errornumber] !== null) {
             // get the errorname from the array via $errornumber
             $errorname = $errorTypes[$errornumber];
         }
@@ -227,7 +227,7 @@ class Errorhandler
             $tpl_vars = $errorcontext['this']->getTemplateVars();
 
             // maybe the templatename is defined in tpl_vars
-            if (true === isset($tpl_vars['templatename'])) {
+            if ($tpl_vars['templatename'] !== null) {
                 $errorfile = $tpl_vars['templatename'];
             } else { // else use resource_name from the errorcontext
                 $errorfile = $errorcontext['resource_name'];
@@ -397,7 +397,7 @@ class Errorhandler
             }
 
             // Location with Link
-            if (true === isset($trace[$i]['file'])) {
+            if ($trace[$i]['file'] !== null) {
                 $html .= '<td>' . self::getFileLink($trace[$i]['file'], $trace[$i]['line']) . '</td>';
             }
 

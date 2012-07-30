@@ -163,7 +163,7 @@ class AssocArray extends Form implements FormGeneratorInterface
                 $formelement->setLabel($form_array_element['label']);
 
                 // set the options['selected'] value as default value
-                if (isset($form_array_element['options']['selected'])) {
+                if ($form_array_element['options']['selected'] !== null) {
                     $formelement->setDefault($form_array_element['options']['selected']);
                     unset($form_array_element['options']['selected']);
                 }
@@ -184,7 +184,7 @@ class AssocArray extends Form implements FormGeneratorInterface
                  */
 
                 // if we have a class attribute defined, then add it (optional)
-                if (isset($form_array_element['class'])) {
+                if ($form_array_element['class'] !== null) {
                     $formelement->setClass($form_array_element['class']);
                 }
 
@@ -192,7 +192,7 @@ class AssocArray extends Form implements FormGeneratorInterface
                  * set a decorator for the formelement
                  * optional because: the default decorator would be active
                  */
-                if (isset($form_array_element['decorator'])) {
+                if ($form_array_element['decorator'] !== null) {
                     if ($form_array_element['decorator'] instanceOf Koch_Formelement_Decorator) {
                         $formelement->setDecorator($form_array_element['decorator']);
                     }

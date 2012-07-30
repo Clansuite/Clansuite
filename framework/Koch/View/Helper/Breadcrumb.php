@@ -58,7 +58,7 @@ class Breadcrumb
         $breadcrumb['link']  = WWW_ROOT . ltrim($link, '/');
 
         // replace
-        if (isset($replace_array_position)) {
+        if ($replace_array_position !== null)  {
             self::$path[$replace_array_position] = $breadcrumb;
         } else { // no, just add
             self::$path[] = $breadcrumb;
@@ -95,14 +95,14 @@ class Breadcrumb
             $url = 'index.php?mod=' . $moduleName;
 
             // Level 2
-            if (isset($submoduleName)) {
+            if ($submoduleName !== null)  {
                 $url .= '&amp;sub=' . $submoduleName;
                 $moduleName .= ' '.ucfirst($submoduleName);
             }
             self::add($moduleName, $url);
 
             // Level 3
-            if (isset($actionName)) {
+            if ($actionName !== null)  {
 
                 $url .= '&amp;action=' . $actionName;
                 self::add(ucfirst($actionName), $url);

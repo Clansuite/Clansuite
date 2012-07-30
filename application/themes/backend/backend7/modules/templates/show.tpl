@@ -5,9 +5,9 @@
 <script type="text/javascript" src="{$www_root_themes_core}javascript/scriptaculous/scriptaculous.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}javascript/smarty_ajax.js"></script>
 
-    
+
         <style type="text/css">
-       
+
             body { background: #F1EFE2; }
             body, table { font-family: georgia, sans-serif; font-size: 11px; }
             form { margin: 0; }
@@ -17,10 +17,10 @@
             p { margin-top: 0; margin-bottom: 1em; }
             #tree-plugin, #tree-plugin-button-import-html { display: none; }
             #tree-plugin-textarea { white-space: nowrap; }
-      
+
         </style>
         <script type="text/javascript">
-       
+
         function node_click(id)
         {
             if( document.getElementById('section-' + id).style.display == 'none' )
@@ -33,32 +33,32 @@
                 document.getElementById('section-' + id).style.display = 'none';
                 document.getElementById('node-' + id).src = '{$www_root_themes_core}admin/adminmenu/images/tree-node.gif';
             }
-        }   
-       
+        }
+
         </script>
-        
+
         <script type="text/javascript">
         	function getTemplateFile(filename){
         	    var url = 'index.php?mod=controlcenter&sub=templates&action=ajax_get';
         		//alert('File:' + filename.id);
         		var getAjax = new Ajax.Updater(
-        				'template_textarea', url, 
+        				'template_textarea', url,
         				{method: 'post', parameters: 'filename=' + filename.id})
         	    $('filename').innerHTML = filename.id;
         	    //alert('Filename:' + $('filename').innerHTML);
-        	}   
-        	
+        	}
+
         	function saveTemplateFile(){
         	    var url = 'index.php?mod=controlcenter&sub=templates&action=ajax_save';
         		//alert('File:' + $('filename').innerHTML);
         		//alert('Content:' + $('template_textarea').value );
         		var saveAjax = new Ajax.Updater(
-        				'ajax-success', url, 
+        				'ajax-success', url,
         				{method: 'post', parameters: 'filename=' + $('filename').innerHTML + '&content=' + $('template_textarea').value });
-        	}  
+        	}
         </script>
-    
-    
+
+
 {/move_to}
 
 

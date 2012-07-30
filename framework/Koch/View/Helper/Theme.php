@@ -55,7 +55,7 @@ class Theme
     public function setThemename($theme)
     {
         // set theme
-        if (isset($theme)) {
+        if ($theme !== null)  {
             $this->theme = $theme;
         } else {
             throw new \Exception('No Themename given.', '100');
@@ -230,7 +230,7 @@ class Theme
         }
 
 
-        if (isset($this->theme_info['css']['mainfile'])) {
+        if ($this->theme_info['css']['mainfile'] !== null)  {
             $part = explode('.', $this->theme_info['css']['mainfile']);
             $cssname = $part[0] . $cssPostfix . '.' . $part[1];
 
@@ -257,7 +257,7 @@ class Theme
 
     public function getLayoutFile()
     {
-        if (isset($this->theme_info['layout']['mainfile'])) {
+        if ($this->theme_info['layout']['mainfile'] !== null)  {
             #return $this->getPath() . $this->theme_info['layout']['mainfile'];
 
             return $this->theme_info['layout']['mainfile'];
@@ -276,7 +276,7 @@ class Theme
 
     public function getJSFile()
     {
-        if (isset($this->theme_info['javascript']['mainfile'])) {
+        if ($this->theme_info['javascript']['mainfile'] !== null)  {
             return $this->getWebPath() . 'javascript/' . $this->theme_info['javascript']['mainfile'];
         } elseif (false === isset($this->theme_info['javascript']['mainfile'])) {
             // maybe we have a main javascript file named after the theme

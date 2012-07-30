@@ -6,7 +6,7 @@ function createRowsArray (table) {
   if (table.tHead == null && table.tFoot == null)
     for (var r1 = 0; r1 < table.rows.length; r1++, r++)
       rows[r] = table.rows[r1];
-  else  
+  else
     for (var t = 0; t < table.tBodies.length; t++)
       for (var r1 = 0; r1 < table.tBodies[t].rows.length; r1++, r++)
         rows[r] = table.tBodies[t].rows[r1];
@@ -25,7 +25,7 @@ function visibleRows( rows )
   return vrows;
 }
 
-function insertSortedRows(table, rows) 
+function insertSortedRows(table, rows)
 {
   var cycle = parseInt( table.getAttribute('pp_cycle') );
 
@@ -118,10 +118,10 @@ function testSortTableNumerical (table, col) {
   table.setAttribute( 'last_sortFun', 'Numerical' );
 }
 
-function sortTable (table, sortFun) 
+function sortTable (table, sortFun)
 {
   var rows = createRowsArray(table);
-  if (rows.length > 0) 
+  if (rows.length > 0)
   {
     rows.sort(sortFun);
     insertSortedRows(table, rows);

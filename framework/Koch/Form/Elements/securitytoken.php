@@ -40,7 +40,7 @@ class Securitytoken extends Hidden implements FormelementInterface
     {
         $session = $this->getSession();
 
-        if (isset($session->hash)) {
+        if ($session->hash !== null) {
             $validHash = $session->hash;
         } else {
             $validHash = null;

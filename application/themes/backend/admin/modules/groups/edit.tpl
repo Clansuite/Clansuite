@@ -5,7 +5,7 @@
     {* JavaScripts *}
 	<script type="text/javascript" src="{$www_root_themes_core}javascript/color_functions.js"></script>
 	<script type="text/javascript" src="{$www_root_themes_core}javascript/js_color_picker_v2.js"></script>
-    
+
     <script type="text/javascript">
     function clip_area(id)
     {
@@ -19,7 +19,7 @@
     	}
     }
     </script>
-    
+
 {/move_to}
 
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}

@@ -235,7 +235,7 @@ class Form implements FormInterface
             $this->setAttributes($name_or_attributes);
         }
 
-        if (isset($method) and isset($action)) {
+        if ($method !== null and $action !== null) {
             $this->setMethod($method);
             $this->setAction($action);
         }
@@ -384,7 +384,7 @@ class Form implements FormInterface
      */
     public function getAttribute($attributename)
     {
-        if (isset($this->{$attributename})) {
+        if ($this->{$attributename} !== null) {
             return $this->{$attributename};
         } else {
             return null;
@@ -413,7 +413,7 @@ class Form implements FormInterface
             /**
              * Array is a form description array for the formgenerator
              */
-            if (isset($attributes['form'])) {
+            if ($attributes['form'] !== null) {
                 // generate a form with the formgenerator by passing the attributes array in
                 $form = new Koch\Form\Generator\AssocArray($attributes);
                 // and copy all properties of the inner form object to ($this) outer form object =)
@@ -986,7 +986,7 @@ class Form implements FormInterface
      */
     public function getElementByPosition($position)
     {
-        if (is_numeric($position) and isset($this->formelements[$position])) {
+        if (is_numeric($position) and $this->formelements[$position] !== null) {
             return $this->formelements[$position];
         }
 
@@ -1250,7 +1250,7 @@ class Form implements FormInterface
         }
 
         // apply attributes (2nd param) to the decorator
-        if (isset($attributes)) {
+        if ($attributes !== null) {
             foreach ($attributes as $attribute => $value) {
                 $decorator->$attribute = $value;
             }
@@ -1329,7 +1329,7 @@ class Form implements FormInterface
 
     public function getDecorator($decorator)
     {
-        if (isset($this->formdecorators[$decorator])) {
+        if ($this->formdecorators[$decorator] !== null) {
             return $this->formdecorators[$decorator];
         } else {
            throw new \Exception('The Form does not have a Decorator called "' . $decorator . '".');
@@ -1394,9 +1394,9 @@ class Form implements FormInterface
      * $decorator_attributes = array(
      *  Level 1 - key = decorator type
      *  'form'  => array (
-                   Level 2 - key = decorator name
+     *              Level 2 - key = decorator name
      *             'fieldset' => array (
-                        Level 3 - key = attribute name and value = mixed(string|int)
+     *                   Level 3 - key = attribute name and value = mixed(string|int)
      *                  'description' =>  'description test')
      *                  )     *
      *  'formelement' = array ( array() )
@@ -1509,7 +1509,7 @@ class Form implements FormInterface
         $formelement_object = '';
         $formelement_object = $this->getElement($formelement_position);
 
-        if (isset($formelement_object->formelementdecorators[$decorator])) {
+        if ($formelement_object->formelementdecorators[$decorator] !== null) {
             return $formelement_object->formelementdecorators[$decorator];
         }
     }

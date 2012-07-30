@@ -160,7 +160,7 @@ class XML
              */
             if (self::FETCH_ATTRIBUTES === true and self::REMOVE_ATTRIBUTES_SUBLEVEL === true) {
                 // ok, add attributes
-                if (isset($resultArray['@attributes'])) {
+                if ($resultArray['@attributes'] !== null) {
                     // but as key => value elements
                     foreach ($resultArray['@attributes'] as $key => $value) {
                         $resultArray[$key] = $value;

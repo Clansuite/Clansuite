@@ -66,7 +66,7 @@ class MOFile
         foreach ($hash as $entry) {
             $id = $entry['msgid'];
 
-            if (isset($entry['msgid_plural'])) {
+            if ($entry['msgid_plural'] !== null) {
                 $id .= "\x00" . $entry['msgid_plural'];
             }
 

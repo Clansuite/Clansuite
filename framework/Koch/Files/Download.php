@@ -82,7 +82,7 @@ class Download
          * check if only a specific part of the file should be sent
          * multipart-download and resume-download
          */
-        if (isset($_SERVER['HTTP_RANGE'])) {
+        if ($_SERVER['HTTP_RANGE'] !== null) {
             // calculate the range to use
             $range = explode('-', mb_substr($_SERVER['HTTP_RANGE'], 6));
 

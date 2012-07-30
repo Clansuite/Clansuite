@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/luna.css" />
     <script type="text/javascript" src="{$www_root_themes_core}javascript/tabpane.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/adminmenu/DynamicTree.css" />
-    
+
         <style type="text/css">
         body { background: #F1EFE2; }
         body, table { font-family: georgia, sans-serif; font-size: 11px; }
@@ -94,7 +94,7 @@
         }
     }
     </script>
-    
+
 {/move_to}
 <div id="loading" style="display: none; position: absolute; top: 0px; left: 0px; width: 100%; height: 20px; text-align: center; background-color: lightblue;">
 Loading...

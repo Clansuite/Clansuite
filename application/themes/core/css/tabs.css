@@ -2,11 +2,11 @@
 @media screen
 {
     /** .tabs {overflow:hidden; margin-left:1em} **/
-    
+
     .tabs ul {
         overflow:hidden;
         margin:0;
-        padding:0;        
+        padding:0;
         list-style: none;
         height: 25px; /* height of tabs */
         border-bottom: 1px solid #999;

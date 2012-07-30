@@ -191,7 +191,7 @@ class TargetRoute extends Mapper
     public static function getMethod()
     {
         // check if method is correctly prefixed with 'action_'
-        if (isset(self::$parameters['method']) and mb_strpos(self::$parameters['method'], 'action_')) {
+        if (self::$parameters['method'] !== null and mb_strpos(self::$parameters['method'], 'action_')) {
             return self::$parameters['method'];
         } else {
             // add method prefix (action_) and subcontroller prefix (admin_)
@@ -249,12 +249,12 @@ class TargetRoute extends Mapper
 
     public static function getBackendTheme()
     {
-        return (isset($_SESSION['user']['backend_theme'])) ? $_SESSION['user']['backend_theme'] : 'admin';
+        return ($_SESSION['user']['backend_theme'] !== null) ? $_SESSION['user']['backend_theme'] : 'admin';
     }
 
     public static function getFrontendTheme()
     {
-        return (isset($_SESSION['user']['frontend_theme'])) ? $_SESSION['user']['frontend_theme'] : 'standard';
+        return ($_SESSION['user']['frontend_theme'] !== null)  ? $_SESSION['user']['frontend_theme'] : 'standard';
     }
 
     public static function getThemeName()

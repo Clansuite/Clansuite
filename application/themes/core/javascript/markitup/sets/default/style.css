@@ -13,59 +13,59 @@
 }
 
 .markItUp .markItUpButton4 a {
-	background-image:url(images/underline.png); 
+	background-image:url(images/underline.png);
 }
 
 .markItUp .markItUpButton5 a {
-	background-image:url(images/fonts.png); 
+	background-image:url(images/fonts.png);
 }
 
 .markItUp .markItUpButton6 a {
-	background-image:url(images/list-bullet.png); 
+	background-image:url(images/list-bullet.png);
 }
 
 .markItUp .markItUpButton7 a {
-	background-image:url(images/list-numeric.png); 
+	background-image:url(images/list-numeric.png);
 }
 
 .markItUp .indent a {
-	background-image:url(images/text_indent.png); 
+	background-image:url(images/text_indent.png);
 }
 
 .markItUp .alignments a {
-	background-image:url(images/text_align_left.png); 
+	background-image:url(images/text_align_left.png);
 }
 	.markItUp .alignments .left a {
-		background-image:url(images/text_align_left.png); 
+		background-image:url(images/text_align_left.png);
 	}
 	.markItUp .alignments .center a {
-		background-image:url(images/text_align_center.png); 
+		background-image:url(images/text_align_center.png);
 	}
 	.markItUp .alignments .right a {
-		background-image:url(images/text_align_right.png); 
+		background-image:url(images/text_align_right.png);
 	}
 	.markItUp .alignments .justify a {
-		background-image:url(images/text_align_justify.png); 
+		background-image:url(images/text_align_justify.png);
 	}
 
 .markItUp .padding a {
-	background-image:url(images/text_padding_left.png); 
+	background-image:url(images/text_padding_left.png);
 }
 	.markItUp .padding .left a {
-		background-image:url(images/text_padding_left.png);  
+		background-image:url(images/text_padding_left.png);
 	}
 	.markItUp .padding .top a {
-		background-image:url(images/text_padding_top.png);  
+		background-image:url(images/text_padding_top.png);
 	}
 	.markItUp .padding .right a {
-		background-image:url(images/text_padding_right.png);  
+		background-image:url(images/text_padding_right.png);
 	}
 	.markItUp .padding .bottom a {
-		background-image:url(images/text_padding_bottom.png); 
+		background-image:url(images/text_padding_bottom.png);
 	}
-	
+
 .markItUp .markItUpButton11 a {
-	background-image:url(images/picture.png); 
+	background-image:url(images/picture.png);
 }
 .markItUp .markItUpButton12 a {
 	background-image:url(images/link.png);

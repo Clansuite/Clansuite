@@ -382,7 +382,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         $name = 'HTTP_' . mb_strtoupper(str_replace('-','_', $name));
 
-        if (isset($_SERVER[$name])) {
+        if ($_SERVER[$name] !== null)  {
             return $_SERVER[$name];
         }
 
@@ -478,7 +478,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getRequestURI()
     {
-        if (isset($_SERVER['REQUEST_URI'])) {
+        if ($_SERVER['REQUEST_URI'] !== null)  {
             return urldecode(mb_strtolower($_SERVER['REQUEST_URI']));
         }
 
@@ -488,7 +488,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         }
 
         $p = $_SERVER['SCRIPT_NAME'];
-        if (isset($_SERVER['QUERY_STRING'])) {
+        if ($_SERVER['QUERY_STRING'] !== null)  {
             $p .= '?' . $_SERVER['QUERY_STRING'];
         }
 
@@ -534,22 +534,22 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         $ip = null;
 
-        if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+        if ($_SERVER['HTTP_CLIENT_IP'] !== null)  {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        } elseif ($_SERVER['HTTP_X_FORWARDED_FOR'] !== null)  {
             $ip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
             $ip = array_pop($ip);
         }
         // NGINX - with natural russian config passes the IP as REAL_IP
-        elseif (isset($_SERVER['HTTP_X_REAL_IP'])) {
+        elseif ($_SERVER['HTTP_X_REAL_IP'] !== null)  {
             $ip =  $_SERVER['HTTP_X_REAL_IP'];
-        } elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
+        } elseif ($_SERVER['HTTP_FORWARDED_FOR'] !== null)  {
             $ip =  $_SERVER['HTTP_FORWARDED_FOR'];
-        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+        } elseif ($_SERVER['HTTP_CLIENT_IP'] !== null)  {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
+        } elseif ($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'] !== null)  {
             $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-        } elseif (isset($_SERVER['HTTP_FORWARDED'])) {
+        } elseif ($_SERVER['HTTP_FORWARDED'] !== null)  {
             $ip = $_SERVER['HTTP_FORWARDED'];
         } elseif (isset($_SERVER['HTTP_X_FORWARDED']) ) {
             $ip =  $_SERVER['HTTP_X_FORWARDED'];
@@ -687,13 +687,13 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getRequestMethod()
     {
-        if (isset(self::$request_method)) {
+        if (self::$request_method !== null)  {
             return self::$request_method;
         } else {
             $method = $_SERVER['REQUEST_METHOD'];
 
             // get method from "http method override" header
-            if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+            if ($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] !== null)  {
                 $method = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
             }
 

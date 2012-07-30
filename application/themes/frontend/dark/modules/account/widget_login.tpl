@@ -29,7 +29,7 @@ function hashLoginPassword(theForm)
 					<input class="input_text" type="text" name="email" id="email"
 							 onblur="if(this.value=='')this.value=this.defaultValue;"
 							 onfocus="if(this.value==this.defaultValue)this.value='';"
-							 value="email" 
+							 value="email"
 							 style="width: 90px;"/>
 				</div>
 				{elseif isset($config.login.login_method) && $config.login.login_method == 'nick'}
@@ -38,7 +38,7 @@ function hashLoginPassword(theForm)
 					<input class="input_text" type="text" name="nickname" id="nickname"
 							 onblur="if(this.value=='')this.value=this.defaultValue;"
 							 onfocus="if(this.value==this.defaultValue)this.value='';"
-							 value="nickname" 
+							 value="nickname"
 							 style="width: 90px;"/>
 				</div>
 				{/if}
@@ -48,7 +48,7 @@ function hashLoginPassword(theForm)
 					<input class="input_text" type="password" name="password" id="block_password"
 								 onblur="if(this.value=='')this.value=this.defaultValue;"
 								 onfocus="if(this.value==this.defaultValue)this.value='';"
-								 value="******" 
+								 value="******"
 								 style="width: 90px;"/>
 				</div>
 

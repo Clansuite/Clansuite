@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $status['done']=1;
     // direct encoding of the whole data-array with json
     echo json_encode($status);
-} elseif (isset($_GET['uniqueID'])) {
+} elseif ($_GET['uniqueID'] !== null) {
     $status = apc_fetch('upload_' . $_GET['uniqueID']);
     //echo round($status['current']/$status['total']*100);
 

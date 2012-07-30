@@ -224,7 +224,7 @@ class Router implements RouterInterface, \ArrayAccess
                 $name = substr($segment, 1); // remove :
 
                 // is there a requirement for this param?
-                if (true === isset($requirements[$name])) {
+                if ($requirements[$name] !== null) {
                     // add it to the regex
                     $regexp .= '(?P<' . $name . '>' . $requirements[$name] . ')';
                     // and remove the requirement
@@ -758,27 +758,27 @@ class Router implements RouterInterface, \ArrayAccess
         }
 
         // Controller
-        if (true === isset($array['mod'])) {
+        if ($array['mod'] !== null) {
             TargetRoute::setController($array['mod']);
             unset($array['mod']);
         }
-        if (true === isset($array['controller'])) {
+        if ($array['controller'] !== null) {
             TargetRoute::setController($array['controller']);
             unset($array['controller']);
         }
         // SubController
-        if (true === isset($array['sub'])) {
+        if ($array['sub'] !== null) {
             TargetRoute::setSubController($array['sub']);
             unset($array['sub']);
         }
 
-        if (true === isset($array['subcontroller'])) {
+        if ($array['subcontroller'] !== null) {
             TargetRoute::setSubController($array['subcontroller']);
             unset($array['subcontroller']);
         }
 
         // action
-        if (true === isset($array['action'])) {
+        if ($array['action'] !== null) {
             TargetRoute::setAction($array['action']);
             unset($array['action']);
         }

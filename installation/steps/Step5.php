@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Installation\Controller;
+namespace Clansuite\installation\steps;
 
 /**
  * Step 5 - Website Configuration

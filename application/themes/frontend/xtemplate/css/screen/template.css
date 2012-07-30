@@ -3,41 +3,41 @@
 @media all
 {
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Core Elemente Basis Container
      * -----------------------------------------------------------------------------------------------
      * ce = core elemente (namespace)
      */
-    #cePagePane 
-    { 
+    #cePagePane
+    {
         margin: 0 10px 0 0;
-        width: 99%; 
-        vertical-align: left; 
+        width: 99%;
+        vertical-align: left;
     }
 
-    #cePageAera 
-    { 
-        color: #c0c0c0; 
+    #cePageAera
+    {
+        color: #c0c0c0;
         margin:10px;
     }
 
     /*  Container: Header  */
     #ceHeader
     {
-        margin-bottom:8px; 
+        margin-bottom:8px;
     }
 
     /*  Container: Top Navigation  */
     #ceTopNav
     {
-        
+
     }
 
     /*  Container: Main  */
     #ceMain
     {
-        width: auto; 
+        width: auto;
         background: transparent;
         margin:0px;
     }
@@ -45,7 +45,7 @@
     /*  Container: Bottom Navigation  */
     #ceBottomNav
     {
-        
+
     }
 
     /*  Container: Footer  */
@@ -55,23 +55,23 @@
     }
 
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Core Block Container
      * -----------------------------------------------------------------------------------------------
      * cb = core block elemente (namespace)
-     * 
+     *
      *   +-----------------------------------------------------
      *   |        cbHeader
      *   +-----------------------------------------------------
      *   |  cbRow1
-     *   |     cbCell1 | cbCell2 | cbCell3 
+     *   |     cbCell1 | cbCell2 | cbCell3
      *   |  cbRow2
-     *   |     cbCell1 | cbCell2 | cbCell3 
+     *   |     cbCell1 | cbCell2 | cbCell3
      *   +-----------------------------------------------------
      *   |        cbFooter
      *   +-----------------------------------------------------
-     * 
+     *
      */
 
      /** ----- Container ----- */
@@ -140,8 +140,8 @@
         color: #F48021;
         text-decoration: none;
     }
-    .cbCell1 a:hover, 
-    .cbCell1 a:active, 
+    .cbCell1 a:hover,
+    .cbCell1 a:active,
     .cbCell1_ahover,
     .cbCell1Active a:hover,
     .cbCell1Active a:active,
@@ -179,8 +179,8 @@
         color: #F48021;
         text-decoration: none;
     }
-    .cbCell2 a:hover, 
-    .cbCell2 a:active, 
+    .cbCell2 a:hover,
+    .cbCell2 a:active,
     .cbCell2_ahover,
     .cbCell2Active a:hover,
     .cbCell2Active a:active,
@@ -220,7 +220,7 @@
     }
 
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Core Message Container (Boxen)
      * -----------------------------------------------------------------------------------------------
@@ -266,7 +266,7 @@
     }
 
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Navigation -Breadcrumbs
      * -----------------------------------------------------------------------------------------------
@@ -282,7 +282,7 @@
     }
 
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Form
      * -----------------------------------------------------------------------------------------------
@@ -302,7 +302,7 @@
         height: 100%
     }
 
-    .form legend 
+    .form legend
     {
         font-size:1.7em;
         padding: 10px 10px 15px;
@@ -350,7 +350,7 @@
     }
 
     .form textarea,
-    .form select 
+    .form select
     {
         border-color:#235485;
         background: #fff;
@@ -359,7 +359,7 @@
     }
 
     .form textarea:hover,
-    .form select:hover 
+    .form select:hover
     {
         border-color:#235485;
         background: #fafafa;
@@ -367,7 +367,7 @@
     }
 
     .form textarea:focus,
-    .form select:focus 
+    .form select:focus
     {
         border-color:#103b66;
         background: #f4fcff;
@@ -378,7 +378,7 @@
         clear:both;
     }
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Formelements
      * -----------------------------------------------------------------------------------------------
@@ -387,19 +387,19 @@
 
     /* input with readonly attribute */
     .fo-readonly, input[readonly] {
-        border:none; 
+        border:none;
         font-weight: normal;
         padding-left:0;
     }
 
-    .fo-lbl 
+    .fo-lbl
     {
         font-size:1em;
         font-weight: bolder;
     }
 
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Datagrids
      * -----------------------------------------------------------------------------------------------

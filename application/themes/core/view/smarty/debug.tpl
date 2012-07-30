@@ -5,7 +5,7 @@
 <style type="text/css">
     div.debug_one, caption { cursor: pointer; width: auto; font-variant: small-caps; font-family: Verdana; font-size: 11px; height: 8px; text-align:left; font-weight:bold; padding: 8px; background: #ECE9D8; border-top: 1px solid #ffffff; border-bottom: 1px solid #ACA899;  }
     div.debug_inline { padding: 0px; width: 100%;background: #ECE9D8; border-top: 1px solid #ffffff; border-bottom: 1px solid #ACA899; }
-    div.smarty-debug { 
+    div.smarty-debug {
         background: none repeat scroll 0 0 #EFEFEF;
         border: 1px solid #333333;
         padding: 20px 0 10px;
@@ -53,7 +53,7 @@
 
 {* Start - Assign the following content to Variable debug_content *}
 {capture name='_smarty_debug' assign=debug_output}
-    
+
 <div class="smarty-debug">
 <fieldset class="smarty-console">
 <legend>Smarty Debug Console</legend>
@@ -68,7 +68,7 @@ Renderengine: {$smarty.version}
 Template: {$template_name|var_dump}
 
 {if !empty($template_data)}
-<table id="table_config_vars">  
+<table id="table_config_vars">
 {foreach $template_data as $template}
   <font color=brown>{$template.name}</font>
   <span class="exectime">
@@ -77,12 +77,12 @@ Template: {$template_name|var_dump}
   <br>
 {/foreach}
 {/if}
-</table>  
+</table>
 </div>
 
 <div class="debug_one" onclick="clip('element_2');">2. Assigned template variables ($view->assign)</div>
 <div class="debug_inline" style="display:none;" id="element_2">
-    <table class="table_config_vars">  
+    <table class="table_config_vars">
     {foreach $assigned_vars as $vars}
 
        {* Word of Warning first! *}
@@ -92,22 +92,22 @@ Template: {$template_name|var_dump}
        {/if}
 
        {* Now print the table *}
-       <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">   
-       <th>${$vars@key|escape:'html'}</th>       
+       <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">
+       <th>${$vars@key|escape:'html'}</th>
        <td>{$vars|debug_print_var}</td></tr>
-    {/foreach}   
+    {/foreach}
     </table>
 </div>
 
 
 <div class="debug_one" onclick="clip('element_3');"><strong>3. Assigned config file variables (outer template scope)</strong></div>
-<div class="debug_inline" style="display:none;" id="element_3"> 
-    <table class="table_config_vars">   
+<div class="debug_inline" style="display:none;" id="element_3">
+    <table class="table_config_vars">
     {foreach $config_vars as $vars}
-       <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">   
+       <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">
        <th>{$vars@key|escape:'html'}</th>
        <td>{$vars|debug_print_var}</td></tr>
-    {/foreach}   
+    {/foreach}
     </table>
 </div>
 
@@ -119,13 +119,13 @@ Template: {$template_name|var_dump}
 
 {$config = get_object_vars($assigned_vars.config)}
 
-{if $config.value.error.debug_popup == 0}   
+{if $config.value.error.debug_popup == 0}
     {move_to target="pre_head_close"}
-    {$debug_style}   
+    {$debug_style}
     {/move_to}
 
-    {* Capture the above content ($debug_output) and append it to the html document *}     
-    {$debug_output}    
+    {* Capture the above content ($debug_output) and append it to the html document *}
+    {$debug_output}
 {else}
     {* Popup Window for Smarty Console *}
     <script type="text/javascript">
@@ -133,12 +133,12 @@ Template: {$template_name|var_dump}
     var _csuite_console;
     	_csuite_console = window.open("","Smarty_Console_{$id}","width=800,height=600,resizable,scrollbars=yes");
      _csuite_console.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
-     _csuite_console.document.write('<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">');     
+     _csuite_console.document.write('<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">');
   {* @todo figure out why using the <head> tag does not work.. *}
-  {* _csuite_console.document.write('<head><title>Clansuite - Smarty Debug Console</title>'); *}     
-     _csuite_console.document.write(' {$debug_style|escape:'javascript'} ');     
+  {* _csuite_console.document.write('<head><title>Clansuite - Smarty Debug Console</title>'); *}
+     _csuite_console.document.write(' {$debug_style|escape:'javascript'} ');
   {* _csuite_console.document.write(' </head> '); *}
-     _csuite_console.document.write(' {$debug_output|escape:'javascript'} ');     
+     _csuite_console.document.write(' {$debug_output|escape:'javascript'} ');
     	_csuite_console.document.write('</body></html>');
     	_csuite_console.document.close();
     </script>

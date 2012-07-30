@@ -6,19 +6,19 @@
 </head>
 <body>
 <form action="{$link}" method="post" accept-charset="UTF-8">
-    <div id="redirect_heading">  
+    <div id="redirect_heading">
         <p>
             {$heading}
         </p>
         <div class="redirect_message">
-            {$message}    
-        </div>    
+            {$message}
+        </div>
         <p>
             <input type="submit" class="ButtonRed" name="confirm" value="{t}Confirm{/t}">
             &nbsp;
             <input type="submit" class="ButtonGreen" name="abort" value="{t}Abort{/t}" />
         </p>
-    </div>    
+    </div>
 </form>
 </body>
 </html>

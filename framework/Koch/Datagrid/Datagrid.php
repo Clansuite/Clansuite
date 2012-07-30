@@ -432,7 +432,7 @@ class Datagrid extends Base
         // sets the doctrine entity to use for the datagrid
         // set manually        'Entity'        => 'Entities\News',
         // or automatically    getEntityNameFromClassname()
-        if (isset($options['Entity'])) {
+        if ($options['Entity'] !== null) {
             $this->setDoctrineEntityName($options['Entity']);
         }
 
@@ -716,7 +716,7 @@ class Datagrid extends Base
      */
     private function triggerDataModificationHook(&$resultset)
     {
-        if (isset($this->dataModifyHook['method'])) {
+        if ($this->dataModifyHook['method'] !== null) {
             $this->dataModifyHook['class']->{$this->dataModifyHook['method']}($resultset);
         }
     }
@@ -903,9 +903,9 @@ class Datagrid extends Base
         $page = null;
 
         // Page is incomming via Session, URL GET or Set to 1 as default
-        if (isset($_SESSION['Datagrid_' . $this->getAlias()]['Page'])) {
+        if ($_SESSION['Datagrid_' . $this->getAlias()]['Page'] !== null) {
             $page = $_SESSION['Datagrid_' . $this->getAlias()]['Page'];
-        } elseif (isset($_REQUEST[$this->getParameterAlias('Page')])) {
+        } elseif ($_REQUEST[$this->getParameterAlias('Page')] !== null) {
             $page = (int) $_REQUEST[$this->getParameterAlias('Page')];
         } else {
             // default value: first page

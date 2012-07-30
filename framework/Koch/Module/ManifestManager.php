@@ -222,7 +222,7 @@ class ManifestManager
         $modulename = strtolower($module);
 
         // check if the infos of this specific module were catched before
-        if (isset(self::$modulesinfo[$modulename])) {
+        if (self::$modulesinfo[$modulename] !== null)  {
             return self::$modulesinfo[$modulename];
         }
 
@@ -299,7 +299,7 @@ class ManifestManager
 
             // hasConfig
             $config = self::readModuleConfig($modulename);
-            if (isset($config[$modulename])) {
+            if ($config[$modulename] !== null)  {
                 self::$modulesinfo[$modulename]['config'] = $config[$modulename];
 
                 // properties

@@ -21,13 +21,13 @@
                             <td>
 
                                 {* Start:Shortcuts Content*}
-                                
+
                                     <script type="text/javascript">
                                     jQuery(function() {
         	                            jQuery('#vertical-tabs > ul').tabs({ fx: { height: 'toggle', opacity: 'toggle' } });
                                     });
                                     </script>
-                                
+
 
                                 {move_to target="pre_head_close"}
                                 <link rel="stylesheet" type="text/css" href="{$www_root_themes_backend}admin/vertical-tabs.css" />
@@ -46,7 +46,7 @@
                                     <div id="fragment-1">
                                         {* Table for Administration Symbols/Shortcuts *}
                                         <table cellspacing="10" cellpadding="5" {* Tabelle zentrieren: style="margin:0 auto" *}>
-                                            
+
                                           {*
                                             {foreach key=row item=image from=$shortcuts}
                                                 <tr class="tr_row2">

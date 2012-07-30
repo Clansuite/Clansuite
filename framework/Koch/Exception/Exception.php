@@ -219,15 +219,15 @@ class Exception extends \Exception
         $original_file_content = self::$exception_dev_template;
         $replaced_content = '';
 
-        if (isset($placeholders['modulename'])) {
+        if ($placeholders['modulename'] !== null) {
             $replaced_content = str_replace('{$modulename}', $placeholders['modulename'], $original_file_content);
         }
 
-        if (isset($placeholders['classname'])) {
+        if ($placeholders['classname'] !== null) {
             $replaced_content = str_replace('{$classname}', $placeholders['classname'], $replaced_content);
         }
 
-        if (isset($placeholders['actionname'])) {
+        if ($placeholders['actionname'] !== null) {
             $replaced_content = str_replace('{$actionname}', $placeholders['actionname'], $replaced_content);
         }
 

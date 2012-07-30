@@ -4,7 +4,7 @@
         <div class="wrap2">
 
             {$section}
-        
+
         </div>
     </div>
 </div>

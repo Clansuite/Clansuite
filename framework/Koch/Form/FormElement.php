@@ -516,7 +516,7 @@ class Formelement implements FormelementInterface
             $validator = $this->getValidator($validator);
         }
 
-        if (isset($properties)) {
+        if ($properties !== null) {
             $validator->setProperties($properties);
         }
 
@@ -552,7 +552,7 @@ class Formelement implements FormelementInterface
         $class = '\Koch\Form\Validators\\' . ucfirst($validator);
 
         // return early, if this object is already stored
-        if (isset($this->validators[$class])) {
+        if ($this->validators[$class] !== null) {
             return $this->validators[$class];
         }
         // factory method part
@@ -811,7 +811,7 @@ class Formelement implements FormelementInterface
      */
     public function removeDecorator($decoratorname)
     {
-        if (isset($this->formelementdecorators[$decoratorname])) {
+        if ($this->formelementdecorators[$decoratorname] !== null) {
             unset($this->formelementdecorators[$decoratorname]);
         } else {
             throw new \Exception('Decorator does not exist.');

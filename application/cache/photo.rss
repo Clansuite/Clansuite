@@ -9,7 +9,7 @@
                 <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/tropfen.jpg"/>
                 <media:content url="http://localhost/clansuite/uploads/images/gallery/tropfen.jpg"/>
             </item>
-            
+
             <item>
                 <title>Stimme von Oben</title>
                 <media:description>was denn für eine Stimme ???</media:description>
@@ -17,7 +17,7 @@
                 <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/stimme_von_oben.jpg"/>
                 <media:content url="http://localhost/clansuite/uploads/images/gallery/stimme_von_oben.jpg"/>
             </item>
-            
+
             <item>
                 <title>Rätsel 2</title>
                 <media:description>wieso das denn ...</media:description>
@@ -25,7 +25,7 @@
                 <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/raetsel_2.jpg"/>
                 <media:content url="http://localhost/clansuite/uploads/images/gallery/raetsel_2.jpg"/>
             </item>
-            
+
             <item>
                 <title>Rätsel 1</title>
                 <media:description>jetzt gehts aber los</media:description>
@@ -33,7 +33,7 @@
                 <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/raetsel_1.jpg"/>
                 <media:content url="http://localhost/clansuite/uploads/images/gallery/raetsel_1.jpg"/>
             </item>
-            
+
             <item>
                 <title>Platsch</title>
                 <media:description>platsch nass</media:description>
@@ -41,7 +41,7 @@
                 <media:thumbnail url="http://localhost/clansuite/uploads/images/gallery/platsch.jpg"/>
                 <media:content url="http://localhost/clansuite/uploads/images/gallery/platsch.jpg"/>
             </item>
-            
+
             <item>
                 <title>Kunst</title>
                 <media:description>Das soll Kunst sein ?</media:description>

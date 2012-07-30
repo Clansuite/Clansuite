@@ -33,7 +33,7 @@
             </div>
 
             {if $help_edit_mode==1}
-                
+
                  <script type="text/javascript">
 				 	//<![CDATA[
                     new Ajax.InPlaceEditor('helptext',
@@ -41,7 +41,7 @@
                                           {handleLineBreaks: false, okText: 'Save', formClassName: 'ajax_input_text',hoverText: 'Click to Edit',cancelButton: true, cancelLink: false, cancelText:'Cancel',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:35, loadTextURL:'index.php?mod=controlcenter&sub=help&action=get_helptext&m={$smarty.request.mod}&s={$smarty.request.sub}&a={$smarty.request.main_action}'});
 					//]]>
                  </script>
-                
+
             {/if}
 
         </td>
@@ -71,7 +71,7 @@
         <p>
             <input id="links_edit_button" type="button" value="Edit links" class="ButtonGreen" />
         </p>
-            
+
              <script type="text/javascript">
 				//<![CDATA[
                 new Ajax.InPlaceEditor('related_links_container',
@@ -80,7 +80,7 @@
                                     );
 				//]]>
              </script>
-           
+
         {/if}
         </td>
     </tr>

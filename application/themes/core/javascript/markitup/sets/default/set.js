@@ -9,11 +9,11 @@
 // ----------------------------------------------------------------------------
 // Basic set. Feel free to add more tags
 // ----------------------------------------------------------------------------
-mySettings = {	
+mySettings = {
 	onShiftEnter:  	{keepDefault:false, replaceWith:'<br />\n'},
 	onCtrlEnter:  	{keepDefault:false, openWith:'\n<p>', closeWith:'</p>'},
 	onTab:    		{keepDefault:false, replaceWith:'    '},
-	markupSet:  [ 	
+	markupSet:  [
 		{name:'Bold', key:'B', openWith:'(!(<strong>|!|<b>)!)', closeWith:'(!(</strong>|!|</b>)!)' },
 		{name:'Italic', key:'I', openWith:'(!(<em>|!|<i>)!)', closeWith:'(!(</em>|!|</i>)!)'  },
 		{name:'Stroke through', key:'S', openWith:'<del>', closeWith:'</del>' },
@@ -26,7 +26,7 @@ mySettings = {
 		]},
 		{separator:'---------------' },
 		{name:'Bulleted list', openWith:'(!(* |!|*)!)'},
-		{name:'Numeric list', openWith:'(!(# |!|#)!)'}, 
+		{name:'Numeric list', openWith:'(!(# |!|#)!)'},
 		{name:'Text indent', className:'indent', openWith:'text-indent:', placeHolder:'5px', closeWith:';' },
 		{name:'Alignments', className:'alignments', dropMenu:[
 			{name:'Left', className:'left', replaceWith:'text-align:left;'},
@@ -48,7 +48,7 @@ mySettings = {
 		{name:'Quotes', openWith:'bq(!(([![Class]!]))!). '},
 		{name:'Code', openWith:'@', closeWith:'@'},
 		{separator:'---------------' },
-		{name:'Clean', className:'clean', replaceWith:function(markitup) { return markitup.selection.replace(/<(.*?)>/g, "") } },		
+		{name:'Clean', className:'clean', replaceWith:function(markitup) { return markitup.selection.replace(/<(.*?)>/g, "") } },
 		{name:'Preview', className:'preview',  call:'preview'}
 	]
 }

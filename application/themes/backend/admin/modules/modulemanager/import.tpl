@@ -15,11 +15,11 @@
 <form enctype="multipart/form-data" action="index.php?mod=controlcenter&sub=modules&action=import" method="post" accept-charset="UTF-8">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-    
+
     <td class="td_header" width="20%">
     {t}Information{/t}
     </td>
-    
+
     <td class="td_header" width="80%">
     {t}File{/t}
     </td>
@@ -29,7 +29,7 @@
     <td class="cell1">
         {t}Only tar files are allowed which were exported by this CMS{/t}
     </td>
-    
+
     <td class="cell2">
          <input type="file" name="file">
     </td>

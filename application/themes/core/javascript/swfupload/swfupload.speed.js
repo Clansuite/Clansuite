@@ -1,6 +1,6 @@
 /*
 	Speed Plug-in
-	
+
 	Features:
 		*Adds several properties to the 'file' object indicated upload speed, time left, upload time, etc.
 			- currentSpeed -- String indicating the upload speed, bits per second
@@ -10,9 +10,9 @@
 			- timeElapsed -- Number of seconds passed for this upload
 			- percentUploaded -- Percentage of the file uploaded (0 to 100)
 			- sizeUploaded -- Formatted size uploaded so far, bytes
-		
+
 		*Adds setting 'moving_average_history_size' for defining the window size used to calculate the moving average speed.
-		
+
 		*Adds several Formatting functions for formatting that values provided on the file object.
 			- SWFUpload.speed.formatBPS(bps) -- outputs string formatted in the best units (Gbps, Mbps, Kbps, bps)
 			- SWFUpload.speed.formatTime(seconds) -- outputs string formatted in the best units (x Hr y M z S)
@@ -27,13 +27,13 @@
 var SWFUpload;
 if (typeof(SWFUpload) === "function") {
 	SWFUpload.speed = {};
-	
+
 	SWFUpload.prototype.initSettings = (function (oldInitSettings) {
 		return function (userSettings) {
 			if (typeof(oldInitSettings) === "function") {
 				oldInitSettings.call(this, userSettings);
 			}
-			
+
 			this.ensureDefault = function (settingName, defaultValue) {
 				this.settings[settingName] = (userSettings[settingName] == undefined) ? defaultValue : userSettings[settingName];
 			};
@@ -43,7 +43,7 @@ if (typeof(SWFUpload) === "function") {
 			this.speedSettings = {};
 
 			this.ensureDefault("moving_average_history_size", "10");
-			
+
 			this.speedSettings.user_file_queued_handler = this.settings.file_queued_handler;
 			this.speedSettings.user_file_queue_error_handler = this.settings.file_queue_error_handler;
 			this.speedSettings.user_upload_start_handler = this.settings.upload_start_handler;
@@ -51,7 +51,7 @@ if (typeof(SWFUpload) === "function") {
 			this.speedSettings.user_upload_progress_handler = this.settings.upload_progress_handler;
 			this.speedSettings.user_upload_success_handler = this.settings.upload_success_handler;
 			this.speedSettings.user_upload_complete_handler = this.settings.upload_complete_handler;
-			
+
 			this.settings.file_queued_handler = SWFUpload.speed.fileQueuedHandler;
 			this.settings.file_queue_error_handler = SWFUpload.speed.fileQueueErrorHandler;
 			this.settings.upload_start_handler = SWFUpload.speed.uploadStartHandler;
@@ -59,24 +59,24 @@ if (typeof(SWFUpload) === "function") {
 			this.settings.upload_progress_handler = SWFUpload.speed.uploadProgressHandler;
 			this.settings.upload_success_handler = SWFUpload.speed.uploadSuccessHandler;
 			this.settings.upload_complete_handler = SWFUpload.speed.uploadCompleteHandler;
-			
+
 			delete this.ensureDefault;
 		};
 	})(SWFUpload.prototype.initSettings);
 
-	
+
 	SWFUpload.speed.fileQueuedHandler = function (file) {
 		if (typeof this.speedSettings.user_file_queued_handler === "function") {
 			file = SWFUpload.speed.extendFile(file);
-			
+
 			return this.speedSettings.user_file_queued_handler.call(this, file);
 		}
 	};
-	
+
 	SWFUpload.speed.fileQueueErrorHandler = function (file, errorCode, message) {
 		if (typeof this.speedSettings.user_file_queue_error_handler === "function") {
 			file = SWFUpload.speed.extendFile(file);
-			
+
 			return this.speedSettings.user_file_queue_error_handler.call(this, file, errorCode, message);
 		}
 	};
@@ -87,7 +87,7 @@ if (typeof(SWFUpload) === "function") {
 			return this.speedSettings.user_upload_start_handler.call(this, file);
 		}
 	};
-	
+
 	SWFUpload.speed.uploadErrorHandler = function (file, errorCode, message) {
 		file = SWFUpload.speed.extendFile(file, this.fileSpeedStats);
 		SWFUpload.speed.removeTracking(file, this.fileSpeedStats);
@@ -104,7 +104,7 @@ if (typeof(SWFUpload) === "function") {
 			return this.speedSettings.user_upload_progress_handler.call(this, file, bytesComplete, bytesTotal);
 		}
 	};
-	
+
 	SWFUpload.speed.uploadSuccessHandler = function (file, serverData) {
 		if (typeof this.speedSettings.user_upload_success_handler === "function") {
 			file = SWFUpload.speed.extendFile(file, this.fileSpeedStats);
@@ -119,19 +119,19 @@ if (typeof(SWFUpload) === "function") {
 			return this.speedSettings.user_upload_complete_handler.call(this, file);
 		}
 	};
-	
+
 	// Private: extends the file object with the speed plugin values
 	SWFUpload.speed.extendFile = function (file, trackingList) {
 		var tracking;
-		
+
 		if (!file) {
 			return file;
 		}
-		
+
 		if (trackingList) {
 			tracking = trackingList[file.id];
 		}
-		
+
 		if (tracking) {
 			file.currentSpeed = tracking.currentSpeed;
 			file.averageSpeed = tracking.averageSpeed;
@@ -150,17 +150,17 @@ if (typeof(SWFUpload) === "function") {
 			file.percentUploaded = 0;
 			file.sizeUploaded = 0;
 		}
-		
+
 		return file;
 	};
-	
+
 	// Private: Updates the speed tracking object, or creates it if necessary
 	SWFUpload.prototype.updateTracking = function (file, bytesUploaded) {
 		var tracking = this.fileSpeedStats[file.id];
 		if (!tracking) {
 			this.fileSpeedStats[file.id] = tracking = {};
 		}
-		
+
 		// Sanity check inputs
 		bytesUploaded = bytesUploaded || tracking.bytesUploaded || 0;
 		if (bytesUploaded < 0) {
@@ -169,7 +169,7 @@ if (typeof(SWFUpload) === "function") {
 		if (bytesUploaded > file.size) {
 			bytesUploaded = file.size;
 		}
-		
+
 		var tickTime = (new Date()).getTime();
 		if (!tracking.startTime) {
 			tracking.startTime = (new Date()).getTime();
@@ -190,15 +190,15 @@ if (typeof(SWFUpload) === "function") {
 			var lastTime = tracking.lastTime;
 			var deltaTime = now - lastTime;
 			var deltaBytes = bytesUploaded - tracking.bytesUploaded;
-			
+
 			if (deltaBytes === 0 || deltaTime === 0) {
 				return tracking;
 			}
-			
+
 			// Update tracking object
 			tracking.lastTime = now;
 			tracking.bytesUploaded = bytesUploaded;
-			
+
 			// Calculate speeds
 			tracking.currentSpeed = (deltaBytes * 8 ) / (deltaTime / 1000);
 			tracking.averageSpeed = (tracking.bytesUploaded * 8) / ((now - tracking.startTime) / 1000);
@@ -208,17 +208,17 @@ if (typeof(SWFUpload) === "function") {
 			if (tracking.movingAverageHistory.length > this.settings.moving_average_history_size) {
 				tracking.movingAverageHistory.shift();
 			}
-			
+
 			tracking.movingAverageSpeed = SWFUpload.speed.calculateMovingAverage(tracking.movingAverageHistory);
-			
+
 			// Update times
 			tracking.timeRemaining = (file.size - tracking.bytesUploaded) * 8 / tracking.movingAverageSpeed;
 			tracking.timeElapsed = (now - tracking.startTime) / 1000;
-			
+
 			// Update percent
 			tracking.percentUploaded = (tracking.bytesUploaded / file.size * 100);
 		}
-		
+
 		return tracking;
 	};
 	SWFUpload.speed.removeTracking = function (file, trackingList) {
@@ -228,14 +228,14 @@ if (typeof(SWFUpload) === "function") {
 		} catch (ex) {
 		}
 	};
-	
+
 	SWFUpload.speed.formatUnits = function (baseNumber, unitDivisors, unitLabels, singleFractional) {
 		var i, unit, unitDivisor, unitLabel;
 
 		if (baseNumber === 0) {
 			return "0 " + unitLabels[unitLabels.length - 1];
 		}
-		
+
 		if (singleFractional) {
 			unit = baseNumber;
 			unitLabel = unitLabels.length >= unitDivisors.length ? unitLabels[unitDivisors.length - 1] : "";
@@ -246,16 +246,16 @@ if (typeof(SWFUpload) === "function") {
 					break;
 				}
 			}
-			
+
 			return unit + unitLabel;
 		} else {
 			var formattedStrings = [];
 			var remainder = baseNumber;
-			
+
 			for (i = 0; i < unitDivisors.length; i++) {
 				unitDivisor = unitDivisors[i];
 				unitLabel = unitLabels.length > i ? " " + unitLabels[i] : "";
-				
+
 				unit = remainder / unitDivisor;
 				if (i < unitDivisors.length -1) {
 					unit = Math.floor(unit);
@@ -264,44 +264,44 @@ if (typeof(SWFUpload) === "function") {
 				}
 				if (unit > 0) {
 					remainder = remainder % unitDivisor;
-					
+
 					formattedStrings.push(unit + unitLabel);
 				}
 			}
-			
+
 			return formattedStrings.join(" ");
 		}
 	};
-	
+
 	SWFUpload.speed.formatBPS = function (baseNumber) {
 		var bpsUnits = [1073741824, 1048576, 1024, 1], bpsUnitLabels = ["Gbps", "Mbps", "Kbps", "bps"];
 		return SWFUpload.speed.formatUnits(baseNumber, bpsUnits, bpsUnitLabels, true);
-	
+
 	};
 	SWFUpload.speed.formatTime = function (baseNumber) {
 		var timeUnits = [86400, 3600, 60, 1], timeUnitLabels = ["d", "h", "m", "s"];
 		return SWFUpload.speed.formatUnits(baseNumber, timeUnits, timeUnitLabels, false);
-	
+
 	};
 	SWFUpload.speed.formatBytes = function (baseNumber) {
 		var sizeUnits = [1073741824, 1048576, 1024, 1], sizeUnitLabels = ["GB", "MB", "KB", "bytes"];
 		return SWFUpload.speed.formatUnits(baseNumber, sizeUnits, sizeUnitLabels, true);
-	
+
 	};
 	SWFUpload.speed.formatPercent = function (baseNumber) {
 		return baseNumber.toFixed(2) + " %";
 	};
-	
+
 	SWFUpload.speed.calculateMovingAverage = function (history) {
 		var vals = [], size, sum = 0.0, mean = 0.0, varianceTemp = 0.0, variance = 0.0, standardDev = 0.0;
 		var i;
 		var mSum = 0, mCount = 0;
-		
+
 		size = history.length;
-		
+
 		// Check for sufficient data
 		if (size >= 8) {
-			// Clone the array and Calculate sum of the values 
+			// Clone the array and Calculate sum of the values
 			for (i = 0; i < size; i++) {
 				vals[i] = history[i];
 				sum += vals[i];
@@ -316,7 +316,7 @@ if (typeof(SWFUpload) === "function") {
 
 			variance = varianceTemp / size;
 			standardDev = Math.sqrt(variance);
-			
+
 			//Standardize the Data
 			for (i = 0; i < size; i++) {
 				vals[i] = (vals[i] - mean) / standardDev;
@@ -325,13 +325,13 @@ if (typeof(SWFUpload) === "function") {
 			// Calculate the average excluding outliers
 			var deviationRange = 2.0;
 			for (i = 0; i < size; i++) {
-				
+
 				if (vals[i] <= deviationRange && vals[i] >= -deviationRange) {
 					mCount++;
 					mSum += history[i];
 				}
 			}
-			
+
 		} else {
 			// Calculate the average (not enough data points to remove outliers)
 			mCount = size;
@@ -342,5 +342,5 @@ if (typeof(SWFUpload) === "function") {
 
 		return mSum / mCount;
 	};
-	
+
 }

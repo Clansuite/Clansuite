@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Installation;
+namespace Clansuite\installation;
 
 /**
  * Clansuite Installation Exception

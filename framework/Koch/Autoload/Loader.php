@@ -430,7 +430,7 @@ class Loader
 
         $classname = strtolower($classname);
 
-        if (isset($path)) {
+        if ($path !== null) {
             $map = array($classname, $path);
         } else {
             // autoloading map - ROOT_LIBRARIES/..

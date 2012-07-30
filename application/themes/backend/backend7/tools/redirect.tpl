@@ -6,15 +6,15 @@
 <title>{t}Redirect - Please wait...{/t}</title>
 </head>
 <body>
-<div id="redirect_heading">  
+<div id="redirect_heading">
     <p>
         {$heading}
-        <br /> 
+        <br />
         <img src="{$www_root_themes_core}images/symbols/redirect.png">
     </p>
     <div class="redirect_message">
         <p>{$message}</p>
-    </div>        
+    </div>
 </div>
 </body>
 </html>

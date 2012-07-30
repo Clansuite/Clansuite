@@ -43,7 +43,7 @@
 					<strong>&raquo;</strong>
 					{if $singlenews.nr_comments >0}
 						<a href="index.php?mod=news&amp;action=showone&amp;id={$singlenews.news_id}">{$singlenews.nr_comments} Comments</a>
-						{if isset($singlenews.comments.users.lastcomment_by)}<span> : {$singlenews.comments.users.lastcomment_by}</span>{/if} 
+						{if isset($singlenews.comments.users.lastcomment_by)}<span> : {$singlenews.comments.users.lastcomment_by}</span>{/if}
 					{else}
 						0 Comments
 					{/if}

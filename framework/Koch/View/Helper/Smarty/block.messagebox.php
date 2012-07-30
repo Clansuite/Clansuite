@@ -32,7 +32,7 @@ function smarty_block_messagebox($params, $text, $smarty)
     // whitelist for messagebox_levels
     $messagebox_level = array( 'hint', 'notice', 'alert', 'info');
 
-    if (isset($params['level']) and in_array(mb_strtolower($params['level']), $messagebox_level)) {
+    if ($params['level'] !== null and in_array(mb_strtolower($params['level']), $messagebox_level)) {
         $textbox_level = mb_strtolower($params['level']);
         unset($params['level']);
     } else {

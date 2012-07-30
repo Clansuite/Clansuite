@@ -37,7 +37,7 @@ function smarty_function_columnsort($params, $smarty)
 
     public static $SMCS_id = 'default';
 
-    if (isset($params['cid'])) {
+    if ($params['cid'] !== null)  {
         if ($SMCS_id != $params['cid']) {
             $current_id = 0;
         }
@@ -67,12 +67,12 @@ function smarty_function_columnsort($params, $smarty)
     $html = $params['html'];
 
     // selected_class
-    if (isset($params['selected_class'])) {
+    if ($params['selected_class'] !== null) {
         $selected_class = $params['selected_class'];
     }
 
     // ID for column table
-    if (isset($params['id'])) {
+    if ($params['id'] !== null)  {
         $id = $params['id'];
 
         // Increase current id with 1 to prepare for next value
@@ -82,17 +82,17 @@ function smarty_function_columnsort($params, $smarty)
     }
 
     /* disabled
-    if (isset($params['asc_image']) && isset($params['desc_image'])) {
+    if (($params['asc_image'] !== null) && ($params['desc_image'] !== null)) {
         // Set asc and desc sort images (will be placed after the sorted column)
         $sort_asc_image = $params['asc_image'];
         $sort_desc_image = $params['desc_image'];
-    } elseif (isset($params['asc_image']) || isset($params['desc_image'])) {
+    } elseif ($params['asc_image']) || isset($params['desc_image'] !== null)  {
         trigger_error('columnsort: Both "asc_image" and "desc_image" needs to be present, or none of them.');
     }
     */
 
     // alt for image
-    if (isset($params['img_alt'])) {
+    if ($params['img_alt'] !== null)  {
         $img_alt = $params['img_alt'];
     } else {
         $img_alt = '';

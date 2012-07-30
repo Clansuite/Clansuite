@@ -6,15 +6,15 @@
 {$redirect}
 </head>
 <body>
-<div id="redirect_heading">  
+<div id="redirect_heading">
     <p>
         {$heading}
-        <br /> 
+        <br />
         <img src="{$www_root_themes_core}images/symbols/redirect.png" alt="" />
     </p>
     <div class="redirect_message">
         {$message}
-    </div>        
+    </div>
 </div>
 </body>
 </html>
