@@ -304,10 +304,6 @@ Performancerelevant sind unter anderem die Schlüssel "memory_limit", "realpath_c
 
 .Allgemeine Konstanten
 ****
-*IN_CS*::
-    Diese Sicherheitskonstante wird zu Beginn der index.php gesetzt und definiert den Applikationsinnenbereich.
-    Sie ist allen Clansuite Klassen vorangestellt und verhindert den direkten Aufruf der PHP Datei via URL.
-    Dabei wird in der ersten Zeile geprüft, ob "IN_CS" gesetzt ist, andernfalls wird die Ausführung beendet.
 *PS*::
     Abkürzung für das Pfadtrennzeichen (PATH_SEPARATOR ";")
 *DS*::

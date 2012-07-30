@@ -168,11 +168,6 @@ class Compiler
         $string = substr($string, strlen('<?php' . PHP_EOL));
         $string = substr($string, 0, -strlen('?>' . PHP_EOL));
 
-        // remove (defined or exit) security line from the string
-        // @todo remove 4 lines when "if (defined('IN_CS')" is found
-        //$string = str_replace("if (defined('IN_CS') === false) { die('Koch Framework not loaded. Direct Access forbidden.'); }" . PHP_EOL, "", $string);
-        //$string = str_replace("if (defined('IN_CS') === false) { die('Koch Framework not loaded. Direct Access forbidden.'); }", '', $string);
-
         // remove php opening tag from whole string
         $string = str_replace('<?php', '', $string);
 

@@ -1,9 +1,3 @@
-<?php
-// Security Handler
-if (defined('IN_CS') === false) {
-    die( 'Direct Access forbidden.' );
-    }
-?>
 <!doctype html>
 <html lang="de" dir="ltr">
 <head>

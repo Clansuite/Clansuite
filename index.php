@@ -28,9 +28,6 @@
  +----------------------------------------------------------------------------------+
  */
 
-// define Clansuite Security Constant
-define('IN_CS', true);
-
 require 'application/bootstrap.php';
 
 \Clansuite\CMS::run();

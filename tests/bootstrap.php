@@ -24,9 +24,6 @@
  *
  */
 
-// Set Security Handler
-define('IN_CS', true);
-
 // Error Reporting Level
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', true);

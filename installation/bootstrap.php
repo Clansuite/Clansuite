@@ -32,9 +32,6 @@ session_start();
 
 @set_time_limit(0);
 
-// Security Handler
-define('IN_CS', true);
-
 // Debugging Handler
 define('DEBUG', false);
 

@@ -305,8 +305,7 @@ class CMS
                 // catch user-defined constants as array
                 $constantsarray = get_defined_constants(true);
 
-                // remove security constant and starttime
-                unset($constantsarray['user']['IN_CS']);
+                // remove starttime constant
                 unset($constantsarray['user']['STARTTIME']);
 
                 apc_define_constants('CLANSUITE_CONSTANTS', $constantsarray['user'], false);
