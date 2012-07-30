@@ -256,7 +256,7 @@ class Phptal extends Renderer_Base
      */
     public function __unset($key)
     {
-        if ($this->renderer->$key !== null)  {
+        if ($this->renderer->$key !== null) {
             unset($this->renderer->$key);
         }
     }

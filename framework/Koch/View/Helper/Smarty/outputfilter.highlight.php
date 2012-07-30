@@ -84,7 +84,7 @@ function _enlightColor($matches)
         return $seaword;
     }
     // actual replacement callback
-    if ($matches[1] !== null)  {
+    if ($matches[1] !== null) {
         return '<span style="color:black; background-color:'
                 . $colword[mb_strtolower($matches[1])] . ';">' . $matches[1] . '</span>';
     }
@@ -98,7 +98,7 @@ function _refererhi()
 {
     $referer = parse_url($_SERVER['HTTP_REFERER']);
     parse_str($referer['query'],$vars);
-    if ($vars['q'] !== null)  {
+    if ($vars['q'] !== null) {
         return $vars['q'];
     } else { if ($vars['p'] !== null)
 

@@ -85,18 +85,18 @@ function smarty_block_t($params, $text, $smarty)
     $text = stripslashes($text);
 
     // set escape mode
-    if ($params['escape'] !== null)  {
+    if ($params['escape'] !== null) {
         $escape = $params['escape'];
         unset($params['escape']);
     }
 
     // set plural version
-    if ($params['plural'] !== null)  {
+    if ($params['plural'] !== null) {
         $plural = $params['plural'];
         unset($params['plural']);
 
         // set count
-        if ($params['count'] !== null)  {
+        if ($params['count'] !== null) {
             $count = $params['count'];
             unset($params['count']);
         }
@@ -117,7 +117,7 @@ function smarty_block_t($params, $text, $smarty)
     if (false === isset($escape) or $escape == 'html') {
         // html escape, default
         $text = nl2br(htmlspecialchars($text));
-    } elseif ($escape !== null)  {
+    } elseif ($escape !== null) {
         switch ($escape) {
             case 'javascript':
             case 'js':

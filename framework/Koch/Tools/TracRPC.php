@@ -1401,7 +1401,7 @@ class TracRPC
 
         if (($response->result !== null) and is_array($response->result)) {
             foreach ($response->result as $key => $resp) {
-                if ($resp->result !== null) {
+                if (isset($resp->result) === true) {
                     $this->_parse_result($resp);
                     continue;
                 }

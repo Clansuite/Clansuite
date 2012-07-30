@@ -38,13 +38,13 @@ function smarty_function_breadcrumbs($params, $smarty)
     #Koch_Debug::firebug($trail);
 
     // is the seperator element set via the smarty function call?
-    if ($params['separator'] !== null)  {
+    if ($params['separator'] !== null) {
         $separator = $params['separator'];
     } else { // no, take default seperator
         $separator = ' &gt; ';
     }
 
-    if ($params['length'] !== null)  {
+    if ($params['length'] !== null) {
         $length = (int) $params['length'];
     } else {
         $length = 0;
@@ -81,7 +81,7 @@ function smarty_function_breadcrumbs($params, $smarty)
 
     $breadcrumb_string = join($separator . ' ', $links);
 
-    if ($params['assign'] !== null)  {
+    if ($params['assign'] !== null) {
         $smarty->assign('breadcrumb',  $breadcrumb_string);
     } else {
         return $breadcrumb_string;

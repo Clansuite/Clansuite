@@ -247,7 +247,7 @@ class CMS
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
          */
-        if (($_SERVER['HTTPS'] !== null) and strtolower($_SERVER['HTTPS']) == 'on') {
+        if (isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) == 'on') {
             define('PROTOCOL', 'https://');
         } else {
             define('PROTOCOL', 'http://');
@@ -711,9 +711,7 @@ class CMS
      *  ================================================
      *     Set Timezone Settings
      *  ================================================
-     * with (1) ini_set()
-     *      (2) date_default_timezone_set() - should be set in php.ini
-     *      (3) putenv(TZ=) - was removed as of php5.4
+     * date_default_timezone_set() - should be set in php.ini
      *
      * For a lot more timezones look in the Appendix H of the PHP Manual
      * @link http://php.net/manual/en/timezones.php
@@ -722,9 +720,9 @@ class CMS
     private static function initialize_Timezone()
     {
         // apply timezone defensivly
-        if (self::$config['language']['timezone'] !== null) {
+        if (self::$config['locale']['timezone'] !== null) {
             // set always if incomming via config
-            date_default_timezone_set(self::$config['language']['timezone']);
+            date_default_timezone_set(self::$config['locale']['timezone']);
         }
         // the timezone should already be set in php.ini
         // this is just an fallback, if the system is not configured

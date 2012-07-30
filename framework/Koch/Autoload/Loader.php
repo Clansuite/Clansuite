@@ -189,7 +189,7 @@ class Loader
         );
 
         // check if classname is in autoloading map
-        if (self::$inclusions_map[$classname] !== null) {
+        if (isset(self::$inclusions_map[$classname]) === true) {
             include self::$inclusions_map[$classname];
 
             return true;
@@ -214,7 +214,7 @@ class Loader
             }
         }
 
-        if (self::$autoloader_map[$classname] !== null) {
+        if (isset(self::$autoloader_map[$classname]) === true) {
             include self::$autoloader_map[$classname];
 
             return true;

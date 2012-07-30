@@ -283,12 +283,12 @@ class HTML /* extends DOMDocument */
     public static function renderElement($tagname, $text = null, $attributes = array())
     {
         if (method_exists('Koch_HTML', $tagname)) {
-            if ($attributes['src'] !== null)  {
+            if ($attributes['src'] !== null) {
                 $link = $attributes['src'];
                 unset($attributes['src']);
 
                 return self::$tagname($link, $text, $attributes);
-            } elseif ($attributes['href'] !== null)  {
+            } elseif ($attributes['href'] !== null) {
                 $link = $attributes['href'];
                 unset($attributes['href']);
 

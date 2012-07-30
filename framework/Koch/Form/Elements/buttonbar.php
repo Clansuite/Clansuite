@@ -80,19 +80,20 @@ class Buttonbar extends Formelement implements FormelementInterface
      */
     public function getButton($buttonname)
     {
+        if ($this->_buttons[$buttonname] === null) {
+            throw new Koch_Exception(_('This button does not exist, so its not in this buttonbar: ') . $buttonname);
+        }
+
         // return the button object
-        if ($this->_buttons[$buttonname] !== null)
-            and is_object($this->_buttons[$buttonname])) {
+        if (is_object($this->_buttons[$buttonname])) {
             return $this->_buttons[$buttonname];
         }
+
         // instantiate the button object first and then return
-        elseif ($this->_buttons[$buttonname] !== null)
-            and false === is_object($this->_buttons[$buttonname])) {
+        if ( false === is_object($this->_buttons[$buttonname])) {
             $this->addButton($buttonname);
 
             return $this->_buttons[$buttonname];
-        } else {
-            throw new Koch_Exception(_('This button does not exist, so its not in this buttonbar: ') . $buttonname);
         }
     }
 

@@ -321,7 +321,7 @@ class Session implements SessionInterface, \ArrayAccess
         $_SESSION = array();
 
         //  Unset Cookie Vars
-        if ($_COOKIE[self::SESSION_NAME] !== null)  {
+        if ($_COOKIE[self::SESSION_NAME] !== null) {
             setcookie(self::SESSION_NAME, false);
         }
 
@@ -417,7 +417,7 @@ class Session implements SessionInterface, \ArrayAccess
      */
     public function get($key)
     {
-        if ($_SESSION[$key] !== null)  {
+        if ($_SESSION[$key] !== null) {
             return $_SESSION[$key];
         } else {
             return false;

@@ -552,7 +552,7 @@ class Formelement implements FormelementInterface
         $class = '\Koch\Form\Validators\\' . ucfirst($validator);
 
         // return early, if this object is already stored
-        if ($this->validators[$class] !== null) {
+        if (isset($this->validators[$class]) === true) {
             return $this->validators[$class];
         }
         // factory method part

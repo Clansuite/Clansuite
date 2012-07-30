@@ -66,7 +66,7 @@ class Widget
         $filename = ROOT_MOD;
 
         // if there is a part [3], we have to require a submodule filename
-        if ($moduleinfos['3'] !== null)  {
+        if ($moduleinfos['3'] !== null) {
             // and if part [3] is "admin", we have to require a admin submodule filename
             if ($moduleinfos['3'] == 'admin') {
                 // admin submodule filename, like news.admin.php

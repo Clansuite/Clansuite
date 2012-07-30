@@ -145,32 +145,11 @@
                          $required['session.auto_start']['actual']     = get_php_setting('session.auto_start', false, 'string');
                          $required['session.auto_start']['status']     = get_php_setting('session.auto_start', false, 'img');
 
-                         // Setting: PDO
-                         // @todo enabled by default 5.3+, consider removal
-                         $required['pdo_library']['label']    = $language['PDO_LIBRARY'];
-                         $required['pdo_library']['expected'] = SETTING_EXPECTED_ON;
-                         $required['pdo_library']['actual']   = class_exists('pdo') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                         $required['pdo_library']['status']   = class_exists('pdo') ? SETTING_TRUE : SETTING_FALSE;
-
                          // Setting: PDO MySQL
                          $required['extension_pdo_mysql']['label']    = $language['EXTENSION_PDO_MYSQL'];
                          $required['extension_pdo_mysql']['expected'] = SETTING_EXPECTED_ON;
                          $required['extension_pdo_mysql']['actual']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['extension_pdo_mysql']['status']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_TRUE : SETTING_FALSE;
-
-                         // Checking for Reflection Class (used by DI-Phemto, maybe missing on modified PHP Versions)
-                         // @todo enabled by default 5.3+, consider removal
-                         $required['class_reflection']['label']      = $language['CLASS_REFLECTION'];
-                         $required['class_reflection']['expected']   = SETTING_EXPECTED_ON;
-                         $required['class_reflection']['actual']     = class_exists('Reflection',false) ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                         $required['class_reflection']['status']     = class_exists('Reflection',false) ? SETTING_TRUE : SETTING_FALSE;
-
-                         // Checking for SPL
-                         // @todo enabled by default 5.3+, consider removal
-                         $required['extension_spl']['label']      = $language['EXTENSION_SPL'];
-                         $required['extension_spl']['expected']   = SETTING_EXPECTED_ON;
-                         $required['extension_spl']['actual']     = extension_loaded("SPL") ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                         $required['extension_spl']['status']     = extension_loaded("SPL") ? SETTING_TRUE : SETTING_FALSE;
 
                          // Permissions Check: write on systems temporary directory
                          $required['is_writable_temp_dir']['label']    = $language['IS_WRITEABLE_TEMP_DIR'];

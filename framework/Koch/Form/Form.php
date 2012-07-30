@@ -384,7 +384,7 @@ class Form implements FormInterface
      */
     public function getAttribute($attributename)
     {
-        if ($this->{$attributename} !== null) {
+        if (isset($this->{$attributename}) === true) {
             return $this->{$attributename};
         } else {
             return null;
@@ -413,7 +413,7 @@ class Form implements FormInterface
             /**
              * Array is a form description array for the formgenerator
              */
-            if ($attributes['form'] !== null) {
+            if (isset($attributes['form']) === true) {
                 // generate a form with the formgenerator by passing the attributes array in
                 $form = new Koch\Form\Generator\AssocArray($attributes);
                 // and copy all properties of the inner form object to ($this) outer form object =)
@@ -1329,7 +1329,7 @@ class Form implements FormInterface
 
     public function getDecorator($decorator)
     {
-        if ($this->formdecorators[$decorator] !== null) {
+        if (isset($this->formdecorators[$decorator]) === true) {
             return $this->formdecorators[$decorator];
         } else {
            throw new \Exception('The Form does not have a Decorator called "' . $decorator . '".');

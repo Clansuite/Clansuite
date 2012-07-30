@@ -224,7 +224,7 @@ class Router implements RouterInterface, \ArrayAccess
                 $name = substr($segment, 1); // remove :
 
                 // is there a requirement for this param?
-                if ($requirements[$name] !== null) {
+                if (isset($requirements[$name]) === true) {
                     // add it to the regex
                     $regexp .= '(?P<' . $name . '>' . $requirements[$name] . ')';
                     // and remove the requirement
@@ -482,7 +482,7 @@ class Router implements RouterInterface, \ArrayAccess
          * Example:
          * The request URI "/news/index" relates 1:1 to $routes['/news/index'].
          */
-        if ($this->routes[$this->uri] !== null) {
+        if (isset($this->routes[$this->uri]) === true) {
             $found_route = $this->routes[$this->uri];
 
             return $this->setSegmentsToTargetRoute($found_route);
@@ -758,27 +758,27 @@ class Router implements RouterInterface, \ArrayAccess
         }
 
         // Controller
-        if ($array['mod'] !== null) {
+        if (isset($array['mod']) === true) {
             TargetRoute::setController($array['mod']);
             unset($array['mod']);
         }
-        if ($array['controller'] !== null) {
+        if (isset($array['controller']) === true) {
             TargetRoute::setController($array['controller']);
             unset($array['controller']);
         }
         // SubController
-        if ($array['sub'] !== null) {
+        if (isset($array['sub']) === true) {
             TargetRoute::setSubController($array['sub']);
             unset($array['sub']);
         }
 
-        if ($array['subcontroller'] !== null) {
+        if (isset($array['subcontroller']) === true) {
             TargetRoute::setSubController($array['subcontroller']);
             unset($array['subcontroller']);
         }
 
         // action
-        if ($array['action'] !== null) {
+        if (isset($array['action']) === true) {
             TargetRoute::setAction($array['action']);
             unset($array['action']);
         }

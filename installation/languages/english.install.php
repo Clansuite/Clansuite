@@ -78,10 +78,7 @@ class English implements \ArrayAccess
         $this->language['PHP_VERSION'] = 'PHP version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Functions';
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
-        $this->language['PDO_LIBRARY'] = 'PDO - Library';
         $this->language['EXTENSION_PDO_MYSQL'] = 'Extension: "pdo_mysql"';
-        $this->language['CLASS_REFLECTION'] = 'PHP Reflection Support';
-        $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Useable: Temporary Directory';
         $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Can write: "/clansuite"';
         $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Can write: "/clansuite/cache"';

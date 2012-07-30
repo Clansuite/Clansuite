@@ -691,13 +691,13 @@ class UserAgentParser
                     $userAgent['browser_name'] = $name;
 
                     $userAgent['browser_typ'] = $elements['type'];
-                    if ($elements['subtype'] !== null)  {
+                    if ($elements['subtype'] !== null) {
                         $userAgent['browser_typ_sub'] = $elements['subtype'];
                     }
                     $found = true;
 
                     // ----- read version ----
-                    if ($elements['vparam'] !== null)  {
+                    if ($elements['vparam'] !== null) {
                         $pattern = '';
                         $pv = $elements['vparam'];
                         $pattern = '|.+\s'.$pv.'([0-9a-z\+\-\.]+).*|';
@@ -712,7 +712,7 @@ class UserAgentParser
                     }
 
                     // ----- read engine ----
-                    if ($elements['engine'] !== null)  {
+                    if ($elements['engine'] !== null) {
                         $userAgent['engine'] = $elements['engine'];
                     } else {
                         $userAgent['engine'] = self::TYPE_UNKNOW;
@@ -720,7 +720,7 @@ class UserAgentParser
 
                     // ----- read engine version -----
                     $pattern = '';
-                    if ($elements['eparam'] !== null)  {
+                    if ($elements['eparam'] !== null) {
                         $pe = $elements['eparam'];
                         $pattern = '|.+\s'.$pe.'([0-9\.]+)(.*).*|';
                         $userAgent['engine_version'] = preg_replace($pattern, '$1', $userAgent['string']);
@@ -745,7 +745,7 @@ class UserAgentParser
                 if (preg_match($expr, $userAgent['string'], $tmp_array)) {
                     $userAgent['operating_system'] = $name;
                     if ($tmp_array !== null && isset($tmp_array[1])) {
-                        if ($elements['subsearch'] !== null)  {
+                        if ($elements['subsearch'] !== null) {
                             foreach ($elements['subsearch'] as $sub => $expr) {
                                 if (preg_match($expr, $tmp_array[1])) {
                                     $userAgent['operating_system_name'] = $sub;
@@ -755,20 +755,20 @@ class UserAgentParser
                         if ($userAgent['operating_system_name'] === null) {
                             $userAgent['operating_system_name'] = (string) $tmp_array[1];
                         }
-                    } elseif ($elements['addsearch'] !== null)  {
+                    } elseif ($elements['addsearch'] !== null) {
                         foreach ($elements['addsearch'] as $sub => $expr) {
                             if (preg_match($expr, $userAgent['string'])) {
                                 $userAgent['operating_system_name'] = $sub;
                             }
                         }
                     }
-                    if ($elements['type'] !== null)  {
+                    if ($elements['type'] !== null) {
                         $userAgent['operating_system_typ'] = $elements['type'];
                     } else {
                         $userAgent['operating_system_typ'] = self::TYPE_UNKNOW;
                     }
 
-                    if ($elements['subtype'] !== null)  {
+                    if ($elements['subtype'] !== null) {
                         $userAgent['operating_system_typ_sub'] = $elements['subtype'];
                     }
 

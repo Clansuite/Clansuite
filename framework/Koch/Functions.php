@@ -372,7 +372,7 @@ class Functions
         // add pseudo keys a la "key-0"
 
         foreach ($keyArray as $key) {
-            if ($valueArray[$index] !== null)  {
+            if ($valueArray[$index] !== null) {
                 // index is used, then incremented for the next turn in foreach (post-increment-operator)
                 $returnArray[$key] = $valueArray[$index++];
             }
@@ -594,7 +594,7 @@ class Functions
     public static function format_seconds_to_shortstring($seconds = 0)
     {
         $time = '';
-        if ($seconds !== null)  {
+        if ($seconds !== null) {
             $time = sprintf('%dD %02d:%02d:%02dh', $seconds / 60 / 60 / 24, ($seconds / 60 / 60) % 24, ($seconds / 60) % 60, $seconds % 60);
         } else {
             return '00:00:00';

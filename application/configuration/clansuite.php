@@ -40,9 +40,9 @@ module = "news"
 action = "list"
 
 ;----------------------------------------
-; language
+; locale
 ;----------------------------------------
-[language]
+[locale]
 locale = "de"
 outputcharset = "UTF-8"
 timezone = "Europe/Paris"

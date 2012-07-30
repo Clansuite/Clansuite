@@ -5,7 +5,7 @@
 function smarty_function_flashmessages($params, $smarty)
 {
     // render only a certain type of flashmessages
-    if ($params['type'] !== null)  {
+    if ($params['type'] !== null) {
         return Koch_Flashmessages::render($params['type']);
     } else { // render all
 

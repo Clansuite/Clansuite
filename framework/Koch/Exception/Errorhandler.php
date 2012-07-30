@@ -397,7 +397,7 @@ class Errorhandler
             }
 
             // Location with Link
-            if ($trace[$i]['file'] !== null) {
+            if (isset($trace[$i]['file']) === true) {
                 $html .= '<td>' . self::getFileLink($trace[$i]['file'], $trace[$i]['line']) . '</td>';
             }
 
