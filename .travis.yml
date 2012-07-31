@@ -40,9 +40,9 @@ script:
  - output=$(php php-cs-fixer.phar fix -v --level=all --dry-run .); if [[ $output ]]; then while read -r line; do echo -e "\e[00;31m$line\e[00m"; done <<< "$output"; false; fi;
 
 # let CI take only the "develop" branch into account
-branches:
-  only:
-    - develop
+#branches:
+#  only:
+#    - develop
 
 # configure notifications (email, irc etc)
 notifications:
