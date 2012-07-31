@@ -1,2 +1,2 @@
 #!/bin/sh
-php runAllTests.php
+php ./runAllTests.php
