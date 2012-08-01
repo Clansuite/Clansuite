@@ -13,8 +13,8 @@
 host = "localhost"
 driver = "pdo_mysql"
 user = "root"
-password = ""
-dbname = "clansuite123456"
+password = "123"
+dbname = "clansuite"
 prefix = "cs_"
 charset = "UTF8"
 
@@ -110,7 +110,7 @@ keywords = "Keyword, Keyword"
 ; routing
 ;----------------------------------------
 [routing]
-mod_rewrite = 0
+mod_rewrite = 1
 cache_routes = 0
 
 ;----------------------------------------
