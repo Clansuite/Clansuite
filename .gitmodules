@@ -1,0 +1,3 @@
+[submodule "goldstandard"]
+path = build-tools/CodeSniffer
+url = git://github.com/jakoch/Goldstandard-for-PHP.git
