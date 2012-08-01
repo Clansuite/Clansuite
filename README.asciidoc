@@ -1,18 +1,19 @@
-= Clansuite - just an eSports CMS
+== Clansuite - just an eSports CMS
+
+image::https://secure.travis-ci.org/jakoch/Clansuite.png?branch=master[CI Status master]
+image::https://secure.travis-ci.org/jakoch/Clansuite.png?branch=develop[CI Status develop]
 
 Clansuite is a Free Content Management System especially for Clans and eSports Teams.
 Based on PHP5, Doctrine2, Smarty3, Ajax. - Easy, comfortable, fast, flexible.
 
-|============================================================================================|
-| Website           | http://clansuite.com/                                                  |
-| Bugtracker        | http://trac.clansuite.com/                                             |
-| Forum             | http://forum.clansuite.com/                                            |
-| Build Status      |                                                                        |
-| "master" Branch   | image:https://secure.travis-ci.org/jakoch/Clansuite.png?branch=master  |
-| "develop" Branch  | image:https://secure.travis-ci.org/jakoch/Clansuite.png?branch=develop |
-|============================================================================================|
+[cols="4,1", width="70%"]
+|===
+| *Website* | http://clansuite.com/
+| *Issues* | http://trac.clansuite.com/
+| *Forum* | http://forum.clansuite.com/
+|===
 
-== What is it?
+=== What is it?
 
 Clansuite is just another php based content management system.
 But this one is state-of-the-art and especially for esport teams.
