@@ -86,7 +86,7 @@ class CMS
         self::register_DI_Filters();
         self::initialize_Database();
         self::start_Session();
-        self::execute_Frontcontroller();
+        self::executeFrontController();
         self::shutdown();
     }
 
@@ -647,7 +647,7 @@ class CMS
      *     Request & Response + Frontcontroller + Filters + processRequest
      *  ===================================================================
      */
-    private static function execute_Frontcontroller()
+    private static function executeFrontController()
     {
         // Get request and response objects for Filter and Request processing
         $request  = self::$injector->instantiate('Koch\Mvc\HttpRequest');
