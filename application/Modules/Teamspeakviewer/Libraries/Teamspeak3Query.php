@@ -24,7 +24,7 @@
  *
  */
 
-namespace /Libraries/Teamspeak3;
+namespace Libraries;
 
 /**
  * Teamspeak3 Server Query
