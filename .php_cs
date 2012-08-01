@@ -19,6 +19,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->notName('*.jpg')
     ->notName('*.png')
     ->notName('*.exe')
+    ->notName('*classmap.php')
     ->notName('Utf8FallbackFunctions.php') // bug in php-cs-fixer, adds "public" to global functions
     ->exclude('img')
     ->exclude('images')
