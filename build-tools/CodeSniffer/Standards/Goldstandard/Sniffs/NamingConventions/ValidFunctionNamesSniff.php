@@ -36,7 +36,7 @@ class Goldstandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEAR_
      * Processes the tokens within the scope.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The file being processed.
-     * @param int $stackPtr The position where this token was
+     * @param int                  $stackPtr  The position where this token was
      * found.
      * @param int $currScope The position of the current scope.
      *
@@ -73,7 +73,6 @@ class Goldstandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEAR_
         } else {
             $isPublic = true;
         }
-
 
         $scope = $methodProps['scope'];
         $scopeSpecified = $methodProps['scope_specified'];
