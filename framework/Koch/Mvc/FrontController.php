@@ -37,7 +37,7 @@ use Koch\View\Helper\Breadcrumb;
  * @package     Core
  * @subpackage  FrontController
  */
-interface FrontControllerInterface
+interface FrontController
 {
     public function __construct(HttpRequestInterface $request, HttpResponseInterface $response);
     public function processRequest();

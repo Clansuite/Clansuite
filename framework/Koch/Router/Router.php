@@ -134,7 +134,7 @@ class Router implements RouterInterface, \ArrayAccess
      * @return string Request URL
      */
     public function prepareRequestURI($uri)
-    {  
+    {
         // remove "xdebug_session_start=xdebug" from routing process
         $uri = str_replace('?xdebug_session_start=xdebug', '', $uri);
         $uri = str_replace('xdebug_session_start=xdebug', '', $uri);
