@@ -25,6 +25,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('simpletest')
     ->exclude('vendor')
     ->exclude('libraries')
+    ->exclude('Libraries')
     ->in(__DIR__)
 ;
 
