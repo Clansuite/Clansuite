@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\Modules\Account\Controller;
 
 /**
  * Clansuite_Module_Account
@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Account
  */
-class account.module extends Controller
+class AccountController extends Controller
 {
     /**
      * Module_Admin -> Execute

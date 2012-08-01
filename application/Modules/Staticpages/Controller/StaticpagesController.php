@@ -30,7 +30,7 @@ namespace Clansuite\Module;
  * Clansuite Module - Static Pages
  *
  */
-class staticpages.module extends Controller
+class StaticpagesController extends Controller
 {
     /**
      * Module_Staticpages -> Execute

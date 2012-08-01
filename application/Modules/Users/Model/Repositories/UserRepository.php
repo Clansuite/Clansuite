@@ -1,6 +1,6 @@
 <?php
 
-namespace repositories;
+namespace Repositories;
 use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository

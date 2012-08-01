@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Modulemanager
  */
-class modulemanager.admin extends Controller
+class ModulemanagerAdminController extends Controller
 {
     public function _initializeModule()
     {

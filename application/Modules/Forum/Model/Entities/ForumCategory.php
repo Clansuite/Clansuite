@@ -1,5 +1,5 @@
 <?php
-namespace entities;
+namespace Entities;
 
 /**
  * @Entity(repositoryClass="Repositories\ForumCategoryRepository")

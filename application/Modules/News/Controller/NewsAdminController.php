@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  News
  */
-class news.admin extends Controller
+class NewsAdminController extends Controller
 {
     public $publishing_status_map = array();
 

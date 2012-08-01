@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Guestbook
  */
-class guestbook.module extends Controller
+class GuestbookController extends Controller
 {
     /**
      * Module_Guestbook -> Execute

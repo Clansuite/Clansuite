@@ -1,5 +1,5 @@
 <?php
-namespace entities;
+namespace Entities;
 
 //use Doctrine\ORM\Mapping as ORM; // we are currently not using @ORM annotions
 

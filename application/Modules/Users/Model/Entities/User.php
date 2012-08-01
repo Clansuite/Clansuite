@@ -1,5 +1,5 @@
 <?php
-namespace entities;
+namespace Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**

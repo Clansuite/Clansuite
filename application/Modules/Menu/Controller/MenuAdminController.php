@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Menu
  */
-class menu.admin extends Controller
+class MenuAdminController extends Controller
 {
     public function _initializeModule()
     {

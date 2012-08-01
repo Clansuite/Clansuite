@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Menu
  */
-class menu.module extends Controller
+class MenuController extends Controller
 {
     /**
      * Module_Menu -> Execute

@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  ControlCenter
  */
-class controlcenter.module extends Controller
+class ControlcenterController extends Controller
 {
     public function _initializeModule()
     {

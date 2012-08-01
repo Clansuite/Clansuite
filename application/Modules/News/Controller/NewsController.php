@@ -35,7 +35,7 @@ use Clansuite\Core\Module\Controller;
  * @package     Modules
  * @subpackage  News
  */
-class news.module extends Controller
+class NewsController extends Controller
 {
     /**
      * Module_News -> Execute

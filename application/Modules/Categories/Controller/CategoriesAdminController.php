@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Categories
  */
-class categories.admin extends Controller
+class CategoriesAdminController extends Controller
 {
     public function action_admin_list()
     {

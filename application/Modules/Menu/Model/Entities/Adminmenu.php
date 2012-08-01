@@ -1,6 +1,6 @@
 <?php
 
-namespace entities;
+namespace Entities;
 
 /** @Entity @Table(name="adminmenu") */
 class Adminmenu

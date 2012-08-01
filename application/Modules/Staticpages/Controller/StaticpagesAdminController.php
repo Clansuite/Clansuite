@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Staticpages
  */
-class staticpages.admin extends Controller
+class StaticpagesAdminController extends Controller
 {
     /**
      * action_admin_show()

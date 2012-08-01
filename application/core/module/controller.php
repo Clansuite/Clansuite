@@ -1,7 +1,7 @@
 <?php
 namespace Clansuite\Module;
 
-class controller extends \Koch\Module\Controller
+class Controller extends \Koch\Module\Controller
 {
     /**
      * Proxy/convenience method: returns the Clansuite Configuration as array
