@@ -1,8 +1,12 @@
                          _________________________
                          C  L  A  N  S  U  I  T  E
 
-  Tests Overview
-  --------------
+  == Test Status
+
+  Branch "master": image:https://secure.travis-ci.org/jakoch/Clansuite.png?branch=master
+  Branch "develop": image:https://secure.travis-ci.org/jakoch/Clansuite.png?branch=develop
+
+  == Tests Overview
 
   We use Simpletest for running automated tests on the Clansuite Core.
 
@@ -15,8 +19,7 @@
   WARNING: Don't use this in public environment.
            The "/tests" directory is removed on build.
 
-  Simpletest Project
-  ------------------
+  == Simpletest Project
 
   You can find the SimpleTest project located at
   http://sourceforge.net/projects/simpletest/
