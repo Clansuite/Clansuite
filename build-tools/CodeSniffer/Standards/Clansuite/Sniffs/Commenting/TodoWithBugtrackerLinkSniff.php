@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_Commenting_TodoSniff.
+ * Goldstandard_Sniffs_Commenting_TodoSniff.
  *
  * This sniff warns about @todo annotations without links to our bugtracker.
  *
@@ -10,9 +10,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_Commenting_TodoWithBugtrackerLinkSniff implements PHP_CodeSniffer_Sniff
+class Goldstandard_Sniffs_Commenting_TodoWithBugtrackerLinkSniff implements PHP_CodeSniffer_Sniff
 {
 
   /**

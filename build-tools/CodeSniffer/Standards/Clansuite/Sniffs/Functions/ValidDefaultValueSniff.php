@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_Methods_ValidDefaultValueSniff.
+ * Goldstandard_Sniffs_Methods_ValidDefaultValueSniff.
  *
  * The sniff ensures that function parameters with default value
  * are positioned at the end of the function signature.
@@ -11,9 +11,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_Functions_ValidDefaultValueSniff implements PHP_CodeSniffer_Sniff
+class Goldstandard_Sniffs_Functions_ValidDefaultValueSniff implements PHP_CodeSniffer_Sniff
 {
 
     /**

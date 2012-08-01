@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_ForbiddenFunctions
+ * Goldstandard_Sniffs_ForbiddenFunctions
  *
  * BE AWARE THAT THIS IS A BADASS SNIFF.
  *
@@ -17,9 +17,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
+class Goldstandard_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
 {
     /**
      * A list of forbidden functions with their alternatives.

@@ -14,7 +14,7 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
  * @category   PHP
  * @package    PHP_CodeSniffer
  */
-class Clansuite_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSniffer_Standards_AbstractPatternSniff
+class Goldstandard_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSniffer_Standards_AbstractPatternSniff
 {
 
     public function __construct()

@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_Commenting_PackageAnnotationSniff.
+ * Goldstandard_Sniffs_Commenting_PackageAnnotationSniff.
  *
  * This sniff warns about classes missing the @package phpdoc tag.
  *
@@ -10,9 +10,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSniffer_Sniff
+class Goldstandard_Sniffs_Commenting_PackageAnnotationSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * Registers tokens we're sniffing for

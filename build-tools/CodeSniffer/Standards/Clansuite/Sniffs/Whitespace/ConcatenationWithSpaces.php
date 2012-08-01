@@ -11,7 +11,7 @@
  * Note: see example above, still worse, because concat is senseless here.
  * @todo sniff irrelevant concat, which are concats without var between the strings to concat
  */
-class Clansuite_Sniffs_Whitespace_ConcatenationWithSpacesSniff implements PHP_CodeSniffer_Sniff
+class Goldstandard_Sniffs_Whitespace_ConcatenationWithSpacesSniff implements PHP_CodeSniffer_Sniff
 {
     public function register()
     {

@@ -1,10 +1,69 @@
 <?xml version="1.0"?>
-<ruleset name="Clansuite">
- <description>Clansuite coding standard.</description>
+<ruleset name="Goldstandard">
+ <description>J.A. Koch's Goldstandard for PHP - A set of Coding Standards.</description>
+ <!--
+    This standard enforces
+        - PSR-0, PSR-1 and PSR-2
+        - the removal of old and deprecated PHP functions (helpful, when working with legacy code)
+        - the usage of faster functions (premature / micro optimizations - Uh, oh! That's BAD :)
+  -->
  <!--
     Include all sniffs in an external standard directory.
     Note that we have to specify the full path to the standard's directory,
     because it does not exist inside the PHP_CodeSniffer install directory.
- -->
- <rule ref="/home/clansuite/svn-export/build-tools/CodeSniffer/Standards/Clansuite"/>
+    Formerly:
+    <rule ref="/home/clansuite/svn-export/build-tools/CodeSniffer/Standards/Clansuite"/>
+  -->
+    <rule ref="Goldstandard.NamingConventions.ValidFunctionName"/>
+    <rule ref="Goldstandard.CodeAnalysis.UnnecessaryFinalModifier"/>
+    <rule ref="Goldstandard.Commenting.OneLineComment"/>
+    <rule ref="Goldstandard.Commenting.PackageAnnotation"/>
+    <rule ref="Goldstandard.Commenting.TodoWithBugtrackerLink"/>
+    <rule ref="Goldstandard.ControlStructures.ControlSignature"/>
+    <rule ref="Goldstandard.Functions.ForbiddenFunction"/> <!-- BAD :) -->
+    <rule ref="Goldstandard.Functions.ValidDefaultValue"/>
+    <rule ref="Goldstandard.NamingConventions.ValidFunctionNames"/>
+    <rule ref="Goldstandard.Operators.DeprecatedNewReference"/>
+    <rule ref="Goldstandard.Operators.ValidLogicalOperators"/>
+    <rule ref="Goldstandard.PHP.NonStaticMagicMethods"/>
+    <rule ref="Goldstandard.PHP.PHPOpeningClosingTag"/>
+    <rule ref="Goldstandard.Whitespace.ConcatenationWithSpaces"/>
+    <rule ref="Goldstandard.Whitespace.ControlStructureBlankLine"/>
+
+<!--
+    The ruleset below enforces PSR-0, PSR-1 and PSR-2 compliance.
+    It's taken from  https://github.com/klaussilveira/phpcs-psr/blob/master/ruleset.xml
+    It relies on having the default CodeSniffer Standards installed.
+-->
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+    <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+    <rule ref="Generic.WhiteSpace.ScopeIndent"/>
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+    <rule ref="Squiz.Classes.ValidClassName"/>
+    <rule ref="Squiz.Classes.LowercaseClassKeywords"/>
+    <rule ref="Squiz.ControlStructures.ControlSignature"/>
+    <rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
+    <rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
+    <rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
+    <rule ref="Squiz.Scope.MemberVarScope"/>
+    <rule ref="Squiz.Scope.MethodScope"/>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="80"/>
+            <property name="absoluteLineLimit" value="120"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+    <rule ref="Zend.Files.ClosingTag"/>
 </ruleset>

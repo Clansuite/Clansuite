@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_PHP_NonStaticMagicMethodsSniff
+ * Goldstandard_Sniffs_PHP_NonStaticMagicMethodsSniff
  *
  * Discourages the use of
  * 1) STATIC magic methods
@@ -18,9 +18,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_PHP_NonStaticMagicMethodsSniff implements PHP_CodeSniffer_Sniff
+class Goldstandard_Sniffs_PHP_NonStaticMagicMethodsSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * The following magic methods must NOT be static, but public

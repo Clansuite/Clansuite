@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_PHP_DeprecatedNewReferenceSniff
+ * Goldstandard_Sniffs_PHP_DeprecatedNewReferenceSniff
  *
  * Discourages the use of
  * 1) STATIC magic methods
@@ -18,9 +18,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_Operators_DeprecatedNewReferenceSniff implements PHP_CodeSniffer_Sniff
+class Goldstandard_Sniffs_Operators_DeprecatedNewReferenceSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * If true, an error will be thrown; otherwise a warning.

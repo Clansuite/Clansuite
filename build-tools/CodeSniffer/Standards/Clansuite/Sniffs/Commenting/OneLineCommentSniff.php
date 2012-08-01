@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_Commenting_OneLineCommentSniff.
+ * Goldstandard_Sniffs_Commenting_OneLineCommentSniff.
  *
  * This sniff prohibits the usage of perl-style (#, hashed) one line comments.
  * The usage of two forward slashes (//) for single line comments is enforced.
@@ -11,9 +11,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_Commenting_OneLineCommentSniff implements PHP_CodeSniffer_Sniff
+class Goldstandard_Sniffs_Commenting_OneLineCommentSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * Returns an array of tokens this test wants to listen for.

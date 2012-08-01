@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_Whitespace_ControlStructureBlankLineSniff.
+ * Goldstandard_Sniffs_Whitespace_ControlStructureBlankLineSniff.
  *
  * This sniff enforces a blank line before control structures and commented control structures.
  *
@@ -13,9 +13,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_Whitespace_ControlStructureBlankLineSniff implements Php_CodeSniffer_Sniff
+class Goldstandard_Sniffs_Whitespace_ControlStructureBlankLineSniff implements Php_CodeSniffer_Sniff
 {
 
     /**

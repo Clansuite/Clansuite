@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_Operators_ValidLogicalOperatorsSniff
+ * Goldstandard_Sniffs_Operators_ValidLogicalOperatorsSniff
  *
  * Discourages the use of '&&' '||' '^' as representation for logical operators.
  * Ensures that 'and' 'or' 'xor' are used as logical operators.
@@ -11,9 +11,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_Operators_ValidLogicalOperatorsSniff implements PHP_CodeSniffer_Sniff
+class Goldstandard_Sniffs_Operators_ValidLogicalOperatorsSniff implements PHP_CodeSniffer_Sniff
 {
 
     /**

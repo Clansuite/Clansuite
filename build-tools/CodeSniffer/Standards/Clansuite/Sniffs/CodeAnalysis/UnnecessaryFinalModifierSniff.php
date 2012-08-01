@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_Commenting_UnnecessaryFinalModifierSniff.
+ * Goldstandard_Sniffs_Commenting_UnnecessaryFinalModifierSniff.
  *
  * This sniff detects unnecessary final modifiers inside of final classes.
  *
@@ -26,9 +26,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_CodeAnalysis_UnnecessaryFinalModifierSniff implements Php_CodeSniffer_Sniff
+class Goldstandard_Sniffs_CodeAnalysis_UnnecessaryFinalModifierSniff implements Php_CodeSniffer_Sniff
 {
 
     /**

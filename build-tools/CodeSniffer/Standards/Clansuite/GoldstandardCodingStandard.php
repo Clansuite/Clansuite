@@ -1,9 +1,9 @@
 <?php
 /**
- * Clansuite Coding Standard
+ * J.-A. Koch's Goldstandard for PHP - A Coding Standard
  *
- * @category   Clansuite
- * @package    BuildTools
+ * @category   Goldstandard
+ * @package    CodeSniffer
  * @subpackage PHP_CodeSniffer_CodingStandard
  * @author     Jens-André Koch <jakoch@web.de>
  * @license    GPLv2 and any later version
@@ -15,7 +15,7 @@ if (class_exists('PHP_CodeSniffer_Standards_CodingStandard', true) === false) {
 }
 
 /**
- * Clansuite Coding Standard
+ * J.-A. Koch's Goldstandard for PHP - A Coding Standard
  *
  * 1. Standard Class
  * @link http://pear.php.net/manual/de/package.php.php-codesniffer.coding-standard-class.php
@@ -23,11 +23,11 @@ if (class_exists('PHP_CodeSniffer_Standards_CodingStandard', true) === false) {
  * 2. Available Sniffs
  * @link http://pear.php.net/package/PHP_CodeSniffer/docs/latest/
  *
- * @category   Clansuite
- * @package    BuildTools
+ * @category   Goldstandard
+ * @package    CodeSniffer
  * @subpackage PHP_CodeSniffer_CodingStandard
  * @author     Jens-André Koch <jakoch@web.de>
- * @license    GPLv2 and any later version
+ * @license    GPLv2+
  * @link       http://pear.php.net/package/PHP_CodeSniffer
  */
 class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_CodeSniffer_Standards_CodingStandard

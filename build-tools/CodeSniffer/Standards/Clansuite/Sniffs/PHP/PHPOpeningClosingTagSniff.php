@@ -1,6 +1,6 @@
 <?php
 /**
- * Clansuite_Sniffs_PHP_OpeningClosingTagSniff.
+ * Goldstandard_Sniffs_PHP_OpeningClosingTagSniff.
  *
  * This sniff enforces the usage of <?php ... ?> as opening and closing tags for php.
  *
@@ -20,9 +20,9 @@
  *
  * @category   PHP
  * @package    PHP_CodeSniffer
- * @subpackage Clansuite_Sniffs
+ * @subpackage Goldstandard_Sniffs
  */
-class Clansuite_Sniffs_PHP_PHPOpeningClosingTagSniff implements Php_CodeSniffer_Sniff
+class Goldstandard_Sniffs_PHP_PHPOpeningClosingTagSniff implements Php_CodeSniffer_Sniff
 {
     /**
      * Returns an array of tokens this test wants to listen for.
