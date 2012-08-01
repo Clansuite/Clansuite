@@ -1,7 +1,7 @@
 <?php
 /**
  * The Sniff enforces spacings around the concatenation operator.
-
+ *
  * Forbidden - concat without spaces:
  * $string = 'Hello'.'World';
  *

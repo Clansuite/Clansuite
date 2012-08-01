@@ -3,7 +3,7 @@
  * Clansuite_Sniffs_Whitespace_ControlStructureBlankLineSniff.
  *
  * This sniff enforces a blank line before control structures and commented control structures.
-
+ *
  * @author    Nicolas Connault
  * @copyright 2009 Nicolas Connault
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
