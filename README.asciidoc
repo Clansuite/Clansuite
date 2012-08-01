@@ -11,21 +11,23 @@ Based on PHP5, Doctrine2, Smarty3, Ajax. - Easy, comfortable, fast, flexible.
 | *Website* | http://clansuite.com/
 | *Issues* | http://trac.clansuite.com/
 | *Forum* | http://forum.clansuite.com/
+| *Contributors* | https://github.com/jakoch/Clansuite/graphs/contributors
 |===
 
 === What is it?
 
-Clansuite is just another php based content management system.
-But this one is state-of-the-art and especially for esport teams.
-It is designed to effectively manage and administrate team-ressources, people,
-processes and information on the web.
+Clansuite is a CMS developed for Clans and eSports Teams to setup their gaming websites.
+It aims to be state-of-the-art, has a modular design approach, feature-richness and easy-maintainance.
+It's even suitable for "esport" and "real-life" sports teams, associations, personal web pages, freelancers
+or to create the business website for your company.
 
-Because of it's modular design approach, it could be used by everyone demanding a
-feature-rich and easy to maintain content management system.
-It's even suitable for "esport" and "real-life" sports teams, associations,
-personal web pages, freelancers or to create the business website for your company.
+Clansuite is written in PHP and requires version 5.3+. It's an Application based on Koch Framework.
 
-Clansuite is written in PHP and requires version 5.3+.
+The system aims to be compliant with
+link:/https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md[PSR-0],
+link:/https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md[PSR-1],
+and link:/https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md[PSR-2].
+If you notice compliance oversights, please send a patch via pull request.
 
 You can find more information about Clansuite on the official website http://clansuite.com/.
 
@@ -44,12 +46,12 @@ Clansuite is written and developed by the Clansuite Development Team.
 This software consists of voluntary contributions made by many individuals.
 
 For detailed contributor informations and to get an overview of the
-people involved here, look at the file "AUTHORS".
+people involved here, look at link:/https://github.com/jakoch/Clansuite/contributors[the List of Contributors]
 
 == Credits
 
 Few third party libraries and classes, scripts and graphics and icons are bundled to Clansuite.
-The details are noted in the files "CREDITS" and "THIRD-PARTY-LIBRARIES".
+The details are noted in the files "doc/THIRD-PARTY-LIBRARIES".
 
 == Licensing
 
@@ -60,8 +62,7 @@ Clansuite's Documentation is licensed under the "GNU Free Documentation License"
 
 If you find any bugs, please do one of the following things:
 
-* visit the [support-forum](http://forum.clansuite.com/) to report them
-* submit them to the [bugtracker](http://trac.clansuite.com/)
-* or mail them on the [developer-mailinglist](clansuite-dev@gna.org).
+* visit the link:/http://forum.clansuite.com/[support-forum] to report them
+* submit them to the link:/http://trac.clansuite.com/[bugtracker]
 
 More information can be found on the official website.
