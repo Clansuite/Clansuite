@@ -1,5 +1,7 @@
 <?php
 
+namespace Koch\View\Helper\Smarty\Cache;
+
 /**
  * Smarty Plugin CacheResource APC
  *
@@ -17,7 +19,7 @@
  * $smarty->cache->loadResource('apc');
  * $smarty->setCaching(true);
  */
-class Smarty_CacheResource_APC
+class APC
 {
 
     public function __construct($smarty)
