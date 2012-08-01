@@ -506,9 +506,9 @@ class Errorhandler
 
                 /**
                  * transform the array into html string
-                 * enhance readablility by imploding the array with spaces (formerly <br>; when inside <code>)
+                 * enhance readablility by imploding the array with spaces (try either ' ' or  '<br>')
                  */
-                $errorcontext_lines  = implode($result, ' ');
+                $errorcontext_lines  = implode($result, '<br>');
 
                 $sprintf_html = '<table>
                                     <tr>
