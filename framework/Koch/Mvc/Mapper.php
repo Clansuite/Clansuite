@@ -39,7 +39,10 @@ namespace Koch\Mvc;
 class Mapper extends \ArrayObject
 {
     /* @const string Classname prefix for modules */
-    const MODULE_CLASS_PREFIX = 'Clansuite\Module';
+    const MODULE_CLASS_PREFIX = 'Clansuite\Application\Module';
+
+    /* @const string postfix for module controller files */
+    const MODULE_FILE_POSTFIX = 'Controller.php';
 
     /* @const string Method prefix for module actions */
     const METHOD_PREFIX = 'action';
@@ -59,26 +62,19 @@ class Mapper extends \ArrayObject
      */
     public static function mapControllerToFilename($module_path, $controller, $subcontroller = null)
     {
-        $filename = '';
-        $filename_postfix = '';
+        // append module_path, e.g. "/clansuite/modules/news/" + "Controller/"
+        $module_path .= 'Controller/';
 
-        // construct the module_path, like "/clansuite/modules/news/" + "controller/"
-        $module_path = $module_path . 'controller' . DIRECTORY_SEPARATOR;
-
-        // subcontroller
-        if (isset($subcontroller) and 'admin' == $subcontroller) {
-            $filename_postfix = '.admin.php';
-        } elseif (isset($subcontroller) and $subcontroller != 'admin') { // any subcontroller name as postfix
-            $filename_postfix = '.'.$subcontroller.'.php';
-        } else { // apply standard postfix
-            $filename_postfix = '.module.php';
+        // if subcontroller set and name valid ([a-zA-Z0-9])
+        if ($subcontroller !== null and ctype_alnum($subcontroller)) {
+            // append subcontroller to controller, e.g. "News" + "Admin"
+            $controller .= ucfirst($subcontroller);
         }
 
-        $filename = $module_path . $controller . $filename_postfix;
-
-        unset($filename_postfix, $module_path);
-
-        return $filename;
+        // Mapping Example:
+        // "/clansuite/modules/news/" + "Controller/" + "Index" + "Controller.php"
+        // "/clansuite/modules/news/" + "Controller/" + "IndexSub" + "Controller.php"
+        return $module_path . $controller . self::MODULE_FILE_POSTFIX;
     }
 
     /**

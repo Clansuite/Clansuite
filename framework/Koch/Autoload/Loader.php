@@ -168,7 +168,7 @@ class Loader
 
         // this means if 'Smarty" is found, but not 'Koch\Smarty', exclude from our autoloading
         if (false !== strpos($classname, 'Smarty') and
-            false === strpos($classname, 'Koch\Smarty') and
+            false === strpos($classname, 'Koch\View\Renderer\Smarty') and
             false === strpos($classname, 'Filters\SmartyMoves'))
         {
             return true;

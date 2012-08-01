@@ -44,6 +44,7 @@ class GuestUser
     private $config = null;
 
     /**
+     * @todo get rid of singleton
      * @return This object is a singleton.
      */
     public static function instantiate()
@@ -63,9 +64,9 @@ class GuestUser
          * Fill $_SESSION[user] with Guest-User-infos
          */
 
-        $_SESSION['user']['authed']         = 0;  // guests are not authed
-        $_SESSION['user']['user_id']        = 0;  // guests have user_id 0
-        $_SESSION['user']['nick']           = _('Guest');
+        $_SESSION['user']['authed']         = 0;  // a guest is not authed
+        $_SESSION['user']['user_id']        = 0;  // a guest has the user_id 0
+        $_SESSION['user']['nick']           = _('Guest'); // a guest has the nickname "Guest"
 
         $_SESSION['user']['passwordhash']   = '';
         $_SESSION['user']['email']          = '';
@@ -76,13 +77,13 @@ class GuestUser
         /**
          * Language for Guests
          *
-         * This sets the default locale as defined by configuration value
-         * [language}[locale] for all guests visitors,
-         * If not already set via a GET request and
-         * processed in the filter (like "index.php?lang=fr").
+         * This sets the default locale as defined by the main configuration value ([language][locale]).
+         * The value is set as session value [user][language] for the user,
+         * if another language was not set via the GET request (URL),
+         * and processed in the filter (like "index.php?lang=fr").
          */
-        if (false === isset($_SESSION['user']['language_via_url'])) {
-            $_SESSION['user']['language'] = $this->config['language']['locale'];
+        if (!isset($_SESSION['user']['language_via_url']) and isset($this->config['locale']['locale']) === true) {
+            $_SESSION['user']['language'] = $this->config['locale']['locale'];
         }
 
         /**
@@ -91,7 +92,7 @@ class GuestUser
          * Sets the Default Theme for all Guest Visitors, if not already set via a GET request.
          * Theme for Guest Users as defined by config['template']['frontend_theme']
          */
-        if (empty($_SESSION['user']['frontend_theme'])) {
+        if (empty($_SESSION['user']['frontend_theme']) and isset($this->config['template']['frontend_theme']) === true) {
             $_SESSION['user']['frontend_theme'] = $this->config['template']['frontend_theme'];
         }
 

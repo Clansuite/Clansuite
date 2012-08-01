@@ -105,13 +105,14 @@ class Router implements RouterInterface, \ArrayAccess
         $this->config = \Clansuite\CMS::getClansuiteConfig();
 
         // get URI from request, clean it and set it as a class property
-        $this->setRequestURI(self::prepareRequestURI($request->getRequestURI()));
+        $this->uri = self::prepareRequestURI($request->getRequestURI());
     }
 
     public function setRequestURI($uri)
     {
         $this->uri = $uri;
     }
+
     /**
      * Get and prepare the SERVER_URL/URI
      *
@@ -133,7 +134,13 @@ class Router implements RouterInterface, \ArrayAccess
      * @return string Request URL
      */
     public function prepareRequestURI($uri)
-    {
+    {  
+        // remove "xdebug_session_start=xdebug" from routing process
+        $uri = str_replace('?xdebug_session_start=xdebug', '', $uri);
+        $uri = str_replace('xdebug_session_start=xdebug', '', $uri);
+
+        $uri = str_replace($_SERVER["SCRIPT_NAME"], '', $uri);
+
         // add slash in front + remove slash at the end
         if ($uri !== "/") {
             return '/' . trim($uri, '/'); //  . '/';
@@ -451,7 +458,7 @@ class Router implements RouterInterface, \ArrayAccess
     public function match()
     {
         // do we have some routes now?
-        if (0 === count($this->getRoutes())) {
+        if (0 === count($this->routes)) {
             throw new \OutOfBoundsException(_('The routes lookup table is empty. Define some routes.'));
         }
 
@@ -472,7 +479,7 @@ class Router implements RouterInterface, \ArrayAccess
          * Reduce the map lookup table, by dropping all routes
          * with more segments than the current requested uri.
          */
-        if (count($this->routes) > 1) {
+        if (count($this->routes) > 1 and count($this->uri_segments) > 1) {
             self::removeRoutesBySegmentCount();
         }
 
@@ -877,8 +884,10 @@ class Router implements RouterInterface, \ArrayAccess
          */
         if (true === empty($this->routes)) {
             $this->addRoute('/:controller');
-            $this->addRoute('/:controller/:action');                $this->addRoute('/:controller/(:id)');
-            $this->addRoute('/:controller/:action/(:id)');            $this->addRoute('/:controller/(:id)/:action');
+            $this->addRoute('/:controller/:action');
+            $this->addRoute('/:controller/(:id)');
+            $this->addRoute('/:controller/:action/(:id)');
+            $this->addRoute('/:controller/(:id)/:action');
             $this->addRoute('/:controller/:action/(:id)/:format');
 
             $this->addRoute('/:controller/:subcontroller');

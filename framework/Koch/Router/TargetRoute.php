@@ -311,7 +311,9 @@ class TargetRoute extends Mapper
             }
         }
 
-        unset($filename, $classname, $method);
+        //unset($filename, $classname, $method);
+        #$msg = $filename . $classname . $method;
+        #throw new \Exception($msg);
 
         return false;
     }
@@ -320,13 +322,13 @@ class TargetRoute extends Mapper
     {
         $reset_params = array(
             // File
-            'filename' => null,
-            'classname' => null,
+            'filename' => 'IndexController.php',
+            'classname' => 'IndexController',
             // Call
             'controller' => 'index',
             'subcontroller' => null,
             'action' => 'index',
-            'method' => null,
+            'method' => 'action_list',
             'params' => null,
             // Output
             'format' => 'html',

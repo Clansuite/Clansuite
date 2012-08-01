@@ -59,7 +59,7 @@ class Localization
 
         // Set Locale Defaults
         $this->domain = 'clansuite';
-        $this->encoding = self::$config['language']['outputcharset'];
+        $this->encoding = self::$config['locale']['outputcharset'];
 
         // Get Locale
         $locale = $this->getLocale();
@@ -102,7 +102,7 @@ class Localization
     public function getLocale()
     {
         // if language_via_url was used, the filter set the URL value to the session
-        if (($_SESSION['user']['language_via_url'] !== null) and ($_SESSION['user']['language_via_url'] == 1)) {
+        if (isset($_SESSION['user']['language_via_url']) === true and ($_SESSION['user']['language_via_url'] == 1)) {
             // use language setting from session
             $this->locale = $_SESSION['user']['language'];
         } else {
@@ -110,7 +110,7 @@ class Localization
             $this->locale = $this->getLanguage();
 
             if (empty($this->locale)) { // 3) get the default language from config as fallback
-                $this->locale = self::$config['language']['default'];
+                $this->locale = self::$config['locale']['default'];
             }
 
             $_SESSION['user']['language'] = $this->locale;

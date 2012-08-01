@@ -72,7 +72,7 @@ class Maintenance
     public function configure(array $config, $filePath = null)
     {
         // set language for maintenance msg via $config value
-        self::$language = $config['language']['default'];
+        self::$language = $config['locale']['default'];
 
         // fetch reason integer from $config
         if ($config['mainteance']['reason'] > 0) {

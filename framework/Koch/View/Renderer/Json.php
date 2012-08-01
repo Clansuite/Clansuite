@@ -97,7 +97,7 @@ class Json extends AbstractRenderere
          * The MIME media type for JSON text is application/json.
          * @see http://www.ietf.org/rfc/rfc4627
          */
-        $this->response->addHeader('Content-Type', 'application/json; charset='.$this->config['language']['outputcharset']);
+        $this->response->addHeader('Content-Type', 'application/json; charset='.$this->config['locale']['outputcharset']);
 
         return $this->jsonEncode($data);
     }

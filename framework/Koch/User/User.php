@@ -174,13 +174,13 @@ class User
              * the full order is
              * a) language_via_get filter
              * a) user['language'] from database / personal user setting
-             * b) standard language / fallback as defined by $this->config['language']['default']
+             * b) standard language / fallback as defined by $this->config['locale']['locale']
              */
             if (false === isset($_SESSION['user']['language_via_url'])) {
                 if (false === empty($this->user['language'])) {
                     $_SESSION['user']['language'] = $this->user['language'];
                 } else {
-                    $_SESSION['user']['language'] = $this->config['language']['default'];
+                    $_SESSION['user']['language'] = $this->config['locale']['default'];
                 }
             }
 
