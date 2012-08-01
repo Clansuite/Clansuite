@@ -1,7 +1,7 @@
-Clansuite Coding Standard
--------------------------
+J.A. Koch's Goldstandard for PHP - A set of coding standards
+------------------------------------------------------------
 
-This repository contains the Clansuite Coding Standard.
+This repository contains the Koch's Goldstandard for PHP - A Coding Standard.
 
 You need PHP_CodeSniffer (http://pear.php.net/package/PHP_CodeSniffer).
 
