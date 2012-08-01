@@ -1,5 +1,5 @@
 <?php
-namespace Clansuite\Module;
+namespace Clansuite\application\core\module;
 
 class Controller extends \Koch\Module\Controller
 {

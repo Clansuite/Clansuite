@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\application\Modules\Guestbook\Controller;
 
 /**
  * This is the Clansuite Module Class - Guestbook

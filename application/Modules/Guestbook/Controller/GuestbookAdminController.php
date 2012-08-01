@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\application\Modules\Guestbook\Controller;
 
 /**
  * Clansuite_Module_Guestbook_Admin

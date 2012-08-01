@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\application\Modules;
 
 /**
  * Clansuite Module - {$mod.module_name|capitalize}

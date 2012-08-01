@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\application\Modules;
 
 /**
  * Clansuite_Module_Cronjobs_Admin

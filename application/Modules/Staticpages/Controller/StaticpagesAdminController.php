@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\application\Modules\Staticpages\Controller;
 
 /**
  * Clansuite_Module_Staticpages_Admin

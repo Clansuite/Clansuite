@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\application\Modules\Controlcenter\Controller;
 
 /**
  * Clansuite_Module_ControlCenter

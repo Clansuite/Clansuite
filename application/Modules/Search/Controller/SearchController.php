@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\application\Modules\Search\Controller;
 
 /**
  * Clansuite_Module_News

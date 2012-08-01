@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Module;
+namespace Clansuite\application\Modules\Account\Controller;
 
 /**
  * Clansuite_Module_Account_Admin
@@ -33,7 +33,7 @@ namespace Clansuite\Module;
  * @package     Modules
  * @subpackage  Account
  */
-class Account_Admin extends Controller
+class AccountAdminController extends Controller
 {
     public function _initializeModule()
     {
