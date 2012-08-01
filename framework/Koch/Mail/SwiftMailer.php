@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch;
+namespace Koch\Mail;
 
 /**
  * Koch Framework - Class for Mail Handling with SwiftMailer
@@ -35,7 +35,7 @@ namespace Koch;
  * @package     Core
  * @subpackage  Mailer
  */
-class Koch_Mailer
+class SwiftMailer
 {
     public $mailer = null;
     private $config = null;

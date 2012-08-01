@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch;
+namespace Koch\Security;
 
 /**
  * Koch Framework - Class for Security Handling

@@ -23,12 +23,12 @@
  *
  */
 
-namespace Koch;
+namespace Koch\Security;
 
 /**
  * DoorKeeper
  *
- * These are security-methods to keep the entrance to Koch Framework clean.
+ * These are security-methods to keep the entrance to Koch Framework clean :).
  *
  * @category    Koch
  * @package     Core
