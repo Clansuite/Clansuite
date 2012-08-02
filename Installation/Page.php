@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\installation;
+namespace Clansuite\Installation;
 
 class Page
 {

@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\installation\steps;
+namespace Clansuite\Installation\steps;
 
 /**
  * STEP 4 - Database Source Name Configuration

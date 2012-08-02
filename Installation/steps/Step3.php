@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\installation\steps;
+namespace Clansuite\Installation\steps;
 
 /**
  * Step 3 - GPL License
