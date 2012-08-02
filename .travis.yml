@@ -20,6 +20,10 @@ env:
   #- DB=pgsql
   #- DB=sqlite
 
+before_install:
+  # install all git submodules (and nested git submodules)
+  - git submodule update --init --recursive
+
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
   # install composer
