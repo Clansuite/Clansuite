@@ -29,23 +29,6 @@ use Koch\Filter\FilterInterface;
 use Koch\View\Helper\Breadcrumb;
 
 /**
- * Interface for FrontController
- *
- * The Frontcontroller has to implement the following methods.
- *
- * @category    Koch
- * @package     Core
- * @subpackage  FrontController
- */
-interface FrontController
-{
-    public function __construct(HttpRequestInterface $request, HttpResponseInterface $response);
-    public function processRequest();
-    public function addPreFilter(FilterInterface $filter);
-    public function addPostFilter(FilterInterface $filter);
-}
-
-/**
  * Koch Framework FrontController
  *
  * It's basically a FrontController (which should better be named RequestController)
@@ -99,8 +82,8 @@ class FrontController implements FrontControllerInterface
     {
         $this->request             = $request;
         $this->response            = $response;
-        $this->pre_filter_manager  = new \Koch\Filter\Manager();
-        $this->post_filter_manager = new \Koch\Filter\Manager();
+        $this->pre_filter_manager  = new \Koch\Filter\FilterManager();
+        $this->post_filter_manager = new \Koch\Filter\FilterManager();
         $this->event_dispatcher    = \Koch\Event\Dispatcher::instantiate();
         $this->router              = new \Koch\Router\Router($this->request);
     }
