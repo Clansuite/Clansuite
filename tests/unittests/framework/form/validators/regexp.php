@@ -13,7 +13,7 @@ class Koch_Form_Validator_RegExp_Test extends Clansuite_UnitTestCase
     public function setUp()
     {
         // Test Subject
-        $this->validator = new \Koch\Form\Validators\Regexp;
+        $this->validator = new \Koch\Form\Validators\RegExp;
     }
 
     /**
