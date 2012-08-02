@@ -2,7 +2,7 @@
 
 /**
  * Clansuite - just an eSports CMS
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  * http://www.clansuite.com/
  *
  * This file is part of "Clansuite - just an eSports CMS".
@@ -26,9 +26,27 @@
 
 namespace Clansuite\Installation;
 
-require 'bootstrap.php';
+class Autoload
+{
+    public function __construct()
+    {
+        spl_autoload_register('self::autoload');
+    }
 
-/**
- * Start Installation Application
- */
-new Application;
+    private static function autoload($classname)
+    {
+        if (strpos($classname, 'doctrine') !== false) {
+            return;
+        }
+
+        // remove namespace
+        $filename = str_replace('Clansuite\Installation\\', '', $classname);
+
+        // load
+        if (is_file(INSTALLATION_ROOT . 'steps/' . $filename . '.php')) {
+            include INSTALLATION_ROOT . 'steps/' . $filename . '.php';
+        } else {
+            include INSTALLATION_ROOT . $filename . '.php';
+        }
+    }
+}

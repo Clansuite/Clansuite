@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\installation;
+namespace Clansuite\Installation;
 
 /**
  * Clansuite Installation Application
@@ -64,8 +64,6 @@ class Application
 
     public function __construct()
     {
-        spl_autoload_register('Clansuite\Installation::autoload');
-
         $this->handleRequest_deleteInstallationFolder();
 
         $this->loadDoctrine();
@@ -80,22 +78,7 @@ class Application
         $this->calculateInstallationProgress();
         $this->renderStep();
 
-        register_shutdown_function('Clansuite\Installation::shutdown');
-    }
-
-    private static function autoload($classname)
-    {
-        $classname = strtolower($classname);
-
-        if (strpos($classname, 'doctrine') !== false) {
-            return;
-        }
-
-        // remove namespace = classname to filename conversion
-        $filename = str_replace('clansuite\installation\\', '', $classname);
-
-        // load
-        include INSTALLATION_ROOT . 'controller' . DIRECTORY_SEPARATOR . $filename . '.php';
+        register_shutdown_function(array($this, 'shutdown'));
     }
 
     public function loadDoctrine()
@@ -130,7 +113,7 @@ class Application
              */
             echo "Deleting Directory - " . __DIR__;
 
-            \Clansuite\Installation_Helper::removeDirectory(__DIR__);
+            \Clansuite\Installation\Helper::removeDirectory(__DIR__);
 
             // display success message
             if (false === file_exists(__DIR__)) {
@@ -197,7 +180,7 @@ class Application
 
     public function getTotalNumberOfInstallationSteps()
     {
-        $this->total_steps = \Clansuite\Installation_Helper::getTotalNumberOfSteps();
+        $this->total_steps = \Clansuite\Installation\Helper::getTotalNumberOfSteps();
     }
 
     /**
@@ -210,7 +193,7 @@ class Application
     public function determineCurrentStep()
     {
         // update the session with the given variables!
-        $_SESSION = \Clansuite\Installation_Helper::array_merge_rec($_POST, $_SESSION);
+        $_SESSION = \Clansuite\Installation\Helper::array_merge_rec($_POST, $_SESSION);
 
         /**
          * STEP HANDLING
@@ -246,7 +229,7 @@ class Application
         /**
          * Calculate Progress Percentage
          */
-        $_SESSION['progress'] = \Clansuite\Installation_Helper::calculateProgress($this->step, $this->total_steps);
+        $_SESSION['progress'] = \Clansuite\Installation\Helper::calculateProgress($this->step, $this->total_steps);
     }
 
     public function processPreviousStep()

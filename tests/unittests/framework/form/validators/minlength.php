@@ -16,7 +16,7 @@ class Koch_Form_Validator_MinLength_Test extends Clansuite_UnitTestCase
     public function setUp()
     {
         // Test Subject
-        $this->validator = new \Koch\Form\Validators\Minlength;
+        $this->validator = new \Koch\Form\Validators\MinLength;
     }
 
     /**

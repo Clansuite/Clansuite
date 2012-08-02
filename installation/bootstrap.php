@@ -39,11 +39,12 @@ define('DEBUG', false);
 define('DS', DIRECTORY_SEPARATOR);
 define('INSTALLATION_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 define('ROOT', dirname(INSTALLATION_ROOT) . DIRECTORY_SEPARATOR);
+define('KOCH', ROOT . 'framework/Koch/');
 define('ROOT_CACHE', ROOT . 'cache/');
 define('ROOT_APP', ROOT . 'application/');
-define('PROTOCOL', 'http://'e);
-define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']e);
-define('WWW_ROOT', SERVER_URL . '/application/'e);
+define('PROTOCOL', 'http://');
+define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
+define('WWW_ROOT', SERVER_URL . '/application/');
 define('WWW_ROOT_THEMES_CORE', WWW_ROOT . 'themes/core/');
 define('NL', '<br />' . PHP_EOL);
 define('CR', "\n");
@@ -57,8 +58,8 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', true);
 ini_set('display_errors', true);
 
-require ROOT . '/core/exception/exception.php';
-require ROOT . '/core/exception/errorhandler.php';
+require KOCH . 'exception/exception.php';
+require KOCH . 'exception/errorhandler.php';
 set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
 
 if (DEBUG) {
@@ -90,3 +91,6 @@ if (false === in_array('mysql', \PDO::getAvailableDrivers())) {
     throw new Installation_Exception(
             '"<i>php_pdo_mysql</i>" driver not enabled. The extension is needed for accessing the database.', 3);
 }
+
+require 'Autoload.php';
+new Clansuite\Installation\Autoload;
