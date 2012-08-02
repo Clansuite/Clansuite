@@ -29,6 +29,6 @@ namespace Clansuite\Installation\Steps;
 /**
  * STEP 7 - Installation Success. The END.
  */
-class Step7 extends \Clansuite\InstallationStepBase
+class Step7 extends \Clansuite\Installation\Page
 {
 }
