@@ -1,5 +1,5 @@
 <?php
-class Koch_Form_Validator_Regexp_Test extends Clansuite_UnitTestCase
+class Koch_Form_Validator_RegExp_Test extends Clansuite_UnitTestCase
 {
     /**
      * @var Koch_Form_Validator_Url

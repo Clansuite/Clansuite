@@ -1,5 +1,5 @@
 <?php
-class Koch_Form_Validator_Maxvalue_Test extends Clansuite_UnitTestCase
+class Koch_Form_Validator_MaxValue_Test extends Clansuite_UnitTestCase
 {
     /**
      * @var Koch_Form_Validator_maxvalue
@@ -13,7 +13,7 @@ class Koch_Form_Validator_Maxvalue_Test extends Clansuite_UnitTestCase
     public function setUp()
     {
         // Test Subject
-        $this->validator = new \Koch\Form\Validators\Maxvalue;
+        $this->validator = new \Koch\Form\Validators\MaxValue;
     }
 
     /**

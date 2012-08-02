@@ -2,7 +2,7 @@
 /**
  * @todo method chaining tests on all setter methods
  */
-class Koch_Form_Validator_Minvalue_Test extends Clansuite_UnitTestCase
+class Koch_Form_Validator_MinValue_Test extends Clansuite_UnitTestCase
 {
     /**
      * @var Koch_Form_Validator_Minvalue

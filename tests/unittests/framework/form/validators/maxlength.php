@@ -1,5 +1,5 @@
 <?php
-class Koch_Form_Validator_Maxlength_Test extends Clansuite_UnitTestCase
+class Koch_Form_Validator_MaxLength_Test extends Clansuite_UnitTestCase
 {
     /**
      * @var Koch_Form_Validator_Maxlength
@@ -13,7 +13,7 @@ class Koch_Form_Validator_Maxlength_Test extends Clansuite_UnitTestCase
     public function setUp()
     {
         // Test Subject
-        $this->validator = new Koch\Form\Validators\Maxlength;
+        $this->validator = new Koch\Form\Validators\MaxLength;
     }
 
     /**
