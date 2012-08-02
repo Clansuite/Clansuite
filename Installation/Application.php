@@ -53,6 +53,11 @@ class Application
     public $step;
 
     /**
+     * @var int The total number of steps, dynamically calculated.
+     */
+    public $total_steps;
+
+    /**
      * @var string Errormessage.
      */
     public $error;
@@ -178,9 +183,28 @@ class Application
         }
     }
 
+    /**
+     * Returns the total number of installations steps
+     * by counting the number of classes named "\Clansuite\Installation_StepX".
+     *
+     * @return int Total number of install steps. $_SESSION['total_steps']
+     */
     public function getTotalNumberOfInstallationSteps()
     {
-        $this->total_steps = \Clansuite\Installation\Helper::getTotalNumberOfSteps();
+        // count the files only once
+        if (isset($_SESSION['total_steps']) and $_SESSION['total_steps'] > 0) {
+            $this->total_steps = $_SESSION['total_steps'];
+        } else { 
+            // get array with all installaton step files
+            $step_files = glob('Steps/Step*.php');
+
+            // count the number of files named "stepX"
+            $_SESSION['total_steps'] = count($step_files);
+
+            $this->total_steps = $_SESSION['total_steps'];
+        }
+
+        return $this->total_steps;
     }
 
     /**
@@ -198,14 +222,14 @@ class Application
         /**
          * STEP HANDLING
          */
-        if (isset($_SESSION['step'])) {
-            $this->step = (int) intval($_SESSION['step']);
+        if (isset($_SESSION['step']) === true) {
+            $this->step = intval($_SESSION['step']);
 
-            if ( isset($_POST['step_forward']) and ($this->step == $_POST['submitted_step'])) {
+            if ( isset($_POST['step_forward']) === true and ($this->step == $_POST['submitted_step'])) {
                 $this->step = $this->step + 1;
             }
 
-            if (isset($_POST['step_backward']) and ($this->step == $_POST['submitted_step'])) {
+            if (isset($_POST['step_backward']) === true and ($this->step == $_POST['submitted_step'])) {
                 $this->step = $this->step - 1;
             }
         } else {
@@ -291,7 +315,7 @@ class Application
          * =========================================================
          */
 
-        $step_class = '\Clansuite\Installation\Step' . $this->step;
+        $step_class = '\Clansuite\Installation\Steps\Step' . $this->step;
 
         if (class_exists($step_class)) {
            $_SESSION['step'] = $this->step;

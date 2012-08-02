@@ -43,8 +43,8 @@ class Autoload
         $filename = str_replace('Clansuite\Installation\\', '', $classname);
 
         // load
-        if (is_file(INSTALLATION_ROOT . 'steps/' . $filename . '.php')) {
-            include INSTALLATION_ROOT . 'steps/' . $filename . '.php';
+        if (is_file(INSTALLATION_ROOT . 'Steps/' . $filename . '.php')) {
+            include INSTALLATION_ROOT . 'Steps/' . $filename . '.php';
         } else {
             include INSTALLATION_ROOT . $filename . '.php';
         }

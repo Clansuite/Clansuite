@@ -137,28 +137,6 @@ class Helper
     }
 
     /**
-     * Returns the total number of installations steps
-     * by counting the number of classes named "\Clansuite\Installation_StepX".
-     *
-     * @return int Total number of install steps. $_SESSION['total_steps']
-     */
-    public static function getTotalNumberOfSteps()
-    {
-        // count the files only once
-        if (isset($_SESSION['total_steps'])) {
-            return $_SESSION['total_steps'];
-        }
-
-        // get array with all installaton step files
-        $step_files = glob('controller/step*.php');
-
-        // count the number of files named "stepX"
-        $_SESSION['total_steps'] = count($step_files);
-
-        return $_SESSION['total_steps'];
-    }
-
-    /**
      * Calculates the installation progress in percentages
      * based on the total number of steps and the current step.
      *
