@@ -44,7 +44,8 @@ class Locale extends Validator
 
     public static function isLocale($locale)
     {
-        require KOCH . 'localization/locales.php';
+        // fetch data table(s) with "Locales"
+        require KOCH . 'Localization/Locales.php';
 
         // turns "de_DE" into "de"
         $short_code = mb_substr($locale, 0, 2);
