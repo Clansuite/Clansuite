@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Installation\steps;
+namespace Clansuite\Installation\Steps;
 
 /**
  * STEP 7 - Installation Success. The END.

@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Installation\steps;
+namespace Clansuite\Installation\Steps;
 
 /**
  * Step 1 - Language Selection
