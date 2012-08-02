@@ -1349,7 +1349,7 @@ class Form implements FormInterface
 
         // if not already loaded, require forelement file
         if (false === class_exists($class, false)) {
-            $file = KOCH . 'form/decorators/form/' . $decorator . '.php';
+            $file = KOCH . 'Form/Decorators/Form/' . $decorator . '.php';
 
             if (is_file($file) === true) {
                 include $file;
