@@ -1,5 +1,5 @@
 <?php
-use \Koch\Mvc\HttpRequest;
+use \Koch\Http\HttpRequest;
 
 class Clansuite_HttpRequest_Test extends Clansuite_UnitTestCase
 {
