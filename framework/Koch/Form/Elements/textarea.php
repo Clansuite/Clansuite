@@ -235,7 +235,7 @@ class Textarea extends Formelement implements FormelementInterface
         /**
          * Content between tags (value)
          */
-        $html .= \Koch\Functions::UTF8_to_HTML($this->getValue());
+        $html .= \Koch\Functions\Functions::UTF8_to_HTML($this->getValue());
 
         /**
          * Closing of textarea tag
