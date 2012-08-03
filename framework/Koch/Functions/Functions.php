@@ -790,7 +790,7 @@ class Functions
         // check if this function was aleady loaded
         if (isset(self::$already_loaded[__FUNCTION__]) === false) {
             // if not, load function
-            include KOCH . 'Functions' . DIRECTORY_SEPARATOR . __FUNCTION__ . '.php';
+            include __DIR__ . '/Pool/' . __FUNCTION__ . '.php';
 
             // function loaded successfully
             self::$already_loaded[__FUNCTION__] = true;
@@ -817,7 +817,7 @@ class Functions
         // Making it easier to see which static method is called magically
         Koch_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         // construct the filename of the command
-        $filename = __DIR__  . '/pool/' . $method . '.php';
+        $filename = __DIR__  . '/Pool/' . $method . '.php';
 
         // check if name is valid
         if (is_file($filename) === true and is_readable($filename) === true) {
