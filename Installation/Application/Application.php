@@ -24,7 +24,10 @@
  *
  */
 
-namespace Clansuite\Installation;
+namespace Clansuite\Installation\Application;
+
+use \Clansuite\Installation\Application\Helper as Helper;
+use \Clansuite\Installation\Application\Exception as Exception;
 
 /**
  * Clansuite Installation Application
@@ -118,7 +121,7 @@ class Application
              */
             echo "Deleting Directory - " . __DIR__;
 
-            \Clansuite\Installation\Helper::removeDirectory(__DIR__);
+            Helper::removeDirectory(__DIR__);
 
             // display success message
             if (false === file_exists(__DIR__)) {
@@ -176,7 +179,7 @@ class Application
 
                 $_SESSION['lang'] = $this->locale;
             } else {
-                throw new \Clansuite\Installation_Exception('<span style="color:red">Language file missing: <strong>' . $file . '</strong></span>');
+                throw new Exception('<span style="color:red">Language file missing: <strong>' . $file . '</strong></span>');
             }
         } catch (\Exception $e) {
             exit($e);
@@ -217,7 +220,7 @@ class Application
     public function determineCurrentStep()
     {
         // update the session with the given variables!
-        $_SESSION = \Clansuite\Installation\Helper::array_merge_rec($_POST, $_SESSION);
+        $_SESSION = Helper::array_merge_rec($_POST, $_SESSION);
 
         /**
          * STEP HANDLING
@@ -253,7 +256,7 @@ class Application
         /**
          * Calculate Progress Percentage
          */
-        $_SESSION['progress'] = \Clansuite\Installation\Helper::calculateProgress($this->step, $this->total_steps);
+        $_SESSION['progress'] = Helper::calculateProgress($this->step, $this->total_steps);
     }
 
     public function processPreviousStep()

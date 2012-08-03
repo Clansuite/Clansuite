@@ -26,10 +26,12 @@
 
 namespace Clansuite\Installation\Steps;
 
+use \Clansuite\Installation\Application\Helper as Helper;
+
 /**
  * Step 5 - Website Configuration
  */
-class Step5 extends \Clansuite\Installation\Page
+class Step5 extends \Clansuite\Installation\Application\Page
 {
     public function getDefaultValues()
     {
@@ -89,7 +91,7 @@ class Step5 extends \Clansuite\Installation\Page
         $config_array['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['gmtoffset'], 0);
 
         // write Settings to clansuite.config.php
-        if (false === \Clansuite\Installation_Helper::write_config_settings($config_array)) {
+        if (false === Helper::write_config_settings($config_array)) {
             $this->setStep(5);
             $this->setErrorMessage('Config not written <br />');
         }

@@ -26,6 +26,8 @@
 
 namespace Clansuite\Installation\Steps;
 
+use \Clansuite\Installation\Application\Helper as Helper;
+
 /**
  * STEP 4 - Database Source Name Configuration
  *
@@ -37,7 +39,7 @@ namespace Clansuite\Installation\Steps;
  * 5) insert database schema
  * 6) write database settings to config file
  */
-class Step4 extends \Clansuite\Installation\Page
+class Step4 extends \Clansuite\Installation\Application\Page
 {
     public function getDefaultValues()
     {
@@ -170,7 +172,7 @@ class Step4 extends \Clansuite\Installation\Page
             'prefix' => $_POST['config']['database']['prefix'],
         );
 
-        $entityManager = \Clansuite\Installation_Helper::getDoctrineEntityManager($connectionParams);
+        $entityManager = Helper::getDoctrineEntityManager($connectionParams);
 
         /**
          * 4) Validate Database Schemas
@@ -232,7 +234,7 @@ class Step4 extends \Clansuite\Installation\Page
         /**
          * 6. Write Settings to clansuite.config.php
          */
-        if (false === \Clansuite\Installation_Helper::write_config_settings($_POST['config'])) {
+        if (false === Helper::write_config_settings($_POST['config'])) {
             // force return
             $this->setStep(4);
 

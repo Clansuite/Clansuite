@@ -29,7 +29,7 @@ namespace Clansuite\Installation\Steps;
 /**
  * Step 1 - Language Selection
  */
-class Step1 extends \Clansuite\Installation\Page
+class Step1 extends \Clansuite\Installation\Application\Page
 {
 
 }

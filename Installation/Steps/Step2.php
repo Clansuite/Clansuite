@@ -29,6 +29,6 @@ namespace Clansuite\Installation\Steps;
 /**
  * Step 2 - System Check
  */
-class Step2 extends \Clansuite\Installation\Page
+class Step2 extends \Clansuite\Installation\Application\Page
 {
 }

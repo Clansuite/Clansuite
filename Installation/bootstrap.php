@@ -92,5 +92,5 @@ if (false === in_array('mysql', \PDO::getAvailableDrivers())) {
             '"<i>php_pdo_mysql</i>" driver not enabled. The extension is needed for accessing the database.', 3);
 }
 
-require 'Autoload.php';
-new Clansuite\Installation\Autoload;
+require __DIR__ . '/Application/Autoload.php';
+new Clansuite\Installation\Application\Autoload;

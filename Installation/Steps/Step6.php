@@ -26,10 +26,12 @@
 
 namespace Clansuite\Installation\Steps;
 
+use \Clansuite\Installation\Application\Helper as Helper;
+
 /**
  * Step 6 - Create Administrator Account
  */
-class Step6 extends \Clansuite\Installation\Page
+class Step6 extends \Clansuite\Installation\Application\Page
 {
     public function getDefaultValues()
     {
@@ -90,7 +92,7 @@ class Step6 extends \Clansuite\Installation\Page
          * We are using a raw sql statement with bound variables passing it to Doctrine2.
          */
         try {
-            $db = \Clansuite\Installation_Helper::getDoctrineEntityManager()->getConnection();
+            $db = Helper::getDoctrineEntityManager()->getConnection();
 
             $raw_sql_query = 'INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users
                             SET  email = :email,

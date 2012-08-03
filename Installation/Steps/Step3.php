@@ -29,6 +29,6 @@ namespace Clansuite\Installation\Steps;
 /**
  * Step 3 - GPL License
  */
-class Step3 extends \Clansuite\Installation\Page
+class Step3 extends \Clansuite\Installation\Application\Page
 {
 }
