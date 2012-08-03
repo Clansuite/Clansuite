@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch;
+namespace Koch\Functions;
 
 /**
  * Koch FrameworkFunctions
