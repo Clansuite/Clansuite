@@ -34,6 +34,18 @@ namespace Koch\Http;
  */
 class UserAgent
 {
+    const BROWSER_IE = 'Internet Explorer';
+    const BROWSER_FIREFOX = 'Firefox';
+    const BROWSER_OPERA = 'Opera';
+    const BROWSER_CHROME = 'Google Chrome';
+    const BROWSER_SAFARI = 'Safari';
+
+    const TYPE_BOT = 'bot';
+    const TYPE_BROWSER = 'browser';
+
+    const SYSTEM_MOBIL = 'mobil';
+    const SYSTEM_CONSOLE = 'console';
+
     /**
      * usrer agent
      * @var string
@@ -123,16 +135,6 @@ class UserAgent
      * @var string
      */
     protected $engineVersion;
-
-    const BROWSER_IE = 'Internet Explorer';
-    const BROWSER_FIREFOX = 'Firefox';
-    const BROWSER_OPERA = 'Opera';
-    const BROWSER_CHROME = 'Google Chrome';
-    const BROWSER_SAFARI = 'Safari';
-    const TYPE_BOT = 'bot';
-    const TYPE_BROWSER = 'browser';
-    const SYSTEM_MOBIL = 'mobil';
-    const SYSTEM_CONSOLE = 'console';
 
     /**
      * Constructor
