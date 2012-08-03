@@ -817,7 +817,7 @@ class Functions
         // Making it easier to see which static method is called magically
         Koch_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         // construct the filename of the command
-        $filename = ROOT_FRAMEWORK . 'functions' . DIRECTORY_SEPARATOR . $method . '.function.php';
+        $filename = __DIR__  . '/pool/' . $method . '.php';
 
         // check if name is valid
         if (is_file($filename) === true and is_readable($filename) === true) {
@@ -851,7 +851,7 @@ class Functions
         // Making it easier to see which method is called magically
         // Koch_Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
         // construct the filename of the command
-        $filename = ROOT_FRAMEWORK . 'functions' . DIRECTORY_SEPARATOR . $method . '.function.php';
+        $filename = __DIR__  . '/pool/' . $method . '.php';
 
         // check if name is valid
         if (is_file($filename) === true and is_readable($filename) === true) {
