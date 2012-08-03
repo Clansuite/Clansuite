@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Mvc;
+namespace Koch\Http;
 
 /**
  * Interface for the Response Object
