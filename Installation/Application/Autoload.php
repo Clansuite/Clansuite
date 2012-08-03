@@ -35,8 +35,7 @@ class Autoload
 
     private static function autoload($classname)
     {
-        // echo $classname . ' => ';
-
+        // return early, as we don't handle loading doctrine stuff
         if (strpos($classname, 'doctrine') !== false) {
             return;
         }
@@ -44,8 +43,7 @@ class Autoload
         // remove namespace
         $filename = str_replace('Clansuite\Installation\\', '', $classname);
 
-        //echo INSTALLATION_ROOT . $filename . '.php <br>';
-
+        // load class
         include INSTALLATION_ROOT . $filename . '.php';
     }
 }
