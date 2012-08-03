@@ -29,8 +29,6 @@ namespace Clansuite\Installation\Language;
 /**
  * German Language for Installation
  *
- * Contributors: vain, vyper
- *
  * @category        Clansuite
  * @package         Installation
  * @subpackage      Languages

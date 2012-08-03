@@ -29,8 +29,6 @@ namespace Clansuite\Installation\Language;
 /**
  * English Language for Installation
  *
- * Contributors: vain
- *
  * @category        Clansuite
  * @package         Installation
  * @subpackage      Languages
