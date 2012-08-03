@@ -4,7 +4,7 @@
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="images/64px-Tango_Globe_of_Letters.svg.png" style="vertical-align:middle" alt="installstep image" />
+                    <img src="assets\images/64px-Tango_Globe_of_Letters.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP1_LANGUAGE_SELECTION']; ?>
                 </h2>
                 <p><strong><?php echo $language['STEP1_WELCOME']; ?></strong></p>
