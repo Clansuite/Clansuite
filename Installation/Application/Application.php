@@ -268,7 +268,7 @@ class Application
 
         $previous_step = $this->step - 1;
 
-        $prev_step_class = '\Clansuite\Installation\Step' . $previous_step;
+        $prev_step_class = '\Clansuite\Installation\Steps\Step' . $previous_step;
 
         if (class_exists($prev_step_class)) {
             $prev_step = new $prev_step_class(
