@@ -47,7 +47,7 @@
 
                                 // start table row
                                 $table_rows = '<tr class="'. $csstoggle .'">';
-                                
+
                                 $table_rows .= '<td data-name="'.$settingname.'">'. $value['label'] .'</td>';
                                 $table_rows .= '<td class="col1">' . $value['expected'] . '</td>';
                                 $table_rows .= '<td class="col2">' . $value['actual'] .'</td>';

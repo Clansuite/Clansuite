@@ -194,7 +194,7 @@ class Application
         // count the files only once
         if (isset($_SESSION['total_steps']) and $_SESSION['total_steps'] > 0) {
             $this->total_steps = $_SESSION['total_steps'];
-        } else { 
+        } else {
             // get array with all installaton step files
             $step_files = glob('Steps/Step*.php');
 
