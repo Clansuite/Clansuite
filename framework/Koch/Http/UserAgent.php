@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Tools;
+namespace Koch\Http;
 
 /**
  * Koch Framework - Class for Browser information
@@ -32,7 +32,7 @@ namespace Koch\Tools;
  * @package     Tools
  * @subpackage  Browser
  */
-class BrowserInfo
+class UserAgent
 {
     /**
      * usrer agent
