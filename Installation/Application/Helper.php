@@ -40,32 +40,31 @@ class Helper
     public static function write_config_settings($data_array)
     {
         // Read/Write Handler for config files
-        include ROOT . 'core/config/adapter/ini.php';
+        include KOCH . 'Config/Adapter/Ini.php';
 
-        /**
-         * Throw not needed setting out, before data_array gets written to file.
-         */
+        // the base class is needed for \Koch\Config\Adpater\Ini
+        if (false === class_exists('AbstractConfig', false)) {
+            require KOCH . 'Config/AbstractConfig.php';
+        }
+
+        // throw not needed setting out, before data_array gets written to file
         unset($data_array['step_forward']);
         unset($data_array['lang']);
         unset($data_array['database']['create_database']);
 
-        // base class is needed for \Koch\Config\Adpater\Ini
-        if (false === class_exists('AbstractConfig', false)) {
-            require ROOT . 'core/config/abstractconfig.php';
-        }
-
-        // read skeleton settings = minimum settings for initial startup
-        // (not asked from user during installation, but required paths, default actions, etc.)
+        // read skeleton settings, which are the minimum settings for initial startup
+        // (these are not asked from user during installation)
         $installer_config = \Koch\Config\Adapter\Ini::readConfig(INSTALLATION_ROOT . 'config.skeleton.ini');
 
         // array merge: overwrite the array to the left, with the array to the right, when keys identical
         $data_array = array_merge_recursive($data_array, $installer_config);
 
-        // Write Config File to ROOT Directory
+        // write Config File to the APPLICATION/configuration folder
         if (false === \Koch\Config\Adapter\Ini::writeConfig(ROOT_APP . 'configuration/clansuite.php', $data_array)) {
             // config not written
             return false;
         }
+
         // config written
         return true;
     }
@@ -80,7 +79,7 @@ class Helper
     public static function array_merge_rec($arr1, $arr2)
     {
         foreach ($arr2 as $k => $v) {
-            if (!array_key_exists($k, $arr1)) {
+            if (false === array_key_exists($k, $arr1)) {
                 $arr1[$k] = $v;
             } else {
                 if (is_array($v)) {

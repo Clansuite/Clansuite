@@ -35,8 +35,8 @@ class Autoload
 
     private static function autoload($classname)
     {
-        // return early, as we don't handle loading doctrine stuff
-        if (strpos($classname, 'doctrine') !== false) {
+        // return early, as we don't handle loading Doctrine stuff
+        if (strpos($classname, 'Doctrine') !== false) {
             return;
         }
 

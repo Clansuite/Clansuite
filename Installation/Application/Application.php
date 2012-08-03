@@ -33,8 +33,8 @@ use \Clansuite\Installation\Application\Exception as Exception;
  * Clansuite Installation Application
  * ----------------------------------
  *
- * GET Requests
- * ------------
+ * The following GET Requests are accepted:
+ * ----------------------------------------
  * "?reset_session"      - Resets the installaton session
  * "?delete_installaton" - Deletes the Installation Folder
  */
@@ -293,13 +293,12 @@ class Application
 
                 // The incomming form values must be valid.
                 if ($prev_step->validateFormValues() === true) {
-                    // The form values are valid.
-                    // Now process them.
+                    // Values are ok. Now process them.
                     $prev_step->processValues();
                 }
 
                 /**
-                 * let's test if an errormessage was set during
+                 * Test if an ErrorMessage was set during
                  * validateFormValues() and processValues()
                  */
                 if ($prev_step->error != '') {
@@ -337,7 +336,7 @@ class Application
     public static function shutdown()
     {
         if (true == session_id()) {
-            // Save + close the session
+            // save + close the session
             session_write_close();
         }
     }
