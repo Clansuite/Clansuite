@@ -25,8 +25,8 @@
 
 namespace Koch\Filter\Filters;
 
-use Koch\Mvc\HttpRequestInterface;
-use Koch\Mvc\HttpResponseInterface;
+use Koch\Http\HttpRequestInterface;
+use Koch\Http\HttpResponseInterface;
 
 /**
  * Koch Framework - Filter for displaying a maintenace mode screen.

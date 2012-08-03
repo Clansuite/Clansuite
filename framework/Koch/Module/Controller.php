@@ -25,9 +25,9 @@
 
 namespace Koch\Module;
 
-use Koch\Mvc\HttpRequest;
-use Koch\Mvc\HttpRequestInterface;
-use Koch\Mvc\HttpResponseInterface;
+use Koch\Http\HttpRequest;
+use Koch\Http\HttpRequestInterface;
+use Koch\Http\HttpResponseInterface;
 
 /**
  * ModuleController
@@ -58,12 +58,12 @@ abstract class Controller
     public $template = null;
 
     /**
-     * @var \Koch\Mvc\HttpResponse
+     * @var \Koch\Http\HttpResponse
      */
     public $response = null;
 
     /**
-     * @var \Koch\Mvc\HttpRequest
+     * @var \Koch\Http\HttpRequest
      */
     public $request = null;
 

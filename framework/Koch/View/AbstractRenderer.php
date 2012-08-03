@@ -25,7 +25,7 @@
 
 namespace Koch\View;
 
-use Koch\Mvc\HttpRequest;
+use Koch\Http\HttpRequest;
 
 /**
  * A abstract base class for all our view rendering engines.

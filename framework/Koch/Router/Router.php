@@ -25,7 +25,7 @@
 
 namespace Koch\Router;
 
-use Koch\Mvc\HttpRequestInterface;
+use Koch\Http\HttpRequestInterface;
 
 /**
  * Router

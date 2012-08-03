@@ -26,7 +26,7 @@
 namespace Koch\View;
 
 use Koch\Router\TargetRoute;
-use Koch\Mvc\HttpRequest;
+use Koch\Http\HttpRequest;
 
 /**
  * View_Mapper
