@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="robots" content="index,follow" />
-    <link rel="shortcut icon" href="images/Clansuite-Favicon-16.ico" />
-    <link rel="stylesheet" type="text/css" href="css/installation.css" />
+    <link rel="shortcut icon" href="assets/images/Clansuite-Favicon-16.ico" />
+    <link rel="stylesheet" type="text/css" href="assets/css/installation.css" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica+SC&amp;subset=latin" />
     <title>Clansuite - Installation</title>
-    <script type="text/javascript" src="javascript/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="javascript/tooltip.js"></script>
+    <script type="text/javascript" src="assets/javascript/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/tooltip.js"></script>
 </head>
 <body>
 <div id="wrapper">
