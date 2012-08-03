@@ -146,7 +146,7 @@ class CMS
      *  ================================================
      *
      *   1. Define Shorthands and Syntax Declarations
-     *      - APC, NL, CR
+     *      - NL, TAB, LF,  CR, CRT, CRLF
      *   2. Path Assignments
      *      - ROOT & ROOT_*
      *      - WWW_ROOT & WWW_ROOT_*
@@ -159,20 +159,12 @@ class CMS
          * 1) Shorthands and Syntax Declarations
          */
 
-        /**
-         * @var NL is a shorthand for a HTML NEWLINE (HTML Break + Carriage Return)
-         */
-        define('NL', '<br />'. PHP_EOL);
-
-        /**
-         * @var Carriage Return "\n"
-         */
-        define('CR', PHP_EOL);
-
-        /**
-         * @var Carriage Return and Tabulator "\n\t"
-         */
-        define('CRT', PHP_EOL . "\t");
+        define('NL', '<br />'. PHP_EOL);  // NL is a shorthand for a HTML NEWLINE (HTML Break + Carriage Return)
+        define('TAB', chr(9));            // Tabulator (\t) (horizontal tab)
+        define('LF', chr(10));            // Line Feed
+        define('CR', chr(13));            // Carriage Return (\n)
+        define('CRT', CR . TAB);          // Carriage Return and Tabulator (\n\t)
+        define('CRLF', CR . LF);          // Carriage Return and Line Feed Combo (\r\n)
 
         /**
          * 2) Path Assignments
@@ -590,9 +582,9 @@ class CMS
         // define the core classes to load
         static $core_classes = array(
             'Koch\Config\Config',
-            #'Koch\Mvc\HttpRequest',
-            #'Koch\Mvc\HttpResponse',
-            #'Koch\Filter\Manager',
+            #'Koch\Http\HttpRequest',
+            #'Koch\Http\HttpResponse',
+            #'Koch\Filter\FilterManager',
             'Koch\Localization\Localization',
             'Koch\Security',
             'Koch\Validation\Inputfilter',
@@ -650,8 +642,8 @@ class CMS
     private static function executeFrontController()
     {
         // Get request and response objects for Filter and Request processing
-        $request  = self::$injector->instantiate('Koch\Mvc\HttpRequest');
-        $response = self::$injector->instantiate('Koch\Mvc\HttpResponse');
+        $request  = self::$injector->instantiate('Koch\Http\HttpRequest');
+        $response = self::$injector->instantiate('Koch\Http\HttpResponse');
 
         /**
          * Setup Frontcontroller and pass Request and Response
