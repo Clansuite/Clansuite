@@ -6,7 +6,6 @@
 
     0) Display HELP TEXT first, ok?
     1) Properties & General Settings
-    2) Subversion Tasks
     3) Deployment Tasks (Release Building)
     4) Testing & Validation Tasks (running lint, sniffer and unittests)
     5) Documentation Tasks (building the manuals and API documentation)
@@ -19,7 +18,6 @@
     Requirements:
 
     Phing               http://phing.info/
-    Subversion          http://subversion.tigris.org/
     Doxygen             http://www.stack.nl/~dimitri/doxygen/
     phpLint             http://www.icosaedro.it/phplint/
     phpCodeSniffer      http://pear.php.net/package/PHP_CodeSniffer/
@@ -68,24 +66,12 @@
         - doc-doxygen         : generate the api docs via doxygen
         - doc-asciidoc        : generate the manuals from asciidoc files
 
-        List of Subversion Commands
-        ---------------------------
-
-        - svn-update            : updates ${svn.local.directory} via svn update
-        - svn-checkout          : svn checkout from ${svn.repository}
-        - svn-export-from-gna   : svn export from ${svn.repository}
-        - svn-export-from-local : svn export from ${svn.local.directory}
-        - svn-up-export-local   : svn-update + svn-export-from-local
-
         General Settings and Paths
         --------------------------
 
         Release/Packagename : ${phing.project.name}-${clansuite.version}
         Release-Directory   : ${build.src.directory}
 
-        "svn.repository"              : ${svn.repository}
-        "svn.local.export.directory"  : ${svn.local.export.directory}
-        "svn.local.directory"         : ${svn.local.directory}
         Current Project Basedir       : ${project.basedir}
         "basedir"                     : ${base.directory}
         "build.base.directory"        : ${build.base.directory}
@@ -133,9 +119,9 @@
     <property name="tmpdir" value="${builddir}/tmp" />
     <property name="ignorepaths" value="libraries,tests" />
 
-    <!-- Define the Properties for Section 2) Subversion -->
-    <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />    <!-- Local SVN Export Directory (todir) -->
-    <property name="svn.local.directory"         value="${base.directory}svn/" />           <!-- Local SVN Directory -->
+    <!-- Define the Properties for Section 2) git -->
+    <property name="git.local.export.directory"  value="${base.directory}git-export/" />    <!-- Local git Export Directory (todir) -->
+    <property name="git.local.directory"         value="${base.directory}git/" />           <!-- Local git Directory -->
 
     <!-- Define the Properties for Section 4) Tests & Validations -->
     <property name="sniffsdir" value="${sourcedir}/build-tools/CodeSniffer/Standards/Clansuite/" override="true" />
@@ -147,7 +133,7 @@
     <property name="archive.directory" value="${build.base.directory}archives" override="true" />
 
     <!-- Define Fileset "clansuite.projectfiles" -->
-    <fileset id="clansuite.projectfiles" dir="${svn.local.export.directory}">   <!-- based on trunk -->
+    <fileset id="clansuite.projectfiles" dir="${git.local.export.directory}">   <!-- based on trunk -->
         <include name="**/**" />                        <!-- include all files -->
         <exclude name="build-tools/**" />               <!-- exclude build-tools directory -->
         <exclude name="**/tests/**" />                  <!-- exclude tests directory -->
@@ -165,7 +151,7 @@
     </fileset>
 
     <!-- Define Fileset "clansuite.projectfiles.docs" Documentation Fileset (exclude Smarty, because Phing is stupid :) -->
-    <fileset id="clansuite.projectfiles.docs" dir="${svn.local.export.directory}">   <!-- based on trunk -->
+    <fileset id="clansuite.projectfiles.docs" dir="${git.local.export.directory}">   <!-- based on trunk -->
         <include name="**/*.php" />                     <!-- include all php files -->
         <exclude name="build-tools/**" />               <!-- exclude build-tools directory -->
         <exclude name="**/tests/**" />                  <!-- exclude tests directory -->
@@ -179,66 +165,12 @@
     </fileset>
 
     <!-- Define Fileset "clansuite.testfiles" -->
-    <fileset id="clansuite.testfiles" dir="${svn.local.export.directory}">    <!-- based on trunk -->
+    <fileset id="clansuite.testfiles" dir="${git.local.export.directory}">    <!-- based on trunk -->
        <include name="**/*.php" />                     <!-- include all php files -->
        <include name="*Test.php"/>                     <!-- include all test files -->
        <include name="**/*Test.php"/>
        <exclude name="libraries/**" />                 <!-- exclude the libraries folder -->
     </fileset>
-
-    <!-- ============================================ -->
-    <!-- ======       2) Subversion Tasks      ====== -->
-    <!-- ============================================ -->
-
-    <!-- setup the svn properties -->
-    <property name="svn.path"        value="/usr/bin/svn" />                             <!-- Path to SVN -->
-    <property name="svn.username"    value="YOUR_SVN_USERNAME" />                        <!-- SVN Username -->
-    <property name="svn.password"    value="YOUR_SVN_PASSWORD" />                        <!-- SVN Password -->
-    <property name="svn.repository"  value="http://svn.gna.org/svn/clansuite/trunk/" />  <!-- SVN Repository URL -->
-    <!-- We are building from /trunk. Later from /tag releases!
-    <property name="repository" value="http://svn.gna.org/svn/clansuite/tag/${clansuite_version}/" />
-    -->
-
-    <target name="svn-update" description="Updates ${svn.local.directory} via svn update.">
-        <echo>Performing an SVN Update</echo>
-        <exec command="svn update ${svn.local.directory}"/>
-    </target>
-
-    <target name="svn-checkout" description="Checks out the GNA Subversion repository to the local directory ${svn.local.directory}.">
-        <echo>Performing an SVN Checkout</echo>
-        <svncheckout svnpath="${svn.path}" repositoryurl="${svn.repository}" todir="${svn.local.directory}" />
-    </target>
-
-    <target name="svn-export-from-gna" description="Exports the GNA Subversion repository to the local export directory ${svn.local.export.directory}.">
-        <echo>Performing an SVN Export</echo>
-        <svnexport svnpath="${svn.path}"
-                   username="${svn.username}" password="${svn.password}"
-                   nocache="true" force="true"
-                   repositoryurl="${svn.repository}" todir="${svn.local.export.directory}" />
-    </target>
-
-    <target name="svn-export-from-local" description="Exports the local Clansuite Subversion repository to the local export directory ${svn.local.export.directory}.">
-        <echo>Performing an SVN Export on local SVN Repository</echo>
-        <svnexport svnpath="${svn.path}" nocache="true" force="true"
-                   repositoryurl="${svn.local.directory}" todir="${svn.local.export.directory}" />
-    </target>
-
-    <target name="svn-lastrevision" description="Fetches the SVN Revision Number to a Property">
-        <echo>Fetching the Revision Number</echo>
-        <svnlastrevision svnpath="${svn.path}" workingcopy="${svn.local.directory}" propertyname="svn.lastrevision"/>
-    </target>
-
-    <target name="mrproper-svn-dir" description="Mr.Proper will clean the SVN Export Dir">
-        <echo>Removes and recreates the SVN Export Dir to have a clean copy</echo>
-        <delete dir="${svn.local.export.directory}" failonerror="true" verbose="false" includeemptydirs="true" />
-        <mkdir dir="${svn.local.export.directory}" />
-    </target>
-
-    <target name="svn-up-export-local" description="Combined tasks of svn update and svn export local">
-        <echo>Combined tasks of svn update and svn export local</echo>
-        <phingcall target="svn-update" />
-        <phingcall target="svn-export-from-local" />
-    </target>
 
     <!-- =============================================== -->
     <!-- ======        3) Deployment Tasks        ====== -->
@@ -334,7 +266,7 @@
     <!-- =================================================== -->
 
     <!-- Define Fileset "clansuite.reportfiles" -->
-    <fileset id="clansuite.reportfiles" dir="${svn.local.export.directory}">
+    <fileset id="clansuite.reportfiles" dir="${git.local.export.directory}">
         <include name="*.php"/>
         <include name="**/*.php"/>
         <!-- exclude a) trunk/libraries b) trunk/modules/libraries -->
@@ -386,8 +318,8 @@
     <target name="phpcs-local" description="Runs the PHP-Codesniffer task and reports coding standard violations">
         <echo msg="PHP_CodeSniffer runs CodeSniffs and reports coding standard violations." />
         <exec command="phpcs --extensions=php --report=checkstyle
-                             --standard=/home/clansuite/svn-export/build-tools/CodeSniffer/Standards/Clansuite/ruleset.xml
-                             --ignore=${ignorepaths} /home/clansuite/svn > phpcs.xml" escape="false" />
+                             --standard=/home/clansuite/git-export/build-tools/CodeSniffer/Standards/Clansuite/ruleset.xml
+                             --ignore=${ignorepaths} /home/clansuite/git > phpcs.xml" escape="false" />
     </target>
 
     <!-- bootstrap=${project}/test/bootstrap.php  -->
@@ -421,7 +353,7 @@
     <target name="doc-doxygen" description="Generates the API documentation using Doxygen">
         <echo>Generates the API documentation using Doxygen</echo>
         <delete dir="${doxygen.directory}" includeemptydirs="true" />
-        <exec command="doxygen ${svn.local.export.directory}build-tools/doxygen/doxygen.conf" dir="." logoutput="true" />
+        <exec command="doxygen ${git.local.export.directory}build-tools/doxygen/doxygen.conf" dir="." logoutput="true" />
         <exec command="chmod -R 705 ${doxygen.directory}" />
         <exec command="chown -R clansuite:clansuite ${doxygen.directory}" />
     </target>
@@ -476,7 +408,7 @@
         <phpuml projectName="Clansuite [trunk]"
                 exportFormat="html"
                 inputDir="${execdir}"
-                ignorePatterns=".svn"
+                ignorePatterns=".git"
                 showInternal="true"
                 XMIVersion="2.1"
                 XMLEncoding="utf-8"

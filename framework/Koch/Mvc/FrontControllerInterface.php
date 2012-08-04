@@ -25,6 +25,8 @@
 
 namespace Koch\Mvc;
 
+use Koch\Http\HttpRequestInterface;
+use Koch\Http\HttpResponseInterface;
 use Koch\Filter\FilterInterface;
 
 /**

@@ -221,7 +221,7 @@ class CMS
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
          */
-        define('ROOT_MOD', ROOT . 'modules/');
+        define('ROOT_MOD', ROOT . 'Modules/');
 
         /**
          * @var Root path of the themes directory (with trailing slash)

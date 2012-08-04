@@ -87,9 +87,6 @@ class LoaderTest extends Clansuite_UnitTestCase
      */
     public function testMethod_autoloadExclusions()
     {
-        // exclude "Cs" classes
-        #$this->assertTrue(Loader::autoloadExclusions('Cs_SomeClass'));
-
         // exclude "Smarty_Internal" classes
         $this->assertTrue(Loader::autoloadExclusions('Smarty_Internal_SomeClass'));
 
@@ -103,7 +100,7 @@ class LoaderTest extends Clansuite_UnitTestCase
         $this->assertTrue(Loader::autoloadExclusions('Smarty_'));
 
         // but not, our own smarty class "\Smarty"
-        $this->assertFalse(Loader::autoloadExclusions('\Smarty'));
+        $this->assertFalse(Loader::autoloadExclusions('Koch\View\Renderer\Smarty'));
     }
 
     /**

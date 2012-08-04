@@ -139,22 +139,20 @@ class Router implements RouterInterface, \ArrayAccess
         $uri = str_replace('?xdebug_session_start=xdebug', '', $uri);
         $uri = str_replace('xdebug_session_start=xdebug', '', $uri);
 
-        $uri = str_replace($_SERVER["SCRIPT_NAME"], '', $uri);
-
-        // add slash in front + remove slash at the end
-        if ($uri !== "/") {
-            return '/' . trim($uri, '/'); //  . '/';
-        } else {
-            return $uri;
-        }
-
         // subtract PHP_SELF from uri
         if (defined('REWRITE_ENGINE_ON') and !REWRITE_ENGINE_ON) {
             $url_directory_prefix_length = strlen(dirname($_SERVER['PHP_SELF']));
-            $this->uri = substr($this->uri, $url_directory_prefix_length);
+            $uri = substr($uri, $url_directory_prefix_length);
         }
 
-        return $this->uri;
+        // add slash in front + remove slash at the end
+        if ($uri !== "/") {
+            $uri = '/' . trim($uri, '/');
+        }
+
+        $this->setRequestURI($uri);
+
+        return $uri;
     }
 
     /**
@@ -463,7 +461,7 @@ class Router implements RouterInterface, \ArrayAccess
         }
 
         // get URI from request, clean it and set it as a class property
-        $this->setRequestURI(self::prepareRequestURI($this->uri));
+        //$this->setRequestURI(self::prepareRequestURI($this->uri));
 
         /**
          * Detects if Mod_Rewrite engine is active and
@@ -479,7 +477,7 @@ class Router implements RouterInterface, \ArrayAccess
          * Reduce the map lookup table, by dropping all routes
          * with more segments than the current requested uri.
          */
-        if (count($this->routes) > 1 and count($this->uri_segments) > 1) {
+        if (count($this->routes) > 1 and count($this->uri_segments) >= 1) {
             self::removeRoutesBySegmentCount();
         }
 
@@ -515,22 +513,33 @@ class Router implements RouterInterface, \ArrayAccess
                  * Matches: $matches['controller'] = 'news';
                  */
                 if (preg_match( $route_values['regexp'], $this->uri, $matches)) {
-                    foreach ($matches as $key => $value) {
-                        if (is_numeric($key)) {
+
+                    /**
+                     * seems there is no way (flag? regexp trick?) of getting rid of numeric keys during preg_match
+                     * http://stackoverflow.com/questions/10344590/php-subpattern-without-numbering-array
+                     * ------
+                     * get rid of numeric keys
+                     */
+                    foreach($matches as $key => $var){
+                        if(is_numeric($key)){
                             unset($matches[$key]);
                         }
                     }
+
+                    // insert $matches[<controller>]
                     $this->setSegmentsToTargetRoute($matches);
                 }
 
                 #TargetRoute::_debug();
 
-                if (TargetRoute::dispatchable() === true) {
+                /*if (TargetRoute::dispatchable() === true) {
                     // route found
                     break;
                 } else {
                     TargetRoute::reset();
-                }
+                }*/
+
+                return TargetRoute::getInstance();
             }
         }
 
@@ -678,7 +687,7 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function isRewriteEngineOn()
     {
-        if (defined('REWRITE_ENGINE_ON')) {
+        if (defined('REWRITE_ENGINE_ON') and REWRITE_ENGINE_ON == true) {
             return true;
         }
 
@@ -826,9 +835,10 @@ class Router implements RouterInterface, \ArrayAccess
     {
         $route_pattern = '';
         $route_values = '';
+        $number_of_uri_segements = count($this->uri_segments);
 
         foreach ($this->routes as $route_pattern => $route_values) {
-            if ($route_values['number_of_segments'] === count($this->uri_segments)) {
+            if ($route_values['number_of_segments'] === $number_of_uri_segements) {
                 continue;
             } else {
                 unset($this->routes[$route_pattern]);

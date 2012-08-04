@@ -25,8 +25,10 @@
 
 namespace Koch\Mvc;
 
+use Koch\View\Helper\Breadcrumb; // @todo move usage into prefilter
+use Koch\Http\HttpRequestInterface;
+use Koch\Http\HttpResponseInterface;
 use Koch\Filter\FilterInterface;
-use Koch\View\Helper\Breadcrumb;
 
 /**
  * Koch Framework FrontController

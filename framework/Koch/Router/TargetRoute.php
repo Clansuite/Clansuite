@@ -102,7 +102,7 @@ class TargetRoute extends Mapper
 
     public static function setController($controller)
     {
-        self::$parameters['controller'] = $controller;
+        self::$parameters['controller'] = ucfirst($controller);
     }
 
     /**
@@ -112,7 +112,7 @@ class TargetRoute extends Mapper
      */
     public static function getController()
     {
-        return self::$parameters['controller'];
+        return ucfirst(self::$parameters['controller']);
     }
 
     /**
@@ -127,7 +127,7 @@ class TargetRoute extends Mapper
 
     public static function setSubController($subcontroller)
     {
-        self::$parameters['subcontroller'] = $subcontroller;
+        self::$parameters['subcontroller'] = ucfirst($subcontroller);
     }
 
     public static function getSubController()
@@ -322,12 +322,12 @@ class TargetRoute extends Mapper
     {
         $reset_params = array(
             // File
-            'filename' => 'IndexController.php',
-            'classname' => 'IndexController',
+            'filename' => null,
+            'classname' => null,
             // Call
             'controller' => 'index',
             'subcontroller' => null,
-            'action' => 'index',
+            'action' => 'list',
             'method' => 'action_list',
             'params' => null,
             // Output

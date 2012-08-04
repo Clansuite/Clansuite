@@ -38,8 +38,8 @@ namespace Koch\Mvc;
  */
 class Mapper extends \ArrayObject
 {
-    /* @const string Classname prefix for modules */
-    const MODULE_CLASS_PREFIX = 'Clansuite\Application\Module';
+    /* @const string Classname prefix for modules = Namespace */
+    const MODULE_CLASS_PREFIX = 'Clansuite\Application\Modules';
 
     /* @const string postfix for module controller files */
     const MODULE_FILE_POSTFIX = 'Controller.php';
@@ -88,15 +88,19 @@ class Mapper extends \ArrayObject
     {
         $classname = '';
 
-        // attach controller
-        $classname .= '\\' . ucfirst($controller);
+        // attach controller (<Controller_FirstPart>)
+        $classname .= '\\' . $controller;
 
-        // attach subcontroller to classname
+        // "\News\Controller\News" (<Modulename>\Controller\<Controller_FirstPart>)
+        $classname .= '\Controller' . $classname;
+
+        // attach subcontroller to classname (<Modulename>\Controller\<Controller_FirstPart><SubController>)
         if ($subcontroller !== null) {
-            $classname .= '\\' . ucfirst($subcontroller);
+            $classname .= ucfirst($subcontroller);
         }
 
-        return self::MODULE_CLASS_PREFIX . $classname;
+        // "Clansuite\Application\Module\News\Controller\" + "News" + "Controller"
+        return self::MODULE_CLASS_PREFIX . $classname . 'Controller';
     }
 
     /**
@@ -105,8 +109,10 @@ class Mapper extends \ArrayObject
      * Example: A action named "show" will be mapped to "action_show()"
      * This is also a way to ensure some kind of whitelisting via namespacing.
      *
-     * The use of submodules like News_Admin is also supported.
+     * The use of submodules like NewsAdminController is also supported.
      * In this case the actionname is action_admin_show().
+     * @todo drop this, makes no sense; use just action_show() on both controllers
+     * @todo alter automatic template mapping to "NewsShow.tpl"; "NewsAdminShow.tpl"
      *
      * @param  string $action    the action
      * @param  string $submodule the submodule

@@ -54,8 +54,8 @@ class Breadcrumb
         $breadcrumb = array('title' => '', 'link' => '');
 
         // set data to breadcrumb
-        $breadcrumb['title'] = ucfirst($title);
-        $breadcrumb['link']  = WWW_ROOT . ltrim($link, '/');
+        $breadcrumb['title'] = ucwords($title);
+        $breadcrumb['link']  = WWW_ROOT . ltrim($link, '/ ');
 
         // replace
         if ($replace_array_position !== null) {
@@ -87,25 +87,25 @@ class Breadcrumb
      */
     public static function addDynamicBreadcrumbs()
     {
-        $moduleName    = TargetRoute::getModuleName();
-        $submoduleName = TargetRoute::getSubModuleName();
+        $moduleName    = strtolower(TargetRoute::getModuleName());
+        $submoduleName = strtolower(TargetRoute::getSubModuleName());
         $actionName    = TargetRoute::getActionNameWithoutPrefix();
 
-        if (isset($moduleName) and $moduleName != 'controlcenter') {
+        if (isset($moduleName) and $moduleName !== 'controlcenter') {
             $url = 'index.php?mod=' . $moduleName;
 
             // Level 2
-            if ($submoduleName !== null) {
+            if ($submoduleName !== '') {
                 $url .= '&amp;sub=' . $submoduleName;
-                $moduleName .= ' '.ucfirst($submoduleName);
+                $moduleName .= ' '.$submoduleName;
             }
             self::add($moduleName, $url);
 
             // Level 3
-            if ($actionName !== null) {
+            if ($actionName !== '') {
 
                 $url .= '&amp;action=' . $actionName;
-                self::add(ucfirst($actionName), $url);
+                self::add($actionName, $url);
             }
         }
     }

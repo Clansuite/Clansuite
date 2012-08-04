@@ -245,7 +245,7 @@ class Exception extends \Exception
          * @todo add backlink to the exception codes list
          */
         if ($this->code > 0) {
-            $code = '(// ' . $this->code . ')';
+            $code = '(#' . $this->code . ')';
         } else {
             $code = '';
         }
