@@ -253,11 +253,14 @@ und zeigt mit dem Mauszeiger auf das Webseitenelement. In der Firebug-Konsole we
 Quelltext dieses Elements, sein CSS und weitere Eigenschaften angezeigt.
 Man kann auch eine direkte Veränderung durch "Bearbeiten" herbeiführen.
 
+Du kannst zahlreiche nützliche Erweiterungen im Firebug-Wiki finden:
+https://getfirebug.com/wiki/index.php/Firebug_Extensions
+
 FireCookie
 https://addons.mozilla.org/de/firefox/addon/6683/
 
 FireQuery
-Erweitert Firebug um Unterstützungsfunktionen zum Entwickeln mit jQuery
+Erweitert Firebug um Unterstützungsfunktionen zum Entwickeln mit jQuery.
 http://firequery.binaryage.com/
 
 YSlow
@@ -268,7 +271,7 @@ FirePHP
 http://firephp.org/
 
 CSS Usage
-Hilft beim Optimieren und Aufräumen von CSS Dateien durch Auffinden ungenutzer CSS-Selektoren.
+Hilft beim Optimieren und Aufräumen von CSS Dateien, durch Auffinden ungenutzer CSS-Selektoren.
 https://addons.mozilla.org/de/firefox/addon/10704
 
 Poster
