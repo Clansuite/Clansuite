@@ -28,10 +28,11 @@ namespace Koch\Security;
 /**
  * Koch Framework - Class for Security Handling
  *
- * It contains helper functions for encrypting and salting strings/passwords.
- * Password hashing is not "password encryption". An encryption is reversible.
- * A hash is not reversible. A salted hash is a combination of a string and a random value.
- * Both (salt and hash) are stored in database.
+ * The class contains helper functions for hashing and salting strings (e.g. passwords).
+ * Password hashing is not "password encryption".
+ * An encryption is reversible. A hash is not reversible.
+ * A salted hash is a combination of a string and a random value.
+ * Both (salt and hash) are stored in the database for each user individually.
  *
  * @link http://www.schneier.com/cryptography.html Website of Bruce Schneier
  * @link http://www.php.net/manual/en/refs.crypto.php

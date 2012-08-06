@@ -67,27 +67,16 @@ class ACL
     private static $compress_permissions = false;
 
     /**
-     * Constructor
-     *
-     * This object is injected via DI.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * checkPermission
      *
-     * Checks if the user has a certain permission
-     * Proxy Method for ACL::checkPermission()
+     * Checks if the current user has a certain permission.
      *
-     * Two values are necessary the modulname and the name of the permission,
+     * Two values are necessary: the modulname and the name of the permission,
      * which is often the actionname.
      *
      * @param $modulename string The modulename, e.g. 'news'.
      * @param $permission string The permission name, e.g. 'action_show'.
      * @return boolean True if the user has the permission, false otherwise.
-
      */
     public static function checkPermission( $module_name, $permission_name )
     {
@@ -115,10 +104,9 @@ class ACL
         }
     }
 
-    /*
-     * ----------------------------------------------------------------------------
+    /**
      * createRightSession
-     * ----------------------------------------------------------------------------
+     *
      * Make the Right-String for Session
      */
     public static function createRightSession( $roleid, $userid = 0 )
@@ -167,12 +155,10 @@ class ACL
         }
     }
 
-    /*
-     * ----------------------------------------------------------------------------
+    /**
      * getRoleList
-     * ----------------------------------------------------------------------------
      *
-     * give an array for column header or checkboxes
+     * Gives an array for column header or checkboxes
      *  e.g. if $title = false
      *    [1] = root
      *    [2] = admin
@@ -201,10 +187,8 @@ class ACL
         return $alist;
     }
 
-    /*
-     * ----------------------------------------------------------------------------
+    /**
      * getPermissions
-     * ----------------------------------------------------------------------------
      */
     private static function getPermissions($roleid, $userid = 0)
     {
@@ -212,30 +196,30 @@ class ACL
             return '';
         }
 
-        // --- initialize ---
+        // initialize
         $permstring = '';
         $_perms = $uRules = array();
 
-        // --- read acl-data ---
+        // read acl-data
         $Actions = self::getAclDataActions();
         $Rules = self::getAclDataRules();
         if ($userid >0) {
             $uRules = self::getAclDataURules($userid);
         }
 
-        // --- prepare actions ---
+        // prepare actions
         foreach ($Actions as $act) {
             $_actions[$act['action_id']] = $act['modulname'] . '.' . $act['action'];
         }
 
-        // --- create permission array only for the given role_id ---
+        // create permission array only for the given role_id
         foreach ($Rules as $rule) {
             if ($rule['role_id'] == $roleid) {
                 $_perms[ $_actions[$rule['action_id']] ] = 1;
             }
         }
 
-        // --- create/overide group-permissions width user-permissions ---
+        // create/overide group-permissions width user-permissions
         if ($userid >0) {
             if ( count( $uRules ) >0 ) {
                 // @todo
@@ -254,10 +238,8 @@ class ACL
         return $permstring;
     }
 
-    /*
-     * ----------------------------------------------------------------------------
+    /**
      * createAclDataRoles
-     * ----------------------------------------------------------------------------
      */
     private static function createAclDataRoles()
     {
@@ -271,10 +253,8 @@ class ACL
         return $roles;
     }
 
-    /*
-     * ----------------------------------------------------------------------------
+    /**
      * getAclDataActions
-     * ----------------------------------------------------------------------------
      */
     private static function getAclDataActions()
     {
@@ -288,10 +268,8 @@ class ACL
         return $actions;
     }
 
-    /*
-     * ----------------------------------------------------------------------------
+    /**
      * getAclDataRules
-     * ----------------------------------------------------------------------------
      */
     private static function getAclDataRules()
     {
@@ -306,10 +284,8 @@ class ACL
         return $rules;
     }
 
-    /*
-     * ----------------------------------------------------------------------------
+    /**
      * getAclDataURules
-     * ----------------------------------------------------------------------------
      */
     private static function getAclDataURules()
     {

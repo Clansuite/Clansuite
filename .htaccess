@@ -1,7 +1,13 @@
 # This is a ".htaccess" template for Clansuite
 
+#
+# Some hosters disallow the usage of custom "Options", "php_value" or "php_flag" for security reasons.
+# So you need to adjust these lines to fit your environment.
+#
+
 # Don't show directory listings for URLs which map to a directory.
 DirectoryIndex index.php
+
 # Follow symbolic links in this directory.
 Options +FollowSymLinks
 Options -Indexes
@@ -32,6 +38,14 @@ deny from all
     php_value register_globals      "Off"
     php_value output_buffering      "1"
     php_value output_handler        ob_gzhandler
+
+    # If you have trouble uploading larger files, increase the maximum file size.
+
+    # php_value upload_max_filesize -1
+    # php_value post_max_size 512M
+    # php_value memory_limit -1
+    # php_value max_input_time -1
+    # php_value max_execution_time 0
 </IfModule>
 
 <IfModule mod_deflate.c>
@@ -75,6 +89,7 @@ deny from all
     Header unset ETag
     Header unset Last-Modified
 </IfModule>
+
 <FilesMatch "\.(ico|gif|jpg|jpeg|png|swf|flv|eot|woff|svg|ttf|css|js|html?|xml|txt)$">
     FileETag none
 </FilesMatch>
@@ -89,14 +104,3 @@ deny from all
     mod_gzip_item_exclude mime ^image/.*
     mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
 </IfModule>
-
-# (11) If you have trouble uploading larger files, increase the maximum file size.
-#
-#<IfModule mod_php5.c>
-#    php_value upload_max_filesize -1
-#    php_value post_max_size 512M
-#    php_value memory_limit -1
-#    php_value max_input_time -1
-#    php_value max_execution_time 0
-#    php_value error_reporting 5
-#</IfModule>

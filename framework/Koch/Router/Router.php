@@ -482,16 +482,20 @@ class Router implements RouterInterface, \ArrayAccess
         }
 
         /**
+         * Process:     Static Route
+         *
          * Do we have a direct match ?
+         * This matches "static routes". Without any preg_match overhead.
          *
          * Example:
          * The request URI "/news/index" relates 1:1 to $routes['/news/index'].
          */
         if (isset($this->routes[$this->uri]) === true) {
             $found_route = $this->routes[$this->uri];
-
+            // returns TargetRoute
             return $this->setSegmentsToTargetRoute($found_route);
         } else {
+
             /**
              * No, there wasn't a 1:1 match.
              * Now we have to check the uri segments.
@@ -518,10 +522,10 @@ class Router implements RouterInterface, \ArrayAccess
                      * seems there is no way (flag? regexp trick?) of getting rid of numeric keys during preg_match
                      * http://stackoverflow.com/questions/10344590/php-subpattern-without-numbering-array
                      * ------
-                     * get rid of numeric keys
+                     * get rid of numeric keys, just leave the named parameter
                      */
-                    foreach($matches as $key => $var){
-                        if(is_numeric($key)){
+                    foreach ($matches as $key => $var) {
+                        if (is_numeric($key)) {
                             unset($matches[$key]);
                         }
                     }
@@ -539,7 +543,6 @@ class Router implements RouterInterface, \ArrayAccess
                     TargetRoute::reset();
                 }*/
 
-                return TargetRoute::getInstance();
             }
         }
 
@@ -890,20 +893,28 @@ class Router implements RouterInterface, \ArrayAccess
         /**
          * Connect some default fallback Routes
          *
-         * With ArrayAccess: $r['/:controller'];
+         * Example for Route definition with ArrayAccess: $r['/:controller'];
          */
         if (true === empty($this->routes)) {
-            $this->addRoute('/:controller');
-            $this->addRoute('/:controller/:action');
-            $this->addRoute('/:controller/(:id)');
-            $this->addRoute('/:controller/:action/(:id)');
-            $this->addRoute('/:controller/(:id)/:action');
-            $this->addRoute('/:controller/:action/(:id)/:format');
+            $this->addRoute('/:controller');                         // "/news"
+            $this->addRoute('/:controller/(:id)', array(1 => 'id')); // "/news/31"
+            $this->addRoute('/:controller/:action');                 // "/news/new"
+            $this->addRoute('/:controller/(:id)/:action');           // "/news/31/edit"
+            $this->addRoute('/:controller/:action/(:id)');           // "/news/edit/31"
+            $this->addRoute('/:controller/:action/(:id)/:format');   // "/news/edit/31.html"
 
-            $this->addRoute('/:controller/:subcontroller');
-            $this->addRoute('/:controller/:subcontroller/:action');
-            $this->addRoute('/:controller/:subcontroller/:action/(:id)');
-            $this->addRoute('/:controller/:subcontroller/:action/(:id)/:format');
+            /**
+             * controllers are renamed to modules
+             * subcontrollers are renamed to controllers
+             *
+             * the new structure will become:
+             * :controller = :module ; :subcontroller = :controller
+             *
+            $this->addRoute('/:module/:controller');
+            $this->addRoute('/:module/:controller/:action');
+            $this->addRoute('/:module/:controller/:action/(:id)');
+            $this->addRoute('/:module/:controller/:action/(:id)/:format');
+            */
         }
     }
 
