@@ -167,8 +167,9 @@ class Loader
         }
 
         // this means if 'Smarty" is found, but not 'Koch\Smarty' or..., exclude from our autoloading
-        if (false !== strpos($classname, 'Smarty') and false === strpos($classname, 'Koch\View\Renderer\Smarty'))
-            // false === strpos($classname, 'SmartyMoves')))
+        if (false !== strpos($classname, 'Smarty')
+            and (false === strpos($classname, 'Koch\View\Renderer\Smarty')
+              or false === strpos($classname, 'Koch\Filters\Filters\SmartyMoves')))
         {
             return true;
         }
@@ -260,7 +261,7 @@ class Loader
         // searches on include path for the file and returns absolute path
         $filename = stream_resolve_include_path($filename);
 
-        //echo "$classname => $filename <br>";
+        echo "$classname => $filename <br>";
 
         if (is_string($filename) === true) {
             return self::includeFileAndMap($filename, $classname);

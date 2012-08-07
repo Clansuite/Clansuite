@@ -617,7 +617,7 @@ class CMS
 
         // define postfilters to load
         self::$postfilter_classes = array(
-            #'Clansuite_Filter_HtmlTidy',
+            #'Koch\Filter\HtmlTidy',
             'Koch\Filter\Filters\SmartyMoves'
         );
 

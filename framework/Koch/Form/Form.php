@@ -1344,6 +1344,11 @@ class Form implements FormInterface
      */
     public function decoratorFactory($decorator)
     {
+        // this matches 0-9, when the next char is a-z (lookahead) followed by an [a-z]
+        // html5validation, '5v' is match[0], strtoupper will '5V'
+        // turining html5validation into html5Validation, in the next step a ucfirst is applied
+        $decorator = preg_replace('/([0-9])(?=[a-z])([a-z])/e', 'strtoupper("$0");', $decorator);
+
         // construct Koch\Form\Decorator\Name
         $class = 'Koch\Form\Decorators\Form\\' . ucfirst($decorator);
 
