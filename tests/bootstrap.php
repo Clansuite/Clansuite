@@ -24,6 +24,19 @@
  *
  */
 
+/**
+ * Configuration Options for Tests
+ * ===================================================
+ */
+
+// Toggle for CodeCoverage. (It depends on the PHP extensions Xdebug and SQlite.)
+define('PERFORM_CODECOVERAGE', false);
+
+// Toggle, whether to run WebTests or not.
+define('PERFORM_WEBTESTS', false);
+
+// ===================================================
+
 // Error Reporting Level
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', true);
@@ -42,7 +55,7 @@ if (version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true) {
 }
 unset($REQUIRED_PHP_VERSION);
 
-// well this should be defined in PHP.ini.. fallback
+// well this should be defined in PHP.ini.. fallback, if you are lazy.
 date_default_timezone_set('Europe/Berlin');
 
 $paths = array(
@@ -81,12 +94,6 @@ include dirname(__DIR__) . '/application/bootstrap.php';
  */
 define('REWRITE_ENGINE_ON', 1);
 define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); // /../tests (trunk)
-
-// Toggle for codecoverage (depends on Xdebug)
-define('PERFORM_CODECOVERAGE', false);
-
-// Toggle, whether to run WebTests
-define('PERFORM_WEBTESTS', false);
 
 /**
  * We might need some debug utils,
