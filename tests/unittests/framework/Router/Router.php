@@ -422,7 +422,7 @@ class RouterTest extends Clansuite_UnitTestCase
             )
         );
          */
-    }*/
+    //}
 
     public function testMethod_match_SEO_Dynamic_Routes()
     {
