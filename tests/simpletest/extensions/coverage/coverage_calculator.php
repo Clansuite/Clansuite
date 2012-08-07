@@ -67,8 +67,8 @@ class CoverageCalculator
 
     public static function reportFilename($filename)
     {
-        #$filename = str_replace("C:\\Programme\\Zend\\Apache2\\htdocs\\clansuite\\trunk\\", '', $filename);
         $filename = preg_replace('|[/\\\\]|', '_', $filename) . '.html';
+        $filename = str_replace(':', '_', $filename);
 
         return $filename;
     }

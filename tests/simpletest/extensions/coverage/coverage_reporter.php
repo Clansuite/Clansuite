@@ -43,6 +43,7 @@ class CoverageReporter
 
         foreach ($this->coverage as $file => $cov) {
             $byFile = $this->reportDir .'/'. self::reportFilename($file);
+            echo $byFile;
             $byFileHnd = fopen($byFile, 'w');
             $this->generateCoverageByFile($byFileHnd, $file, $cov);
             fclose($byFileHnd);
@@ -55,7 +56,6 @@ class CoverageReporter
     {
         $variables = $this->calculator->variables($this->coverage, $this->untouched);
         $variables['title'] = $this->title;
-        var_dump($variables);
         $report = $this->writer->writeSummary($out, $variables);
         fwrite($out, $report);
     }
@@ -69,8 +69,8 @@ class CoverageReporter
 
     public static function reportFilename($filename)
     {
-        $filename = str_replace("C:\\Programme\\Zend\\Apache2\\htdocs\\clansuite\\trunk\\", '', $filename);
         $filename = preg_replace('|[/\\\\]|', '_', $filename) . '.html';
+        $filename = str_replace(':', '_', $filename);
 
         return $filename;
     }

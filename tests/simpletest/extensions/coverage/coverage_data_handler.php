@@ -19,7 +19,7 @@ class CoverageDataHandler
     public function __construct($filename)
     {
         $this->filename = $filename;
-        $this->db = new SQLiteDatabase($filename);
+        $this->db = new PDO('sqlite:'. $filename);
         if (empty($this->db)) {
             throw new Exception("Could not create sqlite db ". $filename);
         }
@@ -27,16 +27,19 @@ class CoverageDataHandler
 
     public function createSchema()
     {
-        $this->db->queryExec("create table untouched (filename text)");
-        $this->db->queryExec("create table coverage (name text, coverage text)");
+        $this->db->exec("CREATE TABLE untouched (filename text)");
+        $this->db->exec("CREATE TABLE coverage (name text, coverage text)");
     }
 
     public function getFilenames()
     {
         $filenames = array();
-        $cursor = $this->db->unbufferedQuery("select distinct name from coverage");
-        while ($row = $cursor->fetch()) {
-            $filenames[] = $row[0];
+
+        $sql = "SELECT DISTINCT name FROM coverage";
+        $stmt = $this->db->query($sql);
+        $stmt->execute();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $filenames[] = $row['name'];
         }
 
         return $filenames;
@@ -47,9 +50,9 @@ class CoverageDataHandler
         foreach ($coverage as $file => $lines) {
             $coverageStr = serialize($lines);
             $relativeFilename = self::ltrim(getcwd() . '/', $file);
-            $sql = "insert into coverage (name, coverage) values ('$relativeFilename', '$coverageStr')";
+            $sql = "INSERT INTO coverage (name, coverage) VALUES ('$relativeFilename', '$coverageStr')";
             // if this fails, check you have write permission
-            $this->db->queryExec($sql);
+            $this->db->exec($sql);
         }
     }
 
@@ -65,13 +68,14 @@ class CoverageDataHandler
 
     public function readFile($file)
     {
-        $sql = "select coverage from coverage where name = '$file'";
         $aggregate = array();
-        $result = $this->db->query($sql);
-        while ($result->valid()) {
-            $row = $result->current();
+
+        $sql = "SELECT coverage FROM coverage WHERE name = '$file'";
+        $query = $this->db->query($sql);
+        $query->execute();
+
+        foreach($query as $row) {
             $this->aggregateCoverage($aggregate, unserialize($row[0]));
-            $result->next();
         }
 
         return $aggregate;
@@ -115,18 +119,17 @@ class CoverageDataHandler
     public function writeUntouchedFile($file)
     {
         $relativeFile = CoverageDataHandler::ltrim('./', $file);
-        $sql = "insert into untouched values ('$relativeFile')";
-        $this->db->queryExec($sql);
+        $sql = "INSERT INTO untouched VALUES ('$relativeFile')";
+        $this->db->exec($sql);
     }
 
     public function readUntouchedFiles()
     {
         $untouched = array();
-        $result = $this->db->query("select filename from untouched order by filename");
-        while ($result->valid()) {
-            $row = $result->current();
+        $query = $this->db->query("SELECT filename FROM untouched ORDER BY filename");
+        $query->execute();
+        foreach($query as $row) {
             $untouched[] = $row[0];
-            $result->next();
         }
 
         return $untouched;

@@ -59,7 +59,7 @@ class CodeCoverage
         while ($file = readdir($parent)) {
             $path = "$parentPath/$file";
             if (is_dir($path)) {
-                if ($file != '.' && $file != '..' && $file != '.svn') {
+                if ($file != '.' && $file != '..' && $file != '.svn' && $file != '.git') {
                     if ($this->isDirectoryIncluded($path, $directoryDepth)) {
                         $this->getUntouchedFiles($untouched, $touched, $path, $rootPath, $directoryDepth + 1);
                     }

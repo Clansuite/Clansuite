@@ -22,8 +22,12 @@ class CoverageUtils
 
     public static function requireSqliteExtension()
     {
-         if (false === class_exists('SQLiteDatabase')) {
-            echo 'the php extension sqlite needs to be loaded by php.ini';
+        if (false === class_exists('PDO')) {
+            echo 'The php extension PDO needs to be loaded by php.ini.';
+        }
+
+        if (false === class_exists('PDO_SQLITE')) {
+            echo 'The php extension PDO_SQLITE needs to be loaded by php.ini.';
         }
     }
 
