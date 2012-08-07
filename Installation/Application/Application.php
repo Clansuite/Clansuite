@@ -169,7 +169,7 @@ class Application
          * Load Language File
          */
         try {
-            $file = INSTALLATION_ROOT . 'languages' . DIRECTORY_SEPARATOR . $this->locale . '.install.php';
+            $file = INSTALLATION_ROOT . 'Languages/' . $this->locale . '.install.php';
 
             if (is_file($file) === true) {
                 include_once $file;

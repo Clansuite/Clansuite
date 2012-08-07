@@ -50,11 +50,11 @@
                         onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
                 <?php
                 echo '<option value="">- Select Language -</option>';
-                foreach (new DirectoryIterator('./languages/') as $file) {
+                foreach (new DirectoryIterator('./Languages/') as $file) {
                    // get each file not starting with dots ('.','..')
                    // or containing ".install.php"
                    if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename())) {
-                      echo '<option style="padding-left: 30px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
+                      echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
                       $file = substr($file->getFilename(), 0, -4);
                       if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
                       echo ' value=' . $file .'>';

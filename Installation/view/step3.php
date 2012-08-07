@@ -11,7 +11,7 @@
                 <p><?php echo $language['STEP3_REVIEW_THIRDPARTY']; ?></p>
                 <p><?php echo $language['STEP3_REVIEW_CLANSUITE']; ?></p>
                 <!-- IFRAME WITH LICENSE -->
-                <iframe scrolling="auto" frameborder="0" marginwidth="15" class="license" src="languages/<?php echo $_SESSION['lang']; ?>.gpl.html"></iframe>
+                <iframe scrolling="auto" frameborder="0" marginwidth="15" class="license" src="Languages/<?php echo $_SESSION['lang']; ?>.gpl.html"></iframe>
                 <!-- CHECKBOX -> READ LICENSE -->
                 <div class="">
                     <p><?php echo $language['STEP3_MUST_AGREE']; ?></p>
