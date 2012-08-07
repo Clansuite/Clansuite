@@ -169,7 +169,7 @@ a:hover
   font-size:12px;
   font-weight:700;
   margin:3px;
-  padding: 0.3em 1.2em;
+  padding: 6px 24px;
   white-space:nowrap;
   border-radius: 3px;
 }
@@ -239,7 +239,16 @@ a:hover
 }
 
 #headerlogo {
-    background: -moz-linear-gradient(center top , #DCDCDC 0pt, #BBBBBB 50%, #B4B2B4 51%, #ACAAAC 100%) repeat scroll 0 0 transparent;
+    /* linear gradient */
+    background: #dcdcdc; /* Old browsers */
+    background: -moz-linear-gradient(top,  #dcdcdc 0pt, #bbbbbb 50%, #b4b2b4 51%, #acaaac 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0pt,#dcdcdc), color-stop(50%,#bbbbbb), color-stop(51%,#b4b2b4), color-stop(100%,#acaaac)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #dcdcdc 0pt,#bbbbbb 50%,#b4b2b4 51%,#acaaac 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #dcdcdc 0pt,#bbbbbb 50%,#b4b2b4 51%,#acaaac 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #dcdcdc 0pt,#bbbbbb 50%,#b4b2b4 51%,#acaaac 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #dcdcdc 0pt,#bbbbbb 50%,#b4b2b4 51%,#acaaac 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dcdcdc', endColorstr='#acaaac',GradientType=0 ); /* IE6-9 */
+
     border-color: #DCDCDC #DCDCDC #BCBCBC;
     border-radius: 10px 10px 10px 10px;
     border-style: solid;
