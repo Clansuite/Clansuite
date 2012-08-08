@@ -46,9 +46,6 @@ interface FormInterface
     #public function loadDescriptionXML($xmlfile);
     #public function saveDescriptionXML($xmlfile);
 
-    // shortcut method / factory method for accessing the formelements
-    public static function formelementFactory($formelement);
-
     // callback for validation on the whole form (all formelements)
     #public function processForm();
 }

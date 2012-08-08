@@ -57,8 +57,12 @@ class Buttonbar extends Formelement implements FormelementInterface
     public function addButton($buttonname)
     {
         if (is_string($buttonname)) {
-            // fetch the formelement (the button)
-            $formelement = Koch_Form::formelementFactory($buttonname);
+            // turn buttoname to formelement name (cancelbutton => CancelButton)
+            $formelement = str_replace('button', 'Button', ucfirst($buttoname));
+            // fetch the button-formelement
+            $formelement = '\Koch\Form\Elements\\' . $formelement;
+            
+            $formelement = new $formelement;
         }
 
         // @todo use instanceof Koch_Formelement_Button
@@ -131,8 +135,10 @@ class Buttonbar extends Formelement implements FormelementInterface
         foreach ($this->_buttons as $buttonname => $buttonobject) {
             if (is_object($buttonobject)) {
                 $htmlString .= $buttonobject->render();
-            } else { // does this ever happen???, see addButton!
-                $formelement = Koch_Form::formelementFactory($buttonname);
+            } else {
+                // does this ever happen???, see addButton!
+                $formelement = '\Koch\Form\Elements\\' . ucfirst($buttonname);
+                $formelement = new $formelement;
                 $htmlString .= $formelement->render();
             }
         }
