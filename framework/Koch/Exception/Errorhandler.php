@@ -576,7 +576,7 @@ class Errorhandler
             $file = str_replace(ROOT, '..' . DIRECTORY_SEPARATOR, $file);
 
             // build an edit link
-           return sprintf(' in <a href="%s" title="Edit file">%s line %s</a>', $link, $file, $line);
+           return sprintf(' in <a href="%s" title="Edit file">%s line #%s</a>', $link, $file, $line);
         }
         /*elseif (DEVELOPMENT) {
             // link to our editor
@@ -584,13 +584,14 @@ class Errorhandler
 
             // insert file:line into the fileLinkFormatString
             $link = strtr($fileLinkFormatString, array('%f' => $file, '%l' => $line));
-            return sprintf(' in <a href="%s" title="Edit file">%s line %s</a>', $link, $file, $line);
+
+            return sprintf(' in <a href="%s" title="Edit file">%s line #%s</a>', $link, $file, $line);
         }*/
         else {
             // shorten file string by removing the root path
             $file = str_replace(ROOT, '..' . DIRECTORY_SEPARATOR, $file);
 
-            return sprintf(' in %s line %s', $file, $line);
+            return sprintf(' in %s line #%s', $file, $line);
         }
     }
 
