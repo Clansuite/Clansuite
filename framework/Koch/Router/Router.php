@@ -519,7 +519,8 @@ class Router implements RouterInterface, \ArrayAccess
                 if (preg_match( $route_values['regexp'], $this->uri, $matches)) {
 
                     /**
-                     * seems there is no way (flag? regexp trick?) of getting rid of numeric keys during preg_match
+                     * seems there is no way of getting rid of numeric keys during preg_match
+                     * (preg flag? regexp trick?)
                      * http://stackoverflow.com/questions/10344590/php-subpattern-without-numbering-array
                      * ------
                      * get rid of numeric keys, just leave the named parameter
