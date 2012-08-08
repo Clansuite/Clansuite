@@ -61,7 +61,7 @@ class Buttonbar extends Formelement implements FormelementInterface
             $formelement = str_replace('button', 'Button', ucfirst($buttoname));
             // fetch the button-formelement
             $formelement = '\Koch\Form\Elements\\' . $formelement;
-            
+
             $formelement = new $formelement;
         }
 
