@@ -283,7 +283,7 @@ class Exception extends \Exception
 
         $html .= '<div id="panel1" class="panel">';
         $html .= '<h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4>';
-        $html .= '<strong>in file "' . $this->file . '"&nbsp;on line ' . $this->line.'.</strong>';
+        $html .= '<strong>' . Errorhandler::getFileLink($this->file, $this->line) . '.</strong>';
         $html .= '</div>';
 
         /**
