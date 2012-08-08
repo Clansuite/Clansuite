@@ -150,7 +150,7 @@ class Loader
     public static function autoloadExclusions($classname)
     {
         // define parts of classnames for exclusion
-        foreach (array('Smarty_Internal') as $classname_to_exclude) {
+        foreach (array('Smarty_Internal', 'Smarty_') as $classname_to_exclude) {
             if (false !== strpos($classname, $classname_to_exclude)) {
                 return true;
             }
@@ -163,14 +163,6 @@ class Loader
 
         // this means if 'Doctrine" is found, but not 'Koch\Doctrine', exclude from our autoloading
         if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch\Doctrine')) {
-            return true;
-        }
-
-        // this means if 'Smarty" is found, but not 'Koch\Smarty' or..., exclude from our autoloading
-        if (false !== strpos($classname, 'Smarty')
-            and (false === strpos($classname, 'Koch\View\Renderer\Smarty')
-              or false === strpos($classname, 'Koch\Filters\Filters\SmartyMoves')))
-        {
             return true;
         }
     }
@@ -261,7 +253,7 @@ class Loader
         // searches on include path for the file and returns absolute path
         $filename = stream_resolve_include_path($filename);
 
-        echo "$classname => $filename <br>";
+        //echo "$classname => $filename <br>";
 
         if (is_string($filename) === true) {
             return self::includeFileAndMap($filename, $classname);
