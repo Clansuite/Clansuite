@@ -57,8 +57,8 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', true);
 ini_set('display_errors', true);
 
-require ROOT . '/core/exception/exception.php';
-require ROOT . '/core/exception/errorhandler.php';
+require ROOT . '/framework/Koch/Exception.php';
+require ROOT . '/framework/Koch/Errorhandler.php';
 set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
 
 if (DEBUG) {
