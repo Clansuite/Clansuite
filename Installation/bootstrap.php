@@ -58,8 +58,8 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', true);
 ini_set('display_errors', true);
 
-require KOCH . 'exception/exception.php';
-require KOCH . 'exception/errorhandler.php';
+require KOCH . 'Exception/Exception.php';
+require KOCH . 'Exception/Errorhandler.php';
 set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
 
 if (DEBUG) {
