@@ -26,13 +26,13 @@
 namespace Koch\Form;
 
 /**
- * Formelement
+ * FormElement
  *
  * @category    Koch
  * @package     Core
  * @subpackage  Form
  */
-class Formelement implements FormelementInterface
+class FormElement implements FormelementInterface
 {
     /**
      * @var string
@@ -878,30 +878,4 @@ class Formelement implements FormelementInterface
     {
         return $this->getAttribute($name);
     }
-}
-
-/**
- * Interface for a single Koch Framework Formelement
- */
-interface FormelementInterface
-{
-    // add/remove attributes for a formelement
-    public function setAttribute($attribute, $value);
-    public function getAttribute($attribute);
-
-    // getter/ setter for the value
-    public function setValue($value);
-    public function getValue();
-
-    // initializes the attributes of the formelement
-    #public function initialize();
-
-    // renders the output of the formobject as html
-    public function render();
-
-    // sets a validation rule the form element
-    #public function addValidation();
-
-    #public function hasError();
-    #public function getErrorMessage();
 }
