@@ -35,9 +35,9 @@ class File extends Input implements FormElementInterface
      *
      * There are several different formelements available to upload files:
      *
-     * 1) Ajaxupload    -> uploadajax.php
-     * 2) APC           -> uploadapc.php
-     * 3) Uploadify     -> uploadify.php
+     * 1) Ajaxupload    -> UploadAjax.php
+     * 2) APC           -> UploadAPC.php
+     * 3) Uploadify     -> Uploadify.php
      * 4) Default HTML  -> this class
      *
      * @string
@@ -73,22 +73,22 @@ class File extends Input implements FormElementInterface
         switch ($this->uploadType) {
             default:
             case 'ajaxupload':
-                if (false === class_exists('Koch_Formelement_Uploadajax', false)) {
-                    include __DIR__ . '/uploadajax.php';
+                if (false === class_exists('UploadAjax', false)) {
+                    include __DIR__ . '/UploadAjax.php';
                 }
 
-                return new \Koch\Form\Elements\Uploadajax();
+                return new \Koch\Form\Elements\UploadAjax();
                 break;
             case 'apc':
-                if (false === class_exists('Koch_Formelement_Uploadapc', false)) {
-                    include __DIR__ . '/uploadapc.php';
+                if (false === class_exists('UploadAPC', false)) {
+                    include __DIR__ . '/UploadAPC.php';
                 }
 
-                return new \Koch\Form\Elements\Uploadapc();
+                return new \Koch\Form\Elements\UploadAPC();
                 break;
             case 'uploadify':
-                if (false === class_exists('Koch_Formelement_Uploadify', false)) {
-                    include __DIR__ . '/uploadify.php';
+                if (false === class_exists('Uploadify', false)) {
+                    include __DIR__ . '/Uploadify.php';
                 }
 
                 return new \Koch\Form\Elements\Uploadify();
@@ -111,11 +111,11 @@ class File extends Input implements FormElementInterface
      * The render method needs a bit magic to render formelement objects directly.
      * See the short returns calls like the following above:
      *
-     *      return new Koch_Formelement_Uploadajax();
+     *      return new Koch\Form\Element\UploadAjax();
      *
      * The long form is:
      *
-     *      $formelement = new Koch_Formelement_Uploadajax();
+     *      $formelement = new Koch\Form\Element\UploadAjax();
      *      $formelement->render();
      */
     public function __toString()
