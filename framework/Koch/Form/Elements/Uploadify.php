@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Uploadify extends File implements FormelementInterface
+class Uploadify extends File implements FormElementInterface
 {
     /**
      * This renders an file upload form using jQuery Uploadify.

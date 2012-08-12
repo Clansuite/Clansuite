@@ -26,9 +26,9 @@
 namespace Koch\Form\Elements;
 
 use Koch\Form\Elements\Input;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElementInterface;
 
-class Text extends Input implements FormelementInterface
+class Text extends Input implements FormElementInterface
 {
     public function __construct()
     {

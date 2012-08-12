@@ -25,14 +25,14 @@
 
 namespace Koch\Form\Elements;
 
-use Koch\Form\Formelement;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
 
 /**
  * This class renders the formelement textarea.
  * It gives you the option to add a JavaScript WYSIWYG editor as textarea replacement.
  */
-class Textarea extends Formelement implements FormelementInterface
+class Textarea extends FormElement implements FormElementInterface
 {
     /**
      * Flag variable for the What-You-See-Is-What-You-Get Editor.

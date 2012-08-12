@@ -26,7 +26,7 @@
 /**
  * Renders a simple image captcha formelement.
  */
-class SimpleCaptcha extends Captcha implements FormelementInterface
+class SimpleCaptcha extends Captcha implements FormElementInterface
 {
     public $name = 'simplecaptcha';
     public $type = 'captcha';

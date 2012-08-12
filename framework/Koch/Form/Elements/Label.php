@@ -25,10 +25,10 @@
 
 namespace Koch\Form\Formelement;
 
-use Koch\Form\Formelement;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
 
-class Label extends Formelement implements FormelementInterface
+class Label extends FormElement implements FormElementInterface
 {
 
 }

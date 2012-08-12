@@ -32,7 +32,7 @@ namespace Koch\Form;
  * @package     Core
  * @subpackage  Form
  */
-class FormElement implements FormelementInterface
+class FormElement implements FormElementInterface
 {
     /**
      * @var string

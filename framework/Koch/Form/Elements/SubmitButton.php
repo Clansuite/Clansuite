@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Submitbutton extends Input implements FormelementInterface
+class Submitbutton extends Input implements FormElementInterface
 {
     public function __construct()
     {

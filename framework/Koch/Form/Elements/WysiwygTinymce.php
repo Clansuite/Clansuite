@@ -32,7 +32,7 @@ namespace Koch\Formelement;
  * @link http://tinymce.moxiecode.com/js/tinymce/docs/api/index.html API Documentation
  * @link http://tinymce.moxiecode.com/examples/ Examples
  */
-class Wysiwygtinymce extends Textarea implements FormelementInterface
+class Wysiwygtinymce extends Textarea implements FormElementInterface
 {
     public function __construct()
     {

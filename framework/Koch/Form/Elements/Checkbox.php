@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Checkbox extends Input implements FormelementInterface
+class Checkbox extends Input implements FormElementInterface
 {
     /**
      * Label next to element

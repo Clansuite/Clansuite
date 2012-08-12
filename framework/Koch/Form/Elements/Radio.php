@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Radio extends Input implements FormelementInterface
+class Radio extends Input implements FormElementInterface
 {
     /**
      * label next to element

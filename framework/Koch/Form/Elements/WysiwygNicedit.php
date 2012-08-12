@@ -31,7 +31,7 @@ namespace Koch\Formelement;
  * @see Http://www.nicedit.com/ Official Website of NicEdit
  * @see http://wiki.nicedit.com/ Wiki of NicEdit
  */
-class Wysiwygnicedit extends Textarea implements FormelementInterface
+class Wysiwygnicedit extends Textarea implements FormElementInterface
 {
     public function __construct()
     {

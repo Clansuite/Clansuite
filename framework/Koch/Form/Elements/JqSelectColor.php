@@ -25,13 +25,13 @@
 
 namespace Koch\Form\Formelement;
 
-use Koch\Form\Formelement;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
 
 /**
  * Renders jQuery Colorpicker for Color selection, you know?
  */
-class JQSelectColor extends Formelement implements FormelementInterface
+class JQSelectColor extends FormElement implements FormElementInterface
 {
     /**
      * JQSelectColor uses jQuery Farbtastic Colorpicker

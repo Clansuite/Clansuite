@@ -32,7 +32,7 @@ namespace Koch\Formelement;
  *      |
  *      \- Koch_Formelement_ReCaptcha
  */
-class ReCaptcha extends Captcha implements FormelementInterface
+class ReCaptcha extends Captcha implements FormElementInterface
 {
     /**
      * @var string The ReCaptcha API PublicKey. You got this key from the ReCaptcha signup page.

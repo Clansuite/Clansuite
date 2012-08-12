@@ -22,7 +22,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class Koch_Formelement_Cancelbutton extends Koch_Formelement_Input implements Koch_Formelement_Interface
+
+namespace Koch\Form\Elements;
+
+use Koch\Form\Elements\Input;
+use Koch\Form\FormElementInterface;
+
+class Cancelbutton extends Input implements FormElementInterface
 {
     /**
      * Holds the url when canceling

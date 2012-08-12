@@ -25,7 +25,10 @@
 
 namespace Koch\Formelement;
 
-class JQConfirmSubmitButton extends Input implements FormelementInterface
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
+
+class JQConfirmSubmitButton extends Input implements FormElementInterface
 {
     protected $message = 'Please Confirm';
 

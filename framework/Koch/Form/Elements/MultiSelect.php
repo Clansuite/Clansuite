@@ -26,9 +26,9 @@
 namespace Koch\Form\Elements;
 
 use Koch\Form\Elements\Select;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElementInterface;
 
-class Multiselect extends Select implements FormelementInterface
+class Multiselect extends Select implements FormElementInterface
 {
 
 }

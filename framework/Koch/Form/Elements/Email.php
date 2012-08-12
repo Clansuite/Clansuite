@@ -25,7 +25,10 @@
 
 namespace Koch\Formelement;
 
-class Email extends Koch_Formelement_Input implements Koch_Formelement_Interface
+use Koch\Form\Elements\Input;
+use Koch\Form\FormElementInterface;
+
+class Email extends Input implements FormElementInterface
 {
     public function __construct()
     {

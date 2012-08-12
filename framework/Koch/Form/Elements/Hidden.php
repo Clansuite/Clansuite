@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Hidden extends Input implements FormelementInterface
+class Hidden extends Input implements FormElementInterface
 {
     public function __construct()
     {

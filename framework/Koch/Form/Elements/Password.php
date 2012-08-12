@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Password extends Text implements FormelementInterface
+class Password extends Text implements FormElementInterface
 {
     /**
      * constructor

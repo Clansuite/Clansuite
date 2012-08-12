@@ -25,13 +25,13 @@
 
 namespace Koch\Form\Elements;
 
-use Koch\Form\Formelement;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
 
 /**
  *
  */
-class Select extends Formelement implements FormelementInterface
+class Select extends FormElement implements FormElementInterface
 {
     /**
      * @var array array with options for the dropdown

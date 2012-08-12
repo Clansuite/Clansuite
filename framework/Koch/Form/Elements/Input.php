@@ -25,15 +25,15 @@
 
 namespace Koch\Form\Elements;
 
-use Koch\Form\Formelement;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
 
 /**
  * Formelement_Input
  *
  * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html
  */
-class Input extends Formelement implements FormelementInterface
+class Input extends FormElement implements FormElementInterface
 {
     /**
      * The formelement input type, e.g.

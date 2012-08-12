@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class ConfirmSubmitButton extends Input implements FormelementInterface
+class ConfirmSubmitButton extends Input implements FormElementInterface
 {
     protected $message = 'Please Confirm';
 

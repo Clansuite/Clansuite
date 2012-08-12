@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Number extends Input implements FormelementInterface
+class Number extends Input implements FormElementInterface
 {
     public function __construct()
     {

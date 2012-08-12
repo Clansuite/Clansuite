@@ -28,7 +28,7 @@ namespace Koch\Formelement;
 /**
  *
  */
-class SelectColor extends Input implements FormelementInterface
+class SelectColor extends Input implements FormElementInterface
 {
     public function __construct()
     {

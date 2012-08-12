@@ -26,9 +26,9 @@
 namespace Koch\Form\Elements;
 
 use Koch\Form\Elements\Input;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElementInterface;
 
-class File extends Input implements FormelementInterface
+class File extends Input implements FormElementInterface
 {
     /**
      * Flag variable for the uploadType.

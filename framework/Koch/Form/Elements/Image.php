@@ -25,10 +25,10 @@
 
 namespace Koch\Form\Formelement;
 
-use Koch\Form\Formelement;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
 
-class Image extends Formelement implements FormelementInterface
+class Image extends FormElement implements FormElementInterface
 {
 
     public static function render()

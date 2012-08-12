@@ -25,10 +25,10 @@
 
 namespace Koch\Form\Elements;
 
-use Koch\Form\Formelement;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
 
-class Captcha extends Formelement implements FormelementInterface
+class Captcha extends FormElement implements FormElementInterface
 {
     /**
      * @var string Name the Captcha Type: 'recaptcha', 'simplecaptcha', 'somenamecaptcha'.

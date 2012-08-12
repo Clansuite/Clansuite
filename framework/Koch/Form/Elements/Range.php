@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Range extends Input implements FormelementInterface
+class Range extends Input implements FormElementInterface
 {
     public function __construct()
     {

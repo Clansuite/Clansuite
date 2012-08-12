@@ -25,10 +25,10 @@
 
 namespace Koch\Form\Elements;
 
-use Koch\Form\Formelement;
-use Koch\Form\FormelementInterface;
+use Koch\Form\FormElement;
+use Koch\Form\FormElementInterface;
 
-class Buttonbar extends Formelement implements FormelementInterface
+class ButtonBar extends FormElement implements FormElementInterface
 {
     /**
      * Definition Array for the Buttonbar

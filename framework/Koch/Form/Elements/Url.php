@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Url extends Input implements FormelementInterface
+class Url extends Input implements FormElementInterface
 {
     public function __construct()
     {

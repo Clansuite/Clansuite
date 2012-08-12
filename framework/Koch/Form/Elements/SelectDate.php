@@ -32,7 +32,7 @@ namespace Koch\Formelement;
  *     |
  *     \- Koch_Formelement_SelectDate
  */
-class SelectDate extends Input implements FormelementInterface
+class SelectDate extends Input implements FormElementInterface
 {
     public function __construct()
     {

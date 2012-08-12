@@ -32,7 +32,7 @@ namespace Koch\Formelement;
  *     |
  *     \- Koch_Formelement_JQSelectImage
  */
-class JQSelectImage extends Select implements FormelementInterface
+class JQSelectImage extends Select implements FormElementInterface
 {
     private $html = null;
 

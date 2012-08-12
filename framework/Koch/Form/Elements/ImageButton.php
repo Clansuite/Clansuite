@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Imagebutton extends Input implements FormelementInterface
+class Imagebutton extends Input implements FormElementInterface
 {
     /**
      * width of image (px)
