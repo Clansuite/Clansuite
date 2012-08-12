@@ -46,5 +46,4 @@ script:
 # configure notifications (email, irc etc)
 notifications:
   email: false
-  irc: "irc.freenode.org#clansuite"
-  #irc: "jubii.dk.quakenet.org#clansuite"
+  irc: "clanserver4u2.de.quakenet.org#clansuite"
