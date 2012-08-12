@@ -855,14 +855,16 @@ class Form implements FormInterface
     public function addElement($formelement, $attributes = null, $position = null)
     {
         /**
-         * We procceed, if parameter $formelement is an fromelement object implementing the Koch_Formelement_Interface.
-         * Else it's a string with the name of the formelement, which we pass to the factory to deliver that formelement object.
+         * We procceed, if parameter $formelement is an formelement object, implementing
+         * the Koch_Formelement_Interface. Else it's a string with the name of the formelement,
+         * which we pass to the factory to deliver that formelement object.
          *
-         * Note: Checking for the interface is necessary here, because checking for string, like if($formelement == string),
-         * would result in true as formelement objects provide the __toString method.
+         * Note: Checking for the interface is necessary here, because checking for type string,
+         * like if(is_string(formelement)), would result in true, because all formelement
+         * objects provide the __toString() method.
          */
         if ( ($formelement instanceof \Koch\Form\FormelementInterface) === false ) {
-            $formelement = '\Koch\Form\Elements\\' . ucfirst($formelement);
+            $formelement = '\Koch\Form\Elements\\' . $formelement;
             $formelement = new $formelement;
         }
 

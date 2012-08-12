@@ -342,8 +342,8 @@ class FormTest extends Clansuite_UnitTestCase
     public function testSetFormelements()
     {
         $formelements = array();
-        $formelements[] = $this->form->addElement('buttonbar');
-        $formelements[] = $this->form->addElement('textarea');
+        $formelements[] = $this->form->addElement('ButtonBar');
+        $formelements[] = $this->form->addElement('Textarea');
 
         $formelements_from_testobject = $this->form->getFormelements();
         $this->assertFalse( empty($formelements_from_testobject) );
@@ -357,7 +357,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testregisterDefaultFormelementDecorators()
     {
-        $this->form->addElement('textarea');
+        $this->form->addElement('Textarea');
         $formelements = $this->form->getFormelements();
         $textarea_formelement = $formelements['0'];
 
@@ -373,7 +373,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testRenderAllFormelements()
     {
-        $this->form->addElement('textarea');
+        $this->form->addElement('Textarea');
 
         $formelements_html_expected = CR . '<div class="formline"><textarea id="textarea-formelement-0"></textarea></div>' . CR;
 
@@ -438,7 +438,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testRender()
     {
-        $this->form->addElement('textarea');
+        $this->form->addElement('Textarea');
 
         $html = $this->form->render();
         $this->assertFalse(empty($html));
@@ -449,7 +449,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function test__toString()
     {
-        $this->form->addElement('textarea');
+        $this->form->addElement('Textarea');
 
         ob_start();
         print $this->form;
@@ -463,7 +463,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testAddElement()
     {
-        $this->form->addElement('text');
+        $this->form->addElement('Text');
 
         #$this->form->getElementByPosition('0');
         $formelements_array = $this->form->getFormelements();
@@ -482,7 +482,7 @@ class FormTest extends Clansuite_UnitTestCase
                             'label' => 'myFormelementLabel',
                             'id' => 'text-formelement-0');
 
-        $this->form->addElement('text', $attributes);
+        $this->form->addElement('Text', $attributes);
         $formelement = $this->form->getElementByPosition('0');
 
         $this->assertEqual($attributes['class'], $formelement->class);
@@ -498,13 +498,13 @@ class FormTest extends Clansuite_UnitTestCase
     {
         // PREPARE:
         // this will take position 0
-        $this->form->addElement('file');
+        $this->form->addElement('File');
         // this will take position 1
-        $this->form->addElement('captcha');
+        $this->form->addElement('Captcha');
 
         // TEST:
         // this will take position 0 + reorders the array
-        $this->form->addElement('text', null, 0);
+        $this->form->addElement('Text', null, 0);
 
         $array = array();
         $array[] = new Koch\Form\Elements\Text;    // 0 - Text
@@ -521,7 +521,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testAddElement_switchEncodingWhenUsingFormelementFile()
     {
-        $this->form->addElement('file');
+        $this->form->addElement('File');
 
         $this->assertContainsString('enctype="multipart/form-data"', $this->form->render());
     }
@@ -530,13 +530,13 @@ class FormTest extends Clansuite_UnitTestCase
     {
         // PREPARE:
         // this will take position 0
-        $this->form->addElement('file');
+        $this->form->addElement('File');
         // this will take position 1
-        $this->form->addElement('captcha');
+        $this->form->addElement('Captcha');
 
         // TEST:
         // this will take position 0 + reorders the array
-        $this->form->addElement('text', null, 0);
+        $this->form->addElement('Text', null, 0);
 
         $array = array();
         $array[] = new \Koch\Form\Elements\Text;    // 0 - Text
@@ -553,7 +553,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testDelElementByName()
     {
-        $this->form->addElement('textarea')->setName('myTextareaElement');
+        $this->form->addElement('Textarea')->setName('myTextareaElement');
         $this->form->delElementByName('myTextareaElement');
 
         $this->assertNull($this->form->getElementByName('myTextareaElement'));
@@ -561,7 +561,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testGetElementByPosition()
     {
-        $this->form->addElement('text');
+        $this->form->addElement('Text');
 
         $formelements_array = $this->form->getFormelements();
 
@@ -570,7 +570,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testGetElementByName()
     {
-        $this->form->addElement('button')->setName('myButton1');
+        $this->form->addElement('Button')->setName('myButton1');
 
         $formelement_object = $this->form->getElementByName('myButton1');
         $this->assertIdentical('myButton1', $formelement_object->getName());
@@ -578,7 +578,7 @@ class FormTest extends Clansuite_UnitTestCase
 
         public function testGetElement_ByName_or_ByPosition_or_LastElement()
     {
-        $this->form->addElement('button')->setName('myButton1');
+        $this->form->addElement('Button')->setName('myButton1');
 
         // ByName
         $formelement_object = $this->form->getElement('myButton1');
@@ -603,7 +603,7 @@ class FormTest extends Clansuite_UnitTestCase
     public function testsetValues_DataArrayPassedToMethod()
     {
         // create multiselect "Snacks" with three options
-        $this->form->addElement('multiselect')->setName('Snacks')->setOptions(
+        $this->form->addElement('MultiSelect')->setName('Snacks')->setOptions(
             array('cola' => 'Cola', 'popcorn' => 'Popcorn', 'peanuts' => 'Peanuts')
         );
 
@@ -620,8 +620,8 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testgetValues()
     {
-        $this->form->addElement('textarea', array('value' => 'Some Text Inside The First Textarea'));
-        $this->form->addElement('textarea', array('value' => 'More Text Inside The Second Textarea'));
+        $this->form->addElement('Textarea', array('value' => 'Some Text Inside The First Textarea'));
+        $this->form->addElement('Textarea', array('value' => 'More Text Inside The Second Textarea'));
 
         $values = $this->form->getValues();
 
@@ -638,7 +638,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testSetFormelementDecorator_formelementPositionNull()
     {
-        $this->form->addElement('textarea');
+        $this->form->addElement('Textarea');
         $this->form->setFormelementDecorator('label', null);
 
         $formelements = $this->form->getFormelements();
@@ -652,8 +652,8 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testAddFormelementDecorator()
     {
-        $this->form->addElement('textarea');
-        $this->form->addElement('multiselect');
+        $this->form->addElement('Textarea');
+        $this->form->addElement('MultiSelect');
         $this->form->addFormelementDecorator('label', 1);
 
         $formelements = $this->form->getFormelements();
@@ -751,7 +751,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testValidateForm_false()
     {
-        $this->form->addElement('textarea')
+        $this->form->addElement('Textarea')
                 ->setName('Textarea-Validate-Test')
                 ->setRequired()
                 ->setRules('required, string, maxlength=20');
@@ -770,7 +770,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testValidateForm_true()
     {
-        $this->form->addElement('textarea')
+        $this->form->addElement('Textarea')
                 ->setName('Textarea-Validate-Test')
                 ->setRequired()
                 ->setRules('required, string, maxlength=20');
@@ -784,7 +784,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testsetRequired()
     {
-        $this->form->addElement('textarea')->setName('Textarea-A')->setRequired();
+        $this->form->addElement('Textarea')->setName('Textarea-A')->setRequired();
 
         $formelement = $this->form->getElementByName('Textarea-A');
         $this->assertTrue($formelement->required);
@@ -793,7 +793,7 @@ class FormTest extends Clansuite_UnitTestCase
 
     public function testIsRequired()
     {
-        $this->form->addElement('textarea')->setName('Textarea-A')->setRequired();
+        $this->form->addElement('Textarea')->setName('Textarea-A')->setRequired();
         $formelement = $this->form->getElementByName('Textarea-A');
         $this->assertTrue($formelement->required);
         $this->assertTrue($formelement->isRequired());
