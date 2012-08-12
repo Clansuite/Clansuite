@@ -136,7 +136,7 @@ class Router implements RouterInterface, \ArrayAccess
     public function prepareRequestURI($uri)
     {
         // if XDebug on, remove "xdebug_session_start=xdebug" from routing process
-        if((function_exists('xdebug_time_index') === true) {
+        if ((function_exists('xdebug_time_index') === true) {
             $uri = str_replace('?xdebug_session_start=xdebug', '', $uri);
             $uri = str_replace('xdebug_session_start=xdebug', '', $uri);
         }
@@ -322,7 +322,7 @@ class Router implements RouterInterface, \ArrayAccess
 
         $params = $params;
 
-        if($absolute) {
+        if ($absolute) {
 
         } else {
 
