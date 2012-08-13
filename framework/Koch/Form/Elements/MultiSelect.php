@@ -23,29 +23,12 @@
  *
  */
 
-namespace Koch\Form;
+namespace Koch\Form\Elements;
 
-/**
- * Koch Framework - Interface for Form
- */
-interface FormInterface
+use Koch\Form\Elements\Select;
+use Koch\Form\FormElementInterface;
+
+class Multiselect extends Select implements FormElementInterface
 {
-    // output the html representation of the form
-    public function render();
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
-
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
-
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
-
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
 }

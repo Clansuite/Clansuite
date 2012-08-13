@@ -23,29 +23,55 @@
  *
  */
 
-namespace Koch\Form;
+namespace Koch\Formelement;
 
-/**
- * Koch Framework - Interface for Form
- */
-interface FormInterface
+class Imagebutton extends Input implements FormElementInterface
 {
-    // output the html representation of the form
-    public function render();
+    /**
+     * width of image (px)
+     *
+     * @var int
+     */
+    public $width;
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
+    /**
+     * height of image (px)
+     *
+     * @var int
+     */
+    public $height;
 
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
+    /**
+     * URL of image
+     *
+     * @var string
+     */
+    public $source;
 
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
+    public function __construct()
+    {
+        $this->type = 'image';
+    }
 
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
+    /**
+     * sets URL of image
+     *
+     * @param string $source
+     */
+    public function setImageURL($source)
+    {
+        $this->source = $source;
+    }
+
+    /**
+     * sets width and height of image (px)
+     *
+     * @param int $width
+     * @param int $height
+     */
+    public function setDimensions($width, $height)
+    {
+        $this->width = $width;
+        $this->height = $height;
+    }
 }

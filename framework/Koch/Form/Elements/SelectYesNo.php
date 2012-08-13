@@ -23,29 +23,30 @@
  *
  */
 
-namespace Koch\Form;
+namespace Koch\Formelement;
 
-/**
- * Koch Framework - Interface for Form
- */
-interface FormInterface
+class Selectyesno extends Select implements FormElementInterface
 {
-    // output the html representation of the form
-    public function render();
+    public function getYesNo()
+    {
+        $options = array( 'yes' => '1', 'no' => '0' );
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
+        return $options;
+    }
 
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
+    public function render()
+    {
+        // check if we have options
+        if ($this->options == null) {
+            // if we don't have options, we set only 'yes' and 'no'
+            $this->setOptions($this->getYesNo());
+        } else {
+            // if options is set, it means that a options['select'] is given
+            // we combine it with yes/no
+            $this->setOptions( $this->options += $this->getYesNo() );
+        }
 
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
+        return parent::render();
+    }
 
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
 }

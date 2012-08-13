@@ -135,9 +135,11 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function prepareRequestURI($uri)
     {
-        // remove "xdebug_session_start=xdebug" from routing process
-        $uri = str_replace('?xdebug_session_start=xdebug', '', $uri);
-        $uri = str_replace('xdebug_session_start=xdebug', '', $uri);
+        // if XDebug on, remove "xdebug_session_start=xdebug" from routing process
+        if (function_exists('xdebug_time_index') === true) {
+            $uri = str_replace('?xdebug_session_start=xdebug', '', $uri);
+            $uri = str_replace('xdebug_session_start=xdebug', '', $uri);
+        }
 
         // subtract PHP_SELF from uri
         if (defined('REWRITE_ENGINE_ON') and !REWRITE_ENGINE_ON) {
@@ -312,7 +314,21 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function generateURL($url_pattern, array $params = null, $absolute = false)
     {
+        $url = '';
+
         // @todo merge with buildURL + routing rules + parameters
+
+        $url_pattern = $url_pattern;
+
+        $params = $params;
+
+        if ($absolute) {
+
+        } else {
+
+        }
+
+        return $url;
     }
 
     /**
@@ -374,26 +390,13 @@ class Router implements RouterInterface, \ArrayAccess
              * To solve this, maybe, the first index might be used to load the routes of that module.
              * Then a reverse lookup in the routes table. For now this is static.
              */
-            if (isset($url_parameters[1]) and $url_parameters[1] === 'admin') {
-                // module admin whitelist
-                $url_keys = array('mod', 'sub', 'action', 'id', 'type');
-            } else {
-                // public module whitelist
-                $url_keys = array('mod', 'action', 'id', 'type');
-            }
-
+            $url_keys = array('mod', 'ctrl', 'action', 'id', 'type');
             $url_data = \Koch\Functions\Functions::array_unequal_combine($url_keys, $url_parameters);
 
-            /**
-             * determine the separator.
-             * it defaults to "&amp;" for internal usage in html documents
-             */
+            // determine the separator. it defaults to "&amp;" for internal usage in html documents
             $arg_separator = ($encode === true) ? '&amp;' : '&';
 
-            /**
-             * Finally: build and return the url!
-             */
-
+            // Finally: build and return the url!
             return WWW_ROOT . 'index.php?' . http_build_query($url_data, '', $arg_separator);
         }
     }
@@ -519,7 +522,8 @@ class Router implements RouterInterface, \ArrayAccess
                 if (preg_match( $route_values['regexp'], $this->uri, $matches)) {
 
                     /**
-                     * seems there is no way (flag? regexp trick?) of getting rid of numeric keys during preg_match
+                     * seems there is no way of getting rid of numeric keys during preg_match
+                     * (preg flag? regexp trick?)
                      * http://stackoverflow.com/questions/10344590/php-subpattern-without-numbering-array
                      * ------
                      * get rid of numeric keys, just leave the named parameter
@@ -553,9 +557,8 @@ class Router implements RouterInterface, \ArrayAccess
 
         /**
          * Inject the target route object back to the request.
-         * Thereby the request gains full knowledge about the
-         * URL mapping (external to internal). We might ask
-         * the request later, where the requests maps to.
+         * Thereby the request gains full knowledge about the URL mapping (external to internal).
+         * We might ask the request object later, where the requests maps to.
          */
         $this->request->setRoute($targetRoute);
 
@@ -771,37 +774,28 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function setSegmentsToTargetRoute($array)
     {
-        // if array is an found route, the values are in the requirements subarray
+        // if array is an found route, the values are in the requirements sub-array
         if (array_key_exists('requirements', $array)) {
             $array = $array['requirements'];
         }
 
-        // Controller
-        if (isset($array['mod']) === true) {
-            TargetRoute::setController($array['mod']);
+        // Module
+        if (isset($array['module']) === true) {
+            TargetRoute::setModule($array['mod']);
             unset($array['mod']);
         }
+
+        // Controller
         if (isset($array['controller']) === true) {
             TargetRoute::setController($array['controller']);
             unset($array['controller']);
         }
-        // SubController
-        if (isset($array['sub']) === true) {
-            TargetRoute::setSubController($array['sub']);
-            unset($array['sub']);
-        }
 
-        if (isset($array['subcontroller']) === true) {
-            TargetRoute::setSubController($array['subcontroller']);
-            unset($array['subcontroller']);
-        }
-
-        // action
+        // Action
         if (isset($array['action']) === true) {
             TargetRoute::setAction($array['action']);
             unset($array['action']);
         }
-
 
         // Parameters
         if (count($array) > 0) {

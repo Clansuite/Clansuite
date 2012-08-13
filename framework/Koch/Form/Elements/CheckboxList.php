@@ -23,29 +23,30 @@
  *
  */
 
-namespace Koch\Form;
+namespace Koch\Formelement;
 
-/**
- * Koch Framework - Interface for Form
- */
-interface FormInterface
+class Checkboxlist extends Checkbox implements FormElementInterface
 {
-    // output the html representation of the form
-    public function render();
+    public function getOptions()
+    {
+        $options = array( '1' => 'eins', '2' => 'zwei', '3' => 'drei', '4' => 'Polizei' );
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
+        return $options;
+    }
 
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
+    public function render()
+    {
+        $html = '';
 
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
+        foreach ($this->getOptions() as $key => $value) {
+            $checkbox_element = new Koch_Formelement_Checkbox();
+            $checkbox_element->setLabel($value);
+            $checkbox_element->setName($value);
+            $checkbox_element->setDescription($value);
+            $checkbox_element->setValue($key);
+            $html .= $checkbox_element;
+        }
 
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
+        return $html;
+    }
 }

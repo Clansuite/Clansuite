@@ -23,29 +23,44 @@
  *
  */
 
-namespace Koch\Form;
+namespace Koch\Formelement;
 
-/**
- * Koch Framework - Interface for Form
- */
-interface FormInterface
+class Range extends Input implements FormElementInterface
 {
-    // output the html representation of the form
-    public function render();
+    public function __construct()
+    {
+        $this->type = 'range'; // displays a slider
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
+        return $this;
+    }
 
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
+    /**
+     * Specifies the minimum value allowed
+     */
+    public function setMin($min)
+    {
+        $this->min = $min;
 
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
+        return $this;
+    }
 
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
+    /**
+     * Specifies the maximum value allowed
+     */
+    public function setMax($max)
+    {
+        $this->max = $max;
+
+        return $this;
+    }
+
+    /**
+     * Specifies legal number intervals (if step="2", legal numbers could be -2,0,2,4, etc)
+     */
+    public function setStep($step)
+    {
+        $this->step = $step;
+
+        return $this;
+    }
 }

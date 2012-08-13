@@ -855,14 +855,17 @@ class Form implements FormInterface
     public function addElement($formelement, $attributes = null, $position = null)
     {
         /**
-         * We procceed, if parameter $formelement is an fromelement object implementing the Koch_Formelement_Interface.
-         * Else it's a string with the name of the formelement, which we pass to the factory to deliver that formelement object.
+         * We procceed, if parameter $formelement is an formelement object, implementing
+         * the Koch_Formelement_Interface. Else it's a string with the name of the formelement,
+         * which we pass to the factory to deliver that formelement object.
          *
-         * Note: Checking for the interface is nessescary here, because checking for string, like if($formelement == string),
-         * would result in true as formelement objects provide the __toString method.
+         * Note: Checking for the interface is necessary here, because checking for type string,
+         * like if(is_string(formelement)), would result in true, because all formelement
+         * objects provide the __toString() method.
          */
         if ( ($formelement instanceof \Koch\Form\FormelementInterface) === false ) {
-            $formelement = $this->formelementFactory($formelement);
+            $formelement = '\Koch\Form\Elements\\' . $formelement;
+            $formelement = new $formelement;
         }
 
         // little helper for easier use of the formelement "file"
@@ -1344,6 +1347,11 @@ class Form implements FormInterface
      */
     public function decoratorFactory($decorator)
     {
+        // this matches 0-9, when the next char is a-z (lookahead) followed by an [a-z]
+        // html5validation, '5v' is match[0], strtoupper will '5V'
+        // turining html5validation into html5Validation, in the next step a ucfirst is applied
+        $decorator = preg_replace('/([0-9])(?=[a-z])([a-z])/e', 'strtoupper("$0");', $decorator);
+
         // construct Koch\Form\Decorator\Name
         $class = 'Koch\Form\Decorators\Form\\' . ucfirst($decorator);
 

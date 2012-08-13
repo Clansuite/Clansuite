@@ -34,7 +34,7 @@ namespace Koch\Form\Decorator;
  * But consider a situation where you want to add only formelement (A) to the form.
  * From inside formelement (A) you can't reach the form to add another formelement (B).
  * But you can reach the addDecorator() method. And at this point this class comes in.
- * It utilizes Koch_Form::formelementFactory to get the formelement (B).
+ * It utilizes the autoloader to get the formelement (B).
  *
  * @category Koch
  * @package Koch_Form
@@ -73,7 +73,7 @@ class Formelement extends Decorator
         $this->formelementname = $formelementname;
 
         // instantiate, set to class and return formelement object
-        return $this->formelement_object = Koch_Form::formelementFactory($formelementname);
+        return $this->formelement_object = new $formelementname;
     }
 
     /**

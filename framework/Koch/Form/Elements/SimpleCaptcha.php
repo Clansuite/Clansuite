@@ -23,29 +23,36 @@
  *
  */
 
-namespace Koch\Form;
-
 /**
- * Koch Framework - Interface for Form
+ * Renders a simple image captcha formelement.
  */
-interface FormInterface
+class SimpleCaptcha extends Captcha implements FormElementInterface
 {
-    // output the html representation of the form
-    public function render();
+    public $name = 'simplecaptcha';
+    public $type = 'captcha';
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
+    /**
+     * display captcha
+     */
+    public function render()
+    {
+        $captcha = new \Koch\Captcha();
+<<<<<<< .mine
+=======>>>>>>> .theirs        #Koch_Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
 
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
+        return $captcha->generateCaptchaImage();
+    }
 
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
-
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
+    /**
+     * validate captcha
+     *
+     * In the code that processes the form submission, you need to add code to validate the CAPTCHA.
+     */
+    public function validate()
+    {
+        // @todo comparision of form input with session string
+        // $_SESSION['user']['simple_captcha_string']
+    }
 }
+<<<<<<< .mine
+=======>>>>>>> .theirs

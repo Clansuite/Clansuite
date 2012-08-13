@@ -23,29 +23,41 @@
  *
  */
 
-namespace Koch\Form;
+namespace Koch\Formelement;
 
-/**
- * Koch Framework - Interface for Form
- */
-interface FormInterface
+class Securitytoken extends Hidden implements FormElementInterface
 {
-    // output the html representation of the form
-    public function render();
+    public function __construct()
+    {
+        parent::__construct();
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
+        $this->isRequired();
+        $this->setValidator('NotEmpty');
+        $this->initCsrfValidator();
+    }
 
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
+    public function initCsrfValidator()
+    {
+        $session = $this->getSession();
 
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
+        if ($session->hash !== null) {
+            $validHash = $session->hash;
+        } else {
+            $validHash = null;
+        }
 
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
+        $this->addValidator('Identical', true, array($validHash));
+
+        return $this;
+    }
+
+    // getHash
+    // setHashToSession
+    // getHashFromSession
+    // compare
+
+    public function render()
+    {
+
+    }
 }

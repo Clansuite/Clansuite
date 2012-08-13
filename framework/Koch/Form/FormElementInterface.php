@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -25,27 +25,28 @@
 
 namespace Koch\Form;
 
-/**
- * Koch Framework - Interface for Form
+ /**
+ * Interface for a single Koch Framework Formelement
  */
-interface FormInterface
+interface FormElementInterface
 {
-    // output the html representation of the form
+    // add/remove attributes for a formelement
+    public function setAttribute($attribute, $value);
+    public function getAttribute($attribute);
+
+    // getter/ setter for the value
+    public function setValue($value);
+    public function getValue();
+
+    // initializes the attributes of the formelement
+    #public function initialize();
+
+    // renders the output of the formobject as html
     public function render();
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
+    // sets a validation rule the form element
+    #public function addValidation();
 
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
-
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
-
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
+    #public function hasError();
+    #public function getErrorMessage();
 }

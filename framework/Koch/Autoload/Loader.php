@@ -150,7 +150,7 @@ class Loader
     public static function autoloadExclusions($classname)
     {
         // define parts of classnames for exclusion
-        foreach (array('Smarty_Internal') as $classname_to_exclude) {
+        foreach (array('Smarty_Internal', 'Smarty_') as $classname_to_exclude) {
             if (false !== strpos($classname, $classname_to_exclude)) {
                 return true;
             }
@@ -163,13 +163,6 @@ class Loader
 
         // this means if 'Doctrine" is found, but not 'Koch\Doctrine', exclude from our autoloading
         if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch\Doctrine')) {
-            return true;
-        }
-
-        // this means if 'Smarty" is found, but not 'Koch\Smarty' or..., exclude from our autoloading
-        if (false !== strpos($classname, 'Smarty') and false === strpos($classname, 'Koch\View\Renderer\Smarty'))
-            // false === strpos($classname, 'SmartyMoves')))
-        {
             return true;
         }
     }

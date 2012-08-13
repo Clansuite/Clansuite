@@ -617,7 +617,7 @@ class CMS
 
         // define postfilters to load
         self::$postfilter_classes = array(
-            #'Clansuite_Filter_HtmlTidy',
+            #'Koch\Filter\HtmlTidy',
             'Koch\Filter\Filters\SmartyMoves'
         );
 
@@ -626,9 +626,10 @@ class CMS
             self::$injector->register('Koch\Filter\Filters\PhpDebugConsole');
         }
 
-        // combine pre- and postfilters and register at DI
+        // combine pre- and postfilters
         $filter_classes = self::$prefilter_classes + self::$postfilter_classes;
 
+        // register all filters at the dependency injector
         foreach ($filter_classes as $class) {
             self::$injector->register($class);
         }

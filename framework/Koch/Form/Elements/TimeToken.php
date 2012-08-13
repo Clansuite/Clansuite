@@ -23,29 +23,23 @@
  *
  */
 
-namespace Koch\Form;
+namespace Koch\Formelement;
 
 /**
- * Koch Framework - Interface for Form
+ * Formelement_Timetoken
  */
-interface FormInterface
+class Timetoken extends FormElement implements FormElementInterface
 {
-    // output the html representation of the form
-    public function render();
+    public function generateToken()
+    {
+       // @todo consider using PHP Spam Kit Class
+    }
 
-    // set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
-
-    // add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
-
-    // load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
-
-    // callback for validation on the whole form (all formelements)
-    #public function processForm();
+    /**
+     * Inserts a hidden input field for a token. Reducing the risk of an CSRF exploit.
+     */
+    public function render()
+    {
+        return '<input type="hidden" name="'.$this->generateToken().'" value="1" />';
+    }
 }
