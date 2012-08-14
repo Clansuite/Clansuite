@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Installation\Language;
+namespace Clansuite\Installation\Languages;
 
 /**
  * English Language for Installation

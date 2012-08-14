@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Installation\Language;
+namespace Clansuite\Installation\Languages;
 
 /**
  * German Language for Installation
