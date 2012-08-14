@@ -27,7 +27,6 @@
 namespace Clansuite\Installation\Application;
 
 use \Clansuite\Installation\Application\Helper as Helper;
-use \Clansuite\Installation\Application\Exception as Exception;
 
 /**
  * Clansuite Installation Application
@@ -165,25 +164,12 @@ class Application
 
     public function loadLanguage()
     {
-        /**
-         * Load Language File
-         */
-        try {
-            $file = INSTALLATION_ROOT . 'Languages/' . $this->locale . '.install.php';
+        // Load Language File
+        $classname = '\Clansuite\Installation\Languages\\' . $this->locale;
+        $this->language = new $classname;
 
-            if (is_file($file) === true) {
-                include_once $file;
-
-                $classname = '\Clansuite\Installation\Language\\' . $this->locale;
-                $this->language = new $classname;
-
-                $_SESSION['lang'] = $this->locale;
-            } else {
-                throw new Exception('<span style="color:red">Language file missing: <strong>' . $file . '</strong></span>');
-            }
-        } catch (\Exception $e) {
-            exit($e);
-        }
+        // set language to session
+        $_SESSION['lang'] = $this->locale;
     }
 
     /**
