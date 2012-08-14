@@ -42,6 +42,7 @@ class Autoload
 
         // remove namespace
         $filename = str_replace('Clansuite\Installation\\', '', $classname);
+        $filename = str_replace('\\', DS, $filename);
 
         // load class
         include INSTALLATION_ROOT . $filename . '.php';
