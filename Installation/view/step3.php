@@ -11,7 +11,11 @@
                 <p><?php echo $language['STEP3_REVIEW_THIRDPARTY']; ?></p>
                 <p><?php echo $language['STEP3_REVIEW_CLANSUITE']; ?></p>
                 <!-- IFRAME WITH LICENSE -->
-                <iframe scrolling="auto" frameborder="0" marginwidth="15" class="license" src="Languages/<?php echo $_SESSION['lang']; ?>.gpl.html"></iframe>
+                <?php
+                    $language_file = 'Languages/'.$_SESSION['lang'].'.gpl.html';
+                    $language_file = is_file($language_file) ? $language_file : 'Languages/english.gpl.html';
+                ?>
+                <iframe scrolling="auto" frameborder="0" marginwidth="15" class="license" src="<?=$language_file?>"></iframe>
                 <!-- CHECKBOX -> READ LICENSE -->
                 <div class="">
                     <p><?php echo $language['STEP3_MUST_AGREE']; ?></p>
