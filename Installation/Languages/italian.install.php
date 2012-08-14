@@ -27,13 +27,13 @@
 namespace Clansuite\Installation\Language;
 
 /**
- * English Language for Installation
+ * Italian Language for Installation
  *
  * @category        Clansuite
  * @package         Installation
  * @subpackage      Languages
  */
-class English implements \ArrayAccess
+class Italian implements \ArrayAccess
 {
     private $language = array();
 
