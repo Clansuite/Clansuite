@@ -259,7 +259,7 @@ class Italian implements \ArrayAccess
 
     public function offsetGet($offset)
     {
-        return $this->language[$offset];
+        return utf8_encode($this->language[$offset]);
     }
 
     public function offsetSet($offset, $value)
