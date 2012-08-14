@@ -510,7 +510,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertEqual(WWW_ROOT . 'index.php?mod=news', $url);
 
         /**
-         * Parameter 2 - action or sub
+         * Parameter 2 - action or controller
          */
         // route to module/action
         $urlstring = '/news/show';
@@ -525,11 +525,10 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertEqual(WWW_ROOT . 'index.php?mod=news&amp;action=show&amp;id=42', $url);
 
         // route to module/controller/action/id
-        // @todo rename parameter "sub" to "ctrl" for controller
         $urlstring = '/news/admin/edit/1';
         $internal_url = true;
         $url = $this->router->buildURL($urlstring, $internal_url, $force_modrewrite_on);
-        $this->assertEqual(WWW_ROOT . 'index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id=1', $url);
+        $this->assertEqual(WWW_ROOT . 'index.php?mod=news&amp;ctrl=admin&amp;action=edit&amp;id=1', $url);
     }
 
     public function testMethod_buildURL_ModRewrite_ON()
