@@ -13,15 +13,3 @@
     Website:        http://www.famfamfam.com/lab/icons/flags/
     Download:       http://www.famfamfam.com/lab/icons/flags/famfamfam_flag_icons.zip
     Last Visit:     25 April 2009
-
-  Last Words
-  ----------
-
-    Thanks for using Clansuite!
-
-      Best Regards,
-
-        Jens-André Koch
-        Clansuite Maintainer
-
-  Version: $Id$
