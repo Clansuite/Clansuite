@@ -22,7 +22,7 @@
                         foreach (new DirectoryIterator('./languages/') as $file) {
                            // get each file not starting with dots ('.','..')
                            // or containing ".install.php"
-                           if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename())) {
+                           if ((!$file->isDot()) && preg_match("/.png$/",$file->getFilename())) {
                               echo '<option style="padding-left: 40px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
                               $file = substr($file->getFilename(), 0, -4);
                               if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
