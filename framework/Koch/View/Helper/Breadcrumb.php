@@ -87,25 +87,25 @@ class Breadcrumb
      */
     public static function addDynamicBreadcrumbs()
     {
-        $moduleName    = strtolower(TargetRoute::getModuleName());
-        $submoduleName = strtolower(TargetRoute::getSubModuleName());
-        $actionName    = TargetRoute::getActionNameWithoutPrefix();
+        $module     = strtolower(TargetRoute::getModule());
+        $controller = strtolower(TargetRoute::getController());
+        $action     = TargetRoute::getActionNameWithoutPrefix();
 
-        if (isset($moduleName) and $moduleName !== 'controlcenter') {
-            $url = 'index.php?mod=' . $moduleName;
+        if (isset($module) and $module !== 'controlcenter') {
+            $url = 'index.php?mod=' . $module;
 
             // Level 2
-            if ($submoduleName !== '') {
-                $url .= '&amp;sub=' . $submoduleName;
-                $moduleName .= ' '.$submoduleName;
+            // do not add ctrl part, if controller and module are the same
+            if ($controller !== '' and $controller !== $module) {
+                $url .= '&amp;ctrl=' . $controller;
+                $module .= ' '.$controller;
             }
-            self::add($moduleName, $url);
+            self::add($module, $url);
 
             // Level 3
-            if ($actionName !== '') {
-
-                $url .= '&amp;action=' . $actionName;
-                self::add($actionName, $url);
+            if ($action !== '') {
+                $url .= '&amp;action=' . $action;
+                self::add($action, $url);
             }
         }
     }
@@ -118,7 +118,7 @@ class Breadcrumb
      */
     public static function getTrail($dynamic_add = true)
     {
-        // if we got only one breadcrumb element, then only Home/CC was set before
+        // if we got only one breadcrumb element, then only Home or ControlCenter was set before
         if (count(self::$path) == 1 and $dynamic_add === true) {
             // add crumbs automatically
             self::addDynamicBreadcrumbs();
@@ -130,13 +130,13 @@ class Breadcrumb
     /**
      * Breadcrumb Level 0    =>    Home or Controlcenter
      *
-     * @param string $moduleName    The module name.
-     * @param string $submoduleName The submodule name.
+     * @param string $module     The module name.
+     * @param string $controller The controller name.
      */
-    public static function initialize($moduleName = null, $submoduleName = null)
+    public static function initialize($module = null, $controller = null)
     {
         // ControlCenter (Backend)
-        if ($moduleName == 'controlcenter' or $submoduleName == 'admin') {
+        if ($module == 'controlcenter' or $controller == 'admin') {
             Breadcrumb::add('Control Center', '/index.php?mod=controlcenter');
         } else { // Home (Frontend)
             Breadcrumb::add('Home');
