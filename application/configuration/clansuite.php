@@ -37,6 +37,7 @@ pagetitle = "Team Clansuite"
 ;----------------------------------------
 [defaults]
 module = "news"
+controller = "news"
 action = "list"
 
 ;----------------------------------------
@@ -110,7 +111,7 @@ keywords = "Keyword, Keyword"
 ; routing
 ;----------------------------------------
 [routing]
-mod_rewrite = 1
+mod_rewrite = 0
 cache_routes = 0
 
 ;----------------------------------------

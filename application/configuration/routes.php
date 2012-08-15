@@ -1,2 +1,2 @@
 <?php
-$routes = array();
+return array();
