@@ -82,7 +82,7 @@ class Loader
      */
     public static function autoload($classname)
     {
-        //echo $classname . '<br>';
+        #echo $classname . '<br>';
 
         if (true === class_exists($classname, false) or true === interface_exists($classname, false)) {
             return false;
@@ -226,7 +226,7 @@ class Loader
      */
     public static function autoloadIncludePath($classname)
     {
-        //echo "Class requested $classname <br>";
+        #echo "Class requested $classname <br>";
 
         // trim opening namespace separator
         $classname = ltrim($classname, '\\');
@@ -248,12 +248,12 @@ class Loader
         // convert underscore to DS
         $filename .= str_replace('_', DIRECTORY_SEPARATOR, $classname) . '.php';
 
-        //echo "$classname => $filename <br>";
+        #echo "$classname => $filename <br>";
 
         // searches on include path for the file and returns absolute path
         $filename = stream_resolve_include_path($filename);
 
-        //echo "$classname => $filename <br>";
+        #echo "$classname => $filename => $namespace<br>";
 
         if (is_string($filename) === true) {
             return self::includeFileAndMap($filename, $classname);
@@ -276,7 +276,7 @@ class Loader
         $filename = realpath($filename);
 
         // conditional include
-        include $filename;
+        include_once $filename;
 
         // add class and filename to the mapping array
         self::addToMapping($filename, $classname);

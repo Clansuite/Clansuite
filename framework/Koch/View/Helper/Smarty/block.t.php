@@ -84,25 +84,25 @@ function smarty_block_t($params, $text, $smarty)
     $text = stripslashes($text);
 
     // set escape mode
-    if ($params['escape'] !== null) {
+    if (isset($params['escape']) === true) {
         $escape = $params['escape'];
         unset($params['escape']);
     }
 
     // set plural version
-    if ($params['plural'] !== null) {
+    if (isset($params['plural']) === true) {
         $plural = $params['plural'];
         unset($params['plural']);
 
         // set count
-        if ($params['count'] !== null) {
+        if (isset($params['count']) === true) {
             $count = $params['count'];
             unset($params['count']);
         }
     }
 
     // use plural if required parameters are set
-    if ($count !== null and $plural !== null) {
+    if (isset($count) === true and isset($plural) === true) {
         $text = T_ngettext($text, $plural, $count); // vain: prefixed "T_" for usage of php-gettext
     } else {   // use normal
         $text = T_gettext($text);                   // vain: prefixed "T_" for usage of php-gettext

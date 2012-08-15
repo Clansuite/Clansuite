@@ -100,7 +100,7 @@ class XML
             }
         }
 
-        if( is_a($xml, 'SimpleXMLElement') ) // works (no longer deprecated as of php 5.3.0)
+        if( is_a($xml, 'SimpleXMLElement') ) { // works (no longer deprecated as of php 5.3.0)
         #if ($xml instanceof SimpleXMLElement) {  <= fails with php 5.3.5
             // Get a copy of the simpleXmlElementObject
             $copy_of_xml_object = $xml;
@@ -160,7 +160,7 @@ class XML
              */
             if (self::FETCH_ATTRIBUTES === true and self::REMOVE_ATTRIBUTES_SUBLEVEL === true) {
                 // ok, add attributes
-                if ($resultArray['@attributes'] !== null) {
+                if (isset($resultArray['@attributes']) === true) {
                     // but as key => value elements
                     foreach ($resultArray['@attributes'] as $key => $value) {
                         $resultArray[$key] = $value;

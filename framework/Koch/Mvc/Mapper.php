@@ -39,13 +39,13 @@ namespace Koch\Mvc;
 class Mapper extends \ArrayObject
 {
     /* @const string Classname prefix for modules = Namespace */
-    const MODULE_CLASS_PREFIX = 'Clansuite\Application\Modules';
+    const MODULE_NAMESPACE = 'Clansuite\Application\Modules';
 
-    /* @const string postfix for module controller files */
-    const MODULE_FILE_POSTFIX = 'Controller.php';
+    /* @const string suffix for module controller files */
+    const MODULE_CLASS_SUFFIX = 'Controller.php';
 
     /* @const string Method prefix for module actions */
-    const METHOD_PREFIX = 'action';
+    const ACTION_PREFIX = 'action';
 
     /* @const string Name of the Default Module */
     const DEFAULT_MODULE = 'news';
@@ -56,81 +56,70 @@ class Mapper extends \ArrayObject
     /**
      * Maps the controller and subcontroller (optional) to filename
      *
+     * @param  string $module_path   Path to Module
      * @param  string $controller    Name of Controller
-     * @param  string $subcontroller Name of SubController (optional)
      * @return string filename
      */
-    public static function mapControllerToFilename($module_path, $controller, $subcontroller = null)
+    public static function mapControllerToFilename($module_path, $controller = null)
     {
         // append module_path, e.g. "/clansuite/modules/news/" + "Controller/"
         $module_path .= 'Controller/';
 
-        // if subcontroller set and name valid ([a-zA-Z0-9])
-        if ($subcontroller !== null and ctype_alnum($subcontroller)) {
-            // append subcontroller to controller, e.g. "News" + "Admin"
-            $controller .= ucfirst($subcontroller);
-        }
-
         // Mapping Example:
         // "/clansuite/modules/news/" + "Controller/" + "Index" + "Controller.php"
-        // "/clansuite/modules/news/" + "Controller/" + "IndexSub" + "Controller.php"
-        return $module_path . $controller . self::MODULE_FILE_POSTFIX;
+        // "/clansuite/modules/news/" + "Controller/" + "Sub" + "Controller.php"
+        return $module_path . ucfirst($controller) . self::MODULE_CLASS_SUFFIX;
     }
 
     /**
-     * Maps Controller and SubController (optional)
+     * Maps Controller to Classname
      *
-     * @param  string $controller    Name of Controller
-     * @param  string $subcontroller Name of SubController (optional)
+     * @param  string $module        Name of Module
+     * @param  string $controller    Name of Controller (optional)
      * @return string classname
      */
-    public static function mapControllerToClassname($controller, $subcontroller = null)
+    public static function mapControllerToClassname($module, $controller = null)
     {
-        $classname = '';
+        $classname = '\\';
 
-        // attach controller (<Controller_FirstPart>)
-        $classname .= '\\' . $controller;
-
-        // "\News\Controller\News" (<Modulename>\Controller\<Controller_FirstPart>)
-        $classname .= '\Controller' . $classname;
-
-        // attach subcontroller to classname (<Modulename>\Controller\<Controller_FirstPart><SubController>)
-        if ($subcontroller !== null) {
-            $classname .= ucfirst($subcontroller);
+        if($controller === null) {
+            // the default controller of a module is named like the module
+            // The module "News"  has a controller named "News"Controller.
+            $controller = $module;
         }
 
-        // "Clansuite\Application\Module\News\Controller\" + "News" + "Controller"
-        return self::MODULE_CLASS_PREFIX . $classname . 'Controller';
+        /**
+         * (<Modulename|DefaultController>\Controller\<Controller>Controller)
+         * e.g. "News\Controller\NewsController"
+         */
+        $classname .= $module . '\Controller\\' . $controller . 'Controller';
+
+        // "Clansuite\Application\Modules + \News\Controller\NewsController"
+        return self::MODULE_NAMESPACE . $classname;
     }
 
     /**
-     * Maps the action to it's method name.
+     * Maps the action to it's method name taking controller into account.
+     *
      * The prefix 'action_' (pseudo-namespace) is used for all actions.
      * Example: A action named "show" will be mapped to "action_show()"
      * This is also a way to ensure some kind of whitelisting via namespacing.
      *
-     * The use of submodules like NewsAdminController is also supported.
-     * In this case the actionname is action_admin_show().
-     * @todo drop this, makes no sense; use just action_show() on both controllers
-     * @todo alter automatic template mapping to "NewsShow.tpl"; "NewsAdminShow.tpl"
+     * The convention is action_<action> !
      *
-     * @param  string $action    the action
-     * @param  string $submodule the submodule
+     *
+     * @param  string $action     the action
      * @return string the mapped method name
      */
-    public static function mapActionToActioname($action, $submodule = null)
+    public static function mapActionToMethodname($action)
     {
         // set default value for action, when not set by URL
         if (false === isset($action)) {
             $action = self::DEFAULT_ACTION;
         }
 
-        // if a $submodule is set, use it as a PREFIX on $action
-        if ($submodule !== null) {
-            $action = $submodule . '_' . $action;
-        }
-
         // all clansuite actions are prefixed with 'action_'
-        return self::METHOD_PREFIX . '_' . $action;
+        // e.g. action_<login>
+        return self::ACTION_PREFIX . '_' . $action;
     }
 }

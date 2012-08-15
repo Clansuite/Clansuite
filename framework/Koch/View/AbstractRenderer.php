@@ -228,7 +228,7 @@ abstract class AbstractRenderer
      */
     public function getConstants()
     {
-        $modulename = HttpRequest::getRoute()->getModuleName();
+        $modulename = HttpRequest::getRoute()->getModule();
 
         $template_constants = array();
 

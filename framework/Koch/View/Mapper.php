@@ -79,7 +79,7 @@ class Mapper
         // if the templateName was not set manually, we construct it from module/action infos
         if (empty($this->template) === true) {
             // construct template name
-            $template = TargetRoute::getActionName() . '.tpl';
+            $template = TargetRoute::getMethod() . '.tpl';
 
             $this->setTemplate($template);
         }
@@ -150,8 +150,8 @@ class Mapper
     public static function getThemeTemplatePaths()
     {
         // get module, submodule, renderer names
-        $module = HttpRequest::getRoute()->getModuleName();
-        $submodule = HttpRequest::getRoute()->getSubModuleName();
+        $module = HttpRequest::getRoute()->getModule();
+        $controller = HttpRequest::getRoute()->getController();
         #$renderer  = Koch_HttpRequest::getRoute()->getRenderEngine();
 
         $theme_paths = array();
@@ -160,7 +160,7 @@ class Mapper
          * 1. BACKEND THEME
          * when controlcenter or admin is requested, it has to be a BACKEND theme
          */
-        if ($module == 'controlcenter' or $submodule == 'admin') {
+        if ($module == 'controlcenter' or $controller == 'admin') {
             // get backend theme from session for path construction
             $backendtheme = HttpRequest::getRoute()->getBackendTheme();
 
@@ -215,7 +215,7 @@ class Mapper
     public static function getModuleTemplatePaths()
     {
         // fetch modulename for template path construction
-        $module = TargetRoute::getModuleName();
+        $module = TargetRoute::getModule();
 
         // fetch renderer name for template path construction
         $renderer = HttpRequest::getRoute()->getRenderEngine();

@@ -200,7 +200,7 @@ class Smarty extends AbstractRenderer
         );
 
         // flatten that thing
-        $this->renderer->template_dir = \Koch\Functions::array_flatten($tpl_array);
+        $this->renderer->template_dir = \Koch\Functions\Functions::array_flatten($tpl_array);
 
         #\Koch\Debug\Debug::printR($this->renderer->template_dir);
 
@@ -219,7 +219,7 @@ class Smarty extends AbstractRenderer
                 ROOT_LIBRARIES . 'smarty/plugins',
                 KOCH . 'view/helper/smarty',
                 ROOT_FRAMEWORK . 'view/helper/smarty',
-                ROOT_MOD . TargetRoute::getModuleName() . '/viewhelper/smarty'
+                ROOT_MOD . TargetRoute::getModule() . '/viewhelper/smarty'
         ));
 
         #\Koch\Debug\Debug::printR($this->renderer->plugins_dir);
@@ -390,11 +390,11 @@ class Smarty extends AbstractRenderer
      */
     protected static function createCacheId()
     {
-        $module    = TargetRoute::getModuleName();
-        $submodule = TargetRoute::getSubModuleName();
-        $action    = TargetRoute::getActionName();
+        $module    = TargetRoute::getModule();
+        $controller = TargetRoute::getController();
+        $action    = TargetRoute::getMethod();
 
-        return md5(strtolower($module . $submodule . $action));
+        return md5(strtolower($module . $controller . $action));
     }
 
     /**
@@ -517,7 +517,7 @@ class Smarty extends AbstractRenderer
          * Assign the original template name and the requested module
          * This is used in template_not_found.tpl to provide a link to the templateeditor
          */
-        $this->renderer->assignGlobal('modulename', TargetRoute::getModuleName());
+        $this->renderer->assignGlobal('modulename', TargetRoute::getModule());
         $this->renderer->assignGlobal('actionname', TargetRoute::getActionName());
         $this->renderer->assignGlobal('templatename', $template);
 
