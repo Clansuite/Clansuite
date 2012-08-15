@@ -63,11 +63,6 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     protected static $baseURL;
 
     /**
-     * @var boolean for magic_quotes_gpc
-     */
-    private static $magic_quotes_gpc;
-
-    /**
      * @var object Object with pieces of informations about the target route.
      */
     private static $route;
