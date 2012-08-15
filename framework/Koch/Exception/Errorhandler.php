@@ -54,13 +54,13 @@ class Errorhandler
      * @link http://www.php.net/manual/de/function.set-error-handler.php
      * @link http://www.php.net/manual/de/errorfunc.constants.php
      *
-     * @param integer $errornumber  contains the error as integer
-     * @param string  $errorstring  contains error string info
-     * @param string  $errorfile    contains the filename with occuring error
-     * @param string  $errorline    contains the line of error
-     * @param string  $errorcontext
+     * @param integer $errno      contains the error as integer.
+     * @param string  $errstr     contains error string info.
+     * @param string  $errfile    contains the filename with occuring error.
+     * @param string  $errline    contains the line of error.
+     * @param string  $errcontext (optional) array with variables from error context.
      */
-    public static function errorhandler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
+    public static function errorhandler( $errno, $errstr, $errfile, $errline, $errcontext )
     {
         /**
          * do just return, if the error is suppressed,
@@ -73,9 +73,6 @@ class Errorhandler
         /**
          * Assemble the error informations
          */
-
-        // set the error time
-        $errortime = date(DATE_FORMAT);
 
         /**
          * Definition of PHP Errortypes Array - with names for all the php error codes
@@ -105,9 +102,9 @@ class Errorhandler
         );
 
         // check if the error number exists in the errortypes array
-        if ($errorTypes[$errornumber] !== null) {
+        if ($errorTypes[$errno] !== null) {
             // get the errorname from the array via $errornumber
-            $errorname = $errorTypes[$errornumber];
+            $errorname = $errorTypes[$errno];
         }
 
         // Handling the ErrorType via Switch
@@ -137,14 +134,14 @@ class Errorhandler
                 break;
             // when it's not in there, its an unknown errorcode
             default:
-                $errorname .= ' Unknown Errorcode ['. $errornumber .']: ';
+                $errorname .= ' Unknown Errorcode ['. $errno .']: ';
         }
 
         // make the errorstring more useful by linking it to the php manual
-        $errorstring = preg_replace("/<a href='(.*)'>(.*)<\/a>/", '<a href="http://php.net/$1" target="_blank">?</a>', $errorstring);
+        $errstr = preg_replace("/<a href='(.*)'>(.*)<\/a>/", '<a href="http://php.net/$1" target="_blank">?</a>', $errstr);
 
         // shorten errorfile string by removing the root path
-        $errorfile = str_replace(ROOT, '', $errorfile);
+        $errfile = str_replace(ROOT, '', $errfile);
 
         // if DEBUG is set, display the error
         if ( defined('DEBUG') and DEBUG == 1 ) {
@@ -155,14 +152,14 @@ class Errorhandler
              * we need to detect, if an E_USER_ERROR is either incoming from
              * SMARTY or from a template_c file (extension tpl.php).
              */
-            if((true === (bool) mb_strpos(mb_strtolower($errorfile), 'smarty')) or
-               (true === (bool) mb_strpos(mb_strtolower($errorfile), 'tpl.php')))
+            if((true === (bool) mb_strpos(mb_strtolower($errfile), 'smarty')) or
+               (true === (bool) mb_strpos(mb_strtolower($errfile), 'tpl.php')))
             {
                 // ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
-                echo self::smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
+                echo self::smarty_error_display( $errno, $errorname, $errstr, $errfile, $errline, $errcontext );
             } else { // give normal Error Display
                 // All Error Informations (except backtraces)
-                echo self::yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
+                echo self::yellowScreenOfDeath( $errno, $errorname, $errstr, $errfile, $errline, $errcontext );
             }
         }
 
@@ -187,22 +184,22 @@ class Errorhandler
      * is only displayed, when Koch Framework runs in DEVELOPMENT Mode.
      * @see addTemplateEditorLink()
      *
-     * @param integer $errornumber contains the error as integer
-     * @param string  $errorstring contains error string info
-     * @param string  $errorfile   contains the filename with occuring error
-     * @param string  $errorline   contains the line of error
-     * @param $errorcontext $errorline contains context
+     * @param integer $errno      contains the error as integer
+     * @param string  $errstr     contains error string info
+     * @param string  $errfile    contains the filename with occuring error
+     * @param string  $errline    contains the line of error
+     * @param array   $errcontext contains vars from error context
      * @return string HTML with Smarty Error Text and Link.
      */
-    private static function smarty_error_display($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext)
+    private static function smarty_error_display($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
     {
         $html = '';
         $html .= '<span>';
         $html .= '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
-        $html .= '<u>' . $errorname . ' (' . $errornumber . '): </u><br/>';
-        $html .= '<b>' . wordwrap($errorstring, 50, "\n") . '</b><br/>';
-        $html .= 'File: ' . $errorfile . '<br/>Line: ' . $errorline;
-        $html .= self::getTemplateEditorLink($errorfile, $errorline, $errorcontext);
+        $html .= '<u>' . $errorname . ' (' . $errno . '): </u><br/>';
+        $html .= '<b>' . wordwrap($errstr, 50, "\n") . '</b><br/>';
+        $html .= 'File: ' . $errfile . '<br/>Line: ' . $errline;
+        $html .= self::getTemplateEditorLink($errfile, $errline, $errcontext);
         $html .= '<br/></span>';
 
         return $html;
@@ -214,28 +211,28 @@ class Errorhandler
      * a) determines the path to the invalid template file
      * b) provides the html-link to the templateeditor for this file
      *
-     * @param $errorfile Template File with the Error.
-     * @param $errorline Line Number of the Error.
+     * @param $errfile Template File with the Error.
+     * @param $errline Line Number of the Error.
      * @todo correct link to the templateeditor
      */
-    private static function getTemplateEditorLink($errorfile, $errorline, $errorcontext)
+    private static function getTemplateEditorLink($errfile, $errline, $errcontext)
     {
         // display the link to the templateeditor, if we are in DEVELOPMENT MODE
         // and more essential if the error relates to a template file
-        if (defined('DEVELOPMENT') and DEVELOPMENT === 1 and (mb_strpos(mb_strtolower($errorfile), '.tpl') === true)) {
+        if (defined('DEVELOPMENT') and DEVELOPMENT === 1 and (mb_strpos(mb_strtolower($errfile), '.tpl') === true)) {
             // ok, it's a template, so we have a template context to determine the templatename
-            $tpl_vars = $errorcontext['this']->getTemplateVars();
+            $tpl_vars = $errcontext['this']->getTemplateVars();
 
             // maybe the templatename is defined in tpl_vars
             if ($tpl_vars['templatename'] !== null) {
-                $errorfile = $tpl_vars['templatename'];
+                $errfile = $tpl_vars['templatename'];
             } else { // else use resource_name from the errorcontext
-                $errorfile = $errorcontext['resource_name'];
+                $errfile = $errcontext['resource_name'];
             }
 
             // construct the link to the tpl-editor
             $html = '<br/><a href="index.php?mod=templatemanager&amp;sub=admin&amp;action=editor';
-            $html .= '&amp;file=' . $errorfile . '&amp;line=' . $errorline;
+            $html .= '&amp;file=' . $errfile . '&amp;line=' . $errline;
             $html .= '">Edit the Template</a>';
 
             // return the link
@@ -246,16 +243,16 @@ class Errorhandler
     /**
      * Yellow Screen of Death (YSOD) is used to display a Koch Framework Error
      *
-     * @param int    $errornumber
-     * @param string $errorname
-     * @param string $errorstring
-     * @param string $errorfile
-     * @param int    $errorline
-     * @param string $errorcontext
+     * @param int    $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param string $errline
+     * @param int    $errline
+     * @param string $errcontext
      */
-    private static function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext)
+    private static function yellowScreenOfDeath($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
     {
-        $short_errorstring = self::shortenStringMaxLength($errorstring, 70, '...');
+        $short_errorstring = self::shortenStringMaxLength($errfile, 70, '...');
 
         // Header
         $html = '<html><head>';
@@ -279,15 +276,15 @@ class Errorhandler
 
         // Panel 1 - Errormessage
         $html .= '<div id="panel1" class="panel">';
-        $html .= '<h3>Error <span class="small">' . $errorname . ' (' . $errornumber . ')</span></h3>';
-        $html .= '<h4>' . $errorstring . '<br/>in file "' . $errorfile . '"&nbsp;on line ' . $errorline.'.</h4>';
+        $html .= '<h3>Error <span class="small">' . $errstr . ' (' . $errno . ')</span></h3>';
+        $html .= 'in file "' . $errfile . '"&nbsp;on line ' . $errline.'.';
         $html .= '</div>';
 
         // Panel 2 - Error Context
         $html .= '<div id="panel2" class="panel">';
         $html .= '<h3>Context</h3>';
-        $html .= '<span class="small">You are viewing the source code of the file "' . $errorfile . '" around line ' . $errorline . '.</span><br/><br/>';
-        $html .= self::getErrorContext($errorfile, $errorline, 8) . '</div>';
+        $html .= '<span class="small">You are viewing the source code of the file "' . $errfile . '" around line ' . $errline . '.</span><br/><br/>';
+        $html .= self::getErrorContext($errfile, $errline, 8) . '</div>';
 
         // Panel 3 - Debug Backtracing
         $html .= self::getDebugBacktrace($short_errorstring);
@@ -308,7 +305,7 @@ class Errorhandler
         $html .= '</table></div>';
 
         // Panel 5 - Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket
-        $html .= self::getBugtrackerBacklinks($errorstring, $errorfile, $errorline, $errorcontext);
+        $html .= self::getBugtrackerBacklinks($errorname, $errfile, $errline, $errcontext);
 
         // Close Error Table
         $html .= '</table>';
@@ -362,7 +359,7 @@ class Errorhandler
         $html .= '<table class="cs-backtrace-table" width="95%">';
 
         // table row 1 - header
-        $html .= '<tr><th width="2%">Callstack</th><th>Function (recent function calls last)</th><th width="46%">Location</th></tr>';
+        $html .= '<tr><th width="2%">Callstack</th><th>Function</th><th width="46%">Location</th></tr>';
 
         $backtraces_count = count($trace)-1;
 
