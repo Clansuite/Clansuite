@@ -683,7 +683,7 @@ fieldset legend
 	left:50%;
 	width:9px;
 	height:6px;
-	background:url(tip-yellowsimple_arrows.gif) no-repeat;
+	background:url(../images/tip-yellowsimple_arrows.gif) no-repeat;
 }
 .tip-yellowsimple .tip-arrow-right {
 	margin-top:-4px; /* approx. half the height to center it */
@@ -692,7 +692,7 @@ fieldset legend
 	left:100%;
 	width:6px;
 	height:9px;
-	background:url(tip-yellowsimple_arrows.gif) no-repeat -9px 0;
+	background:url(../images/tip-yellowsimple_arrows.gif) no-repeat -9px 0;
 }
 .tip-yellowsimple .tip-arrow-bottom {
 	margin-top:0;
@@ -701,7 +701,7 @@ fieldset legend
 	left:50%;
 	width:9px;
 	height:6px;
-	background:url(tip-yellowsimple_arrows.gif) no-repeat -18px 0;
+	background:url(../images/tip-yellowsimple_arrows.gif) no-repeat -18px 0;
 }
 .tip-yellowsimple .tip-arrow-left {
 	margin-top:-4px; /* approx. half the height to center it */
@@ -710,5 +710,5 @@ fieldset legend
 	left:0;
 	width:6px;
 	height:9px;
-	background:url(tip-yellowsimple_arrows.gif) no-repeat -27px 0;
+	background:url(../images/tip-yellowsimple_arrows.gif) no-repeat -27px 0;
 }
