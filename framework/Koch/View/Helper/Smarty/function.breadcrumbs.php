@@ -1,9 +1,6 @@
 <?php
 /**
  * This smarty function is part of "Koch Framework".
- * @link http://www.clansuite.com
- *
- *
  *
  * Smarty plugin
  * @package Smarty
@@ -81,7 +78,7 @@ function smarty_function_breadcrumbs($params, $smarty)
 
     $breadcrumb_string = join($separator . ' ', $links);
 
-    if ($params['assign'] !== null) {
+    if (isset($params['assign']) === true) {
         $smarty->assign('breadcrumb',  $breadcrumb_string);
     } else {
         return $breadcrumb_string;

@@ -266,11 +266,6 @@ class TargetRoute extends Mapper
         return (bool) self::$parameters['modrewrite'];
     }
 
-    public static function getModulePath()
-    {
-        return ROOT_MOD . self::getController() . DIRECTORY_SEPARATOR;
-    }
-
     /**
      * Method to check if the TargetRoute relates to correct file, controller and action.
      * Ensures route is valid.

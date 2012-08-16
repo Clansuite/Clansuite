@@ -25,6 +25,8 @@
 
 namespace Koch\View\Helper;
 
+use Koch\Mvc\Mapper as Mapper;
+
 class Widget
 {
     /**
@@ -42,18 +44,25 @@ class Widget
      * 2) module_admin
      * 3) module_admin_menueditor
      *
-     * @param  string  $modulename The name of the module, which should be loaded.
+     * @param  string  $module The name of the module, which should be loaded.
      * @return boolean
      */
-    public static function loadModul($modulename)
+    public static function loadModul($module)
     {
-        $modulename = mb_strtolower($modulename);
+        echo 'Trying to load widget from Module : '. $module;
+
+        $module_path = Mapper::getModulePath($module);
+        $file = Mapper::mapControllerToFilename($module_path, $module);
+
+        echo $module_path . ' - ' . $file;
+
+        $module = mb_strtolower($module);
 
         // apply classname prefix to the modulename
-        $modulename = \Koch\Functions\Functions::ensurePrefixedWith($modulename, 'clansuite_module_');
+        $module = \Koch\Functions\Functions::ensurePrefixedWith($module, 'clansuite_module_');
 
         // build classname from modulename
-        $classname = \Koch\Functions\Functions::toUnderscoredUpperCamelCase($modulename);
+        $classname = \Koch\Functions\Functions::toUnderscoredUpperCamelCase($module);
 
         /**
          * now we have a common string like 'clansuite_module_admin_menu' or 'clansuite_module_news'
@@ -61,8 +70,8 @@ class Widget
          * like: Array ( [0] => clansuite [1] => module [2] => admin [3] => menu )
          * or  : Array ( [0] => clansuite [1] => module [2] => news )
          */
-        $moduleinfos = explode('_', $modulename);
-        unset($modulename);
+        $moduleinfos = explode('_', $module);
+        unset($module);
         $filename = ROOT_MOD;
 
         // if there is a part [3], we have to require a submodule filename
@@ -81,10 +90,6 @@ class Widget
         }
 
         return class_exists($classname);
-        #if(false === class_exists($classname))
-        #{
-        //    return \Koch\Autoload\Loader::requireFile($filename, $classname);
-        #}
     }
 
 }
