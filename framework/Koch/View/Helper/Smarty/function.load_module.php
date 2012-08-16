@@ -1,6 +1,6 @@
 <?php
 /**
- * Koch FrameworkSmarty Viewhelper
+ * Koch Framework Smarty Viewhelper
  *
  * @category Koch
  * @package Smarty
@@ -26,9 +26,9 @@
 function smarty_function_load_module($params, $smarty)
 {
     // debug display for the incomming parameters of a specific load_module request
-    /*if ($params['name'] == 'news') {
-        Koch_Debug::firebug($params);
-    }*/
+    if ($params['name'] == 'news') {
+        \Koch\Debug\Debug::firebug($params);
+    }
 
     // Init incomming Variables
     $module = isset($params['name']) ? (string) mb_strtolower($params['name']) : '';
