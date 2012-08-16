@@ -61,11 +61,11 @@ class Ini
     {
         // ensure we got an array
         if (is_array($array) === false) {
-            throw new \Koch\Exception\Exception('writeConfig Parameter $array is not an array.');
+            throw new \Koch\Exception\Exception('Parameter $array is not an array.');
         }
 
         if (empty($file)) {
-            throw new \Koch\Exception\Exception('writeConfig Parameter $filename is not given.');
+            throw new \Koch\Exception\Exception('Parameter $file is not given.');
         }
 
         // when ini_filename exists, get old config array
@@ -83,7 +83,7 @@ class Ini
         }
 
         // slash fix
-        $file = str_replace('/', '\\', $file);
+        $file = str_replace('/', DS, $file);
 
         // attach an security header at the top of the ini file
         $content = '';

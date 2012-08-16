@@ -202,7 +202,7 @@ class Helper
     {
         try {
             if (is_array($connectionParams) === false) {
-                include ROOT . 'core/config/adapter/ini.php';
+                include KOCH . 'Config/Adapter/Ini.php';
 
                 // get clansuite config
                 $clansuite_config = \Koch\Config\Adapter\Ini::readConfig(ROOT_APP . 'configuration/clansuite.php');
