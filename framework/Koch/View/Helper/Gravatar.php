@@ -177,11 +177,13 @@ class Gravatar
      */
     public function getGravatarURL()
     {
-        $gravatar_url = (string) sprintf($this->gravatar_baseurl,
-                                         $this->gravatar_properties['gravatar_id'],
-                                         $this->gravatar_properties['size'],
-                                         $this->gravatar_properties['rating'],
-                                         $this->gravatar_properties['default']);
+        $gravatar_url = (string) sprintf(
+            $this->gravatar_baseurl,
+            $this->gravatar_properties['gravatar_id'],
+            $this->gravatar_properties['size'],
+            $this->gravatar_properties['rating'],
+            $this->gravatar_properties['default']
+        );
 
         return $gravatar_url;
     }
@@ -197,10 +199,13 @@ class Gravatar
         // check for caching and construct html from cached gravatar url
         if (true == $this->useCaching) {
             // initialize cache class
-            $cache = new clansuite_gravatar_cache($this->getGravatarURL(),
-                                                  $this->gravatar_properties['gravatar_id'],
-                                                  $this->gravatar_properties['size'],
-                                                  $this->gravatar_properties['rating']);
+            $cache = new GravatarCache(
+                $this->getGravatarURL(),
+                $this->gravatar_properties['gravatar_id'],
+                $this->gravatar_properties['size'],
+                $this->gravatar_properties['rating']
+            );
+
             // getGravatar URL from cache
             $html .= '<img src="'. $cache->getGravatar() .'"';
         } else {
@@ -238,11 +243,11 @@ class Gravatar
  * @package     Koch
  * @subpackage  Libraries
  */
-class clansuite_gravatar_cache
+class GravatarCache
 {
     // Gravatar Cache Settings
     public $cache_location       = 'uploads/images';
-    public $gravatar_cache_url   = '/gravatar_cache/%s-%s-%s.png';
+    public $gravatar_cache_url   = '/gravatars/%s-%s-%s.png';
     public $cache_expire_time    = '7 days';
     public $cacheable            = true;
 

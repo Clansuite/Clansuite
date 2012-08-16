@@ -157,7 +157,7 @@ class Session implements SessionInterface, \ArrayAccess
             // Set Cookie + adjust the expiration time upon page load
             setcookie(self::SESSION_NAME, session_id(), time() + $time, '/');
         } else {
-            throw new Koch_Exception('The session start failed!', 200);
+            throw new \Koch\Exception\Exception('The session start failed!', 200);
         }
     }
 

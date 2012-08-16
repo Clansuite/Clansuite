@@ -106,7 +106,7 @@ class Upload implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetSet($offset, $value)
     {
-        throw new Koch_Exception('Array access is read only.');
+        throw new \Koch\Exception\Exception('Array access is read only.');
     }
 
     /**
@@ -116,7 +116,7 @@ class Upload implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetUnset($offset)
     {
-        throw new Koch_Exception('Array access is read only.');
+        throw new \Koch\Exception\Exception('Array access is read only.');
     }
 
     /**

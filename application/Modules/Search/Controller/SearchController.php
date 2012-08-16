@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Search\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_News
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Search\Controller;
  * @package     Modules
  * @subpackage  Toolbox
  */
-class SearchController extends Controller
+class SearchController extends ModuleController
 {
 
     public function _initializeModule()

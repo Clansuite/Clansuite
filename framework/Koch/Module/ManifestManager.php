@@ -287,7 +287,7 @@ class ManifestManager
             $module_infofile = $modulepath . DIRECTORY_SEPARATOR . $modulename . '.info.php';
             $config_object = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
             if (is_file($module_infofile) === true) {
-                #Koch_Debug::firebug($module_infofile);
+                #\Koch\Debug\Debug::firebug($module_infofile);
 
                 self::$modulesinfo[$modulename]['info'] = $config_object->readConfig($module_infofile);
             } else { // create file in DEV MODE
@@ -325,7 +325,7 @@ class ManifestManager
 
         ksort(self::$modulesinfo);
 
-        #Koch_Debug::printR(self::$modulesinfo);
+        #\Koch\Debug\Debug::printR(self::$modulesinfo);
 
         return self::$modulesinfo;
     }
@@ -406,7 +406,7 @@ class ManifestManager
             }
         }
 
-        #Koch_Debug::printR($langinfo);
+        #\Koch\Debug\Debug::printR($langinfo);
 
         return $langinfo;
     }

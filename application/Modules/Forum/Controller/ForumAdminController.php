@@ -24,16 +24,18 @@
  *
  */
 
-namespace Clansuite\application\Modules\Forum\Controller;;
+namespace Clansuite\application\Modules\Forum\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
- * Clansuite_Module_Forum_Admin
+ * ForumAdminController
  *
  * @category    Clansuite
  * @package     Modules
  * @subpackage  Forum
  */
-class Forum_Admin extends Controller
+class ForumAdminController extends ModuleController
 {
     public function _initializeModule()
     {

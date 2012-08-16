@@ -26,11 +26,11 @@
 namespace Koch\Formelement;
 
 /**
- *  Koch_Formelement
+ *  Koch\Formelement
  *  |
- *  \- Koch_Formelement_Input
+ *  \- Koch\Formelement\Input
  *     |
- *     \- Koch_Formelement_SelectDate
+ *     \- Koch\Formelement\SelectDate
  */
 class SelectDate extends Input implements FormElementInterface
 {
@@ -59,7 +59,7 @@ class SelectDate extends Input implements FormElementInterface
         if (in_array($type, $types) === true) {
             $this->type = $type;
         } else {
-            throw new Koch_Exception('Invalid formfield type specified. Choose one of ' . explode(',', $types));
+            throw new \Koch\Exception\Exception('Invalid formfield type specified. Choose one of ' . explode(',', $types));
         }
 
         return $this;

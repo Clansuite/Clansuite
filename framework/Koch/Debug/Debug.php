@@ -171,7 +171,7 @@ class Debug
      *
      * This is used to determine the origin of the debug call.
      * Its mostly used in combination with several debug calls,
-     * like Koch_Debug::firebug() or Koch_Debug::printR()
+     * like \Koch\Debug\Debug::firebug() or \Koch\Debug\Debug::printR()
      * which are enhanced debug displays.
      *
      * It is a very helpful reminder to find and remove debug calls,
@@ -239,7 +239,7 @@ class Debug
 
         // total number of included files
         $includedFilesCount = count($includedFiles);
-        $includedFilesTotalSize = Koch_Functions::getsize($includedFilesTotalSize);
+        $includedFilesTotalSize = \Koch\Functions\Functions::getsize($includedFilesTotalSize);
 
         self::printR(array('count' => $includedFilesCount, 'size' => $includedFilesTotalSize, 'files' => $includedFiles));
     }

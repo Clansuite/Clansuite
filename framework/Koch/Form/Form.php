@@ -736,7 +736,7 @@ class Form implements FormInterface
 
         // developer hint: when $form->render() was triggered, but no formelement was added before
         if (count($formelements) == 0) {
-            throw new Koch_Exception('Formelement rendering failure. No formelements on form object. Consider adding some formelements using addElement().');
+            throw new \Koch\Exception\Exception('Formelement rendering failure. No formelements on form object. Consider adding some formelements using addElement().');
         }
 
         // sort formelements by index

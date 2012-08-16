@@ -189,7 +189,7 @@ class Tool
      *
      * @param string $message
      *
-     * @throws Koch_Exception
+     * @throws \Koch\Exception\Exception
      */
     protected function throwException($message)
     {
@@ -199,7 +199,7 @@ class Tool
 
         $this->log($message);
 
-        throw new Koch_Exception($message);
+        throw new \Koch\Exception\Exception($message);
     }
 
     /**

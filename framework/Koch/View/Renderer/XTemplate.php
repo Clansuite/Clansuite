@@ -60,7 +60,7 @@ class Xtemplate extends AbstractRenderer
 
         $template = $this->getTemplatePath($template);
 
-        #Koch_Debug::firebug('Xtemplate loaded with Template: ' . $template);
+        #\Koch\Debug\Debug::firebug('Xtemplate loaded with Template: ' . $template);
 
         // Do it with XTemplate style > eat like a bird, poop like an elefant!
         return $this->renderer = new XTemplate($template);

@@ -63,7 +63,7 @@ class AssocArray extends Form implements FormGeneratorInterface
             // now that the form description is valid, we generate the form
             $this->generateFormByArray($form_array);
         } else { // the formdescription is invalid
-            throw new Koch_Exception('Obligatory formelements not present.', 30);
+            throw new \Koch\Exception\Exception('Obligatory formelements not present.', 30);
         }
     }
 
@@ -102,15 +102,15 @@ class AssocArray extends Form implements FormGeneratorInterface
 
         // loop over all elements of the form description array
         foreach ($form_array as $form_array_section => $form_array_elements) {
-            #Koch_Debug::firebug($form_array_elements);
-            #Koch_Debug::firebug($form_array_section);
+            #\Koch\Debug\Debug::firebug($form_array_elements);
+            #\Koch\Debug\Debug::firebug($form_array_section);
 
             foreach ($form_array_elements as $form_array_element_number => $form_array_element) {
-                #Koch_Debug::firebug(array_keys($form_array_element));
-                #Koch_Debug::firebug($obligatory_form_array_elements);
+                #\Koch\Debug\Debug::firebug(array_keys($form_array_element));
+                #\Koch\Debug\Debug::firebug($obligatory_form_array_elements);
 
                 // this does the validation. it ensures that required keys are present
-                $report_differences_or_true = Koch_Functions::array_compare($obligatory_form_array_elements, array_keys($form_array_element));
+                $report_differences_or_true = \Koch\Functions\Functions::array_compare($obligatory_form_array_elements, array_keys($form_array_element));
 
                 // errorcheck for valid formfield elements
                 if (is_array($report_differences_or_true) == false) {
@@ -118,7 +118,7 @@ class AssocArray extends Form implements FormGeneratorInterface
                     return true;
                 } else {
                     // form description arrays are not identical
-                    throw new Koch_Exception('Form Array Structure not valid. The first array shows the obligatory form array elements.
+                    throw new \Koch\Exception\Exception('Form Array Structure not valid. The first array shows the obligatory form array elements.
                          The second array shows your form definition. Please add the missing array keys with values.'
                             .var_dump($report_differences_or_true));
                 }
@@ -129,15 +129,15 @@ class AssocArray extends Form implements FormGeneratorInterface
     public function generateFormByArray($form_array)
     {
         // debug display incomming form description array
-        #Koch_Debug::firebug($form_array);
+        #\Koch\Debug\Debug::firebug($form_array);
 
         // loop over all elements of the form description array
         foreach ($form_array as $form_array_section => $form_array_elements) {
-            #Koch_Debug::firebug($form_array_elements);
-            #Koch_Debug::firebug($form_array_section);
+            #\Koch\Debug\Debug::firebug($form_array_elements);
+            #\Koch\Debug\Debug::firebug($form_array_section);
 
             foreach ($form_array_elements as $form_array_element_number => $form_array_element) {
-                #Koch_Debug::firebug($form_array_element);
+                #\Koch\Debug\Debug::firebug($form_array_element);
 
                 // @todo ensure these elements exist !!!
 
@@ -147,7 +147,7 @@ class AssocArray extends Form implements FormGeneratorInterface
                 // fetch the new formelement object by its positional number
                 $formelement = $this->getElementByPosition($form_array_element_number);
 
-                #Koch_Debug::firebug($formelement);
+                #\Koch\Debug\Debug::firebug($formelement);
 
                 // and apply the settings (id, name, description, value) to it
                 $formelement->setID($form_array_element['id']);

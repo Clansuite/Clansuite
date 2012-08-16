@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Thememanager\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Thememanager_Admin
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Thememanager
  */
-class Thememanager_Admin extends Controller
+class ThememanagerAdminController extends ModuleController
 {
     /**
      * @var object \Clansuite_Cssbuilder

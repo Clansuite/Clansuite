@@ -33,7 +33,7 @@ namespace Clansuite\application\Modules\Forum\Controller;
  * @package     Modules
  * @subpackage  Forum
  */
-class ForumController extends Controller
+class ForumController extends ModuleController
 {
     private static $moduleInfos = array();
 

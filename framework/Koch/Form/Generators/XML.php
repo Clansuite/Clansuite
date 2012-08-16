@@ -54,12 +54,12 @@ class XML extends Koch_Form implements FormGeneratorInterface
         $array = array();
         $array = new Koch\Config($filename);
 
-        #Koch_Debug::firebug($filename);
-        #Koch_Debug::firebug($array);
+        #\Koch\Debug\Debug::firebug($filename);
+        #\Koch\Debug\Debug::firebug($array);
         $form = '';
         $form = new Koch_Array_Formgenerator($array);
 
-        #Koch_Debug::firebug($form);
+        #\Koch\Debug\Debug::firebug($form);
 
         return $form;
     }

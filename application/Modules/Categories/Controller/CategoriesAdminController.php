@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Categories\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_Categories_Admin
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Categories\Controller;
  * @package     Modules
  * @subpackage  Categories
  */
-class CategoriesAdminController extends Controller
+class CategoriesAdminController extends ModuleController
 {
     public function action_admin_list()
     {

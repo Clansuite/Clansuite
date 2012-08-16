@@ -1340,7 +1340,16 @@ class TracRPC
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+        // workaround for CURLOPT_FOLLOWLOCATION
+        // cannot be activated when safe_mode is enabled or an open_basedir is set
+        if (ini_get('open_basedir') == '' && ini_get('safe_mode' == 'Off')) {
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        } else {
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            // alternative following handling via header 301?
+        }
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);

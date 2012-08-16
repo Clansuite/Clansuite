@@ -225,11 +225,11 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         // when array is not defined issetParameter will searches (POST|GET|COOKIE)
         if (is_string($arrayname) === true) {
             if (false === $this->issetParameter($parameter)) {
-                throw new Koch_Exception('Incoming Parameter missing: "' . $parameter . '".');
+                throw new \Koch\Exception\Exception('Incoming Parameter missing: "' . $parameter . '".');
             }
         } else { // when array is defined issetParameter will search the given array
             if (false === $this->issetParameter($parameter, $arrayname)) {
-                throw new Koch_Exception('Incoming Parameter missing: "' . $parameter . '" in Array "' . $arrayname . '".');
+                throw new \Koch\Exception\Exception('Incoming Parameter missing: "' . $parameter . '" in Array "' . $arrayname . '".');
             }
         }
     }
@@ -608,7 +608,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      * Get Route returns the static Koch_TargetRoute object.
      *
      * With php onbord tools you can't debug this.
-     * Please use Koch_Debug:firebug($route); to debug.
+     * Please use \Koch\Debug\Debug:firebug($route); to debug.
      * Firebug uses Reflection to show the static properties and values.
      *
      * @return Koch_TargetRoute
@@ -663,11 +663,11 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
                     $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
                 }
             } else {
-                throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
+                throw new \Koch\Exception\Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
             }
         } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' and $this->issetParameter('GET', 'method')) {
             // NOPE, there's no tunneling through GET!
-            throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
+            throw new \Koch\Exception\Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
         }
     }
 

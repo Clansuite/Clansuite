@@ -20,7 +20,7 @@
  */
 function smarty_modifier_megabytes($string)
 {
-    return Koch_Functions::getsize($string);
+    return \Koch\Functions\Functions::getsize($string);
 }
 
 /* vim: set expandtab: */

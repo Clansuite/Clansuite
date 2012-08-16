@@ -26,11 +26,13 @@
 
 namespace Clansuite\application\Modules\Staticpages\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite Module - Static Pages
  *
  */
-class StaticpagesController extends Controller
+class StaticpagesController extends ModuleController
 {
     /**
      * Module_Staticpages -> Execute

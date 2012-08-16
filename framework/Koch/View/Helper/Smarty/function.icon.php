@@ -49,7 +49,7 @@ function smarty_function_icon($params, $smarty)
         $needle = 'http://'.$_SERVER['SERVER_NAME'].DS;
         $pos = mb_strpos($src, $needle);
         if ($src !== null and is_int($pos)) {
-            #Koch_Debug::printR($pos);
+            #\Koch\Debug\Debug::printR($pos);
             $src = mb_substr($src, $pos + mb_strlen($needle));
             $name = basename($src);
         }

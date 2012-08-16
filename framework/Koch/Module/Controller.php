@@ -104,10 +104,15 @@ abstract class Controller
      */
     public function getEntityNameFromClassname()
     {
-        $entityNameArray = explode('_', get_called_class());
+        // classname e.g. "Clansuite\application\Modules\News\Controller\NewsController"
+        // will fetch this part as doctrine entity name ---------------> ^^^^
+        $classname = get_called_class();
+        $classname = str_replace('Controller', '', $classname);
+        $segments = explode('\\', $classname);
+        $entityName = array_pop($segments);
 
         // add entities namespace prefix
-        $this->entityName = 'Entities\\' . $entityNameArray[2];
+        $this->entityName = 'Entities\\' . $entityName;
 
         return $this->entityName;
     }
@@ -198,7 +203,7 @@ abstract class Controller
      */
     public static function getModuleConfig($modulename = null)
     {
-        $config = self::getInjector()->instantiate('Koch\Config');
+        $config = self::getInjector()->instantiate('\Koch\Config\Config');
 
         return self::$moduleconfig = $config->readModuleConfig($modulename);
     }
@@ -229,7 +234,7 @@ abstract class Controller
         }
 
         // try a lookup of the value by keyname
-        $value = Koch_Functions::array_find_element_by_key($keyname, self::$moduleconfig);
+        $value = \Koch\Functions\Functions::array_find_element_by_key($keyname, self::$moduleconfig);
 
         // return value or default
         if (empty($value) === false) {
@@ -395,8 +400,8 @@ abstract class Controller
         $template = $view_mapper->getTemplateName();
 
         // Debug display of Layout Template and Content Template
-        #Koch_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
-        #Koch_Debug::firebug('Template Name: ' . $templatename . '<br />');
+        #\Koch\Debug\Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
+        #\Koch\Debug\Debug::firebug('Template Name: ' . $templatename . '<br />');
 
         // render the content / template
         $content = $this->view->render($template);

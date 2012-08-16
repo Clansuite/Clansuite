@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Statistics\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Statistics_Admin
@@ -33,12 +35,8 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Statistics
  */
-class Statistics_Admin extends Controller
+class StatisticsAdminController extends ModuleController
 {
-    public function _initializeModule()
-    {
-    }
-
     public function action_admin_list()
     {
         $view = $this->getView();

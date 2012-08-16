@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Statistics\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Statistics
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Clansuite_Module_Statistics
  */
-class Statistics extends Controller
+class StatisticsController extends ModuleController
 {
     /**
      * This fetches the statistics from db and returns them as array.

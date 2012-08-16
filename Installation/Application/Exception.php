@@ -62,7 +62,7 @@ class Exception extends \Exception
          */
         $html .= '<fieldset class="error_yellow">';
         $html .= '<div style="float:left; padding: 15px;">';
-        $html .= '<img src="assets\images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;" alt="Clansuite Error Icon" /></div>';
+        $html .= '<img src="assets/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;" alt="Clansuite Error Icon" /></div>';
         $html .= '<legend>Clansuite Installation Error</legend>';
         $html .= '<p><strong>' . $this->getMessage() . '</strong>';
 

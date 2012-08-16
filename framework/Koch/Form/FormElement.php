@@ -773,11 +773,11 @@ class FormElement implements FormElementInterface
         // We dont return $this here, because $this would be the formelement.
         // Insted the decorator is returned, to apply some properties.
         // @return decorator object
-        #Koch_Debug::printR($this->formelementdecorators[$decoratorname]);
-        #Koch_Debug::printR($this->name);
+        #\Koch\Debug\Debug::printR($this->formelementdecorators[$decoratorname]);
+        #\Koch\Debug\Debug::printR($this->name);
 
-        #Koch_Debug::firebug($this);
-        #Koch_Debug::firebug($this->formelementdecorators);
+        #\Koch\Debug\Debug::firebug($this);
+        #\Koch\Debug\Debug::firebug($this->formelementdecorators);
 
         return $this->formelementdecorators[$decoratorname];
     }

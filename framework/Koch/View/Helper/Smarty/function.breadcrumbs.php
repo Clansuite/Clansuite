@@ -32,7 +32,7 @@ function smarty_function_breadcrumbs($params, $smarty)
         $trail = \Koch\View\Helper\Breadcrumb::getTrail();
     }
 
-    #Koch_Debug::firebug($trail);
+    #\Koch\Debug\Debug::firebug($trail);
 
     // is the seperator element set via the smarty function call?
     if ($params['separator'] !== null) {

@@ -37,7 +37,7 @@ namespace Koch\Logger;
  * @package     Core
  * @subpackage  Logger
  */
-class Compositum implements Logger
+class Compositum implements LoggerInterface
 {
     /**
      * @var array Array constains a object composition of all loggers
@@ -85,7 +85,7 @@ class Compositum implements Logger
         $loggers = array($loggers);
 
         foreach ($loggers as $logger) {
-            if ((in_array($logger, $this->loggers) == false) and ($logger instanceof Koch_Logger_Interface)) {
+            if ((in_array($logger, $this->loggers) == false) and ($logger instanceof LoggerInterface)) {
                 $this->loggers[] = $logger;
             }
         }

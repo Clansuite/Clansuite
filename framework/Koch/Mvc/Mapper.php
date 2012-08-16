@@ -87,11 +87,11 @@ class Mapper extends \ArrayObject
      * @param  string $controller Name of Controller (optional)
      * @return string classname
      */
-    public static function mapControllerToClassname($module, $controller = null)
+    public static function mapControllerToClassname($module, $controller = '')
     {
         $classname = '\\';
 
-        if ($controller === null) {
+        if ($controller === '') {
             // the default controller of a module is named like the module
             // The module "News"  has a controller named "News"Controller.
             $controller = $module;

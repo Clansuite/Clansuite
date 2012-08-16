@@ -2,7 +2,7 @@
 ?>
 
     <div id="footer">
-        <p style="opacity:0.60;">
+        <p>
             <br />
             <?php
             date_default_timezone_set('Europe/Berlin');
@@ -11,12 +11,14 @@
             <br />
             &copy; 2005-<?php echo date('Y'); ?> by <a href="http://www.jens-andre-koch.de" target="_blank">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team.
         </p>
-        <span style="float:left; text-align:left; margin-top: -65px;" id="footer-left">
-            <a href="http://www.opensource.org/"><img height="65" width="75" title="OpenSource Logo" alt="OpenSource Logo" src="http://cdn.clansuite.com/images/banners/opensource-75x65-t.png" style="opacity: 0.60;"></a>
+        <span id="footer-left">
+            <a href="http://www.opensource.org/">
+              <img height="65" width="75" title="OpenSource Logo" alt="OpenSource Logo" src="assets/images/opensource-75x65-t.png">
+            </a>
         </span>
-        <span style="float:right; text-align:right; margin-top: -30px;" id="footer-right">
+        <span id="footer-right">
             <a href="http://clansuite.com/banner/">
-                <img height="31" width="88" title="Clansuite Logo" alt="Clansuite 80x31 Crown Logo" src="http://cdn.clansuite.com/banners/clansuite-crown-banner-88x31.png" style="opacity: 0.60;">
+                <img height="31" width="88" title="Clansuite Logo" alt="Clansuite 80x31 Crown Logo" src="assets/images/clansuite-crown-banner-88x31.png">
             </a>
         </span>
     </div>
@@ -58,7 +60,7 @@
                       // build image name
                       $flag_image = strtolower($file).'.png';
                       // if an image exists, add it as inline css style
-                      if(is_file('./Languages/' . $flag_image)) {
+                      if (is_file('./Languages/' . $flag_image)) {
                         echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $flag_image .'); background-position:5px 100%; background-repeat: no-repeat;"';
                       } else {
                         echo '<option';
@@ -113,7 +115,7 @@
 
             <!-- Link Us -->
             <li><h2>Link us</h2></li>
-            <li><a href="http://clansuite.com/banner/" target="_blank"><img src="http://clansuite.com/banner/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
+            <li><a href="http://clansuite.com/banner/" target="_blank"><img src="assets/images/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
 
        </ul>
     </div>

@@ -173,44 +173,44 @@ class File
      *
      * @param $destination string  destination directory
      * @param $overwrite boolean overwrite
-     * @throws Koch_Exception on failure
+     * @throws \Koch\Exception\Exception on failure
      */
     public function moveTo($destination, $overwrite = false)
     {
         // ensure upload was valid
         if ( false == $this->isValid()) {
-            throw new Koch_Exception('File upload was not successful.', $this->getError());
+            throw new \Koch\Exception\Exception('File upload was not successful.', $this->getError());
         }
 
         // ensure a valid file extension was used
         if ( false == $this->hasValidExtension()) {
-            throw new Koch_Exception('File does not have an allowed extension.');
+            throw new \Koch\Exception\Exception('File does not have an allowed extension.');
         }
 
         // ensure destination directory exists
         if ( false == is_dir($destination)) {
-            throw new Koch_Exception($destination . ' is not a directory.');
+            throw new \Koch\Exception\Exception($destination . ' is not a directory.');
         }
 
         // ensure destination directory is writeable
         if ( false == is_writeable($destination)) {
-            throw new Koch_Exception('Cannot write to destination directory ' . $destination);
+            throw new \Koch\Exception\Exception('Cannot write to destination directory ' . $destination);
         }
 
         // check if the destination as a file exists
         if (is_file($destination)) {
             // exit here, if overwrite is not requested
             if (false == $overwrite) {
-                throw new Koch_Exception('File ' . $destination . ' already exists.');
+                throw new \Koch\Exception\Exception('File ' . $destination . ' already exists.');
             }
 
             if ( false == is_writeable($destination)) {
-                throw new Koch_Exception('Cannot overwrite ' . $destination);
+                throw new \Koch\Exception\Exception('Cannot overwrite ' . $destination);
             }
         }
 
         if ( false == move_uploaded_file($this->temporayName, $destination)) {
-            throw new Koch_Exception('Moving uploaded file failed.');
+            throw new \Koch\Exception\Exception('Moving uploaded file failed.');
         }
     }
 }

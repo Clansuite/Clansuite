@@ -197,7 +197,7 @@ class POFile
             $x = str_replace('$', '\\$', $x);
 
             // @todo which use case has this eval?
-            // #Koch_Debug:firebug($x);
+            // #\Koch\Debug\Debug:firebug($x);
             //$x = @ eval ("return \"$x\";");
         }
 

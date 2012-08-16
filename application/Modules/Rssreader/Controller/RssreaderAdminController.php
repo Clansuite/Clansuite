@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Rssreader\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Rssreader_Admin
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Rssreader
  */
-class Rssreader_Admin extends Controller
+class RssreaderAdminController extends ModuleController
 {
 
     public function _initializeModule()

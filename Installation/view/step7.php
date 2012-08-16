@@ -4,7 +4,7 @@
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="assets\images/64px-Face-smile-big.svg.png" style="vertical-align:middle" alt="installstep image" />
+                    <img src="assets/images/64px-Face-smile-big.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP7_FINISH']; ?>
                 </h2>
                 <?php if (!empty($error)) { ?>
@@ -14,7 +14,7 @@
                 <?php } ?>
                 <p style="color:darkgreen"><strong><?php echo $language['STEP7_SENTENCE1']; ?></strong></p>
                 <p><?php echo $language['STEP7_SENTENCE2']; ?>
-                    <img src="assets\images/face-wink.png" style="vertical-align:middle;" alt="installstep image" />
+                    <img src="assets/images/face-wink.png" style="vertical-align:middle;" alt="installstep image" />
                     <br />
                     <?php echo $language['STEP7_SENTENCE3']; ?>
                 <p><b><?php echo $language['STEP7_SENTENCE4']; ?>
@@ -53,7 +53,7 @@
                 <br />
                 <div id="content_footer">
                     <div class="navigation">
-                        <span style="font-size:10px;">
+                        <span class="font-10">
                             <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
                         </span>
                         <form action="index.php" method="post">

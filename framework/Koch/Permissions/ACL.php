@@ -233,7 +233,7 @@ class ACL
         }
 
         $permstring = mb_substr( $permstring, 0, strlen($permstring)-1);
-        #Koch_Debug::printR($permstring);
+        #\Koch\Debug\Debug::printR($permstring);
 
         return $permstring;
     }

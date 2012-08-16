@@ -4,7 +4,7 @@
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="assets\images/64px-Utilities-system-monitor.svg.png" style="vertical-align:middle" alt="installstep image" />
+                    <img src="assets/images/64px-Utilities-system-monitor.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP2_SYSTEMCHECK']; ?>
                 </h2>
                 <p><?php echo $language['STEP2_IN_GENERAL']; ?></p>
@@ -18,8 +18,8 @@
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>
                          <?php
                          // Case-Images, to determine if a certain Setting is OK or NOT
-                         define('SETTING_TRUE',  '<img src="assets\images/true.gif" alt="OK" height="16" width="16" />');
-                         define('SETTING_FALSE', '<img src="assets\images/false.gif" alt="NOT" height="16" width="16" />');
+                         define('SETTING_TRUE',  '<img src="assets/images/true.gif" alt="OK" height="16" width="16" />');
+                         define('SETTING_FALSE', '<img src="assets/images/false.gif" alt="NOT" height="16" width="16" />');
 
                          // determine Strings for ON, OFF, R, W
                          define('SETTING_EXPECTED_ON', $language['STEP2_SETTING_EXPECTED_ON']);
@@ -419,7 +419,7 @@
                 -->
                 <div id="content_footer">
                     <div class="navigation">
-                        <span style="font-size:10px;">
+                        <span class="font-10">
                             <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
                             <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
                         </span>

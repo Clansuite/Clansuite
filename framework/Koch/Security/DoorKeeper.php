@@ -81,7 +81,7 @@ class DoorKeeper
             // in order to create the cache file automatically
             if (false === is_file(IDS_CACHE_PATH)) {
                 if (false === file_put_contents(IDS_CACHE_PATH, '')) {
-                    throw new Koch_Exception('PHP IDS Cache file couldn\'t be created.', 11);
+                    throw new \Koch\Exception\Exception('PHP IDS Cache file couldn\'t be created.', 11);
                 }
             }
 

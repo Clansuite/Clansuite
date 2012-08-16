@@ -276,14 +276,16 @@ class Errorhandler
 
         // Panel 1 - Errormessage
         $html .= '<div id="panel1" class="panel">';
-        $html .= '<h3>Error <span class="small">' . $errstr . ' (' . $errno . ')</span></h3>';
-        $html .= 'in file "' . $errfile . '"&nbsp;on line ' . $errline.'.';
+        $html .= '<h3>Error</h3>';
+        $html .= '<p style="font-weight: bold;">' . $errstr . ' (' . $errno . ')</p>';
+        $html .= '<p>in file "<span style="font-weight: bold;">' . $errfile . '</span>"';
+        $html .= ' on line #<span style="font-weight: bold;">' . $errline.'.</span></p>';
         $html .= '</div>';
 
         // Panel 2 - Error Context
         $html .= '<div id="panel2" class="panel">';
         $html .= '<h3>Context</h3>';
-        $html .= '<span class="small">You are viewing the source code of the file "' . $errfile . '" around line ' . $errline . '.</span><br/><br/>';
+        $html .= '<p><span class="small">You are viewing the source code of the file "' . $errfile . '" around line ' . $errline . '.</span></p>';
         $html .= self::getErrorContext($errfile, $errline, 8) . '</div>';
 
         // Panel 3 - Debug Backtracing
@@ -292,7 +294,7 @@ class Errorhandler
         // Panel 4 - Environmental Informations at Errortime
         $html .= '<div id="panel4" class="panel">';
         $html .= '<h3>Server Environment</h3>';
-        $html .= '<table width="95%">';
+        $html .= '<p><table width="95%">';
         $html .= '<tr><td colspan="2"></td></tr>';
         $html .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
         $html .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
@@ -302,7 +304,7 @@ class Errorhandler
         $html .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
         $html .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
         $html .= ' (' . CLANSUITE_VERSION_NAME . ')</td></tr>';
-        $html .= '</table></div>';
+        $html .= '</table></p></div>';
 
         // Panel 5 - Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket
         $html .= self::getBugtrackerBacklinks($errorname, $errfile, $errline, $errcontext);
@@ -600,7 +602,7 @@ class Errorhandler
      */
     public static function getBugtrackerBacklinks($errorstring, $errorfile, $errorline, $errorcontext)
     {
-        $message1 = '<div id="panel5" class="panel"><h3>' . 'Found a bug in Clansuite?' . '</h3>';
+        $message1 = '<div id="panel5" class="panel"><h3>' . 'Found a bug in Clansuite?' . '</h3><p>';
         $message2 = 'If you think this should work and you can reproduce the problem, please consider creating a bug report.';
         $message3 = 'Before creating a new bug report, please first try searching for similar issues, as it is quite likely that this problem has been reported before.';
         $message4 = 'Otherwise, please create a new bug report describing the problem and explain how to reproduce it.';
@@ -613,7 +615,7 @@ class Errorhandler
         $newticket_link .= '&#9658; Create new ticket';
         $newticket_link .= '</a>';
 
-        return $message1 . $message2 . NL . $message3 . NL . $message4 . $search_link . $newticket_link . '</div>' . NL;
+        return $message1 . $message2 . NL . $message3 . NL . $message4 . $search_link . $newticket_link . '</p></div>' . NL;
     }
 
     /**

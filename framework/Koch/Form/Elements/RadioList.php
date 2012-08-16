@@ -68,7 +68,7 @@ class Radiolist extends Radio implements FormElementInterface
             // assign it as output
             $html .= $radio;
 
-            #Koch_Debug::printR($html);
+            #\Koch\Debug\Debug::printR($html);
 
             // if we have more options comming up, add a seperator
             if (++$i!=count($this->options)) {

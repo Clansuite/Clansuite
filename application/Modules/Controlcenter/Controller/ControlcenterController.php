@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Controlcenter\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_ControlCenter
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Controlcenter\Controller;
  * @package     Modules
  * @subpackage  ControlCenter
  */
-class ControlcenterController extends Controller
+class ControlcenterController extends ModuleController
 {
     public function _initializeModule()
     {

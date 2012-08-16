@@ -32,37 +32,25 @@ function smarty_function_load_module($params, $smarty)
 
     // Init incomming Variables
     $module = isset($params['name']) ? (string) mb_strtolower($params['name']) : '';
-    $submodule = isset($params['sub']) ? (string) mb_strtolower($params['sub']) : '';
+    $controller = isset($params['ctrl']) ? (string) mb_strtolower($params['ctrl']) : '';
     $action = isset($params['action']) ? (string) $params['action'] : '';
     $items = isset($params['items']) ? (int) $params['items'] : null;
 
-    // WATCH it, this resets the incomming parameters array
-    #$params = isset( $params['params'] ) ? (string) $params['params'] : '';
+    // Load Module/Controller in order to get access to the widget method
+    $module_path = \Koch\Mvc\Mapper::getModulePath($module);
+    #echo $module_path . '<br>';
 
-    $module_classname = 'clansuite_module_';
-    // Construct the variable module_name
-    if (isset($submodule) and mb_strlen($submodule) > 0) {
-        // like "clansuite_module_admin_news"
-        $module_classname .= $module . '_' . $submodule;
-    } else {
-        // like "clansuite_module_news"
-        $module_classname .= $module;
-    }
+    $classname = \Koch\Mvc\Mapper::mapControllerToClassname($module, $controller);
+    #echo $classname . '<br>';
 
-    #Koch_Debug::firebug($module_classname);
-
-    // Check if class was loaded
-    if (class_exists($module_classname, false) === false) {
-        // Load class, if not already loaded
-        if (\Koch\View\Helper\Widget::loadModul($module_classname) === false) {
-            return '<br/>Module missing or misspelled: <strong>' . $module_classname . '</strong>';
-        }
+    if (class_exists($classname) === false) {
+        return '<br/>Widget Loading Error. Module missing or misspelled? <strong>' . $module .' ' . $controller . '</strong>';
     }
 
     // Instantiate Class
-    $controller = new $module_classname(
-                Clansuite_CMS::getInjector()->instantiate('Koch_HttpRequest'),
-                Clansuite_CMS::getInjector()->instantiate('Koch_HttpResponse')
+    $controller = new $classname(
+                \Clansuite\CMS::getInjector()->instantiate('Koch\Http\HttpRequest'),
+                \Clansuite\CMS::getInjector()->instantiate('Koch\Http\HttpResponse')
     );
     $controller->setView($smarty);
     #$controller->setModel($module);
@@ -72,7 +60,7 @@ function smarty_function_load_module($params, $smarty)
      */
     if (method_exists($controller, $action)) {
         // exceptional handling of parameters and output for adminmenu
-        if ($module_classname == 'clansuite_module_menu_admin') {
+        if ($classname == 'clansuite_module_menu_admin') {
             $parameters = array();
 
             // Build a Parameter Array from Parameter String like: param|param|etc
@@ -102,7 +90,7 @@ function smarty_function_load_module($params, $smarty)
         $template = $action . '.tpl';
 
         // for a look at the detection order uncomment the next line
-        #Koch_Debug::printR($smarty->template_dir);
+        #\Koch\Debug\Debug::printR($smarty->template_dir);
 
         if ($smarty->templateExists('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $action . '.tpl')) {
             // $smarty->template_dir[s]..modules\news\widget_news.tpl
@@ -117,9 +105,9 @@ function smarty_function_load_module($params, $smarty)
             // $smarty->template_dir[s].. $template
             return $smarty->fetch($template);
         } else {
-            return trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
+            return trigger_error('Error! Failed to load Widget-Template for <br /> ' . $classname . ' -> ' . $action . '(' . $items . ')');
         }
     } else {
-        return trigger_error('Error! Failed to load Widget: <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
+        return trigger_error('Error! Failed to load Widget: <br /> ' . $classname . ' -> ' . $action . '(' . $items . ')');
     }
 }

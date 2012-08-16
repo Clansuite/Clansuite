@@ -43,7 +43,7 @@ function ShortUrl($long_url)
         }
         fclose($handle);
     } else {
-        throw new Koch_Exception('Unable to shorten the link.');
+        throw new \Koch\Exception\Exception('Unable to shorten the link.');
     }
 
     return $short_url;

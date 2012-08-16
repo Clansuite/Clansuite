@@ -152,8 +152,8 @@ class User
             /**
              * Transfer User Data into Session
              */
-            #Koch_Debug::firebug($_SESSION);
-            #Koch_Debug::firebug($this->config);
+            #\Koch\Debug\Debug::firebug($_SESSION);
+            #\Koch\Debug\Debug::firebug($this->config);
 
             $_SESSION['user']['authed']         = 1;
             $_SESSION['user']['user_id']        = $this->user['user_id'];
@@ -235,7 +235,7 @@ class User
                                                 $this->user['user_id'] );
             }
 
-            #Koch_Debug::firebug($_SESSION);
+            #\Koch\Debug\Debug::firebug($_SESSION);
         } else {
             // this resets the $_SESSION['user'] array
             GuestUser::instantiate();

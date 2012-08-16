@@ -4,7 +4,7 @@
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="assets\images/64px-Tango_Globe_of_Letters.svg.png" style="vertical-align:middle" alt="installstep image" />
+                    <img src="assets/images/64px-Tango_Globe_of_Letters.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP1_LANGUAGE_SELECTION']; ?>
                 </h2>
                 <p><strong><?php echo $language['STEP1_WELCOME']; ?></strong></p>
@@ -27,7 +27,7 @@
                               // build image name
                               $flag_image = strtolower($file).'.png';
                               // if an image exists, add it as inline css style
-                              if(is_file('./Languages/' . $flag_image)) {
+                              if (is_file('./Languages/' . $flag_image)) {
                                 echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $flag_image .'); background-position:5px 100%; background-repeat: no-repeat;"';
                               } else {
                                 echo '<option';
@@ -43,7 +43,7 @@
                     </p>
                     <div id="content_footer">
                         <div class="navigation">
-                            <span style="font-size:10px;"><?php echo $language['CLICK_NEXT_TO_PROCEED']; ?></span>
+                            <span class="font-10"><?php echo $language['CLICK_NEXT_TO_PROCEED']; ?></span>
                             <div class="alignright">
                                 <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" />
                                 <input type="hidden" name="submitted_step" value="1" />

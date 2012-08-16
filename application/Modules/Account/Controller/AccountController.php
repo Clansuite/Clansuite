@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Account\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_Account
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Account\Controller;
  * @package     Modules
  * @subpackage  Account
  */
-class AccountController extends Controller
+class AccountController extends ModuleController
 {
     /**
      * Module_Admin -> Execute

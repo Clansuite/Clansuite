@@ -15,7 +15,7 @@
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="assets\images/64px-Contact-new.svg.png" style="vertical-align:middle" alt="installstep image" />
+                    <img src="assets/images/64px-Contact-new.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP6_ADMINUSER']; ?>
                 </h2>
                 <?php if (!empty($error)) { ?>
@@ -83,7 +83,7 @@
                     </fieldset>
                     <div id="content_footer">
                         <div class="navigation">
-                            <span style="font-size:10px;">
+                            <span class="font-10">
                                 <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
                                 <?php echo $language['CLICK_BACK_TO_RETURN']; ?><br />
                             </span>

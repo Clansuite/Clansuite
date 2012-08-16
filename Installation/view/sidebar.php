@@ -4,7 +4,7 @@
         <!-- Sidebar Navigation -->
         <div id="sidebar">
             <div id="jokerlogo">
-                <img height="152" width="134" src="http://cdn.clansuite.com/images/clansuite-joker.gif" alt="Clansuite Joker Logo" title="Clansuite Joker Logo">
+                <img height="152" width="134" src="assets/images/clansuite-joker.gif" alt="Clansuite Joker Logo" title="Clansuite Joker Logo">
             </div>
             <div id="stepbar">
                 <p><?php echo $language['MENU_HEADING']; ?></p>

@@ -132,11 +132,11 @@ class Mapper
 
         // check if template was found there, else it's null
         if ($theme_template != null) {
-            #Koch_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
+            #\Koch\Debug\Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
 
             return $theme_template;
         } else { // fetch the template by searching in the Module Template Path
-            #Koch_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
+            #\Koch\Debug\Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
 
             return self::getModuleTemplatePath($template);
         }
@@ -152,7 +152,7 @@ class Mapper
         // get module, submodule, renderer names
         $module = HttpRequest::getRoute()->getModule();
         $controller = HttpRequest::getRoute()->getController();
-        #$renderer  = Koch_HttpRequest::getRoute()->getRenderEngine();
+        #$renderer  = HttpRequest::getRoute()->getRenderEngine();
 
         $theme_paths = array();
 

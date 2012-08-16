@@ -62,7 +62,7 @@ class Loader
                 $filename = $array[0];
 
                 // array[1] classname
-                $classname = Koch_Functions::ensurePrefixedWith($array[1], 'Koch_Event_');
+                $classname = \Koch\Functions\Functions::ensurePrefixedWith($array[1], 'Koch_Event_');
 
                 // load eventhandler
                 Koch_Loader::requireFile($filename, $classname);

@@ -67,7 +67,7 @@ class ButtonBar extends FormElement implements FormElementInterface
 
         // @todo use instanceof Koch_Formelement_Button
         if (is_object($buttonname) and (!$buttonname instanceof Koch_Formelement_Input)) {
-            throw new Koch_Exception('The button must a be formelement object.');
+            throw new \Koch\Exception\Exception('The button must a be formelement object.');
         }
 
         // attach button object to buttons array
@@ -85,7 +85,7 @@ class ButtonBar extends FormElement implements FormElementInterface
     public function getButton($buttonname)
     {
         if ($this->_buttons[$buttonname] === null) {
-            throw new Koch_Exception(_('This button does not exist, so its not in this buttonbar: ') . $buttonname);
+            throw new \Koch\Exception\Exception(_('This button does not exist, so its not in this buttonbar: ') . $buttonname);
         }
 
         // return the button object

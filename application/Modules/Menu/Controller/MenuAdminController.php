@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Menu\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_Menu_Admin
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Menu\Controller;
  * @package     Modules
  * @subpackage  Menu
  */
-class MenuAdminController extends Controller
+class MenuAdminController extends ModuleController
 {
     public function _initializeModule()
     {

@@ -201,7 +201,7 @@ class Cssbuilder
             $theme_compact = $this->getThemeCompactHeader($themeInfo);
         }
 
-        #Koch_Debug::printR( $themeFiles );
+        #\Koch\Debug\Debug::printR( $themeFiles );
 
         /**
          * prepare backend theme
@@ -354,7 +354,7 @@ class Cssbuilder
     protected function readCssBuilderIni($inifile)
     {
         $iniArray = parse_ini_file($inifile);
-        #Koch_Debug::printR( $iniArray );
+        #\Koch\Debug\Debug::printR( $iniArray );
 
         // replacements
         $search = array(' ', "\t", "\r\n", "\r", CR);
