@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\News\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_News_Admin
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\News\Controller;
  * @package     Modules
  * @subpackage  News
  */
-class NewsAdminController extends Controller
+class NewsAdminController extends ModuleController
 {
     public $publishing_status_map = array();
 

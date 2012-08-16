@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Testunit\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Testunit
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Testunit
  */
-class Testunit extends Controller
+class TestunitController extends ModuleController
 {
 
     public function action_show()

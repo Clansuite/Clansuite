@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Modulemanager\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_Modulemanager_Admin
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Modulemanager\Controller;
  * @package     Modules
  * @subpackage  Modulemanager
  */
-class ModulemanagerAdminController extends Controller
+class ModulemanagerAdminController extends ModuleController
 {
     public function _initializeModule()
     {

@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Guestbook\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_Guestbook_Admin
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Guestbook\Controller;
  * @package     Modules
  * @subpackage  Guestbook
  */
-class GuestbookAdminController extends Controller
+class GuestbookAdminController extends ModuleController
 {
     public function _initializeModule()
     {

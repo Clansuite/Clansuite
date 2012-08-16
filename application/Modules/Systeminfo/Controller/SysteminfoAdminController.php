@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Systeminfo\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Systeminfo_Admin
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Systeminfo
  */
-class Systeminfo_Admin extends Controller
+class SysteminfoAdminController extends ModuleController
 {
     public function _initializeModule()
     {

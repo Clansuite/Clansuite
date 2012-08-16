@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Staticpages\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_Staticpages_Admin
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Staticpages\Controller;
  * @package     Modules
  * @subpackage  Staticpages
  */
-class StaticpagesAdminController extends Controller
+class StaticpagesAdminController extends ModuleController
 {
     /**
      * action_admin_show()

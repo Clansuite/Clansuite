@@ -24,16 +24,18 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Cronjobs\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
- * Clansuite_Module_Cronjobs_Admin
+ * Clansuite Module CronjobsAdminController
  *
  * @category    Clansuite
  * @package     Modules
  * @subpackage  Cronjobs
  */
-class Cronjobs_Admin extends Controller
+class CronjobsAdminController extends ModuleController
 {
     public function _initializeModule()
     {

@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Templatemanager\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Templatemanager_Admin
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Templatemanager
  */
-class Templatemanager_Admin extends Controller
+class TemplatemanagerAdminController extends ModuleController
 {
     public function _initializeModule()
     {

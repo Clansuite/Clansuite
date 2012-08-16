@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Mibbitirc\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Mibbitirc
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Mibbitirc
  */
-class Mibbitirc extends Controller
+class MibbitircController extends ModuleController
 {
     public function _initializeModule()
     {

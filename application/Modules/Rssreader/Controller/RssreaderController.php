@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Rssreader\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Rssreader
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Rssreader
  */
-class Rssreader extends Controller
+class Rssreader extends ModuleController
 {
     public function widget_rssreader()
     {

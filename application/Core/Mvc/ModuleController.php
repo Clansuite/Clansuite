@@ -10,6 +10,6 @@ class ModuleController extends \Koch\Module\Controller
      */
     public function getClansuiteConfig()
     {
-        return $this->config = Clansuite\CMS::getClansuiteConfig();
+        return $this->config = \Clansuite\CMS::getClansuiteConfig();
     }
 }

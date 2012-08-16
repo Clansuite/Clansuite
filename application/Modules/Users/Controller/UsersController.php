@@ -26,6 +26,8 @@
 
 namespace Clansuite\application\Modules\Users\Controller;
 
+use Clansuite\Application\Core\Mvc\ModuleController;
+
 /**
  * Clansuite_Module_Users
  *
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules\Users\Controller;
  * @package     Modules
  * @subpackage  Users
  */
-class UsersController extends Controller
+class UsersController extends ModuleController
 {
     public function _initializeModule()
     {

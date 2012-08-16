@@ -26,7 +26,7 @@
 
 namespace Clansuite\application\Modules\News\Controller;
 
-use Clansuite\Core\Module\Controller;
+use Clansuite\application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_News
@@ -35,7 +35,7 @@ use Clansuite\Core\Module\Controller;
  * @package     Modules
  * @subpackage  News
  */
-class NewsController extends Controller
+class NewsController extends ModuleController
 {
     /**
      * Module_News -> Execute

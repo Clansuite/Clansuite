@@ -24,10 +24,12 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\application\Modules\Doctrine\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
- * Clansuite_Module_Doctrine_Admin
+ * DoctrineAdminController
  *
  * Doctrine Command Line Interface Commands
  *
@@ -56,7 +58,7 @@ namespace Clansuite\application\Modules;
  * @package     Doctrine
  * @subpackage  Administration
  */
-class Doctrine_Admin extends Controller
+class Doctrine_Admin extends ModuleController
 {
     /**
      * @var array Doctrine Paths to models, yaml, sql, fixtures, migration data

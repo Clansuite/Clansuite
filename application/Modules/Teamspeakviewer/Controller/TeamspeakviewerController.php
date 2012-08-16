@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\Application\Modules\Teamspeakviewer\Controller;
+
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Teamspeakviewer
@@ -33,7 +35,7 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  TeamspeakViewer
  */
-class Teamspeakviewer extends Controller
+class TeamspeakviewerController extends ModuleController
 {
     /**
      * Module_Teamspeakviewer -> Execute
