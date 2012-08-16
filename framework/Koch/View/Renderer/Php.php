@@ -58,21 +58,26 @@ class Php extends Renderer_Base
             $file = $this->file;
         }
 
-        if (is_file($file) === true) {
-            /**
-             * extract all template variables to local scope,
-             * but do not overwrite an existing variable.
-             * on collision, prefix variable with "invalid_".
-             */
-            extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
 
-            ob_start();
+        /**
+         * extract all template variables to local scope,
+         * but do not overwrite an existing variable.
+         * on collision, prefix variable with "invalid_".
+         */
+        extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
+
+        ob_start();
+
+        try {
             include $file; // conditional include; not require !
+        } catch (\Exception $e) {
+            // clean buffer before throwing exception
+            ob_get_clean(); 
+            throw $e;
+            // throw new Koch_Excpetion('PHP Renderer Error: Template ' . $file . ' not found!', 99);
+        }           
 
-            return ob_get_clean();
-        } else {
-            throw new Koch_Excpetion('PHP Renderer Error: Template ' . $file . ' not found!', 99);
-        }
+        return ob_get_clean(); 
     }
 
     /**
