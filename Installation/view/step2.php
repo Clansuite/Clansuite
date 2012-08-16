@@ -156,13 +156,13 @@
                          $required['is_writable_temp_dir']['actual']   = check_temporary_dir() ? 'w' : '---';
                          $required['is_writable_temp_dir']['status']   = check_temporary_dir() ? SETTING_TRUE : SETTING_FALSE;
 
-                         // Permissions Check: write on \clansuite root
+                         // Permissions Check: write on \application root
                          $required['is_writable_clansuite_root']['label']    = $language['IS_WRITEABLE_CLANSUITE_ROOT'];
                          $required['is_writable_clansuite_root']['expected'] = 'w';
-                         $required['is_writable_clansuite_root']['actual']   = is_writeable(ROOT) ? 'w' : '---';
-                         $required['is_writable_clansuite_root']['status']   = is_writeable(ROOT) ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_clansuite_root']['actual']   = is_writeable(ROOT_APP) ? 'w' : '---';
+                         $required['is_writable_clansuite_root']['status']   = is_writeable(ROOT_APP) ? SETTING_TRUE : SETTING_FALSE;
 
-                         // Permissions Check: write on \clansuite\cache
+                         // Permissions Check: write on \application\cache
                          $required['is_writable_clansuite_cache']['label']    = $language['IS_WRITEABLE_CACHE_DIR'];
                          $required['is_writable_clansuite_cache']['expected'] = 'w';
                          $required['is_writable_clansuite_cache']['actual']   = is_writeable(ROOT_CACHE) ? 'w' : '---';
