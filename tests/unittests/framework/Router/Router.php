@@ -199,47 +199,6 @@ class RouterTest extends Clansuite_UnitTestCase
         // id will match if numeric
     }*/
 
-    public function testMethod_match_StaticRoute()
-    {
-        // http://example.com/login
-
-        $this->router->addRoute('/:controller');
-        $this->router->addRoute('/:controller/:action');
-        $this->router->addRoute('/:controller/:action/id');
-
-        $r = $this->router;
-        $r['/login'] = array('controller' => 'account', 'action' => 'login');
-
-        $this->router->setRequestURI('/login');
-        HttpRequest::setRequestMethod('GET');
-        $route = $this->router->route();
-
-        $this->assertEqual('Account',                   $route->getController());
-        $this->assertEqual('Clansuite\Application\Modules\Account\Controller\AccountController',  $route->getClassname());
-        $this->assertEqual('action_login',              $route->getMethod());
-        $this->assertEqual(array(),                     $route->getParameters());
-        $this->assertEqual('GET',                       $route->getRequestMethod());
-        unset($route);
-        $r->reset(true);
-
-        // http://example.com/about
-
-        $r = $this->router;
-        $r['/about'] = array('controller' => 'index', 'action' => 'about');
-
-        $r->setRequestURI('/about');
-        HttpRequest::setRequestMethod('GET');
-        $route = $this->router->route();
-
-        $this->assertEqual('Index',                     $route->getController());
-        $this->assertEqual('Clansuite\Application\Modules\Index\Controller\IndexController',    $route->getClassname());
-        $this->assertEqual('action_about',              $route->getMethod());
-        $this->assertEqual(array(),                     $route->getParameters());
-        $this->assertEqual('GET',                       $route->getRequestMethod());
-        $r->reset(true);
-
-    }
-
     public function testMethod_match_RestRoutes()
     {
         $this->router->reset(); //->loadDefaultRoutes();
@@ -247,13 +206,14 @@ class RouterTest extends Clansuite_UnitTestCase
         // http://example.com/news
         // routes to
         // Controller: News
-        // Action: action_list()
+        // Action: action_news_list()
         // Type: GET [REST Route]
 
         HttpRequest::setRequestMethod('GET');
         $this->router->prepareRequestURI('/news');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('list',                  $route->getAction());
@@ -265,7 +225,7 @@ class RouterTest extends Clansuite_UnitTestCase
         // http://example.com/news/42
         // routes to
         // Controller: News
-        // Action: action_show()
+        // Action: action_news_show()
         // Id: 42
         // Type: GET [REST Route]
 
@@ -273,6 +233,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->prepareRequestURI('/news/42');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_show',           $route->getMethod());
@@ -290,6 +251,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->prepareRequestURI('/news/new');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_new',            $route->getMethod());
@@ -307,6 +269,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->prepareRequestURI('/news/42/edit');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_edit',           $route->getMethod());
@@ -326,6 +289,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->prepareRequestURI('/news/edit/42');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_edit',           $route->getMethod());
@@ -345,6 +309,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->prepareRequestURI('/news/42');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_update',         $route->getMethod());
@@ -363,6 +328,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->prepareRequestURI('/news');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_insert',         $route->getMethod());
@@ -381,6 +347,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->prepareRequestURI('/news/42');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_delete',         $route->getMethod());
@@ -400,12 +367,55 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->router->prepareRequestURI('/news/delete/42');
         $route = $this->router->route();
 
+        $this->assertEqual('News',                  $route->getModule());
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Application\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_delete',         $route->getMethod());
         $this->assertEqual(array('id' => '42'),     $route->getParameters());
         $this->assertEqual('DELETE',                $route->getRequestMethod());
         $this->router->reset(true);
+    }
+
+     public function testMethod_match_StaticRoute()
+    {
+        // http://example.com/login
+
+        $this->router->addRoute('/:controller');
+        $this->router->addRoute('/:controller/:action');
+        $this->router->addRoute('/:controller/:action/(:id)');
+
+        $r = $this->router;
+        $r['/login'] = array('module' => 'user', 'controller' => 'account', 'action' => 'login');
+
+        $this->router->setRequestURI('/login');
+        HttpRequest::setRequestMethod('GET');
+        $route = $this->router->route();
+
+        $this->assertEqual('User',                      $route->getModule());
+        $this->assertEqual('Account',                   $route->getController());
+        $this->assertEqual('Clansuite\Application\Modules\User\Controller\AccountController',  $route->getClassname());
+        $this->assertEqual('action_login',              $route->getMethod());
+        $this->assertEqual(array(),                     $route->getParameters());
+        $this->assertEqual('GET',                       $route->getRequestMethod());
+        unset($route);
+        $r->reset(true);
+
+        // http://example.com/about
+
+        $r = $this->router;
+        $r['/about'] = array('module' => 'index', 'controller' => 'index', 'action' => 'about');
+
+        $r->setRequestURI('/about');
+        HttpRequest::setRequestMethod('GET');
+        $route = $this->router->route();
+
+        $this->assertEqual('Index',                     $route->getModule());
+        $this->assertEqual('Index',                     $route->getController());
+        $this->assertEqual('Clansuite\Application\Modules\Index\Controller\IndexController',    $route->getClassname());
+        $this->assertEqual('action_about',              $route->getMethod());
+        $this->assertEqual(array(),                     $route->getParameters());
+        $this->assertEqual('GET',                       $route->getRequestMethod());
+        $r->reset(true);
     }
 
     /*public function testMethod_match_CustomActionNames()
@@ -510,26 +520,27 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertEqual(WWW_ROOT . 'index.php?mod=news', $url);
 
         /**
-         * Parameter 2 - action or sub
+         * Parameter 2 - action or controller
          */
         // route to module/action
-        $urlstring = '/news/show';
+        $urlstring = array('/news/show' => 'module/action');
         $internal_url = false;
         $url = $this->router->buildURL($urlstring, $internal_url, $force_modrewrite_on);
         $this->assertEqual(WWW_ROOT . 'index.php?mod=news&action=show', $url);
 
         // route to module/action/id
-        $urlstring = '/news/show/42';
+        $urlstring = array('/news/show/42' => 'module/action/id');
         $internal_url = true;
         $url = $this->router->buildURL($urlstring, $internal_url, $force_modrewrite_on);
         $this->assertEqual(WWW_ROOT . 'index.php?mod=news&amp;action=show&amp;id=42', $url);
 
+        // STANDARD PARAMETER ROUTING when MODREWRITE is OFF
+        // we are not leaving any parameter out, so we don't need an urlstring description array
         // route to module/controller/action/id
-        // @todo rename parameter "sub" to "ctrl" for controller
         $urlstring = '/news/admin/edit/1';
         $internal_url = true;
         $url = $this->router->buildURL($urlstring, $internal_url, $force_modrewrite_on);
-        $this->assertEqual(WWW_ROOT . 'index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id=1', $url);
+        $this->assertEqual(WWW_ROOT . 'index.php?mod=news&amp;ctrl=admin&amp;action=edit&amp;id=1', $url);
     }
 
     public function testMethod_buildURL_ModRewrite_ON()

@@ -56,7 +56,7 @@ class SimpleExceptionTrappingInvoker extends SimpleInvokerDecorator
         if ($has_thrown) {
             try {
                 parent::getTestCase()->tearDown();
-            } catch (Exception $e) { }
+            } catch (Exception $e) { } // unused $e
         }
     }
 }

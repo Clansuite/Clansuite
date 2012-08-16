@@ -24,7 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules;
+namespace Clansuite\Application\Modules\Index\Controller;
+
+use Clansuite\application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Index
@@ -33,9 +35,9 @@ namespace Clansuite\application\Modules;
  * @package     Modules
  * @subpackage  Index
  */
-class Index extends Controller //implements Koch\Module\ModuleInterface
+class IndexController extends ModuleController //implements Koch\Module\ModuleInterface
 {
-    public function action_index()
+    public function action_list()
     {
         // Set Pagetitle and Breadcrumbs
         $this->addBreadcrumb( _('Show'), '/index/index');
@@ -89,6 +91,8 @@ class Index extends Controller //implements Koch\Module\ModuleInterface
 
         // Applying a Layout Template
         #$view = $this->getView()->setLayoutTemplate('admin/index.tpl');
+
+        echo 'Hello World!';
 
         $this->display();
     }

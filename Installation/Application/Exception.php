@@ -96,7 +96,7 @@ class Exception extends \Exception
         $html .= 'After a modification of your php.ini you must restart your webserver.</li>';
 
         $html .= '<li>Check the webservers errorlog.</li></ol><p>';
-        $html .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=25.0\">Installation - Support Forum</a>.<br/>";
+        $html .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=4\">Installation - Support Forum</a>.<br/>";
         $html .= '</p></fieldset>';
         $html .= '</body></html>';
 

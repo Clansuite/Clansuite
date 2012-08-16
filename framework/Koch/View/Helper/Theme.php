@@ -221,16 +221,16 @@ class Theme
 
     public function getCSSFile()
     {
-        $browserInfo = new \Koch\Tools\Browserinfo();
+        $userAgent = new \Koch\Http\UserAgent();
 
-        if ($browserInfo->isIE()) {
+        if ($userAgent->isIE()) {
             $cssPostfix = '_ie';
         } else {
             $cssPostfix = '';
         }
 
 
-        if ($this->theme_info['css']['mainfile'] !== null) {
+        if (isset($this->theme_info['css']['mainfile']) === true) {
             $part = explode('.', $this->theme_info['css']['mainfile']);
             $cssname = $part[0] . $cssPostfix . '.' . $part[1];
 
@@ -249,8 +249,8 @@ class Theme
             if (is_file($css_file)) {
                 return $css_file;
             }
-        } else { // css is hopefully hardcoded or missing !
-
+        } else {
+            // css is hopefully hardcoded or missing !
             return null;
         }
     }
@@ -276,7 +276,7 @@ class Theme
 
     public function getJSFile()
     {
-        if ($this->theme_info['javascript']['mainfile'] !== null) {
+        if (isset($this->theme_info['javascript']['mainfile']) === true) {
             return $this->getWebPath() . 'javascript/' . $this->theme_info['javascript']['mainfile'];
         } elseif (false === isset($this->theme_info['javascript']['mainfile'])) {
             // maybe we have a main javascript file named after the theme

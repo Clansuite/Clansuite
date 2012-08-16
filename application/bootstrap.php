@@ -320,10 +320,9 @@ class CMS
          */
         $paths = array(
             dirname(KOCH),
-            KOCH,
-            ROOT,
-            ROOT_VENDOR,
-            // to be removed
+            dirname(ROOT),
+            dirname(dirname(ROOT)), // this is not good.. Clansuite/application/"Clansuite" needed?
+            ROOT_VENDOR, // composer dir
             ROOT_LIBRARIES,
             ROOT_LIBRARIES . 'PEAR' . DIRECTORY_SEPARATOR
         );

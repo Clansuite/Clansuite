@@ -39,16 +39,3 @@
   E_USER_WARNING
   E_USER_NOTICE
   E_USER_ERROR
-
-
-  Last Words
-  ----------
-
-    Thanks for using Clansuite!
-
-      Best Regards,
-
-        Jens-André Koch
-        Clansuite Maintainer
-
-  Version: $Id$

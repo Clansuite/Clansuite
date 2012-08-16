@@ -91,6 +91,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         $this->object->resetBreadcrumbs();
         $this->object->initialize();
         TargetRoute::reset();
+        TargetRoute::setModule('news');
         TargetRoute::setController('news');
         TargetRoute::setAction('action_show');
 
@@ -120,25 +121,25 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         $this->object->resetBreadcrumbs();
         $this->object->initialize('news', 'admin');
         TargetRoute::reset();
-        TargetRoute::setController('news');
-        TargetRoute::setSubController('admin');
+        TargetRoute::setModule('news');
+        TargetRoute::setController('admin');
         TargetRoute::setAction('action_show');
 
         // fetch with dynamical trail building
         $t_array = $this->object->getTrail(true);
         #var_dump($t_array);
 
-        // Level 1 - expected
+        // expected values on level 0
         $this->assertIdentical('Control Center', $t_array[0]['title']);
         $this->assertIdentical(WWW_ROOT . 'index.php?mod=controlcenter', $t_array[0]['link']);
 
-        // Level 2 - Modulename News
+        // expected values on level 1
         $this->assertIdentical('News Admin', $t_array[1]['title']);
-        $this->assertIdentical(WWW_ROOT . 'index.php?mod=news&amp;sub=admin', $t_array[1]['link']);
+        $this->assertIdentical(WWW_ROOT . 'index.php?mod=news&amp;ctrl=admin', $t_array[1]['link']);
 
-        // Level 3 - Action  Show
+        // expected values on level 2
         $this->assertIdentical('Show', $t_array[2]['title']);
-        $this->assertIdentical(WWW_ROOT . 'index.php?mod=news&amp;sub=admin&amp;action=show', $t_array[2]['link']);
+        $this->assertIdentical(WWW_ROOT . 'index.php?mod=news&amp;ctrl=admin&amp;action=show', $t_array[2]['link']);
 
         /**
          * case c -  Control Center => module = controlcenter, action = show
@@ -150,8 +151,8 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         $this->object->resetBreadcrumbs();
         $this->object->initialize('controlcenter');
         TargetRoute::reset();
+        TargetRoute::setModule('news');
         TargetRoute::setController('news');
-        TargetRoute::setSubController(null);
         TargetRoute::setAction('show');
 
         // fetch with dynamical trail building

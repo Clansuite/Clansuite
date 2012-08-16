@@ -2,7 +2,7 @@
 
 /**
  * Clansuite - just an eSports CMS
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  * http://www.clansuite.com/
  *
  * This file is part of "Clansuite - just an eSports CMS".
@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Installation\Language;
+namespace Clansuite\Installation\Languages;
 
 /**
  * English Language for Installation
@@ -267,7 +267,7 @@ class English implements \ArrayAccess
         $this->__set($offset, $value);
     }
 
-    // hmm? why should configuration be unset?
+    // hmm? why should language be unset?
     public function offsetUnset($offset)
     {
         unset($this->language[$offset]);

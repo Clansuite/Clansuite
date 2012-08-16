@@ -85,7 +85,7 @@ class Config extends AbstractConfig
     {
         // if no modulename is set, determine the name of the current module
         if ($modulename === null) {
-            $modulename = Koch\Router\TargetRoute::getModuleName();
+            $modulename = Koch\Router\TargetRoute::getModule();
         }
 
         $file = ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php';
@@ -112,7 +112,7 @@ class Config extends AbstractConfig
     public function writeModuleConfig($array, $modulename = null)
     {
         if (null == $modulename) {
-            $modulename = Koch\Router\TargetRoute::getModuleName();
+            $modulename = Koch\Router\TargetRoute::getModule();
         }
         $this->writeConfig(ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php', $array);
     }

@@ -204,7 +204,7 @@ class FrontController implements FrontControllerInterface
         }
 
         // @todo move into a prefilter / and consider the request being ajax :) = no breadcrumbs
-        Breadcrumb::initialize($route->getModuleName(), $route->getSubmoduleName());
+        Breadcrumb::initialize($route->getModule(), $route->getController());
 
         /**
          * Finally: dispatch to the requested controller method

@@ -25,7 +25,7 @@
  */
 function smarty_function_modulenavigation($params, $smarty)
 {
-    $module = Koch_HttpRequest::getRoute()->getModuleName();
+    $module = Koch_HttpRequest::getRoute()->getModule();
 
     $file = ROOT_MOD. $module . DIRECTORY_SEPARATOR . $module . '.menu.php';
 

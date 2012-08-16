@@ -116,13 +116,12 @@ class Manager
 
         if ($routes_config_file === null) {
             // load common routes configuration
-            // includes array $routes
-            include ROOT_CONFIG . 'routes.php';
+            $routes = include ROOT_CONFIG . 'routes.php';
         } else {
             // load specific routes config file
-            include ROOT . $routes_config_file;
+            $routes = include ROOT . $routes_config_file;
         }
 
-        return (array) $routes;
+        return $routes;
     }
 }

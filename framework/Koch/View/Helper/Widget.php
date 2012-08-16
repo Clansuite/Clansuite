@@ -50,10 +50,10 @@ class Widget
         $modulename = mb_strtolower($modulename);
 
         // apply classname prefix to the modulename
-        $modulename = \Koch\Functions::ensurePrefixedWith($modulename, 'clansuite_module_');
+        $modulename = \Koch\Functions\Functions::ensurePrefixedWith($modulename, 'clansuite_module_');
 
         // build classname from modulename
-        $classname = \Koch\Functions::toUnderscoredUpperCamelCase($modulename);
+        $classname = \Koch\Functions\Functions::toUnderscoredUpperCamelCase($modulename);
 
         /**
          * now we have a common string like 'clansuite_module_admin_menu' or 'clansuite_module_news'

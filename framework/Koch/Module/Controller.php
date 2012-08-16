@@ -418,11 +418,11 @@ abstract class Controller
     public function loadForm($formname = null, $module = null, $action = null, $assign_to_view = true)
     {
         if (null === $module) {
-            $module = HttpRequest::getRoute()->getModuleName();
+            $module = HttpRequest::getRoute()->getModule();
          }
 
         if (null === $action) {
-            $action = HttpRequest::getRoute()->getActionName();
+            $action = HttpRequest::getRoute()->getAction();
         }
 
         if (null === $formname) {

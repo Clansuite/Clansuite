@@ -38,8 +38,8 @@ class TargetRoute extends Mapper
         'filename'      => null,
         'classname'     => null,
         // Call
+        'module'        => 'index',
         'controller'    => 'index',
-        'subcontroller' => null,
         'action'        => 'index',
         'method'        => null,
         'params'        => null,
@@ -78,7 +78,7 @@ class TargetRoute extends Mapper
     public static function getFilename()
     {
         if (empty(self::$parameters['filename'])) {
-            self::setFilename(self::mapControllerToFilename(self::getModulePath(), self::getController(), self::getSubController()));
+            self::setFilename(self::mapControllerToFilename(self::getModulePath(), self::getController()));
         }
 
         return self::$parameters['filename'];
@@ -92,7 +92,7 @@ class TargetRoute extends Mapper
     public static function getClassname()
     {
         if (empty(self::$parameters['classname'])) {
-            $classname = self::mapControllerToClassname(self::getController(), self::getSubController());
+            $classname = self::mapControllerToClassname(self::getModule(), self::getController());
 
             self::setClassname($classname);
         }
@@ -112,37 +112,23 @@ class TargetRoute extends Mapper
      */
     public static function getController()
     {
+        // the default "controller" name is the "module" name
+        // this is the case if a route "/:module" is used
+        if (isset(self::$parameters['controller']) === false) {
+            self::$parameters['controller'] = self::$parameters['module'];
+        }
+
         return ucfirst(self::$parameters['controller']);
     }
 
-    /**
-     * Convenience/shorthand Method for getController()
-     *
-     * @return string Controller/Modulename
-     */
-    public static function getModuleName()
+    public static function getModule()
     {
-        return self::$parameters['controller'];
+        return ucfirst(self::$parameters['module']);
     }
 
-    public static function setSubController($subcontroller)
+    public static function setModule($module)
     {
-        self::$parameters['subcontroller'] = ucfirst($subcontroller);
-    }
-
-    public static function getSubController()
-    {
-        return self::$parameters['subcontroller'];
-    }
-
-    /**
-     * Method to get the SubModuleName
-     *
-     * @return $string
-     */
-    public static function getSubModuleName()
-    {
-        return self::$parameters['subcontroller'];
+        return self::$parameters['module'] = $module;
     }
 
     public static function setAction($action)
@@ -194,8 +180,8 @@ class TargetRoute extends Mapper
         if (self::$parameters['method'] !== null and mb_strpos(self::$parameters['method'], 'action_')) {
             return self::$parameters['method'];
         } else {
-            // add method prefix (action_) and subcontroller prefix (admin_)
-            $method = self::mapActionToActioname(self::getAction(), self::getSubController());
+            // add method prefix (action_)
+            $method = self::mapActionToMethodname(self::getAction());
             self::setMethod($method);
         }
 
@@ -260,7 +246,7 @@ class TargetRoute extends Mapper
     public static function getThemeName()
     {
         if (empty(self::$parameters['themename'])) {
-            if (self::getModuleName() == 'controlcenter' or self::getSubModuleName() == 'admin') {
+            if (self::getModule() == 'controlcenter' or self::getController() == 'admin') {
                 self::setThemeName(self::getBackendTheme());
             } else {
                 self::setThemeName(self::getFrontendTheme());
@@ -293,15 +279,17 @@ class TargetRoute extends Mapper
      */
     public static function dispatchable()
     {
-        $classname = self::getClassname();
         $filename = self::getFilename();
+        $classname = self::getClassname();
         $method = self::getMethod();
 
-        // was the class loaded before? no? then autoload it.
-        if (class_exists($classname) === false) {
-            // if still no luck, lets try loading manually
-            if (is_file(ROOT_FRAMEWORK . $filename)) {
-                include ROOT_FRAMEWORK . $filename;
+        // was the class loaded before?
+        if (false === class_exists($classname, false)) {
+            // loading manually
+            if (is_file($filename)) {
+                include_once $filename;
+                // @todo position for log command
+                echo 'Loaded Controller: ' . $filename;
             }
         }
 
@@ -311,9 +299,8 @@ class TargetRoute extends Mapper
             }
         }
 
-        //unset($filename, $classname, $method);
-        #$msg = $filename . $classname . $method;
-        #throw new \Exception($msg);
+        // this shows how many routes were tried
+        #echo 'Route failure. Not found ' . $filename .' ### '. $classname .' ### '. $method . '<br>';
 
         return false;
     }
@@ -325,8 +312,8 @@ class TargetRoute extends Mapper
             'filename' => null,
             'classname' => null,
             // Call
+            'module' => 'index',
             'controller' => 'index',
-            'subcontroller' => null,
             'action' => 'list',
             'method' => 'action_list',
             'params' => null,

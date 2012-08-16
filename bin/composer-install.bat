@@ -12,7 +12,7 @@ if "%PHPBIN%" == "" call::no_phpcommand_found
 :: leave "/bin" folder, for composer to find "composer.json"
 cd..
 
-"%PHPBIN%" "bin\composer\composer.phar" "install"
+"%PHPBIN%" "bin\composer\composer.phar" "install" > composer-install.report.txt
 
 :no_phpcommand_found - displayes a hint for the user to setup env var PHPBIN
 echo ---------------------------------------------------------------------------

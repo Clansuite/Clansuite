@@ -2,7 +2,7 @@
 
 /**
  * Clansuite - just an eSports CMS
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  * http://www.clansuite.com/
  *
  * This file is part of "Clansuite - just an eSports CMS".
@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Installation\Language;
+namespace Clansuite\Installation\Languages;
 
 /**
  * Italian Language for Installation
@@ -45,7 +45,7 @@ class Italian implements \ArrayAccess
 
         $this->language['STEP1_WELCOME'] = 'Benvenuti all\'Installazione di Clansuite.';
         $this->language['STEP1_THANKS_CHOOSING'] = 'Grazie per aver scelto Clansuite!';
-        $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Questa applicazione ti guiderà nei passi dell\'installazione.';
+        $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Questa applicazione ti guiderÃ  nei passi dell\'installazione.';
         $this->language['STEP1_CHOOSELANGUAGE'] = 'Prego, selezionare una lingua.';
 
         // STEP 2 - System Check
@@ -70,7 +70,7 @@ class Italian implements \ArrayAccess
         $this->language['STEP2_SETTING_EXPECTED_ON'] = 'on';
         $this->language['STEP2_SETTING_EXPECTED_OFF'] = 'off';
 
-        $this->language['STEP2_FIX_REQUIRED_SETTINGS_TOOLTIP'] = 'Per procedere è necessario sistemare le configurazioni richieste.';
+        $this->language['STEP2_FIX_REQUIRED_SETTINGS_TOOLTIP'] = 'Per procedere Ã¨ necessario sistemare le configurazioni richieste.';
 
         // REQUIRED SETTINGS (in order)
         $this->language['PHP_VERSION'] = 'Versione PHP';
@@ -119,18 +119,18 @@ class Italian implements \ArrayAccess
         // STEP 3 - License
         $this->language['STEP3_LICENSE'] = 'Passo [3] Licenza GNU/GPL';
 
-        $this->language['STEP3_SENTENCE1'] = 'Rendetevi conto che Clansuite come un insieme di codice è rilasciato sotto licenza GNU / GPL License Version 2 o qualsiasi versione successiva! La licenza GNU / GPL che trovate qui sotto, a sua volta è protetto da copyright dalla Free Software Foundation.';
+        $this->language['STEP3_SENTENCE1'] = 'Rendetevi conto che Clansuite come un insieme di codice Ã¨ rilasciato sotto licenza GNU / GPL License Version 2 o qualsiasi versione successiva! La licenza GNU / GPL che trovate qui sotto, a sua volta Ã¨ protetto da copyright dalla Free Software Foundation.';
         $this->language['STEP3_REVIEW_THIRDPARTY'] = 'Leggere prego la lista completa delle licenze open-source sul software incluso in Clansuite dopo quando finita l\'installazione. Possono essere trovate nel THIRD-PARTY-LIBRARIES.txt file della cartella "/doc".';
         $this->language['STEP3_REVIEW_CLANSUITE'] = 'Leggere prego i Termini di Licenza prima di installare Clansuite:';
         $this->language['STEP3_MUST_AGREE'] = 'Devi accettare la Licenza GNU/GPL per installare Clansuite.';
-        $this->language['STEP3_CHECKBOX'] = 'Accetto e confermo che Clansuite è rilasciato sotto la Licenza GNU/GPL!';
+        $this->language['STEP3_CHECKBOX'] = 'Accetto e confermo che Clansuite Ã¨ rilasciato sotto la Licenza GNU/GPL!';
 
         // STEP 4 - Database
         $this->language['STEP4_DATABASE'] = 'Passo [4] Database';
 
         $this->language['STEP4_SENTENCE1'] = 'Nel Passo [4] tu fornirai le Informazioni di Accesso al Database e noi proveremo a connetterci e creare qualche tabella di contenuti e base di Clansuite.';
         $this->language['STEP4_SENTENCE2'] = 'Fornire prego il nome utente e la password per connettersi al server qui.';
-        $this->language['STEP4_SENTENCE3'] = 'Se l\'account ha i permessi di creare i database, allora noi creeremo il database per te; altrimenti, devi dare il nome di un database che già esiste.';
+        $this->language['STEP4_SENTENCE3'] = 'Se l\'account ha i permessi di creare i database, allora noi creeremo il database per te; altrimenti, devi dare il nome di un database che giÃ  esiste.';
 
         $this->language['STEP4_SENTENCE4'] = 'Tabelle e voci create.';
         $this->language['STEP4_SENTENCE5'] = 'Importare Database/Tabelle di un altro CMS?';
@@ -143,14 +143,14 @@ class Italian implements \ArrayAccess
         $this->language['PASSWORD'] = 'Password del Database';
         $this->language['PREFIX'] = 'Prefisso delle Tabelle';
 
-        $this->language['ERROR_NO_DB_CONNECT'] = 'La connessione al Database non può essere stabilita.';
-        $this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Il Database non può essere creato.';
+        $this->language['ERROR_NO_DB_CONNECT'] = 'La connessione al Database non puÃ² essere stabilita.';
+        $this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Il Database non puÃ² essere creato.';
         $this->language['ERROR_FILL_OUT_ALL_FIELDS'] = 'Compilare prego tutti i campi!';
 
         $this->language['HOST_TOOLTIP'] = 'Inserire l\'Hostname del tuo Database. E\' spesso 127.0.0.1 o semplicemente localhost.';
         $this->language['DRIVER_TOOLTIP'] = 'Inserire il tipo di Database.';
         $this->language['NAME_TOOLTIP'] = 'Inserisci il nome del tuo Database.';
-        $this->language['CREATEDB_TOOLTIP'] = 'Se l\'utente del Database inserito, ha il permesso di creare Database, è consigliato sceglierne uno nuovo.';
+        $this->language['CREATEDB_TOOLTIP'] = 'Se l\'utente del Database inserito, ha il permesso di creare Database, Ã¨ consigliato sceglierne uno nuovo.';
         $this->language['USERNAME_TOOLTIP'] = 'Inserisci il Nome Utente con i permessi di scrittura al tuo Database.';
         $this->language['PASSWORD_TOOLTIP'] = 'Adesso inserisci la password per questo utente.';
         $this->language['PREFIX_TOOLTIP'] = 'Si potrebbe inserire un prefisso per le tabelle del database di Clansuite.';
@@ -162,17 +162,17 @@ class Italian implements \ArrayAccess
         $this->language['STEP5_LEGEND'] = 'Configurazioni';
 
         $this->language['STEP5_SENTENCE1'] = 'Inserire prego la configurazione base del tuo Sito Internet di Clansuite.';
-        $this->language['STEP5_SENTENCE2'] = 'Quando l\'installazione è completa, sarai in grado di configurare più dettagli dal pannello amministrativo (ACP).';
+        $this->language['STEP5_SENTENCE2'] = 'Quando l\'installazione Ã¨ completa, sarai in grado di configurare piÃ¹ dettagli dal pannello amministrativo (ACP).';
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Nome Sito Web';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Indirizzo Email del Sito Web';
         $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Criptaggio';
         $this->language['STEP5_CONFIG_GMTOFFSET'] = 'Timezone';
 
-        $this->language['STEP5_SITENAME_TOOLTIP'] = 'Dare prego un nome al tuo nuovo Sito Web. Il nome sarà mostrato come titolo nel browser.';
-        $this->language['STEP5_SYSTEM_EMAIL_TOOLTIP'] = 'Inserire prego un Indirizzo Email. Clansuite userà poi questo Indirizzo Email per messaggiare gli utente del tuo Sito Web.';
+        $this->language['STEP5_SITENAME_TOOLTIP'] = 'Dare prego un nome al tuo nuovo Sito Web. Il nome sarÃ  mostrato come titolo nel browser.';
+        $this->language['STEP5_SYSTEM_EMAIL_TOOLTIP'] = 'Inserire prego un Indirizzo Email. Clansuite userÃ  poi questo Indirizzo Email per messaggiare gli utente del tuo Sito Web.';
         $this->language['STEP5_ACCOUNT_CRYPT_TOOLTIP'] = 'Selezionare prego il tipo di misure di sicurezza per le password degli account utente. Se il tuo Database cade in mani sbagliate, le password degli utenti non sono state salvate in testo piatto.';
-        $this->language['STEP5_GMTOFFSET_TOOLTIP'] = 'Selezionare prego il proprio timezone. L\'impostazione del timezone è essenziale per tutte le date e il calcolo del tempo.';
+        $this->language['STEP5_GMTOFFSET_TOOLTIP'] = 'Selezionare prego il proprio timezone. L\'impostazione del timezone Ã¨ essenziale per tutte le date e il calcolo del tempo.';
 
         // STEP 6 - Create Administrator
         $this->language['STEP6_ADMINUSER'] = 'Passo [6] Creare l\'Amministratore';
@@ -259,7 +259,7 @@ class Italian implements \ArrayAccess
 
     public function offsetGet($offset)
     {
-        return utf8_encode($this->language[$offset]);
+        return $this->language[$offset];
     }
 
     public function offsetSet($offset, $value)
@@ -267,7 +267,7 @@ class Italian implements \ArrayAccess
         $this->__set($offset, $value);
     }
 
-    // hmm? why should configuration be unset?
+    // hmm? why should language be unset?
     public function offsetUnset($offset)
     {
         unset($this->language[$offset]);
