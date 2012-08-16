@@ -35,7 +35,7 @@ namespace Koch\Logger\Adapter;
  * @package     Core
  * @subpackage  Logger
  */
-class Email implements Logger
+class Email implements LoggerInterface
 {
     private $config;
 
@@ -49,7 +49,7 @@ class Email implements Logger
 
         // mailing of critical errors makes only sense, if we have a email of the sysadmin
         if ($config['mail']['to_sysadmin'] == true) {
-            $this->mailer = new Koch_Mailer($config);
+            $this->mailer = new Koch\Mail\SwiftMailer($config);
         }
     }
 
@@ -61,7 +61,7 @@ class Email implements Logger
     public static function getInstance()
     {
         if (self::$instance == 0) {
-            self::$instance = new Koch_Logger_Email;
+            self::$instance = new Email;
         }
 
         return self::$instance;

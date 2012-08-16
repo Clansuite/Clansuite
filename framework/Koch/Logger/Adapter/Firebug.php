@@ -45,7 +45,7 @@ namespace Koch\Logger\Adapter;
  * @package     Core
  * @subpackage  Logger
  */
-class Firebug implements Logger
+class Firebug implements LoggerInterface
 {
     private static $firephp = null;
 

@@ -34,7 +34,7 @@ namespace Koch\Logger\Adapter;
  * @package     Core
  * @subpackage  Logger
  */
-class File implements Logger
+class File implements LoggerInterface
 {
     private static $instance = null;
 

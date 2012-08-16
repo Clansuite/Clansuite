@@ -35,7 +35,7 @@ namespace Koch\Logger\Adapter;
  * @package     Core
  * @subpackage  Logger
  */
-class Devnull implements Logger
+class Devnull implements LoggerInterface
 {
     private static $instance = null;
 
@@ -52,7 +52,7 @@ class Devnull implements Logger
     public static function getInstance()
     {
         if (self::$instance == 0) {
-            self::$instance = new Koch_Logger_Devnull();
+            self::$instance = new Devnull();
         }
 
         return self::$instance;
