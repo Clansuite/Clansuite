@@ -326,6 +326,16 @@ a:hover
   clear:both;
   padding:20px 0 0 1px;
   width:820px;
+  -moz-opacity:0.60;
+  opacity:0.60;
+}
+
+#footer-left {
+  float:left; text-align:left; margin-top: -65px;
+}
+
+#footer-right {
+  float:right; text-align:right; margin-top: -30px;
 }
 
 small
@@ -333,6 +343,10 @@ small
   font-family:Arial, Helvetica, Sans-Serif;
   font-size:.9em;
   line-height:1.5em;
+}
+
+.font-10 {
+  font-size: 10px;
 }
 
 h1,h2,h3

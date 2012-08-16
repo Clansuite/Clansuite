@@ -419,7 +419,7 @@
                 -->
                 <div id="content_footer">
                     <div class="navigation">
-                        <span style="font-size:10px;">
+                        <span class="font-10">
                             <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
                             <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
                         </span>
