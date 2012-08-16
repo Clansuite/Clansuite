@@ -167,18 +167,18 @@ class Helper
         /**
          * All Module Entites
          */
-        $dirs = glob(ROOT_APP . '/modules/' . '[a-zA-Z]*', GLOB_ONLYDIR);
+        $dirs = glob(ROOT_APP . '/Modules/' . '[a-zA-Z]*', GLOB_ONLYDIR);
 
         foreach ($dirs as $key => $dir_path) {
             // Entity Path
-            $entity_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR;
+            $entity_path = $dir_path . '/Model/Entities/';
 
             if (is_dir($entity_path)) {
                 $model_dirs[] = $entity_path;
             }
 
             // Repository Path
-            $repos_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'repositories' . DIRECTORY_SEPARATOR;
+            $repos_path = $dir_path . '/Model/Repositories/';
 
             if (is_dir($repos_path)) {
                 $model_dirs[] = $repos_path;
@@ -230,7 +230,7 @@ class Helper
             $config->setMetadataCacheImpl($cache);
 
             // setup Proxy Dir
-            $config->setProxyDir(realpath(ROOT . 'application\doctrine'));
+            $config->setProxyDir(realpath(ROOT_APP . 'Doctrine'));
             $config->setProxyNamespace('proxies');
 
             // setup Annotation Driver
