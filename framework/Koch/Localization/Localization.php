@@ -137,7 +137,7 @@ class Localization
      */
     public function loadTextDomain($category, $domain, $locale, $module = null)
     {
-        #Koch_Debug::firebug($module);
+        #\Koch\Debug\Debug::firebug($module);
 
         // if, $locale string is not over 3 chars long -> $locale = "en", build "en_EN"
         if (isset($locale{3}) == false) {
@@ -165,7 +165,7 @@ class Localization
         T_bind_textdomain_codeset($domain, $this->encoding);
         T_textdomain($domain);
 
-        #Koch_Debug::firebug('<p>Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'" for "'. $module .'"</p>');
+        #\Koch\Debug\Debug::firebug('<p>Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'" for "'. $module .'"</p>');
 
         return true;
     }

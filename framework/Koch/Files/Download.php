@@ -64,7 +64,7 @@ class Download
     {
         // Check if file exists
         if (is_file($filePath) == false) {
-            throw new Koch_Exception('File not found.');
+            throw new \Koch\Exception\Exception('File not found.');
         }
 
         // get more information about the file
@@ -165,7 +165,7 @@ class Download
     {
         try {
             self::sendRated($filePath, $rate);
-        } catch (Koch_Exception $e) {
+        } catch (\Koch\Exception\Exception $e) {
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');
 
@@ -182,7 +182,7 @@ class Download
     {
         try {
             self::sendRated($filePath, $rate);
-        } catch (Koch_Exception $e) {
+        } catch (\Koch\Exception\Exception $e) {
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');
         }

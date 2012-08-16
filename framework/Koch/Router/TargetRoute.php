@@ -300,6 +300,66 @@ class TargetRoute extends Mapper
         return false;
     }
 
+    /**
+     * setSegmentsToTargetRoute
+     *
+     * This takes the requirements array or the uri_segments array
+     * and sets the proper parameters on the Target Route,
+     * thereby making it dispatchable.
+     *
+     * URL Examples
+     * a) index.php?mod=news=action=archive
+     * b) index.php?mod=news&ctrl=admin&action=edit&id=77
+     *
+     * mod      => controller => <News>Controller.php
+     * ctrl     => controller suffix  => News<Admin>Controller.php
+     * action   => method     => action_<action>
+     * *id*     => additional call params for the method
+     */
+    public static function setSegmentsToTargetRoute($array)
+    {
+        /**
+         * if array is an found route, it has the following array structure:
+         * [regexp], [number_of_segments] and [requirements].
+         *
+         * for getting the values module, controller, action only the
+         * [requirements] array is relevant. overwriting $array drops the keys
+         * [regexp] and [number_of_segments] because they are no longer needed.
+         */
+        if (array_key_exists('requirements', $array)) {
+            $array = $array['requirements'];
+        }
+
+        // Module
+        if (isset($array['module']) === true) {
+            self::setModule($array['module']);
+            // yes, set the controller of the module, too
+            // if it is not News to NewsController, then it will be overwritten below
+            self::setController($array['module']);
+            unset($array['module']);
+        }
+
+        // Controller
+        if (isset($array['controller']) === true) {
+            self::setController($array['controller']);
+            unset($array['controller']);
+        }
+
+        // Action
+        if (isset($array['action']) === true) {
+            self::setAction($array['action']);
+            unset($array['action']);
+        }
+
+        // Parameters
+        if (count($array) > 0) {
+            self::setParameters($array);
+            unset($array);
+        }
+
+        return self::getInstance();
+    }
+
     public static function reset()
     {
         $reset_params = array(

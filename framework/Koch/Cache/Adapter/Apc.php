@@ -165,7 +165,7 @@ class Apc extends AbstractCache implements CacheInterface
         if (function_exists('apc_cache_info') and false === extension_loaded('Zend Data Cache')) {
         // Retrieves cached information and meta-data from APC's data store
         $apc_sysinfos['cache_info'] = apc_cache_info();
-        #Koch_Debug::printR(apc_cache_info());
+        #\Koch\Debug\Debug::printR(apc_cache_info());
         $apc_sysinfos['cache_info']['cached_files'] = count($apc_sysinfos['cache_info']['cache_list']);
         $apc_sysinfos['cache_info']['deleted_files'] = count($apc_sysinfos['cache_info']['deleted_list']);
 
@@ -198,7 +198,7 @@ class Apc extends AbstractCache implements CacheInterface
         $apc_sysinfos['system_cache_info']['miss_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_misses']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         $apc_sysinfos['system_cache_info']['insert_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_inserts']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         // size
-        $apc_sysinfos['system_cache_info']['size_files'] = Koch_Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
+        $apc_sysinfos['system_cache_info']['size_files'] = \Koch\Functions\Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
         }
 
         $apc_sysinfos['settings'] = ini_get_all('apc');
@@ -234,7 +234,7 @@ class Apc extends AbstractCache implements CacheInterface
             }
         }
 
-        #$apc_sysinfos['sma_info']['size_vars']  = Koch_Functions::getsize($cache_user['mem_size']);
+        #$apc_sysinfos['sma_info']['size_vars']  = \Koch\Functions\Functions::getsize($cache_user['mem_size']);
 
         return $apc_sysinfos;
     }

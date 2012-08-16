@@ -76,7 +76,7 @@ class Koch_Captcha
     public function __construct()
     {
         if (extension_loaded('gd') === false) {
-            throw new Koch_Exception(_('GD Library missing.'));
+            throw new \Koch\Exception\Exception(_('GD Library missing.'));
         }
 
         // pick a random font from the fonts dir
@@ -186,7 +186,7 @@ class Koch_Captcha
                     imageellipse($this->captcha, mt_rand(1, 200), mt_rand(1, 50), mt_rand(50, 100), mt_rand(12, 25), $background_color);
                 }
 
-                #Koch_Debug::firebug($string_length);
+                #\Koch\Debug\Debug::firebug($string_length);
                 // loop charwise through $captcha_string and apply a random font-effect
                 for ($i = 0; $i < $string_length; $i++) {
                     /**

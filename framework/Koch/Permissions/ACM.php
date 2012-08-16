@@ -66,7 +66,7 @@ class ACM
             $accessClass = 'Koch_Acl_GroupAccess';
             $linkField = 'group_id';
         } else {
-            throw new Koch_Exception('Unknown object given to ACM.');
+            throw new \Koch\Exception\Exception('Unknown object given to ACM.');
         }
 
         if ($permission === null) {

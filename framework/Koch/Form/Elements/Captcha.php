@@ -176,7 +176,7 @@ class Captcha extends FormElement implements FormElementInterface
             $html = $formelementdecorator->render($html);
         }
 
-        #Koch_Debug::firebug($html);
+        #\Koch\Debug\Debug::firebug($html);
 
         return $html;
     }

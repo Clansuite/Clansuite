@@ -557,7 +557,7 @@ class Smarty extends AbstractRenderer
     {
         $layout_tpl_name = $this->getLayoutTemplate();
 
-        $this->renderer->template_dir = Koch_Functions::array_flatten($this->renderer->template_dir);
+        $this->renderer->template_dir = \Koch\Functions\Functions::array_flatten($this->renderer->template_dir);
 
         foreach ($this->renderer->template_dir as $dir) {
             $filename = $dir . $layout_tpl_name;
@@ -606,7 +606,7 @@ class Smarty extends AbstractRenderer
             if (false != mb_strpos($filecontent, $preRenderCheck['needle'])) {
                 return true;
             } else {
-                throw new Koch_Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
+                throw new \Koch\Exception\Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
             }
         }
     }

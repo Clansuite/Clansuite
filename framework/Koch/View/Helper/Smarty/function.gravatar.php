@@ -29,12 +29,12 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_gravatar($params, $smarty)
+function smarty_function_gravatar($params)
 {
     $email = $defaultImage = $size = $rating = '';
 
     // check for email adress
-    if ($params['email'] !== null) {
+    if (isset($params['email']) === true) {
         $email = trim(mb_strtolower($params['email']));
     } else {
         trigger_error("Gravatar Image couldn't be loaded! Parameter 'email' not specified!");
@@ -43,25 +43,19 @@ function smarty_function_gravatar($params, $smarty)
     }
 
     // default avatar
-    if ($params['default'] !== null) {
+    if (isset($params['default']) === true) {
         $defaultImage = urlencode($params['default']);
     }
 
     // size
-    if ($params['size'] !== null) {
+    if (isset($params['size']) === true) {
         $size = $params['size'];
     }
 
     // rating
-    if ($params['rating'] !== null) {
+    if (isset($params['rating']) === true) {
         $rating = $params['rating'];
     }
 
-    // initialize gravatar library
-    if (false === class_exists('clansuite_gravatar', false)) {
-        include ROOT_FRAMEWORK . 'viewhelper/gravatar.core.php';
-    }
-
-    return new clansuite_gravatar($email, $rating, $size, $defaultImage);
+    return new \Koch\View\Helper\Gravatar($email, $rating, $size, $defaultImage);
 }
-?>

@@ -19,7 +19,7 @@
  */
 function smarty_modifier_firebug($var)
 {
-    Koch_Debug::firebug($var);
+    \Koch\Debug\Debug::firebug($var);
 
     // using firebug directly
     /*if (false === class_exists('FirePHP', false)) {

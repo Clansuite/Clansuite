@@ -34,7 +34,7 @@ namespace Koch\Exception;
  * Developer Notice:
  * The "Fatal error: Exception thrown without a stack frame in Unknown on line 0"
  * is of PHP dying when an exception is thrown when running INSIDE an error or exception handler.
- * Avoid stacking Exceptions, e.g. try/catch Exception($e) and then throwing a Koch_Exception().
+ * Avoid stacking Exceptions, e.g. try/catch Exception($e) and then throwing a \Koch\Exception\Exception().
  *
  * @see http://php.net/manual/de/class.exception.php
  * @see http://php.net/manual/de/function.set-exception-handler.php
@@ -162,7 +162,7 @@ class Exception extends \Exception
      *
      * @example
      * <code>
-     * throw new Koch_Exception('My Exception Message: ', 20);
+     * throw new \Koch\Exception\Exception('My Exception Message: ', 20);
      * </code>
      * The file "exception-20.html" will be retrieved.
      *
@@ -186,7 +186,7 @@ class Exception extends \Exception
      *
      * @example
      * <code>
-     * throw new Koch_Exception('My Exception Message: ', 20);
+     * throw new \Koch\Exception\Exception('My Exception Message: ', 20);
      * </code>
      * The file "exception-dev-20.html" will be retrieved.
      *

@@ -107,7 +107,7 @@ class GuestUser
         $_SESSION['user']['role']   = 3;
         #$_SESSION['user']['rights'] = Koch_ACL::createRightSession( $_SESSION['user']['role'] );
 
-        #Koch_Debug::printR($_SESSION);
-        #Koch_Debug::firebug($_SESSION);
+        #\Koch\Debug\Debug::printR($_SESSION);
+        #\Koch\Debug\Debug::firebug($_SESSION);
     }
 }

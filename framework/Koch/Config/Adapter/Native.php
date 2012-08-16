@@ -44,7 +44,7 @@ class Native
     public static function readConfig($file)
     {
         if (is_file($file) === false or is_readable($file) === false) {
-            throw new Koch_Exception('PHP Array Config File not existing or not readable.');
+            throw new \Koch\Exception\Exception('PHP Array Config File not existing or not readable.');
         }
 
         // it's a native php array structure so we simply include the file

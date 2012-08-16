@@ -93,7 +93,7 @@ class JQSelectDate extends Formelement implements FormElementInterface
      */
     public function getAttributes()
     {
-        #Koch_Debug::printR($this->attributes);
+        #\Koch\Debug\Debug::printR($this->attributes);
         $attributes_html = '';
         foreach ($this->attributes as $attribute => $value) {
 

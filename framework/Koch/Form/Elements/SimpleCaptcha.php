@@ -38,7 +38,7 @@ class SimpleCaptcha extends Captcha implements FormElementInterface
     {
         $captcha = new \Koch\Captcha();
 <<<<<<< .mine
-=======>>>>>>> .theirs        #Koch_Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
+=======>>>>>>> .theirs        #\Koch\Debug\Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
 
         return $captcha->generateCaptchaImage();
     }

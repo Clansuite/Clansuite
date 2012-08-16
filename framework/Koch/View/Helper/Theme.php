@@ -132,7 +132,7 @@ class Theme
      *
      * @param  string         $theme Theme name.
      * @return string         File path to "theme_info.xml" file.
-     * @throws Koch_Exception
+     * @throws \Koch\Exception\Exception
      */
     public function getInfoFile($theme)
     {

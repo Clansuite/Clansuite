@@ -43,7 +43,7 @@ class Json
     public static function readConfig($filename)
     {
         if (is_file($filename) === false or is_readable($filename) === false) {
-            throw new Koch_Exception( _('JSON Config File not existing or not readable.') );
+            throw new \Koch\Exception\Exception( _('JSON Config File not existing or not readable.') );
         }
 
         // read file
@@ -61,7 +61,7 @@ class Json
 
             $msg = _('JSON Error in file %s : $s');
 
-            throw new Koch_Exception( sprintf($msg, $filename, $json_error_message) );
+            throw new \Koch\Exception\Exception( sprintf($msg, $filename, $json_error_message) );
         }
 
         // return json as PHP array

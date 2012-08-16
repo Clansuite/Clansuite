@@ -68,7 +68,7 @@ class Phptal extends Renderer_Base
             if (is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') === true) {
                 include ROOT_LIBRARIES . 'phptal/PHPTAL.php';
             } else {
-                throw new Koch_Exception('PHPTal Library missing!');
+                throw new \Koch\Exception\Exception('PHPTal Library missing!');
             }
         }
 
@@ -173,7 +173,7 @@ class Phptal extends Renderer_Base
                 echo $content;
             }
         } catch (Exception $e) {
-            throw new Koch_Exception($e);
+            throw new \Koch\Exception\Exception($e);
         }
     }
 

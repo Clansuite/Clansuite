@@ -74,7 +74,7 @@ class Doctrine
 
             $msg = $msg1 . NL . sprintf($msg2, $uri);
 
-            throw new Koch_Exception($msg);
+            throw new \Koch\Exception\Exception($msg);
         }
     }
 
@@ -89,7 +89,7 @@ class Doctrine
 
         // ensure doctrine2 exists in the libraries folder
         if (is_file(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php') === false) {
-            throw new Koch_Exception('Doctrine2 not found. Check Libraries Folder.', 100);
+            throw new \Koch\Exception\Exception('Doctrine2 not found. Check Libraries Folder.', 100);
         }
 
         // get isolated loader
@@ -132,7 +132,7 @@ class Doctrine
 
         // @todo workaround till i find a better way to acquire all the models
         $config->getMetadataDriverImpl()->getAllClassNames();
-        #Koch_Debug::firebug($config->getMetadataDriverImpl()->getAllClassNames());
+        #\Koch\Debug\Debug::firebug($config->getMetadataDriverImpl()->getAllClassNames());
 
         // set proxy dirs
         $config->setProxyDir(realpath(ROOT . 'doctrine'));
@@ -260,7 +260,7 @@ class Doctrine
         $em = self::getEntityManager();
         $validator = new \Doctrine\ORM\Tools\SchemaValidator($em);
         $errors = $validator->validateMapping();
-        Koch_Debug::printR($errors);
+        \Koch\Debug\Debug::printR($errors);
     }
 
     /**
@@ -273,7 +273,7 @@ class Doctrine
         #$config->addEntityNamespace('Core', $module_models_path); // = Core:Session
         #$config->addEntityNamespace('Module', $module_models_path); // = Module:News
         $classes_loaded = $config->getMetadataDriverImpl()->getAllClassNames();
-        Koch_Debug::printR($classes_loaded);
+        \Koch\Debug\Debug::printR($classes_loaded);
     }
 
     /**
@@ -313,7 +313,7 @@ class Doctrine
 
         $model_dirs = array_keys(array_flip($model_dirs));
 
-        #Koch_Debug::printR($model_dirs);
+        #\Koch\Debug\Debug::printR($model_dirs);
 
         return $model_dirs;
     }

@@ -85,7 +85,7 @@ class Config extends AbstractConfig
     {
         // if no modulename is set, determine the name of the current module
         if ($modulename === null) {
-            $modulename = Koch\Router\TargetRoute::getModule();
+            $modulename = \Koch\Router\TargetRoute::getModule();
         }
 
         $file = ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php';

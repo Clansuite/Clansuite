@@ -107,7 +107,7 @@ class YAML
             // convert to YAML via SPYC
             $yaml = $spyc->dump($array);
         } else { // we have no YAML Parser - too bad :(
-            throw new Koch_Exception('No YAML Parser available. Get Spyc or Syck!');
+            throw new \Koch\Exception\Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
         /**
@@ -128,7 +128,7 @@ class YAML
     {
         // check if the filename exists
         if (is_file($file) === false or is_readable($file) === false) {
-            throw new Koch_Exception('YAML File ' . $file . ' not existing or not readable.');
+            throw new \Koch\Exception\Exception('YAML File ' . $file . ' not existing or not readable.');
         }
 
         // init
@@ -159,7 +159,7 @@ class YAML
             // parse the yaml content with spyc
             $array = $spyc->load($yaml_content);
         } else { // we have no YAML Parser - too bad :(
-            throw new Koch_Exception('No YAML Parser available. Get Spyc or Syck!');
+            throw new \Koch\Exception\Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
         return $array;

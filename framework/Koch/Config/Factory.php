@@ -72,7 +72,7 @@ class Factory
         } elseif ($extension == '.config.yaml') {
             $adapter = 'yaml';
         } else {
-            throw new Koch_Exception('No handler for that type of configuration file found (' . $extension .')');
+            throw new \Koch\Exception\Exception('No handler for that type of configuration file found (' . $extension .')');
         }
 
         return $adapter;
@@ -132,10 +132,10 @@ class Factory
                 // instantiate and return the specific confighandler with the $configfile to read
                 return $class::getInstance();
             } else {
-                throw new Koch_Exception('Config_Factory -> Class not found: ' . $class, 40);
+                throw new \Koch\Exception\Exception('Config_Factory -> Class not found: ' . $class, 40);
             }
         } else {
-            throw new Koch_Exception('Config_Factory -> File not found: ' . $file, 41);
+            throw new \Koch\Exception\Exception('Config_Factory -> File not found: ' . $file, 41);
         }
     }
 }

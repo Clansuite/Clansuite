@@ -169,7 +169,7 @@ class Functions
      * Hint: use return getsize() on the return value of this function transform it to a readable format.
      * @see getsize()
      * @example
-     * $readable_dirsize = Koch_Functions::getsize(Koch_Functions::dirsize($dir));
+     * $readable_dirsize = \Koch\Functions\Functions::getsize(\Koch\Functions\Functions::dirsize($dir));
      *
      * @param $dir Directory Path
      * @return $size size of directory in bytes
@@ -271,7 +271,7 @@ class Functions
     public static function array_find_element_by_key($needle, array $haystack)
     {
         // take a look for the needle
-        if (($haystack[$needle] !== null) or (array_key_exists($needle, $haystack))) {
+        if ((isset($haystack[$needle]) === true) or (array_key_exists($needle, $haystack))) {
             // if found, return it
             return $haystack[$needle];
         }
@@ -815,7 +815,7 @@ class Functions
 
         // Debug message for Method Overloading
         // Making it easier to see which static method is called magically
-        Koch_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
+        \Koch\Debug\Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         // construct the filename of the command
         $filename = __DIR__  . '/Pool/' . $method . '.php';
 
@@ -849,7 +849,7 @@ class Functions
 
         // Debug message for Method Overloading
         // Making it easier to see which method is called magically
-        // Koch_Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
+        // \Koch\Debug\Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
         // construct the filename of the command
         $filename = __DIR__  . '/pool/' . $method . '.php';
 
