@@ -199,8 +199,6 @@ class RouterTest extends Clansuite_UnitTestCase
         // id will match if numeric
     }*/
 
-
-
     public function testMethod_match_RestRoutes()
     {
         $this->router->reset(); //->loadDefaultRoutes();
