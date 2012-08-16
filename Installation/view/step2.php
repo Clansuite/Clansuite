@@ -256,12 +256,6 @@
                          $recommended['magic_quotes_runtime']['actual']     = get_php_setting('magic_quotes_runtime',false,'string');
                          $recommended['magic_quotes_runtime']['status']     = get_php_setting('magic_quotes_runtime',false,'img');
 
-                         // Checking short open tag
-                         $recommended['short_open_tag']['label']      = $language['SHORT_OPEN_TAG'];
-                         $recommended['short_open_tag']['expected']   = SETTING_EXPECTED_OFF;
-                         $recommended['short_open_tag']['actual']     = get_php_setting('short_open_tag',false,'string');
-                         $recommended['short_open_tag']['status']     = get_php_setting('short_open_tag',false,'img');
-
                          // Checking output_buffering
                          $recommended['output_buffering']['label']      = $language['OUTPUT_BUFFERING'];
                          $recommended['output_buffering']['expected']   = SETTING_EXPECTED_OFF;

@@ -95,7 +95,6 @@ class German implements \ArrayAccess
         $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
         $this->language['MAGIC_QUOTES_RUNTIME'] = 'Magic Quotes Runtime';
-        $this->language['SHORT_OPEN_TAG'] = 'Kurzversion öffnender PHP-Tags';
         $this->language['OUTPUT_BUFFERING'] = 'Output Buffering';
         $this->language['XSLT_PROCESSOR'] = 'XSLT-Prozessor';
         $this->language['EXTENSION_HASH'] = 'PHP Erweiterung: Hash';
