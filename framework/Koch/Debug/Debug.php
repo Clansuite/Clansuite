@@ -154,7 +154,7 @@ class Debug
             include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         }
 
-        $firephp = FirePHP::getInstance(true);
+        $firephp = \FirePHP::getInstance(true);
 
         /**
          * Adds an info message about the position of the firebug call (origin).
