@@ -95,7 +95,6 @@ class Italian implements \ArrayAccess
         $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
         $this->language['MAGIC_QUOTES_RUNTIME'] = 'Magic Quotes Runtime';
-        $this->language['SHORT_OPEN_TAG'] = 'Short Open Tags';
         $this->language['OUTPUT_BUFFERING'] = 'Output Buffering';
         $this->language['XSLT_PROCESSOR'] = 'XSLT Processor';
         $this->language['EXTENSION_HASH'] = 'Estensione PHP: Hash';
