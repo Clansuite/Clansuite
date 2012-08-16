@@ -74,21 +74,21 @@ AddType application/x-chrome-extension crx
 # Disabled by default.
 
 # <FilesMatch "\.combined\.(js|css)$">
-#         Options +Includes
-#         SetOutputFilter INCLUDES
+#         #Options +Includes
+#         SetOutput  INCLUDES
 # </FilesMatch>
 
 # gzip compression.
 <IfModule mod_deflate.c>
 
 # html, txt, css, js, json, xml, htc:
-  AddOutputFilterByType DEFLATE text/html text/plain text/css application/json
-  AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript 
-  AddOutputFilterByType DEFLATE text/xml application/xml text/x-component
+  AddOutput ByType DEFLATE text/html text/plain text/css application/json
+  AddOutput ByType DEFLATE text/javascript application/javascript application/x-javascript 
+  AddOutput ByType DEFLATE text/xml application/xml text/x-component
 
 # webfonts and svg:
   <FilesMatch "\.(ttf|otf|eot|svg)$" >
-    SetOutputFilter DEFLATE
+    SetOutput  DEFLATE
   </FilesMatch>
 </IfModule>
 
@@ -173,9 +173,9 @@ FileETag None
 
 # without -MultiViews, Apache will give a 404 for a rewrite if a folder of the same name does not exist 
 #   e.g. /blog/hello : webmasterworld.com/apache/3808792.htm
-Options -MultiViews 
+#Options -MultiViews 
 # -Indexes will have Apache block users from browsing folders without a default document
-# Options -Indexes
+# #Options -Indexes
 
 # custom 404 page
 ErrorDocument 404 /404.html
