@@ -60,7 +60,7 @@
                       // build image name
                       $flag_image = strtolower($file).'.png';
                       // if an image exists, add it as inline css style
-                      if(is_file('./Languages/' . $flag_image)) {
+                      if (is_file('./Languages/' . $flag_image)) {
                         echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $flag_image .'); background-position:5px 100%; background-repeat: no-repeat;"';
                       } else {
                         echo '<option';

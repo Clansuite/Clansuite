@@ -130,8 +130,8 @@ class Theme
     /**
      * Returns "theme_info.xml" for the requested theme.
      *
-     * @param  string         $theme Theme name.
-     * @return string         File path to "theme_info.xml" file.
+     * @param  string                    $theme Theme name.
+     * @return string                    File path to "theme_info.xml" file.
      * @throws \Koch\Exception\Exception
      */
     public function getInfoFile($theme)
