@@ -24,7 +24,7 @@
                            if ((!$file->isDot()) && preg_match("/.png$/",$file->getFilename())) {
                               echo '<option style="padding-left: 40px; background-image: url(./Languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
                               $file = substr($file->getFilename(), 0, -4);
-                              if ($_SESSION['lang'] == ucfirst($file)) { echo ' selected="selected"'; }
+                              if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
                               echo ' value=' . $file .'>';
                               echo $file;
                               echo "</option>\n";
