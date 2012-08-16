@@ -20,10 +20,18 @@
                         <?php
                         echo '<option value="">- Select Language -</option>';
                         foreach (new DirectoryIterator('./Languages/') as $file) {
-                           // get each file not starting with dots ('.','..')
-                           if ((!$file->isDot()) && preg_match("/.png$/",$file->getFilename())) {
-                              echo '<option style="padding-left: 40px; background-image: url(./Languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
+                           // get each php file in Languages folder, exclude stuff starting with dots
+                           if ((!$file->isDot()) && preg_match("/.php$/",$file->getFilename())) {
+                              // get the filename without extension
                               $file = substr($file->getFilename(), 0, -4);
+                              // build image name
+                              $flag_image = strtolower($file).'.png';
+                              // if an image exists, add it as inline css style
+                              if(is_file('./Languages/' . $flag_image)) {
+                                echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $flag_image .'); background-position:5px 100%; background-repeat: no-repeat;"';
+                              } else {
+                                echo '<option';
+                              }
                               if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
                               echo ' value=' . $file .'>';
                               echo $file;
