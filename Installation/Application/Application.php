@@ -157,7 +157,7 @@ class Application
 
             // SET DEFAULT locale
             if ($this->step == 1 or empty($_SESSION['lang'])) {
-                $this->locale = 'german';
+                $this->locale = 'German';
             }
         }
     }
