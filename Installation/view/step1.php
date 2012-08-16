@@ -19,7 +19,7 @@
                             onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
                         <?php
                         echo '<option value="">- Select Language -</option>';
-                        foreach (new DirectoryIterator('./languages/') as $file) {
+                        foreach (new DirectoryIterator('./Languages/') as $file) {
                            // get each file not starting with dots ('.','..')
                            // or containing ".install.php"
                            if ((!$file->isDot()) && preg_match("/.png$/",$file->getFilename())) {
