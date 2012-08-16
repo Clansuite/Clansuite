@@ -344,7 +344,7 @@ class Router implements RouterInterface, \ArrayAccess
     public static function buildURL($urlstring, $encode = true, $force_modrewrite_on = true)
     {
         // if urlstring is array, then a relation (urlstring => parameter_order) is given
-        if(is_array($urlstring)) {
+        if (is_array($urlstring)) {
             $parameter_order = '';
             list($urlstring, $parameter_order) = each($urlstring);
         }
@@ -389,17 +389,14 @@ class Router implements RouterInterface, \ArrayAccess
             $url_parameters = explode('/', $urlstring);
 
             // do we have a parameter_order given?
-            if(isset($parameter_order))
-            {
+            if (isset($parameter_order)) {
                 // replace parameter names with shorthands used in the url
                 $search = array('module', 'controller', 'action');
                 $replace = array('mod', 'ctrl', 'action');
                 $parameter_order = str_replace($search, $replace, $parameter_order);
 
                 $url_keys = explode('/', $parameter_order);
-            }
-            else
-            {
+            } else {
                 // default static whitelist for url parameter keys
                 $url_keys = array('mod', 'ctrl', 'action', 'id', 'type');
             }
@@ -555,7 +552,7 @@ class Router implements RouterInterface, \ArrayAccess
                      *
                      * unset everything, keep only $route_values['required'].
                      */
-                    for($i = 0; $i <= $route_values['number_of_segments']; $i++) {
+                    for ($i = 0; $i <= $route_values['number_of_segments']; $i++) {
                         unset($matches[$i]);
                     } unset($i);
 

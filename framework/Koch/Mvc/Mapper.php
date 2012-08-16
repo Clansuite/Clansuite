@@ -56,8 +56,8 @@ class Mapper extends \ArrayObject
     /**
      * Maps the controller and subcontroller (optional) to filename
      *
-     * @param  string $module_path   Path to Module
-     * @param  string $controller    Name of Controller
+     * @param  string $module_path Path to Module
+     * @param  string $controller  Name of Controller
      * @return string filename
      */
     public static function mapControllerToFilename($module_path, $controller = null)
@@ -74,15 +74,15 @@ class Mapper extends \ArrayObject
     /**
      * Maps Controller to Classname
      *
-     * @param  string $module        Name of Module
-     * @param  string $controller    Name of Controller (optional)
+     * @param  string $module     Name of Module
+     * @param  string $controller Name of Controller (optional)
      * @return string classname
      */
     public static function mapControllerToClassname($module, $controller = null)
     {
         $classname = '\\';
 
-        if($controller === null) {
+        if ($controller === null) {
             // the default controller of a module is named like the module
             // The module "News"  has a controller named "News"Controller.
             $controller = $module;
@@ -108,7 +108,7 @@ class Mapper extends \ArrayObject
      * The convention is action_<action> !
      *
      *
-     * @param  string $action     the action
+     * @param  string $action the action
      * @return string the mapped method name
      */
     public static function mapActionToMethodname($action)

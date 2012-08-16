@@ -114,7 +114,7 @@ class TargetRoute extends Mapper
     {
         // the default "controller" name is the "module" name
         // this is the case if a route "/:module" is used
-        if(isset(self::$parameters['controller']) === false) {
+        if (isset(self::$parameters['controller']) === false) {
             self::$parameters['controller'] = self::$parameters['module'];
         }
 

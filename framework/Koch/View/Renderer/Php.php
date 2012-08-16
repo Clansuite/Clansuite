@@ -58,7 +58,6 @@ class Php extends Renderer_Base
             $file = $this->file;
         }
 
-
         /**
          * extract all template variables to local scope,
          * but do not overwrite an existing variable.
@@ -72,12 +71,12 @@ class Php extends Renderer_Base
             include $file; // conditional include; not require !
         } catch (\Exception $e) {
             // clean buffer before throwing exception
-            ob_get_clean(); 
+            ob_get_clean();
             throw $e;
             // throw new Koch_Excpetion('PHP Renderer Error: Template ' . $file . ' not found!', 99);
-        }           
+        }
 
-        return ob_get_clean(); 
+        return ob_get_clean();
     }
 
     /**
