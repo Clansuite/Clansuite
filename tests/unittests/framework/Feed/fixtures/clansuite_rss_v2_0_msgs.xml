@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rss version="2.0">
+  <channel>
+  <title>clansuite.com Google Group</title>
+  <link>http://groups.google.com/group/clansuite</link>
+  <description>Clansuite - just a eSport CMS! Google Groups of the Clansuite Project, which is just another content-management-system written in PHP, but this one is state-of-the-art and especially for esports teams. Based on PHP5, Doctrine, Smarty, Ajax. - Easy, comfortable, fast, flexible. </description>
+  <language>en</language>
+  <item>
+  <title>Clansuite Community Toolbar v1.0 (01.07.2011)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/8f86ede6c4eb8b96/a08e008198e7e13d?show_docid=a08e008198e7e13d</link>
+  <description>
+  Hello, &lt;br&gt; &lt;p&gt;i am happy to announce the immediate release of &amp;quot;Clansuite Toolbar &amp;quot; &lt;br&gt; version 1.0 (01.07.2011). &lt;br&gt; This release adresses minor UTF-8 issues within the localization &lt;br&gt; files. &lt;br&gt; Also several links were updated, because of ever changing URLs. &lt;br&gt; Last but not least: the link to our continuous integration server was
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/8f86ede6c4eb8b96/a08e008198e7e13d?show_docid=a08e008198e7e13d</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Fri, 01 Jul. 2011 02:39:57 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Community Toolbar v0.9 (12.04.2011)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/edd133df9bd4ba78/1215eb48aa0e7b82?show_docid=1215eb48aa0e7b82</link>
+  <description>
+  Hello, &lt;br&gt; &lt;p&gt;we are happy to announce that our &amp;quot;Clansuite Toolbar&amp;quot; was updated &lt;br&gt; recently to Version 0.9 (12.04.2011). &lt;br&gt; This release addresses several compatibility issues with Firefox 4. &lt;br&gt; You may now search for code via Google, Koders, Krugle and Github. &lt;br&gt; We also made a huge step forward regarding the localization.
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/edd133df9bd4ba78/1215eb48aa0e7b82?show_docid=1215eb48aa0e7b82</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Tue, 12 Apr. 2011 00:28:29 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Community Toolbar v0.8 (08.03.2010)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/3b4957e4f3eefb66/e048345d5b0fa39c?show_docid=e048345d5b0fa39c</link>
+  <description>
+  Hi folks, &lt;br&gt; our &amp;quot;Clansuite Community Toolbar&amp;quot; was updated recently to Version 0.8 &lt;br&gt; (08.03.2010). This release addresses minor product issues. &lt;br&gt; Florian Wolf (xsign) did a good job in fixing the default preferences &lt;br&gt; and updating several references to links and images. &lt;br&gt; The Toolbar is kept up-to-date by Firefox itself.
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/3b4957e4f3eefb66/e048345d5b0fa39c?show_docid=e048345d5b0fa39c</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Mon, 08 Mrz. 2010 17:47:15 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Serverpack for Windows v1.7.3 (07.02.2010)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/1823bd926865e3fd/8b88d3fa13d9094a?show_docid=8b88d3fa13d9094a</link>
+  <description>
+  Hi folks, &lt;br&gt; there is a new version of the Clansuite Serverpack for Windows &lt;br&gt; available (07.02.2010). It&#39;s an integrated Serverpack, combining the &lt;br&gt; latest release of XAMPPLite 1.7.3 and Clansuite (0.2alpha dev) SVN- &lt;br&gt; Revision 4068. &lt;br&gt; This release of the serverpack uses the new build script &lt;br&gt; for the windows environment created by Florian &#39;xsign.dll&#39; Wolf .
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/1823bd926865e3fd/8b88d3fa13d9094a?show_docid=8b88d3fa13d9094a</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Sun, 07 Feb. 2010 17:55:44 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Community Toolbar v0.7 (11.12.2009)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/b6f36ec547cb9d2a/187d8e7ac06cca2c?show_docid=187d8e7ac06cca2c</link>
+  <description>
+  Hi folks, &lt;br&gt; &lt;p&gt;our &amp;quot;Clansuite Community Toolbar&amp;quot; was updated recently to Version 0.7 &lt;br&gt; (11.12.2009). This release brings two new features. &lt;br&gt; I added language support for the menuitems in &amp;quot;Search&amp;quot; and &lt;br&gt; &amp;quot;Documentation&amp;quot;. &lt;br&gt; You can set the language in the options dialog (&amp;quot;Options&amp;quot; &amp;gt; &lt;br&gt; Tab:Language). &lt;br&gt; The menuitems in &amp;quot;GoTo&amp;quot; have vhost-support now.
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/b6f36ec547cb9d2a/187d8e7ac06cca2c?show_docid=187d8e7ac06cca2c</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Thu, 10 Dez. 2009 18:18:44 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Serverpack for Windows v1.7.2 (19.11.2009) (bugfixed)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/4ca4df858e4943ac/a301589b46876139?show_docid=a301589b46876139</link>
+  <description>
+  Hi folks, &lt;br&gt; &lt;p&gt;there is a new version of the Clansuite Serverpack for Windows &lt;br&gt; available (19.11.2009). It&#39;s an integrated Serverpack, combining the &lt;br&gt; latest release of XAMPPLite 1.7.2 and Clansuite (0.2alpha dev) SVN- &lt;br&gt; Revision 3726. &lt;br&gt; &lt;p&gt;Note: this is bascially a re-release, providing you with the current
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/4ca4df858e4943ac/a301589b46876139?show_docid=a301589b46876139</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Thu, 19 Nov. 2009 11:58:48 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Serverpack for Windows v1.7.2 (28.10.2009)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/bb990514bb03c2a4/7301c5bea422d3d7?show_docid=7301c5bea422d3d7</link>
+  <description>
+  Hi folks, &lt;br&gt; &lt;p&gt;there is a new version of the Clansuite Serverpack for Windows &lt;br&gt; available (28.10.2009). It&#39;s an integrated Serverpack, combining the &lt;br&gt; latest release of XAMPPLite 1.7.2 and Clansuite (0.2alpha dev) SVN- &lt;br&gt; Revision 3540. &lt;br&gt; &lt;p&gt;Download: &lt;br&gt; &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://www.clansuite.com/serverpacks/Clansuite-Serverpack-w32-xampp1.7.2.zip&quot;&gt;[link]&lt;/a&gt;
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/bb990514bb03c2a4/7301c5bea422d3d7?show_docid=7301c5bea422d3d7</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Wed, 28 Okt. 2009 05:59:29 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Community Toolbar v0.6 (22.06.2009) released</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/f65b7f20a7cd2f77/6ed529dc41c395e9?show_docid=6ed529dc41c395e9</link>
+  <description>
+  Hi folks, &lt;br&gt; &lt;p&gt;our &amp;quot;Clansuite Community Toolbar&amp;quot; was updated recently to Version 0.6 &lt;br&gt; (22.06.2009). This release addresses a compatibility issue with &lt;br&gt; Firefox version 3.5 and higher. &lt;br&gt; A new menuitem (&amp;quot;Bugtracker&amp;quot; &amp;gt; &amp;quot;Your tasks&amp;quot;) was added. If you are &lt;br&gt; developer and logged in on Trac, it will provide a quick link to the
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/f65b7f20a7cd2f77/6ed529dc41c395e9?show_docid=6ed529dc41c395e9</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Tue, 23 Jun. 2009 13:00:26 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Serverpack for Windows v1.7.1 (14.04.2009)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/25508a83cce619a9/60098789e6fd6fad?show_docid=60098789e6fd6fad</link>
+  <description>
+  Hi folks, &lt;br&gt; &lt;p&gt;there is a new version of the Clansuite Serverpack for Windows &lt;br&gt; available (14.04.2009). It&#39;s integrated Serverpack, combining the &lt;br&gt; latest release &lt;br&gt; of XAMPPLite 1.7.1and Clansuite (0.2alpha dev) SVN-Revision 2920. &lt;br&gt; &lt;p&gt;Download: &lt;br&gt; &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://www.clansuite.com/serverpacks/Clansuite-Serverpack-w32-xampp1.7.1.zip&quot;&gt;[link]&lt;/a&gt;
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/25508a83cce619a9/60098789e6fd6fad?show_docid=60098789e6fd6fad</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Tue, 14 Apr. 2009 22:02:15 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Serverpack for Windows v1.7.0 (27.01.2009)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/daeb0bdc5b3aae9d/1d8a03014d78dee5?show_docid=1d8a03014d78dee5</link>
+  <description>
+  Hi folks, &lt;br&gt; &lt;p&gt;there is a new version of the Clansuite Serverpack for Windows &lt;br&gt; available (27.01.2009). &lt;br&gt; &lt;p&gt;Download: &lt;br&gt; &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://www.clansuite.com/serverpacks/Clansuite-Serverpack-w32-xampp1.7.0.zip&quot;&gt;[link]&lt;/a&gt; &lt;br&gt; &lt;p&gt;Features: &lt;br&gt; This version is an integrated Serverpack, combining the latest release &lt;br&gt; of &lt;br&gt; XAMPPLite 1.7.0 (with XAMPP Patch2 applied and latest version of
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/daeb0bdc5b3aae9d/1d8a03014d78dee5?show_docid=1d8a03014d78dee5</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Fri, 30 Jan. 2009 18:35:56 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Community Toolbar v0.4 (21.01.2009)</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/cd8511e997085cfc/513d1b20630b4d8f?show_docid=513d1b20630b4d8f</link>
+  <description>
+  Hi folks, &lt;br&gt; &lt;p&gt;our &amp;quot;Clansuite Community Toolbar&amp;quot; was updated recently to Version 0.4 &lt;br&gt; (21.01.2009). I added the Autoupdate Feature for Firefox Addons. &lt;br&gt; With this release the Toolbar is kept up-to-date by Firefox itself. &lt;br&gt; &lt;p&gt;Check it out: &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://www.clansuite.com/toolbar/&quot;&gt;[link]&lt;/a&gt; &lt;br&gt; Provide feedback: &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://forum.clansuite.com/index.php/topic,127.0.html&quot;&gt;[link]&lt;/a&gt;
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/cd8511e997085cfc/513d1b20630b4d8f?show_docid=513d1b20630b4d8f</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Fri, 30 Jan. 2009 18:29:43 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Community Toolbar update</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/8ac11d7988b45bda/5bc8c64b34432c11?show_docid=5bc8c64b34432c11</link>
+  <description>
+  Hi folks, &lt;br&gt; &lt;p&gt;our &amp;quot;Clansuite Community Toolbar&amp;quot; was updated recently to Version 0.3 &lt;br&gt; (06.10.2008) &lt;br&gt; Check it out: &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://www.clansuite.com/toolbar/&quot;&gt;[link]&lt;/a&gt; &lt;br&gt; Provide feedback: &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://forum.clansuite.com/index.php/topic,127.0.html&quot;&gt;[link]&lt;/a&gt; &lt;br&gt; &lt;p&gt;Best Regards, Jens
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/8ac11d7988b45bda/5bc8c64b34432c11?show_docid=5bc8c64b34432c11</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Sun, 12 Okt. 2008 18:30:28 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Community Toolbar supports Firefox3</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/a3f8bc6a5530dcc1/ce51242140852fbf?show_docid=ce51242140852fbf</link>
+  <description>
+  Hi there, &lt;br&gt; &lt;p&gt;our &amp;quot;Clansuite Community Toolbar&amp;quot; is now compatible with Firefox3. &lt;br&gt; Go and get the new version: &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://www.clansuite.com/toolbar/&quot;&gt;[link]&lt;/a&gt; &lt;br&gt; &lt;p&gt;Best Regards, Jens
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/a3f8bc6a5530dcc1/ce51242140852fbf?show_docid=ce51242140852fbf</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Thu, 24 Jul. 2008 12:41:32 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Clansuite Community Toolbar supports Firefox3</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/a3f8bc6a5530dcc1/f2ee33b3418bb2c0?show_docid=f2ee33b3418bb2c0</link>
+  <description>
+  Hi there, &lt;br&gt; &lt;p&gt;our &amp;quot;Clansuite Community Toolbar&amp;quot; is now compatible with Firefox3. &lt;br&gt; Go and get the new version: &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://www.clansuite.com/toolbar/&quot;&gt;[link]&lt;/a&gt; &lt;br&gt; &lt;p&gt;Best Regards, Jens
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/a3f8bc6a5530dcc1/f2ee33b3418bb2c0?show_docid=f2ee33b3418bb2c0</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Thu, 24 Jul. 2008 12:54:52 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Check out our Community Toolbar</title>
+  <link>http://groups.google.com/group/clansuite/browse_thread/thread/b919aff83fdb7a5b/9dcb8aa6902b0be5?show_docid=9dcb8aa6902b0be5</link>
+  <description>
+  Hello Folks, &lt;br&gt; &lt;p&gt;the Comunity Toolbar was developed with the intention to provide some &lt;br&gt; quick-links to often needed resources of the Clansuite Project. So &lt;br&gt; basically all essential project links are kept in this central place. &lt;br&gt; So please check it out and provide feedback in our forums ( Link to &lt;br&gt; the Thread: &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://www.clansuite.com/smf/index.php?topic=127.0&quot;&gt;[link]&lt;/a&gt; ).
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/clansuite/browse_thread/thread/b919aff83fdb7a5b/9dcb8aa6902b0be5?show_docid=9dcb8aa6902b0be5</guid>
+  <author>
+  knd.v...@gmail.com
+  (vain)
+  </author>
+  <pubDate>Wed, 16 Jan. 2008 12:56:58 UT
+</pubDate>
+  </item>
+  </channel>
+</rss>
