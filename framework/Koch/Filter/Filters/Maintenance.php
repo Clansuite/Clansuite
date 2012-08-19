@@ -27,6 +27,8 @@ namespace Koch\Filter\Filters;
 
 use Koch\Http\HttpRequestInterface;
 use Koch\Http\HttpResponseInterface;
+use Koch\Config;
+use Koch\View\Renderer\Smarty;
 
 /**
  * Koch Framework - Filter for displaying a maintenace mode screen.
@@ -40,18 +42,16 @@ use Koch\Http\HttpResponseInterface;
  */
 class Maintenance implements FilterInterface
 {
-    private $config = null;     // holds instance of config
+    private $config = null;
 
-    public function __construct(Koch\Config $config)
+    public function __construct(Config $config)
     {
-        $this->config = $config;      // set instance of config to class
+        $this->config = $config;
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        /**
-         * maintenance mode must be enabled in configuration
-         */
+        // the maintenance mode must be enabled in configuration in order to be displayed
         if ($this->config['maintenance']['maintenance'] == 1) {
             return;
         }
@@ -61,10 +61,10 @@ class Maintenance implements FilterInterface
          */
 
         // fetch renderer
-        $smarty = Koch_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
+        $smarty = new Smarty($this->config);
 
         // fetch maintenance template
-        $html = $smarty->fetch(ROOT_THEMES . 'core/view/smarty/maintenance.tpl', true);
+        $html = $smarty->fetch(ROOT_THEMES_CORE . 'view/smarty/maintenance.tpl', true);
 
         // output
         $response->setContent($html);
