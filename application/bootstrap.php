@@ -2,7 +2,7 @@
 
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     *        _\|/_
@@ -707,7 +707,7 @@ class CMS
      *  ================================================
      *     Set Timezone Settings
      *  ================================================
-     * date_default_timezone_set() - should be set in php.ini
+     * Set date_default_timezone_set() in php.ini !
      *
      * For a lot more timezones look in the Appendix H of the PHP Manual
      * @link http://php.net/manual/en/timezones.php
@@ -719,11 +719,6 @@ class CMS
         if (self::$config['locale']['timezone'] !== null) {
             // set always if incomming via config
             date_default_timezone_set(self::$config['locale']['timezone']);
-        }
-        // the timezone should already be set in php.ini
-        // this is just an fallback, if the system is not configured
-        elseif (ini_get('date.timezone') === '') {
-            date_default_timezone_set('Europe/Berlin');
         }
 
         // set date formating via config
