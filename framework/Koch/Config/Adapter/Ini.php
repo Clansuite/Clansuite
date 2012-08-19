@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -34,21 +34,6 @@ namespace Koch\Config\Adapter;
  */
 class Ini
 {
-    /**
-     * Koch\Config_INI is a Singleton
-     *
-     * @return instance of Config_INIHandler class
-     */
-    public static function getInstance()
-    {
-        static $instance;
-        if (isset($instance) == null) {
-            $instance = new self();
-        }
-
-        return $instance;
-    }
-
     /**
      * Writes a .ini Configfile
      * This method writes the configuration values specified to the filename.
@@ -83,7 +68,7 @@ class Ini
         }
 
         // slash fix
-        $file = str_replace('/', DS, $file);
+        $file = str_replace('/', DIRECTORY_SEPARATOR, $file);
 
         // attach an security header at the top of the ini file
         $content = '';
@@ -97,7 +82,7 @@ class Ini
 
         // loop over every array element
         foreach ($config_array as $key => $item) {
-            // checking if it's an array
+            // checking if it's an array, if so, it's a section heading
             if (is_array($item)) {
                 // write an comment header block
                 $content .= CR;
@@ -119,13 +104,13 @@ class Ini
                     }
                 }
             }
-            // if it's not an array
+            // if it's not an array - it's not a section
             else {
                 if (is_numeric($item) || is_bool($item)) {
                     // write numeric and boolean values without quotes
                     $content .= $key . ' = ' . $item . CR;
                 } else {
-                    // write value with quotes
+                    // it's a string - write value with quotes
                     $content .= $key2 .' = "' . $item2 . '"'.CR;
                 }
             }
