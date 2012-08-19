@@ -38,7 +38,7 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      * Configuration Array
      * protected = only visible to childs
      *
-     * @var array
+     * @var array(string==>mixed)
      */
     protected $config = array();
 
@@ -60,6 +60,19 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
         }
 
         return $array;
+    }
+
+    /**
+     * Merges an array into the actual config array.
+     *
+     * @param array(string=>mixed) $newConfig The new config array.
+     */
+    public function merge(array $newConfig)
+    {
+        foreach($newConfig as $key => $value)
+        {
+            $this->__set($key, $value);
+        }
     }
 
     /**
