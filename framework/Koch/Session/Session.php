@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -78,11 +78,6 @@ class Session implements SessionInterface, \ArrayAccess
     public function __construct(\Koch\Config\Config $config)
     {
         $this->config = $config;
-
-        // session auto_start must be disabled
-        if (ini_get('session.auto_start') != 0) {
-            throw new Exception('PHP Setting session.auto_start must be disabled.');
-        }
 
         /**
          * Set the Session Expire Time.
