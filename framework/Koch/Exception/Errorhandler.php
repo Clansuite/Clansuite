@@ -25,6 +25,9 @@
 
 namespace Koch\Exception;
 
+use Koch\Exception\Renderer\YellowScreenOfDeath;
+use Koch\Exception\Renderer\SmartyTemplateError;
+
 /**
  * Koch Framework - Class for Errorhandling
  *
@@ -145,6 +148,7 @@ class Errorhandler
 
         // if DEBUG is set, display the error
         if ( defined('DEBUG') and DEBUG == 1 ) {
+
             /**
              * SMARTY ERRORS are thrown by trigger_error() - so they bubble up as E_USER_ERROR.
              *
@@ -155,54 +159,16 @@ class Errorhandler
             if((true === (bool) mb_strpos(mb_strtolower($errfile), 'smarty')) or
                (true === (bool) mb_strpos(mb_strtolower($errfile), 'tpl.php')))
             {
-                // ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
-                echo self::smarty_error_display( $errno, $errorname, $errstr, $errfile, $errline, $errcontext );
-            } else { // give normal Error Display
-                // All Error Informations (except backtraces)
-                echo self::yellowScreenOfDeath( $errno, $errorname, $errstr, $errfile, $errline, $errcontext );
+                // render the smarty template error
+                echo SmartyTemplateError::render( $errno, $errorname, $errstr, $errfile, $errline, $errcontext );
+            } else {
+                // render normal error display, with all pieces of information, except backtraces
+                echo YellowScreenOfDeath::renderError( $errno, $errorname, $errstr, $errfile, $errline, $errcontext );
             }
         }
 
         // Skip PHP internal error handler
         return true;
-    }
-
-    /**
-     * Smarty Error Display
-     *
-     * This method defines the html-output when an Smarty Template Error occurs.
-     * It's output is a shortened version of the normal error report, presenting
-     * only the errorname, filename and the line of the error.
-     * The parameters used for the small report are $errorname, $errorfile, $errorline.
-     * If you need a full errorreport, you can add more parameters from the methodsignature
-     * to the $errormessage output.
-     *
-     * Smarty Template Errors are only displayed, when Koch Framework is in DEBUG Mode.
-     * @see clansuite_error_handler()
-     *
-     * A direct link to the template editor for editing the file with the error
-     * is only displayed, when Koch Framework runs in DEVELOPMENT Mode.
-     * @see addTemplateEditorLink()
-     *
-     * @param  integer $errno      contains the error as integer
-     * @param  string  $errstr     contains error string info
-     * @param  string  $errfile    contains the filename with occuring error
-     * @param  string  $errline    contains the line of error
-     * @param  array   $errcontext contains vars from error context
-     * @return string  HTML with Smarty Error Text and Link.
-     */
-    private static function smarty_error_display($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
-    {
-        $html = '';
-        $html .= '<span>';
-        $html .= '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
-        $html .= '<u>' . $errorname . ' (' . $errno . '): </u><br/>';
-        $html .= '<b>' . wordwrap($errstr, 50, "\n") . '</b><br/>';
-        $html .= 'File: ' . $errfile . '<br/>Line: ' . $errline;
-        $html .= self::getTemplateEditorLink($errfile, $errline, $errcontext);
-        $html .= '<br/></span>';
-
-        return $html;
     }
 
     /**
@@ -238,88 +204,6 @@ class Errorhandler
             // return the link
             return $html;
         }
-    }
-
-    /**
-     * Yellow Screen of Death (YSOD) is used to display a Koch Framework Error
-     *
-     * @param int    $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param string $errline
-     * @param int    $errline
-     * @param string $errcontext
-     */
-    private static function yellowScreenOfDeath($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
-    {
-        $short_errorstring = self::shortenStringMaxLength($errfile, 70, '...');
-
-        // Header
-        $html = '<html><head>';
-        $html .= '<title>Koch Framework Error</title>';
-        $html .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
-        $html .= '</head>';
-
-        // Body
-        $html .= '<body>';
-
-        // Fieldset with Legend
-        $html .= '<fieldset id="top" class="error_red">';
-        $html .= '<legend>Koch Framework Error</legend>';
-
-        // Add Errorlogo
-        $html .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
-        $html .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
-
-        // Open Error Table
-        $html .= '<table width="80%"><tr><td>';
-
-        // Panel 1 - Errormessage
-        $html .= '<div id="panel1" class="panel">';
-        $html .= '<h3>Error</h3>';
-        $html .= '<p style="font-weight: bold;">' . $errstr . ' (' . $errno . ')</p>';
-        $html .= '<p>in file "<span style="font-weight: bold;">' . $errfile . '</span>"';
-        $html .= ' on line #<span style="font-weight: bold;">' . $errline.'.</span></p>';
-        $html .= '</div>';
-
-        // Panel 2 - Error Context
-        $html .= '<div id="panel2" class="panel">';
-        $html .= '<h3>Context</h3>';
-        $html .= '<p><span class="small">You are viewing the source code of the file "' . $errfile . '" around line ' . $errline . '.</span></p>';
-        $html .= self::getErrorContext($errfile, $errline, 8) . '</div>';
-
-        // Panel 3 - Debug Backtracing
-        $html .= self::getDebugBacktrace($short_errorstring);
-
-        // Panel 4 - Environmental Informations at Errortime
-        $html .= '<div id="panel4" class="panel">';
-        $html .= '<h3>Server Environment</h3>';
-        $html .= '<p><table width="95%">';
-        $html .= '<tr><td colspan="2"></td></tr>';
-        $html .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
-        $html .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
-        $html .= '<tr><td><strong>Request: </strong></td><td>' . htmlentities($_SERVER['QUERY_STRING'], ENT_QUOTES) . '</td></tr>';
-        $html .= '<tr><td><strong>PHP: </strong></td><td>' . PHP_VERSION . ' ' . PHP_EXTRA_VERSION . '</td></tr>';
-        $html .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
-        $html .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
-        $html .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
-        $html .= ' (' . CLANSUITE_VERSION_NAME . ')</td></tr>';
-        $html .= '</table></p></div>';
-
-        // Panel 5 - Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket
-        $html .= self::getBugtrackerBacklinks($errorname, $errfile, $errline, $errcontext);
-
-        // Close Error Table
-        $html .= '</table>';
-
-        // Add Footer with Support-Backlinks
-        $html .= self::getSupportBacklinks();
-
-        // Close all html elements
-        $html .= '</fieldset><br /><br />';
-        $html .= '</body></html>';
-
-        return $html;
     }
 
     /**
