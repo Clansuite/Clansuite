@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -33,7 +33,7 @@ namespace Koch\Event;
  * $eventhandler->addEventHandler('onInvalidLogin', $logger);
  * $eventhandler->addEventHandler('onLogin', $logger);
  */
-class AuthenticationLogging implements Interface
+class AuthenticationLogging implements EventInterface
 {
     protected $logger;
 
