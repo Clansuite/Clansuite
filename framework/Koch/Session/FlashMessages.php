@@ -51,7 +51,7 @@ namespace Koch\Session;
  * @package     Core
  * @subpackage  Flashmessages
  */
-class Flashmessages /* extends Koch_Session */
+class FlashMessages /* extends Koch_Session */
 {
     /**
      * @var contains $session array of $flashmessages
