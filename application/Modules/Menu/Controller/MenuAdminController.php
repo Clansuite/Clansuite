@@ -62,7 +62,7 @@ class MenuAdminController extends ModuleController
 
     public static function directoryIterator($dir)
     {
-        $iterator = new RecursiveDirectoryIterator($dir);
+        $iterator = new RecursiveDirectoryIterator($dir, \FilesystemIterator::UNIX_PATHS);
         foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {
             if (false == $file->isDir()) {
                 $fileinfo[] = array($file->getFilename(), $file->getSize());
