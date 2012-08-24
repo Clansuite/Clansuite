@@ -25,20 +25,22 @@
 
 namespace Koch\Exception\Renderer;
 
-class YellowScreenOfDeath {
+use Koch\Exception\Errorhandler;
 
+class YellowScreenOfDeath
+{
     /**
      * Renders a Koch Framework Exception.
      */
-    public static function renderException()
+    public static function renderException($message, $string, $code, $file, $line, $trace)
     {
         ob_start();
 
         /**
          * @todo add backlink to the exception codes list
          */
-        if ($this->code > 0) {
-            $code = '(#' . $this->code . ')';
+        if ($code > 0) {
+            $code = '(#' . $code . ')';
         } else {
             $code = '';
         }
@@ -47,7 +49,7 @@ class YellowScreenOfDeath {
         $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
         $html .= '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
         $html .= '<head>';
-        $html .= '<title>Clansuite Exception ' . $code . ' - ' . $this->message . '</title>';
+        $html .= '<title>Clansuite Exception ' . $code . ' - ' . $message . '</title>';
         $html .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
         $html .= '</head>';
 
@@ -75,8 +77,8 @@ class YellowScreenOfDeath {
          */
 
         $html .= '<div id="panel1" class="panel">';
-        $html .= '<h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4>';
-        $html .= '<strong>' . Errorhandler::getFileLink($this->file, $this->line) . '.</strong>';
+        $html .= '<h3>Exception '.$code.'</h3><h4>'.$message.'</h4>';
+        $html .= '<strong>' . Errorhandler::getFileLink($file, $line) . '.</strong>';
         $html .= '</div>';
 
         /**
@@ -86,7 +88,7 @@ class YellowScreenOfDeath {
          */
         if (defined('DEBUG') and DEBUG == 1) {
             // lets get the backtrace as html table
-            $html .= Errorhandler::getDebugBacktrace($this->trace);
+            $html .= Errorhandler::getDebugBacktrace($trace);
         }
 
         /**
@@ -127,10 +129,10 @@ class YellowScreenOfDeath {
          */
         $placeholders = array();
         // assign placeholders for replacements in the html
-        if (strpos($this->message, 'action_')) {
-            $placeholders['actionname'] = substr($this->message, strpos($this->message, 'action_'));
-        } elseif (strpos($this->message, 'module_')) {
-            $placeholders['classname'] = substr($this->message, strpos($this->message, 'module_'));
+        if (strpos($message, 'action_')) {
+            $placeholders['actionname'] = substr($message, strpos($message, 'action_'));
+        } elseif (strpos($message, 'module_')) {
+            $placeholders['classname'] = substr($message, strpos($message, 'module_'));
         }
 
         if (empty($_GET['mod']) == false) {
@@ -152,7 +154,7 @@ class YellowScreenOfDeath {
          * Backlink to Bugtracker with Exceptionmessage
          * @link http://trac.clansuite.com/newticket
          */
-        $html .= Errorhandler::getBugtrackerBacklinks($this->message, $this->file, $this->line, $this->trace);
+        $html .= Errorhandler::getBugtrackerBacklinks($message, $file, $line, $trace);
 
         // close all html element table
         $html   .= '</table>';
@@ -170,7 +172,7 @@ class YellowScreenOfDeath {
 
         // save session before exit - but only if this is not a pdo exception
         // that would trigger a fatal error, when trying to write to the db during session save
-        if ((bool) session_id() and false === strpos($this->message, 'SQLSTATE')) {
+        if ((bool) session_id() and false === strpos($message, 'SQLSTATE')) {
             session_write_close();
         }
 
@@ -193,9 +195,9 @@ class YellowScreenOfDeath {
      * @param int    $errline
      * @param string $errcontext
      */
-    private static function renderError($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
+    public static function renderError($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
     {
-        $short_errorstring = self::shortenStringMaxLength($errfile, 70, '...');
+        $short_errorstring = \Koch\Functions\Functions::shortenStringMaxLength($errfile, 70, '...');
 
         // Header
         $html = '<html><head>';
@@ -229,10 +231,10 @@ class YellowScreenOfDeath {
         $html .= '<div id="panel2" class="panel">';
         $html .= '<h3>Context</h3>';
         $html .= '<p><span class="small">You are viewing the source code of the file "' . $errfile . '" around line ' . $errline . '.</span></p>';
-        $html .= self::getErrorContext($errfile, $errline, 8) . '</div>';
+        $html .= Errorhandler::getErrorContext($errfile, $errline, 8) . '</div>';
 
         // Panel 3 - Debug Backtracing
-        $html .= self::getDebugBacktrace($short_errorstring);
+        $html .= Errorhandler::getDebugBacktrace($short_errorstring);
 
         // Panel 4 - Environmental Informations at Errortime
         $html .= '<div id="panel4" class="panel">';
@@ -250,18 +252,18 @@ class YellowScreenOfDeath {
         $html .= '</table></p></div>';
 
         // Panel 5 - Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket
-        $html .= self::getBugtrackerBacklinks($errorname, $errfile, $errline, $errcontext);
+        $html .= Errorhandler::getBugtrackerBacklinks($errorname, $errfile, $errline, $errcontext);
 
         // Close Error Table
         $html .= '</table>';
 
         // Add Footer with Support-Backlinks
-        $html .= self::getSupportBacklinks();
+        $html .= Errorhandler::getSupportBacklinks();
 
         // Close all html elements
         $html .= '</fieldset><br /><br />';
         $html .= '</body></html>';
 
         return $html;
-    }
+    }    
 }

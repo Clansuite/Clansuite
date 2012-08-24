@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -136,7 +136,10 @@ class Exception extends \Exception
          * 2. provide link to templatefilemanager (module:file)
          */
 
-        echo $this->yellowScreenOfDeath();
+        echo \Koch\Exception\Renderer\YellowScreenOfDeath::renderException(
+                $this->message, $this->string, $this->code,
+                $this->file, $this->line, $this->trace
+        );
     }
 
     /**
@@ -261,6 +264,7 @@ class Exception extends \Exception
     public function __toString()
     {
         $ysod = new YellowScreenOfDeath;
+
         return $ysod->renderException();
     }
 }

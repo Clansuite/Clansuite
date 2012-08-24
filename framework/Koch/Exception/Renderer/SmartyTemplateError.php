@@ -25,8 +25,8 @@
 
 namespace Koch\Exception\Renderer;
 
-class SmartyTemplateError {
-
+class SmartyTemplateError
+{
     /**
      * Smarty Error Display
      *

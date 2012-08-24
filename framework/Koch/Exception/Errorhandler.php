@@ -325,7 +325,7 @@ class Errorhandler
                 break;
             case 'string':
                 $args .= '<span>string</span> "';
-                $args .= self::shortenStringMaxLength($backtraceArgument, 64, '..."');
+                $args .= \Koch\Functions\Functions::shortenStringMaxLength($backtraceArgument, 64, '..."');
                 break;
             case 'array':
                 $args .= '<span>array</span> ('.count($backtraceArgument).')';
@@ -503,10 +503,9 @@ class Errorhandler
     }
 
     /**
-     * Returns a New Ticket URL for a GET Request
+     * Returns a link to Trac's New Ticket Dialog prefilled with error data.
      *
-     * urlencode($errorstring);
-     * urlencode($this->excetpion->getMessage(). chr(10));
+     * @returns string Link to Trac's Create New Ticket Dialog prefilled.
      */
     public static function getTracNewTicketURL($summary, $errorfile, $errorline)
     {
@@ -532,25 +531,4 @@ class Errorhandler
         return 'http://trac.clansuite.com/newticket/?' . http_build_query($array);
     }
 
-    public static function shortenStringMaxLength($string, $maxlength = 50, $append_string = null)
-    {
-        // already way too short...
-        if (mb_strlen($string) < $maxlength) {
-            return;
-        }
-
-        // ok, lets shorten
-        if (mb_strlen($string) > $maxlength) {
-            /**
-             * do not short the string, when maxlength would split a word!
-             * that would make things unreadable.
-             * so search for the next space after the requested maxlength.
-             */
-            $next_space_after_maxlength = mb_strpos($string, ' ', $maxlength);
-
-            $shortened_string = mb_substr($string, 0, $next_space_after_maxlength) . ' ...';
-
-            return $shortened_string . $append_string;
-        }
-    }
 }

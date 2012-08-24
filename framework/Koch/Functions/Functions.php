@@ -769,6 +769,28 @@ class Functions
 
         return false;
     }
+    
+    public static function shortenStringMaxLength($string, $maxlength = 50, $append_string = null)
+    {
+        // already way too short...
+        if (mb_strlen($string) < $maxlength) {
+            return;
+        }
+
+        // ok, lets shorten
+        if (mb_strlen($string) > $maxlength) {
+            /**
+             * do not short the string, when maxlength would split a word!
+             * that would make things unreadable.
+             * so search for the next space after the requested maxlength.
+             */
+            $next_space_after_maxlength = mb_strpos($string, ' ', $maxlength);
+
+            $shortened_string = mb_substr($string, 0, $next_space_after_maxlength) . ' ...';
+
+            return $shortened_string . $append_string;
+        }
+    }
 
     /**
      * Converts a UTF8-string into HTML entities
