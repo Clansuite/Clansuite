@@ -17,7 +17,7 @@ class FeedTest extends Clansuite_UnitTestCase
 
         // valid rss feed online source
         #$this->feed_url = 'http://groups.google.com/group/clansuite/feed/rss_v2_0_msgs.xml';
-        $this->feed_url = __DIR__ . '/fixtures/feed/clansuite_rss_v2_0_msgs.xml';
+        $this->feed_url = __DIR__ . '/fixtures/clansuite_rss_v2_0_msgs.xml';
     }
 
     public function tearDown()

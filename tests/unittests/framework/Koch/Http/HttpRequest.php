@@ -26,6 +26,12 @@ class HttpRequest_Test extends Clansuite_UnitTestCase
         unset($this->request);
     }
 
+    public function testMethod_contructor_unsetsGlobalVars()
+    {
+        $this->assertFalse(isset($_REQUEST));
+        $this->assertFalse(isset($GLOBALS));
+    }
+
     public function testMethod_getRequestMethod()
     {
         $this->request->setRequestMethod('BEAVIS');

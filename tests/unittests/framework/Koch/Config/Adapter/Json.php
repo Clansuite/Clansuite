@@ -13,7 +13,7 @@ class JsonTest extends Clansuite_UnitTestCase
     {
         $this->object = new Json;
 
-        if(is_file($this->getFile())) {
+        if (is_file($this->getFile())) {
             unlink($this->getFile());
         }
     }
