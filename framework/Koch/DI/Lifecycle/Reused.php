@@ -35,7 +35,7 @@ class Reused extends AbstractLifecycle
     {
         if (false === isset($this->instance)) {
             $this->instance = call_user_func_array(
-                    array(new ReflectionClass($this->class), 'newInstance'), $dependencies);
+                    array(new \ReflectionClass($this->class), 'newInstance'), $dependencies);
         }
 
         return $this->instance;

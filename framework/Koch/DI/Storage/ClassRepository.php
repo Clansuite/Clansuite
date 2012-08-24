@@ -23,9 +23,9 @@
  *
  */
 
-namespace Koch\DI;
+namespace Koch\DI\Storage;
 
-use Koch\DI\ReflectionCache;
+use Koch\DI\Storage\ReflectionCache;
 
 class ClassRepository
 {

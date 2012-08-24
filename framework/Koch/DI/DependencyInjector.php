@@ -25,11 +25,8 @@
 
 namespace Koch\DI;
 
-#use Koch\DI\AbstractLifecycle;
-#use Koch\DI\Repositories;
-
-use Koch\DI\Context;
-
+use Koch\DI\Engine\Context;
+use Koch\DI\Storage\ClassRepository;
 use Koch\DI\Exception\CannotDetermineImplementation;
 use Koch\DI\Exception\MissingDependency;
 
@@ -120,7 +117,7 @@ class DependencyInjector
 
     public function pickFactory($type, $candidates)
     {
-        throw new CannotDetermineImplementationException($type);
+        throw new CannotDetermineImplementation($type);
     }
 
     public function settersFor($class)
@@ -150,7 +147,7 @@ class DependencyInjector
             return $value;
         }
 
-        throw new MissingDependencyException($parameter->getName());
+        throw new MissingDependency($parameter->getName());
     }
 
     public function repository()

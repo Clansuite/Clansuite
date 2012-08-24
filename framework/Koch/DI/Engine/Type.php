@@ -23,15 +23,15 @@
  *
  */
 
-namespace Koch\DI\Lifecycle;
+namespace Koch\DI;
 
-use Koch\DI\AbstractLifecycle;
-
-class Factory extends AbstractLifecycle
+class Type
 {
-    public function instantiate($dependencies)
+    public $setters = array();
+
+    public function call($method)
     {
-        return call_user_func_array(
-                        array(new \ReflectionClass($this->class), 'newInstance'), $dependencies);
+        array_unshift($this->setters, $method);
     }
+
 }

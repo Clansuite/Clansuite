@@ -23,15 +23,22 @@
  *
  */
 
-namespace Koch\DI\Lifecycle;
-
-use Koch\DI\AbstractLifecycle;
-
-class Factory extends AbstractLifecycle
+class IncomingParameters
 {
-    public function instantiate($dependencies)
+    private $injector;
+
+    public function __construct($names, $injector)
     {
-        return call_user_func_array(
-                        array(new \ReflectionClass($this->class), 'newInstance'), $dependencies);
+        $this->names = $names;
+        $this->injector = $injector;
     }
+
+    public function with()
+    {
+        $values = func_get_args();
+        $this->injector->useParameters(array_combine($this->names, $values));
+
+        return $this->injector;
+    }
+
 }

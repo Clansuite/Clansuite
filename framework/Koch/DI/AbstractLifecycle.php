@@ -33,7 +33,7 @@ abstract class AbstractLifecycle
     {
         $this->class = $class;
 
-        # triggerAutoload
+        // trigger autoloading
         class_exists($class, true);
     }
 

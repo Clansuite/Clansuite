@@ -23,15 +23,30 @@
  *
  */
 
-namespace Koch\DI\Lifecycle;
+namespace Koch\DI;
 
-use Koch\DI\AbstractLifecycle;
-
-class Factory extends AbstractLifecycle
+class Variable
 {
-    public function instantiate($dependencies)
+    public $preference;
+    private $context;
+
+    public function __construct($context)
     {
-        return call_user_func_array(
-                        array(new \ReflectionClass($this->class), 'newInstance'), $dependencies);
+        $this->context = $context;
     }
+
+    public function willUse($preference)
+    {
+        $this->preference = $preference;
+
+        return $this->context;
+    }
+
+    public function useString($string)
+    {
+        $this->preference = new Value($string);
+
+        return $this->context;
+    }
+
 }
