@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -26,7 +26,7 @@
 namespace Koch\Session;
 
 /**
- * Koch FrameworkFlashmessages
+ * Koch Framework - Flashmessages
  *
  * The sending of messages is very simple for GET-Requests.
  * You can use echo or the template to output the messages.
@@ -43,7 +43,7 @@ namespace Koch\Session;
  * by storing them in the users-session.
  * Typical messages are: errors, notices, warnings and status notifications.
  * These will flash (hence the name) on the request and inform the user.
- * The message is removed from session after it’s been displayed.
+ * The message is removed from session after itï¿½s been displayed.
  *
  * Inspired by Ruby on Rails Flash Messages.
  *
@@ -61,7 +61,9 @@ class Flashmessages /* extends Koch_Session */
     /**
      * @var array types of flashmessages (whitelist)
      */
-    private static $flashmessagetypes = array('error', 'warning', 'notice', 'success', 'debug');
+    private static $flashmessagetypes = array(
+        'error', 'warning', 'notice', 'success', 'debug'
+    );
 
     /**
      * Returns all flashmessages types
@@ -123,7 +125,7 @@ class Flashmessages /* extends Koch_Session */
     }
 
     /**
-     * Render the flashmessages
+     * Renderer for Flashmessages (Viewhelper).
      *
      * @param $type string Type of flashmessage, will render only messages of this type.
      */
