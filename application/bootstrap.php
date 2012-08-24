@@ -490,8 +490,8 @@ class CMS
      */
     private static function initialize_DependencyInjection()
     {
-        include ROOT_LIBRARIES . 'phemto/phemto.php';
-        self::$injector = new \Phemto();
+        include KOCH . 'DI/DependencyInjector.php';
+        self::$injector = new \Koch\DI\DependencyInjector();
     }
 
     /**
