@@ -69,8 +69,7 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      */
     public function merge(array $newConfig)
     {
-        foreach($newConfig as $key => $value)
-        {
+        foreach ($newConfig as $key => $value) {
             $this->__set($key, $value);
         }
     }

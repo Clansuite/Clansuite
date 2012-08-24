@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -37,25 +37,9 @@ namespace Koch\Logger\Adapter;
  */
 class Devnull implements LoggerInterface
 {
-    private static $instance = null;
-
     public function __construct(Koch\Config $config)
     {
 
-    }
-
-    /**
-     * returns an instance / singleton
-     *
-     * @return an instance of the logger
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == 0) {
-            self::$instance = new Devnull();
-        }
-
-        return self::$instance;
     }
 
     /**

@@ -141,7 +141,7 @@
 
                          // Checking for correct session.auto_start configuration in php.ini
                          $required['session.auto_start']['label']      = $language['SESSION_AUTO_START'];
-                         $required['session.auto_start']['expected']   = SETTING_EXPECTED_OFF;                         
+                         $required['session.auto_start']['expected']   = SETTING_EXPECTED_OFF;
                          $required['session.auto_start']['actual']     = get_php_setting('session.auto_start', false, 'string');
                          $required['session.auto_start']['status']     = get_php_setting('session.auto_start', false, 'img');
 
@@ -283,35 +283,35 @@
                          $recommended['extension_apc']['state']      = extension_loaded('apc');
                          $recommended['extension_apc']['actual']     = $recommended['extension_apc']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_apc']['status']     = $recommended['extension_apc']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                         
+
                           //  Checking for PHP Calendar : Calendar
                          $recommended['extension_calendar']['label']      = $language['EXTENSION_CALENDAR'];
                          $recommended['extension_calendar']['expected']   = SETTING_EXPECTED_ON;
                          $recommended['extension_calendar']['state']      = extension_loaded('calendar');
                          $recommended['extension_calendar']['actual']     = $recommended['extension_calendar']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_calendar']['status']     = $recommended['extension_calendar']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                         
+
                           //  Checking for PHP Extension : cURL
                          $recommended['extension_curl']['label']      = $language['EXTENSION_CURL'];
                          $recommended['extension_curl']['expected']   = SETTING_EXPECTED_ON;
                          $recommended['extension_curl']['state']      = extension_loaded('curl');
                          $recommended['extension_curl']['actual']     = $recommended['extension_curl']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_curl']['status']     = $recommended['extension_curl']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                         
+
                          //  Checking for PHP Extension : GD (used systemwide, e.g. on captcha)
                          $recommended['extension_gd']['label']      = $language['EXTENSION_GD'];
                          $recommended['extension_gd']['expected']   = SETTING_EXPECTED_ON;
                          $recommended['extension_gd']['state']      = extension_loaded('gd');
                          $recommended['extension_gd']['actual']     = $recommended['extension_gd']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_gd']['status']     = $recommended['extension_gd']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                                                                     
+
                          //  Checking for PHP Extension : GeoIP
                          $recommended['extension_geoip']['label']      = $language['EXTENSION_GEOIP'];
                          $recommended['extension_geoip']['expected']   = SETTING_EXPECTED_ON;
                          $recommended['extension_geoip']['state']      = extension_loaded('geoip');
                          $recommended['extension_geoip']['actual']     = $recommended['extension_geoip']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_geoip']['status']     = $recommended['extension_geoip']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                         
+
                          // Checking for PHP Extension : gettext (used in Clansuite_Localization)
                          $recommended['extension_gettext']['label']    = $language['EXTENSION_GETTEXT'];
                          $recommended['extension_gettext']['expected'] = SETTING_EXPECTED_ON;
@@ -332,21 +332,21 @@
                          $recommended['extension_mbstring']['state']    = extension_loaded('mbstring');
                          $recommended['extension_mbstring']['actual']   = $recommended['extension_mbstring']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_mbstring']['status']   = $recommended['extension_mbstring']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                         
+
                          //  Checking for PHP Extension : MCrypt (used in Clansuite_Security)
                          $recommended['extension_mcrypt']['label']      = $language['EXTENSION_MCRYPT'];
                          $recommended['extension_mcrypt']['expected']   = SETTING_EXPECTED_ON;
                          $recommended['extension_mcrypt']['state']      = extension_loaded('mcrypt');
                          $recommended['extension_mcrypt']['actual']     = $recommended['extension_mcrypt']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_mcrypt']['status']     = $recommended['extension_mcrypt']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                             
+
                          //  Checking for PHP Extension : MEMCACHED? or memcache? (used in Clansuite_Memcache_Cache)
                          $recommended['extension_memcache']['label']      = $language['EXTENSION_MEMCACHE'];
                          $recommended['extension_memcache']['expected']   = SETTING_EXPECTED_ON;
                          $recommended['extension_memcache']['state']      = extension_loaded('memcache');
                          $recommended['extension_memcache']['actual']     = $recommended['extension_memcache']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_memcache']['status']     = $recommended['extension_memcache']['state'] ? SETTING_TRUE : SETTING_FALSE;
-           
+
                           //  Checking for PHP Extension : PCRE
                          $recommended['extension_pcre']['label']      = $language['EXTENSION_PCRE'];
                          $recommended['extension_pcre']['expected']   = SETTING_EXPECTED_ON;
@@ -367,18 +367,18 @@
                          $recommended['extension_skein']['state']      = extension_loaded('skein');
                          $recommended['extension_skein']['actual']     = $recommended['extension_skein']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_skein']['status']     = $recommended['extension_skein']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                         
+
                          //  Checking for PHP Extension : Suhosin
                          $recommended['extension_suhosin']['label']      = $language['EXTENSION_SUHOSIN'];
                          $recommended['extension_suhosin']['expected']   = SETTING_EXPECTED_ON;
                          $recommended['extension_suhosin']['state']      = extension_loaded('suhosin');
                          $recommended['extension_suhosin']['actual']     = $recommended['extension_suhosin']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_suhosin']['status']     = $recommended['extension_suhosin']['state'] ? SETTING_TRUE : SETTING_FALSE;
-   
+
                          //  Checking for PHP Extension : SYCK (is a YAML-Parser used in Clansuite_YAML_Config)
                          $recommended['extension_syck']['label']      = $language['EXTENSION_SYCK'];
                          $recommended['extension_syck']['expected']   = SETTING_EXPECTED_ON;
-                         $recommended['extension_syck']['state']      = extension_loaded('syck'); 
+                         $recommended['extension_syck']['state']      = extension_loaded('syck');
                          $recommended['extension_syck']['actual']     = $recommended['extension_syck']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_syck']['status']     = $recommended['extension_syck']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
@@ -388,7 +388,7 @@
                          $recommended['extension_tokenizer']['state']     = function_exists('token_get_all');
                          $recommended['extension_tokenizer']['actual']    = $recommended['extension_tokenizer']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_tokenizer']['status']    = $recommended['extension_tokenizer']['state'] ? SETTING_TRUE : SETTING_FALSE;
-                         
+
                          //  Checking for PHP Extension : XML
                          $recommended['extension_xml']['label']      = $language['EXTENSION_XML'];
                          $recommended['extension_xml']['expected']   = SETTING_EXPECTED_ON;

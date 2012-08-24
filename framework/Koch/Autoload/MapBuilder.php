@@ -73,7 +73,7 @@ class MapBuilder
 
         if (is_string($dir)) {
             $dir = new \RecursiveIteratorIterator(
-                            new \RecursiveDirectoryIterator($dir)
+                            new \RecursiveDirectoryIterator($dir, \FilesystemIterator::UNIX_PATHS)
             );
         }
 

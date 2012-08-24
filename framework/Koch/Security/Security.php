@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -70,7 +70,7 @@ final class Security
      * This functions takes a clear (password) string and prefixes a random string called
      * "salt" to it. The new combined "salt+password" string is then passed to the hashing
      * method to get an hash return value.
-     * So what’s stored in the database is Hash(password, users_salt).
+     * So whatï¿½s stored in the database is Hash(password, users_salt).
      *
      * Why salting? 2 Reasons:
      * 1) Make Dictionary Attacks (pre-generated lists of hashes) useless
@@ -128,7 +128,8 @@ final class Security
         // check, if we can use hash()
         if (function_exists('hash')) {
             return hash($hash_algorithm, $string);
-        } else {   // when hash() not available, do hashing the old way
+        } else {
+            // when hash() not available, do hashing the old way
             switch ($hash_algorithm) {
                 case 'md5':
                     return md5($string);

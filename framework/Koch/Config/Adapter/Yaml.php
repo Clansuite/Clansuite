@@ -50,7 +50,7 @@ namespace Koch\Config\Adapter;
  * @package     Core
  * @subpackage  Configuration
  */
-class YAML
+class Yaml
 {
     /**
      * Constructor

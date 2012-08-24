@@ -73,7 +73,7 @@ class Json
      *
      * @param   string  The filename
      * @param   array   The configuration array
-     * @return  mixed|int|bool Number of bytes written to file, or false on failure.
+     * @return mixed|int|bool Number of bytes written to file, or false on failure.
      */
     public function writeConfig($file, array $array)
     {

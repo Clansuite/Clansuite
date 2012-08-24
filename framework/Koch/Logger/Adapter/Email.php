@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -39,8 +39,6 @@ class Email implements LoggerInterface
 {
     private $config;
 
-    private $instance = null;
-
     private $mailer = null;
 
     public function __construct(Koch\Config $config)
@@ -51,20 +49,6 @@ class Email implements LoggerInterface
         if ($config['mail']['to_sysadmin'] == true) {
             $this->mailer = new Koch\Mail\SwiftMailer($config);
         }
-    }
-
-    /**
-     * returns an instance / singleton
-     *
-     * @return an instance of the logger
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == 0) {
-            self::$instance = new Email;
-        }
-
-        return self::$instance;
     }
 
     /**

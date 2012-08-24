@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -36,27 +36,11 @@ namespace Koch\Logger\Adapter;
  */
 class File implements LoggerInterface
 {
-    private static $instance = null;
-
     private $config;
 
     public function __construct(Koch\Config $config)
     {
         $this->config = $config;
-    }
-
-    /**
-     * returns an instance / singleton
-     *
-     * @return an instance of the logger
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == 0) {
-            self::$instance = new Koch_Logger_File();
-        }
-
-        return self::$instance;
     }
 
     /**
@@ -71,16 +55,6 @@ class File implements LoggerInterface
     {
         // append string to file
         file_put_contents($this->getErrorLogFilename(), $string, FILE_APPEND & LOCK_EX);
-    }
-
-    /**
-     * writeErrorLog is a shortcut method for writing a string to the error_log
-     *
-     * @param $string The string to append to the errorlog.
-     */
-    public function writeErrorLog($string)
-    {
-        $this->writeLog('error', $string);
     }
 
     /**
