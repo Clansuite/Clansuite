@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -344,7 +344,7 @@ class ManifestManager
 
         // lets recurse this directory
         $iterator = new \RecursiveIteratorIterator(
-                        new \RecursiveDirectoryIterator($module_lang_dir),
+                        new \RecursiveDirectoryIterator($module_lang_dir, \FilesystemIterator::UNIX_PATHS),
                             \RecursiveIteratorIterator::LEAVES_ONLY);
 
         // some leaves found (dirs and files)

@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -52,21 +52,9 @@ class Firebug implements LoggerInterface
     public function __construct()
     {
         include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
-        self::instantiateFirePHP();
-    }
+        self::$firephp = FirePHP::getInstance(true);
 
-    /**
-     * returns an instance / singleton
-     *
-     * @return an instance of the logger
-     */
-    public static function instantiateFirePHP()
-    {
-        if (self::$firephp == 0) {
-            self::$firephp = FirePHP::getInstance(true);
-        }
-
-        return self::$firephp;
+        return self:$firephp;
     }
 
     /**

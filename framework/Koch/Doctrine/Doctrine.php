@@ -222,7 +222,7 @@ class Doctrine
         self::$em = $em;
 
         // done with config, remove to safe memory
-        unset($clansuite_config, $em, $event);
+        unset($clansuite_config, $em, $event, $cache, $classLoader, $config);
 
         return self::$em;
     }

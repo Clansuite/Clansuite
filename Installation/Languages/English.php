@@ -165,7 +165,6 @@ class English implements \ArrayAccess
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Name of Website';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Email Adress of Website';
-        $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Encryption';
         $this->language['STEP5_CONFIG_GMTOFFSET'] = 'Timezone';
 
         $this->language['STEP5_SITENAME_TOOLTIP'] = 'Please give your new website a name. The name will show up as the title in the browser.';
@@ -188,6 +187,11 @@ class English implements \ArrayAccess
         $this->language['STEP6_ADMIN_EMAIL']    = 'Email Adress';
 
         $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'FEHLER -  Admin Account not created.';
+
+        $this->language['STEP6_ADMIN_NAME_TOOLTIP']     = 'Please set the Name for the adminstrator account. Later, you might use this for logging in.';
+        $this->language['STEP6_ADMIN_PASSWORD_TOOLTIP'] = 'Please set the password for the administrator account.';
+        $this->language['STEP6_ADMIN_LANGUAGE_TOOLTIP'] = 'Please select the languge of the account.';
+        $this->language['STEP6_ADMIN_EMAIL_TOOLTIP']    = 'Please enter the e-mail of the administrator account. Later, you might use this for logging in.';
 
         // STEP 7 - Finish
         $this->language['STEP7_FINISH'] = 'Step [7] Finish';

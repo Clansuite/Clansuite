@@ -186,7 +186,6 @@ class Dispatcher
         }
 
         // get the Name
-        $eventName = '';
         $eventName = $event->getName();
 
         if (isset($this->eventhandlers[$eventName]) === false) {

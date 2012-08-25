@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -46,7 +46,7 @@ class Json
             throw new \Koch\Exception\Exception( _('JSON Config File not existing or not readable.') );
         }
 
-        // read file
+        // read file to get the json content
         $json_content = file_get_contents($filename);
 
         // transform JSON to PHP Array
@@ -55,7 +55,7 @@ class Json
         // fetch any error
         $json_error_type = json_last_error();
 
-        // handle the error
+        // handle the error, if any
         if (($json === null) or ($json_error_type != JSON_ERROR_NONE)) {
             $json_error_message = self::getJsonErrorMessage($json_error_type);
 
@@ -73,6 +73,7 @@ class Json
      *
      * @param   string  The filename
      * @param   array   The configuration array
+     * @return mixed|int|bool Number of bytes written to file, or false on failure.
      */
     public function writeConfig($file, array $array)
     {
@@ -80,7 +81,7 @@ class Json
         $json_content = json_encode($array);
 
         // write to json to file
-        file_put_contents($file, $json_content);
+        return file_put_contents($file, $json_content);
     }
 
     /**

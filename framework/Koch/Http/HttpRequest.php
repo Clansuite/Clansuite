@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -76,17 +76,17 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      * 4) Clear Array, Filter and Assign the $_REQUEST Global to it
      * 5) Detect REST Tunneling through POST and set request_method accordingly
      */
-    public function __construct($ids_on = false)
+    public function __construct(/*$ids_on = false*/)
     {
         // 1) Drop $_REQUEST and $GLOBALS. Usage is forbidden!
         unset($_REQUEST);
         unset($GLOBALS);
 
-        if ($ids_on === true) {
+        /*if ($ids_on === true) {
             // 2) Run Intrusion Detection System (on GET, POST, COOKIES)
-            $doorKeeper = new Koch_DoorKeeper;
+            $doorKeeper = new Koch\Security\DoorKeeper;
             $doorKeeper->runIDS();
-        }
+        }*/
 
         /**
          *  3) Additional Security Checks
@@ -247,24 +247,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         $arrayname = mb_strtoupper($arrayname);
 
-        if ( ($arrayname == 'GET' and isset($this->get_parameters[$name])) or isset($this->get_parameters[$name])) {
-            if ($where === false) {
-                return true;
-            } else {
-                return 'get';
-            }
-        } elseif ( ($arrayname == 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name])) {
-            if ($where === false) {
-                return true;
-            } else {
-                return 'post';
-            }
-        } elseif ( ($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name])) or isset($this->cookie_parameters[$name])) {
-            if ($where === false) {
-                return true;
-            } else {
-                return 'cookie';
-            }
+        if ( ($arrayname === 'GET' and isset($this->get_parameters[$name])) or isset($this->get_parameters[$name])) {
+            return ($where === false) ? true : 'get';
+        } elseif ( ($arrayname === 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name])) {
+            return ($where === false) ? true : 'post';
+        } elseif ( ($arrayname === 'COOKIE' and isset($this->cookie_parameters[$name])) or isset($this->cookie_parameters[$name])) {
+            return ($where === false) ? true : 'cookie';
         } else {
             return false;
         }
@@ -564,11 +552,10 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
      */
     public static function getUserAgent()
     {
-        $ua = $_SERVER['HTTP_USER_AGENT'];
-        $ua = strip_tags($ua);
-        $ua = filter_var($ua, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+        $ua = strip_tags($_SERVER['HTTP_USER_AGENT']);
+        $ua_filtered = filter_var($ua, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
 
-        return $ua;
+        return $ua_filtered;
     }
 
     /**
@@ -579,12 +566,11 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     public static function getReferer()
     {
         if ($_SERVER['HTTP_REFERER'] !== null) {
-            $refr = $_SERVER['HTTP_REFERER'];
-            $refr = strip_tags($refr);
-            $refr = filter_var($refr, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+            $refr = strip_tags($_SERVER['HTTP_REFERER']);
+            $refr_filtered = filter_var($refr, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
         }
 
-        return $refr;
+        return $refr_filtered;
     }
 
     /**
@@ -684,21 +670,21 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         if (self::$request_method !== null) {
             return self::$request_method;
-        } else {
-            $method = $_SERVER['REQUEST_METHOD'];
-
-            // get method from "http method override" header
-            if ($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] !== null) {
-                $method = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
-            }
-
-            // add support for HEAD requests, which are GET requests
-            if ($method == 'HEAD') {
-                $method = 'GET';
-            }
-
-            return $method;
         }
+
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        // get method from "http method override" header
+        if ($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] !== null) {
+            $method = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
+        }
+
+        // add support for HEAD requests, which are GET requests
+        if ($method == 'HEAD') {
+            $method = 'GET';
+        }
+
+        return $method;
     }
 
     /**

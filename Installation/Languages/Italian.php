@@ -165,7 +165,6 @@ class Italian implements \ArrayAccess
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Nome Sito Web';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Indirizzo Email del Sito Web';
-        $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Criptaggio';
         $this->language['STEP5_CONFIG_GMTOFFSET'] = 'Timezone';
 
         $this->language['STEP5_SITENAME_TOOLTIP'] = 'Dare prego un nome al tuo nuovo Sito Web. Il nome sarà mostrato come titolo nel browser.';
@@ -188,6 +187,11 @@ class Italian implements \ArrayAccess
         $this->language['STEP6_ADMIN_EMAIL']    = 'Indirizzo Email';
 
         $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'ERRORE -  Account di Admin non creato.';
+
+        $this->language['STEP6_ADMIN_NAME_TOOLTIP']     = '';
+        $this->language['STEP6_ADMIN_PASSWORD_TOOLTIP'] = '';
+        $this->language['STEP6_ADMIN_LANGUAGE_TOOLTIP'] = '';
+        $this->language['STEP6_ADMIN_EMAIL_TOOLTIP']    = '';
 
         // STEP 7 - Finish
         $this->language['STEP7_FINISH'] = 'Passo [7] Fine';

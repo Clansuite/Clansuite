@@ -166,7 +166,6 @@ class German implements \ArrayAccess
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Name der Website';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Systemmail';
-        $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Verschlüsselung';
         $this->language['STEP5_CONFIG_GMTOFFSET'] = 'Zeitzone';
 
         $this->language['STEP5_SITENAME_TOOLTIP'] = 'Bitte geben Sie ihrer Webseite einen Namen. Er wird in der Titelzeile des Browsers erscheinen.';

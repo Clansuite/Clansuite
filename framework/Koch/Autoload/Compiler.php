@@ -29,7 +29,6 @@ namespace Koch\Autoload;
  * Koch Framework - Class for building a framework monolith.
  *
  * The class compiler assembles all framework files into one monolithic file.
-
  * 1) Includes
  * This is a performance strategy called "Include Tuning".
  * Files are merged, for a lower number of includes.

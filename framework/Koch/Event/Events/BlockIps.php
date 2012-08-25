@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -34,7 +34,7 @@ namespace Koch\Event;
  * if ($event->isCancelled()) { }
  *
  */
-class BlockIps implements Interface
+class BlockIps implements EventInterface
 {
     protected $blockedIps;
 

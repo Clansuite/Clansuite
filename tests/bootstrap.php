@@ -2,7 +2,7 @@
 
 /**
  * Clansuite - just an eSports CMS
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  * http://www.clansuite.com/
  *
  * This file is part of "Clansuite - just an eSports CMS".
@@ -44,7 +44,13 @@ ini_set('html_errors', false);
 ini_set('log_errors', false);
 
 // Tests take some time and memory
-set_time_limit(0);
+/**
+ * The test for safe_mode is needed in order to avoid the message:
+ * "Warning: set_time_limit() has been disabled for security reasons".
+ * SAFE_MODE has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 5.4.0.
+ * This check is added to get tests without errors on crappy, outdated hosters.
+ */
+if (ini_get('safe_mode') == false) { set_time_limit(0); }
 ini_set('memory_limit', '256M');
 
 // PHP Version Check
@@ -93,7 +99,7 @@ include dirname(__DIR__) . '/application/bootstrap.php';
  * define_ConstantsAndPaths().
  */
 define('REWRITE_ENGINE_ON', 1);
-define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); // /../tests (trunk)
+define('TESTSUBJECT_DIR', dirname(__DIR__) . '/');
 
 /**
  * We might need some debug utils,

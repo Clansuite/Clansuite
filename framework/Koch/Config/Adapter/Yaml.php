@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -50,7 +50,7 @@ namespace Koch\Config\Adapter;
  * @package     Core
  * @subpackage  Configuration
  */
-class YAML
+class Yaml
 {
     /**
      * Constructor
