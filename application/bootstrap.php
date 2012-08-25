@@ -186,12 +186,12 @@ class CMS
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE', ROOT . 'cache/');
+        define('ROOT_CACHE', ROOT . 'Cache/');
 
         /**
          * @var Root path of the config directory (with trailing slash)
          */
-        define('ROOT_CONFIG', ROOT . 'configuration/');
+        define('ROOT_CONFIG', ROOT . 'Configuration/');
 
         /**
          * @var Root path of the framework directory (with trailing slash)
@@ -216,7 +216,7 @@ class CMS
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS', ROOT . 'logs/');
+        define('ROOT_LOGS', ROOT . 'Logs/');
 
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
@@ -226,7 +226,7 @@ class CMS
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . 'themes/');
+        define('ROOT_THEMES', ROOT . 'Themes/');
         define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend/');
         define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend/');
         define('ROOT_THEMES_CORE', ROOT_THEMES . 'core/');
@@ -234,7 +234,7 @@ class CMS
         /**
          * @var Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD', ROOT . 'uploads/');
+        define('ROOT_UPLOAD', ROOT . 'Uploads/');
 
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
