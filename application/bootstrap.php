@@ -517,7 +517,7 @@ class CMS
         }
 
         if ($clansuite_cfg_cached === false) {
-            self::$config = \Koch\Config\Adapter\Ini::readConfig(ROOT . 'configuration/clansuite.php');
+            self::$config = \Koch\Config\Adapter\Ini::readConfig(ROOT . 'Configuration/clansuite.php');
             if (APC === true) {
                 apc_add('application.ini', self::$config);
             }
@@ -541,7 +541,7 @@ class CMS
                 Clansuite_Maintenance::show(self::$config);
             } else {
                 self::$config['maintenance']['maintenance'] = 0;
-                \Koch\Config\Ini::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
+                \Koch\Config\Ini::writeConfig(ROOT . 'Configuration/clansuite.config.php', self::$config);
                 // redirect to remove the token from url
                 header('Location: ' . SERVER_URL);
             }
