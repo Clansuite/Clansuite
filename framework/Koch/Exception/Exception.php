@@ -135,7 +135,7 @@ class Exception extends \Exception
          * 1. catch Smarty "Unable to load template file" Errors
          * 2. provide link to templatefilemanager (module:file)
          */
-        include __DIR__ . '/Renderer/YellowScreenOfDeath.php';
+        include_once __DIR__ . '/Renderer/YellowScreenOfDeath.php';
         echo \Koch\Exception\Renderer\YellowScreenOfDeath::renderException(
                 $this->message, $this->string, $this->code,
                 $this->file, $this->line, $this->trace
