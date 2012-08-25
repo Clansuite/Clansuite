@@ -83,8 +83,7 @@ class Loader
      */
     public static function loadCoreEvents()
     {
-        $events = array();
-        $events = include ROOT . 'configuration/events.php';
+        $events = include ROOT . 'Configuration/events.php';
 
         self::loadEventHandlers($events);
     }
@@ -98,8 +97,7 @@ class Loader
      */
     public static function loadModuleEvents($modulename)
     {
-        $events = array();
-        $events = include ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.events.php';
+        $events = include ROOT_MOD . $modulename . '/'. $modulename . '.events.php';
 
         self::loadEventHandlers($events);
     }
