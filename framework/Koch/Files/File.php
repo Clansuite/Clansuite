@@ -193,7 +193,7 @@ class File
         }
 
         // ensure destination directory is writeable
-        if ( false == is_writeable($destination)) {
+        if ( false == is_writable($destination)) {
             throw new \Koch\Exception\Exception('Cannot write to destination directory ' . $destination);
         }
 
@@ -204,7 +204,7 @@ class File
                 throw new \Koch\Exception\Exception('File ' . $destination . ' already exists.');
             }
 
-            if ( false == is_writeable($destination)) {
+            if ( false == is_writable($destination)) {
                 throw new \Koch\Exception\Exception('Cannot overwrite ' . $destination);
             }
         }

@@ -77,10 +77,10 @@ class German implements \ArrayAccess
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
         $this->language['EXTENSION_PDO_MYSQL'] = 'Erweiterung: "pdo_mysql"';
-        $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Nutzbar: Temporäres Verzeichnis';
-        $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Beschreibbar: "/application"';
-        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Beschreibbar: "/application/cache"';
-        $this->language['IS_WRITEABLE_UPLOADS'] = 'Beschreibbar: "/application/uploads"';
+        $this->language['IS_WRITABLE_TEMP_DIR'] = 'Nutzbar: Temporäres Verzeichnis';
+        $this->language['IS_WRITABLE_CLANSUITE_ROOT'] = 'Beschreibbar: "/application"';
+        $this->language['IS_WRITABLE_CACHE_DIR'] = 'Beschreibbar: "/application/cache"';
+        $this->language['IS_WRITABLE_UPLOADS'] = 'Beschreibbar: "/application/uploads"';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Lesbar: Config-Vorlagedatei';
         $this->language['DATE_TIMEZONE'] = 'Zeitzone eingestellt "date.timezone"';
 

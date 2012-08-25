@@ -244,7 +244,7 @@ class ModulemanagerAdminController extends ModuleController
         /**
          * Folder's writeable?
          */
-        if ( !is_writeable( ROOT_MOD ) ) {
+        if ( !is_writable( ROOT_MOD ) ) {
             $err['mod_folder_not_writeable'] = 1;
         }
 
@@ -269,7 +269,7 @@ class ModulemanagerAdminController extends ModuleController
             $mod = unserialize(base64_decode($mod));
 
             // Check if the Modules folder is writeable
-            if ( !is_writeable( ROOT_MOD ) ) {
+            if ( !is_writable( ROOT_MOD ) ) {
                 $err['mod_folder_not_writeable'] = 1;
             }
 
