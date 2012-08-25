@@ -354,7 +354,7 @@ class CMS
      */
     private static function initialize_UTF8()
     {
-        \Koch\Localization\UTF8::initialize();
+        \Koch\Localization\Utf8::initialize();
     }
 
     /**
