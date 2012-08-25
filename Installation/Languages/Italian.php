@@ -165,7 +165,6 @@ class Italian implements \ArrayAccess
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Nome Sito Web';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Indirizzo Email del Sito Web';
-        $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Criptaggio';
         $this->language['STEP5_CONFIG_GMTOFFSET'] = 'Timezone';
 
         $this->language['STEP5_SITENAME_TOOLTIP'] = 'Dare prego un nome al tuo nuovo Sito Web. Il nome sarà mostrato come titolo nel browser.';

@@ -40,8 +40,6 @@ class Step5 extends \Clansuite\Installation\Application\Page
         $values['pagetitle']  = isset($_SESSION['template']['pagetitle']) ? $_SESSION['template']['pagetitle'] : 'Team Clansuite';
         $values['from']       = isset($_SESSION['email']['from']) ? $_SESSION['email']['from'] : 'webmaster@website.com';
         $values['gmtoffset']  = isset($_SESSION['language']['gmtoffset'])  ? $_SESSION['language']['gmtoffset']  : '3600';
-        #$values['encryption'] = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
-        $values['encryption'] = 'sha1';
 
         return $values;
     }

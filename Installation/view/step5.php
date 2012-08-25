@@ -31,30 +31,7 @@
                                    name="config[email][from]"
                                    title="<?php echo $language['STEP5_SYSTEM_EMAIL_TOOLTIP']; ?>"
                                    value="<?php echo $values['from']; ?>" />
-                        </li>
-                        <?php /* Disabled Encryption and hardcoded it to SHA1.
-                        <li>
-                            <label class="formularleft" for="encrytion"><?php echo $language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']; ?></label>
-                            <select class="formularright" id="encryption" name="encryption"
-                                    title="<?php echo $language['STEP5_ACCOUNT_CRYPT_TOOLTIP']; ?>">
-                                <?php // SHA1 ?>
-                                <option value="sha1"<?php echo ($values['encryption']=='sha1') ? ' selected="selected"' : ''; ?>>SHA1</option>
-                                <?php // HASH Options ?>
-                                <?php
-                                if (extension_loaded('hash')) {
-                                    $hash_algos = hash_algos();
-                                    foreach ($hash_algos as $hash_algo) {
-                                        echo "<option value='$hash_algo'";
-                                        if ($values['encryption'] == $hash_algo) {
-                                            echo ' selected="selected"';
-                                        }
-                                        echo ">$hash_algo</option>";
-                                    }
-                                }
-                                ?>
-                            </select>
-                        </li>
-                        */ ?>
+                        </li>                       
                         <li>
                             <?php // timezone selection ?>
                             <label class="formularleft" for="timezone"><?php echo $language['STEP5_CONFIG_GMTOFFSET']; ?></label>

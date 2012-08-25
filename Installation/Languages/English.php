@@ -165,7 +165,6 @@ class English implements \ArrayAccess
 
         $this->language['STEP5_CONFIG_SITENAME'] = 'Name of Website';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Email Adress of Website';
-        $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Encryption';
         $this->language['STEP5_CONFIG_GMTOFFSET'] = 'Timezone';
 
         $this->language['STEP5_SITENAME_TOOLTIP'] = 'Please give your new website a name. The name will show up as the title in the browser.';

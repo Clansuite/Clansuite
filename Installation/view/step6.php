@@ -2,8 +2,7 @@
 ?>
 <script src="javascript/webtoolkit.sha1.js" type="text/javascript"></script>
 <script>
-    public function hashLoginPassword(theForm)
-    {
+    function hashLoginPassword(theForm) {
         if ((theForm.admin_password.value != '')) {
           theForm.admin_password.value = SHA1(theForm.admin_password.value);
 
