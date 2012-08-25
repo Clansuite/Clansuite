@@ -101,8 +101,8 @@ class CMS
          * Check if install.php is still available..
          * This means Clansuite is installed, but without any security steps performed.
          */
-        if (defined('CS_LIVE') and CS_LIVE == true and is_file('installation/install.php') === true) {
-            header('Location: installation/check_security.php');
+        if (defined('CS_LIVE') and CS_LIVE == true and is_file('Installation/install.php') === true) {
+            header('Location: Installation/check_security.php');
         }
 
         /**
@@ -120,8 +120,8 @@ class CMS
          * Check if clansuite config file is found, else we are
          * not installed at all and redirect to installation page.
          */
-        if (is_file('application/configuration/clansuite.php') === false) {
-            header('Location: installation/index.php');
+        if (is_file('application/Configuration/clansuite.php') === false) {
+            header('Location: Installation/index.php');
         }
     }
 
