@@ -176,7 +176,7 @@
                          // Permissions Check: write on uploads folder
                          $required['is_writable_uploads']['label']    = $language['IS_WRITABLE_UPLOADS'];
                          $required['is_writable_uploads']['expected'] = 'w';
-                         $required['is_writable_uploads']['state']    = is_writable(ROOT_APP . 'uploads');
+                         $required['is_writable_uploads']['state']    = is_writable(ROOT_APP . 'Uploads');
                          $required['is_writable_uploads']['actual']   = $required['is_writable_uploads']['state'] ? 'w' : '---';
                          $required['is_writable_uploads']['status']   = $required['is_writable_uploads']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
