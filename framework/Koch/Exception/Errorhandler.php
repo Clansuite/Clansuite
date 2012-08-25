@@ -536,13 +536,9 @@ class Errorhandler
     }
 
     public static function catchFatalErrorsShutdownHandler()
-    {
+    {   
         $last_error = error_get_last();
-
-        // catch fatal errors
-        if ($last_error['type'] === E_ERROR) {
-          self::errorhandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
-        }
+        self::errorhandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
     }
 
 }
