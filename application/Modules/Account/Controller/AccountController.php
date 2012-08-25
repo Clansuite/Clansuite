@@ -607,7 +607,7 @@ class AccountController extends ModuleController
         $body  = sprintf($body, $user_id, $code, $nick);
 
         // Send mail
-        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true ) {
+        if ( $mailer->send($to_address, $from_address, $subject, $body) == true ) {
             return true;
         } else {
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
@@ -639,7 +639,7 @@ class AccountController extends ModuleController
         $body  = sprintf($body, $user_id, $code, $nick);
 
         // Send mail
-        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true ) {
+        if ( $mailer->send($to_address, $from_address, $subject, $body) == true ) {
             return true;
         } else {
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );

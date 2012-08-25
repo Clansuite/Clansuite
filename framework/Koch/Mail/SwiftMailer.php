@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -104,7 +104,7 @@ class SwiftMailer
      * @param  string  $body
      * @return boolean true|false
      */
-    public function sendmail($to_address, $from_address, $subject, $body)
+    public function send($to_address, $from_address, $subject, $body)
     {
         if ($this->mailer->isConnected()) {
             // sends a simple email via the instantiated mailer
