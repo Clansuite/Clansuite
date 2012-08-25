@@ -274,26 +274,29 @@ class CMS
     public static function initialize_ConstantsAndPaths()
     {
         // ensure that apc is loaded as extension
-        define('APC', (bool) extension_loaded('apc'));
+        $apc = (bool) extension_loaded('apc');
 
         // try to load constants from APC
-        if (APC === true) {
+        if ($apc === true) {
             // constants retrieved from APC
             apc_load_constants('CLANSUITE_CONSTANTS', true);
 
-            return;
+            // lets' check if got constants now, if not, its the first run
+            if(defined('NL') == false) {
+                self::define_ConstantsAndPaths();
+            }
         }
 
         // if apc is off or
         // if apc is on, but apc_load_constants did not retrieve any constants yet (first run)
         // then define constants
-        if (APC === false or defined('NL') == false) {
+        if ($apc === false or defined('NL') == false) {
             self::define_ConstantsAndPaths();
 
             /**
              * Store Constants to APC
              */
-            if (APC === true) {
+            if ($apc === true) {
                 // catch user-defined constants as array
                 $constantsarray = get_defined_constants(true);
 
@@ -399,7 +402,7 @@ class CMS
              * helper methods for profiling, tracing and enhancing the debug displays.
              * @see clansuite_debug::printR() and clansuite_debug::firebug()
              */
-            include KOCH . 'debug/debug.php';
+            include KOCH . 'Debug/Debug.php';
 
             /**
              * @var XDebug and set it's value via the config setting ['error']['xdebug']
@@ -408,7 +411,7 @@ class CMS
 
             // If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if (XDEBUG == true) {
-                include KOCH . 'debug/xdebug.php';
+                include KOCH . 'Debug/Xdebug.php';
                 Clansuite_XDebug::start_xdebug();
             }
         } else { // application is in live/production mode. errors are not shown, but logged to file!
@@ -489,8 +492,7 @@ class CMS
      *  ============================================
      */
     private static function initialize_DependencyInjection()
-    {
-        include KOCH . 'DI/DependencyInjector.php';
+    {                                  
         self::$injector = new \Koch\DI\DependencyInjector();
     }
 
