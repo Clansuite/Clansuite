@@ -221,7 +221,7 @@ class YellowScreenOfDeath
 
         // Panel 1 - Errormessage
         $html .= '<div id="panel1" class="panel">';
-        $html .= '<h3>Error</h3>';
+        $html .= '<h3>Error - '.$errorname.'</h3> ';
         $html .= '<p style="font-weight: bold;">' . $errstr . ' (' . $errno . ')</p>';
         $html .= '<p>in file "<span style="font-weight: bold;">' . $errfile . '</span>"';
         $html .= ' on line #<span style="font-weight: bold;">' . $errline.'.</span></p>';
