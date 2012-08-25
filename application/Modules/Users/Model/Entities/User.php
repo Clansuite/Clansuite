@@ -39,12 +39,12 @@ class User
     protected $nick;
 
     /**
-     * @Column(type="string", length=40)
+     * @Column(type="string", length=128)
      */
     protected $passwordhash;
 
     /**
-     * @Column(type="string", length=40)
+     * @Column(type="string", length=128)
      */
     protected $new_passwordhash;
 
