@@ -13,7 +13,7 @@
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_TAKEACTION']; ?></p>
                 <p><?php if (get_cfg_var('cfg_file_path')):
                          echo $language['STEP2_SYSTEMSETTINGS_PHPINI']; ?>
-                         "<strong><?php echo get_cfg_var('cfg_file_path') ?></strong>".</p>
+                         <br />"<strong><?php echo get_cfg_var('cfg_file_path') ?></strong>".</p>
                    <?php endif; ?>
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>
                          <?php
