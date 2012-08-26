@@ -56,7 +56,7 @@ class Config extends AbstractConfig
     {
         // if empty get from Clansuite_CMS
         if (empty($this->config)) {
-            $this->config = \Clansuite\CMS::getClansuiteConfig();
+            $this->config = \Clansuite\Application::getClansuiteConfig();
         }
     }
 

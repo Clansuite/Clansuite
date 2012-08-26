@@ -228,7 +228,7 @@ class Session implements SessionInterface, \ArrayAccess
     public function session_read( $session_id )
     {
         try {
-            $em = \Clansuite\CMS::getEntityManager();
+            $em = \Clansuite\Application::getEntityManager();
             $query = $em->createQuery('SELECT s.session_data, s.session_starttime
                                        FROM \Entities\Session s
                                        WHERE s.session_name = :name
@@ -274,7 +274,7 @@ class Session implements SessionInterface, \ArrayAccess
         /**
          * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
          */
-        $em = \Clansuite\CMS::getEntityManager();
+        $em = \Clansuite\Application::getEntityManager();
 
         $query = $em->createQuery(
             'UPDATE \Entities\Session s
@@ -323,7 +323,7 @@ class Session implements SessionInterface, \ArrayAccess
         /**
          * Delete session from DB
          */
-        $em = \Clansuite\CMS::getEntityManager();
+        $em = \Clansuite\Application::getEntityManager();
 
         $query = $em->createQuery(
             'DELETE \Entities\Session s
@@ -369,7 +369,7 @@ class Session implements SessionInterface, \ArrayAccess
         $sessionlifetime = $maxlifetime * 60;
         $expire_time = time() + $sessionlifetime;
 
-        $em = \Clansuite\CMS::getEntityManager();
+        $em = \Clansuite\Application::getEntityManager();
 
         $query = $em->createQuery(
             'DELETE \Entities\Session s

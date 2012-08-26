@@ -81,7 +81,7 @@ abstract class Controller
     {
         $this->request = $request;
         $this->response = $response;
-        $this->doctrine_em = \Clansuite\CMS::getEntityManager();
+        $this->doctrine_em = \Clansuite\Application::getEntityManager();
     }
 
     /**
@@ -255,7 +255,7 @@ abstract class Controller
      */
     public static function getInjector()
     {
-        return \Clansuite\CMS::getInjector();
+        return \Clansuite\Application::getInjector();
     }
 
     /**
