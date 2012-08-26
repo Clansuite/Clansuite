@@ -193,11 +193,9 @@ class LoaderTest extends Clansuite_UnitTestCase
     public function testMethod_addToMapping()
     {
         if (extension_loaded('apc')) {
-            Loader::$use_apc = true;
             // test return value true, means it's written
             $this->assertTrue(Loader::addToMapping(__DIR__ . '/fixtures/notloaded/addToMapping.php', 'addToMappingClass'));
         } else {
-            Loader::$use_apc = false;
             // test return value true, means it's written
             $this->assertTrue(Loader::addToMapping(__DIR__ . '/fixtures/notloaded/addToMapping.php', 'addToMappingClass'));
         }
