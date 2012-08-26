@@ -23,14 +23,14 @@
  *
  */
 
-namespace Koch\Datagrid\Columnrenderer;
+namespace Koch\Datagrid\ColumnRenderer;
 
 /**
  * Datagrid Column Renderer for Edit Button Cells
  *
  * Renders an edit button.
  */
-class Editbutton extends ColumnRenderer implements ColumnRendererInterface
+class EditButton extends ColumnRenderer implements ColumnRendererInterface
 {
     /**
     * Render the value(s) of a cell

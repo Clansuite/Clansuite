@@ -30,7 +30,7 @@ namespace Koch\View\Helper;
  *
  * Each node (leaf-object) has to provide a method...
  */
-interface ViewNodeInterface
+interface Layout
 {
     /**
      * Get the contents of this component in string form

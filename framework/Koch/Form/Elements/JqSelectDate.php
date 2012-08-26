@@ -31,7 +31,7 @@ use Koch\Form\FormElementInterface;
 /**
  *Renders jquery Datepicker for date selection, you know?
  */
-class JQSelectDate extends Formelement implements FormElementInterface
+class JqSelectDate extends Formelement implements FormElementInterface
 {
     /**
      * Flag Variable for the output of the datepicker as an icon (if true)

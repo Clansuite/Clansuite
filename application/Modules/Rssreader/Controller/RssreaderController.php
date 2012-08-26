@@ -35,7 +35,7 @@ use Clansuite\Application\Core\Mvc\ModuleController;
  * @package     Modules
  * @subpackage  Rssreader
  */
-class Rssreader extends ModuleController
+class RssreaderController extends ModuleController
 {
     public function widget_rssreader()
     {

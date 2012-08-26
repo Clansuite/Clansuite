@@ -40,7 +40,7 @@ namespace Koch\Localization\Gettext;
  * @package     Core
  * @subpackage  Gettext
  */
-class POFile
+class Po
 {
     /**
      * Reads a Gettext .po file

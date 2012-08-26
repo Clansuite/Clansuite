@@ -40,7 +40,7 @@ namespace Koch\Localization\Gettext;
  * @package     Core
  * @subpackage  Gettext
  */
-class MOFile
+class Mo
 {
     /**
      * Writes a GNU gettext style machine object (mo-file).

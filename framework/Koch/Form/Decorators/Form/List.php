@@ -27,7 +27,7 @@ namespace Koch\Form\Decorators\Form;
 
 use Koch\Form\Decorator;
 
-class Liste extends Decorator
+class List extends Decorator
 {
     /**
      * Name of this decorator

@@ -37,7 +37,7 @@ use Koch\View\AbstractRenderer;
  * @package     View
  * @subpackage  Renderer
  */
-class CSV extends AbstractRenderer
+class Csv extends AbstractRenderer
 {
     private $data = array();
     private $header = array();

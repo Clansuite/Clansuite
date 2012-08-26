@@ -38,7 +38,7 @@ use Koch\View\AbstractRenderer;
  * @package     View
  * @subpackage  Renderer
  */
-class PDF extends AbstractRenderer
+class Pdf extends AbstractRenderer
 {
     public function initializeEngine()
     {

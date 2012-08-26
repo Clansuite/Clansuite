@@ -25,7 +25,7 @@
 
 namespace Koch\Cron;
 
-class Dump implements Cronjob
+class dump implements Cronjob
 {
     public function execute()
     {

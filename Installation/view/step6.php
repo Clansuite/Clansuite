@@ -75,13 +75,13 @@
                                    if ($file == 'German') { $language_shorthand = 'de_DE'; }
                                    if ($file == 'English') { $language_shorthand = 'en_EN'; }
                                    // it_IT doesn not exists for the application, yet
-                                   //if ($file == 'Italian') { $language_shorthand = 'it_IT'; } 
+                                   //if ($file == 'Italian') { $language_shorthand = 'it_IT'; }
 
                                     if ($values['admin_language'] == $language_shorthand) { echo ' selected="selected"'; }
                                     echo '>';
                                     echo $file;
                                     echo "</option>\n";
-                                } }                               
+                                } }
                             ?>
                             </select>
                         </li>

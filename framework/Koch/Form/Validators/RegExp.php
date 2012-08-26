@@ -27,7 +27,7 @@ namespace Koch\Form\Validators;
 
 use Koch\Form\Validator;
 
-class Regexp extends Validator
+class RegExp extends Validator
 {
     /**
      * The regular expression to be used on the value.

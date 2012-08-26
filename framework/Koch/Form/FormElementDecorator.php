@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-interface DecoratorInterface
+interface FormElementDecorator
 {
     public function decorateWith($form_decorator);
     public function getName();

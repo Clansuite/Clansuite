@@ -30,7 +30,7 @@ namespace Koch\Formelement;
  *
  * @see http://markitup.jaysalvat.com/home/ Official Website of markItUp!
  */
-class Wysiwygmarkitup extends Textarea implements FormElementInterface
+class WysiwygMarkitup extends Textarea implements FormElementInterface
 {
     public function __construct()
     {

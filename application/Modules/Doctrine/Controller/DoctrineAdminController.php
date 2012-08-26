@@ -58,7 +58,7 @@ use Clansuite\Application\Core\Mvc\ModuleController;
  * @package     Doctrine
  * @subpackage  Administration
  */
-class Doctrine_Admin extends ModuleController
+class DoctrineAdminController extends ModuleController
 {
     /**
      * @var array Doctrine Paths to models, yaml, sql, fixtures, migration data

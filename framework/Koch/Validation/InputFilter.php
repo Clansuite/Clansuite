@@ -36,7 +36,7 @@ namespace Koch\Validation;
  * @link http://www.php.net/manual/de/ref.filter.php
  *
  */
-class Inputfilter
+class InputFilter
 {
     /**
      * Modifies a given String

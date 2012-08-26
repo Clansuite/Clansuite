@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Checkboxlist extends Checkbox implements FormElementInterface
+class CheckboxList extends Checkbox implements FormElementInterface
 {
     public function getOptions()
     {

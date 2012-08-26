@@ -25,7 +25,7 @@
 
 namespace Koch\Formelement;
 
-class Selectyesno extends Select implements FormElementInterface
+class SelectYesNo extends Select implements FormElementInterface
 {
     public function getYesNo()
     {

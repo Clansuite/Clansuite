@@ -36,7 +36,7 @@
 
 namespace Clansuite;
 
-class CMS
+class bootstrap
 {
     /**
      * @var object Dependency Injector Phemto
@@ -279,7 +279,7 @@ class CMS
         // try to load constants from APC
         if (APC === true) {
             // constants retrieved from APC
-            apc_load_constants('CLANSUITE_CONSTANTS', true);           
+            apc_load_constants('CLANSUITE_CONSTANTS', true);
         }
 
         // if apc is off or
@@ -489,7 +489,7 @@ class CMS
      *  ============================================
      */
     private static function initialize_DependencyInjection()
-    {                                  
+    {
         self::$injector = new \Koch\DI\DependencyInjector();
     }
 

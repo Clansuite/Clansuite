@@ -30,7 +30,7 @@ use Koch\Form\Validator;
 /**
  * Validates the value of an integer with minvalue given.
  */
-class Minvalue extends Validator
+class MinValue extends Validator
 {
     public $minvalue;
 

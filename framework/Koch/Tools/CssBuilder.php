@@ -45,7 +45,7 @@ namespace Koch\Tools;
  * @package     Tools
  * @subpackage  CssBuilder
  */
-class Cssbuilder
+class CssBuilder
 {
     /**
      * Builder Version

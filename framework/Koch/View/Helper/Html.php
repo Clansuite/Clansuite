@@ -34,7 +34,7 @@ namespace Koch\View\Helper;
  * @package     View
  * @subpackage  HTML
  */
-class HTML /* extends DOMDocument */
+class Html /* extends DOMDocument */
 {
     /**
      * Renders title tag.

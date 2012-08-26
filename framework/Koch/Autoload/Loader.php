@@ -309,7 +309,7 @@ class Loader
     public static function writeAutoloadingMapFile($array)
     {
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
-        
+
         if (is_writable($mapfile) === false) {
             self::readAutoloadingMapFile();
         }

@@ -35,7 +35,7 @@ namespace Koch\Module;
  * @package     Core
  * @subpackage  Module
  */
-class ControllerDecorator
+class Decorator
 {
     // the moduleController to decorate
     protected $_moduleController;
