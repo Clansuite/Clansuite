@@ -28,6 +28,6 @@
  +----------------------------------------------------------------------------------+
  */
 
-require 'application/CMS.php';
+require 'Application/CMS.php';
 
-\Clansuite\application\CMS::run();
+\Clansuite\Application\CMS::run();

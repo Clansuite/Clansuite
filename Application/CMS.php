@@ -120,7 +120,7 @@ class CMS
          * Check if clansuite config file is found, else we are
          * not installed at all and redirect to installation page.
          */
-        if (is_file('application/Configuration/clansuite.php') === false) {
+        if (is_file('Application/Configuration/clansuite.php') === false) {
             header('Location: Installation/index.php');
         }
     }
@@ -226,7 +226,7 @@ class CMS
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . 'Themes/');
+        define('ROOT_THEMES', ROOT . 'themes/');
         define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend/');
         define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend/');
         define('ROOT_THEMES_CORE', ROOT_THEMES . 'core/');
@@ -254,9 +254,9 @@ class CMS
          * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
         if (dirname($_SERVER['PHP_SELF']) === '\\') {
-            define('WWW_ROOT', SERVER_URL . '/application/');
+            define('WWW_ROOT', SERVER_URL . '/Application/');
         } else {
-            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/application/');
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/Application/');
         }
 
         /**
@@ -340,7 +340,7 @@ class CMS
      */
     private static function initialize_Version()
     {
-        include ROOT . 'version.php';
+        include __DIR__ . 'Version.php';
 
         Version::setVersionInformation();
         Version::setVersionInformationToCaches();

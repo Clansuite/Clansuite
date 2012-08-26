@@ -37,21 +37,21 @@ define('DEBUG', false);
 
 // Define: DS; INSTALLATION_ROOT; ROOT; HTML Break; Carriage Return
 define('DS', DIRECTORY_SEPARATOR);
-define('INSTALLATION_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
-define('ROOT', dirname(INSTALLATION_ROOT) . DIRECTORY_SEPARATOR);
-define('ROOT_APP', ROOT . 'application/');
+define('INSTALLATION_ROOT', __DIR__ . DS);
+define('ROOT', dirname(INSTALLATION_ROOT) . DS);
+define('ROOT_APP', ROOT . 'Application/');
 define('ROOT_CACHE', ROOT_APP . 'Cache/');
 define('KOCH', ROOT . 'framework/Koch/');
 define('PROTOCOL', 'http://');
 define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
-define('WWW_ROOT', SERVER_URL . '/application/');
-define('WWW_ROOT_THEMES_CORE', WWW_ROOT . 'Themes/core/');
+define('WWW_ROOT', SERVER_URL . '/Application/');
+define('WWW_ROOT_THEMES_CORE', WWW_ROOT . 'themes/core/');
 define('NL', '<br />' . PHP_EOL);
 define('CR', "\n");
 
 // load Clansuite Version constants
-require ROOT . 'application/version.php';
-\Clansuite\Version::setVersionInformation();
+require ROOT_APP . 'Version.php';
+\Clansuite\Application\Version::setVersionInformation();
 
 // Error Reporting Level
 error_reporting(E_ALL | E_STRICT);
