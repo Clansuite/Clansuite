@@ -23,7 +23,7 @@
  *
  */
 
-   namespace Koch\Localization\Adapter\Gettext\Extractors;
+namespace Koch\Localization\Adapter\Gettext\Extractors;
 
 /**
  * Gettext_Extractor_PHP
