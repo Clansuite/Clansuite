@@ -1,11 +1,10 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Koch Framework Configuration File : 
-; I:\wpnxm\www\Clansuite\application\configuration\clansuite.php
-; 
-; This file was generated on 25-08-2012 16:23
 ;
-
+; Koch Framework Configuration File :
+; I:\wpnxm\www\Clansuite\application\configuration\clansuite.php
+;
+; This file was generated on 26-08-2012 13:58
+;
 
 ;----------------------------------------
 ; database
@@ -15,7 +14,7 @@ host = "localhost"
 driver = "pdo_mysql"
 user = "root"
 password = 123
-dbname = "clansuite124"
+dbname = "clansuitetest"
 prefix = "cs_"
 charset = "UTF8"
 

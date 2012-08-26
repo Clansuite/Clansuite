@@ -2,7 +2,7 @@
 
 /**
  * Clansuite - just an eSports CMS
- * Jens-André Koch © 2005 - onwards
+ * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
  * http://www.clansuite.com/
  *
  *        _\|/_
@@ -28,6 +28,6 @@
  +----------------------------------------------------------------------------------+
  */
 
-require 'application/bootstrap.php';
+require 'application/application.php';
 
-\Clansuite\CMS::run();
+\Clansuite\Application::run();

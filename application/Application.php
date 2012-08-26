@@ -36,7 +36,7 @@
 
 namespace Clansuite;
 
-class bootstrap
+class Application
 {
     /**
      * @var object Dependency Injector Phemto
