@@ -265,5 +265,5 @@ class YellowScreenOfDeath
         $html .= '</body></html>';
 
         return $html;
-    }    
+    }
 }

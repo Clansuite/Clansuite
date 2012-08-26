@@ -43,7 +43,7 @@ namespace Koch\Session;
  * by storing them in the users-session.
  * Typical messages are: errors, notices, warnings and status notifications.
  * These will flash (hence the name) on the request and inform the user.
- * The message is removed from session after it�s been displayed.
+ * The message is removed from session after itï¿½s been displayed.
  *
  * Inspired by Ruby on Rails Flash Messages.
  *

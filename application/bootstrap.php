@@ -2,7 +2,7 @@
 
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andr� Koch � 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     *        _\|/_

@@ -18,7 +18,7 @@
  * @author TGKnIght - Modified to allow for unique ids and store in $_SESSION scope
  */
 /**
- *   modified for clansuite.com by Jens-André Koch ( 06-Feb-2007 )
+ *   modified for clansuite.com by Jens-AndrÃ© Koch ( 06-Feb-2007 )
  *
  *   line 29+30: imagepath hardcoded
  *   and

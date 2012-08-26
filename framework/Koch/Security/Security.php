@@ -70,7 +70,7 @@ final class Security
      * This functions takes a clear (password) string and prefixes a random string called
      * "salt" to it. The new combined "salt+password" string is then passed to the hashing
      * method to get an hash return value.
-     * So what�s stored in the database is Hash(password, users_salt).
+     * So whatï¿½s stored in the database is Hash(password, users_salt).
      *
      * Why salting? 2 Reasons:
      * 1) Make Dictionary Attacks (pre-generated lists of hashes) useless

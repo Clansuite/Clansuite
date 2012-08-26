@@ -31,7 +31,7 @@ namespace Koch\Mvc;
  * The class is used to gzip_encode the response (php output).
  *
  * @author      Sandy McArthur, Jr. <Leknor@Leknor.com>
- * @author      Jens-Andr� Koch <vain@clansuite.com>
+ * @author      Jens-Andrï¿½ Koch <vain@clansuite.com>
  * @copyright   Copyright 2001 (c) McArthur. Copyright 2009 (c) Koch.
  * @license     GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE"
  *
@@ -62,7 +62,7 @@ namespace Koch\Mvc;
  *
  * Requirments: PHP5 & PHP Extensions: zlib, crc
  *
- * Note by Jens-Andr� Koch:
+ * Note by Jens-Andrï¿½ Koch:
  *  TYPO3 4.5 is now using "ob_gzhandler" for compression.
  *  That is suboptimal because using zlib.output_compression is preferred over ob_gzhandler().
  *
@@ -257,7 +257,7 @@ class ResponseEncode
         header('X-Content-Encoded-By: Koch_ResponseEncode v' . self::$version);
 
         /**
-         * Note by Jens-Andr� Koch:
+         * Note by Jens-Andrï¿½ Koch:
          *
          * The Content Compression Info Comment was originally added by Kasper Skaarhoj for Typo3.
          * This had the problem of wasting resources by using gzcompress two times.

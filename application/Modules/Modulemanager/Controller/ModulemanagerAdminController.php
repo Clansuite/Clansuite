@@ -2,7 +2,7 @@
 
 /**
  * Clansuite - just an eSports CMS
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  * http://www.clansuite.com/
  *
  * This file is part of "Clansuite - just an eSports CMS".
@@ -584,8 +584,8 @@ class ModulemanagerAdminController extends ModuleController
      * -----------------------------------------------------------------------------------------------------------
      * action_admin_installmodulefirsttime
      * -----------------------------------------------------------------------------------------------------------
-     * WARNING: Nur verwenden f�r die erstmalige Erfassung aller Module
-     * hierzu m�ssen die Tabellen: cs_modules, cs_acl_actions, cs_acl_rules geleert werden
+     * WARNING: Nur verwenden fï¿½r die erstmalige Erfassung aller Module
+     * hierzu mï¿½ssen die Tabellen: cs_modules, cs_acl_actions, cs_acl_rules geleert werden
      */
     public function action_admin_firsttimeinstall()
     {

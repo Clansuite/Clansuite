@@ -113,7 +113,7 @@ class Errorhandler
         // Handling the ErrorType via Switch
         switch ($errorname) {
             // This one is handled by register_shutdown_function + catchFatalErrorsShutdownHandler
-            case 'E_ERROR': 
+            case 'E_ERROR':
                 $errorname .= ' [PHP Fatal Error]';
                 break;
             // What are the errortypes that can be handled by a user-defined errorhandler?
@@ -536,7 +536,7 @@ class Errorhandler
     }
 
     public static function catchFatalErrorsShutdownHandler()
-    {   
+    {
         $last_error = error_get_last();
         self::errorhandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
     }

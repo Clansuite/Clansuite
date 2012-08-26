@@ -50,8 +50,8 @@
  *
  * include'Smarty.class.php');
  * $smarty = new Smarty;
- * $line0=array("name"=>"Régis", "phone"=> "00000000", "age" =>"63");
- * $line1=array("name"=>"Léopoldine", "phone"=> "987654312", "age" =>"27");
+ * $line0=array("name"=>"RÃ©gis", "phone"=> "00000000", "age" =>"63");
+ * $line1=array("name"=>"LÃ©opoldine", "phone"=> "987654312", "age" =>"27");
  * $smarty->assign('data',array($line0,$line1));
  * $smarty->display('index.tpl');
  *
@@ -69,12 +69,12 @@
  * <td class='table_col' id='table_col_age'>age</td>
  * </tr>
  * <tr class='table_row_even' id='table_row_0'>
- * <td class='table_col' id='table_col_name'>Régis</td>
+ * <td class='table_col' id='table_col_name'>RÃ©gis</td>
  * <td class='table_col' id='table_col_phone'>00000000</td>
  * <td class='table_col' id='table_col_age'>63</td>
  * </tr>
  * <tr class='table_row_odd' id='table_row_1'>
- * <td class='table_col' id='table_col_name'>Léopoldine</td>
+ * <td class='table_col' id='table_col_name'>LÃ©opoldine</td>
  * <td class='table_col' id='table_col_phone'>987654312</td>
  * <td class='table_col' id='table_col_age'>27</td>
  * </tr>

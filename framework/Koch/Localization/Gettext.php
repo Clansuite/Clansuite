@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -426,7 +426,7 @@ class Tool
         $output[] = '// Gettext Portable Object Translation File.';
         $output[] = '#';
         $output[] = '// Koch Framework';
-        $output[] = '// Copyright © Jens-André Koch 2005 - onwards.';
+        $output[] = '// Copyright Â© Jens-AndrÃ© Koch 2005 - onwards.';
         $output[] = '// The file is distributed under the GNU/GPL v2 or any later version.';
         $output[] = '#';
         $output[] = 'msgid ""';

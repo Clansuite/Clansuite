@@ -8,7 +8,7 @@
  * Date:     4-aug-2003
  * Version:  1.0
  * Author:   Bart Bons <bartbons at debster.nl>
- * Changes:  Reynier Pérez Mira <reynierpm at gmail dot com>
+ * Changes:  Reynier PÃ©rez Mira <reynierpm at gmail dot com>
  * Purpose:  output an PNG image with Alpha Transparency
  *           If browser is IE then we use a special trick with the AlphaImageLoader FILTER style
  *                     For all other browser we don't do anything special because they display PNG's correctly
