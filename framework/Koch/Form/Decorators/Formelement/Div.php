@@ -25,7 +25,7 @@
 
 namespace Koch\Form\Decorators\Formelement;
 
-use Koch\Formelement\Decorator;
+use Koch\Form\FormelementDecorator;
 
 /**
  * Formelement_Decorator_Div
@@ -36,7 +36,7 @@ use Koch\Formelement\Decorator;
  * @package Koch_Form
  * @subpackage Koch_Form_Decorator
  */
-class Div extends Decorator
+class Div extends FormelementDecorator
 {
     /**
      * Name of this decorator
