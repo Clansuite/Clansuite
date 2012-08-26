@@ -340,7 +340,7 @@ class CMS
      */
     private static function initialize_Version()
     {
-        include __DIR__ . 'Version.php';
+        include __DIR__ . '/Version.php';
 
         Version::setVersionInformation();
         Version::setVersionInformationToCaches();
