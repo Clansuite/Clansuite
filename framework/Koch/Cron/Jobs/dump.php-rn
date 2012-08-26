@@ -23,9 +23,9 @@
  *
  */
 
-namespace Koch\Cron;
+namespace Koch\Cron\Jobs;
 
-class dump implements Cronjob
+class Dump implements Cronjob
 {
     public function execute()
     {
