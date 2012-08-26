@@ -19,6 +19,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->notName('*.jpg')
     ->notName('*.png')
     ->notName('*.exe')
+    ->notName('step6.php') // this file contains javascript which is also modified by fixer (BUG!)
     ->notName('*classmap.php')
     ->notName('code-coverage-settings.dat') // SimpleTest CodeCoverage files
     ->notName('coverage.sqlite')
