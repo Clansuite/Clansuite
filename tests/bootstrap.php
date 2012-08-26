@@ -85,7 +85,7 @@ if (empty($_SERVER['SERVER_NAME'])) {
 }
 
 //  acquire clansuite path constants
-include dirname(__DIR__) . '/application/bootstrap.php';
+include dirname(__DIR__) . '/application/Application.php';
 \Clansuite\CMS::define_ConstantsAndPaths();
 \Clansuite\CMS::initialize_Loader();
 
