@@ -59,22 +59,29 @@
                             <?php
                                 echo '<option value="">- Select Language -</option>';
                                 foreach (new DirectoryIterator('./Languages/') as $file) {
-                                   // get each file not starting with dots ('.','..')
-                                   // or containing ".install.php"
-                                   if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename())) {
-                                      echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
-                                      $file = substr($file->getFilename(), 0, -4);
-
-                                      // filename conversion to shorthand
-                                      if ($file == 'german') { $language_shorthand = 'de_DE'; }
-                                      if ($file == 'english') { $language_shorthand = 'en_EN'; }
-
-                                      if ($values['admin_language'] == $language_shorthand) { echo ' selected="selected"'; }
-                                      echo '>';
-                                      echo $file;
-                                      echo "</option>\n";
+                                // get each php file in Languages folder, exclude stuff starting with dots
+                                if ((!$file->isDot()) && preg_match("/.php$/",$file->getFilename())) {
+                                   // get the filename without extension
+                                   $file = substr($file->getFilename(), 0, -4);
+                                   // build image name
+                                   $flag_image = strtolower($file).'.png';
+                                   // if an image exists, add it as inline css style
+                                   if (is_file('./Languages/' . $flag_image)) {
+                                     echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $flag_image .'); background-position:5px 100%; background-repeat: no-repeat;"';
+                                   } else {
+                                     echo '<option';
                                    }
-                                }
+                                   // filename conversion to shorthand
+                                   if ($file == 'German') { $language_shorthand = 'de_DE'; }
+                                   if ($file == 'English') { $language_shorthand = 'en_EN'; }
+                                   // it_IT doesn not exists for the application, yet
+                                   //if ($file == 'Italian') { $language_shorthand = 'it_IT'; } 
+
+                                    if ($values['admin_language'] == $language_shorthand) { echo ' selected="selected"'; }
+                                    echo '>';
+                                    echo $file;
+                                    echo "</option>\n";
+                                } }                               
                             ?>
                             </select>
                         </li>
