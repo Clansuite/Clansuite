@@ -31,7 +31,7 @@
                                    name="config[email][from]"
                                    title="<?php echo $language['STEP5_SYSTEM_EMAIL_TOOLTIP']; ?>"
                                    value="<?php echo $values['from']; ?>" />
-                        </li>                       
+                        </li>
                         <li>
                             <?php // timezone selection ?>
                             <label class="formularleft" for="timezone"><?php echo $language['STEP5_CONFIG_GMTOFFSET']; ?></label>

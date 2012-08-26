@@ -769,7 +769,7 @@ class Functions
 
         return false;
     }
-    
+
     public static function shortenStringMaxLength($string, $maxlength = 50, $append_string = null)
     {
         // already way too short...

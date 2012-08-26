@@ -4,7 +4,7 @@
 ;
 
 [modulemanager_info]
-author="Florian Wolf, Jens-André Koch"
+author="Florian Wolf, Jens-AndrÃ© Koch"
 license="GPL v2 or any later"
 link="http://www.clansuite.com"
 name = Modulemanager

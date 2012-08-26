@@ -485,7 +485,7 @@ class CKEditor
             $realPath = dirname($_SERVER['SCRIPT_FILENAME']);
         } else {
             /**
-             * realpath — Returns canonicalized absolute pathname
+             * realpath â Returns canonicalized absolute pathname
              */
             $realPath = realpath( './' ) ;
         }

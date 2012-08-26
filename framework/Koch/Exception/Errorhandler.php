@@ -63,7 +63,7 @@ class Errorhandler
      * @param string  $errline    contains the line of error.
      * @param string  $errcontext (optional) array with variables from error context.
      */
-    public static function errorhandler( $errno, $errstr, $errfile, $errline, $errcontext )
+    public static function errorhandler( $errno, $errstr, $errfile, $errline, $errcontext = null )
     {
         /**
          * do just return, if the error is suppressed,
@@ -112,6 +112,10 @@ class Errorhandler
 
         // Handling the ErrorType via Switch
         switch ($errorname) {
+            // This one is handled by register_shutdown_function + catchFatalErrorsShutdownHandler
+            case 'E_ERROR':
+                $errorname .= ' [PHP Fatal Error]';
+                break;
             // What are the errortypes that can be handled by a user-defined errorhandler?
             case 'E_WARNING':
                 $errorname .= ' [PHP Warning]';
@@ -529,6 +533,12 @@ class Errorhandler
         );
 
         return 'http://trac.clansuite.com/newticket/?' . http_build_query($array);
+    }
+
+    public static function catchFatalErrorsShutdownHandler()
+    {
+        $last_error = error_get_last();
+        self::errorhandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
     }
 
 }

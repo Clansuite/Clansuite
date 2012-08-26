@@ -151,7 +151,7 @@ class Koch_Captcha
         $this->captcha = imagecreatetruecolor($this->image_width, $this->image_height);
 
         // switch between captcha types
-        switch (1)// rand(1,2)) {
+        switch (1) { // rand(1,2))
             case 1: // captcha with some effects
                 // create backgroundcolor from random RGB colors
                 $background_color = imagecolorallocate($this->captcha, rand(100, 255), rand(100, 255), rand(0, 255));

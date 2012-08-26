@@ -39,7 +39,7 @@ namespace Koch\Tools;
  *
  * @package Trac-RPC
  * @author	Brian Greenacre
- * @author  Jens-André Koch <jakoch@web.de>
+ * @author  Jens-AndrÃ© Koch <jakoch@web.de>
  * @license GNU/GPL v2+
  * @version	1.1
  *

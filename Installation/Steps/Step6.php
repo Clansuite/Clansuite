@@ -83,7 +83,7 @@ class Step6 extends \Clansuite\Installation\Application\Page
 
         // generate salted hash
         $hashArray = \Koch\Security\Security::build_salted_hash(
-            $_POST['admin_password'], 
+            $_POST['admin_password'],
             'sha512' // the hash algorithm for admin account (hardcoded)
         );
 

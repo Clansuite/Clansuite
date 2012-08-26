@@ -2,7 +2,7 @@
 
 /**
  * Clansuite - just an eSports CMS
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  * http://www.clansuite.com/
  *
  * This file is part of "Clansuite - just an eSports CMS".
@@ -607,7 +607,7 @@ class AccountController extends ModuleController
         $body  = sprintf($body, $user_id, $code, $nick);
 
         // Send mail
-        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true ) {
+        if ( $mailer->send($to_address, $from_address, $subject, $body) == true ) {
             return true;
         } else {
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
@@ -639,7 +639,7 @@ class AccountController extends ModuleController
         $body  = sprintf($body, $user_id, $code, $nick);
 
         // Send mail
-        if ( $mailer->sendmail($to_address, $from_address, $subject, $body) == true ) {
+        if ( $mailer->send($to_address, $from_address, $subject, $body) == true ) {
             return true;
         } else {
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );

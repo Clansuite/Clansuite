@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -34,7 +34,7 @@ $cron = new Cronjobs;
  *
  * This is a fork of Kai Blankenhorn's pseudo-cron v1.3
  * (c) 2003,2004 Kai Blankenhorn, www.bitfolge.de/pseudocron, <kaib@bitfolge.de>
- * (c) 2008,2009 Jens-André Koch, www.jens-andre-koch.de, <jakoch@web.de>
+ * (c) 2008,2009 Jens-AndrÃ© Koch, www.jens-andre-koch.de, <jakoch@web.de>
  *
  * Usually regular tasks like backup up the site's database are run using cron
  * jobs. With cron jobs, you can exactly plan when a certain command is to be

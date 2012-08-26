@@ -4,7 +4,7 @@
 ;
 
 [teamspeakviewer_info]
-author="Jens-André Koch"
+author="Jens-AndrÃ© Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = teamspeakviewer

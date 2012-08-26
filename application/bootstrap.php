@@ -2,7 +2,7 @@
 
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andr� Koch � 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     *        _\|/_
@@ -101,8 +101,8 @@ class CMS
          * Check if install.php is still available..
          * This means Clansuite is installed, but without any security steps performed.
          */
-        if (defined('CS_LIVE') and CS_LIVE == true and is_file('installation/install.php') === true) {
-            header('Location: installation/check_security.php');
+        if (defined('CS_LIVE') and CS_LIVE == true and is_file('Installation/install.php') === true) {
+            header('Location: Installation/check_security.php');
         }
 
         /**
@@ -120,8 +120,8 @@ class CMS
          * Check if clansuite config file is found, else we are
          * not installed at all and redirect to installation page.
          */
-        if (is_file('application/configuration/clansuite.php') === false) {
-            header('Location: installation/index.php');
+        if (is_file('application/Configuration/clansuite.php') === false) {
+            header('Location: Installation/index.php');
         }
     }
 
@@ -186,12 +186,12 @@ class CMS
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE', ROOT . 'cache/');
+        define('ROOT_CACHE', ROOT . 'Cache/');
 
         /**
          * @var Root path of the config directory (with trailing slash)
          */
-        define('ROOT_CONFIG', ROOT . 'configuration/');
+        define('ROOT_CONFIG', ROOT . 'Configuration/');
 
         /**
          * @var Root path of the framework directory (with trailing slash)
@@ -216,7 +216,7 @@ class CMS
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS', ROOT . 'logs/');
+        define('ROOT_LOGS', ROOT . 'Logs/');
 
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
@@ -226,7 +226,7 @@ class CMS
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . 'themes/');
+        define('ROOT_THEMES', ROOT . 'Themes/');
         define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend/');
         define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend/');
         define('ROOT_THEMES_CORE', ROOT_THEMES . 'core/');
@@ -234,7 +234,7 @@ class CMS
         /**
          * @var Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD', ROOT . 'uploads/');
+        define('ROOT_UPLOAD', ROOT . 'Uploads/');
 
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
@@ -279,9 +279,7 @@ class CMS
         // try to load constants from APC
         if (APC === true) {
             // constants retrieved from APC
-            apc_load_constants('CLANSUITE_CONSTANTS', true);
-
-            return;
+            apc_load_constants('CLANSUITE_CONSTANTS', true);           
         }
 
         // if apc is off or
@@ -291,14 +289,15 @@ class CMS
             self::define_ConstantsAndPaths();
 
             /**
-             * Store Constants to APC
+             * Store Constants to APC (on first run)
              */
             if (APC === true) {
                 // catch user-defined constants as array
                 $constantsarray = get_defined_constants(true);
 
-                // remove starttime constant
+                // remove unwanted constants before inserting into cache
                 unset($constantsarray['user']['STARTTIME']);
+                unset($constantsarray['user']['APC']);
 
                 apc_define_constants('CLANSUITE_CONSTANTS', $constantsarray['user'], false);
 
@@ -399,7 +398,7 @@ class CMS
              * helper methods for profiling, tracing and enhancing the debug displays.
              * @see clansuite_debug::printR() and clansuite_debug::firebug()
              */
-            include KOCH . 'debug/debug.php';
+            include KOCH . 'Debug/Debug.php';
 
             /**
              * @var XDebug and set it's value via the config setting ['error']['xdebug']
@@ -408,7 +407,7 @@ class CMS
 
             // If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if (XDEBUG == true) {
-                include KOCH . 'debug/xdebug.php';
+                include KOCH . 'Debug/Xdebug.php';
                 Clansuite_XDebug::start_xdebug();
             }
         } else { // application is in live/production mode. errors are not shown, but logged to file!
@@ -481,6 +480,7 @@ class CMS
     {
         set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
         set_error_handler('\Koch\Exception\Errorhandler::errorhandler');
+        register_shutdown_function('\Koch\Exception\Errorhandler::catchFatalErrorsShutdownHandler');
     }
 
     /**
@@ -489,8 +489,7 @@ class CMS
      *  ============================================
      */
     private static function initialize_DependencyInjection()
-    {
-        include KOCH . 'DI/DependencyInjector.php';
+    {                                  
         self::$injector = new \Koch\DI\DependencyInjector();
     }
 
@@ -515,7 +514,7 @@ class CMS
         }
 
         if ($clansuite_cfg_cached === false) {
-            self::$config = \Koch\Config\Adapter\Ini::readConfig(ROOT . 'configuration/clansuite.php');
+            self::$config = \Koch\Config\Adapter\Ini::readConfig(ROOT . 'Configuration/clansuite.php');
             if (APC === true) {
                 apc_add('application.ini', self::$config);
             }
@@ -539,7 +538,7 @@ class CMS
                 Clansuite_Maintenance::show(self::$config);
             } else {
                 self::$config['maintenance']['maintenance'] = 0;
-                \Koch\Config\Ini::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
+                \Koch\Config\Ini::writeConfig(ROOT . 'Configuration/clansuite.config.php', self::$config);
                 // redirect to remove the token from url
                 header('Location: ' . SERVER_URL);
             }

@@ -158,7 +158,7 @@ class NewsRepository extends EntityRepository
      */
     public function fetchLatestNews($numberNews)
     {
-        // 12.2.4.1. Partial Object Syntax¶, partial c.{name, image}
+        // 12.2.4.1. Partial Object SyntaxÂ¶, partial c.{name, image}
         // @link http://www.doctrine-project.org/docs/orm/2.0/en/reference/dql-doctrine-query-language.html
         $query = $this->_em->createQuery('
                            SELECT n,

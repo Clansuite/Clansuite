@@ -4,7 +4,7 @@
 ;
 
 [cronjobs_info]
-author="Daniel Winterfeldt, Jens-André Koch"
+author="Daniel Winterfeldt, Jens-AndrÃ© Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = cronjobs

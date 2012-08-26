@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -46,8 +46,8 @@ class Selectlocale extends Select implements FormElementInterface
             /**
              * Key is the locale name.
              *
-             * a locale name has the form ‘ll_CC’.
-             * Where ‘ll’ is an ISO 639 two-letter language code, and ‘CC’ is an ISO 3166 two-letter country code.
+             * a locale name has the form Â‘ll_CCÂ’.
+             * Where Â‘llÂ’ is an ISO 639 two-letter language code, and Â‘CCÂ’ is an ISO 3166 two-letter country code.
              * Both codes are separated by a underscore.
              *
              * For example, for German in Germany, ll is de, and CC is DE. The locale is "de_DE".

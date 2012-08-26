@@ -29,6 +29,14 @@ function checkDirectory() {
         fi
 }
 
-rootpath=$1
+
+if [ "$1" = "" ]; then
+  usage
+  exit 1
+else
+  rootpath=$1
+fi
 
 checkDirectory ${rootpath}
+
+exit 0

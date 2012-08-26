@@ -13,7 +13,7 @@
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_TAKEACTION']; ?></p>
                 <p><?php if (get_cfg_var('cfg_file_path')):
                          echo $language['STEP2_SYSTEMSETTINGS_PHPINI']; ?>
-                         "<strong><?php echo get_cfg_var('cfg_file_path') ?></strong>".</p>
+                         <br />"<strong><?php echo get_cfg_var('cfg_file_path') ?></strong>".</p>
                    <?php endif; ?>
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>
                          <?php
@@ -153,30 +153,30 @@
                          $required['extension_pdo_mysql']['status']   = $required['extension_pdo_mysql']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
                          // Permissions Check: write on systems temporary directory
-                         $required['is_writable_temp_dir']['label']    = $language['IS_WRITEABLE_TEMP_DIR'];
+                         $required['is_writable_temp_dir']['label']    = $language['IS_WRITABLE_TEMP_DIR'];
                          $required['is_writable_temp_dir']['expected'] = 'w';
                          $required['is_writable_temp_dir']['state']    = check_temporary_dir();
                          $required['is_writable_temp_dir']['actual']   = $required['is_writable_temp_dir']['state'] ? 'w' : '---';
                          $required['is_writable_temp_dir']['status']   = $required['is_writable_temp_dir']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
                          // Permissions Check: write on \application root
-                         $required['is_writable_clansuite_root']['label']    = $language['IS_WRITEABLE_CLANSUITE_ROOT'];
+                         $required['is_writable_clansuite_root']['label']    = $language['IS_WRITABLE_CLANSUITE_ROOT'];
                          $required['is_writable_clansuite_root']['expected'] = 'w';
-                         $required['is_writable_clansuite_root']['state']    = is_writeable(ROOT_APP);
+                         $required['is_writable_clansuite_root']['state']    = is_writable(ROOT_APP);
                          $required['is_writable_clansuite_root']['actual']   = $required['is_writable_clansuite_root']['state'] ? 'w' : '---';
                          $required['is_writable_clansuite_root']['status']   = $required['is_writable_clansuite_root']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
                          // Permissions Check: write on \application\cache
-                         $required['is_writable_clansuite_cache']['label']    = $language['IS_WRITEABLE_CACHE_DIR'];
+                         $required['is_writable_clansuite_cache']['label']    = $language['IS_WRITABLE_CACHE_DIR'];
                          $required['is_writable_clansuite_cache']['expected'] = 'w';
-                         $required['is_writable_clansuite_cache']['state']    = is_writeable(ROOT_CACHE);
+                         $required['is_writable_clansuite_cache']['state']    = is_writable(ROOT_CACHE);
                          $required['is_writable_clansuite_cache']['actual']   = $required['is_writable_clansuite_cache']['state'] ? 'w' : '---';
                          $required['is_writable_clansuite_cache']['status']   = $required['is_writable_clansuite_cache']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
                          // Permissions Check: write on uploads folder
-                         $required['is_writable_uploads']['label']    = $language['IS_WRITEABLE_UPLOADS'];
+                         $required['is_writable_uploads']['label']    = $language['IS_WRITABLE_UPLOADS'];
                          $required['is_writable_uploads']['expected'] = 'w';
-                         $required['is_writable_uploads']['state']    = is_writeable(ROOT_APP . 'uploads');
+                         $required['is_writable_uploads']['state']    = is_writable(ROOT_APP . 'Uploads');
                          $required['is_writable_uploads']['actual']   = $required['is_writable_uploads']['state'] ? 'w' : '---';
                          $required['is_writable_uploads']['status']   = $required['is_writable_uploads']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
