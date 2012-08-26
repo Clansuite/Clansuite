@@ -274,34 +274,30 @@ class CMS
     public static function initialize_ConstantsAndPaths()
     {
         // ensure that apc is loaded as extension
-        $apc = (bool) extension_loaded('apc');
+        define('APC', (bool) extension_loaded('apc'));
 
         // try to load constants from APC
-        if ($apc === true) {
+        if (APC === true) {
             // constants retrieved from APC
-            apc_load_constants('CLANSUITE_CONSTANTS', true);
-
-            // lets' check if got constants now, if not, its the first run
-            if(defined('NL') == false) {
-                self::define_ConstantsAndPaths();
-            }
+            apc_load_constants('CLANSUITE_CONSTANTS', true);           
         }
 
         // if apc is off or
         // if apc is on, but apc_load_constants did not retrieve any constants yet (first run)
         // then define constants
-        if ($apc === false or defined('NL') == false) {
+        if (APC === false or defined('NL') == false) {
             self::define_ConstantsAndPaths();
 
             /**
-             * Store Constants to APC
+             * Store Constants to APC (on first run)
              */
-            if ($apc === true) {
+            if (APC === true) {
                 // catch user-defined constants as array
                 $constantsarray = get_defined_constants(true);
 
-                // remove starttime constant
+                // remove unwanted constants before inserting into cache
                 unset($constantsarray['user']['STARTTIME']);
+                unset($constantsarray['user']['APC']);
 
                 apc_define_constants('CLANSUITE_CONSTANTS', $constantsarray['user'], false);
 
