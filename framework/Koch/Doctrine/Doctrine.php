@@ -100,11 +100,11 @@ class Doctrine
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Symfony', realpath(ROOT_LIBRARIES .  'Doctrine/Symfony'));
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Entities', realpath(ROOT . 'doctrine'));
+        $classLoader = new \Doctrine\Common\ClassLoader('Entities', realpath(ROOT . 'Doctrine'));
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Repositories', realpath(ROOT . 'doctrine'));
+        $classLoader = new \Doctrine\Common\ClassLoader('Repositories', realpath(ROOT . 'Doctrine'));
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath(ROOT . 'doctrine'));
+        $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath(ROOT . 'Doctrine'));
         $classLoader->register();
 
         // include Doctrine Extensions
