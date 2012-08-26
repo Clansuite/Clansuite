@@ -23,6 +23,8 @@
  *
  */
 
+namespace Koch\DI\Engine;
+
 class IncomingParameters
 {
     private $injector;
