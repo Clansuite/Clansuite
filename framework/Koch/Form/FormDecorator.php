@@ -25,7 +25,7 @@
 
 namespace Koch\Form;
 
-interface FormDecorator
+interface FormDecoratorInterface
 {
     public function decorateWith($form);
     public function getName();
@@ -60,7 +60,7 @@ interface FormDecorator
  * @package     Core
  * @subpackage  Form
  */
-abstract class Decorator implements DecoratorInterface
+abstract class FormDecorator implements FormDecoratorInterface
 {
     /**
      * Instance of the form, which is to decorate.

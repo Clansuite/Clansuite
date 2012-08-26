@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch;
+namespace Koch\Feed;
 
 /**
  * Koch Framework - Class for Feed Handling
