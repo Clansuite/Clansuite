@@ -36,7 +36,7 @@
 
 namespace Clansuite\application;
 
-class Application
+class CMS
 {
     /**
      * @var object Dependency Injector Phemto

@@ -85,9 +85,9 @@ if (empty($_SERVER['SERVER_NAME'])) {
 }
 
 //  acquire clansuite path constants
-include dirname(__DIR__) . '/application/Application.php';
-\Clansuite\Application::define_ConstantsAndPaths();
-\Clansuite\Application::initialize_Loader();
+include dirname(__DIR__) . '/application/CMS.php';
+\Clansuite\application\CMS::define_ConstantsAndPaths();
+\Clansuite\application\CMS::initialize_Loader();
 
 \Koch\Localization\Utf8::initialize();
 

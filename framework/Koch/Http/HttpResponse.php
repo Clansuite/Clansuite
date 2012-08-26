@@ -234,7 +234,7 @@ class HttpResponse implements HttpResponseInterface
         }
 
         // make it possible to attach HTML content to the body directly before flushing the response
-        \Clansuite\Application::triggerEvent('onBeforeResponse', array('content' => self::$content));
+        \Clansuite\application\CMS::triggerEvent('onBeforeResponse', array('content' => self::$content));
 
         // Finally echo the response body
         echo self::getContent();
