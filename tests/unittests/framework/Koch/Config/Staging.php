@@ -46,7 +46,7 @@ class StagingTest extends Clansuite_UnitTestCase
 
     public function testFileExists_DevlopmentConfig()
     {
-        $expected_filename = ROOT_CONFIG . 'staging/' . 'development.php';
+        $expected_filename = ROOT_CONFIG . 'Staging/' . 'development.php';
 
         $this->assertTrue(is_file($expected_filename));
     }
@@ -56,7 +56,7 @@ class StagingTest extends Clansuite_UnitTestCase
      */
     public function testMethod_getFilename()
     {
-        $expected_filename = ROOT_CONFIG . 'staging/' . 'development.php';
+        $expected_filename = ROOT_CONFIG . 'Staging/' . 'development.php';
 
         $filename = Staging::getFilename();
 
