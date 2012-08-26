@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Testunit\Controller;
+namespace Clansuite\Application\Modules\Testunit\Controller;
 
 use Clansuite\Application\Core\Mvc\ModuleController;
 

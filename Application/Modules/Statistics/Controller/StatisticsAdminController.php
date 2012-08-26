@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Statistics\Controller;
+namespace Clansuite\Application\Modules\Statistics\Controller;
 
 use Clansuite\Application\Core\Mvc\ModuleController;
 

@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Search\Controller;
+namespace Clansuite\Application\Modules\Search\Controller;
 
 use Clansuite\Application\Core\Mvc\ModuleController;
 

@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Staticpages\Controller;
+namespace Clansuite\Application\Modules\Staticpages\Controller;
 
 use Clansuite\Application\Core\Mvc\ModuleController;
 

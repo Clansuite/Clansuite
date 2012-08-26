@@ -34,7 +34,7 @@
     *  =====================================================================
     */
 
-namespace Clansuite\application;
+namespace Clansuite\Application;
 
 class CMS
 {

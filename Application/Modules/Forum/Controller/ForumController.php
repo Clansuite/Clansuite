@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Forum\Controller;
+namespace Clansuite\Application\Modules\Forum\Controller;
 
 /**
  * Clansuite_Module_Forum

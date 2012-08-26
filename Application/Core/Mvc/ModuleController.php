@@ -1,5 +1,5 @@
 <?php
-namespace Clansuite\application\Core\Mvc;
+namespace Clansuite\Application\Core\Mvc;
 
 class ModuleController extends \Koch\Module\Controller
 {
@@ -10,6 +10,6 @@ class ModuleController extends \Koch\Module\Controller
      */
     public function getClansuiteConfig()
     {
-        return $this->config = \Clansuite\application\CMS::getClansuiteConfig();
+        return $this->config = \Clansuite\Application\CMS::getClansuiteConfig();
     }
 }

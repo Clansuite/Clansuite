@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Cronjobs\Controller;
+namespace Clansuite\Application\Modules\Cronjobs\Controller;
 
 use Clansuite\Application\Core\Mvc\ModuleController;
 

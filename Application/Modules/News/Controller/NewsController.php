@@ -24,9 +24,9 @@
  *
  */
 
-namespace Clansuite\application\Modules\News\Controller;
+namespace Clansuite\Application\Modules\News\Controller;
 
-use Clansuite\application\Core\Mvc\ModuleController;
+use Clansuite\Application\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_News

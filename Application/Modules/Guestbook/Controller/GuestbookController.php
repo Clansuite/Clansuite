@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Guestbook\Controller;
+namespace Clansuite\Application\Modules\Guestbook\Controller;
 
 use Clansuite\Application\Core\Mvc\ModuleController;
 

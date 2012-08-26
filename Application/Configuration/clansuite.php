@@ -1,7 +1,7 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Koch Framework Configuration File :
-; I:\wpnxm\www\Clansuite\application\configuration\clansuite.php
+; I:\wpnxm\www\Clansuite\Application\configuration\clansuite.php
 ;
 ; This file was generated on 26-08-2012 13:58
 ;

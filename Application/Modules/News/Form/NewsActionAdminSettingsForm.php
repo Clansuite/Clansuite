@@ -23,7 +23,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace Clansuite\application\Modules\News\Form;
+namespace Clansuite\Application\Modules\News\Form;
 
 use Koch\Form;
 

@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Mibbitirc\Controller;
+namespace Clansuite\Application\Modules\Mibbitirc\Controller;
 
 use Clansuite\Application\Core\Mvc\ModuleController;
 

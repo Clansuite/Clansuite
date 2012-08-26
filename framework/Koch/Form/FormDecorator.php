@@ -25,13 +25,6 @@
 
 namespace Koch\Form;
 
-interface FormDecoratorInterface
-{
-    public function decorateWith($form);
-    public function getName();
-    public function render($html_form_content);
-}
-
 /**
  * Form_Decorator
  *

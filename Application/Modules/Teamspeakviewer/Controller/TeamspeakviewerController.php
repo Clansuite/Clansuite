@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\application\Modules\Teamspeakviewer\Controller;
+namespace Clansuite\Application\Modules\Teamspeakviewer\Controller;
 
 use Clansuite\Application\Core\Mvc\ModuleController;
 
