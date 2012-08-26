@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
 class SecurityToken extends Hidden implements FormElementInterface
 {

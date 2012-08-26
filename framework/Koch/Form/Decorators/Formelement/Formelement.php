@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Form\Decorator;
+namespace Koch\Form\Decorators\Formelement;
 
 /**
  * Formelement_Decorator_Formelement

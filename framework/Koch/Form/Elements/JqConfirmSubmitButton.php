@@ -23,9 +23,8 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
-use Koch\Form\FormElement;
 use Koch\Form\FormElementInterface;
 
 class JqConfirmSubmitButton extends Input implements FormElementInterface

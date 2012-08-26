@@ -34,7 +34,7 @@
     *  =====================================================================
     */
 
-namespace Clansuite;
+namespace Clansuite\application;
 
 class Application
 {

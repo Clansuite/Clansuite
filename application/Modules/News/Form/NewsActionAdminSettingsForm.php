@@ -23,8 +23,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+namespace Clansuite\application\Modules\News\Form;
 
-class Clansuite_Form_News_Action_admin_settings extends Clansuite_Form
+use Koch\Form;
+
+class NewsActionAdminSettingsForm extends Form
 {
     /**
      * Constructor.
