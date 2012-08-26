@@ -25,6 +25,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->notName('Utf8FallbackFunctions.php') // bug in php-cs-fixer, adds "public" to global functions
     ->exclude('img')
     ->exclude('cache')
+    ->exclude('Cache')
     ->exclude('images')
     ->exclude('ckeditor')
     ->exclude('simpletest')
