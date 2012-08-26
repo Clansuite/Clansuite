@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Localization\Gettext;
+namespace Koch\Localization\Adapter\Gettext;
 
 /**
  * Gettext_POFile
