@@ -385,7 +385,7 @@ class FormTest extends Clansuite_UnitTestCase
         $default_form_decorators = $this->form->getDecorators();
         $this->assertFalse(empty($default_form_decorators));
         $this->assertTrue(is_object($default_form_decorators['form']));
-        $this->assertTrue(is_a($default_form_decorators['form'], 'Koch\Form\Decorator'));
+        $this->assertTrue(is_a($default_form_decorators['form'], 'Koch\Form\FormDecorator'));
     }
 
     public function testregisterDefaultFormDecorators()
@@ -394,7 +394,7 @@ class FormTest extends Clansuite_UnitTestCase
         $default_form_decorators = $this->form->getDecorators();
         $this->assertFalse(empty($default_form_decorators));
         $this->assertTrue(is_object($default_form_decorators['form']));
-        $this->assertTrue(is_a($default_form_decorators['form'], 'Koch\Form\Decorator'));
+        $this->assertTrue(is_a($default_form_decorators['form'], 'Koch\Form\FormDecorator'));
     }
 
     public function testremoveDecorator()

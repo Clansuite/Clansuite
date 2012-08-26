@@ -33,7 +33,7 @@ namespace Koch\Form;
  * @subpackage  Form
  */
 
-abstract class FormElementDecorator implements FormElementDecoratorInterface
+abstract class FormElementDecorator implements DecoratorInterface
 {
     // instance of formelement, which is to decorate
     protected $formelement;

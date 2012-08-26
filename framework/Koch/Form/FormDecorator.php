@@ -25,6 +25,8 @@
 
 namespace Koch\Form;
 
+use Koch\Form\DecoratorInterface;
+
 /**
  * Form_Decorator
  *
@@ -53,7 +55,7 @@ namespace Koch\Form;
  * @package     Core
  * @subpackage  Form
  */
-abstract class FormDecorator implements FormDecoratorInterface
+abstract class FormDecorator implements DecoratorInterface
 {
     /**
      * Instance of the form, which is to decorate.
