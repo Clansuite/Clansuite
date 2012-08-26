@@ -52,22 +52,9 @@ namespace Koch\Autoload;
 class Loader
 {
     /**
-     * @var boolean APC on/off.
-     * This toggles the usage of APC (when true) or File (when false) for reading and writing the classmap array.
-     * @see addToMapping();
-     */
-    public static $use_apc = false;
-
-    /**
      * @var array Generated Classmap from File or APC.
      */
     private static $autoloader_map = array();
-
-    /**
-     * @var array Manually defined Classmap
-     * @see autoloadInclusions()
-     */
-    private static $inclusions_map = array();
 
     public function __construct()
     {
@@ -175,14 +162,14 @@ class Loader
      */
     public static function autoloadInclusions($classname)
     {
-        // autoloading map
-        self::$inclusions_map = array(
+        // autoloading classmap
+        $classmap = array(
             'Clansuite\Module\Controller' => ROOT_FRAMEWORK . 'module\controller.php',
         );
 
         // check if classname is in autoloading map
-        if (isset(self::$inclusions_map[$classname]) === true) {
-            include self::$inclusions_map[$classname];
+        if (isset($classmap[$classname]) === true) {
+            include $classmap[$classname];
 
             return true;
         } else {
@@ -199,7 +186,7 @@ class Loader
     public static function autoloadByApcOrFileMap($classname)
     {
         if (empty(self::$autoloader_map) === true) {
-            if (self::$use_apc === true) {
+            if (defined('APC') and APC  == true) {
                 self::$autoloader_map = self::readAutoloadingMapApc();
             } else { // load the mapping from file
                 self::$autoloader_map = self::readAutoloadingMapFile();
@@ -322,6 +309,10 @@ class Loader
     public static function writeAutoloadingMapFile($array)
     {
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
+        
+        if (is_writable($mapfile) === false) {
+            self::readAutoloadingMapFile();
+        }
 
         if (is_writable($mapfile) === true) {
             $bytes_written = file_put_contents($mapfile, serialize($array), LOCK_EX);
@@ -392,7 +383,7 @@ class Loader
     {
         self::$autoloader_map = array_merge( (array) self::$autoloader_map, array( $classname => $filename ));
 
-        if (self::$use_apc === true) {
+        if (defined('APC') and APC  == true) {
             return self::writeAutoloadingMapApc(self::$autoloader_map);
         } else {
             return self::writeAutoloadingMapFile(self::$autoloader_map);
