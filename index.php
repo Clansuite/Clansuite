@@ -28,6 +28,6 @@
  +----------------------------------------------------------------------------------+
  */
 
-require 'application/application.php';
+require 'application/Application.php';
 
 \Clansuite\Application::run();
