@@ -104,12 +104,8 @@ class Errorhandler
             32767 => 'E_ALL 32767 PHP6'       // all errors and warnings - E_ALL of PHP Version 6
         );
         
-        $errorname = '';
-        // check if the error number exists in the errortypes array
-        if ($errorTypes[$errno] !== null) {
-            // get the errorname from the array via $errornumber
-            $errorname = $errorTypes[$errno];
-        }
+        // get the errorname from the array via $errornumber
+        $errorname = isset($errorTypes[$errno]) ? $errorTypes[$errno] : '';
 
         // Handling the ErrorType via Switch
         switch ($errorname) {
