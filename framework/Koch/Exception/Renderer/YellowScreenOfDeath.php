@@ -197,6 +197,8 @@ class YellowScreenOfDeath
      */
     public static function renderError($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
     {
+        // shorten errorfile string by removing the root path
+        $errfile_short = str_replace(ROOT, '', $errfile);
         $short_errorstring = \Koch\Functions\Functions::shortenStringMaxLength($errfile, 70, '...');
 
         // Header
@@ -223,7 +225,7 @@ class YellowScreenOfDeath
         $html .= '<div id="panel1" class="panel">';
         $html .= '<h3>Error - '.$errorname.'</h3> ';
         $html .= '<p style="font-weight: bold;">' . $errstr . ' (' . $errno . ')</p>';
-        $html .= '<p>in file "<span style="font-weight: bold;">' . $errfile . '</span>"';
+        $html .= '<p>in file "<span style="font-weight: bold;">' . $errfile_short . '</span>"';
         $html .= ' on line #<span style="font-weight: bold;">' . $errline.'.</span></p>';
         $html .= '</div>';
 

@@ -144,9 +144,6 @@ class Errorhandler
         // make the errorstring more useful by linking it to the php manual
         $errstr = preg_replace("/<a href='(.*)'>(.*)<\/a>/", '<a href="http://php.net/$1" target="_blank">?</a>', $errstr);
 
-        // shorten errorfile string by removing the root path
-        $errfile = str_replace(ROOT, '', $errfile);
-
         // if DEBUG is set, display the error
         if ( defined('DEBUG') and DEBUG == 1 ) {
 
