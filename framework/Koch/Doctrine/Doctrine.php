@@ -130,9 +130,9 @@ class Doctrine
             $config->newDefaultAnnotationDriver(
                 self::getModelPathsForAllModules()));
 
-        /** 
+        /**
          * This is slow like hell, because getAllClassNames traverses all
-         * dirs and files and includes them. Its a workaround, till i find 
+         * dirs and files and includes them. Its a workaround, till i find
          * a better way to acquire all the models.
          * @todo optimize this for performance reasons
          */
