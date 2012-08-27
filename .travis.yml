@@ -48,4 +48,4 @@ script:
 # configure notifications (email, irc etc)
 notifications:
   email: false
-  irc: "clanserver4u2.de.quakenet.org#clansuite"
+  irc: "irc.quakenet.org#clansuite"
