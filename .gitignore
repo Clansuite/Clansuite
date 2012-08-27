@@ -20,6 +20,9 @@ nbproject
 .settings*
 .buildpath
 
+# PHPStorm IDE related
+.idea
+
 # Webserver
 /.htaccess
 

@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Event;
+namespace Koch\Event\Events;
 
 /**
  * Koch Framework - Event for Authentication Logging.

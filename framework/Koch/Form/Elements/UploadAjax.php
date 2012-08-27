@@ -28,7 +28,7 @@ namespace Koch\Form\Elements;
 use Koch\Form\Elements\File;
 use Koch\Form\FormElementInterface;
 
-class Uploadajax extends File implements FormElementInterface
+class UploadAjax extends File implements FormElementInterface
 {
     /**
      * This renders a ajax file upload form using jQuery ajaxupload.

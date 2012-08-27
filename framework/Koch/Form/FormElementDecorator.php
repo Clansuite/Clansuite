@@ -23,13 +23,7 @@
  *
  */
 
-namespace Koch\Formelement;
-
-interface DecoratorInterface
-{
-    public function decorateWith($form_decorator);
-    public function getName();
-}
+namespace Koch\Form;
 
 /**
  * Formelement_Decorator
@@ -39,7 +33,7 @@ interface DecoratorInterface
  * @subpackage  Form
  */
 
-abstract class Decorator implements DecoratorInterface
+abstract class FormElementDecorator implements DecoratorInterface
 {
     // instance of formelement, which is to decorate
     protected $formelement;

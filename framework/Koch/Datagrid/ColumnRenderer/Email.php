@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Datagrid\Columnrenderer;
+namespace Koch\Datagrid\ColumnRenderer;
 
 /**
  * Datagrid Column Renderer Email

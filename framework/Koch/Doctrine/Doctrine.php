@@ -96,19 +96,19 @@ class Doctrine
         require ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php';
 
         // setup autoloaders with namespace and path to search in
-        $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', realpath(ROOT_LIBRARIES));
+        $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', ROOT_LIBRARIES);
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Symfony', realpath(ROOT_LIBRARIES .  'Doctrine/Symfony'));
+        $classLoader = new \Doctrine\Common\ClassLoader('Symfony', ROOT_LIBRARIES .  'Doctrine/Symfony');
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Entities', realpath(ROOT . 'doctrine'));
+        $classLoader = new \Doctrine\Common\ClassLoader('Entities', ROOT . 'Doctrine');
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Repositories', realpath(ROOT . 'doctrine'));
+        $classLoader = new \Doctrine\Common\ClassLoader('Repositories', ROOT . 'Doctrine');
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath(ROOT . 'doctrine'));
+        $classLoader = new \Doctrine\Common\ClassLoader('Proxies', ROOT . 'Doctrine');
         $classLoader->register();
 
         // include Doctrine Extensions
-        $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', realpath(ROOT_LIBRARIES));
+        $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', ROOT_LIBRARIES);
         $classLoader->register();
 
         // fetch doctrine config handler for configuring
@@ -130,12 +130,17 @@ class Doctrine
             $config->newDefaultAnnotationDriver(
                 self::getModelPathsForAllModules()));
 
-        // @todo workaround till i find a better way to acquire all the models
+        /**
+         * This is slow like hell, because getAllClassNames traverses all
+         * dirs and files and includes them. Its a workaround, till i find
+         * a better way to acquire all the models.
+         * @todo optimize this for performance reasons
+         */
         $config->getMetadataDriverImpl()->getAllClassNames();
         #\Koch\Debug\Debug::firebug($config->getMetadataDriverImpl()->getAllClassNames());
 
         // set proxy dirs
-        $config->setProxyDir(realpath(ROOT . 'doctrine'));
+        $config->setProxyDir(realpath(ROOT . 'Doctrine'));
         $config->setProxyNamespace('Proxies');
 
         // regenerate proxies only in debug and not in production mode

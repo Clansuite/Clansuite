@@ -39,7 +39,7 @@ use Koch\View\AbstractRenderer;
  * @package     View
  * @subpackage  Renderer
  */
-class Xtemplate extends AbstractRenderer
+class XTemplate extends AbstractRenderer
 {
     public function __construct(Koch\Config $config)
     {

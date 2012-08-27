@@ -23,7 +23,9 @@
  *
  */
 
-namespace Koch\Form\Decorator;
+namespace Koch\Form\Decorators\Formelement;
+
+use Koch\Form\FormelementDecorator;
 
 /**
  * Formelement_Decorator_None
@@ -35,7 +37,7 @@ namespace Koch\Form\Decorator;
  * @package Koch_Form
  * @subpackage Koch_Form_Decorator
  */
-class None extends Decorator
+class None extends FormelementDecorator
 {
     public $name = 'none';
 

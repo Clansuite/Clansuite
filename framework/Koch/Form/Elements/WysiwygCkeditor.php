@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
 /**
  * Formelement_WysiwygCkeditor
@@ -32,7 +32,7 @@ namespace Koch\Formelement;
  * @see http://docs.cksource.com/ CKEditor Documentations
  * @see http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Integration
  */
-class Wysiwygckeditor extends Textarea implements FormElementInterface
+class WysiwygCkeditor extends Textarea implements FormElementInterface
 {
     public function __construct()
     {

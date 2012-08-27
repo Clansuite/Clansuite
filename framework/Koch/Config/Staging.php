@@ -87,6 +87,6 @@ class Staging
         }
 
         // return full path to the staging config file
-        return ROOT_CONFIG . 'staging/' . $filename;
+        return ROOT_CONFIG . 'Staging/' . $filename;
     }
 }

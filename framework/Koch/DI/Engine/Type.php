@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\DI;
+namespace Koch\DI\Engine;
 
 class Type
 {

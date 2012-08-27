@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Localization\Gettext;
+namespace Koch\Localization;
 
 /**
  * Gettext
@@ -51,7 +51,7 @@ namespace Koch\Localization\Gettext;
  * @package     Core
  * @subpackage  Gettext
  */
-class Extractor extends Extractor_Tool
+class Gettext extends Extractor_Tool
 {
     /**
      * Setup mandatory extractors

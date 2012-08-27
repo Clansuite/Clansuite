@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch;
+namespace Koch\Image;
 
 /**
  * Koch Framework - Class for Image Handling

@@ -23,9 +23,9 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
-class Selectlocale extends Select implements FormElementInterface
+class SelectLocale extends Select implements FormElementInterface
 {
     /**
      * A locale drop-down select list

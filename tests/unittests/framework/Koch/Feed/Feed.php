@@ -1,7 +1,7 @@
 <?php
 #namespace Koch\Test;
 
-use Koch\Feed;
+use Koch\Feed\Feed;
 
 class FeedTest extends Clansuite_UnitTestCase
 {

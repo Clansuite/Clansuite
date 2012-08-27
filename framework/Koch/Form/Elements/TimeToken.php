@@ -23,12 +23,12 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
 /**
  * Formelement_Timetoken
  */
-class Timetoken extends FormElement implements FormElementInterface
+class TimeToken extends FormElement implements FormElementInterface
 {
     public function generateToken()
     {

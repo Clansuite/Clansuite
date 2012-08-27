@@ -125,11 +125,7 @@ class Apc extends AbstractCache implements CacheInterface
      */
     public function contains($key)
     {
-        if (true === apc_fetch($key)) {
-            return true;
-        } else {
-            return false;
-        }
+        return apc_exists($key);
     }
 
     /**

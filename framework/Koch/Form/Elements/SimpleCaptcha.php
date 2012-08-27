@@ -23,6 +23,8 @@
  *
  */
 
+namespace Koch\Form\Elements;
+
 /**
  * Renders a simple image captcha formelement.
  */
@@ -37,9 +39,8 @@ class SimpleCaptcha extends Captcha implements FormElementInterface
     public function render()
     {
         $captcha = new \Koch\Captcha();
-<<<<<<< .mine
-=======>>>>>>> .theirs        #\Koch\Debug\Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
 
+        // \Koch\Debug\Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
         return $captcha->generateCaptchaImage();
     }
 
@@ -54,5 +55,3 @@ class SimpleCaptcha extends Captcha implements FormElementInterface
         // $_SESSION['user']['simple_captcha_string']
     }
 }
-<<<<<<< .mine
-=======>>>>>>> .theirs

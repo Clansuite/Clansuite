@@ -23,9 +23,9 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
-class Uploadapc extends File implements FormElementInterface
+class UploadApc extends File implements FormElementInterface
 {
     /**
      * This renders a File Upload Form with an APC Progress Bar.

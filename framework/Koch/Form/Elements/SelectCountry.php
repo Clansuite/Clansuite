@@ -23,9 +23,9 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
-class Selectcountry extends Select implements FormElementInterface
+class SelectCountry extends Select implements FormElementInterface
 {
     public function __construct()
     {

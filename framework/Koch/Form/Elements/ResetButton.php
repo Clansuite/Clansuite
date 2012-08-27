@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
 /**
  *  Koch_Formelement
@@ -32,7 +32,7 @@ namespace Koch\Formelement;
  *     |
  *     \- Koch_Formelement_Resetbutton
  */
-class Resetbutton extends Input implements FormElementInterface
+class ResetButton extends Input implements FormElementInterface
 {
     public function __construct()
     {

@@ -23,7 +23,7 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
 class ConfirmSubmitButton extends Input implements FormElementInterface
 {

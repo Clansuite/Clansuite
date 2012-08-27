@@ -25,9 +25,9 @@
 
 namespace Koch\Form\Decorators\Form;
 
-use Koch\Form\Decorator;
+use Koch\Form\FormDecorator;
 
-class Label extends Decorator
+class Label extends FormDecorator
 {
     /**
      * Name of this decorator

@@ -30,7 +30,7 @@ namespace Koch\Datatype;
  *
  * This class converts XML-based data into JSON or Array formatted data.
  */
-class XML
+class Xml
 {
     const MAX_RECURSION_DEPTH_ALLOWED = 25;
     const FETCH_ATTRIBUTES = true;

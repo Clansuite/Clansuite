@@ -23,9 +23,9 @@
  *
  */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
 
-class Radiolist extends Radio implements FormElementInterface
+class RadioList extends Radio implements FormElementInterface
 {
     protected $options;
 

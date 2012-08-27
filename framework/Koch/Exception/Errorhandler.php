@@ -104,11 +104,8 @@ class Errorhandler
             32767 => 'E_ALL 32767 PHP6'       // all errors and warnings - E_ALL of PHP Version 6
         );
 
-        // check if the error number exists in the errortypes array
-        if ($errorTypes[$errno] !== null) {
-            // get the errorname from the array via $errornumber
-            $errorname = $errorTypes[$errno];
-        }
+        // get the errorname from the array via $errornumber
+        $errorname = isset($errorTypes[$errno]) ? $errorTypes[$errno] : '';
 
         // Handling the ErrorType via Switch
         switch ($errorname) {
@@ -537,8 +534,23 @@ class Errorhandler
 
     public static function catchFatalErrorsShutdownHandler()
     {
-        $last_error = error_get_last();
-        self::errorhandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
+        if (!$err = error_get_last()) {
+            return;
+        }
+
+        $fatals = array(
+            E_USER_ERROR => 'Fatal Error',
+            E_ERROR => 'Fatal Error',
+            E_PARSE => 'Parse Error',
+            E_CORE_ERROR => 'Core Error',
+            E_CORE_WARNING => 'Core Warning',
+            E_COMPILE_ERROR => 'Compile Error',
+            E_COMPILE_WARNING => 'Compile Warning'
+        );
+
+        if (isset($fatals[$err['type']])) {
+            self::errorhandler($err['type'], $err['message'], $err['file'], $err['line']);
+        }
     }
 
 }

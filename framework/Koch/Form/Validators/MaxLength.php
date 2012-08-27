@@ -30,7 +30,7 @@ use Koch\Form\Validator;
 /**
  * Validates the lenght of a string with maxlength given.
  */
-class Maxlength extends Validator
+class MaxLength extends Validator
 {
     public $maxlength;
 

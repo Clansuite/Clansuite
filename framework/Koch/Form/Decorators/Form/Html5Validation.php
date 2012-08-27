@@ -25,9 +25,9 @@
 
 namespace Koch\Form\Decorators\Form;
 
-use Koch\Form\Decorator;
+use Koch\Form\FormDecorator;
 
-class Html5validation extends Decorator
+class Html5Validation extends FormDecorator
 {
 
     /**

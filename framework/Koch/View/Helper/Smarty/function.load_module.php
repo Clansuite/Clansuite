@@ -49,8 +49,8 @@ function smarty_function_load_module($params, $smarty)
 
     // Instantiate Class
     $controller = new $classname(
-                \Clansuite\CMS::getInjector()->instantiate('Koch\Http\HttpRequest'),
-                \Clansuite\CMS::getInjector()->instantiate('Koch\Http\HttpResponse')
+                \Clansuite\application\CMS::getInjector()->instantiate('Koch\Http\HttpRequest'),
+                \Clansuite\application\CMS::getInjector()->instantiate('Koch\Http\HttpResponse')
     );
     $controller->setView($smarty);
     #$controller->setModel($module);
