@@ -48,4 +48,4 @@ script:
 # configure notifications (email, irc etc)
 notifications:
   email: false
-  irc: "underworld1.no.quakenet.org#clansuite"
+  irc: "irc.freenode.org#clansuite"
