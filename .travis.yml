@@ -35,5 +35,6 @@ script:
 # configure notifications (email, irc etc)
 notifications:
   email: false
-  irc: "irc.freenode.org#clansuite"
-  irc: "irc.quakenet.org#clansuite"
+  irc:
+    - "irc.freenode.org#clansuite"
+    - "irc.quakenet.org#clansuite"
