@@ -182,7 +182,7 @@ class Errorhandler
      * @param $errline Line Number of the Error.
      * @todo correct link to the templateeditor
      */
-    private static function getTemplateEditorLink($errfile, $errline, $errcontext)
+    public static function getTemplateEditorLink($errfile, $errline, $errcontext)
     {
         // display the link to the templateeditor, if we are in DEVELOPMENT MODE
         // and more essential if the error relates to a template file

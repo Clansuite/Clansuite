@@ -25,6 +25,8 @@
 
 namespace Koch\Exception\Renderer;
 
+use Koch\Exception\Errorhandler;
+
 class SmartyTemplateError
 {
     /**
@@ -51,7 +53,7 @@ class SmartyTemplateError
      * @param  array   $errcontext contains vars from error context
      * @return string  HTML with Smarty Error Text and Link.
      */
-    private static function render($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
+    public static function render($errno, $errorname, $errstr, $errfile, $errline, $errcontext)
     {
         $html = '';
         $html .= '<span>';
@@ -59,7 +61,7 @@ class SmartyTemplateError
         $html .= '<u>' . $errorname . ' (' . $errno . '): </u><br/>';
         $html .= '<b>' . wordwrap($errstr, 50, "\n") . '</b><br/>';
         $html .= 'File: ' . $errfile . '<br/>Line: ' . $errline;
-        $html .= self::getTemplateEditorLink($errfile, $errline, $errcontext);
+        $html .= Errorhandler::getTemplateEditorLink($errfile, $errline, $errcontext);
         $html .= '<br/></span>';
 
         return $html;
