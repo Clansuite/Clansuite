@@ -35,13 +35,12 @@ use Koch\Cache\CacheInterface;
  * increase the speed of PHP applications running on Windows and Windows Server.
  * Microsoft Internet Information Services (MS IIS) is required.
  *
- * @link http://www.iis.net/download/wincacheforphp
+ * Detailed description can be found on the http://www.iis.net/download/WinCacheForPhp page.
+ * Latest source and bug information you can find here http://pecl.php.net/package/wincache.
+ * Documentation is here http://www.php.net/manual/en/book.wincache.php.
  *
- * Download:
- * @link http://sourceforge.net/projects/wincache/files/
- *
- * It's a PECL extension.
- * @link http://pecl.php.net/package/WinCache
+ * Download: http://sourceforge.net/projects/wincache/files/
+ * It's a PECL extension. http://pecl.php.net/package/WinCache
  *
  * @category    Koch
  * @package     Core
