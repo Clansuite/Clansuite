@@ -5,6 +5,9 @@
 # To have a global effect affect to all repositories run this command:
 # git config --global core.excludesfile ~/.gitignore
 
+# Clansuite
+/Application/Configuration/clansuite.php
+
 # Mac OS X Finder and whatnot
 .DS_Store
 
