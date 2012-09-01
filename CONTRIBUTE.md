@@ -19,7 +19,7 @@
     % git remote add upstream http://github.com/Clansuite/Clansuite.git
     ```
 
-5. Fetch and merge the latest remote changes in your local branch
+ 5. Fetch and merge the latest remote changes in your local branch
 
     ```sh
     % git pull upstream develop
