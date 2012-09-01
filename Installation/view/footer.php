@@ -1,6 +1,3 @@
-<?php
-?>
-
     <div id="footer">
         <p>
             <br />

@@ -1,5 +1,3 @@
-<?php
-?>
     <div id="content" class="narrowcolumn">
         <div id="content_middle">
             <div class="accordion">

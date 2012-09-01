@@ -1,5 +1,3 @@
-<?php
-?>
 <script src="javascript/webtoolkit.sha1.js" type="text/javascript"></script>
 <script>
     function hashLoginPassword(theForm) {

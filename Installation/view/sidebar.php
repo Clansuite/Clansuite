@@ -1,6 +1,3 @@
-<?php
-?>
-
         <!-- Sidebar Navigation -->
         <div id="sidebar">
             <div id="jokerlogo">
