@@ -61,6 +61,5 @@ the following
     ```sh
     % git checkout develop
     % git pull upstream develop
-    - OPTIONALLY, to keep your remote up-to-date -
     % git push origin
     ```
