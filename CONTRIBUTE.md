@@ -27,9 +27,8 @@
 
 ## Working on Clansuite
 
-When working on Clansuite, we recommend you do each new feature or
-bugfix in a new branch. This simplifies the task of code review as well
-as of merging your changes into the canonical repository.
+When working on Clansuite, we recommend you do each new feature or bugfix in a new branch.
+This simplifies the task of code review as well as of merging your changes into the canonical repository.
 
 A typical work flow will then consist of the following:
 
@@ -53,13 +52,12 @@ A typical work flow will then consist of the following:
 
 ## Keeping Up-to-Date
 
-Periodically, you should update your fork or personal repository to
-match the canonical Clansuite repository. In the above setup, we have
-added a remote to the Clansuite repository, which allows you to do
-the following
+Periodically, you should update your fork or personal repository to match the canonical Clansuite repository.
+In the above setup, we have added a remote to the Clansuite repository, which allows you to do the following.
 
-    ```sh
-    % git checkout develop
-    % git pull upstream develop
-    % git push origin develop:develop
-    ```
+```sh
+% git checkout develop
+% git pull upstream develop
+- OPTIONALLY, to keep your remote up-to-date -
+% git push origin develop:develop
+```
