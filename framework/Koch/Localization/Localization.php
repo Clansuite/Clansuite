@@ -232,7 +232,7 @@ class Localization
              * Try to find best available locale based on HTTP "Accept-Language" header
              * via Locale class, which is part INTL, a php default extension as of php 5.3.
              */
-            $lang =  Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $lang =  \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
             return (array) mb_substr($lang, 0, 2);
         } else { // fallback for non "ext/intl" environments
