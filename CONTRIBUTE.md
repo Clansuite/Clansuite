@@ -36,7 +36,7 @@ A typical work flow will then consist of the following:
  1. Create a new local branch based off your develop branch.
  2. Switch to your new local branch.
 
-    (This step can be combined with the previous step with the use of `git checkout -b`.
+    (This step can be combined with the previous step with the use of)
 
     ```sh
     % git checkout -b <branchname>
@@ -45,9 +45,9 @@ A typical work flow will then consist of the following:
  3. Do some work, commit, repeat as necessary.
  4. Push the local branch to your remote repository.
 
-     ```sh
-     % git push origin <branchname>:<branchname>
-     ```
+    ```sh
+    % git push origin <branchname>:<branchname>
+    ```
 
  5. Send a pull request.
 
@@ -56,7 +56,7 @@ A typical work flow will then consist of the following:
 Periodically, you should update your fork or personal repository to
 match the canonical Clansuite repository. In the above setup, we have
 added a remote to the Clansuite repository, which allows you to do
-the following:
+the following
 
     ```sh
     % git checkout develop
