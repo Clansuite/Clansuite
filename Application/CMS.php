@@ -538,13 +538,13 @@ class CMS
                 Clansuite_Maintenance::show(self::$config);
             } else {
                 self::$config['maintenance']['maintenance'] = 0;
-                \Koch\Config\Ini::writeConfig(ROOT . 'Configuration/clansuite.config.php', self::$config);
+                \Koch\Config\Ini::writeConfig(ROOT . 'Configuration/clansuite.php', self::$config);
                 // redirect to remove the token from url
                 header('Location: ' . SERVER_URL);
             }
         }
 
-        // 3. load staging configuration (overloading clansuite.config.php)
+        // 3. load staging configuration (overloading clansuite.php)
         if ( true === (bool) self::$config['config']['staging'] ) {
             self::$config = \Koch\Config\Staging::overloadWithStagingConfig(self::$config);
         }
