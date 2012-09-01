@@ -44,14 +44,19 @@ A typical work flow will then consist of the following:
 
  3. Do some work, commit, repeat as necessary.
  4. Push the local branch to your remote repository.
+
+     ```sh
+     % git push origin <branchname>:<branchname>
+     ```
+
  5. Send a pull request.
 
- ## Keeping Up-to-Date
+## Keeping Up-to-Date
 
- Periodically, you should update your fork or personal repository to
- match the canonical Clansuite repository. In the above setup, we have
- added a remote to the Clansuite repository, which allows you to do
- the following:
+Periodically, you should update your fork or personal repository to
+match the canonical Clansuite repository. In the above setup, we have
+added a remote to the Clansuite repository, which allows you to do
+the following:
 
     ```sh
     % git checkout develop
