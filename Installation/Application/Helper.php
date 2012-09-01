@@ -205,7 +205,7 @@ class Helper
                 include KOCH . 'Config/Adapter/Ini.php';
 
                 // get clansuite config
-                $clansuite_config = \Koch\Config\Adapter\Ini::readConfig(ROOT_APP . 'configuration/clansuite.php');
+                $clansuite_config = \Koch\Config\Adapter\Ini::readConfig(ROOT_APP . 'Configuration/clansuite.php');
 
                 // reduce config array to the dsn/connection settings
                 $connectionParams = $clansuite_config['database'];
