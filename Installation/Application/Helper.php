@@ -60,7 +60,7 @@ class Helper
         $data_array = array_merge_recursive($data_array, $installer_config);
 
         // write Config File to the APPLICATION/configuration folder
-        if (false === \Koch\Config\Adapter\Ini::writeConfig(ROOT_APP . 'configuration/clansuite.php', $data_array)) {
+        if (false === \Koch\Config\Adapter\Ini::writeConfig(ROOT_APP . 'Configuration/clansuite.php', $data_array)) {
             // config not written
             return false;
         }
