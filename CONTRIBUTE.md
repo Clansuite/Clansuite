@@ -61,5 +61,5 @@ the following
     ```sh
     % git checkout develop
     % git pull upstream develop
-    % git push origin
+    % git push origin develop:develop
     ```
