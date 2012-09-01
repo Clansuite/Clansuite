@@ -188,7 +188,7 @@ class Helper
         /**
          * Core Entities
          */
-        $model_dirs[] = ROOT_APP . 'doctrine';
+        $model_dirs[] = ROOT_APP . 'Doctrine';
 
         // array_unique
         $model_dirs = array_keys(array_flip($model_dirs));
