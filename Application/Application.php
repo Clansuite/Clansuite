@@ -34,9 +34,9 @@
     *  =====================================================================
     */
 
-namespace Clansuite\Application;
+namespace Clansuite;
 
-class CMS
+class Application
 {
     /**
      * @var object Dependency Injector Phemto
