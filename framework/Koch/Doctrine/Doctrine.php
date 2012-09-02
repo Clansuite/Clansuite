@@ -140,7 +140,7 @@ class Doctrine
         #\Koch\Debug\Debug::firebug($config->getMetadataDriverImpl()->getAllClassNames());
 
         // set proxy dirs
-        $config->setProxyDir(realpath(ROOT . 'Doctrine'));
+        $config->setProxyDir(ROOT . 'Doctrine');
         $config->setProxyNamespace('Proxies');
 
         // regenerate proxies only in debug and not in production mode
@@ -163,7 +163,7 @@ class Doctrine
             )
         );
 
-             // set up Logger
+        // set up Logger
         #$config->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSqlLogger);
 
         // we need some more functions for mysql
@@ -300,14 +300,14 @@ class Doctrine
              */
 
             // Entity Path
-            $entity_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR;
+            $entity_path = $dir_path . '/Model/Entities/';
 
             if (is_dir($entity_path)) {
                 $model_dirs[] = $entity_path;
             }
 
             // Repository Path
-            $repos_path = $dir_path . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'repositories' . DIRECTORY_SEPARATOR;
+            $repos_path = $dir_path . '/Model/Repositories/';
 
             if (is_dir($repos_path)) {
                 $model_dirs[] = $repos_path;
