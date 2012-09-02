@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Application;
+namespace Clansuite;
 
     /** =============================================================================
      *    WARNING: THIS FILE CONTAINS VERSION INFO ONLY AND IS AUTOMATICALLY UPDATED
