@@ -120,7 +120,7 @@ class Application
          * Check if clansuite config file is found, else we are
          * not installed at all and redirect to installation page.
          */
-        if (is_file('Application/Configuration/clansuite.php') === false) {
+        if (is_file(__DIR__.'/Configuration/clansuite.php') === false) {
             header('Location: Installation/index.php');
         }
     }
@@ -254,9 +254,9 @@ class Application
          * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
         if (dirname($_SERVER['PHP_SELF']) === '\\') {
-            define('WWW_ROOT', SERVER_URL . '/Application/');
+            define('WWW_ROOT', SERVER_URL . '/Clansuite/');
         } else {
-            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/Application/');
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/Clansuite/');
         }
 
         /**
