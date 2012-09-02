@@ -30,4 +30,4 @@
 
 require 'Application/CMS.php';
 
-\Clansuite\Application\CMS::run();
+\Clansuite\CMS::run();

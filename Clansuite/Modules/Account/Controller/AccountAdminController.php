@@ -24,7 +24,7 @@
  *
  */
 
-namespace Clansuite\Application\Modules\Account\Controller;
+namespace Clansuite\Modules\Account\Controller;
 
 /**
  * Clansuite_Module_Account_Admin

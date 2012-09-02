@@ -24,9 +24,9 @@
  *
  */
 
-namespace Clansuite\Application\Modules\Rssreader\Controller;
+namespace Clansuite\Modules\Rssreader\Controller;
 
-use Clansuite\Application\Core\Mvc\ModuleController;
+use Clansuite\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Rssreader

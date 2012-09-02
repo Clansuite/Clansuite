@@ -51,7 +51,7 @@ define('CR', "\n");
 
 // load Clansuite Version constants
 require ROOT_APP . 'Version.php';
-\Clansuite\Application\Version::setVersionInformation();
+\Clansuite\Version::setVersionInformation();
 
 // Error Reporting Level
 error_reporting(E_ALL | E_STRICT);

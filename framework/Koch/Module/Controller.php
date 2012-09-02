@@ -81,7 +81,7 @@ abstract class Controller
     {
         $this->request = $request;
         $this->response = $response;
-        $this->doctrine_em = \Clansuite\application\CMS::getEntityManager();
+        $this->doctrine_em = \Clansuite\CMS::getEntityManager();
     }
 
     /**
@@ -104,7 +104,7 @@ abstract class Controller
      */
     public function getEntityNameFromClassname()
     {
-        // classname e.g. "Clansuite\application\Modules\News\Controller\NewsController"
+        // classname e.g. "Clansuite\Modules\News\Controller\NewsController"
         // will fetch this part as doctrine entity name ---------------> ^^^^
         $classname = get_called_class();
         $classname = str_replace('Controller', '', $classname);
@@ -255,7 +255,7 @@ abstract class Controller
      */
     public static function getInjector()
     {
-        return \Clansuite\application\CMS::getInjector();
+        return \Clansuite\CMS::getInjector();
     }
 
     /**

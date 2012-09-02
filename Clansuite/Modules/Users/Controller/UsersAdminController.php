@@ -24,9 +24,9 @@
  *
  */
 
-namespace Clansuite\Application\Modules\Users\Controller;
+namespace Clansuite\Modules\Users\Controller;
 
-use Clansuite\Application\Core\Mvc\ModuleController;
+use Clansuite\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Users_Admin

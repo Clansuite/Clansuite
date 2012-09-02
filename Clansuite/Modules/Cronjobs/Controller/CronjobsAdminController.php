@@ -24,9 +24,9 @@
  *
  */
 
-namespace Clansuite\Application\Modules\Cronjobs\Controller;
+namespace Clansuite\Modules\Cronjobs\Controller;
 
-use Clansuite\Application\Core\Mvc\ModuleController;
+use Clansuite\Core\Mvc\ModuleController;
 
 /**
  * Clansuite Module CronjobsAdminController

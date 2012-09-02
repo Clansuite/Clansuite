@@ -24,9 +24,9 @@
  *
  */
 
-namespace Clansuite\Application\Modules\Doctrine\Controller;
+namespace Clansuite\Modules\Doctrine\Controller;
 
-use Clansuite\Application\Core\Mvc\ModuleController;
+use Clansuite\Core\Mvc\ModuleController;
 
 /**
  * DoctrineAdminController

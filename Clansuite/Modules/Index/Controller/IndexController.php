@@ -24,9 +24,9 @@
  *
  */
 
-namespace Clansuite\Application\Modules\Index\Controller;
+namespace Clansuite\Modules\Index\Controller;
 
-use Clansuite\Application\Core\Mvc\ModuleController;
+use Clansuite\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Index

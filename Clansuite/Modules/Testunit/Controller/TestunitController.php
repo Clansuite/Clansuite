@@ -24,9 +24,9 @@
  *
  */
 
-namespace Clansuite\Application\Modules\Testunit\Controller;
+namespace Clansuite\Modules\Testunit\Controller;
 
-use Clansuite\Application\Core\Mvc\ModuleController;
+use Clansuite\Core\Mvc\ModuleController;
 
 /**
  * Clansuite_Module_Testunit

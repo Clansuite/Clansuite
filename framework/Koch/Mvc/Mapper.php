@@ -39,7 +39,7 @@ namespace Koch\Mvc;
 class Mapper extends \ArrayObject
 {
     /* @const string Classname prefix for modules = Namespace */
-    const MODULE_NAMESPACE = 'Clansuite\Application\Modules';
+    const MODULE_NAMESPACE = 'Clansuite\Modules';
 
     /* @const string suffix for module controller files */
     const MODULE_CLASS_SUFFIX = 'Controller.php';
@@ -103,7 +103,7 @@ class Mapper extends \ArrayObject
          */
         $classname .= $module . '\Controller\\' . $controller . 'Controller';
 
-        // "Clansuite\Application\Modules + \News\Controller\NewsController"
+        // "Clansuite\Modules + \News\Controller\NewsController"
         return self::MODULE_NAMESPACE . $classname;
     }
 
