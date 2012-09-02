@@ -60,7 +60,7 @@ class Helper
         $data_array = array_merge_recursive($data_array, $installer_config);
 
         // write Config File to the APPLICATION/configuration folder
-        if (false === \Koch\Config\Adapter\Ini::writeConfig(ROOT_APP . 'configuration/clansuite.php', $data_array)) {
+        if (false === \Koch\Config\Adapter\Ini::writeConfig(ROOT_APP . 'Configuration/clansuite.php', $data_array)) {
             // config not written
             return false;
         }
@@ -188,7 +188,7 @@ class Helper
         /**
          * Core Entities
          */
-        $model_dirs[] = ROOT_APP . 'doctrine';
+        $model_dirs[] = ROOT_APP . 'Doctrine';
 
         // array_unique
         $model_dirs = array_keys(array_flip($model_dirs));
@@ -205,7 +205,7 @@ class Helper
                 include KOCH . 'Config/Adapter/Ini.php';
 
                 // get clansuite config
-                $clansuite_config = \Koch\Config\Adapter\Ini::readConfig(ROOT_APP . 'configuration/clansuite.php');
+                $clansuite_config = \Koch\Config\Adapter\Ini::readConfig(ROOT_APP . 'Configuration/clansuite.php');
 
                 // reduce config array to the dsn/connection settings
                 $connectionParams = $clansuite_config['database'];
