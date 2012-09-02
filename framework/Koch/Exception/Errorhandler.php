@@ -32,8 +32,6 @@ use Koch\Exception\Renderer\SmartyTemplateError;
  * Koch Framework - Class for Errorhandling
  *
  * Sets up a custom Errorhandler.
- * @see Clansuite\CMS::initialize_Errorhandling()
- *
  * @example
  * <code>
  * 1) trigger_error('Errormessage', E_ERROR_TYPE);
