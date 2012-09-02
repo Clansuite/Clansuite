@@ -187,4 +187,3 @@ gmtoffset = 3600
 timezone = "Europe/Paris"
 
 ; DO NOT REMOVE THIS LINE */ ?>
-

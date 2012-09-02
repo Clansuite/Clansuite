@@ -33,6 +33,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('vendor')
     ->exclude('libraries')
     ->exclude('Libraries')
+    ->exclude('nbproject') // netbeans project files
     ->in(__DIR__)
 ;
 
