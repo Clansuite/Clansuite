@@ -93,9 +93,9 @@ class Smarty extends AbstractRenderer
         /**
          * Directories
          */
-        $this->renderer->compile_dir = ROOT_CACHE . 'tpl_compile' . DIRECTORY_SEPARATOR;
-        $this->renderer->config_dir  = ROOT_LIBRARIES . 'smarty' . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR;
-        $this->renderer->cache_dir   = ROOT_CACHE . 'tpl_cache' . DIRECTORY_SEPARATOR;
+        $this->renderer->compile_dir = ROOT_CACHE . 'tpl_compile/';
+        $this->renderer->config_dir  = ROOT_LIBRARIES . 'smarty/configs/';
+        $this->renderer->cache_dir   = ROOT_CACHE . 'tpl_cache/';
 
         /**
          * Debugging
@@ -195,7 +195,7 @@ class Smarty extends AbstractRenderer
         $tpl_array = array(
             Mapper::getThemeTemplatePaths(), // 1 + 2
             Mapper::getModuleTemplatePaths(), // 3 + 4
-            ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . 'smarty', // 5
+            ROOT_THEMES_CORE . 'view/smarty', // 5
             ROOT_THEMES // 6
         );
 
