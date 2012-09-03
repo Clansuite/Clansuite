@@ -170,23 +170,23 @@ abstract class Controller
             $modulename = HttpRequest::getRoute()->getModuleName();
         }
 
-        $module_models_path = ROOT_MOD . mb_strtolower($modulename) . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
+        $module_models_path = ROOT_MOD . mb_strtolower($modulename) . '/model/';
 
         // check if the module has a models dir
         if (is_dir($module_models_path) === true) {
            if ($entity !== null) {
                // use second parameter of method
-               $entity = $module_models_path . 'entities' . DIRECTORY_SEPARATOR . ucfirst($entity) . '.php';
+               $entity = $module_models_path . 'Entities/' . ucfirst($entity) . '.php';
            } else {
                // build entity filename by modulename
-               $entity = $module_models_path . 'entities' . DIRECTORY_SEPARATOR . ucfirst($modulename) . '.php';
+               $entity = $module_models_path . 'Entities/' . ucfirst($modulename) . '.php';
            }
 
            if (is_file($entity) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false) {
                include $entity;
            }
 
-           $repos = $module_models_path . 'repositories' . DIRECTORY_SEPARATOR . ucfirst($modulename) . 'Repository.php';
+           $repos = $module_models_path . 'Repositories/' . ucfirst($modulename) . 'Repository.php';
 
            if (is_file($repos) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false) {
                include $repos;
@@ -432,13 +432,13 @@ abstract class Controller
 
         if (null === $formname) {
             // construct formname like "news"_"action_admin_show"
-            $formname  = ucfirst($module) . '_' . ucfirst($action);
+            $formname  = ucfirst($module) . '_' . ucfirst($action); // @todo adjust to PSR0
         }
 
         // construct formname, classname, filename, load file, instantiate the form
-        $classname = 'Koch_Form_' . $formname;
-        $filename  = mb_strtolower($formname) . '.form.php';
-        $directory = ROOT_MOD . mb_strtolower($module) . DIRECTORY_SEPARATOR . 'form/';
+        $classname = 'Koch\Form\\' . $formname;
+        $filename  = mb_strtolower($formname) . 'Form.php';
+        $directory = ROOT_MOD . mb_strtolower($module) . '/Form/';
 
         Loader::requireFile( $directory . $filename, $classname );
 
