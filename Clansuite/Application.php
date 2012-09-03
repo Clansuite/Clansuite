@@ -714,13 +714,13 @@ class Application
     private static function initialize_Timezone()
     {
         // apply timezone defensivly
-        if (self::$config['locale']['timezone'] !== null) {
+        if (isset(self::$config['locale']['timezone']) === true) {
             // set always if incomming via config
             date_default_timezone_set(self::$config['locale']['timezone']);
         }
 
         // set date formating via config
-        if (self::$config['locale']['dateformat'] !== null) {
+        if (isset(self::$config['locale']['dateformat']) === true) {
             define('DATE_FORMAT', self::$config['locale']['dateformat']);
         } else { // set default value
             define('DATE_FORMAT', 'd.m.Y H:i');
