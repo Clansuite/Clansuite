@@ -142,7 +142,6 @@ class ThememanagerAdminController extends ModuleController
                     $theme_info[$i]['preview_thumbnail'] = WWW_ROOT_THEMES . 'core/images/nopreview.jpg';
                 }
             }
-        }
 
         // sort and return
         asort($theme_info);

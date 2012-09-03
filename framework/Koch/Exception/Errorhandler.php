@@ -374,12 +374,12 @@ class Errorhandler
 
                 // get ALL LINES syntax highlighted source-code of the file and explode it into an array
                 // the if check is needed to workaround "highlight_file() has been disabled for security reasons"
-                if(function_exists('highlight_file') === true) { 
+                if (function_exists('highlight_file') === true) {
                    $array_content = explode('<br />', highlight_file($file, true));
                 } else {
                    $array_content = explode('<br />', $file);
                 }
-                
+
                 // get the ERROR SURROUNDING LINES from ALL LINES
                 $array_content_sliced = array_slice($array_content, $errorcontext_starting_line-1, $scope, true);
 

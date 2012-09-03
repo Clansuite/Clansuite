@@ -92,7 +92,8 @@ class IndexController extends ModuleController //implements Koch\Module\ModuleIn
         // Applying a Layout Template
         #$view = $this->getView()->setLayoutTemplate('admin/index.tpl');
 
-        echo 'Hello World!';
+        // direct output example
+        //echo 'Hello World!';
 
         $this->display();
     }
