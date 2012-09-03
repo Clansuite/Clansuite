@@ -150,35 +150,42 @@
                          $required['extension_pdo_mysql']['actual']   = $required['extension_pdo_mysql']['state'] ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['extension_pdo_mysql']['status']   = $required['extension_pdo_mysql']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
-                         // Permissions Check: write on systems temporary directory
+                         // Permissions Check: write to systems temporary directory
                          $required['is_writable_temp_dir']['label']    = $language['IS_WRITABLE_TEMP_DIR'];
                          $required['is_writable_temp_dir']['expected'] = 'w';
                          $required['is_writable_temp_dir']['state']    = check_temporary_dir();
                          $required['is_writable_temp_dir']['actual']   = $required['is_writable_temp_dir']['state'] ? 'w' : '---';
                          $required['is_writable_temp_dir']['status']   = $required['is_writable_temp_dir']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
-                         // Permissions Check: write on \application root
+                         // Permissions Check: write to \Clansuite root folder
                          $required['is_writable_clansuite_root']['label']    = $language['IS_WRITABLE_CLANSUITE_ROOT'];
                          $required['is_writable_clansuite_root']['expected'] = 'w';
                          $required['is_writable_clansuite_root']['state']    = is_writable(ROOT_APP);
                          $required['is_writable_clansuite_root']['actual']   = $required['is_writable_clansuite_root']['state'] ? 'w' : '---';
                          $required['is_writable_clansuite_root']['status']   = $required['is_writable_clansuite_root']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
-                         // Permissions Check: write on \application\cache
-                         $required['is_writable_clansuite_cache']['label']    = $language['IS_WRITABLE_CACHE_DIR'];
-                         $required['is_writable_clansuite_cache']['expected'] = 'w';
-                         $required['is_writable_clansuite_cache']['state']    = is_writable(ROOT_CACHE);
-                         $required['is_writable_clansuite_cache']['actual']   = $required['is_writable_clansuite_cache']['state'] ? 'w' : '---';
-                         $required['is_writable_clansuite_cache']['status']   = $required['is_writable_clansuite_cache']['state'] ? SETTING_TRUE : SETTING_FALSE;
-
-                         // Permissions Check: write on uploads folder
+                         // Permissions Check: write to \Clansuite\Uploads folder
                          $required['is_writable_uploads']['label']    = $language['IS_WRITABLE_UPLOADS'];
                          $required['is_writable_uploads']['expected'] = 'w';
                          $required['is_writable_uploads']['state']    = is_writable(ROOT_APP . 'Uploads');
                          $required['is_writable_uploads']['actual']   = $required['is_writable_uploads']['state'] ? 'w' : '---';
                          $required['is_writable_uploads']['status']   = $required['is_writable_uploads']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
-                         // Permissions Check: read on Configuration Template File
+                         // Permissions Check: write to \Clansuite\Cache folder
+                         $required['is_writable_cache']['label']    = $language['IS_WRITABLE_CACHE_DIR'];
+                         $required['is_writable_cache']['expected'] = 'w';
+                         $required['is_writable_cache']['state']    = is_writable(ROOT_CACHE);
+                         $required['is_writable_cache']['actual']   = $required['is_writable_cache']['state'] ? 'w' : '---';
+                         $required['is_writable_cache']['status']   = $required['is_writable_cache']['state'] ? SETTING_TRUE : SETTING_FALSE;
+
+                         // Permissions Check: write to \Clansuite\Configuration folder
+                         $required['is_writable_configuration']['label']    = $language['IS_WRITABLE_CONFIGURATION'];
+                         $required['is_writable_configuration']['expected'] = 'w';
+                         $required['is_writable_configuration']['state']    = is_writable(ROOT_APP . 'Configuration');
+                         $required['is_writable_configuration']['actual']   = $required['is_writable_configuration']['state'] ? 'w' : '---';
+                         $required['is_writable_configuration']['status']   = $required['is_writable_configuration']['state'] ? SETTING_TRUE : SETTING_FALSE;
+
+                         // Permissions Check: read Configuration Template File
                          $required['is_readable_config_template']['label']    = $language['IS_READABLE_CONFIG_TEMPLATE'];
                          $required['is_readable_config_template']['expected'] = 'r';
                          $required['is_readable_config_template']['state']    = is_readable(INSTALLATION_ROOT . 'config.skeleton.ini');

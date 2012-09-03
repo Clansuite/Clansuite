@@ -78,9 +78,10 @@ class Italian implements \ArrayAccess
         $this->language['SESSION_AUTO_START'] = 'Autostart Sessione';
         $this->language['EXTENSION_PDO_MYSQL'] = 'Estensione: "pdo_mysql"';
         $this->language['IS_WRITABLE_TEMP_DIR'] = 'Usabile: Directory Temporanea';
-        $this->language['IS_WRITABLE_CLANSUITE_ROOT'] = 'Posso Scrivere: "/Application"';
-        $this->language['IS_WRITABLE_CACHE_DIR'] = 'Posso Scrivere: "/Application/Cache"';
-        $this->language['IS_WRITABLE_UPLOADS'] = 'Posso Scrivere: "/Application/Uploads"';
+        $this->language['IS_WRITABLE_CLANSUITE_ROOT'] = 'Posso Scrivere: "/Clansuite"';
+        $this->language['IS_WRITABLE_CACHE_DIR'] = 'Posso Scrivere: "/Clansuite/Cache"';
+        $this->language['IS_WRITABLE_UPLOADS'] = 'Posso Scrivere: "/Clansuite/Uploads"';
+        $this->language['IS_WRITABLE_CONFIGURATION'] = 'Posso Scrivere: "/Clansuite/Configuration"';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Posso Leggere: config-template file';
         $this->language['DATE_TIMEZONE'] = 'Impostazione Timezone: "date.timezone"';
 

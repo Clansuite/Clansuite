@@ -78,9 +78,10 @@ class English implements \ArrayAccess
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
         $this->language['EXTENSION_PDO_MYSQL'] = 'Extension: "pdo_mysql"';
         $this->language['IS_WRITABLE_TEMP_DIR'] = 'Useable: Temporary Directory';
-        $this->language['IS_WRITABLE_CLANSUITE_ROOT'] = 'Can write: "/Application"';
-        $this->language['IS_WRITABLE_CACHE_DIR'] = 'Can write: "/Application/Cache"';
-        $this->language['IS_WRITABLE_UPLOADS'] = 'Can write: "/Application/Uploads"';
+        $this->language['IS_WRITABLE_CLANSUITE_ROOT'] = 'Can write: "/Clansuite"';
+        $this->language['IS_WRITABLE_CACHE_DIR'] = 'Can write: "/Clansuite/Cache"';
+        $this->language['IS_WRITABLE_UPLOADS'] = 'Can write: "/Clansuite/Uploads"';
+        $this->language['IS_WRITABLE_CONFIGURATION'] = 'Can write: "/Clansuite/Configuration"';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Can read: config-template file';
         $this->language['DATE_TIMEZONE'] = 'Timezone set: "date.timezone"';
 
