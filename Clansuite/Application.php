@@ -513,7 +513,7 @@ class Application
         }
 
         if ($clansuite_cfg_cached === false) {
-            self::$config = \Koch\Config\Adapter\Ini::readConfig(ROOT . 'Configuration/clansuite.php');
+            self::$config = \Koch\Config\Adapter\INI::readConfig(ROOT . 'Configuration/clansuite.php');
             if (APC === true) {
                 apc_add('clansuite.config', self::$config);
             }

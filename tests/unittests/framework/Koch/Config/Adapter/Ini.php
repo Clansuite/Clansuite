@@ -3,7 +3,7 @@ if (count(get_included_files()) == 1) {
     require_once 'autorun.php';
 }
 
-use Koch\Config\Adapter\Ini;
+use Koch\Config\Adapter\INI;
 
 class IniTest extends Clansuite_UnitTestCase
 {
