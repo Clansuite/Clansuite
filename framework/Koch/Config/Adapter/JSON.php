@@ -32,7 +32,7 @@ namespace Koch\Config\Adapter;
  * @package     Core
  * @subpackage  Configuration
  */
-class Json
+class JSON
 {
     /**
      * Read the config array from json file
