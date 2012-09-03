@@ -8,6 +8,7 @@
 # Clansuite
 /Clansuite/Configuration/clansuite.php
 /Clansuite/Uploads/images/gravatars
+/Clansuite/Cache
 
 # Mac OS X Finder and whatnot
 .DS_Store
