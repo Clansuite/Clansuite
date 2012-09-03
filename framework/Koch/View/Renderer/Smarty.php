@@ -153,7 +153,7 @@ class Smarty extends AbstractRenderer
         if ($this->renderer->debugging === true) {
             $this->renderer->caching                = 0;
             $this->renderer->cache_lifetime         = 0;       // refresh templates on every load
-            // $this->renderer->cache_handler_func   = "";      // Specify your own cache_handler function
+            // $this->renderer->cache_handler_func   = "";     // Specify your own cache_handler function
             $this->renderer->cache_modified_check   = 0;       // set to 1 to activate
         } else {
             // $this->renderer->setCaching(true);
@@ -217,9 +217,9 @@ class Smarty extends AbstractRenderer
         $this->renderer->setPluginsDir(
             array(
                 ROOT_LIBRARIES . 'smarty/plugins',
-                KOCH . 'view/helper/smarty',
-                ROOT_FRAMEWORK . 'view/helper/smarty',
-                ROOT_MOD . TargetRoute::getModule() . '/viewhelper/smarty'
+                KOCH . 'View/Helper/Smarty',
+                ROOT_FRAMEWORK . 'View/Helper/Smarty',
+                ROOT_MOD . TargetRoute::getModule() . '/View/Helper/Smarty'
         ));
 
         #\Koch\Debug\Debug::printR($this->renderer->plugins_dir);
