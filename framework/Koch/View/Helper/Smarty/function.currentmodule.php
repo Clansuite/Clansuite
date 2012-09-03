@@ -21,7 +21,7 @@
 
  * @return string
  */
-function smarty_function_currentmodule()
+function Smarty_function_currentmodule()
 {
     return Koch_TargetRoute::getModule();
 }

@@ -18,7 +18,7 @@
  *
  * @return string
  */
-function smarty_function_addtoany()
+function Smarty_function_addtoany()
 {
     $str = <<<EOD
 <!--

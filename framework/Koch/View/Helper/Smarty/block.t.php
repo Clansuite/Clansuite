@@ -39,7 +39,7 @@
  * @param   mixed   Arguments, can be passed in an array or through single variables.
  * @returns string  Modified string
  */
-function smarty_gettext_strarg($str)
+function Smarty_gettext_strarg($str)
 {
     $tr = array();
     $p = 0;
@@ -76,7 +76,7 @@ function smarty_gettext_strarg($str)
  *   - plural - The plural version of the text (2nd parameter of ngettext())
  *   - count - The item count for plural mode (3rd parameter of ngettext())
  */
-function smarty_block_t($params, $text, $smarty)
+function Smarty_block_t($params, $text, $smarty)
 {
     // stop smarty from rendering on the opening tag
     if (!$text) return;

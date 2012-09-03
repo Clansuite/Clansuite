@@ -17,7 +17,7 @@
  *
  * @return string
  */
-function smarty_modifier_firebug($var)
+function Smarty_modifier_firebug($var)
 {
     \Koch\Debug\Debug::firebug($var);
 

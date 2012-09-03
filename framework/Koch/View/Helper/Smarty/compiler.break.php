@@ -16,7 +16,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_compiler_break($contents, $smarty)
+function Smarty_compiler_break($contents, $smarty)
 {
     return 'break;';
 }

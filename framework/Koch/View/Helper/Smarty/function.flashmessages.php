@@ -2,7 +2,7 @@
 /**
  * Koch FrameworkSmarty Viewhelper for rendering Flashmessages
  */
-function smarty_function_flashmessages($params, $smarty)
+function Smarty_function_flashmessages($params, $smarty)
 {
     // render only a certain type of flashmessages
     if ($params['type'] !== null) {

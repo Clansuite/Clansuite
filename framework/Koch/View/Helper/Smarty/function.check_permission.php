@@ -21,7 +21,7 @@
  * @param   Smarty $smarty
  * @return  boolean True if user has permission, false otherwise.
  */
-function smarty_function_check_permission($params, $smarty)
+function Smarty_function_check_permission($params, $smarty)
 {
     // ensure we got parameter name
     if ( empty($params['name']) or is_string($params['name']) == false) {

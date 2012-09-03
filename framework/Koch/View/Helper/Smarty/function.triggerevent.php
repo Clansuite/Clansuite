@@ -17,7 +17,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_triggerevent($params, $smarty)
+function Smarty_function_triggerevent($params, $smarty)
 {
     // we need an valid eventname to trigger it
     if (empty($params['name'])) {

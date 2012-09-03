@@ -21,7 +21,7 @@
 * @param string
 * @return string
 */
-function smarty_modifier_dump($var,$name = null)
+function Smarty_modifier_dump($var,$name = null)
 {
 
 $_name = isset($name) ? '<strong style="background-color: #f0f0f0; border-bottom: 1px solid #000; display: block; padding: .33em 10px;">' . $name . '</strong>' : '';

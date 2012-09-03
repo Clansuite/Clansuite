@@ -23,7 +23,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_doctype($params, $smarty)
+function Smarty_function_doctype($params, $smarty)
 {
     if ( !isset( $params['doctype'] )) {
         trigger_error("Parameter 'familiy' not specified! familiy=HTML or XHTML.");

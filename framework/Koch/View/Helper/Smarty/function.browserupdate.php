@@ -18,7 +18,7 @@
  *
  * @return string
  */
-function smarty_function_browserupdate()
+function Smarty_function_browserupdate()
 {
 $str = <<<EOD
 <!--

@@ -23,7 +23,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_modulenavigation($params, $smarty)
+function Smarty_function_modulenavigation($params, $smarty)
 {
     $module = Koch_HttpRequest::getRoute()->getModule();
 

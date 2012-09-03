@@ -23,7 +23,7 @@
  * @param object $smarty Smarty Render Engine
  * @return string
  */
-function smarty_function_breadcrumbs($params, $smarty)
+function Smarty_function_breadcrumbs($params, $smarty)
 {
     // handle trail params set directly to the smarty function call in the template
     if ($params['trail'] !== null && is_array($params['trail'])) {

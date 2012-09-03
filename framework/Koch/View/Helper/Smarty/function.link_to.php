@@ -20,7 +20,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_link_to($params, $smarty)
+function Smarty_function_link_to($params, $smarty)
 {
     // method parameter "href"
     if (empty($params['href'])) {

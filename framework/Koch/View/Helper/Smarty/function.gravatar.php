@@ -29,7 +29,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_gravatar($params)
+function Smarty_function_gravatar($params)
 {
     $email = $defaultImage = $size = $rating = '';
 

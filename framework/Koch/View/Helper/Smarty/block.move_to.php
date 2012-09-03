@@ -33,7 +33,7 @@
  * @param boolean
  * @return string
  */
-function smarty_block_move_to($params, $content, $smarty, &$repeat)
+function Smarty_block_move_to($params, $content, $smarty, &$repeat)
 {
     if ( empty($content) ) {
         return;

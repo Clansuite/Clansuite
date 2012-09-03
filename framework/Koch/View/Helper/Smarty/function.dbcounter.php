@@ -8,7 +8,7 @@
 /**
  * smarty_function_dbexectime
  */
-function smarty_function_dbcounter($params, $smarty)
+function Smarty_function_dbcounter($params, $smarty)
 {
     if (DEBUG == 1) {
         /**

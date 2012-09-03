@@ -18,7 +18,7 @@
  * @param string
  * @return string
  */
-function smarty_modifier_megabytes($string)
+function Smarty_modifier_megabytes($string)
 {
     return \Koch\Functions\Functions::getsize($string);
 }

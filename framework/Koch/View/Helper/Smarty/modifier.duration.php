@@ -17,7 +17,7 @@
  * @param string
  * @return string
  */
-function smarty_modifier_duration($toTimestamp)
+function Smarty_modifier_duration($toTimestamp)
 {
     return \Koch\Functions\Functions::distanceOfTimeInWords(time(),$toTimestamp, false);
 }

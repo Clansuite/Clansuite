@@ -14,7 +14,7 @@
  * @param string key array
  * @return string
  */
-function smarty_function_getarraykey($params)
+function Smarty_function_getarraykey($params)
 {
     return array_search_key($params['key'], $params['array']);
 }

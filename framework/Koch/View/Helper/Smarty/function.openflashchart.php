@@ -21,7 +21,7 @@
  * @param array $params as described above
  * @return string
  */
-function smarty_function_openflashchart($params)
+function Smarty_function_openflashchart($params)
 {
     include ROOT_LIBRARIES . 'open-flash-chart/php-ofc-library/open_flash_chart_object.php';
 

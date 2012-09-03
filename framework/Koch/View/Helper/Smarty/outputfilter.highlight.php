@@ -1,9 +1,9 @@
 <?php
-//this script may only be included - so its better to die if called directly.
-if (mb_strpos($_SERVER['SCRIPT_NAME'],basename(__FILE__)) !== false) {
-    header('location: index.php');
-    exit;
-}
+/**
+ * Smarty plugin
+ * @package Smarty
+ * @subpackage plugins
+ */
 
 /*
  * Smarty plugin
@@ -27,7 +27,7 @@ if (mb_strpos($_SERVER['SCRIPT_NAME'],basename(__FILE__)) !== false) {
  *           Referer parsing by mdavey
  * -------------------------------------------------------------
 */
-function smarty_outputfilter_highlight($source, $smarty)
+function Smarty_outputfilter_highlight($source, $smarty)
 {
     $highlight = $_REQUEST['highlight'];
     $feature_referer_highlight = $GLOBALS['feature_referer_highlight']; // @todo remove globals

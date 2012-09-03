@@ -8,7 +8,7 @@
 /**
  * smarty_function_dbexectime
  */
-function smarty_function_dbexectime($params, $smarty)
+function Smarty_function_dbexectime($params, $smarty)
 {
     if (DEBUG == 1) {
         echo Koch_Doctrine2::getExecTime();

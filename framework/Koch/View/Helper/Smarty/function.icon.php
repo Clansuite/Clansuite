@@ -23,7 +23,7 @@
  * @return string
  */
 
-function smarty_function_icon($params, $smarty)
+function Smarty_function_icon($params, $smarty)
 {
     $src = '';
     $height = '';

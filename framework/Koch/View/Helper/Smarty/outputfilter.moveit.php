@@ -6,7 +6,6 @@
  */
 
 /**
-
  *
  * Smarty {moveit} outputfilter moves content to several tag positions
  *
@@ -19,7 +18,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_outputfilter_moveit($tpl_output, $smarty)
+function Smarty_outputfilter_moveit($tpl_output, $smarty)
 {
     // PRE_HEAD_CLOSE = x</head>
     $matches = array();

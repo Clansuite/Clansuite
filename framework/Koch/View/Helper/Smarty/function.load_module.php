@@ -23,7 +23,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_load_module($params, $smarty)
+function Smarty_function_load_module($params, $smarty)
 {
     // debug display for the incomming parameters of a specific load_module request
     if ($params['name'] == 'news') {

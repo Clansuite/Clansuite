@@ -16,7 +16,7 @@
  *
  * @return string HTML of a messagebox.
  */
-function smarty_block_messagebox($params, $text, $smarty)
+function Smarty_block_messagebox($params, $text, $smarty)
 {
     $text = stripslashes($text);
     $textbox_type = null;

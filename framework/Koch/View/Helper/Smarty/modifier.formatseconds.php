@@ -18,7 +18,7 @@
  * @param string
  * @return string
  */
-function smarty_modifier_formatseconds($seconds)
+function Smarty_modifier_formatseconds($seconds)
 {
     return \Koch\Functions\Functions::format_seconds_to_shortstring($seconds);
 }

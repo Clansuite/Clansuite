@@ -26,7 +26,7 @@
  * -------------------------------------------------------------
 */
 
-function smarty_function_png_image($params, $smarty)
+function Smarty_function_png_image($params, $smarty)
 {
     $height = '';
     $width = '';
