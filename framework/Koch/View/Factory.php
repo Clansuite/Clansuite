@@ -43,9 +43,9 @@ class Factory
      * @param $adapter String (A Renderer Name like "smarty", "phptal", "native")
      * @return Renderer Object
      */
-    public static function getRenderer($adapter, $injector)
+    public static function getRenderer($adapter = 'smarty', $injector)
     {
-        $file = KOCH . 'view/renderer/' . strtolower($adapter) . '.php';
+        $file = KOCH . 'View/Renderer/' . ucfirst($adapter) . '.php';
 
         if (is_file($file) === true) {
             $class = 'Koch\View\Renderer\\' . $adapter;
