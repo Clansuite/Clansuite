@@ -118,25 +118,25 @@
 
                 <div class="grid20l " id="widget_lastregistered">
                     <div class="gridcontent">
-                        {load_module name="users" action="widget_lastregisteredusers"}
+                        {load_module name="Users" action="widget_lastregisteredusers"}
                     </div>
                 </div>
 
                 <div class="grid20l" id="widget_randomuser">
                     <div class="gridcontent">
-                        {load_module name="users" action="widget_randomuser"}
+                        {load_module name="Users" action="widget_randomuser"}
                     </div>
                 </div>
 
                 <div class="grid20l" id="widget_usersonline">
                     <div class="gridcontent">
-                        {load_module name="users" action="widget_usersonline"}
+                        {load_module name="Users" action="widget_usersonline"}
                     </div>
                 </div>
 
                 <div class="grid20r" id="widget_stats">
                     <div class="gridcontent">
-                       {* {load_module name="statistics" action="widget_statistics"} *}
+                       {* {load_module name="Statistics" action="widget_statistics"} *}
                     </div>
                 </div>
             </div>

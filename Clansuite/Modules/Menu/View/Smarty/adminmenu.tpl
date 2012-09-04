@@ -21,7 +21,7 @@ arrow2.src =  "{$www_root}modules/menu/images/arrow2.gif";
         <table id="Adminmenu" cellspacing="0" cellpadding="0" class="XulMenu" width="100%">
             <tr>
                 <!-- module-include: admin menueditor get_html_div -->
-                {load_module name="menu" sub="admin" action="get_html_div"}
+                {load_module name="Menu" ctrl="Admin" action="get_html_div"}
             </tr>
         </table>
 

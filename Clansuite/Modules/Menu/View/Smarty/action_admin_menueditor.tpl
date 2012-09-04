@@ -35,7 +35,7 @@
                     <div class="wrap2" id="tree">
 
                         <!-- Adminmenu Tree Display -->
-                        {load_module name="menu" sub="admin" action="get_adminmenu_div"}
+                        {load_module name="Menu" ctrl="Admin" action="get_adminmenu_div"}
 
                     </div>
                 </div>
