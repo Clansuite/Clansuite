@@ -98,10 +98,10 @@ function Smarty_function_load_module($params, $smarty)
         } elseif ($smarty->templateExists('Modules/' . $module . '/View/Smarty/' . $action . '.tpl')) {
             // $smarty->template_dir[s]..Modules\news\View\widget_news.tpl
             return $smarty->fetch('Modules/' . $module . '/View/Smarty/' . $action . '.tpl');
-        } elseif ($smarty->templateExists($module . '/View/Smarty/' . $action . '.tpl')) {            
+        } elseif ($smarty->templateExists($module . '/View/Smarty/' . $action . '.tpl')) {
             // $smarty->template_dir[s]..\news\View\Smarty\widget_news.tpl
             return $smarty->fetch($module . '/View/Smarty/' . $action . '.tpl');
-        } elseif ($smarty->templateExists($template)) {            
+        } elseif ($smarty->templateExists($template)) {
             // $smarty->template_dir[s].. $template
             return $smarty->fetch($template);
         } else {

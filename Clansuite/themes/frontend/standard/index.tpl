@@ -73,12 +73,12 @@
             <tr>
                 <!-- Left Widget Bar -->
                 <td id="csTableleft" class="cell1 size9">
-                    <div class="widget size9" id="widget_menu">{load_module name="menu" action="widget_menu"}</div>
-                    <div class="widget size9" id="widget_latestnews">{load_module name="news" action="widget_latestnews"}</div>
-                    <div class="widget size9" id="widget_newscategories_list">{load_module name="news" action="widget_newscategories_list"}</div>
-                    <div class="widget size9" id="widget_newscategories_dropdown">{load_module name="news" action="widget_newscategories_dropdown"}</div>
-                    <div class="widget size9" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>
-                    <div class="widget size9" id="widget_newsarchive">{load_module name="news" action="widget_archive"}</div>
+                    <div class="widget size9" id="widget_menu">{load_module name="Menu" action="widget_menu"}</div>
+                    <div class="widget size9" id="widget_latestnews">{load_module name="News" action="widget_latestnews"}</div>
+                    <div class="widget size9" id="widget_newscategories_list">{load_module name="News" action="widget_newscategories_list"}</div>
+                    <div class="widget size9" id="widget_newscategories_dropdown">{load_module name="News" action="widget_newscategories_dropdown"}</div>
+                    <div class="widget size9" id="widget_newsfeeds">{load_module name="News" action="widget_newsfeeds"}</div>
+                    <div class="widget size9" id="widget_newsarchive">{load_module name="News" action="widget_archive"}</div>
                 </td>
 
                 <!-- Middle + Center = Main Content -->
@@ -94,15 +94,15 @@
 
      {* User not 0 (guest) as id and is authed *}
                     {if $smarty.session.user.user_id != 0 and $smarty.session.user.authed == 1}
-                    <div class="widget size9" id="widget_usercenter">{load_module name="users" action="widget_usercenter"}</div>
+                    <div class="widget size9" id="widget_usercenter">{load_module name="Users" action="widget_usercenter"}</div>
                     {else}
-                    <div class="widget size9" id="widget_login">{load_module name="account" action="widget_login"}</div>
+                    <div class="widget size9" id="widget_login">{load_module name="Account" action="widget_login"}</div>
                     {/if}
 
-                    <div class="widget size9" id="widget_ts3viewer">{load_module name="teamspeakviewer" action="widget_ts3viewer"}</div>
-                    <div class="widget size9" id="widget_about">{load_module name="index" action="widget_about"}</div>
+                    <div class="widget size9" id="widget_ts3viewer">{load_module name="Teamspeakviewer" action="widget_ts3viewer"}</div>
+                    <div class="widget size9" id="widget_about">{load_module name="Index" action="widget_about"}</div>
                     {if true == {check_permission name="toolbox.widget_toolbox"}}
-                    <div class="widget size9" id="widget_cssbuilder">{load_module name="index" action="widget_toolbox"}</div>
+                    <div class="widget size9" id="widget_cssbuilder">{load_module name="Index" action="widget_toolbox"}</div>
                     {/if}
                 </td>
             </tr>
