@@ -91,7 +91,7 @@ class XML
 
         // read file
         $xml = simplexml_load_file($file);
-        var_dump($xml);
+
         // transform (SimpleXMLElement or XML) to PHP Array
         return \Koch\Datatype\XML::toArray($xml);
     }
