@@ -1,6 +1,6 @@
 {move_to target="pre_head_close"}
-<link rel="stylesheet" type="text/css" href="{$www_root}modules/menu/css/menu.css" />
-<script type="text/javascript" src="{$www_root}modules/menu/javascript/XulMenu.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root}Modules/Menu/css/menu.css" />
+<script type="text/javascript" src="{$www_root}Modules/Menu/javascript/XulMenu.js"></script>
 {/move_to}
 
 <!-- Start: Adminmenu (Modules->Menu)-->
@@ -27,8 +27,8 @@ arrow2.src =  "{$www_root}modules/menu/images/arrow2.gif";
 
         <script type="text/javascript">
             var Adminmenu = new XulMenu("Adminmenu");
-            Adminmenu.arrow1 = "{$www_root}modules/menu/images/arrow1.gif";
-            Adminmenu.arrow2 = "{$www_root}modules/menu/images/arrow2.gif";
+            Adminmenu.arrow1 = "{$www_root}Modules/Menu/images/arrow1.gif";
+            Adminmenu.arrow2 = "{$www_root}Modules/Menu/images/arrow2.gif";
             Adminmenu.init();
         </script>
 
