@@ -38,6 +38,7 @@ namespace Koch\Mail;
 class SwiftMailer
 {
     public $mailer = null;
+
     private $config = null;
 
     /**
@@ -98,17 +99,17 @@ class SwiftMailer
      * This is the sendmail command, it's a shortcut method to swiftmailer
      * Return true or false if successfully
      *
-     * @param  string  $to_address
-     * @param  string  $from_address
-     * @param  string  $subject
-     * @param  string  $body
+     * @param  string  $to      Recipient email
+     * @param  string  $from    Sender email
+     * @param  string  $subject Message subject (headline)
+     * @param  string  $body    Message body
      * @return boolean true|false
      */
-    public function send($to_address, $from_address, $subject, $body)
+    public function send($to, $from, $subject, $body)
     {
         if ($this->mailer->isConnected()) {
             // sends a simple email via the instantiated mailer
-            $this->mailer->send($to_address, $from_address, $subject, $body);
+            $this->mailer->send($to, $from, $subject, $body);
 
             // close mailer
             $this->mailer->close();
