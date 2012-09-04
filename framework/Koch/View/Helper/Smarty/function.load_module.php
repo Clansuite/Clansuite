@@ -31,8 +31,8 @@ function Smarty_function_load_module($params, $smarty)
     }
 
     // Init incomming Variables
-    $module = isset($params['name']) ? (string) mb_strtolower($params['name']) : '';
-    $controller = isset($params['ctrl']) ? (string) mb_strtolower($params['ctrl']) : '';
+    $module = isset($params['name']) ? (string) $params['name'] : '';
+    $controller = isset($params['ctrl']) ? (string) $params['ctrl'] : '';
     $action = isset($params['action']) ? (string) $params['action'] : '';
     $items = isset($params['items']) ? (int) $params['items'] : null;
 
@@ -44,7 +44,7 @@ function Smarty_function_load_module($params, $smarty)
     #echo $classname . '<br>';
 
     if (class_exists($classname) === false) {
-        return '<br/>Widget Loading Error. Module missing or misspelled? <strong>' . $module .' ' . $controller . '</strong>';
+        return '<br/>Widget Loading Error.<br/>Module missing or misspelled? <strong>' . $module .' ' . $controller . '</strong>';
     }
 
     // Instantiate Class
