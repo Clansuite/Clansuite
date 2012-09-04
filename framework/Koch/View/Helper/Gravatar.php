@@ -304,7 +304,7 @@ class GravatarCache
 
         // relative
         $relative_cache_filename  = '';
-        $relative_cache_filename .= WWW_ROOT .'/'. $this->cache_location . $gravatar_filename;
+        $relative_cache_filename .= WWW_ROOT . $this->cache_location . $gravatar_filename;
 
         // if the cache_file is detected on an absolute path and still in the cache time
         if (is_file($absolute_cache_filename) === true and
