@@ -16,7 +16,7 @@ function XulMenu(id) {
         "levelX": { "top": 0, "left": 0}
     }
     this.zIndex = {
-        "visible": 1,
+        "visible": 99,
         "hidden": -1
     }
     this.arrow1 = null;
