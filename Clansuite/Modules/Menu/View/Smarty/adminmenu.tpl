@@ -1,6 +1,6 @@
 {move_to target="pre_head_close"}
+<script type="text/javascript" src="{$www_root}Modules/Menu/Javascript/XulMenu.js"></script>
 <link rel="stylesheet" type="text/css" href="{$www_root}Modules/Menu/css/menu.css" />
-<script type="text/javascript" src="{$www_root}Modules/Menu/javascript/XulMenu.js"></script>
 {/move_to}
 
 <!-- Start: Adminmenu (Modules->Menu)-->
