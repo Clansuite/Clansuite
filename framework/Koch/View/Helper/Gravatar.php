@@ -246,7 +246,7 @@ class Gravatar
 class GravatarCache
 {
     // Gravatar Cache Settings
-    public $cache_location       = 'uploads/images';
+    public $cache_location       = 'Uploads/images';
     public $gravatar_cache_url   = '/gravatars/%s-%s-%s.png';
     public $cache_expire_time    = '7 days';
     public $cacheable            = true;
