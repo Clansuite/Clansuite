@@ -27,7 +27,7 @@ function Smarty_function_load_module($params, $smarty)
 {
     // debug display for the incomming parameters of a specific load_module request
     if ($params['name'] == 'news') {
-        \Koch\Debug\Debug::firebug($params);
+        // \Koch\Debug\Debug::firebug($params);
     }
 
     // Init incomming Variables
@@ -48,17 +48,17 @@ function Smarty_function_load_module($params, $smarty)
     }
 
     // Instantiate Class
-    $controller = new $classname(
+    $module_controller = new $classname(
                 \Clansuite\Application::getInjector()->instantiate('Koch\Http\HttpRequest'),
                 \Clansuite\Application::getInjector()->instantiate('Koch\Http\HttpResponse')
     );
-    $controller->setView($smarty);
-    #$controller->setModel($module);
+    $module_controller->setView($smarty);
+    //$module_controller->setModel($module);
 
     /**
      * Get the Ouptut of the Object->Method Call
      */
-    if (method_exists($controller, $action)) {
+    if (method_exists($module_controller, $action)) {
         // exceptional handling of parameters and output for adminmenu
         if ($classname == 'clansuite_module_menu_admin') {
             $parameters = array();
@@ -70,11 +70,11 @@ function Smarty_function_load_module($params, $smarty)
                 $parameters = explode('\|', $params['params']);
             }
 
-            return $controller->$action($parameters);
+            return $module_controller->$action($parameters);
         }
 
-        // call
-        $controller->$action($items);
+        // Call the Action on the Module
+        $module_controller->$action($items);
 
         /**
          * Output the template of a widget
@@ -92,16 +92,16 @@ function Smarty_function_load_module($params, $smarty)
         // for a look at the detection order uncomment the next line
         #\Koch\Debug\Debug::printR($smarty->template_dir);
 
-        if ($smarty->templateExists('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $action . '.tpl')) {
-            // $smarty->template_dir[s]..modules\news\widget_news.tpl
-            return $smarty->fetch('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $action . '.tpl');
-        } elseif ($smarty->templateExists('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl')) {
-            // $smarty->template_dir[s]..modules\news\view\widget_news.tpl
-            return $smarty->fetch('modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl');
-        } elseif ($smarty->templateExists($module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl')) {
-            // $smarty->template_dir[s]..\news\view\smarty\widget_news.tpl
-            return $smarty->fetch($module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . $action . '.tpl');
-        } elseif ($smarty->templateExists($template)) {
+        if ($smarty->templateExists('Modules/' . $module . DIRECTORY_SEPARATOR . $action . '.tpl')) {
+            // $smarty->template_dir[s]..Modules\news\widget_news.tpl
+            return $smarty->fetch('Modules/' . $module . DIRECTORY_SEPARATOR . $action . '.tpl');
+        } elseif ($smarty->templateExists('Modules/' . $module . '/View/Smarty/' . $action . '.tpl')) {
+            // $smarty->template_dir[s]..Modules\news\View\widget_news.tpl
+            return $smarty->fetch('Modules/' . $module . '/View/Smarty/' . $action . '.tpl');
+        } elseif ($smarty->templateExists($module . '/View/Smarty/' . $action . '.tpl')) {            
+            // $smarty->template_dir[s]..\news\View\Smarty\widget_news.tpl
+            return $smarty->fetch($module . '/View/Smarty/' . $action . '.tpl');
+        } elseif ($smarty->templateExists($template)) {            
             // $smarty->template_dir[s].. $template
             return $smarty->fetch($template);
         } else {
