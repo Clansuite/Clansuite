@@ -29,7 +29,7 @@ class User
     protected $user_id;
 
     /**
-     * @Column(type="string", length=150)
+     * @Column(type="string", length=150, unique=true)
      */
     protected $email;
 
