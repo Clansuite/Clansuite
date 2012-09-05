@@ -3,7 +3,7 @@ if (count(get_included_files()) == 1) {
     require_once 'autorun.php';
 }
 
-use Koch\Config\Adapter\Json;
+use Koch\Config\Adapter\JSON;
 
 class JsonTest extends Clansuite_UnitTestCase
 {
@@ -11,7 +11,7 @@ class JsonTest extends Clansuite_UnitTestCase
 
     public function setUp()
     {
-        $this->object = new Json;
+        $this->object = new JSON;
 
         if (is_file($this->getFile())) {
             unlink($this->getFile());

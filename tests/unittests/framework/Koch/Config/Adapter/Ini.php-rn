@@ -11,7 +11,7 @@ class IniTest extends Clansuite_UnitTestCase
 
     public function setUp()
     {
-        $this->object = new Ini;
+        $this->object = new INI;
 
         if (is_file($this->getFile())) {
             unlink($this->getFile());
