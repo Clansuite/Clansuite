@@ -488,11 +488,38 @@ class FormElement implements FormElementInterface
             if (false === strpos($rule, '=')) {
                 // if there is no "=", then there is no value to set
                 // rule is then the name of a validator
-                $this->addValidator($rule);
+                $class = $this->mapRulenameToClassname($rule);               
+                $this->addValidator($class);
             } else { // ok -> property name to value relationship
                 $array = explode('=', $rule);
-                $this->addValidator($array[0], array($array[0] => $array[1]));
+                $class = $this->mapRulenameToClassname($array[0]);       
+                $this->addValidator($class, array($class => $array[1]));
             }
+        }
+    }
+    
+    /**
+     * Maps a validator rule to a validator classname
+     * 
+     * @param type $rule Lowercased rule
+     * @return string Validator Classname based on rule
+     */
+    public function mapRulenameToClassname($rule)
+    {        
+        switch ($rule) {            
+            case 'email': return 'Email'; break;
+            case 'equals': return 'Equals'; break;
+            case 'ip': return 'Ip'; break;
+            case 'locale': return 'Locale'; break;
+            case 'maxlength': return 'MaxLength'; break;
+            case 'maxvalue': return 'MaxValue'; break;
+            case 'minlength': return 'MinLength'; break;
+            case 'minvalue': return 'MinValue'; break;            
+            case 'range': return 'Range'; break;            
+            case 'regexp': return 'RegExp'; break;            
+            case 'required': return 'Required'; break;
+            case 'string': return 'String'; break;
+            case 'url': return 'Url'; break;
         }
     }
 
@@ -555,21 +582,7 @@ class FormElement implements FormElementInterface
         if (isset($this->validators[$class]) === true) {
             return $this->validators[$class];
         }
-        // factory method part
-        elseif (false === class_exists($class, false)) {
-            $file = KOCH . 'form/validators/' . $validator . '.php';
-
-            $file = strtolower($file);
-
-            if (is_file($file) === true) {
-                include $file;
-            }
-            unset($file);
-
-            return new $class();
-        }
-        // already loaded, reinstantiate
-        elseif (true === class_exists($class, false)) {
+        elseif (true === class_exists($class)) {
             return new $class();
         }
         // validator not found
