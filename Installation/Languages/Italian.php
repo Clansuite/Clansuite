@@ -189,10 +189,10 @@ class Italian implements \ArrayAccess
 
         $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'ERRORE -  Account di Admin non creato.';
 
-        $this->language['STEP6_ADMIN_NAME_TOOLTIP']     = '';
-        $this->language['STEP6_ADMIN_PASSWORD_TOOLTIP'] = '';
-        $this->language['STEP6_ADMIN_LANGUAGE_TOOLTIP'] = '';
-        $this->language['STEP6_ADMIN_EMAIL_TOOLTIP']    = '';
+        $this->language['STEP6_ADMIN_NAME_TOOLTIP']     = 'Selezionare prego il nome dell\'account di amministratore. Dopo, è possibile utilizzarlo per il login.';
+        $this->language['STEP6_ADMIN_PASSWORD_TOOLTIP'] = 'Inserire prego la password per l\'account di amministratore.';
+        $this->language['STEP6_ADMIN_LANGUAGE_TOOLTIP'] = 'Selezionare prego la lingua per l\'account amministratore.';
+        $this->language['STEP6_ADMIN_EMAIL_TOOLTIP']    = 'Inserire prego l\'email per l\'account di amministratore. Dopo, è possibile utilizzarlo per il login.';
 
         // STEP 7 - Finish
         $this->language['STEP7_FINISH'] = 'Passo [7] Fine';
