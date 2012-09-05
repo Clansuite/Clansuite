@@ -41,7 +41,6 @@ namespace Koch\Tools;
  * @author	Brian Greenacre
  * @author  Jens-André Koch <jakoch@web.de>
  * @license GNU/GPL v2+
- * @version	1.1
  *
  * Note:
  * This fork is based on "TRAC-RPC-JSON" v1.02 written by Brian Greenacre

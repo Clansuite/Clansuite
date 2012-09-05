@@ -20,7 +20,6 @@
  * @link http://kpumuk.info/ajax/smarty_ajax/
  * @copyright 2006 Dmytro Shteflyuk
  * @author Dmytro Shteflyuk <kpumuk@kpumuk.info>
- * @version 0.1
  */
 
 function Smarty_function_ajax_update($params)

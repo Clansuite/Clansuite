@@ -86,8 +86,7 @@
 /**
  * @name   smarty_function_html_alt_table
  * @author   damien clochard <damien@taadeem.net>
- * @version  1.1
- * @link
+ *
  * @param array
  * @param Smarty
  * @return string
