@@ -1,5 +1,5 @@
 <?php
-namespace Repositories;
+namespace Repository;
 use Doctrine\ORM\EntityRepository;
 
 class ForumCategoryRepository extends EntityRepository
@@ -14,7 +14,7 @@ class ForumCategoryRepository extends EntityRepository
     {
         $q = $this->_em->createQuery('
                     SELECT c
-                    FROM Entities\ForumCategory c
+                    FROM Entity\ForumCategory c
                     ');
         $result = $q->getArrayResult();
         #\Clansuite_Debug::printR($result);

@@ -100,11 +100,11 @@ class Doctrine
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Symfony', ROOT_LIBRARIES .  'Doctrine/Symfony');
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Entities', ROOT . 'Doctrine');
+        $classLoader = new \Doctrine\Common\ClassLoader('Entity', ROOT . 'Doctrine');
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Repositories', ROOT . 'Doctrine');
+        $classLoader = new \Doctrine\Common\ClassLoader('Repository', ROOT . 'Doctrine');
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Proxies', ROOT . 'Doctrine');
+        $classLoader = new \Doctrine\Common\ClassLoader('Proxy', ROOT . 'Doctrine');
         $classLoader->register();
 
         // include Doctrine Extensions
@@ -141,7 +141,7 @@ class Doctrine
 
         // set proxy dirs
         $config->setProxyDir(ROOT . 'Doctrine');
-        $config->setProxyNamespace('Proxies');
+        $config->setProxyNamespace('Proxy');
 
         // regenerate proxies only in debug and not in production mode
         if (DEBUG == true) {
@@ -300,14 +300,14 @@ class Doctrine
              */
 
             // Entity Path
-            $entity_path = $dir_path . '/Model/Entities/';
+            $entity_path = $dir_path . '/Model/Entity';
 
             if (is_dir($entity_path)) {
                 $model_dirs[] = $entity_path;
             }
 
             // Repository Path
-            $repos_path = $dir_path . '/Model/Repositories/';
+            $repos_path = $dir_path . '/Model/Repository/';
 
             if (is_dir($repos_path)) {
                 $model_dirs[] = $repos_path;

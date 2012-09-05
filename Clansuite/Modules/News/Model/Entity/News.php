@@ -1,12 +1,12 @@
 <?php
-namespace Entities;
+namespace Entity;
 
 //use Doctrine\ORM\Mapping as ORM; // we are currently not using @ORM annotions
 
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity(repositoryClass="Repositories\NewsRepository")
+ * @Entity(repositoryClass="Repository\NewsRepository")
  * @Table(name="news")
  */
 class News
@@ -125,12 +125,12 @@ class News
      * The relationships is bidirectional,
      * so inversedBy is included in the ManyToOne annotation.
      *
-     * @ManyToOne(targetEntity="Entities\User", inversedBy="news_authored")
+     * @ManyToOne(targetEntity="Entity\User", inversedBy="news_authored")
      * @JoinColumn(name="user_id", referencedColumnName="user_id")
      */
     private $news_authored_by;
 
-    public function addAuthor(Entities\User $user)
+    public function addAuthor(Entity\User $user)
     {
         $this->news_authored_by = $user->user_id;
     }
@@ -139,12 +139,12 @@ class News
      * ONE News article may have zero to MANY comments (1:n).
      * This a unidirectional relationship, so 'invertedBy' is not used.
      *
-     * @OneToMany(targetEntity="Entities\Comment", mappedBy="news")
+     * @OneToMany(targetEntity="Entity\Comment", mappedBy="news")
      * @var Collection
      */
     private $comments;
 
-    public function addComment(Entities\Comment $comment)
+    public function addComment(Entity\Comment $comment)
     {
         $this->comments[] = $comment;
         $comment->setNews($this);
@@ -158,7 +158,7 @@ class News
      */
     private $category;
 
-    public function addCategory(Entities\Category $category)
+    public function addCategory(Entity\Category $category)
     {
         $this->cat_id = $category->cat_id;
     }

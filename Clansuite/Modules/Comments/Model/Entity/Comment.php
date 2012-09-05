@@ -1,8 +1,8 @@
 <?php
-namespace Entities;
+namespace Entity;
 
 /**
- * @Entity(repositoryClass="Repositories\CommentRepository")
+ * @Entity(repositoryClass="Repository\CommentRepository")
  * @Table(name="news_comments")
  */
 class Comment
@@ -68,7 +68,7 @@ class Comment
      */
     private $news;
 
-    public function setNews(Entities\News $news)
+    public function setNews(Entity\News $news)
     {
         $this->news = $news;
     }
@@ -79,7 +79,7 @@ class Comment
      */
     private $comment_authored_by;
 
-    public function setAuthor(Entities\User $user)
+    public function setAuthor(Entity\User $user)
     {
         $this->comment_authored_by = $user;
     }

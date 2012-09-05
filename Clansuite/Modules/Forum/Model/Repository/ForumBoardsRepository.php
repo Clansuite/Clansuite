@@ -1,5 +1,5 @@
 <?php
-namespace Repositories;
+namespace Repository;
 use Doctrine\ORM\EntityRepository;
 
 class ForumBoardsRepository extends EntityRepository
@@ -12,7 +12,7 @@ class ForumBoardsRepository extends EntityRepository
     {
         $q = $this->_em->createQuery('
                     SELECT b
-                    FROM Entities\ForumBoards b
+                    FROM Entity\ForumBoards b
                     ');
         $result = $q->getArrayResult();
         #\Clansuite_Debug::printR($result);
@@ -28,7 +28,7 @@ class ForumBoardsRepository extends EntityRepository
     {
         $q = $this->_em->createQuery('
                     SELECT b
-                    FROM Entities\ForumBoards b
+                    FROM Entity\ForumBoards b
                     WHERE b.parent_id = :bid
                     ');
         $q->setParameter('bid', $bid);

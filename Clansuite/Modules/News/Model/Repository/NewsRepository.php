@@ -5,14 +5,14 @@
  * Instead of writing
  *
  * $qb = $this->_em->createQueryBuilder();
- * $qb->select('n') ->from('Entities\News', 'n')
+ * $qb->select('n') ->from('Entity\News', 'n')
  *
  * you may simply write
  *
  * $this->createQueryBuilder('n')
  */
 
-namespace Repositories;
+namespace Repository;
 use Doctrine\ORM\EntityRepository;
 use DoctrineExtensions\Paginate\Paginate;
 
@@ -30,7 +30,7 @@ class NewsRepository extends EntityRepository
                             nc,
                             partial ncu.{user_id, nick, email, country}
                         ');
-        $q->from( 'Entities\News', 'n' );
+        $q->from( 'Entity\News', 'n' );
         $q->leftJoin( 'n.news_authored_by', 'u' );
         $q->leftJoin( 'n.category', 'c' );
         $q->leftJoin( 'n.comments', 'nc' );
@@ -70,7 +70,7 @@ class NewsRepository extends EntityRepository
                            partial c.{cat_id, name, description, image, icon, color},
                            nc,
                            partial ncu.{user_id, nick, email, country}
-                    FROM Entities\News n
+                    FROM Entity\News n
                     LEFT JOIN n.news_authored_by u
                     LEFT JOIN n.category c
                     LEFT JOIN n.comments nc
@@ -101,7 +101,7 @@ class NewsRepository extends EntityRepository
                     SELECT n,
                            partial u.{user_id, nick},
                            partial c.{cat_id, image}
-                    FROM Entities\News n
+                    FROM Entity\News n
                     LEFT JOIN n.news_authored_by u
                     LEFT JOIN n.category c
                     WHERE n.news_id = :news_id
@@ -127,7 +127,7 @@ class NewsRepository extends EntityRepository
                            partial c.{cat_id, name, description, image, icon, color},
                            nc,
                            partial ncu.{user_id, nick, email, country}
-                    FROM Entities\News n
+                    FROM Entity\News n
                     LEFT JOIN n.news_authored_by u
                     LEFT JOIN n.category c
                     LEFT JOIN n.comments nc
@@ -164,7 +164,7 @@ class NewsRepository extends EntityRepository
                            SELECT n,
                                   partial u.{nick, user_id},
                                   partial c.{cat_id, name, description, image, icon, color}
-                           FROM Entities\News n
+                           FROM Entity\News n
                            LEFT JOIN n.news_authored_by u
                            LEFT JOIN n.category c
                            WHERE c.module_id = 7
@@ -191,7 +191,7 @@ class NewsRepository extends EntityRepository
     {
         $q = $this->_em->createQuery('
                         SELECT n.cat_id, COUNT(n.cat_id) sum_news, c.name
-                        FROM Entities\News n
+                        FROM Entity\News n
                         LEFT JOIN n.category c
                         WHERE c.module_id = 7
                         GROUP BY c.name');
@@ -208,7 +208,7 @@ class NewsRepository extends EntityRepository
     {
         $q = $this->_em->createQuery('
                                     SELECT c.cat_id, c.name
-                                    FROM Entities\Category c
+                                    FROM Entity\Category c
                                     WHERE c.module_id = 7
                                     GROUP BY c.name');
         $r = $q->getArrayResult();
@@ -223,7 +223,7 @@ class NewsRepository extends EntityRepository
         // fetch all newsentries, ordered by creation date ASCENDING
         $q = $this->_em->createQuery('
                                     SELECT n.news_id, n.created_at
-                                    FROM Entities\News n
+                                    FROM Entity\News n
                                     ORDER BY n.created_at ASC'
         );
         $r = $q->getArrayResult();

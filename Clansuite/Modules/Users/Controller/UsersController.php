@@ -124,7 +124,7 @@ class UsersController extends ModuleController
         $numberUsers = self::getConfigValue('items_lastregisteredusers', $numberUsers, '5');
 
         // fetch specified num of last registered users
-        $last_registered_users = $this->getModel('Entities\User')->getLastRegisteredUsers($numberUsers);
+        $last_registered_users = $this->getModel('Entity\User')->getLastRegisteredUsers($numberUsers);
 
         // assign data to view
         $this->getView()->assign('last_registered_users', $last_registered_users);
@@ -161,7 +161,7 @@ class UsersController extends ModuleController
 
         $random_user = $this->doctrine_em->createQuery('
                 SELECT u.user_id, u.nick, u.email, u.country, u.joined, RAND() rand
-                FROM Entities\User u
+                FROM Entity\User u
                 ORDER BY rand')
                 ->setMaxResults(1)
                 ->getArrayResult();

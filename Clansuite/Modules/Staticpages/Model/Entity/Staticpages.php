@@ -1,8 +1,8 @@
 <?php
-namespace Entities;
+namespace Entity;
 
 /**
- * @Entity(repositoryClass="Repositories\StaticpagesRepository")
+ * @Entity(repositoryClass="Repository\StaticpagesRepository")
  * @Table(name="staticpages")
  */
 class Staticpages

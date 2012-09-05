@@ -1,9 +1,9 @@
 <?php
-namespace Entities;
+namespace Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity(repositoryClass="Repositories\UserRepository")
+ * @Entity(repositoryClass="Repository\UserRepository")
  * @Table(name="users")
  */
 class User

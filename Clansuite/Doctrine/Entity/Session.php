@@ -1,6 +1,6 @@
 <?php
 
-namespace Entities;
+namespace Entity;
 
 /** @Entity @Table(name="Session") */
 class Session

@@ -134,7 +134,7 @@ class NewsAdminController extends ModuleController
         // Instantiate the datagrid
         $datagrid = new Clansuite_Datagrid( array(
                 // Set only the name manually
-                #'Entity'       => 'Entities\News',
+                #'Entity'       => 'Entity\News',
                 // Set the name automatically
                 'Entity'        => $this->getEntityNameFromClassname(),
                 // Table Column Descriptions
@@ -283,10 +283,10 @@ class NewsAdminController extends ModuleController
         $news = $this->getModel()->find($data['news_id']);
 
         // the same as above, but explicitly named entity in a short version
-        #$news = $this->doctrine_em->find('Entities\News', $data['news_id']);
+        #$news = $this->doctrine_em->find('Entity\News', $data['news_id']);
 
         // the same as above, but explicitly named entity in the long version
-        // $news = $this->doctrine_em->getRepository('Entities\News')->find($data['news_id']);
+        // $news = $this->doctrine_em->getRepository('Entity\News')->find($data['news_id']);
 
         #Clansuite_Debug::dump($news);
 
@@ -346,7 +346,7 @@ class NewsAdminController extends ModuleController
             foreach ($aDelete as $id) {
                 // delete the news with id
                 $em = $this->getDoctrineEntityManager();
-                $news = $em->find('Entities\News', $id);
+                $news = $em->find('Entity\News', $id);
                 $em->remove($news);
                 $em->flush();
 

@@ -1,27 +1,27 @@
 <?php
-$classLoader = new \Doctrine\Common\ClassLoader('Entities', realpath('../doctrine'));
+$classLoader = new \Doctrine\Common\ClassLoader('Entity', realpath('../Doctrine'));
 $classLoader->register();
-$classLoader = new \Doctrine\Common\ClassLoader('Repositories', realpath('../doctrine'));
+$classLoader = new \Doctrine\Common\ClassLoader('Repository', realpath('../Doctrine'));
 $classLoader->register();
-$classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath('../doctrine'));
+$classLoader = new \Doctrine\Common\ClassLoader('Proxy', realpath('../Doctrine'));
 $classLoader->register();
-$classLoader = new \Doctrine\Common\ClassLoader('Doctrine\DBAL\Migrations', realpath('../doctrine/migrations'));
+$classLoader = new \Doctrine\Common\ClassLoader('Doctrine\DBAL\Migrations', realpath('../Doctrine/Migrations'));
 $classLoader->register();
 
 $config = new \Doctrine\ORM\Configuration();
 $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache);
 
-$driverImpl = $config->newDefaultAnnotationDriver(array(realpath('../doctrine/entities')));
+$driverImpl = $config->newDefaultAnnotationDriver(array(realpath('../Doctrine/Entity')));
 $config->setMetadataDriverImpl($driverImpl);
 
 $chainDriverImpl = new \Doctrine\ORM\Mapping\Driver\DriverChain();
-$yourDefaultDriverImpl = new \Doctrine\ORM\Mapping\Driver\YamlDriver('../doctrine/yaml');
+$yourDefaultDriverImpl = new \Doctrine\ORM\Mapping\Driver\YamlDriver('../Doctrine/Yaml');
 $chainDriverImpl->addDriver($yourDefaultDriverImpl, 'Entity');
 
 $config->setMetadataDriverImpl($chainDriverImpl);
 
-$config->setProxyDir('../doctrine/proxies');
-$config->setProxyNamespace('Proxies');
+$config->setProxyDir('../Dctrine/Proxy');
+$config->setProxyNamespace('Proxy');
 
 $connectionOptions = array(
             'driver'    => 'pdo_mysql',

@@ -1,8 +1,8 @@
 <?php
-namespace Entities;
+namespace Entity;
 
 /**
- * @Entity(repositoryClass="Repositories\ForumCategoryRepository")
+ * @Entity(repositoryClass="Repository\ForumCategoryRepository")
  * @Table(name="forum_category")
  */
 class ForumCategory

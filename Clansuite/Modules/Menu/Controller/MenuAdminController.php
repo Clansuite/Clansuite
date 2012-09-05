@@ -271,7 +271,7 @@ class MenuAdminController extends ModuleController
             #Clansuite_Debug::printR($value);
 
             // fetch activerecord of the adminmenu
-            $adminmenu = new \Entities\CsAdminmenu;
+            $adminmenu = new \Entity\CsAdminmenu;
 
             // setup the new menuelement
             $adminmenu['id']            = (int) str_replace( 'tree-', '', $key );
@@ -682,7 +682,7 @@ class MenuAdminController extends ModuleController
         if (empty($result)) {
             $query = $this->doctrine_em->createQuery('
                 SELECT m
-                FROM \Entities\Adminmenu m
+                FROM \Entity\Adminmenu m
                 ORDER BY m.sortorder ASC, m.parent ASC');
             $result = $query->getArrayResult();
         }

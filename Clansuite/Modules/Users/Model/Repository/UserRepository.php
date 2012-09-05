@@ -1,6 +1,6 @@
 <?php
 
-namespace Repositories;
+namespace Repository;
 use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository
@@ -12,7 +12,7 @@ class UserRepository extends EntityRepository
         $q->select('
                             partial u.{user_id, nick, email, country, joined}
                        ')
-            ->from('Entities\User', 'u')
+            ->from('Entity\User', 'u')
             ->where('u.activated = 1')
             ->orderBy('u.joined', 'DESC')
             ->setMaxResults( $limit );

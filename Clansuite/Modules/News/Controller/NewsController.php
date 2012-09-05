@@ -465,7 +465,7 @@ class NewsController extends ModuleController
 
         #Clansuite_Debug::printR($parameter);
 
-        $news = $this->getModel('Entities\News')->findPublishNews($news_id);
+        $news = $this->getModel('Entity\News')->findPublishNews($news_id);
         $aNews = array();
         $aNews['news_id'] = $news['news_id'];
         $aNews['news_title'] = $news['news_title'];

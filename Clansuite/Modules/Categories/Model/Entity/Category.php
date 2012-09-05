@@ -1,9 +1,9 @@
 <?php
 
-namespace Entities;
+namespace Entity;
 
 /**
- * @Entity(repositoryClass="Repositories\CategoryRepository")
+ * @Entity(repositoryClass="Repository\CategoryRepository")
  * @Entity @Table(name="categories")
  */
 class Category

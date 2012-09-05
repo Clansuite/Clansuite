@@ -71,7 +71,7 @@ class ForumController extends ModuleController
         // Get Render Engine
         $view = $this->getView();
 
-        $resultCategory = $this->getModel( 'Entities\ForumCategory' )->findAllCategories();
+        $resultCategory = $this->getModel( 'Entity\ForumCategory' )->findAllCategories();
         #Clansuite_Debug::printR( $resultCategory );
 
         if ( count($resultCategory) >1 ) {
@@ -79,12 +79,12 @@ class ForumController extends ModuleController
             $view->assign('categories', $resultCategory);
         } else {
             $view->assign('withcat', false);
-            $resultBoards = $this->getModel( 'Entities\ForumBoards' )->findBoards();
+            $resultBoards = $this->getModel( 'Entity\ForumBoards' )->findBoards();
             #Clansuite_Debug::printR( $resultBoards );
 
             foreach ($resultBoards as $board) {
                 $aBoards = $board;
-                $resultSubBoards = $this->getModel( 'Entities\ForumBoards' )->findSubBoards( $board['board_id'] );
+                $resultSubBoards = $this->getModel( 'Entity\ForumBoards' )->findSubBoards( $board['board_id'] );
                 if ( count($resultSubBoards) >0 ) {
                     $aBoards['subb'] = 1;
                     foreach ($resultSubBoards as $sboard) {
