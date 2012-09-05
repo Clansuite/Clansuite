@@ -25,7 +25,7 @@
 
 namespace Koch\Form\Decorators\Formelement;
 
-use Koch\Form\FormelementDecorator;
+use Koch\Form\FormElementDecorator;
 
 /**
  * Koch Framework - Formelement Decorator Description.
