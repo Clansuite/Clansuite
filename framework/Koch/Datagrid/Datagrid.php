@@ -158,7 +158,7 @@ class Datagrid extends Base
 
     /**
      * String representing the Entity to use
-     * e.g. "\Entities\News"
+     * e.g. "\Entity\News"
      *
      * @var string
      */
@@ -430,7 +430,7 @@ class Datagrid extends Base
         unset($value);
 
         // sets the doctrine entity to use for the datagrid
-        // set manually        'Entity'        => 'Entities\News',
+        // set manually        'Entity'        => 'Entity\News',
         // or automatically    getEntityNameFromClassname()
         if ($options['Entity'] !== null) {
             $this->setDoctrineEntityName($options['Entity']);

@@ -112,7 +112,7 @@ abstract class Controller
         $entityName = array_pop($segments);
 
         // add entities namespace prefix
-        $this->entityName = 'Entities\\' . $entityName;
+        $this->entityName = 'Entity\\' . $entityName;
 
         return $this->entityName;
     }
@@ -121,7 +121,7 @@ abstract class Controller
      * Proxy/Convenience Getter Method for the Repository of the current Module.
      *
      *
-     * @param  string                        $entityName Name of an Entity, like "\Entities\User".
+     * @param  string    $entityName Name of an Entity, like "\Entity\User".
      * @return Doctrine\ORM\EntityRepository
      */
     public function getModel($entityName = null)
@@ -182,13 +182,13 @@ abstract class Controller
                $entity = $module_models_path . 'Entities/' . ucfirst($modulename) . '.php';
            }
 
-           if (is_file($entity) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false) {
+           if (is_file($entity) === true and class_exists('Entity\\' . ucfirst($modulename), false) === false) {
                include $entity;
            }
 
            $repos = $module_models_path . 'Repositories/' . ucfirst($modulename) . 'Repository.php';
 
-           if (is_file($repos) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false) {
+           if (is_file($repos) === true and class_exists('Entity\\' . ucfirst($modulename), false) === false) {
                include $repos;
            }
         }

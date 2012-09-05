@@ -230,7 +230,7 @@ class Session implements SessionInterface, \ArrayAccess
         try {
             $em = \Clansuite\Application::getEntityManager();
             $query = $em->createQuery('SELECT s.session_data, s.session_starttime
-                                       FROM \Entities\Session s
+                                       FROM \Entity\Session s
                                        WHERE s.session_name = :name
                                        AND s.session_id = :id');
             $query->setParameters(array('name' => self::SESSION_NAME, 'id' => $session_id));
@@ -277,7 +277,7 @@ class Session implements SessionInterface, \ArrayAccess
         $em = \Clansuite\Application::getEntityManager();
 
         $query = $em->createQuery(
-            'UPDATE \Entities\Session s
+            'UPDATE \Entity\Session s
                 SET s.session_id = :id,
                 s.session_name = :name,
                 s.session_starttime = :time,
@@ -326,7 +326,7 @@ class Session implements SessionInterface, \ArrayAccess
         $em = \Clansuite\Application::getEntityManager();
 
         $query = $em->createQuery(
-            'DELETE \Entities\Session s
+            'DELETE \Entity\Session s
                 WHERE s.session_name = :name
                     AND s.session_id = :id'
         );
@@ -372,7 +372,7 @@ class Session implements SessionInterface, \ArrayAccess
         $em = \Clansuite\Application::getEntityManager();
 
         $query = $em->createQuery(
-            'DELETE \Entities\Session s
+            'DELETE \Entity\Session s
                 WHERE s.session_name = :name
                     AND s.session_starttime < :time'
         );
