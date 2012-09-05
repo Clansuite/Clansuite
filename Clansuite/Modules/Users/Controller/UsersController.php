@@ -155,7 +155,7 @@ class UsersController extends ModuleController
      * @param $smarty Smarty Render Engine Object
      * @returns direct smarty assign of randomuser data
      */
-    public function widget_randomuser($numberNews)
+    public function widget_randomuser()
     {
         $view = $this->getView();
 

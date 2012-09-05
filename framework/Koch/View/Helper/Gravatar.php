@@ -90,9 +90,9 @@ class Gravatar
      */
     public function setEmail($email)
     {
-        if (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        /*if (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('Invalid value of $email: '.$email);
-        }
+        }*/
 
         $this->email = (string) strtolower($email);
 

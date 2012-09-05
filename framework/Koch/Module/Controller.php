@@ -121,7 +121,7 @@ abstract class Controller
      * Proxy/Convenience Getter Method for the Repository of the current Module.
      *
      *
-     * @param  string    $entityName Name of an Entity, like "\Entity\User".
+     * @param  string                        $entityName Name of an Entity, like "\Entity\User".
      * @return Doctrine\ORM\EntityRepository
      */
     public function getModel($entityName = null)
