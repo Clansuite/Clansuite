@@ -80,7 +80,7 @@ function tests_have_run()
  */
 function initial_file()
 {
-    public static $file = false;
+	static $file = false;
     if (! $file) {
         if (isset($_SERVER, $_SERVER['SCRIPT_FILENAME'])) {
             $file = $_SERVER['SCRIPT_FILENAME'];
