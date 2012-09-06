@@ -488,38 +488,38 @@ class FormElement implements FormElementInterface
             if (false === strpos($rule, '=')) {
                 // if there is no "=", then there is no value to set
                 // rule is then the name of a validator
-                $class = $this->mapRulenameToClassname($rule);               
+                $class = $this->mapRulenameToClassname($rule);
                 $this->addValidator($class);
             } else { // ok -> property name to value relationship
                 $array = explode('=', $rule);
-                $class = $this->mapRulenameToClassname($array[0]);       
+                $class = $this->mapRulenameToClassname($array[0]);
                 $this->addValidator($class, array($class => $array[1]));
             }
         }
     }
-    
+
     /**
      * Maps a validator rule to a validator classname
-     * 
-     * @param type $rule Lowercased rule
+     *
+     * @param  type   $rule Lowercased rule
      * @return string Validator Classname based on rule
      */
     public function mapRulenameToClassname($rule)
-    {        
-        switch ($rule) {            
-            case 'email': return 'Email'; break;
-            case 'equals': return 'Equals'; break;
-            case 'ip': return 'Ip'; break;
-            case 'locale': return 'Locale'; break;
-            case 'maxlength': return 'MaxLength'; break;
-            case 'maxvalue': return 'MaxValue'; break;
-            case 'minlength': return 'MinLength'; break;
-            case 'minvalue': return 'MinValue'; break;            
-            case 'range': return 'Range'; break;            
-            case 'regexp': return 'RegExp'; break;            
-            case 'required': return 'Required'; break;
-            case 'string': return 'String'; break;
-            case 'url': return 'Url'; break;
+    {
+        switch ($rule) {
+            case 'email':      return 'Email';
+            case 'equals':     return 'Equals';
+            case 'ip':         return 'Ip';
+            case 'locale':     return 'Locale';
+            case 'maxlength':  return 'MaxLength';
+            case 'maxvalue':   return 'MaxValue';
+            case 'minlength':  return 'MinLength';
+            case 'minvalue':   return 'MinValue';
+            case 'range':      return 'Range';
+            case 'regexp':     return 'RegExp';
+            case 'required':   return 'Required';
+            case 'string':     return 'String';
+            case 'url':        return 'Url';
         }
     }
 
@@ -581,8 +581,7 @@ class FormElement implements FormElementInterface
         // return early, if this object is already stored
         if (isset($this->validators[$class]) === true) {
             return $this->validators[$class];
-        }
-        elseif (true === class_exists($class)) {
+        } elseif (true === class_exists($class)) {
             return new $class();
         }
         // validator not found
