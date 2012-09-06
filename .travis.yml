@@ -30,7 +30,7 @@ script:
  # run unit-tests
  - php ./tests/runAllTests.php
  # ensure that encoding of framework files is UTF8
- - ./build-tools/checkEncodingUTF8.sh ../framework
+ - ./build-tools/checkEncodingUTF8.sh framework
 
 # configure notifications (email, irc etc)
 notifications:
