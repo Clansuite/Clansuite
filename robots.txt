@@ -7,12 +7,8 @@
 # http://www.robotstxt.org
 
 User-agent: *
-Disallow: /cache/
-Disallow: /core/
-Disallow: /doc/
-Disallow: /languages/
+Disallow: /Clansuite/
+Disallow: /Installation/
+Disallow: /framework/
 Disallow: /libraries/
-Disallow: /logs/
-Disallow: /modules/
-Disallow: /templates/
-Disallow: /uploads/
+Disallow: /vendor/
