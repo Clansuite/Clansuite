@@ -3,7 +3,6 @@ if (count(get_included_files()) == 1) {
     require_once '../../../../simpletest/autorun.php';
     require_once '../../../../bootstrap.php';
     require_once '../../../../unittester.php';
-
 }
 
 use Koch\Router\Router;

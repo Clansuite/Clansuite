@@ -53,12 +53,8 @@ class Mapper extends \ArrayObject
     /* @const string Name of the Default Action */
     const DEFAULT_ACTION = 'index';
 
-    public static function getModulePath($module = null)
+    public static function getModulePath($module)
     {
-        /*if ($module === null) {
-            $module = self::getModule();
-        }*/
-
         return ROOT_MOD . $module . DIRECTORY_SEPARATOR;
     }
 
