@@ -179,15 +179,10 @@ class TargetRoute extends Mapper
     }
 
     public static function getMethod()
-    {
-        // check if method is correctly prefixed with 'action_'
-        if (self::$parameters['method'] !== null and mb_strpos(self::$parameters['method'], 'action_')) {
-            return self::$parameters['method'];
-        } else {
-            // add method prefix (action_)
-            $method = self::mapActionToMethodname(self::getAction());
-            self::setMethod($method);
-        }
+    {  
+        // add method prefix (action_)
+        $method = self::mapActionToMethodname(self::getAction());
+        self::setMethod($method);        
 
         return self::$parameters['method'];
     }
@@ -285,7 +280,7 @@ class TargetRoute extends Mapper
         // was the class loaded before?
         if (false === class_exists($classname, false)) {
             // loading manually
-            if (is_file($filename)) {
+            if (is_file($filename) === true) {
                 include_once $filename;
                 // @todo position for log command
                 echo 'Loaded Controller: ' . $filename;
@@ -338,7 +333,7 @@ class TargetRoute extends Mapper
         if (isset($array['module']) === true) {
             self::setModule($array['module']);
             // yes, set the controller of the module, too
-            // if it is not News to NewsController, then it will be overwritten below
+            // if it is e.g. AdminController on Module News, then it will be overwritten below
             self::setController($array['module']);
             unset($array['module']);
         }
@@ -346,6 +341,10 @@ class TargetRoute extends Mapper
         // Controller
         if (isset($array['controller']) === true) {
             self::setController($array['controller']);
+            // if a module was not set yet, then set the current controller also as module
+            if(self::$parameters['module'] === 'index') { 
+                self::setModule($array['controller']);
+            }
             unset($array['controller']);
         }
 
@@ -360,7 +359,7 @@ class TargetRoute extends Mapper
             self::setId($array['id']);
             // if we set an id, and action is empty then [news/id] was requested
             // we fill automatically in the action show
-            if(self::$parameters['action'] == 'list') { self::setAction('show'); }          
+            if(self::$parameters['action'] === 'list') { self::setAction('show'); }          
             unset($array['id']);
         }
 

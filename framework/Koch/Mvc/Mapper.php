@@ -36,7 +36,7 @@ namespace Koch\Mvc;
  * @package     Core
  * @subpackage  Mapper
  */
-class Mapper extends \ArrayObject
+class Mapper #extends \ArrayObject
 {
     /* @const string Classname prefix for modules = Namespace */
     const MODULE_NAMESPACE = 'Clansuite\Modules';

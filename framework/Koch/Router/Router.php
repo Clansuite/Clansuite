@@ -881,8 +881,9 @@ class Router implements RouterInterface, \ArrayAccess
             $this->addRoute('/:module/(:id)', array(1 => 'id'));                     // "/news/news/31"   (show/update/delete)
             $this->addRoute('/:module/:action');                                     // "/news/new"               (new)
             $this->addRoute('/:module/:controller');                                 // "/news/news"              (list)
-            $this->addRoute('/:controller/:action/(:id)', array(2 => 'id'));         // "/news/edit/42"           (edit)
             # three segments
+            $this->addRoute('/:controller/:action/(:id)', array(2 => 'id'));         // "/news/edit/42"           (edit)
+            $this->addRoute('/:module/(:id)/:action', array(1 => 'id'));             // "/news/42/edit"           (edit)          
             $this->addRoute('/:module/:controller/(:id)', array(2 => 'id'));         // "/news/news/31"   (show/update/delete)
             $this->addRoute('/:module/:controller/:action');                         // "/news/news/new"          (new)
             # four segments
