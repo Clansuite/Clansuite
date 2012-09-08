@@ -240,7 +240,7 @@ class Router implements RouterInterface, \ArrayAccess
                     // and remove the requirement
                     unset($requirements[$name]);
                 } else { // no requirement
-                    $regexp .= '(?P<' . $name . '>[a-z0-9_-]+)';
+                    $regexp .= '(?P<' . $name . '>[a-z_-]+)';
                 }
             } else {
                 // process static parameter = string => "/index" or "/news"
@@ -543,18 +543,29 @@ class Router implements RouterInterface, \ArrayAccess
                  */
                 if (preg_match( $route_values['regexp'], $this->uri, $matches)) {
 
-                    /**
-                     * seems there is no way of getting rid of numeric keys during preg_match
-                     * (preg flag? regexp trick?)
-                     * http://stackoverflow.com/questions/10344590/php-subpattern-without-numbering-array
-                     * ------
-                     * get rid of numeric keys, just leave the named parameter
-                     *
-                     * unset everything, keep only $route_values['required'].
-                     */
-                    for ($i = 0; $i <= $route_values['number_of_segments']; $i++) {
-                        unset($matches[$i]);
-                    } unset($i);
+                    // matches[0] contains $this->uri
+                    unset($matches[0]);
+                    
+                    // remove duplicate values
+                    // e.g. [controller] = news
+                    //      [1]          = news
+                    $matches = array_unique($matches);
+                    
+                    # @todo # fetch key and its position from $route_values['requirements']
+                    if(count($route_values['requirements']) > 0) {
+                        foreach($route_values['requirements'] as $array_position => $key_name) {
+
+                            // insert a new key 
+                            // with name from requirements array
+                            // and value from matches array
+                            // ([id] => 42)
+                            $pos = $array_position+1;
+                            $matches[$key_name] = $matches[$pos];
+
+                            // remove the old not-named key ([2] => 42)
+                            unset($matches[$pos]);
+                        }                    
+                    }
 
                     // insert $matches[<controller>] etc
                     TargetRoute::setSegmentsToTargetRoute($matches);
@@ -563,7 +574,7 @@ class Router implements RouterInterface, \ArrayAccess
                 #TargetRoute::_debug();
 
                 if (TargetRoute::dispatchable() === true) {
-                    // route found
+                    // route found, stop foreach
                     break;
                 } else {
                     TargetRoute::reset();
@@ -863,14 +874,22 @@ class Router implements RouterInterface, \ArrayAccess
          * Example for Route definition with ArrayAccess: $r['/:controller'];
          */
         if (true === empty($this->routes)) {
-            $this->addRoute('/:module');                                             // "/news"                   (list)
+            # one segment
+            $this->addRoute('/:module');                                             // "/news"                 (list)
+            # two segments
+            $this->addRoute('/:controller/(:id)', array(1 => 'id'));                 // "/news/31"        (show/update/delete)
+            $this->addRoute('/:module/(:id)', array(1 => 'id'));                     // "/news/news/31"   (show/update/delete)
             $this->addRoute('/:module/:action');                                     // "/news/new"               (new)
             $this->addRoute('/:module/:controller');                                 // "/news/news"              (list)
-            $this->addRoute('/:module/:controller/(:id)', array(1 => 'id'));         // "/news/news/31"   (show/update/delete)
+            $this->addRoute('/:controller/:action/(:id)', array(2 => 'id'));         // "/news/edit/42"           (edit)
+            # three segments
+            $this->addRoute('/:module/:controller/(:id)', array(2 => 'id'));         // "/news/news/31"   (show/update/delete)
             $this->addRoute('/:module/:controller/:action');                         // "/news/news/new"          (new)
-            $this->addRoute('/:module/:controller/(:id)/:action', array(1 => 'id')); // "/news/news/31/edit"      (edit)
-            $this->addRoute('/:module/:controller/:action/(:id)', array(1 => 'id')); // "/news/news/edit/31"      (edit)
-            $this->addRoute('/:module/:controller/:action/(:id)/:format');           // "/news/news/edit/31.html" (edit)
+            # four segments
+            $this->addRoute('/:module/:controller/(:id)/:action', array(2 => 'id')); // "/news/news/31/edit"      (edit)
+            $this->addRoute('/:module/:controller/:action/(:id)', array(3 => 'id')); // "/news/news/edit/31"      (edit)
+            # five segments
+            $this->addRoute('/:module/:controller/:action/(:id)/:format', array(4 => 'id')); // "/news/news/edit/31.html" (edit)
         }
     }
 

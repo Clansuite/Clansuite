@@ -182,7 +182,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $segments = array(':news');
         $requirements = array('controller');
 
-        $this->assertIdentical('#(?P<news>[a-z0-9_-]+)\/?#',
+        $this->assertIdentical('#(?P<news>[a-z_-]+)\/?#',
             $this->router->processSegmentsRegExp($segments, $requirements));
     }
 

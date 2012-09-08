@@ -78,10 +78,11 @@ class TargetRoute extends Mapper
     public static function getFilename()
     {
         if (empty(self::$parameters['filename'])) {
-            self::setFilename(
-              self::mapControllerToFilename(
-                self::getModulePath(
-                  self::getModule()), self::getController()));
+            $filename = self::mapControllerToFilename(
+                self::getModulePath(self::getModule()), 
+                self::getController()
+            );
+            self::setFilename($filename);
         }
 
         return self::$parameters['filename'];
@@ -298,7 +299,7 @@ class TargetRoute extends Mapper
         }
 
         // this shows how many routes were tried
-        #echo 'Route failure. Not found ' . $filename .' ### '. $classname .' ### '. $method . '<br>';
+        echo '<br><strong>Route failure. Not found ' . $filename .' ### '. $classname .' ### '. $method . '</strong><br>';
 
         return false;
     }
@@ -353,6 +354,15 @@ class TargetRoute extends Mapper
             self::setAction($array['action']);
             unset($array['action']);
         }
+        
+        // Id
+        if (isset($array['id']) === true) {
+            self::setId($array['id']);
+            // if we set an id, and action is empty then [news/id] was requested
+            // we fill automatically in the action show
+            if(self::$parameters['action'] == 'list') { self::setAction('show'); }          
+            unset($array['id']);
+        }
 
         // Parameters
         if (count($array) > 0) {
@@ -360,6 +370,7 @@ class TargetRoute extends Mapper
             unset($array);
         }
 
+        # instantiate the target route
         return self::getInstance();
     }
 
