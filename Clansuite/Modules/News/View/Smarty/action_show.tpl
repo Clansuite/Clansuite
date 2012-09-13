@@ -67,6 +67,6 @@
 </table>
 <br />
 
-<div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$singlenews.CsCategories.image}" alt="{$singlenews.CsCategories.image}"/> {/if}</div>
+<div class="image">{if isset($news.image)} <img src="{$singlenews.CsCategories.image}" alt="{$singlenews.CsCategories.image}"/> {/if}</div>
 
 {/foreach}

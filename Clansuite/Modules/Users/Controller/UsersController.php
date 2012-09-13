@@ -48,7 +48,7 @@ class UsersController extends ModuleController
     public function action_list()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/users/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/users/show');
 
         // Defining initial variables
         $currentPage    = (int) $this->request->getParameter('page');

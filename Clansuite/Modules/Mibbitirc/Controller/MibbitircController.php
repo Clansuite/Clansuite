@@ -45,7 +45,7 @@ class MibbitircController extends ModuleController
     public function action_list()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/mibbitirc/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/mibbitirc/show');
 
         // Try to get Mibbit Options from config or set default ones
         $mibbit_options['nick']        = preg_replace('/ /', '_', $_SESSION['user']['nick']);

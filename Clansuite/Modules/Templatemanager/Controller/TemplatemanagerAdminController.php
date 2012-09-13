@@ -75,7 +75,7 @@ class TemplatemanagerAdminController extends ModuleController
     public function action_admin_showmoduletemplates()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Editor'), '/templatemanager/admin/showmoduletemplates');
+        \Koch\View\Helper\Breadcrumb::add( _('Editor'), '/templatemanager/admin/showmoduletemplates');
 
         // Incomming Variables
         $modulename = $this->request->getParameter('modulename', 'GET');
@@ -95,7 +95,7 @@ class TemplatemanagerAdminController extends ModuleController
     public function action_admin_edit()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit'), '/templatemanager/admin/edit');
+        \Koch\View\Helper\Breadcrumb::add( _('Edit'), '/templatemanager/admin/edit');
 
         $view = $this->getView();
 
@@ -196,7 +196,7 @@ class TemplatemanagerAdminController extends ModuleController
     public function action_admin_settings()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/templatemanager/admin/settings');
+        \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/templatemanager/admin/settings');
 
         $this->display();
     }

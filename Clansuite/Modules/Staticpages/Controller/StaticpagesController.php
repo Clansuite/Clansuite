@@ -57,7 +57,7 @@ class StaticpagesController extends ModuleController
         }
 
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show ' . $page), '/index.php?mod=staticpages/show&page='. $page);
+        \Koch\View\Helper\Breadcrumb::add( _('Show ' . $page), '/index.php?mod=staticpages/show&page='. $page);
 
         // get inputfilter class
         #$input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
@@ -109,7 +109,7 @@ class StaticpagesController extends ModuleController
     public function action_overview()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Overview'), '/staticpages/overview');
+        \Koch\View\Helper\Breadcrumb::add( _('Overview'), '/staticpages/overview');
 
         // get all static pages without page content
         $result = Doctrine_Query::create()

@@ -445,7 +445,7 @@ class LanguagesAdminController extends ModuleController
      */
     public function action_admin_new()
     {
-        Clansuite_Breadcrumb::add( _('Add language'), '/languages/admin/new');
+        \Koch\View\Helper\Breadcrumb::add( _('Add language'), '/languages/admin/new');
 
         // handle get request
         if ($this->request->getRequestMethod() == 'GET') {

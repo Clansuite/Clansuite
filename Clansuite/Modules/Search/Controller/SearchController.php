@@ -52,7 +52,7 @@ class SearchController extends ModuleController
     public function action_multisearch()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/search/multisearch');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/search/multisearch');
 
         #Clansuite_Debug::printR( $_POST );
 

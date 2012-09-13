@@ -45,7 +45,7 @@ class ForumAdminController extends ModuleController
     public function action_admin_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/forum/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/forum/show');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -56,7 +56,7 @@ class ForumAdminController extends ModuleController
     public function action_admin_create_category()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create Category'), '/forum/create_category');
+        \Koch\View\Helper\Breadcrumb::add( _('Create Category'), '/forum/create_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -67,7 +67,7 @@ class ForumAdminController extends ModuleController
     public function action_admin_create_board()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create Board'), '/forum/create_board');
+        \Koch\View\Helper\Breadcrumb::add( _('Create Board'), '/forum/create_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -78,7 +78,7 @@ class ForumAdminController extends ModuleController
     public function action_admin_edit_category()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit Category'), '/forum/edit_category');
+        \Koch\View\Helper\Breadcrumb::add( _('Edit Category'), '/forum/edit_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -89,7 +89,7 @@ class ForumAdminController extends ModuleController
     public function action_admin_edit_board()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit Board'), '/forum/edit_board');
+        \Koch\View\Helper\Breadcrumb::add( _('Edit Board'), '/forum/edit_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -100,7 +100,7 @@ class ForumAdminController extends ModuleController
     public function action_admin_delete_category()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Delete Category'), '/forum/delete_category');
+        \Koch\View\Helper\Breadcrumb::add( _('Delete Category'), '/forum/delete_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -111,7 +111,7 @@ class ForumAdminController extends ModuleController
     public function action_admin_delete_board()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Delete Board'), '/forum/delete_board');
+        \Koch\View\Helper\Breadcrumb::add( _('Delete Board'), '/forum/delete_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -122,7 +122,7 @@ class ForumAdminController extends ModuleController
     public function action_admin_settings ()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/forum/admin/settings');
+        \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/forum/admin/settings');
 
         $settings = array();
 

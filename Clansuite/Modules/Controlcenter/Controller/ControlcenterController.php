@@ -58,7 +58,7 @@ class ControlcenterController extends ModuleController
     public function action_bugs()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Report Bugs &amp; Issues'), '/controlcenter/bugs');
+        \Koch\View\Helper\Breadcrumb::add( _('Report Bugs &amp; Issues'), '/controlcenter/bugs');
 
         $this->display();
     }
@@ -66,7 +66,7 @@ class ControlcenterController extends ModuleController
     public function action_about()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('About Clansuite'), '/controlcenter/about');
+        \Koch\View\Helper\Breadcrumb::add( _('About Clansuite'), '/controlcenter/about');
 
         $this->display();
     }
@@ -74,7 +74,7 @@ class ControlcenterController extends ModuleController
     public function action_supportlinks()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Links for Help & Support'), '/help/admin/supportlinks');
+        \Koch\View\Helper\Breadcrumb::add( _('Links for Help & Support'), '/help/admin/supportlinks');
 
         $this->display();
     }
@@ -141,7 +141,7 @@ class ControlcenterController extends ModuleController
     public function action_settings()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/controlcenter/admin/settings');
+        \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/controlcenter/admin/settings');
 
         $settings = array();
 

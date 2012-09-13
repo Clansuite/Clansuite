@@ -58,7 +58,7 @@ class NewsController extends ModuleController
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/news/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/news/show');
 
         // get resultsPerPage from ModuleConfig
         $resultsPerPage = self::getConfigValue('resultsPerPage_show', '3');
@@ -123,8 +123,8 @@ class NewsController extends ModuleController
         // if a news was found
         if (!empty($news) && is_array($news)) {
             // Set Pagetitle and Breadcrumbs
-            Clansuite_Breadcrumb::replace( _('Show News'), '/news/show', 1);
-            Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&action=show');
+            \Koch\View\Helper\Breadcrumb::replace( _('Show News'), '/news/show', 1);
+            \Koch\View\Helper\Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&action=show');
 
             $view->assign('news', $news);
         } else { // no news found for this id
@@ -254,7 +254,7 @@ class NewsController extends ModuleController
     public function action_archive()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Archive'), '/news/archive');
+        \Koch\View\Helper\Breadcrumb::add( _('Archive'), '/news/archive');
 
         // Defining initial variables
         $currentPage = (int) $this->request->getParameter('page');
@@ -314,7 +314,7 @@ class NewsController extends ModuleController
     public function action_fullarchive()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Archiv'), '/news/fullarchive');
+        \Koch\View\Helper\Breadcrumb::add( _('Archiv'), '/news/fullarchive');
 
         // Defining initial variables
         $currentPage = (int) $this->request->getParameter('page');

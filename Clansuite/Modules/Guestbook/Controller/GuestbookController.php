@@ -47,7 +47,7 @@ class GuestbookController extends ModuleController
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/guestbook/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/guestbook/show');
 
         // Defining initial variables
         // Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities

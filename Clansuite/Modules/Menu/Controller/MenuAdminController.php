@@ -164,7 +164,7 @@ class MenuAdminController extends ModuleController
     public function action_admin_menueditor2()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Adminmenu Editor II'), '/menu/admin/menueditor2');
+        \Koch\View\Helper\Breadcrumb::add( _('Adminmenu Editor II'), '/menu/admin/menueditor2');
 
         $model = 'CsAdminmenuShortcuts';
         $treeObject = Doctrine::getTable($model)->getTree();

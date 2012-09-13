@@ -66,7 +66,7 @@ class ForumController extends ModuleController
         $subboards = array();
 
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/forum/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/forum/show');
 
         // Get Render Engine
         $view = $this->getView();

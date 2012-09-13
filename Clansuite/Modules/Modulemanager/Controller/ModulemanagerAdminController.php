@@ -48,7 +48,7 @@ class ModulemanagerAdminController extends ModuleController
     public function action_admin_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/modulemanager/admin/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/modulemanager/admin/show');
 
         $moduleinfo = new Clansuite_ModuleInfoController();
         $modules_info_array = $moduleinfo->getModuleInformations();
@@ -72,7 +72,7 @@ class ModulemanagerAdminController extends ModuleController
     public function action_admin_edit_info()
     {
          // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit Info'), '/modulemanager/admin/edit_info');
+        \Koch\View\Helper\Breadcrumb::add( _('Edit Info'), '/modulemanager/admin/edit_info');
 
         $modulename = $this->request->getParameterFromGet('modulename');
 
@@ -89,7 +89,7 @@ class ModulemanagerAdminController extends ModuleController
     public function action_admin_install()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/modulemanager/admin/install_new');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/modulemanager/admin/install_new');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -104,7 +104,7 @@ class ModulemanagerAdminController extends ModuleController
     public function action_admin_export()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Export'), '/modulemanager/admin/export');
+        \Koch\View\Helper\Breadcrumb::add( _('Export'), '/modulemanager/admin/export');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -119,7 +119,7 @@ class ModulemanagerAdminController extends ModuleController
     public function action_admin_imexport()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Import & Export'), '/modulemanager/admin/imexport');
+        \Koch\View\Helper\Breadcrumb::add( _('Import & Export'), '/modulemanager/admin/imexport');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -138,7 +138,7 @@ class ModulemanagerAdminController extends ModuleController
     public function action_admin_builder()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Builder'), '/modulemanager/admin/builder');
+        \Koch\View\Helper\Breadcrumb::add( _('Builder'), '/modulemanager/admin/builder');
 
         $existing_modules_js = '[';
         $module_dirs = Clansuite_ModuleInfoController::getModuleDirectories();
@@ -260,7 +260,7 @@ class ModulemanagerAdminController extends ModuleController
     public function action_admin_create()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create'), '/modulemanager/admin/create');
+        \Koch\View\Helper\Breadcrumb::add( _('Create'), '/modulemanager/admin/create');
 
         $mod = $this->request->getParameter('mod_data');
 
@@ -590,7 +590,7 @@ class ModulemanagerAdminController extends ModuleController
     public function action_admin_firsttimeinstall()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/modulemanager/admin/firsttimeinstall');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/modulemanager/admin/firsttimeinstall');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');

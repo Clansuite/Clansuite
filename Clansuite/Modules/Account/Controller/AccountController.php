@@ -86,7 +86,7 @@ class AccountController extends ModuleController
     public function action_login()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Login'), '/account/login');
+        \Koch\View\Helper\Breadcrumb::add( _('Login'), '/account/login');
 
         // Get Objects
         $config = $this->getClansuiteConfig();
@@ -177,7 +177,7 @@ class AccountController extends ModuleController
     public function action_logout()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Logout'), '/account/logout');
+        \Koch\View\Helper\Breadcrumb::add( _('Logout'), '/account/logout');
 
         $confirm = (bool) $this->request->getParameterFromPost('confirm');
 

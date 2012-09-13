@@ -43,7 +43,7 @@ class StaticpagesAdminController extends ModuleController
     public function action_admin_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Overview'), '/staticpages/admin/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Overview'), '/staticpages/admin/show');
 
         $model = $this->getModel()->findAll();
 
@@ -58,7 +58,7 @@ class StaticpagesAdminController extends ModuleController
     public function create_staticpages()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create'), '/staticpages/admin/create');
+        \Koch\View\Helper\Breadcrumb::add( _('Create'), '/staticpages/admin/create');
 
         // fetch entity
         $model = $this->getModel();
@@ -136,7 +136,7 @@ class StaticpagesAdminController extends ModuleController
     public function edit_staticpages()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit'), '/staticpages/admin/edit');
+        \Koch\View\Helper\Breadcrumb::add( _('Edit'), '/staticpages/admin/edit');
 
         $info['html']           = $_POST['html'];
         $info['description']    = $_POST['description'];
@@ -209,7 +209,7 @@ class StaticpagesAdminController extends ModuleController
     public function action_admin_settings()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/staticpages/admin/settings');
+        \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/staticpages/admin/settings');
 
         $settings = array();
 

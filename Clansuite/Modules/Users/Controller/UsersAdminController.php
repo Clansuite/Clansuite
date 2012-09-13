@@ -53,7 +53,7 @@ class UsersAdminController extends ModuleController
     public function action_admin_list()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/users/admin/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/users/admin/show');
 
         // Get Render Engine
         $view = $this->getView();
@@ -126,7 +126,7 @@ class UsersAdminController extends ModuleController
     public function action_admin_create()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create New Useraccount'), '/users/admin/create');
+        \Koch\View\Helper\Breadcrumb::add( _('Create New Useraccount'), '/users/admin/create');
 
         $this->display();
     }
@@ -144,7 +144,7 @@ class UsersAdminController extends ModuleController
     public function action_admin_search()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Search'), '/users/admin/search');
+        \Koch\View\Helper\Breadcrumb::add( _('Search'), '/users/admin/search');
 
         $view = $this->getView();
 
@@ -175,7 +175,7 @@ class UsersAdminController extends ModuleController
     public function action_admin_settings()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/users/admin/settings');
+        \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/users/admin/settings');
 
         $settings = array();
 

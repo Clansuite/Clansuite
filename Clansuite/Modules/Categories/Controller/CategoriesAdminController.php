@@ -247,7 +247,7 @@ class CategoriesAdminController extends ModuleController
     public function action_admin_settings()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/categories/admin/settings');
+        \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/categories/admin/settings');
 
         $settings = array();
 

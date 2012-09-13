@@ -53,7 +53,7 @@ class ModulesettingsAdminController extends ModuleController
         #$Clansuite_ACL::checkPermission('modulesettings.action_admin_show');
 
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/modulesettings/admin/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/modulesettings/admin/show');
 
         $formdata = array();
         $modulename = $this->request->getParameterFromGet('modulename');

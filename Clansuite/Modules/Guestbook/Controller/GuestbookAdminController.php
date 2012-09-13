@@ -325,7 +325,7 @@ class GuestbookAdminController extends ModuleController
     public function action_admin_settings()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/guestbook/admin/settings');
+        \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/guestbook/admin/settings');
 
         $settings = array();
 

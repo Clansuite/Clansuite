@@ -43,7 +43,7 @@ class AccountAdminController extends ModuleController
     public function action_admin_avatar_edit()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Add Avatar'), '/users/admin/addavatar');
+        \Koch\View\Helper\Breadcrumb::add( _('Add Avatar'), '/users/admin/addavatar');
 
         // Get Render Engine
         $view = $this->getView();
@@ -85,7 +85,7 @@ class AccountAdminController extends ModuleController
     public function action_admin_usercenter()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Usercenter'), '/users/admin/usercenter');
+        \Koch\View\Helper\Breadcrumb::add( _('Usercenter'), '/users/admin/usercenter');
 
         // Get Render Engine
         $view = $this->getView();
@@ -115,7 +115,7 @@ class AccountAdminController extends ModuleController
     public function action_admin_settings()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/account/admin/settings');
+        \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/account/admin/settings');
 
         $settings = array();
 

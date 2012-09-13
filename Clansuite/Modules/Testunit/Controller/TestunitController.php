@@ -41,7 +41,7 @@ class TestunitController extends ModuleController
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), 'testunit/show');
+        \Koch\View\Helper\Breadcrumb::add( _('Show'), 'testunit/show');
 
         $view = $this->getView();
         $this->display();
@@ -57,7 +57,7 @@ class TestunitController extends ModuleController
     public function action_ajaxswfupload()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('swfupload'), 'testunit/ajaxswfupload');
+        \Koch\View\Helper\Breadcrumb::add( _('swfupload'), 'testunit/ajaxswfupload');
 
         $view = $this->getView();
         $view->assign('sess_name', session_name() );
@@ -71,7 +71,7 @@ class TestunitController extends ModuleController
     public function action_ajaxuploadify()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('uploadify'), 'testunit/ajaxuploadify');
+        \Koch\View\Helper\Breadcrumb::add( _('uploadify'), 'testunit/ajaxuploadify');
 
         $view = $this->getView();
         $this->display();
@@ -83,7 +83,7 @@ class TestunitController extends ModuleController
     public function action_ajaxprettyphoto()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('prettyphoto'), 'testunit/ajaxprettyphoto');
+        \Koch\View\Helper\Breadcrumb::add( _('prettyphoto'), 'testunit/ajaxprettyphoto');
 
         $view = $this->getView();
         $this->display();
