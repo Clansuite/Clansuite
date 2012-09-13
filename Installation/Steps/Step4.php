@@ -76,18 +76,27 @@ class Step4 extends \Clansuite\Installation\Application\Page
              * in case the validity of the "database name" FAILED.
              *
              * The database name has serious restrictions:
-             * Forbidden are database names containing
-             * only numbers and names like mysql-database commands.
+             * Forbidden are database names containing only numbers and names like mysql-database commands.
+             * @link http://dev.mysql.com/doc/refman/5.6/en/identifiers.html
              */
-            if (preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname'])) {
+            if (1 === preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname'])) {
                 $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['dbname'] . '") is invalid.</p>';
                 $error .= '<p> It can only contain alphanumeric characters, periods or underscores.';
-                $error .= ' You might only use chars printed within brackets: [A-Z], [a-z], [0-9], [-_].</p>';
+                $error .= ' You might only use the chars printed within brackets: [A-Z], [a-z], [0-9], [-_].</p>';
                 $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
             }
 
-            if (!ctype_alnum($_POST['config']['database']['user'])) {
-                $error .= '<p>The database username might only contain alphanumeric characters.';
+            /**
+             * The username has very low restrictions: An account with a blank user name is an anonymous user.
+             * But we still enforce alphanumeric and underscore here.
+             *
+             * @link http://dev.mysql.com/doc/refman/5.6/en/account-names.html
+             */
+            if(0 === preg_match('/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/', $_POST['config']['database']['user'])) {
+                $error .= '<p>The database username you have entered ("' . $_POST['config']['database']['user'] . '") is invalid.</p>';
+                $error .= '<p>It can only contain alphanumeric characters or underscores.';
+                $error .= ' You might only use the chars printed within brackets: [A-Z], [a-z], [0-9], [_].</p>';
+                $error .= '<p>And it must start with an alphabetical character.</p>';
             }
 
             if ($error != '') {
