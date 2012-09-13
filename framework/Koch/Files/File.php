@@ -215,7 +215,7 @@ class File
     }
 }
 
-class Koch_FileFilterIterator extends FilterIterator
+class Koch_FileFilterIterator extends \FilterIterator
 {
     protected $_files;
 
@@ -239,7 +239,7 @@ class Koch_FileFilterIterator extends FilterIterator
  * ImagesOnly FileType Filter for the SPL FilterIterator.
  * If the directory iterator is wrapped into this filter, it will fetch only files with a certain type.
  */
-class Koch_ImagesOnlyFilterIterator extends FilterIterator
+class Koch_ImagesOnlyFilterIterator extends \FilterIterator
 {
     // whitelist of allowed image filetypes, lowercase
     private $allowed_image_filetypes = array('png', 'gif', 'jpeg', 'jpg');
