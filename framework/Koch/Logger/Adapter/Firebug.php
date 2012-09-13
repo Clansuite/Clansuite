@@ -25,6 +25,8 @@
 
 namespace Koch\Logger\Adapter;
 
+use Koch\Logger\LoggerInterface;
+
 /**
  * Koch Framework - Log to Firebug.
  *
@@ -54,7 +56,7 @@ class Firebug implements LoggerInterface
         include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         self::$firephp = FirePHP::getInstance(true);
 
-        return self:$firephp;
+        return self::$firephp;
     }
 
     /**

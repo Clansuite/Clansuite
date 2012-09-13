@@ -25,6 +25,8 @@
 
 namespace Koch\Logger\Adapter;
 
+use Koch\Logger\LoggerInterface;
+
 /**
  * Koch Framework - Log to file.
  *
