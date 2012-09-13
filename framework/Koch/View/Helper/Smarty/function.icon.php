@@ -23,7 +23,7 @@
  * @return string
  */
 
-function Smarty_function_icon($params, $smarty)
+function Smarty_function_icon($params)
 {
     $src = '';
     $height = '';
@@ -61,7 +61,7 @@ function Smarty_function_icon($params, $smarty)
 
     // check if it is a valid one
     $icondir_whitelist = array( 'icons', 'lullacons' );
-    if ( ($icondir !== null) and in_array($icondir, $icondir_whitelist)) {
+    if ( (isset($icondir) === true) and in_array($icondir, $icondir_whitelist)) {
         // valid
         $icondir .= ''; // leave this. would else be an empty if statement
     } else // fallback to a valid default

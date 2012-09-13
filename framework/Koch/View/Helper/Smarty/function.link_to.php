@@ -20,7 +20,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function Smarty_function_link_to($params, $smarty)
+function Smarty_function_link_to($params)
 {
     // method parameter "href"
     if (empty($params['href'])) {
@@ -31,6 +31,6 @@ function Smarty_function_link_to($params, $smarty)
         return;
     } else {
         // convert from internal slashed format to URL
-        return Koch_Router::buildURL($params['href']);
+        return \Koch\Router\Router::buildURL($params['href']);
     }
 }
