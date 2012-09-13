@@ -545,17 +545,17 @@ class Router implements RouterInterface, \ArrayAccess
 
                     // matches[0] contains $this->uri
                     unset($matches[0]);
-                    
+
                     // remove duplicate values
                     // e.g. [controller] = news
                     //      [1]          = news
                     $matches = array_unique($matches);
-                    
-                    # @todo # fetch key and its position from $route_values['requirements']
-                    if(count($route_values['requirements']) > 0) {
-                        foreach($route_values['requirements'] as $array_position => $key_name) {
 
-                            // insert a new key 
+                    # @todo # fetch key and its position from $route_values['requirements']
+                    if (count($route_values['requirements']) > 0) {
+                        foreach ($route_values['requirements'] as $array_position => $key_name) {
+
+                            // insert a new key
                             // with name from requirements array
                             // and value from matches array
                             // ([id] => 42)
@@ -564,7 +564,7 @@ class Router implements RouterInterface, \ArrayAccess
 
                             // remove the old not-named key ([2] => 42)
                             unset($matches[$pos]);
-                        }                    
+                        }
                     }
 
                     // insert $matches[<controller>] etc
@@ -883,7 +883,7 @@ class Router implements RouterInterface, \ArrayAccess
             $this->addRoute('/:module/:controller');                                 // "/news/news"              (list)
             # three segments
             $this->addRoute('/:controller/:action/(:id)', array(2 => 'id'));         // "/news/edit/42"           (edit)
-            $this->addRoute('/:module/(:id)/:action', array(1 => 'id'));             // "/news/42/edit"           (edit)          
+            $this->addRoute('/:module/(:id)/:action', array(1 => 'id'));             // "/news/42/edit"           (edit)
             $this->addRoute('/:module/:controller/(:id)', array(2 => 'id'));         // "/news/news/31"   (show/update/delete)
             $this->addRoute('/:module/:controller/:action');                         // "/news/news/new"          (new)
             # four segments

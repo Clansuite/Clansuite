@@ -79,7 +79,7 @@ class TargetRoute extends Mapper
     {
         if (empty(self::$parameters['filename'])) {
             $filename = self::mapControllerToFilename(
-                self::getModulePath(self::getModule()), 
+                self::getModulePath(self::getModule()),
                 self::getController()
             );
             self::setFilename($filename);
@@ -179,10 +179,10 @@ class TargetRoute extends Mapper
     }
 
     public static function getMethod()
-    {  
+    {
         // add method prefix (action_)
         $method = self::mapActionToMethodname(self::getAction());
-        self::setMethod($method);        
+        self::setMethod($method);
 
         return self::$parameters['method'];
     }
@@ -342,7 +342,7 @@ class TargetRoute extends Mapper
         if (isset($array['controller']) === true) {
             self::setController($array['controller']);
             // if a module was not set yet, then set the current controller also as module
-            if(self::$parameters['module'] === 'index') { 
+            if (self::$parameters['module'] === 'index') {
                 self::setModule($array['controller']);
             }
             unset($array['controller']);
@@ -353,13 +353,13 @@ class TargetRoute extends Mapper
             self::setAction($array['action']);
             unset($array['action']);
         }
-        
+
         // Id
         if (isset($array['id']) === true) {
             self::setId($array['id']);
             // if we set an id, and action is empty then [news/id] was requested
             // we fill automatically in the action show
-            if(self::$parameters['action'] === 'list') { self::setAction('show'); }          
+            if (self::$parameters['action'] === 'list') { self::setAction('show'); }
             unset($array['id']);
         }
 
@@ -370,6 +370,7 @@ class TargetRoute extends Mapper
         }
 
         # instantiate the target route
+
         return self::getInstance();
     }
 

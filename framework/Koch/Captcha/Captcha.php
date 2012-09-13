@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-André Koch © 2005 - onwards
+ * Jens-AndrÃ© Koch Â© 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
@@ -43,7 +43,7 @@ namespace Koch\Captcha;
  * @link http://www.pwntcha.net/test.html PwnTcha : Test the Captcha - Strength
  * @link http://captcha.megaleecher.net/ Megaleecher Captcha Kill Pro Class
  */
-class Koch_Captcha
+class Captcha
 {
     /**
      * @var int image height
