@@ -3,8 +3,8 @@
 
   == Test Status
 
-image::https://secure.travis-ci.org/jakoch/Clansuite.png?branch=master[CI Status master]
-image::https://secure.travis-ci.org/jakoch/Clansuite.png?branch=develop[CI Status develop]
+image::https://secure.travis-ci.org/Clansuite/Clansuite.png?branch=master[CI Status master]
+image::https://secure.travis-ci.org/Clansuite/Clansuite.png?branch=develop[CI Status develop]
 
   == Tests Overview
 
