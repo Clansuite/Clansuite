@@ -25,6 +25,8 @@
 
 namespace Koch\Event\Events;
 
+use Koch\Event\EventInterface;
+
 /**
  * Koch Framework - Event for Blocking IPs.
  *
