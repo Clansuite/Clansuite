@@ -92,7 +92,7 @@ class Step4 extends \Clansuite\Installation\Application\Page
              *
              * @link http://dev.mysql.com/doc/refman/5.6/en/account-names.html
              */
-            if(0 === preg_match('/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/', $_POST['config']['database']['user'])) {
+            if (0 === preg_match('/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/', $_POST['config']['database']['user'])) {
                 $error .= '<p>The database username you have entered ("' . $_POST['config']['database']['user'] . '") is invalid.</p>';
                 $error .= '<p>It can only contain alphanumeric characters or underscores.';
                 $error .= ' You might only use the chars printed within brackets: [A-Z], [a-z], [0-9], [_].</p>';
