@@ -187,11 +187,11 @@ class Memcached extends AbstractCache implements CacheInterface
     }
 
     /**
-     * Delete_all flushes the Cache
+     * Clears the Cache
      *
      * @return a flushed cache
      */
-    public function delete_all()
+    public function clear()
     {
         return $this->memcached->flush();
     }

@@ -132,6 +132,16 @@ class File extends AbstractCache implements CacheInterface
 
         return true;
     }
+    
+    /**
+     * Clears the cache
+     * 
+     * @return boolean True if cache cleared.
+     */
+    public function clear()
+    {
+        return false;
+    }
 
     /**
      * Get stats and usage Informations for display
