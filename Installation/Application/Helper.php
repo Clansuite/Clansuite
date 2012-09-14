@@ -40,7 +40,7 @@ class Helper
     public static function write_config_settings($data_array)
     {
         // Read/Write Handler for config files
-        include KOCH . 'Config/Adapter/Ini.php';
+        include KOCH . 'Config/Adapter/INI.php';
 
         // the base class is needed for \Koch\Config\Adpater\Ini
         if (false === class_exists('AbstractConfig', false)) {
@@ -202,7 +202,7 @@ class Helper
     {
         try {
             if (is_array($connectionParams) === false) {
-                include KOCH . 'Config/Adapter/Ini.php';
+                include KOCH . 'Config/Adapter/INI.php';
 
                 // get clansuite config
                 $clansuite_config = \Koch\Config\Adapter\INI::readConfig(ROOT_APP . 'Configuration/clansuite.php');
