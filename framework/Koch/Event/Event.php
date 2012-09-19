@@ -141,11 +141,11 @@ class Event implements \ArrayAccess
      */
     public function offsetGet($name)
     {
-        if (false == array_key_exists($name, $this->context)) {
+        if (true === array_key_exists($name, $this->context)) {
+            return $this->context[$name];
+        } else {
             throw new \Koch\Exception\Exception(sprintf(_('The event "%s" has no context parameter "%s" .'), $this->eventname, $name));
         }
-
-        return $this->context[$name];
     }
 
     /**

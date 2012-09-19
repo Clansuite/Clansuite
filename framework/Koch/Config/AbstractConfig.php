@@ -181,7 +181,11 @@ abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return isset($this->config[$offset]) ? $this->config[$offset] : null;
+        if(true === isset($this->config[$offset])) {
+            return $this->config[$offset];
+        } else {
+            throw new InvalidArgumentException(sprintf('Array Key "%s" is not defined.', $offset));
+        }
     }
 
     /**

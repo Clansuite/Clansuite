@@ -32,10 +32,12 @@ namespace Koch\View\Helper;
  */
 interface Layout
 {
+
     /**
      * Get the contents of this component in string form
      */
     public function render();
+
     public function __toString();
 
     /**
@@ -59,6 +61,7 @@ interface Layout
  */
 class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
 {
+
     private $composite = array();
 
     public function __construct($composite)
@@ -71,9 +74,9 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      *
      * @return
      */
-    public function offsetExists( $key )
+    public function offsetExists($offset)
     {
-        return isset( $this->composite[$key] );
+        return isset($this->composite[$offset]);
     }
 
     /**
@@ -83,9 +86,13 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      *
      * @return
      */
-    public function offsetGet( $key )
+    public function offsetGet($offset)
     {
-        return $this->composite[$key];
+        if (isset($this->composite[$offset]) === true) {
+            return $this->composite[$offset];
+        } else {
+            throw new InvalidArgumentException(sprintf('Array Key "%s" is not defined.', $offset));
+        }
     }
 
     /**
@@ -95,9 +102,9 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      *
      * @return
      */
-    public function offsetSet( $key, $value )
+    public function offsetSet($offset, $value)
     {
-        return $this->composite[$key] = $value;
+        return $this->composite[$offset] = $value;
     }
 
     /**
@@ -107,9 +114,9 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      *
      * @return
      */
-    public function offsetUnset( $key )
+    public function offsetUnset($offset)
     {
-        unset( $this->composite[$key] );
+        unset($this->composite[$offset]);
     }
 
     /**
@@ -117,9 +124,9 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      *
      * Implementation of {@see Countable::count()}.
      */
-    public function count( )
+    public function count()
     {
-        return count( $this->composite );
+        return count($this->composite);
     }
 
     /**
@@ -131,9 +138,9 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      */
     public function current()
     {
-        $key = key( $this->composite );
+        $key = key($this->composite);
 
-        return $this->offsetGet( $key );
+        return $this->offsetGet($key);
     }
 
     /**
@@ -145,7 +152,7 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      */
     public function next()
     {
-        next ( $this->composite );
+        next($this->composite);
     }
 
     /**
@@ -157,7 +164,7 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      */
     public function key()
     {
-        return key( $this->composite );
+        return key($this->composite);
     }
 
     /**
@@ -169,7 +176,7 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      */
     public function valid()
     {
-        return false !== current( $this->composite );
+        return false !== current($this->composite);
     }
 
     /**
@@ -181,8 +188,9 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
      */
     public function rewind()
     {
-        reset( $this->composite );
+        reset($this->composite);
     }
+
 }
 
 /**
@@ -212,6 +220,7 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
  */
 class ViewLayout implements ViewNodeInterface
 {
+
     /**
      * Representation of the tree with leaf-nodes.
      *
@@ -243,9 +252,10 @@ class ViewLayout implements ViewNodeInterface
         $subview = '';
 
         foreach ($this->components as $child) {
-            $subview .=  $child->render($response);
+            $subview .= $child->render($response);
         }
 
         return $subview;
     }
+
 }

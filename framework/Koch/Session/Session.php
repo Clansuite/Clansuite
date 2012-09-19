@@ -432,7 +432,11 @@ class Session implements SessionInterface, \ArrayAccess
 
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        if(isset($_SESSION[$offset]) === true) {
+            return $_SESSION[$offset];
+        } else {
+            throw new InvalidArgumentException(sprintf('Array Key "%s" is not defined.', $offset));
+        }
     }
 
     public function offsetSet($offset, $value)
