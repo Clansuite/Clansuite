@@ -42,35 +42,7 @@
 
             <!-- Change Language -->
             <li><h2><?php echo $language['CHANGE_LANGUAGE']; ?></h2></li>
-            <li>
-                <?php // pruefen ob es die aktuelle sprache ist, die reloaded werden soll
-                      // nur reloaden, wenn neue sprache ausgewaehlt                ?>
-                <select title="<?php echo $language['SELECT_LANGUAGE']; ?>" name="lang" style="width: 100px"
-                        onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
-                <?php
-                echo '<option value="">- Select Language -</option>';
-                foreach (new DirectoryIterator('./Languages/') as $file) {
-                   // get each php file in Languages folder, exclude stuff starting with dots
-                   if ((!$file->isDot()) && preg_match("/.php$/",$file->getFilename())) {
-                      // get the filename without extension
-                      $file = substr($file->getFilename(), 0, -4);
-                      // build image name
-                      $flag_image = strtolower($file).'.png';
-                      // if an image exists, add it as inline css style
-                      if (is_file('./Languages/' . $flag_image)) {
-                        echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $flag_image .'); background-position:5px 100%; background-repeat: no-repeat;"';
-                      } else {
-                        echo '<option';
-                      }
-                      if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
-                      echo ' value=' . $file .'>';
-                      echo $file;
-                      echo "</option>\n";
-                   }
-                }
-                ?>
-                </select>
-            </li>
+            <li><?php \Clansuite\Installation\Application\Viewhelper::renderLanguageDropdown($language); ?></li>
 
             <!-- Live Support (Link and Tracking) -->
             <li><h2><?php echo $language['LIVESUPPORT']; ?></h2></li>

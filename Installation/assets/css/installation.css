@@ -82,6 +82,12 @@
   width: 100px;
 }
 
+.language-toggle {
+  padding-left: 30px;
+  background-position:5px 100%;
+  background-repeat: no-repeat;
+}
+
 input
 {
   border:1px solid grey;

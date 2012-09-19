@@ -11,33 +11,7 @@
                 <p><?php echo $language['STEP1_CHOOSELANGUAGE']; ?></p>
                 <form action="index.php" name="lang" method="post">
                     <p>
-                        <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
-                        <?php // @todo nur reloaden, wenn eine neue sprache ausgewaehlt ?>
-                        <select title="<?php echo $language['SELECT_LANGUAGE']; ?>" name="lang" style="width: 160px"
-                            onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
-                        <?php
-                        echo '<option value="">- Select Language -</option>';
-                        foreach (new DirectoryIterator('./Languages/') as $file) {
-                           // get each php file in Languages folder, exclude stuff starting with dots
-                           if ((!$file->isDot()) && preg_match("/.php$/",$file->getFilename())) {
-                              // get the filename without extension
-                              $file = substr($file->getFilename(), 0, -4);
-                              // build image name
-                              $flag_image = strtolower($file).'.png';
-                              // if an image exists, add it as inline css style
-                              if (is_file('./Languages/' . $flag_image)) {
-                                echo '<option style="padding-left: 30px; background-image: url(./Languages/' . $flag_image .'); background-position:5px 100%; background-repeat: no-repeat;"';
-                              } else {
-                                echo '<option';
-                              }
-                              if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
-                              echo ' value=' . $file .'>';
-                              echo $file;
-                              echo "</option>\n";
-                           }
-                        }
-                        echo "</select>\n";
-                        ?>
+                      <?php \Clansuite\Installation\Application\Viewhelper::renderLanguageDropdown($language); ?>
                     </p>
                     <div id="content_footer">
                         <div class="navigation">

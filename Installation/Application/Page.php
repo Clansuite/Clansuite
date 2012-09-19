@@ -57,6 +57,8 @@ class Page
             $values = $this->getDefaultValues();
         }
 
+        include INSTALLATION_ROOT . 'application/viewhelper.php';
+
         if (DEBUG == false) {
             ob_start();
         }
