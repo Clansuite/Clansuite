@@ -64,7 +64,7 @@ class TreemapRecorder extends SimpleReporter
         $this->_title = $title;
     }
 
-    public function paintFormattedMessage()
+    public function paintFormattedMessage($message)
     {
     }
 
@@ -222,7 +222,7 @@ class TreemapNode
      */
     public function getChildren()
     {
-        uksort($this->_children, array($this, 'compareChildren'));
+        @uksort($this->_children, array($this, 'compareChildren'));
 
         return $this->_children;
     }
