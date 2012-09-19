@@ -39,11 +39,6 @@ use Koch\Logger\LoggerInterface;
  */
 class Devnull implements LoggerInterface
 {
-    public function __construct(Koch\Config $config)
-    {
-
-    }
-
     /**
      * writeLog
      *

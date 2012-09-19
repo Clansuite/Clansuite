@@ -40,7 +40,7 @@ class File implements LoggerInterface
 {
     private $config;
 
-    public function __construct(Koch\Config $config)
+    public function __construct(\Koch\Config\Config $config)
     {
         $this->config = $config;
     }

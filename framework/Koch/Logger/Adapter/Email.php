@@ -43,13 +43,13 @@ class Email implements LoggerInterface
 
     private $mailer = null;
 
-    public function __construct(Koch\Config $config)
+    public function __construct(\Koch\Config\Config $config)
     {
         $this->config = $config;
 
         // mailing of critical errors makes only sense, if we have a email of the sysadmin
         if ($config['mail']['to_sysadmin'] == true) {
-            $this->mailer = new Koch\Mail\SwiftMailer($config);
+            $this->mailer = new \Koch\Mail\SwiftMailer($config);
         }
     }
 
