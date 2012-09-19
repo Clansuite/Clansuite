@@ -41,7 +41,7 @@ use Koch\Logger\LoggerInterface;
  * Firebug is written by Joe Hewitt and Rob Campbell.
  *
  * @link http://getfirebug.com/
- * @link http://www.firephp.org/
+ * @link http://firephp.org/
  *
  * @category    Koch
  * @package     Core
@@ -53,8 +53,11 @@ class Firebug implements LoggerInterface
 
     public function __construct()
     {
-        include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
-        self::$firephp = FirePHP::getInstance(true);
+        if(self::$firephp === null) {
+            include ROOT_LIBRARIES . 'firephp/FirePHP.class.php';
+            
+            self::$firephp = \FirePHP::getInstance(true);
+        }
 
         return self::$firephp;
     }
