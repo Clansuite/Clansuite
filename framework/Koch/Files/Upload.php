@@ -94,9 +94,7 @@ class Upload implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetGet($offset)
     {
-        if ($this->offsetExists($offset)) {
-            return $this->files[$offset];
-        }
+        return isset($this->files[$offset]) ? $this->files[$offset] : null;
     }
 
     /**
