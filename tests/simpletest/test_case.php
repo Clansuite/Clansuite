@@ -217,7 +217,7 @@ class SimpleTestCase
      *    actual user test cases.
      *    @access public
      */
-    public function setUp()
+    protected function setUp()
     {
     }
 
@@ -226,7 +226,7 @@ class SimpleTestCase
      *    To be overridden by the user in actual user test cases.
      *    @access public
      */
-    public function tearDown()
+    protected function tearDown()
     {
     }
 
