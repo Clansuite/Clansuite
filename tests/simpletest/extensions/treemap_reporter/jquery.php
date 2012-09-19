@@ -39,7 +39,7 @@ class JqueryTreemapReporter extends TreemapReporter
         echo "<title>{$title}</title>";
         echo "<style type=\"text/css\">" . $this->_getCss() . "</style>";
         echo "<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-latest.js\"></script>";
-        echo "<script type=\"text/javascript\" src=\"http://www.fbtools.com/jquery/treemap/treemap.js\"></script>";
+        echo "<script type=\"text/javascript\" src=\"treemap.js\"></script>";
         echo "<script type=\"text/javascript\">\n";
         echo "	window.onload = function() { jQuery(\"ul\").treemap(800,600,{getData:getDataFromUL}); };
                     function getDataFromUL(el)
