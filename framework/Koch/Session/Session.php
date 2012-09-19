@@ -435,7 +435,7 @@ class Session implements SessionInterface, \ArrayAccess
         if(isset($_SESSION[$offset]) === true) {
             return $_SESSION[$offset];
         } else {
-            throw new InvalidArgumentException(sprintf('Array Key "%s" is not defined.', $offset));
+            throw new \InvalidArgumentException(sprintf('Array Key "%s" is not defined.', $offset));
         }
     }
 

@@ -176,7 +176,7 @@ class HttpResponse implements HttpResponseInterface
         );
 
         if (isset($types[$type]) === false) {
-            throw new InvalidArgumentException('Specified type not valid. Use: html, txt, xml or json.');
+            throw new \InvalidArgumentException('Specified type not valid. Use: html, txt, xml or json.');
         }
 
         #addHeader('Content-Type', $type . ($charset ? '; charset='.$charset.': ''));

@@ -91,7 +91,7 @@ class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
         if (isset($this->composite[$offset]) === true) {
             return $this->composite[$offset];
         } else {
-            throw new InvalidArgumentException(sprintf('Array Key "%s" is not defined.', $offset));
+            throw new \InvalidArgumentException(sprintf('Array Key "%s" is not defined.', $offset));
         }
     }
 

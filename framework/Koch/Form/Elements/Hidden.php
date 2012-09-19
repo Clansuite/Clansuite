@@ -86,7 +86,7 @@ class Hidden extends Input implements FormElementInterface
         } else {
             $msg = _('%s() only accepts array, string or numeric as $value. Your input was (%s) %s.');
             $msg = sprintf($msg, __METHOD__, gettype($value), $value);
-            throw new InvalidArgumentException($msg);
+            throw new \InvalidArgumentException($msg);
         }
 
         $this->value = htmlspecialchars($data);

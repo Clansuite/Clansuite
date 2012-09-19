@@ -74,7 +74,7 @@ class ThemeViaGet implements FilterInterface
          *
          */
         if (false === $this->input->check( $theme, 'is_abc|is_int|is_custom', '_' ) ) {
-            throw new InvalidArgumentException('Please provide a proper theme name.');
+            throw new \InvalidArgumentException('Please provide a proper theme name.');
         }
 
         $themedir = '';

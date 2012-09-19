@@ -46,7 +46,7 @@ abstract class AbstractCache
     public function setPrefix($prefix)
     {
         if (empty($prefix)) {
-            throw new InvalidArgumentException('Prefix must not be empty.');
+            throw new \InvalidArgumentException('Prefix must not be empty.');
         }
 
         $this->prefix = $prefix;
