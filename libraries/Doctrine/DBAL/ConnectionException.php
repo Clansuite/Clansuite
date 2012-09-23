@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id$
+ *  $Id: Exception.php 4628 2008-07-04 16:32:19Z romanb $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -15,7 +15,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the LGPL. For more information, see
+ * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -27,7 +27,7 @@ namespace Doctrine\DBAL;
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.doctrine-project.org
  * @since       2.0
- * @version     $Revision$
+ * @version     $Revision: 4628 $
  * @author      Jonathan H. Wage <jonwage@gmail.com
  */
 class ConnectionException extends DBALException

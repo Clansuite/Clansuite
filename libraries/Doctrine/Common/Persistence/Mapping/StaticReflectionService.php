@@ -13,7 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the LGPL. For more information, see
+ * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
 
@@ -48,21 +48,23 @@ class StaticReflectionService implements ReflectionService
      */
     public function getClassShortName($className)
     {
-        if (strpos($className, "\\") !== false) {
+        if (strpos($className, '\\') !== false) {
             $className = substr($className, strrpos($className, "\\")+1);
         }
         return $className;
     }
 
     /**
+     * Return the namespace of a class.
+     *
      * @param string $className
      * @return string
      */
     public function getClassNamespace($className)
     {
-        $namespace = "";
-        if (strpos($className, "\\") !== false) {
-            $namespace = strrev(substr( strrev($className), strpos(strrev($className), "\\")+1 ));
+        $namespace = '';
+        if (strpos($className, '\\') !== false) {
+            $namespace = strrev(substr( strrev($className), strpos(strrev($className), '\\')+1 ));
         }
         return $namespace;
     }
