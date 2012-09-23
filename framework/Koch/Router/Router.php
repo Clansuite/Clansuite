@@ -877,15 +877,15 @@ class Router implements RouterInterface, \ArrayAccess
             # one segment
             $this->addRoute('/:module');                                             // "/news"                 (list)
             # two segments
-            $this->addRoute('/:controller/(:id)', array(1 => 'id'));                 // "/news/31"        (show/update/delete)
-            $this->addRoute('/:module/(:id)', array(1 => 'id'));                     // "/news/news/31"   (show/update/delete)
             $this->addRoute('/:module/:action');                                     // "/news/new"               (new)
             $this->addRoute('/:module/:controller');                                 // "/news/news"              (list)
+            $this->addRoute('/:controller/(:id)', array(1 => 'id'));                 // "/news/31"        (show/update/delete)
+            $this->addRoute('/:module/(:id)', array(1 => 'id'));                     // "/news/news/31"   (show/update/delete)
             # three segments
+            $this->addRoute('/:module/:controller/:action');                         // "/news/news/new"          (new)
             $this->addRoute('/:controller/:action/(:id)', array(2 => 'id'));         // "/news/edit/42"           (edit)
             $this->addRoute('/:module/(:id)/:action', array(1 => 'id'));             // "/news/42/edit"           (edit)
             $this->addRoute('/:module/:controller/(:id)', array(2 => 'id'));         // "/news/news/31"   (show/update/delete)
-            $this->addRoute('/:module/:controller/:action');                         // "/news/news/new"          (new)
             # four segments
             $this->addRoute('/:module/:controller/(:id)/:action', array(2 => 'id')); // "/news/news/31/edit"      (edit)
             $this->addRoute('/:module/:controller/:action/(:id)', array(3 => 'id')); // "/news/news/edit/31"      (edit)
