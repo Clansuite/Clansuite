@@ -21,7 +21,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         // config is needed for log rotation setting
         $config = new Config();
-                
+
         $this->object = new File($config);
     }
 
