@@ -194,6 +194,17 @@ class TargetRoute extends Mapper
 
     public static function getParameters()
     {
+        // transfer parameters from HttpRequest Object to TargetRoute
+        if(self::getRequestMethod() === 'POST') {
+            // php5.4
+            // $params = (new HttpRequest())->getPost();
+            
+            $request = new HttpRequest;
+            $params = $request->getPost();
+            
+            self::setParameters($params);
+        }
+        
         return self::$parameters['params'];
     }
 
@@ -378,7 +389,7 @@ class TargetRoute extends Mapper
 
         // if the request method is POST then set the action INSERT
         if ('POST' === self::getRequestMethod()) {
-            self::setAction('insert');
+            self::setAction('insert');           
         }
 
         // Parameters

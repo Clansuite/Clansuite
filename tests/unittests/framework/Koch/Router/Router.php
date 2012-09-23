@@ -323,6 +323,9 @@ class RouterTest extends Clansuite_UnitTestCase
         // Type: POST [REST Route]
         // Post_parameters are filled.
 
+        // fake incoming env data
+        $_POST['id'] = '42';
+        $_POST['article_text'] = 'blabla';
         HttpRequest::setRequestMethod('POST');
         $this->router->prepareRequestURI('/news');
         $route = $this->router->route();
@@ -331,7 +334,7 @@ class RouterTest extends Clansuite_UnitTestCase
         $this->assertEqual('News',                  $route->getController());
         $this->assertEqual('Clansuite\Modules\News\Controller\NewsController', $route->getClassname());
         $this->assertEqual('action_insert',         $route->getMethod());
-        $this->assertEqual(array('id' => '42'),     $route->getParameters());
+        $this->assertEqual(array('id' => '42', 'article_text' => 'blabla'),     $route->getParameters());
         $this->assertEqual('POST',                  $route->getRequestMethod());
         $this->router->reset(true);
 
