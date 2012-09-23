@@ -194,6 +194,17 @@ class TargetRoute extends Mapper
 
     public static function getParameters()
     {
+        // transfer parameters from HttpRequest Object to TargetRoute
+        if (self::getRequestMethod() === 'POST') {
+            // php5.4
+            // $params = (new HttpRequest())->getPost();
+
+            $request = new HttpRequest;
+            $params = $request->getPost();
+
+            self::setParameters($params);
+        }
+
         return self::$parameters['params'];
     }
 
@@ -357,13 +368,28 @@ class TargetRoute extends Mapper
         // Id
         if (isset($array['id']) === true) {
             self::setId($array['id']);
+
             // if we set an ID and the action is still empty (=default: list),
             // then we automatically set the action name according to the request method
             if (self::$parameters['action'] === 'list') {
+
                 $request_method = self::getRequestMethod();
-                if ($request_method === 'GET') { self::setAction('show'); } elseif ($request_method === 'PUT') { self::setAction('update'); } elseif ($request_method === 'DELETE') { self::setAction('delete'); }
+
+                if ($request_method === 'GET') {
+                    self::setAction('show');
+                } elseif ($request_method === 'PUT') {
+                    self::setAction('update');
+                } elseif ($request_method === 'DELETE') {
+                    self::setAction('delete');
+                }
             }
+
             unset($array['id']);
+        }
+
+        // if the request method is POST then set the action INSERT
+        if ('POST' === self::getRequestMethod()) {
+            self::setAction('insert');
         }
 
         // Parameters

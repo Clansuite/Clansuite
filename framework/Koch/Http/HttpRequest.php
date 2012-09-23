@@ -675,12 +675,12 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
         $method = $_SERVER['REQUEST_METHOD'];
 
         // get method from "http method override" header
-        if ($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] !== null) {
+        if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) === true) {
             $method = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
         }
 
         // add support for HEAD requests, which are GET requests
-        if ($method == 'HEAD') {
+        if ($method === 'HEAD') {
             $method = 'GET';
         }
 

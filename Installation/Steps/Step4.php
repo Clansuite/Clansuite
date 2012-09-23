@@ -133,11 +133,11 @@ class Step4 extends \Clansuite\Installation\Application\Page
                     'password' => $_POST['config']['database']['password'],
                     'host' => $_POST['config']['database']['host'],
                     'driver' => $_POST['config']['database']['driver'],
+                    'charset' => 'UTF8',
                 );
 
                 $config = new \Doctrine\DBAL\Configuration();
                 $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
-                $connection->setCharset('UTF8');
 
                 /**
                  * fetch doctrine schema manager

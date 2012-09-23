@@ -54,7 +54,7 @@ class Exception extends \Exception
                            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
         $html .= '<head><title>Clansuite Installation Error</title>';
-        $html .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
+        $html .= '<link rel="stylesheet" href="../Clansuite/themes/core/css/error.css" type="text/css" />';
         $html .= '</head><body>';
 
         /**
