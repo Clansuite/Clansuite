@@ -694,7 +694,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     {
         self::$request_method = mb_strtoupper($method);
     }
-  
+
     /**
      * Checks if a ajax(xhr)-request is given,
      * by checking X-Requested-With Header for XMLHttpRequest.
