@@ -179,6 +179,7 @@ class Step4 extends \Clansuite\Installation\Application\Page
             'host' => $_POST['config']['database']['host'],
             'driver' => $_POST['config']['database']['driver'],
             'prefix' => $_POST['config']['database']['prefix'],
+            'charset' => 'utf8',
         );
 
         $entityManager = Helper::getDoctrineEntityManager($connectionParams);
