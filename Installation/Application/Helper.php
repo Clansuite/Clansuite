@@ -211,10 +211,12 @@ class Helper
                 $connectionParams = $clansuite_config['database'];
             }
 
+            // setCharset() UTF8
+            $connectionParams['charset'] = 'UTF8';
+
             // connect
             $config = new \Doctrine\DBAL\Configuration();
             $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
-            $connection->setCharset('UTF8');
 
             // get Event and Config
             $event = $connection->getEventManager();
