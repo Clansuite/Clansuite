@@ -1,4 +1,4 @@
-<script src="javascript/webtoolkit.sha1.js" type="text/javascript"></script>
+<script src="assets/javascript/webtoolkit.sha1.js" type="text/javascript"></script>
 <script>
     function hashLoginPassword(theForm) {
         if ((theForm.admin_password.value != '')) {
