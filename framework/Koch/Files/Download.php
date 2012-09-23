@@ -148,7 +148,7 @@ class Download
      * Send a file as a download to the browser
      *
      * @param string $filePath The filepath as string
-     * @param int    $rate The speedlimit in KB/s
+     * @param int    $rate     The speedlimit in KB/s
      */
     public static function send($filePath, $rate = 3)
     {

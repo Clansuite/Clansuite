@@ -658,7 +658,7 @@ class HttpRequest implements HttpRequestInterface, \ArrayAccess
     }
 
     /**
-     * Get the REQUEST METHOD (GET, HEAD, POST, PUT, DELETE)
+     * Get the REQUEST METHOD (GET, HEAD, POST, PUT, DELETE).
      *
      * HEAD request is returned internally as GET.
      * The internally set request_method (PUT or DELETE) is returned first,

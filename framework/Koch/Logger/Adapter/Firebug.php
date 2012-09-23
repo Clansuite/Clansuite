@@ -53,9 +53,9 @@ class Firebug implements LoggerInterface
 
     public function __construct()
     {
-        if(self::$firephp === null) {
+        if (self::$firephp === null) {
             include ROOT_LIBRARIES . 'firephp/FirePHP.class.php';
-            
+
             self::$firephp = \FirePHP::getInstance(true);
         }
 

@@ -432,7 +432,7 @@ class Session implements SessionInterface, \ArrayAccess
 
     public function offsetGet($offset)
     {
-        if(isset($_SESSION[$offset]) === true) {
+        if (isset($_SESSION[$offset]) === true) {
             return $_SESSION[$offset];
         } else {
             throw new \InvalidArgumentException(sprintf('Array Key "%s" is not defined.', $offset));
