@@ -27,7 +27,8 @@
 /**
  * Let PHPUnit TestCases be valid Simpletest TestCases.
  */
-class PHPUnit_Framework_TestCase extends Clansuite_UnitTestCase {
+class PHPUnit_Framework_TestCase extends Clansuite_UnitTestCase
+{
     // run PHPUnit Tests as Simpletests :)
 }
 
