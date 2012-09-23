@@ -14,6 +14,10 @@ if "%PHPBIN%" == "" call::no_phpcommand_found
 :: leave "/bin" folder, for composer to find "composer.json"
 cd..
 
+:: always run a self-update
+"%PHPBIN%" "bin\composer\composer.phar" "self-update"
+
+:: then install the vendor packages
 "%PHPBIN%" "bin\composer\composer.phar" "install"
 
 :no_phpcommand_found - displayes a hint for the user to setup env var PHPBIN
