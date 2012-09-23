@@ -21,7 +21,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     {
         // config is needed to fetch email of sysadmin
         $config = new Config();
-                
+
         $this->object = new Email($config);
     }
 

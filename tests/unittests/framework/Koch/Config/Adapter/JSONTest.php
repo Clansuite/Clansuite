@@ -15,9 +15,13 @@ class JSONTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    public function setUp()
+   public function setUp()
     {
         $this->object = new JSON;
+
+        if (is_file($this->getFile())) {
+            unlink($this->getFile());
+        }
     }
 
     /**
@@ -26,41 +30,61 @@ class JSONTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
+        unset($this->object);
+    }
+
+    public function getFile()
+    {
+        return __DIR__ . '/file.json';
+    }
+
+    public function testReadConfig_throwsException_IfFileNotFound()
+    {
+        $this->expectException();
+        $this->object->readConfig('not-existant-file.json');
+    }
+
+    public function testReadConfig_throwsException_JsonError()
+    {
+        $this->expectException();
+        $this->object->readConfig(__DIR__ . 'error.json');
     }
 
     /**
      * @covers Koch\Config\Adapter\JSON::readConfig
-     * @todo   Implement testReadConfig().
      */
     public function testReadConfig()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->expectException();
+        $json = $this->object->readConfig($this->getFile());
+
+        $expected = array();
+
+        $this->assertEqual($expected, $json);
     }
 
     /**
      * @covers Koch\Config\Adapter\JSON::writeConfig
-     * @todo   Implement testWriteConfig().
      */
     public function testWriteConfig()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $array = array( 'section-1' => array( 'key1' => 'value1' ) );
+        $file = __DIR__.'/writeTest.json';
+
+        $int_or_bool = $this->object->writeConfig($file, $array);
+
+        $this->assertIsA($int_or_bool, 'int');
+
+        unlink($file);
     }
 
     /**
      * @covers Koch\Config\Adapter\JSON::getJsonErrorMessage
-     * @todo   Implement testGetJsonErrorMessage().
      */
-    public function testGetJsonErrorMessage()
+    public function testgetJsonErrorMessage()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $errmsg = $this->object->getJsonErrorMessage(JSON_ERROR_DEPTH);
+        $expected = 'The maximum stack depth has been exceeded.';
+        $this->assertEqual($expected, $errmsg);
     }
 }
