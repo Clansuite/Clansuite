@@ -91,7 +91,7 @@ class Captcha
     public static function getRandomFont($fonts_dir)
     {
         // build the fonts array by detecting all font files
-        $iterator = new DirectoryIterator($fonts_dir);
+        $iterator = new \DirectoryIterator($fonts_dir);
 
         foreach ($iterator as $file) {
             // if a fontfile.ttf is found add it to the array
@@ -311,7 +311,7 @@ class Captcha
     {
         // perform the garbage_collection in 10 % of all calls
         if (mt_rand(0, 9) == 0) {
-            $iterator = new DirectoryIterator($this->options['image_dir']);
+            $iterator = new \DirectoryIterator($this->options['image_dir']);
             foreach ($iterator as $file) {
                 // delete all png files
                 if ($file->isFile() and (strrchr($file->getPathname(), '.') == '.png')) {
