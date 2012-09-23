@@ -44,7 +44,7 @@ define('ROOT_CACHE', ROOT_APP . 'Cache/');
 define('KOCH', ROOT . 'framework/Koch/');
 define('PROTOCOL', 'http://');
 define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
-define('WWW_ROOT', SERVER_URL . '/Clansuite/');
+define('WWW_ROOT', SERVER_URL . '/Clansuite/Clansuite/');
 define('WWW_ROOT_THEMES_CORE', WWW_ROOT . 'themes/core/');
 define('NL', '<br />' . PHP_EOL);
 define('CR', "\n");
