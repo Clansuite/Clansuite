@@ -98,6 +98,11 @@ class NewsController extends ModuleController
         $this->display();
     }
 
+    public function action_new()
+    {
+
+    }
+
     /**
       * module news action_showone()
       *
