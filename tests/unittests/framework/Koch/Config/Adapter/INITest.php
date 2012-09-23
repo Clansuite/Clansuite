@@ -1,9 +1,9 @@
 <?php
+namespace Koch\Config\Adapter;
+
 if (count(get_included_files()) == 1) {
     require_once 'autorun.php';
 }
-
-namespace Koch\Config\Adapter;
 
 class INITest extends \PHPUnit_Framework_TestCase
 {
@@ -114,16 +114,5 @@ class INITest extends \PHPUnit_Framework_TestCase
         $this->assertEqual($ini_array, $this->getIniArray());
 
         $this->assertIsA($ini_array['section']['key3-int'], 'string');
-    }
-
-    /**
-     * @covers Koch\Config\Adapter\INI::readConfig
-     */
-    public function testReadConfig()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
     }
 }
