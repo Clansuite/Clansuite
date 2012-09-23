@@ -357,9 +357,12 @@ class TargetRoute extends Mapper
         // Id
         if (isset($array['id']) === true) {
             self::setId($array['id']);
-            // if we set an id, and action is empty then [news/id] was requested
-            // we fill automatically in the action show
-            if (self::$parameters['action'] === 'list') { self::setAction('show'); }
+            // if we set an ID and the action is still empty (=default: list),
+            // then we automatically set the action name according to the request method
+            if (self::$parameters['action'] === 'list') {
+                $request_method = self::getRequestMethod();
+                if ($request_method === 'GET') { self::setAction('show'); } elseif ($request_method === 'PUT') { self::setAction('update'); } elseif ($request_method === 'DELETE') { self::setAction('delete'); }
+            }
             unset($array['id']);
         }
 
