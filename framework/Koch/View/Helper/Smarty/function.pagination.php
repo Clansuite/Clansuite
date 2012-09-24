@@ -18,7 +18,6 @@
  * Name:     pagination<br>
  * Purpose:  display pagination if needed<br>
  *
-
  * @param array $params
  * @param Smarty $smarty
  * @return string

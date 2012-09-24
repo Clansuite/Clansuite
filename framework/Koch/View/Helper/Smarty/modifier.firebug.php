@@ -6,8 +6,6 @@
  */
 
 /**
-
- *
  * Smarty Modifier to debug output the variable content to the firebug console.
  *
  * @example

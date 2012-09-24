@@ -6,7 +6,6 @@
  */
 
 /**
- *
  * Smarty Modifier to purify the html output via HTMLPurifier.
  * The library filters HTML tags by using a tag whitelist.
  * @link http://htmlpurifier.org/

@@ -18,7 +18,6 @@
  * Type:     function<br>
  * Name:     currentmodule<br>
  * Purpose:  display name of current module<br>
-
  * @return string
  */
 function Smarty_function_currentmodule()

@@ -6,7 +6,6 @@
  */
 
 /**
- *
  * Smarty {moveit} outputfilter moves content to several tag positions
  *
  * The x marks the position, the content will be moved to.

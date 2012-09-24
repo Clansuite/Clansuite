@@ -1,8 +1,5 @@
 <?php
 /**
-
- *
- *
  * Name:         continue
  * Type:         compiler
  * Purpose:     this TAG continues foreach loops

@@ -17,4 +17,3 @@ function Smarty_function_gzipcheck($params, $smarty)
     }
 }
 
-/* vim: set expandtab: */

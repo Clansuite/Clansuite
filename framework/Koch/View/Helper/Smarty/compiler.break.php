@@ -1,8 +1,5 @@
 <?php
 /**
-
- *
-  *
  * Name:         break
  * Type:         compiler
  * Purpose:     this TAG breaks foreach loops

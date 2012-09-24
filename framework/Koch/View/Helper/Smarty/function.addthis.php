@@ -8,8 +8,6 @@
  */
 
 /**
-
- *
  * Smarty Function to output the addthis social bookmark/sharing button.
  * @link http://www.addthis.com
  *

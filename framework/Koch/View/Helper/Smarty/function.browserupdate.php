@@ -6,10 +6,6 @@
  */
 
 /**
-
- *
- *
- *
  * Smarty Function to output the browser update (notice) javascript.
  * @link http://www.browser-update.org/customize.html
  *

@@ -15,7 +15,6 @@
  * Name:     a<br>
  * Purpose:  Generates the proper URL from the href parameter given<br>
  *
-
  * @param array $params
  * @param Smarty $smarty
  * @return string

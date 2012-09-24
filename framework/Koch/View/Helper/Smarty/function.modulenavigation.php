@@ -18,7 +18,7 @@
  * Type:     function<br>
  * Name:     modulenavigation<br>
  * Purpose:  display modulenavigation<br>
-
+ *
  * @param array $params
  * @param Smarty $smarty
  * @return string

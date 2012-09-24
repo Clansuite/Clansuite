@@ -6,8 +6,6 @@
  */
 
 /**
-
- *
  * Koch FrameworkSmarty Plugin
  * --------------------------------------------------------
  * File:    prefilter.inserttplnames.php

@@ -8,8 +8,6 @@
  */
 
 /**
-
- *
  * Smarty Function to output the addtoany social bookmark/sharing button.
  * @link http://www.addtoany.com
  *
