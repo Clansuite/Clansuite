@@ -16,4 +16,3 @@ function Smarty_function_gzipcheck($params, $smarty)
         echo 'Disabled';
     }
 }
-

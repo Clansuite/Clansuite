@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Koch\View\Helper\Smarty;
 

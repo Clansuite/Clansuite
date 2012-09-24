@@ -14,4 +14,3 @@ if (!empty($_FILES) and isset($_FILES['uploadfile']['tmp_name']) ) {
         echo 'File Upload Error.';
     }
 }
- 
