@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 exit(0);
 
 //var_dump($_FILES);
@@ -14,3 +14,4 @@ if (!empty($_FILES) and isset($_FILES['uploadfile']['tmp_name']) ) {
         echo 'File Upload Error.';
     }
 }
+ 
