@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  * Smarty {html_alt_table} function plugin

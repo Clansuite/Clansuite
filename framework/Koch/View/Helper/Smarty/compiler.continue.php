@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Name:         continue
  * Type:         compiler

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Name:         break
  * Type:         compiler

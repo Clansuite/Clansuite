@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Project:     smarty_ajax: AJAX-enabled Smarty plugins
  * File:        block.ajax_form.php
