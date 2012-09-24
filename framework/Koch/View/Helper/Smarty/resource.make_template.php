@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 function Smarty_make_template($resource_type, $resource_name, &$template_source, &$template_timestamp, $smarty_obj)
 {

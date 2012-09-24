@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 function Smarty_fetch_module_templates($resource_type, $resource_name, &$template_source, &$template_timestamp, $smarty)
 {
     $resource_name = substr_replace($resource_name, '/view', mb_strpos($resource_name,'/'), 0);
