@@ -5,6 +5,10 @@
 # To have a global effect affect to all repositories run this command:
 # git config --global core.excludesfile ~/.gitignore
 
+# removed .gitattributes and .gitignore when doing git export
+.gitattributes export-ignore
+.gitignore export-ignore
+
 # Clansuite
 /Clansuite/Configuration/clansuite.php
 /Clansuite/Uploads/images/gravatars
