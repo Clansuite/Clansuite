@@ -294,7 +294,7 @@ class TargetRoute extends Mapper
             if (is_file($filename) === true) {
                 include_once $filename;
                 // @todo position for log command
-                echo 'Loaded Controller: ' . $filename;
+                #echo 'Loaded Controller: ' . $filename;
             }
         }
 
@@ -305,7 +305,7 @@ class TargetRoute extends Mapper
         }
 
         // this shows how many routes were tried
-        echo '<br><strong>Route failure. Not found ' . $filename .' ### '. $classname .' ### '. $method . '</strong><br>';
+        #echo '<br><strong>Route failure. Not found ' . $filename .' ### '. $classname .' ### '. $method . '</strong><br>';
 
         return false;
     }
