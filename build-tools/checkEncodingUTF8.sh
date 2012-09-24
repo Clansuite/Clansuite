@@ -18,7 +18,7 @@ function checkDirectory() {
                         if [ -f ${name} ]; then
                                 charset=`file -bi ${name} | grep -o 'utf-8'`
                                 if [ 'utf-8' != "${charset}" ]; then
-                                        file -bi ${name} | grep -v 'charset=utf-8' | xargs echo "${name} is encoded in"
+                                        file -bi ${name} | grep -v 'charset=utf-8' | xargs echo -e "\E[31;40m ${name} is encoded in"
                                 fi
                         elif [ -d ${name} ]; then
                                 checkDirectory ${name}
