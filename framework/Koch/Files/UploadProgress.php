@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  * This returns the Uploadprogress via APC as a rounded number or json array.
