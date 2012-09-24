@@ -171,14 +171,14 @@ class Helper
 
         foreach ($dirs as $key => $dir_path) {
             // Entity Path
-            $entity_path = $dir_path . '/Model/Entities/';
+            $entity_path = $dir_path . '/Model/Entity/';
 
             if (is_dir($entity_path)) {
                 $model_dirs[] = $entity_path;
             }
 
             // Repository Path
-            $repos_path = $dir_path . '/Model/Repositories/';
+            $repos_path = $dir_path . '/Model/Repository/';
 
             if (is_dir($repos_path)) {
                 $model_dirs[] = $repos_path;
