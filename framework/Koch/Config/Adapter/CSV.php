@@ -43,7 +43,7 @@ class CSV
     public static function readConfig($file)
     {
         if (is_file($file) === false or is_readable($file) === false) {
-            throw new Clansuite_Exception('JSON Config File not existing or not readable.');
+            throw new \Koch\Exception\Exception('CSV Config File not existing or not readable.');
         }
 
         $csvarray = array();
