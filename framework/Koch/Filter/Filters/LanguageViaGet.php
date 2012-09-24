@@ -59,7 +59,7 @@ class LanguageViaGet implements FilterInterface
     public function __construct(Config $config)
     {
         // only subarray is relevant
-        $this->config = $config['switches'];
+        $this->config = $config['prefilter'];
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
@@ -68,7 +68,7 @@ class LanguageViaGet implements FilterInterface
          * take the initiative of filtering, if language switching is enabled in CONFIG
          * or pass through (do nothing) if disabled
          */
-        if (true === (bool) $this->config['languageswitch_via_url']) {
+        if (true === (bool) $this->config['language_via_get']) {
             return;
         }
 
@@ -82,7 +82,7 @@ class LanguageViaGet implements FilterInterface
              * b) that the language was set via $_GET parameter
              */
             $_SESSION['user']['language'] = mb_strtolower($language);
-            $_SESSION['user']['language_via_url'] = 1;
+            $_SESSION['user']['language_via_get'] = 1;
         }
     }
 }

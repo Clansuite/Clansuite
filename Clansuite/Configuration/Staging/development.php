@@ -81,11 +81,11 @@ name = ""
 tag = ""
 
 ;----------------------------------------
-; switches
+; prefilter
 ;----------------------------------------
-[switches]
-themeswitch_via_url = 0
-languageswitch_via_url = 0
+[prefilter]
+theme_via_get = 0
+language_via_get = 0
 
 ;----------------------------------------
 ; maintenance

@@ -50,14 +50,14 @@ class ThemeViaGet implements FilterInterface
     public function __construct(Config $config, Inputfilter $input)
     {
         // reduce array size by selection of the section
-        $this->config = $config['switches'];
+        $this->config = $config['prefilter'];
         $this->input  = $input;
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         // themeswitching must is enabled in configuration
-        if ($this->config['themeswitch_via_url'] == 1) {
+        if ($this->config['theme_via_get'] == 1) {
             return;
         }
 
