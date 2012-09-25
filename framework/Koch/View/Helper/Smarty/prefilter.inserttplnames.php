@@ -21,5 +21,5 @@
  */
 function Smarty_prefilter_inserttplnames( $tpl_source, $compiler )
 {
-    return "\n<!-- [-Start-] Included Template {\$smarty.current_dir}". DIRECTORY_SEPARATOR ."{\$smarty.template} -->\n".$tpl_source."\n<!-- [-End-] Included Template {\$smarty.current_dir}". DIRECTORY_SEPARATOR ."{\$smarty.template}  -->\n";
+    return "\n<!-- [-Start-] Included Template {\$smarty.current_dir}/{\$smarty.template} -->\n".$tpl_source."\n<!-- [-End-] Included Template {\$smarty.current_dir}/{\$smarty.template}  -->\n";
 }
