@@ -106,7 +106,7 @@ define('TESTSUBJECT_DIR', dirname(__DIR__) . '/');
  * when we are not in CLI mode.
  */
 if (isCli() === false) {
-    require_once KOCH . 'Debug/Debug.php';
+    require_once KOCH_FRAMEWORK . 'Debug/Debug.php';
 }
 
 /**

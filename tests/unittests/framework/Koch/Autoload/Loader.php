@@ -146,7 +146,7 @@ class LoaderTest extends Clansuite_UnitTestCase
 
    public function testMethod_writeAutoloadingMapFile()
     {
-        $classmap_file = ROOT_CONFIG . 'autoloader.classmap.php';
+        $classmap_file = ROOT_CACHE . 'autoloader.classmap.php';
         if (is_file($classmap_file)) {
             unlink($classmap_file);
         }
@@ -161,7 +161,7 @@ class LoaderTest extends Clansuite_UnitTestCase
 
     public function testMethod_readAutoloadingMapFile()
     {
-        $classmap_file = ROOT_CONFIG . 'autoloader.classmap.php';
+        $classmap_file = ROOT_CACHE . 'autoloader.classmap.php';
         if (is_file($classmap_file)) {
             unlink($classmap_file);
         }
