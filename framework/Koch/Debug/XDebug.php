@@ -359,11 +359,8 @@ class XDebug
 
     public static function showBrowserInfo()
     {
-        if (false === class_exists('Koch_Browserinfo', false)) {
-            include ROOT_FRAMEWORK . 'tools/browserinfo.core.php';
-        }
-        $browserinfo = new Koch_Browserinfo();
-        $browser = $browserinfo->getBrowserInfo();
+        $ua = new \Koch\Http\UserAgent();        
+        $browser = $ua->getBrowserInfo();
 
         echo self::getSectionHeadlineHTML('Browserinfo');
         echo '<table class="xdebug-console" id="table-browserinfo" style="display:none;">';

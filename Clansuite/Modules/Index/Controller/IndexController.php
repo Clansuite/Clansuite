@@ -40,7 +40,7 @@ class IndexController extends ModuleController //implements Koch\Module\ModuleIn
     public function action_list()
     {
         // Set Pagetitle and Breadcrumbs
-        $this->addBreadcrumb( _('Show'), '/index/index');
+        $this->addBreadcrumb( _('List'), '/index/index');
 
         /***
          * You can set a Render Engine:

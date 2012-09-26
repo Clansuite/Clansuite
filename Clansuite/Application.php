@@ -178,12 +178,6 @@ class Application
         define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 
         /**
-         * KOCH is the FRAMEWORK PATH
-         * @var Purpose of KOCH is to provide the absolute path to the top level of the KOCH Framework
-         */
-        define('KOCH', dirname(__DIR__) . '/framework/Koch/');
-
-        /**
          * @var Root path of the cache directory (with trailing slash)
          */
         define('ROOT_CACHE', ROOT . 'Cache/');
@@ -196,7 +190,7 @@ class Application
         /**
          * @var Root path of the framework directory (with trailing slash)
          */
-        define('ROOT_FRAMEWORK', ROOT . 'framework/');
+        define('KOCH_FRAMEWORK', dirname(ROOT) . '/framework/Koch/');
 
         /**
          * @var Root path of the languages directory (with trailing slash)
@@ -318,7 +312,7 @@ class Application
          * If you need to add something: use or absolute path constants (ROOT*) or realpath($your_path).
          */
         $paths = array(
-            dirname(KOCH),
+            dirname(KOCH_FRAMEWORK),
             dirname(ROOT),
             ROOT_VENDOR, // composer dir
             ROOT_LIBRARIES,
@@ -397,7 +391,7 @@ class Application
              * helper methods for profiling, tracing and enhancing the debug displays.
              * @see clansuite_debug::printR() and clansuite_debug::firebug()
              */
-            include KOCH . 'Debug/Debug.php';
+            include KOCH_FRAMEWORK . 'Debug/Debug.php';
 
             /**
              * @var XDebug and set it's value via the config setting ['error']['xdebug']
@@ -406,7 +400,7 @@ class Application
 
             // If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if (XDEBUG == true) {
-                include KOCH . 'Debug/Xdebug.php';
+                include KOCH_FRAMEWORK . 'Debug/Xdebug.php';
                 \Koch\Debug\XDebug::start_xdebug();
             }
         } else { // application is in live/production mode. errors are not shown, but logged to file!
@@ -429,7 +423,7 @@ class Application
      */
     public static function initialize_Loader()
     {
-        include KOCH . 'Autoload/Loader.php';
+        include KOCH_FRAMEWORK . 'Autoload/Loader.php';
 
         new \Koch\Autoload\Loader();
 

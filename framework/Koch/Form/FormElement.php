@@ -859,7 +859,7 @@ class FormElement implements FormElementInterface
 
         // if not already loaded, require forelement file
         if (false == class_exists($class, false)) {
-            $file = ROOT_FRAMEWORK . '/form/decorators/formelement/' . $decorator . '.php';
+            $file = KOCH_FRAMEWORK . '/form/decorators/formelement/' . $decorator . '.php';
 
             if (is_file($file) === true) {
                 include $file;

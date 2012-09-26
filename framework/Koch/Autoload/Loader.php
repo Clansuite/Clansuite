@@ -164,7 +164,7 @@ class Loader
     {
         // autoloading classmap
         $classmap = array(
-            'Clansuite\Module\Controller' => ROOT_FRAMEWORK . 'module\controller.php',
+            'Clansuite\Module\Controller' => KOCH_FRAMEWORK . 'module\controller.php',
         );
 
         // check if classname is in autoloading map

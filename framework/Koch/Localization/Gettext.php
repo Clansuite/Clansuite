@@ -329,7 +329,7 @@ class Tool
 
         if (false === class_exists($extractor_classname, false)) {
             // /framework/Koch/Gettext/Extractors/*NAME*.gettext.php
-            $extractor_file = ROOT_FRAMEWORK . 'Gettext/Extractors/' . $extractor . '.gettext.php';
+            $extractor_file = KOCH_FRAMEWORK . 'Gettext/Extractors/' . $extractor . '.gettext.php';
 
             if (true === is_file($extractor_file)) {
                 include_once $extractor_file;

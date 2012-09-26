@@ -263,7 +263,7 @@ class Column extends Base
         $className = 'Clansuite_Datagrid_Column_Renderer_' . ucfirst($rendererName);
 
         if (false == class_exists($className, false)) {
-            $file = ROOT_FRAMEWORK . 'viewhelper/datagrid/columns/' . $rendererName . '.php';
+            $file = KOCH_FRAMEWORK . 'viewhelper/datagrid/columns/' . $rendererName . '.php';
 
             if ( is_file($file) ) {
                 include $file;

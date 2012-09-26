@@ -1058,7 +1058,7 @@ class Form implements FormInterface
 
         // if not already loaded, require formelement file
         if (false === class_exists($class, false)) {
-            $file = KOCH . 'form/elements/' . $formelement . '.php';
+            $file = KOCH_FRAMEWORK . 'form/elements/' . $formelement . '.php';
 
             if (is_file($file) === true) {
                 include $file;
@@ -1357,7 +1357,7 @@ class Form implements FormInterface
 
         // if not already loaded, require forelement file
         if (false === class_exists($class, false)) {
-            $file = KOCH . 'Form/Decorators/Form/' . $decorator . '.php';
+            $file = KOCH_FRAMEWORK . 'Form/Decorators/Form/' . $decorator . '.php';
 
             if (is_file($file) === true) {
                 include $file;

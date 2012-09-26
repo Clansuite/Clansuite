@@ -114,7 +114,7 @@ class Captcha extends FormElement implements FormElementInterface
 
         // load file
         if (class_exists($classname, false) === false) {
-            include ROOT_FRAMEWORK .'viewhelper/form/formelements/'. $name .'captcha.php';
+            include KOCH_FRAMEWORK .'viewhelper/form/formelements/'. $name .'captcha.php';
         }
 
         // instantiate

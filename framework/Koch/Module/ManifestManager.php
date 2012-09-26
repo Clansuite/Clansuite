@@ -387,7 +387,7 @@ class ManifestManager
          // if the language definitions are not already loaded, load them
         if (empty(self::$l10n_sys_locales)) {
             // fetch arrays containing locale data
-            require ROOT_FRAMEWORK . 'gettext/locales.gettext.php';
+            require KOCH_FRAMEWORK . 'gettext/locales.gettext.php';
             self::$l10n_sys_locales = $l10n_sys_locales;
         }
 

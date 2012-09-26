@@ -81,7 +81,7 @@ class ControlcenterController extends ModuleController
 
     private function assignErrorlogInfos()
     {
-        include ROOT_FRAMEWORK . 'logger/file.logger.php';
+        include KOCH_FRAMEWORK . 'logger/file.logger.php';
         $errorlog_entries = null;
         $errorlog_entries = Clansuite_Logger_File::returnEntriesFromLogfile(3);
 

@@ -119,7 +119,7 @@ class Factory
     public static function getConfigurationHandler($adapter)
     {
         // path to configuration handler classes
-        $file = ROOT_FRAMEWORK . 'config' . DIRECTORY_SEPARATOR . strtolower($adapter) . '.config.php';
+        $file = KOCH_FRAMEWORK . 'config' . DIRECTORY_SEPARATOR . strtolower($adapter) . '.config.php';
 
         if (is_file($file) === true) {
             $class = 'Koch\Config_' . strtoupper($adapter);

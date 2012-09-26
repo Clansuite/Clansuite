@@ -183,8 +183,8 @@ class Cronjobs
      */
     public function __construct()
     {
-        $this->cronTabFile = ROOT_FRAMEWORK . 'cronjobs/crontab.txt';
-        $this->writeDirectory = ROOT_FRAMEWORK . 'cronjobs/';
+        $this->cronTabFile = KOCH_FRAMEWORK . 'cronjobs/crontab.txt';
+        $this->writeDirectory = KOCH_FRAMEWORK . 'cronjobs/';
         $this->execute();
     }
 
