@@ -52,7 +52,7 @@ class Maintenance implements FilterInterface
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         // the maintenance mode must be enabled in configuration in order to be displayed
-        if ($this->config['maintenance']['maintenance'] == 1) {
+        if ($this->config['maintenance']['enabled'] == 1) {
             return;
         }
 
