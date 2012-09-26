@@ -60,7 +60,7 @@ class Smarty extends AbstractRenderer
         $this->configureEngine();
 
         // debug display of all smarty related directories
-        // $this->renderer->testInstall();
+        //$this->renderer->testInstall();
     }
 
     /**
@@ -165,20 +165,9 @@ class Smarty extends AbstractRenderer
         }
 
         /**
-         * DEFAULT TEMPLATE HANDLER FUNCTION
-         */
-        // $this->renderer->default_template_handler_func = "";
-
-        /**
          *  ENGINE SETTINGS
          */
-        // $this->renderer->left_delimiter           = "{";    // default : {
-        // $this->renderer->right_delimiter          = "}";    // default : }
-        #$this->renderer->show_info_header           = false;  // if true : Smarty Version and Compiler Date are displayed as comment in template files
-        #$this->renderer->show_info_include          = false;  // if true : adds an HTML comment at start and end of template files
-        // $this->renderer->request_vars_order       = "";     // order in which the request variables were set, same as 'variables_order' in php.ini
-        #$this->renderer->use_sub_dirs               = true;   // set to false if creating subdirs is not allowed, but subdirs are more efficiant
-
+       
         /**
          * Smarty Template Directories
          *
