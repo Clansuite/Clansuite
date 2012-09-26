@@ -335,7 +335,7 @@ class Loader
     public static function readAutoloadingMapFile()
     {
         // check if file for the autoloading map exists
-        $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
+        $mapfile = ROOT_CACHE . 'autoloader.classmap.php';
 
         // create file, if not existant
         if (is_file($mapfile) === false) {
