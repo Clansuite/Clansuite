@@ -253,7 +253,7 @@ class Mapper
             $renderer = HttpRequest::getRoute()->getRenderEngine();
 
             // the template with that name is not found on our default paths
-            return ROOT_THEMES_CORE . 'View' . DIRECTORY_SEPARATOR . $renderer . DIRECTORY_SEPARATOR . 'template_not_found.tpl';
+            return ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . $renderer . DIRECTORY_SEPARATOR . 'template_not_found.tpl';
         }
     }
 
@@ -269,7 +269,7 @@ class Mapper
         // check if the file exists in one of the defined paths
         foreach ($paths as $path) {
             $file = $path . $filename;
-
+            #\Koch\Debug\Debug::dump($file, false);
             if (is_file($file) === true) {
                 // file found
                 return $file;
