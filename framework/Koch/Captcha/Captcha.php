@@ -94,9 +94,9 @@ class Captcha
         $iterator = new \DirectoryIterator($fonts_dir);
 
         foreach ($iterator as $file) {
-            // if a fontfile.ttf is found add it to the array
+            // add font files (*.ttf) to the array
             if ($file->isFile() and (strrchr($file->getPathname(), '.') == '.ttf')) {
-                self::$fonts = $fonts_dir . $file->getPathname();
+                self::$fonts[] = $file->getPathname();
             }
         }
 
