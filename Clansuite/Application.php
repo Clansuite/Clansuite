@@ -407,7 +407,7 @@ class Application
             // If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if (XDEBUG == true) {
                 include KOCH . 'Debug/Xdebug.php';
-                Clansuite_XDebug::start_xdebug();
+                \Koch\Debug\XDebug::start_xdebug();
             }
         } else { // application is in live/production mode. errors are not shown, but logged to file!
             // enable error_logging

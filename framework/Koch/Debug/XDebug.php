@@ -107,7 +107,7 @@ class XDebug
             #xdebug_start_trace(ROOT_LOGS . 'clansuite_trace', XDEBUG_TRACE_HTML);
 
             // stop tracing and display infos
-            register_shutdown_function('clansuite_xdebug::shutdown');
+            register_shutdown_function('\Koch\Debug\XDebug::shutdown');
         }
     }
 
@@ -333,7 +333,7 @@ class XDebug
 
         foreach ($aCategoriesToShow as $category) {
             // display only the categories to show / whitelist
-            if (($aConsts[$category]) !== null) {
+            if (isset($aConsts[$category])) {
                 // adjust headline
                 if ($category == 'user') {
                     echo '<tr><th colspan="2">Application Constants</th></tr>';
@@ -441,7 +441,7 @@ class XDebug
     public static function shutdown()
     {
         // Stop the tracing and show debugging infos.
-        clansuite_xdebug::render();
+        self::render();
     }
 
     public static function formatter($buffer)
