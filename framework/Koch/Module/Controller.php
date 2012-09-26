@@ -400,8 +400,8 @@ abstract class Controller
         $template = $view_mapper->getTemplateName();
 
         // Debug display of Layout Template and Content Template
-        #\Koch\Debug\Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
-        #\Koch\Debug\Debug::firebug('Template Name: ' . $templatename . '<br />');
+        \Koch\Debug\Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
+        \Koch\Debug\Debug::firebug('Template Name: ' . $template . '<br />');
 
         // render the content / template
         $content = $this->view->render($template);
