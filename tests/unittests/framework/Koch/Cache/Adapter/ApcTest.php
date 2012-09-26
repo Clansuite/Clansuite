@@ -39,9 +39,9 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      */
     public function testFetch()
     {
-        $this->assertFalse($object->contains('key1'));
-        $object->store('key1', 'value1');
-        $this->assertEqual('value1', $object->fetch('key1'));
+        $this->assertFalse($this->object->contains('key1'));
+        $this->object->store('key1', 'value1');
+        $this->assertEqual('value1', $this->object->fetch('key1'));
     }
 
     /**
@@ -50,9 +50,9 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      */
     public function testStore()
     {
-        $this->assertFalse($object->contains('key1'));        
-        $object->store('key1', 'value1');
-        $this->assertEqual('value1', $object->fetch('key1'));
+        $this->assertFalse($this->object->contains('key1'));        
+        $this->object->store('key1', 'value1');
+        $this->assertEqual('value1', $this->object->fetch('key1'));
     }
 
     /**
@@ -61,14 +61,14 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      */
     public function testDelete()
     {
-        $this->assertFalse($object->contains('key1'));
-        $object->store('key1', 'value1');
-        $this->assertEqual('value1', $object->fetch('key1'));
-        $this->assertTrue($object->contains('key1'));
+        $this->assertFalse($this->object->contains('key1'));
+        $this->object->store('key1', 'value1');
+        $this->assertEqual('value1', $this->object->fetch('key1'));
+        $this->assertTrue($this->object->contains('key1'));
 
-        $object->delete('key1');
+        $this->object->delete('key1');
 
-        $this->assertFalse($object->contains('key1'));
+        $this->assertFalse($this->object->contains('key1'));
     }
 
     /**
@@ -89,10 +89,10 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      */
     public function testContains()
     {
-        $this->assertFalse($object->contains('key1'));
-        $object->store('key1', 'value1');
-        $this->assertEqual('value1', $object->fetch('key1'));
-        $this->assertTrue($object->contains('key1'));
+        $this->assertFalse($this->object->contains('key1'));
+        $this->object->store('key1', 'value1');
+        $this->assertEqual('value1', $this->object->fetch('key1'));
+        $this->assertTrue($this->object->contains('key1'));
     }
 
     /**
