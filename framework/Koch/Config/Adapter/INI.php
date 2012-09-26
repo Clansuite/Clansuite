@@ -73,10 +73,10 @@ class INI
         // attach an security header at the top of the ini file
         $content = '';
         $content .= "; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>\n";
-        $content .= "; \n";
-        $content .= "; Koch Framework Configuration File : \n";
+        $content .= ";\n";
+        $content .= "; Koch Framework Configuration File :\n";
         $content .= '; ' . $file . "\n";
-        $content .= "; \n";
+        $content .= ";\n";
         $content .= '; This file was generated on ' . date('d-m-Y H:i') . "\n";
         $content .= ";\n\n";
 
