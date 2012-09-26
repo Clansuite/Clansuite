@@ -224,8 +224,8 @@ class Mapper
         $module_paths = array(
             ROOT_MOD,
             ROOT_MOD . $module . DIRECTORY_SEPARATOR,
-            ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR,
-            ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . $renderer . DIRECTORY_SEPARATOR
+            ROOT_MOD . $module . '/View/',
+            ROOT_MOD . $module . '/View/' . ucfirst($renderer) . DIRECTORY_SEPARATOR
         );
 
         return $module_paths;
@@ -253,7 +253,7 @@ class Mapper
             $renderer = HttpRequest::getRoute()->getRenderEngine();
 
             // the template with that name is not found on our default paths
-            return ROOT_THEMES_CORE . 'view' . DIRECTORY_SEPARATOR . $renderer . DIRECTORY_SEPARATOR . 'template_not_found.tpl';
+            return ROOT_THEMES_CORE . 'view/' . $renderer . '/template_not_found.tpl';
         }
     }
 
