@@ -269,4 +269,3 @@ class Koch_ImagesOnlyFilterIterator extends \FilterIterator
         }
     }
 }
-

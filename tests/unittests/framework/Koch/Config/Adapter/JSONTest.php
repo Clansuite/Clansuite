@@ -35,7 +35,7 @@ class JSONTest extends \PHPUnit_Framework_TestCase
 
     public function getFile()
     {
-        return __DIR__ . '/file.json';
+        return dirname(__DIR__) . '/fixtures/file.json';
     }
 
     public function testReadConfig_throwsException_IfFileNotFound()
@@ -47,7 +47,7 @@ class JSONTest extends \PHPUnit_Framework_TestCase
     public function testReadConfig_throwsException_JsonError()
     {
         $this->expectException();
-        $this->object->readConfig(__DIR__ . 'error.json');
+        $this->object->readConfig('not-existant-file.json');
     }
 
     /**
@@ -69,7 +69,7 @@ class JSONTest extends \PHPUnit_Framework_TestCase
     public function testWriteConfig()
     {
         $array = array( 'section-1' => array( 'key1' => 'value1' ) );
-        $file = __DIR__.'/writeTest.json';
+        $file = dirname(__DIR__) . '/fixtures/writeTest.json';
 
         $int_or_bool = $this->object->writeConfig($file, $array);
 

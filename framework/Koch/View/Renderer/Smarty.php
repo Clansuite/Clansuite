@@ -167,7 +167,7 @@ class Smarty extends AbstractRenderer
         /**
          *  ENGINE SETTINGS
          */
-       
+
         /**
          * Smarty Template Directories
          *

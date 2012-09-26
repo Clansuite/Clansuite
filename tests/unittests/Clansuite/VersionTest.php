@@ -35,7 +35,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
     public function testSetVersionInformation()
     {
         $this->object->setVersionInformation();
-        
+
         $this->assertTrue(
             defined('CLANSUITE_VERSION') &&
             defined('CLANSUITE_VERSION_NAME') &&

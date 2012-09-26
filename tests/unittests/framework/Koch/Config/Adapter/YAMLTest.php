@@ -21,7 +21,7 @@ class YAMLTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('The no yaml reader available. Install SYCK extensions or Spyc library.');
             $this->expectException();
         }
-        
+
         $this->object = new YAML($this->getFile());
     }
 
@@ -32,7 +32,7 @@ class YAMLTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
     }
-    
+
     public function getFile()
     {
         return dirname(__DIR__) . '/fixtures/data.yml';

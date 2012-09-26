@@ -359,7 +359,7 @@ class XDebug
 
     public static function showBrowserInfo()
     {
-        $ua = new \Koch\Http\UserAgent();        
+        $ua = new \Koch\Http\UserAgent();
         $browser = $ua->getBrowserInfo();
 
         echo self::getSectionHeadlineHTML('Browserinfo');

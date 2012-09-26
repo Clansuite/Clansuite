@@ -42,7 +42,7 @@ class INITest extends \PHPUnit_Framework_TestCase
 
     public function getFile()
     {
-        return dirname(__DIR__) . '/fixtures/file.ini';
+        return dirname(__DIR__) . '/fixtures/writeTest.ini';
     }
 
     public function testReadConfig_throwsException_IfFileNotFound()
@@ -57,6 +57,10 @@ class INITest extends \PHPUnit_Framework_TestCase
     public function testWriteConfig()
     {
         $ini_array = $this->object->writeConfig($this->getFile(), $this->getIniArray());
+
+        $this->assertEqual($ini_array, $this->getIniArray());
+
+        unlink($this->getFile());
     }
 
     /**
