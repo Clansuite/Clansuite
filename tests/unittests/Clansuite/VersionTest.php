@@ -34,9 +34,13 @@ class VersionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetVersionInformation()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+        $this->object->setVersionInformation();
+        
+        $this->assertTrue(
+            defined('CLANSUITE_VERSION') &&
+            defined('CLANSUITE_VERSION_NAME') &&
+            defined('CLANSUITE_VERSION_STATE') &&
+            defined('CLANSUITE_URL')
         );
     }
 
