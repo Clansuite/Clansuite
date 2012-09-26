@@ -103,13 +103,12 @@ class StaticpagesController extends ModuleController
     }
 
     /**
-     * Static Pages
-     * show all static pages
+     * Show all static pages
      */
-    public function action_overview()
+    public function action_list()
     {
         // Set Pagetitle and Breadcrumbs
-        \Koch\View\Helper\Breadcrumb::add( _('Overview'), '/staticpages/overview');
+        \Koch\View\Helper\Breadcrumb::add( _('List'), '/staticpages/overview');
 
         // get all static pages without page content
         $result = Doctrine_Query::create()
