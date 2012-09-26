@@ -1,72 +1,127 @@
-{* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|var_dump}
-   <hr>
-   {$news|var_dump}
-*}
-<table border="0" cellspacing="1" cellpadding="3" style="width:99%">
-<tr>
-    <td class="td_header">News</td>
-</tr>
-<tr>
-    <td class="td_header_small">
+<!-- Start News /-->
 
-        <!-- RSS Icon -->
-        <div style="float:right;">
-            <a href="{link_to href="news/getfeed"}"> {icon name="rss" alt="Clansuite RSS News Feed"} </a>
-        </div>
+ Debugoutput of News Array: {$news|var_dump}
 
-        {pagination}
+<a id="news_top" id="news_top"></a>
 
-    </td>
-</tr>
-</table>
-
-<br />
-
-{foreach item=singlenews from=$news}
-
-<!-- Anker-Sprungmarke der News-ID {$singlenews.news_id} -->
-<a id="news-{$singlenews.news_id}"></a>
+<h2>News : {$news.news_title} </h2>
 
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
-    <tr>
-        <td height="20" ><b>{$singlenews.news_title} {icon name="category"} {$singlenews.CsCategories.name} {icon name="tag"} No Tags applied yet!</b></td>
-        <td rowspan="3" valign="top"><img src="{$singlenews.CsCategories.image}" alt="Category-Image: {$singlenews.CsCategories.name} " /></td>
-    </tr>
 
-    <tr>
-        <td valign="top" class="dunkler">
-            <span class="writtenby">The article was written by <a href='index.php?mod=users&amp;id={$singlenews.CsUsers.user_id}'>{$singlenews.CsUsers.nick}</a> on {$singlenews.created_at|date_format}.
-            <br/>
-            <span class="comments">{icon name="comment"}Until now, it has <a href='index.php?mod=news&amp;action=showone&amp;id={$singlenews.news_id}'>{$singlenews.nr_news_comments} comments.</a></span>
+
+	<tr>
+		<td height="20" ><b>{$news.news_title} - {$news.category.name}</b></td>
+		<td rowspan="3" valign="top"><img src="{$news.category.image}" alt="Category-Image: {$news.category.name} " /></td>
+	</tr>
+
+	<tr>
+		<td valign="top" class="dunkler">
+        <font size="1">
+        {t}written by{/t}
+        <a href='index.php?mod=users&amp;id={$news.news_authored_by.user_id}'>{$news.news_authored_by.nick}</a>
+        on {$news.created_at|date_format}
+        </font>
         </td>
-    </tr>
+	</tr>
 
-    <tr>
-        <td height="175" width="75%" valign="top">{$singlenews.news_body}</td>
-    </tr>
+	<tr>
 
-    <tr>
-         <td>
-            <strong>&raquo;</strong>
-            <a href="index.php?mod=news&amp;action=showone&amp;id={$singlenews.news_id}">{$singlenews.nr_news_comments} Comments</a>
-            {if isset($news.CsComments.CsUsers.lastcomment_by)}<span> : {$singlenews.CsComments.CsUsers.lastcomment_by}</span>{/if}
-        </td>
-        <td>
-        {if isset($smarty.session.user.rights.permission_edit_news) AND isset($smarty.session.user.rights.permission_access)}
+		<td height="175" width="75%" valign="top">{$news.news_body}</td>
+	</tr>
 
-            <form id="deleteForm" name="deleteForm" action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
-                <input type="hidden" value="{$singlenews.news_id}" name="delete[]" />
-                <input type="hidden" value="{$singlenews.news_id}" name="ids[]" />
-                <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" />
-                <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
-            </form>
-        {/if}
-        </td>
-    </tr>
+	{if isset($smarty.session.user.rights.permission_edit_news) AND
+				 ($smarty.session.user.rights.permission_edit_news == 1) AND
+				 ($smarty.session.user.rights.permission_access == 1)}
+	 <tr>
+		<td colspan="2">
+		&nbsp;
+
+			<form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
+				<input type="hidden" value="{$news.news_id}" name="delete[]" />
+				<input type="hidden" value="{$news.news_id}" name="ids[]" />
+				<input class="ButtonGreen" type="button" value="{t}Edit news{/t}" />
+				<input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
+			</form>
+
+		</td>
+	 </tr>
+	 {/if}
+
 </table>
-<br />
 
-<div class="image">{if isset($news.image)} <img src="{$singlenews.CsCategories.image}" alt="{$singlenews.CsCategories.image}"/> {/if}</div>
+<!-- Ende News -->
 
-{/foreach}
+<br/>
+
+<!-- Start Comments /-->
+
+Debugoutput of Comments Array: {$news.comments|var_dump}
+
+<a id="comments" id="comments"></a>
+
+{if isset($news_comments) && isset($news.comments.0) && is_array($news.comments.0) && count($news.comments.0) > 1}
+
+	<!-- Start Multiple Comments /-->
+	<h2>{t}Comments{/t}</h2>
+
+	{foreach item=news_comment from=$news['comments']}
+
+	{* Debugoutput of Comments Array: {$news_comment|var_dump} *}
+
+	<div id="news-comment-id{$news_comment.comment_id}" style="width:99%;">
+		<table width="100%" border="1" cellspacing="1" cellpadding="0">
+		  <tr>
+			<td width="150" rowspan="2" align="center" valign="middle">
+				<div align="center">
+				<p>{$news_comment.pseudo} {$news_comment.CsUsers.nick}</p>
+				{gravatar email="`$news_comment.CsUsers.email`"}
+				</div>
+			</td>
+			<td>
+				<div align="right">{t}Comment{/t} {$news_comment.comment_id} {t}written :{/t} {$news_comment.added}</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td><div style="padding:10px;">{$news_comment.body}</div></td>
+		  </tr>
+		</table>
+	</div>
+
+	{/foreach}
+	<!-- End Multiple Comments /-->
+
+{elseif isset($news_comments) && isset($news_comments.0) && is_array($news_comments.0)}
+
+   <!-- Start One Comment /-->
+   <h2>1 {t}Comment{/t}</h2>
+
+   <div id="news-comment-id{$news_comments.comment_id}" style="width:99%;">
+		<table width="100%" border="1" cellspacing="1" cellpadding="0">
+		  <tr>
+			<td width="150" rowspan="2" align="center" valign="middle">
+				<div align="center">
+				<p>{$news_comments.pseudo} {$news_comments.CsUsers.nick}</p>
+				{gravatar email="`$news_comments.CsUsers.email`"}
+				</div>
+			</td>
+			<td><div align="right">geschrieben am: {$news_comments.added}</div></td>
+		  </tr>
+		  <tr>
+			<td><div style="padding:10px;">{$news_comments.body}</div></td>
+		  </tr>
+		</table>
+   </div>
+   <!-- End One Comment /-->
+
+{else}
+
+	<!-- Start No Comment /-->
+	<h2>{t}No Comments{/t}</h2>
+
+	Add a Comment !
+
+	<!-- End No Comment /-->
+
+{/if}
+
+<!-- Ende Comments /-->

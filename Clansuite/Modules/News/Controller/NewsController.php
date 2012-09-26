@@ -55,10 +55,10 @@ class NewsController extends ModuleController
      *
      * @output: $news ( array for smarty template output )
      */
-    public function action_show()
+    public function action_list()
     {
         // Set Pagetitle and Breadcrumbs
-        \Koch\View\Helper\Breadcrumb::add( _('Show'), '/news/show');
+        \Koch\View\Helper\Breadcrumb::add( _('List'), '/news/show');
 
         // get resultsPerPage from ModuleConfig
         $resultsPerPage = self::getConfigValue('resultsPerPage_show', '3');
@@ -104,11 +104,9 @@ class NewsController extends ModuleController
     }
 
     /**
-      * module news action_showone()
-      *
       * Show one single news with comments
       */
-     public function action_showone($params)
+     public function action_show($params)
      {
         // Get Render Engine
         $view = $this->getView();
