@@ -2,7 +2,7 @@
 
 /**
  * Clansuite - just an eSports CMS
- * Jens-André Koch © 2005 - onwards
+ * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
  * http://www.clansuite.com/
  *
  * This file is part of "Clansuite - just an eSports CMS".
@@ -51,9 +51,9 @@ class Clansuite_CodeCoverage
         *
         * Ensure that the sqlite extension is loaded.
         */
-        if (false === class_exists('SQLiteDatabase')) {
+        /*if (false === class_exists('SQLiteDatabase')) {
             echo 'Code Coverage needs the php extension SQLITE. Not loaded!';
-        }
+        }*/
 
         /**
         * Setup Simpletest Code Coverage.

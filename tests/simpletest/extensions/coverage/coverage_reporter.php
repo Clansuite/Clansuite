@@ -43,13 +43,16 @@ class CoverageReporter
 
         foreach ($this->coverage as $file => $cov) {
             $byFile = $this->reportDir .'/'. self::reportFilename($file);
-            echo $byFile;
+            #echo $byFile;
             $byFileHnd = fopen($byFile, 'w');
             $this->generateCoverageByFile($byFileHnd, $file, $cov);
             fclose($byFileHnd);
         }
-
-        echo "Code-coverage report generated. <a href=\"$index\">View Report</a>\n";
+        
+        echo '<div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">';
+        echo 'Code-coverage report generated. ';
+        echo '<a href="' . $index . '">View Report</a>';
+        echo '</div>';
     }
 
     public function generateSummaryReport($out)
