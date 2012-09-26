@@ -61,23 +61,6 @@ class YAML
     }
 
     /**
-     * Koch\Config_YAML is a Singleton
-     *
-     * @param  string   $file Filename
-     * @return instance of Config_YAML class
-     */
-    public static function getInstance($file = null)
-    {
-        static $instance;
-
-        if (isset($instance) === false) {
-            $instance = new Koch\Config_YAML($file);
-        }
-
-        return $instance;
-    }
-
-    /**
      * Write the config array to a yaml file
      *
      * @param   string  The filename
