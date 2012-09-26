@@ -17,7 +17,7 @@ class YAMLTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->object = new YAML;
+        $this->object = new YAML($this->getFile());
     }
 
     /**
@@ -26,6 +26,11 @@ class YAMLTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
+    }
+    
+    public function getFile()
+    {
+        return dirname(__DIR__) . '/fixtures/data.yml';
     }
 
     /**

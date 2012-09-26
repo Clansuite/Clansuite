@@ -19,10 +19,6 @@ class INITest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->object = new INI;
-
-        if (is_file($this->getFile())) {
-            unlink($this->getFile());
-        }
     }
 
     /**
@@ -46,7 +42,7 @@ class INITest extends \PHPUnit_Framework_TestCase
 
     public function getFile()
     {
-        return __DIR__ . '/file.ini';
+        return dirname(__DIR__) . '/fixtures/file.ini';
     }
 
     public function testReadConfig_throwsException_IfFileNotFound()
@@ -75,7 +71,8 @@ class INITest extends \PHPUnit_Framework_TestCase
 
     public function testReadingBooleanValues()
     {
-        $config = $this->object->readConfig(__DIR__.'/booleans.ini');
+        $file = dirname(__DIR__) . '/fixtures/booleans.ini';
+        $config = $this->object->readConfig($file);
 
         $this->assertTrue($config['booleans']['test_on']);
         $this->assertFalse($config['booleans']['test_off']);
@@ -91,7 +88,8 @@ class INITest extends \PHPUnit_Framework_TestCase
 
     public function testReadingWithoutSection()
     {
-        $config = $this->object->readConfig(__DIR__.'/no-section.ini');
+        $file = dirname(__DIR__) . '/fixtures/no-section.ini';
+        $config = $this->object->readConfig($file);
 
         $expected = array(
             'string_key' => 'string_value',

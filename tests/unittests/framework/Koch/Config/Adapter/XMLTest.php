@@ -17,7 +17,7 @@ class XMLTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->object = new XML;
+        $this->object = new XML($this->getFile());
     }
 
     /**
@@ -26,6 +26,11 @@ class XMLTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
+    }
+    
+    public function getFile()
+    {
+        return dirname(__DIR__) . '/fixtures/data.xml';
     }
 
     /**
