@@ -87,7 +87,7 @@ final class Version
             /**
              * APC
              */
-            if ($_SERVER['SERVER_NAME'] !== null) {
+            if (isset($_SERVER['SERVER_NAME']) === true) {
                 $key = $_SERVER['SERVER_NAME'] . '_deploy_version';
                 $cached_revision = apc_fetch($key);
 
