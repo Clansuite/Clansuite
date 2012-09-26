@@ -17,6 +17,11 @@ class MemcachedTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if (!extension_loaded('memcached')) {
+            $this->markTestSkipped('The memcached extension is not available.');
+            $this->expectException();
+        }
+        
         $this->object = new Memcached;
     }
 

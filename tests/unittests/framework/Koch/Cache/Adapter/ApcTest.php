@@ -10,13 +10,18 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      * @var Apc
      */
     protected $object;
-
+    
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     public function setUp()
     {
+        if (!extension_loaded('apc')) {
+            $this->markTestSkipped('The APC extension is not available.');
+            $this->expectException();
+        }
+        
         $this->object = new Apc;
     }
 
@@ -34,10 +39,9 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      */
     public function testFetch()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertFalse($object->contains('key1'));
+        $object->store('key1', 'value1');
+        $this->assertEqual('value1', $object->fetch('key1'));
     }
 
     /**
@@ -46,10 +50,9 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      */
     public function testStore()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertFalse($object->contains('key1'));        
+        $object->store('key1', 'value1');
+        $this->assertEqual('value1', $object->fetch('key1'));
     }
 
     /**
@@ -58,10 +61,14 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      */
     public function testDelete()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertFalse($object->contains('key1'));
+        $object->store('key1', 'value1');
+        $this->assertEqual('value1', $object->fetch('key1'));
+        $this->assertTrue($object->contains('key1'));
+
+        $object->delete('key1');
+
+        $this->assertFalse($object->contains('key1'));
     }
 
     /**
@@ -82,10 +89,10 @@ class ApcTest extends \PHPUnit_Framework_TestCase
      */
     public function testContains()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertFalse($object->contains('key1'));
+        $object->store('key1', 'value1');
+        $this->assertEqual('value1', $object->fetch('key1'));
+        $this->assertTrue($object->contains('key1'));
     }
 
     /**
