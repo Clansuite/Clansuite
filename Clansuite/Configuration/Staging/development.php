@@ -91,9 +91,7 @@ language_via_get = 0
 ; maintenance
 ;----------------------------------------
 [maintenance]
-maintenance = 0
-timeout = 60
-reason = 1
+enabled = 0
 
 ;----------------------------------------
 ; meta
