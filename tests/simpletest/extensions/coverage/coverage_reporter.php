@@ -50,7 +50,7 @@ class CoverageReporter
         }
         
         echo '<div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">';
-        echo 'Code-coverage report generated. ';
+        echo 'Code-Coverage report generated. ';
         echo '<a href="' . $index . '">View Report</a>';
         echo '</div>';
     }
