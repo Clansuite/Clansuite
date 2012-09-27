@@ -20,6 +20,8 @@ cd..
 :: then install the vendor packages
 "%PHPBIN%" "bin\composer\composer.phar" "install"
 
+pause
+
 :no_phpcommand_found - displayes a hint for the user to setup env var PHPBIN
 echo ---------------------------------------------------------------------------
 echo  WARNING  Set environment variable PHPBIN to the location of your php.exe.
@@ -37,5 +39,3 @@ echo ---------------------------------------------------------------------------
 :: fallback to hardcoded path
 set GIT_EXEC_PATH=C:\Programme\Git\bin
 goto:eof
-
-pause
