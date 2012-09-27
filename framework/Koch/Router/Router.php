@@ -724,7 +724,7 @@ class Router implements RouterInterface, \ArrayAccess
     /**
      * Check if Apache mod_rewrite is activated in configuration.
      *
-     * @return bool True, if "config['routing']['mod_rewrite']" true. False otherwise.
+     * @return bool True, if "config['router']['mod_rewrite']" true. False otherwise.
      */
     public function isRewriteEngineOn()
     {
@@ -732,8 +732,8 @@ class Router implements RouterInterface, \ArrayAccess
             return true;
         }
 
-        if(true === isset($this->config['routing']['mod_rewrite']) and
-           true === (bool) $this->config['routing']['mod_rewrite'])
+        if(true === isset($this->config['router']['mod_rewrite']) and
+           true === (bool) $this->config['router']['mod_rewrite'])
         {
             define('REWRITE_ENGINE_ON', true);
 
@@ -837,8 +837,8 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function checkRouteCachingActive()
     {
-        if(true === isset($this->config['routing']['cache_routes']) and
-           true === $this->config['routing']['cache_routes'])
+        if(true === isset($this->config['router']['caching']) and
+           true === $this->config['router']['caching'])
         {
             self::$use_cache = true;
         } else {
