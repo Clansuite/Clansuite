@@ -23,9 +23,9 @@
             "packagist": false,
             "package": {
                 "name": "smarty/smarty",
-                "version": "3.1.11",
+                "version": "3.1.12",
                 "dist": {
-                    "url": "http://www.smarty.net/files/Smarty-3.1.11.zip",
+                    "url": "http://www.smarty.net/files/Smarty-3.1.12.zip",
                     "type": "zip"
                 },
                 "autoload": {
@@ -44,13 +44,15 @@
 
         "gedmo/doctrine-extensions": "dev-master",
 
-        "smarty/smarty": "v3.1.11",
+        "smarty/smarty": "v3.1.12",
 
         "ezyang/htmlpurifier" : "dev-master"
     },
     "suggest": {
         "ext-intl" : "*",
-        "ext-apc"  : "*"
+        "ext-apc"  : "*",
+        "ext-mbstring" : "*",
+        "ext-gettext" : "*"
     },
     "autoload": {
         "psr-0": {
