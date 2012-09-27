@@ -479,7 +479,6 @@ class XDebug
         $html .= '</th></tr></table>';
 
         return $html;
-
     }
 
 }

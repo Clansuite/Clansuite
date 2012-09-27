@@ -98,14 +98,6 @@ class Application
     private static function perform_startup_checks()
     {
         /**
-         * Check if install.php is still available..
-         * This means Clansuite is installed, but without any security steps performed.
-         */
-        if (defined('CS_LIVE') and CS_LIVE == true and is_file('Installation/install.php') === true) {
-            header('Location: Installation/check_security.php');
-        }
-
-        /**
          * PHP Version Check
          */
         $REQUIRED_PHP_VERSION = '5.3.2';
@@ -117,8 +109,8 @@ class Application
         unset($REQUIRED_PHP_VERSION);
 
         /**
-         * Check if clansuite config file is found, else we are
-         * not installed at all and redirect to installation page.
+         * Do we have a clansuite main configuration file?
+         * If not, it's not installed and we redirect to the installation.
          */
         if (is_file(__DIR__.'/Configuration/clansuite.php') === false) {
             header('Location: Installation/index.php');
@@ -130,7 +122,7 @@ class Application
      *
      * @param string $memory_limit The memory limit in megabytes, e.g. '32' or '128'.
      */
-    private static function setMemoryLimit($limit)
+    private static function setMemoryLimit($limit = '32')
     {
         // in general the memory limit is determined by php.ini, it's only raised if lower 32MB and not -1
         $memory_limit = intval(ini_get('memory_limit'));
