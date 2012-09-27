@@ -26,6 +26,7 @@
 namespace Koch\Router;
 
 use Koch\Http\HttpRequestInterface;
+use Koch\Cache\Cache;
 
 /**
  * Router
@@ -830,41 +831,27 @@ class Router implements RouterInterface, \ArrayAccess
     }
 
     /**
-     * Method checks if routes caching is activated in config,
-     * maybe we can load routes from cache.
-     *
-     * @return bool True if route caching active.
-     */
-    public function checkRouteCachingActive()
-    {
-        if(true === isset($this->config['router']['caching']) and
-           true === $this->config['router']['caching'])
-        {
-            self::$use_cache = true;
-        } else {
-            self::$use_cache = false;
-        }
-    }
-
-    /**
      * Register the default routes.
      */
     public function loadDefaultRoutes()
     {
-        $this->checkRouteCachingActive();
+        // Is Routes Caching is enabled in config?
+        if (isset($this->config['router']['caching']) === true) {
+            self::$use_cache = ($this->config['router']['caching'] === true) ? true : false;
+        }
 
         // Load Routes from Cache
-        if (true === self::$use_cache and empty($this->routes) and \Koch\Cache::contains('clansuite.routes')) {
-            $this->addRoutes(\Koch\Cache::read('clansuite.routes'));
+        if (true === self::$use_cache and true === empty($this->routes) and Cache::contains('clansuite.routes')) {
+            $this->addRoutes(Cache::read('clansuite.routes'));
         }
 
         // Load Routes from Config "routes.config.php"
-        if (empty($this->routes)) {
+        if (true === empty($this->routes)) {
             $this->addRoutes(Manager::loadRoutesFromConfig());
 
             // and save these routes to cache
             if (true === self::$use_cache) {
-                Koch\Cache::store('clansuite.routes', $this->getRoutes());
+                Cache::store('clansuite.routes', $this->getRoutes());
             }
         }
 
@@ -873,7 +860,7 @@ class Router implements RouterInterface, \ArrayAccess
          *
          * Example for Route definition with ArrayAccess: $r['/:controller'];
          */
-        if (true === empty($this->routes)) {
+        if (empty($this->routes) === true) {
             # one segment
             $this->addRoute('/:module');                                             // "/news"                 (list)
             # two segments
