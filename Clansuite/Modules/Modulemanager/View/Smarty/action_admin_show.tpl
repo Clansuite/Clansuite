@@ -38,7 +38,7 @@ There are {$modules_summary.counter} Modules installed.
 
             {if $smarty.const.DEVELOPMENT == true}
 
-            <a href="{$www_root}index.php?mod=modulesettings&sub=admin&action=show&modulename={$module.name}"
+            <a href="index.php?mod=modulesettings&sub=admin&action=show&modulename={$module.name}"
                type="button" class="delete" title="Edit {$module.name} Settings">Settings</a>
             {*
             &nbsp;|&nbsp;

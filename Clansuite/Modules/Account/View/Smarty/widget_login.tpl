@@ -60,9 +60,9 @@ function hashLoginPassword(theForm)
     <tr>
         <td colspan="2" class="cell1" width="70%" align="center">
 			<span style="font-family: Arial, Helvetica, sans-serif; font-size:11px;">
-			 <a href="{$www_root}index.php?mod=account&action=register">{t}Not yet registered?{/t}</a> <br />
-			 <a href="{$www_root}index.php?mod=account&action=forgot_password">{t}Forgot password?{/t}</a> <br />
-			 <a href="{$www_root}index.php?mod=account&action=activation_email">{t}Did not get an activation email?{/t}</a>
+			 <a href="index.php?mod=account&action=register">{t}Not yet registered?{/t}</a> <br />
+			 <a href="index.php?mod=account&action=forgot_password">{t}Forgot password?{/t}</a> <br />
+			 <a href="index.php?mod=account&action=activation_email">{t}Did not get an activation email?{/t}</a>
 			</span>
         </td>
     </tr>

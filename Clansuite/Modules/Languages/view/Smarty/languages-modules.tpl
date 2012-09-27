@@ -66,7 +66,7 @@ table.Datagrid tr:nth-child(even)       { background-color:#fff; }
                             {t count=$module.languages|count 1=$module.languages|count plural="%1 Languages"}%1 Language{/t}
 
                             <span style="float: right;">
-                                <a href="{$www_root}index.php?mod=languages&sub=admin&action=new&modulename={$module.name}" title="{t}Add Language{/t}">
+                                <a href="index.php?mod=languages&sub=admin&action=new&modulename={$module.name}" title="{t}Add Language{/t}">
                                     {icon name="add" alt="{t}Add Language{/t}"}
                                 </a>
                             </span>
@@ -123,11 +123,11 @@ table.Datagrid tr:nth-child(even)       { background-color:#fff; }
                     {* Do not display edit and delete link for english language.
                        English is hardcoded and not editable. *}
                     {if $language.lang == 'English'}
-                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=scanmodule&modulename={$module.name}">Rescan</a>
+                        <a href="index.php?mod=languages&sub=admin&action=scanmodule&modulename={$module.name}">Rescan</a>
                     {else}
-                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=edit&module={$module.name}&locale={$language.lang_www}">Edit</a>
+                        <a href="index.php?mod=languages&sub=admin&action=edit&module={$module.name}&locale={$language.lang_www}">Edit</a>
                         <span> | </span>
-                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=delete&module={$module.name}&locale={$language.lang_www}">Delete</a>
+                        <a href="index.php?mod=languages&sub=admin&action=delete&module={$module.name}&locale={$language.lang_www}">Delete</a>
                     {/if}
                     </td>
 

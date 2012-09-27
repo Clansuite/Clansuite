@@ -38,7 +38,7 @@
 
         {* Select as Fallback Theme *}
         {if $theme.globally_active == false}
-            <a href="{$www_root}index.php?mod=thememanager&sub=admin&action=setfrontendthemeglobal&theme={$theme.dirname}"
+            <a href="index.php?mod=thememanager&sub=admin&action=setfrontendthemeglobal&theme={$theme.dirname}"
                class="ButtonGreen">{t}Select as Default frontend theme{/t}</a>
         {else}
             This Theme is the globally active theme!
@@ -48,7 +48,7 @@
 
         {* Select as Individual Theme *}
         {if $theme.user_active == false}
-            <a href="{$www_root}index.php?mod=thememanager&sub=admin&action=setfrontendthemeglobal&theme={$theme.dirname}"
+            <a href="index.php?mod=thememanager&sub=admin&action=setfrontendthemeglobal&theme={$theme.dirname}"
                class="ButtonGreen">{t}Select as Your frontend theme{/t}</a>
         {else}
             This Theme is your frontend theme!
@@ -58,12 +58,12 @@
 
         {* Call Templatemanager to edit the Main Layout Template *}
         {if isset($theme['layout']['@attributes']['mainfile'])}
-            <a href="{$www_root}index.php?mod=templatemanager&sub=admin&action=edit&file={$theme['layout']['@attributes']['mainfile']}"
+            <a href="index.php?mod=templatemanager&sub=admin&action=edit&file={$theme['layout']['@attributes']['mainfile']}"
                class="ButtonOrange">{t}Edit Main Template{/t}</a>
         {/if}
 
         {* Delete the Theme *}
-        <a href="{$www_root}index.php?mod=thememanager&sub=admin&action=delete&theme={$theme.dirname}"
+        <a href="index.php?mod=thememanager&sub=admin&action=delete&theme={$theme.dirname}"
            class="ButtonRed">{t}Delete{/t}</a>
 
         </td>
