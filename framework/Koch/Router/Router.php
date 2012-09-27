@@ -114,11 +114,6 @@ class Router implements RouterInterface, \ArrayAccess
         //$this->domain    = explode('.', $_SERVER['SERVER_NAME']);
     }
 
-    public function setRequestURI($uri)
-    {
-        $this->uri = $uri;
-    }
-
     /**
      * Get and prepare the SERVER_URL/URI
      *
@@ -141,13 +136,13 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function prepareRequestURI($uri)
     {
-        // if XDebug on, remove "xdebug_session_start=xdebug" from routing process
-        if (function_exists('xdebug_time_index') === true) {
-            $uri = str_replace('?xdebug_session_start=xdebug', '', $uri);
+        // if Xdebug loaded, remove xdebug_session_start parameter from routing process
+        if (function_exists('xdebug_break') === true) {
+            $uri = str_replace('?xdebug_session_start=netbeans-xdebug', '', $uri);
         }
 
         // subtract PHP_SELF from uri
-        if (defined('REWRITE_ENGINE_ON') and REWRITE_ENGINE_ON == false) {
+        if (defined('REWRITE_ENGINE_ON') === true and REWRITE_ENGINE_ON == false) {
             $url_directory_prefix_length = strlen(dirname($_SERVER['PHP_SELF']));
             $uri = substr($uri, $url_directory_prefix_length);
         }
@@ -464,6 +459,25 @@ class Router implements RouterInterface, \ArrayAccess
         #TargetRoute::setAction('routenotfound');
         #TargetRoute::setParameters('');
     }
+    
+    /**
+     * Renameds URL shorthands like "mod" to "module".
+     * This is needed, because routing might be noRewrite.
+     * So the uri segments array might contain something like "mod" => "news".
+     * We need this to be "module" => "news" for setting it to the TargetRoute.
+     * 
+     * @param $array 
+     * @return $array
+     */
+    public static function fixNoRewriteShorthands($array)
+    {
+        if(isset($array['mod']) === true) {
+            $array['module'] = $array['mod'];
+            unset($array['mod']);
+        }
+
+        return $array;
+    }
 
     /**
      * Matches the URI against the Routes Mapping Table
@@ -481,16 +495,25 @@ class Router implements RouterInterface, \ArrayAccess
         }
 
         // get URI from request, clean it and set it as a class property
-        //$this->setRequestURI(self::prepareRequestURI($this->uri));
+        $this->uri = self::prepareRequestURI($this->uri);
 
         /**
          * Detects if Mod_Rewrite engine is active and
          * calls the proper URL Parser/Segmentizer method for the extraction of uri segments.
          */
-        if (true === $this->isRewriteEngineOn() and empty($_GET['mod']) and empty($_GET['ctrl'])) {
+        if (true === $this->isRewriteEngineOn() and
+                true === empty($_GET['mod']) and true === empty($_GET['ctrl'])) {
             $this->uri_segments = $this->parseUrl_Rewrite($this->uri);
         } else {
             $this->uri_segments = $this->parseUrl_noRewrite($this->uri);
+
+            $this->uri_segments = self::fixNoRewriteShorthands($this->uri_segments);
+            // return the TargetRoute object
+            $targetRoute = TargetRoute::setSegmentsToTargetRoute($this->uri_segments);
+            if ($targetRoute::dispatchable() === true) { 
+                $this->request->setRoute($targetRoute);
+                return $targetRoute;
+            }
         }
 
         /**
@@ -542,7 +565,7 @@ class Router implements RouterInterface, \ArrayAccess
                  * Regexp: "#(?P<controller>[a-z0-9_-]+)\/?#"
                  * Matches: $matches['controller'] = 'news';
                  */
-                if (preg_match( $route_values['regexp'], $this->uri, $matches)) {
+                if (1 === preg_match( $route_values['regexp'], $this->uri, $matches)) {
 
                     // matches[0] contains $this->uri
                     unset($matches[0]);
@@ -729,21 +752,16 @@ class Router implements RouterInterface, \ArrayAccess
      */
     public function isRewriteEngineOn()
     {
-        if (defined('REWRITE_ENGINE_ON') and REWRITE_ENGINE_ON == true) {
+        if (defined('REWRITE_ENGINE_ON') === true and REWRITE_ENGINE_ON == true) {
             return true;
         }
 
-        if(true === isset($this->config['router']['mod_rewrite']) and
-           true === (bool) $this->config['router']['mod_rewrite'])
-        {
-            define('REWRITE_ENGINE_ON', true);
-
-            return true;
-        } else {
-            // Apache Mod_Rewrite not available
-            define('REWRITE_ENGINE_ON', false);
-
-            return false;
+        if(isset($this->config['router']['mod_rewrite']) === true) {
+            $bool = (true === (bool) $this->config['router']['mod_rewrite']) ? true : false;
+            
+            define('REWRITE_ENGINE_ON', $bool);
+            
+            return $bool;
         }
     }
 
