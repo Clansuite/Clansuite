@@ -44,14 +44,30 @@ class Cache
      * @return Koch_Cache_Interface Cache object of the requested adapter type.
      */
     public static function instantiate($adapter = 'apc')
-    {
+    {        
         if (self::$cacheObject === null) {
-            self::$cacheObject = Koch_Cache_Factory::getCache($adapter);
+            self::$cacheObject = self::factory($adapter);
         }
 
         return self::$cacheObject;
     }
-
+    
+    /**
+     * Factory method for instantiation of cache adapters.
+     * 
+     * @param string $adapter Name of cache adapter, defaults to 'apc'.
+     * @return \Koch\Cache\Adapter\Class
+     */
+    public static function factory($adapter = 'apc')
+    {
+        if($adapter === 'eaccelerator') {
+            $adapter = 'EAccelerator';
+        }    
+        $class = '\Koch\Cache\Adapter\\' . ucfirst($adapter);
+        $obj = new $class;
+        return $obj;
+    }
+        
     /**
      * Checks, if data for a key is stored in the cache.
      *
