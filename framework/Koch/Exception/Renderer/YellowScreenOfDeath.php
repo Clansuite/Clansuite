@@ -26,6 +26,7 @@
 namespace Koch\Exception\Renderer;
 
 use Koch\Exception\Errorhandler;
+use Koch\Exception\Exception;
 
 class YellowScreenOfDeath
 {
@@ -145,7 +146,7 @@ class YellowScreenOfDeath
         if (defined('DEVELOPMENT') and DEVELOPMENT == 1 and defined('RAPIDDEVTPL') and RAPIDDEVTPL == 1) {
             $html .= '<div id="panel5" class="panel">';
             $html .= '<h3>Rapid Application Development</h3>';
-            $html .= self::getExceptionDevelopmentTemplate($placeholders).'</div>';
+            $html .= Exception::getExceptionDevelopmentTemplate($placeholders).'</div>';
         }
 
         /**

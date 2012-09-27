@@ -219,7 +219,7 @@ class Exception extends \Exception
      *
      * @return HTML Representation of $exception_development_template_content
      */
-    private static function getExceptionDevelopmentTemplate($placeholders)
+    public static function getExceptionDevelopmentTemplate($placeholders)
     {
         $original_file_content = self::$exception_dev_template;
         $replaced_content = '';
