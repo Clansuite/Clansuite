@@ -45,23 +45,6 @@ class XML
     }
 
     /**
-     * Koch\Config_XML is a Singleton
-     *
-     * @param  object   $file Filename
-     * @return instance of Config_XMLHandler class
-     */
-    public static function getInstance($file = null)
-    {
-        static $instance;
-
-        if (isset($instance) === false) {
-            $instance = new XML($file);
-        }
-
-        return $instance;
-    }
-
-    /**
      * Write the configarray to the xml file
      *
      * @param string The filename
