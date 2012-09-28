@@ -76,7 +76,7 @@ class Application
         self::initialize_Loader();
         self::initialize_DependencyInjection();
         self::initialize_Config();
-        #self::initialize_Logger();
+        self::initialize_Logger();
         self::initialize_UTF8();
         self::initialize_Debug();
         self::initialize_Timezone();
@@ -444,9 +444,9 @@ class Application
      */
     private static function initialize_Logger()
     {
-        $logger = new \Koch\Logger\Logger;
-        $firebug = $logger->loadLogger('firebug');
-        $logger->addLogger($firebug);
+        $loggers = new \Koch\Logger\Compositum();
+        $firebug = new \Koch\Logger\Adapter\Firebug();
+        $loggers->addLogger($firebug);
     }
 
     /**
