@@ -212,7 +212,7 @@ class Errorhandler
     public static function getDebugBacktrace($trace = null)
     {
         // provide backtrace only when we are in Koch Framework DEBUG Mode, otherwise just return
-        if ( defined('DEBUG') == false xor DEBUG == 0 ) {
+        if ( defined('DEBUG') === false xor DEBUG == 0 ) {
             return;
         }
 
@@ -252,7 +252,7 @@ class Errorhandler
             $html .= '<td align="center">'.(($backtraces_count-$i)+1).'</td>';
 
             if (isset($trace[$i]['class']) === false) {
-                $html .= '<td>[PHP Core Function called]</td>';
+                $html .= '<td>[A PHP Core Function Call]</td>';
             } else {
                 // Function (Class::Method)
                 $html .= '<td>' . $trace[$i]['class'] . '::' . $trace[$i]['function'] . '(';
@@ -321,7 +321,8 @@ class Errorhandler
                 break;
             case 'string':
                 $args .= '<span>string</span> "';
-                $args .= \Koch\Functions\Functions::shortenStringMaxLength($backtraceArgument, 64, '..."');
+                $args .= \Koch\Functions\Functions::shortenString($backtraceArgument);
+                $args .= '"';
                 break;
             case 'array':
                 $args .= '<span>array</span> ('.count($backtraceArgument).')';

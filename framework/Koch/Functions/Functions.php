@@ -770,7 +770,7 @@ class Functions
         return false;
     }
 
-    public static function shortenStringMaxLength($string, $maxlength = 50, $append_string = null)
+    public static function shortenString($string, $maxlength = 50, $append_string = '...')
     {
         // already way too short...
         if (mb_strlen($string) < $maxlength) {
@@ -786,7 +786,7 @@ class Functions
              */
             $next_space_after_maxlength = mb_strpos($string, ' ', $maxlength);
 
-            $shortened_string = mb_substr($string, 0, $next_space_after_maxlength) . ' ...';
+            $shortened_string = mb_substr($string, 0, $next_space_after_maxlength);
 
             return $shortened_string . $append_string;
         }

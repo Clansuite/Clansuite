@@ -200,7 +200,7 @@ class YellowScreenOfDeath
     {
         // shorten errorfile string by removing the root path
         $errfile_short = str_replace(ROOT, '', $errfile);
-        $short_errorstring = \Koch\Functions\Functions::shortenStringMaxLength($errfile, 70, '...');
+        $short_errorstring = \Koch\Functions\Functions::shortenString($errfile, 70, '...');
 
         // Header
         $html = '<html><head>';
