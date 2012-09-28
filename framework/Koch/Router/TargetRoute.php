@@ -40,7 +40,7 @@ class TargetRoute extends Mapper
         // Call
         'module'        => 'index',
         'controller'    => 'index',
-        'action'        => 'index',
+        'action'        => 'list',
         'method'        => null,
         'params'        => null,
         // Output
@@ -299,9 +299,9 @@ class TargetRoute extends Mapper
         }
 
         if (class_exists($classname, false) === true) {
-            if (is_callable($classname, $method) === true) {
+            #if (method_exists($classname, $method) === true) {
                 return true;
-            }
+            #}
         }
 
         // this shows how many routes were tried
