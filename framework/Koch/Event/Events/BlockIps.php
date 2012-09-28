@@ -2,7 +2,7 @@
 
 /**
  * Koch Framework
- * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
+ * Jens-André Koch © 2005 - onwards
  *
  * This file is part of "Koch Framework".
  *
