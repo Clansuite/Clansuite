@@ -33,7 +33,6 @@ use \Clansuite\Installation\Application\Helper as Helper;
  * ----------------------------------
  *
  * The following GET Requests are accepted:
- * ----------------------------------------
  * "?reset_session"      - Resets the installaton session
  * "?delete_installaton" - Deletes the Installation Folder
  */
