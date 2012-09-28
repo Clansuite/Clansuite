@@ -138,7 +138,7 @@ class XDebug
                     border: 1px inset #BF0000;
                     font-weight: bold;
                     padding: 3px;
-                    font-size: 16px;                    
+                    font-size: 16px;
                 }
                 .xdebug-error td {
                     background: none repeat scroll 0 0 #FFFFCC;
