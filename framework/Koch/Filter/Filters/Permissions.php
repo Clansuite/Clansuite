@@ -46,7 +46,7 @@ class Permissions implements FilterInterface
     {
         $this->user = $user;
         // @todo RBACL class
-        $rbacl = Koch_RBACL::getInstance();
+        $rbacl = new \Koch\Permissions\RBACL();
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
