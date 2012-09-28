@@ -28,7 +28,7 @@ namespace Koch\Datagrid\ColumnRenderer;
 /**
  * Interface for a Clansuite Datagrid Column Renderer
  */
-interface Interface
+interface ColumnRendererInterface
 {
     /**
      * Render the given cell of the column
