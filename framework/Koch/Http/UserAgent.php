@@ -814,8 +814,6 @@ class UserAgentParser
      * Get browsers list
      *
      * @return Array of browsers
-     *
-     * @todo file catching for performance
      */
     protected function getListBrowsers()
     {
