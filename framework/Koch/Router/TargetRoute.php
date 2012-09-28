@@ -59,12 +59,12 @@ class TargetRoute extends Mapper
      *
      * @return instance of Koch_TargetRoute class
      */
-    public static function getInstance()
+    public static function instantiate()
     {
         static $instance = null;
 
         if ($instance === null) {
-            $instance = new TargetRoute();
+            $instance = new self;
         }
 
         return $instance;
@@ -400,7 +400,7 @@ class TargetRoute extends Mapper
 
         # instantiate the target route
 
-        return self::getInstance();
+        return self::instantiate();
     }
 
     public static function reset()

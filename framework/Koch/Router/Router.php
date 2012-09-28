@@ -451,7 +451,7 @@ class Router implements RouterInterface, \ArrayAccess
 
     public function dispatchToDefaultRoute()
     {
-        $targetRoute = TargetRoute::getInstance();
+        $targetRoute = TargetRoute::instantiate();
         if ($targetRoute::dispatchable() === true) {
             $this->request->setRoute($targetRoute);
 
@@ -616,7 +616,7 @@ class Router implements RouterInterface, \ArrayAccess
         /**
          * Finally: fetch our Target Route Object.
          */
-        $targetRoute = TargetRoute::getInstance();
+        $targetRoute = TargetRoute::instantiate();
 
         /**
          * Inject the target route object back to the request.
