@@ -31,25 +31,20 @@ namespace Koch\Cache;
 class Cache
 {
     /**
-     * The cache object wrapping the cache access.
-     *
-     * @var Koch_Cache $cacheObject The cache object.
-     */
-    private static $cacheObject = null;
-
-    /**
      * Instantiates a cache adapter
      *
      * @param  string               $adapter The cache adapter to instantiate. Defaults to apc.
      * @return Koch_Cache_Interface Cache object of the requested adapter type.
      */
     public static function instantiate($adapter = 'apc')
-    {        
-        if (self::$cacheObject === null) {
-            self::$cacheObject = self::factory($adapter);
+    {     
+        static $cacheObject = null; 
+        
+        if ($cacheObject === null) {
+            $cacheObject = self::factory($adapter);
         }
 
-        return self::$cacheObject;
+        return $cacheObject;
     }
     
     /**
