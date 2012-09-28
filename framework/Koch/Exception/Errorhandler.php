@@ -255,24 +255,35 @@ class Errorhandler
                 $html .= '<td>[A PHP Core Function Call]</td>';
             } else {
                 // Function (Class::Method)
-                $html .= '<td>' . $trace[$i]['class'] . '::' . $trace[$i]['function'] . '(';
+                $html .= '<td>' . $trace[$i]['class'] . '::' . $trace[$i]['function'] . '()';
 
                 // Method Arguments
                 if (true === isset($trace[$i]['args']) and empty($trace[$i]['args']) === false) {
                     $backtrace_counter_j = count($trace[$i]['args']) - 1;
 
+                    // render an arguments table
+                    // argument position | name | type | value
+                    // @todo
+                    $html .= '<table style="border-collapse: collapse;">';
+                    $html .= '<tr><th colspan="4">Arguments</th></tr>';
+                    $html .= '<tr><td>Pos</td><td>Name</td><td>Type</td><td>Value</td></tr>';
+
                     for ($j = 0; $j <= $backtrace_counter_j; $j++) {
-                        $html .= self::formatBacktraceArgument($trace[$i]['args'][$j]);
 
-                        // if we have several arguments to loop over
-                        if ($j !== $backtrace_counter_j) {
-                            // we split them by comma
-                            $html .= ', ';
-                        }
+                        $data = self::formatBacktraceArgument($trace[$i]['args'][$j]);
+
+                        // pos
+                        $html .= '<tr><td>'.($j+1).'</td>';
+                        // name
+                        $html .= '<td>Name</td>';
+                        // type
+                        $html .= '<td>'.$data['type'].'</td>';
+                        // value
+                        $html .= '<td>'.$data['arg'].'</td>';
                     }
+                    $html .= '</tr></table>';
                 }
-
-                $html .= ')</td>';
+                $html .= '</td>';
             }
 
             // Location with Link
@@ -299,49 +310,58 @@ class Errorhandler
      *
      * @param backtraceArgument mixed The argument to identify the type upon and perform a string formatting on.
      *
-     * @return string
+     * @return array With keys 'arg' and 'type'.
      */
     public static function formatBacktraceArgument($backtraceArgument)
     {
-        $args = '';
+        $result = array();
+        $arg = '';
+        $type = '';
 
         switch (gettype($backtraceArgument)) {
             case 'boolean':
-                $args .= '<span>bool</span> ';
-                $args .= $backtraceArgument ? 'TRUE' : 'FALSE';
+                $type .= '<span>bool</span>';
+                $arg .= $backtraceArgument ? 'TRUE' : 'FALSE';
                 break;
             case 'integer':
-                $args .= '<span>int</span> ' . $backtraceArgument;
+                $type .= '<span>int</span>';
+                $arg .= $backtraceArgument;
                 break;
             case 'float':
-                $args .= '<span>float</span> ' . $backtraceArgument;
+                $type .= '<span>float</span>';
+                $arg .= $backtraceArgument;
                 break;
             case 'double':
-                $args .= '<span>double</span> ' . $backtraceArgument;
+                $type .= '<span>double</span>';
+                $arg .=  $backtraceArgument;
                 break;
             case 'string':
-                $args .= '<span>string</span> "';
+                $type .= '<span>string</span>';
                 $backtraceArgument =  htmlentities($backtraceArgument, ENT_QUOTES, 'UTF-8');
-                $args .= \Koch\Functions\Functions::shortenString($backtraceArgument);
-                $args .= '"';
+                $arg .= \Koch\Functions\Functions::shortenString($backtraceArgument);
                 break;
             case 'array':
-                $args .= '<span>array</span> ('.count($backtraceArgument).')';
+                $type .= '<span>array</span>';
+                $arg .= ' ('.count($backtraceArgument).')';
                 break;
             case 'object':
-                $args .= '<span>object</span> ('.get_class($backtraceArgument).')';
+                $type .= '<span>object</span>';
+                $arg .= '('.get_class($backtraceArgument).')';
                 break;
             case 'resource':
-                $args .= '<span>resource</span> ('.mb_strstr($backtraceArgument, '#').' - '. get_resource_type($backtraceArgument) .')';
+                $type .= '<span>resource</span>';
+                $arg .= '('.mb_strstr($backtraceArgument, '#').' - '. get_resource_type($backtraceArgument) .')';
                 break;
             case 'NULL':
-                $args .= '<span>null</span> ';
+                $type .= '<span>null</span>';
+                $arg .= '';
                 break;
             default:
-                $args .= 'Unknown';
+                $type .= 'Unknown';
+                $arg .= 'Unknown';
         }
 
-        return $args;
+        return /*array*/ compact('arg', 'type');
     }
 
     /**
