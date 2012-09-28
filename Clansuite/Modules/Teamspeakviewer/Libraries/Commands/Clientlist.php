@@ -1,5 +1,5 @@
 <?php
-class Teamspeak3_ServerQueryCommand_clientinfo extends Clansuite_Teamspeak3_ServerQueryInterface
+class Teamspeak3_ServerQueryCommand_Clientlist extends Clansuite_Teamspeak3_ServerQueryInterface
 {
     /**
      * clientList
