@@ -169,8 +169,6 @@ class FrontController implements FrontControllerInterface
 
         #$this->event_dispatcher->addEventHandler('onBeforeControllerMethodCall', new Koch_Event_InitializeModule());
 
-        $route::dispatchable();
-
         $controllerInstance = new $classname($request, $response);
 
         /**
@@ -212,6 +210,8 @@ class FrontController implements FrontControllerInterface
         if (true === method_exists($controllerInstance, $method)) {
 
             $controllerInstance->$method($parameters);
+        } else {
+            echo 'Class '.$classname.'->Method '.$method.' not found.';
         }
 
          /**
