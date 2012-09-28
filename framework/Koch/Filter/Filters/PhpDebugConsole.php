@@ -115,7 +115,7 @@ class PhpDebugConsole implements FilterInterface
         $event = new DebugConsoleResponse_Event($debugbarHTML);
 
         // and output the debugging console at the end of the application runtime
-        Koch_Eventdispatcher::instantiate()->addEventHandler('onApplicationShutdown', $event);
+        \Koch\Event\Dispatcher::instantiate()->addEventHandler('onApplicationShutdown', $event);
     }
 }
 
