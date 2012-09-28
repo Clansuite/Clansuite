@@ -774,7 +774,7 @@ class Functions
     {
         // already way too short...
         if (mb_strlen($string) < $maxlength) {
-            return;
+            return $string;
         }
 
         // ok, lets shorten
