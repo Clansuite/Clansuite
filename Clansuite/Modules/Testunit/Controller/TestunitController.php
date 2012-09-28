@@ -106,7 +106,7 @@ class TestunitController extends ModuleController
         $xtpl->assign('PLACEHOLDER_VARIABLE', 'TEST-123-TEST');
 
         // Debug XTemplate Engine
-        #Clansuite_Debug::printR($xtpl);
+        #\Koch\Debug\Debug::printR($xtpl);
 
         // parse the Block main
         $xtpl->parse('main');

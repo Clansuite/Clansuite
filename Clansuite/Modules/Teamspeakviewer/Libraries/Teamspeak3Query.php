@@ -474,7 +474,7 @@ class Teamspeak3Query
         $response .= $this->ServerQueryCommand('serverinfo');
         $response .= $this->ServerQueryCommand('channellist -topic -flags -voice -limits');
         $response .= $this->ServerQueryCommand('clientlist -uid -away -voice -groups');
-        #Clansuite_Debug::printR($this->toArray($response));
+        #\Koch\Debug\Debug::printR($this->toArray($response));
 
         return $response;
      }
@@ -489,7 +489,7 @@ class Teamspeak3Query
         $response = '';
         $response .= $this->ServerQueryCommand('use sid='.$this->getVirtualServerID());
         $response .= $this->ServerQueryCommand('serverlist -all');
-        #Clansuite_Debug::printR($this->toArray($response));
+        #\Koch\Debug\Debug::printR($this->toArray($response));
 
         return $response;
      }

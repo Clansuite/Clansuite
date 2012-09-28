@@ -272,7 +272,7 @@ class LanguagesAdminController extends ModuleController
             $english_data = Gettext_PO_File::read( $this->getModulePOFilename($module, 'en_GB') );
             $english_data = $this->preparePODataForView($english_data);
 
-            #Clansuite_Debug::printR($english_data);
+            #\Koch\Debug\Debug::printR($english_data);
 
             $this->getView()->assign('english_locale', $english_data);
 
@@ -285,7 +285,7 @@ class LanguagesAdminController extends ModuleController
             $target_locale_data = Gettext_PO_File::read( $target_locale_pofile );
             $target_locale_data = $this->preparePODataForView($target_locale_data);
 
-            #Clansuite_Debug::printR($target_locale_data);
+            #\Koch\Debug\Debug::printR($target_locale_data);
 
             $this->view->assign('target_locale', $target_locale_data);
 
@@ -348,7 +348,7 @@ class LanguagesAdminController extends ModuleController
             return;
         }
 
-        Clansuite_Debug::dump($this->request->getPost(), false);
+        \Koch\Debug\Debug::dump($this->request->getPost(), false);
 
         $locale_msgstr_array = $this->request->getParameterFromPost('locale_form');
         $locale = $this->request->getParameterFromPost('locale');
@@ -394,7 +394,7 @@ class LanguagesAdminController extends ModuleController
             }
         }
 
-        Clansuite_Debug::dump($target_locale_data);
+        \Koch\Debug\Debug::dump($target_locale_data);
 
         /*$msg = sprintf('Locale %s of Module %s updated. Added %s new language items. Updated %s language items.',
                 $locale, $module, $added_counter, $updated_counter);

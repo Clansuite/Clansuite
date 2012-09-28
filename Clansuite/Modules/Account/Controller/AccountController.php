@@ -198,7 +198,7 @@ class AccountController extends ModuleController
     public function action_register()
     {
         // Request Controller
-        $config = $this->getInjector()->instantiate('Clansuite_Config');
+        $config = $this->getInjector()->instantiate('\Koch\Config\Config');
 
         // Input filter
         $input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
@@ -704,10 +704,10 @@ class AccountController extends ModuleController
         $form->addElement('cancelbutton');
 
         // Debugging Form Object
-        #Clansuite_Debug::printR($form);
+        #\Koch\Debug\Debug::printR($form);
 
         // Debugging Form HTML Output
-        #Clansuite_Debug::printR($form->render());
+        #\Koch\Debug\Debug::printR($form->render());
 
         // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -747,10 +747,10 @@ class AccountController extends ModuleController
         $form->addElement('cancelbutton');
 
         // Debugging Form Object
-        #Clansuite_Debug::printR($form);
+        #\Koch\Debug\Debug::printR($form);
 
         // Debugging Form HTML Output
-        #Clansuite_Debug::printR($form->render());
+        #\Koch\Debug\Debug::printR($form->render());
 
         // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -789,10 +789,10 @@ class AccountController extends ModuleController
         $form->addElement('cancelbutton');
 
         // Debugging Form Object
-        #Clansuite_Debug::printR($form);
+        #\Koch\Debug\Debug::printR($form);
 
         // Debugging Form HTML Output
-        #Clansuite_Debug::printR($form->render());
+        #\Koch\Debug\Debug::printR($form->render());
 
         // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());

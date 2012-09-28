@@ -76,9 +76,9 @@ class NewsController extends ModuleController
 
         // import array variables into the current symbol table
         //extract($newsQuery);
-        //unset($newsQuery);
-        $news = $newsQuery;
-        #Clansuite_Debug::printR( $news );
+        //unset($newsQuery);        
+        $news = $newsQuery;        
+        #\Koch\Debug\Debug::printR($news);
 
         // Get Render Engine
         $view = $this->getView();
@@ -92,8 +92,8 @@ class NewsController extends ModuleController
 
         // Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
-        #$view->assignGlobal('pager', $pager);
-        #$view->assignGlobal('pager_layout', $pager_layout);
+        $view->assignGlobal('pager', $pager);
+        $view->assignGlobal('pager_layout', $pager_layout);
 
         $this->display();
     }
@@ -111,7 +111,7 @@ class NewsController extends ModuleController
         // Get Render Engine
         $view = $this->getView();
 
-        #Clansuite_Debug::firebug($params);
+        #\Koch\Debug\Debug::firebug($params);
 
         $news_id = (int) $params['id'];
         #(int) $this->request->getParameterFromGet('id');
@@ -121,7 +121,7 @@ class NewsController extends ModuleController
         // $news = $this->getModel()->find($data['news_id']);
 
         $news = $this->getModel()->fetchSingleNews($news_id);
-        Clansuite_Debug::printR($news);
+        \Koch\Debug\Debug::printR($news);
 
         // if a news was found
         if (!empty($news) && is_array($news)) {
@@ -284,7 +284,7 @@ class NewsController extends ModuleController
         $resultsPerPage = self::getConfigValue('resultsPerPage_archive', '3');
 
         #Fetch News for Archiv with Doctrine
-        $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
+        $newsQuery = $this->getModel()->findAllNews($startdate, $enddate, $currentPage, $resultsPerPage);
 
         // import array variables into the current symbol table
         extract($newsQuery);
@@ -466,7 +466,7 @@ class NewsController extends ModuleController
         }
         if ($news_id === null  || $news_id === 0) { $news_id = 21;  }
 
-        #Clansuite_Debug::printR($parameter);
+        #\Koch\Debug\Debug::printR($parameter);
 
         $news = $this->getModel('Entity\News')->findPublishNews($news_id);
         $aNews = array();
@@ -475,7 +475,7 @@ class NewsController extends ModuleController
         $aNews['news_body'] = $news['news_body'];
         $aNews['autor'] = $news['news_authored_by']['nick'];
         $aNews['image'] = $news['category']['image'];
-        #Clansuite_Debug::printR($aNews);
+        #\Koch\Debug\Debug::printR($aNews);
 
         $view = $this->getView();
 

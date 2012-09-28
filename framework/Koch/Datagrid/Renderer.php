@@ -269,7 +269,7 @@ class Renderer
         $info .= 'Min Page Index' . $min_page_number;
         $info .= 'Max Page Index' . $max_page_number;
         $info .= 'Results per page' . $results_per_page;
-        #Clansuite_Debug::firebug($info);
+        #\Koch\Debug\Debug::firebug($info);
 
         $html = '';
         $html .= '<ul class="pagination3">';
@@ -470,7 +470,7 @@ class Renderer
      */
     private static function renderTablePagination($_ShowResultsPerPage = true)
     {
-        #Clansuite_Debug::printR('Pagination: ' . self::renderPager());
+        #\Koch\Debug\Debug::printR('Pagination: ' . self::renderPager());
         $html = '';
         if (self::getDatagrid()->isEnabled('Pagination')) {
             $html .= '<tr>';

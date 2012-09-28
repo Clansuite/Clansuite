@@ -20,7 +20,7 @@ class UserRepository extends EntityRepository
         $query = $q->getQuery();
         $result = $query->getArrayResult();
 
-        #\Clansuite_Debug::printR( $result );
+        #\\Koch\Debug\Debug::printR( $result );
 
          return $result;
     }

@@ -210,7 +210,7 @@ class MenuAdminController extends ModuleController
         $html .= "\n</ul>";
         $html .= "\n</div>";
 
-        #Clansuite_Debug::printR($html);
+        #\Koch\Debug\Debug::printR($html);
 
         // assign the html of the tree to the view
         $view = $this->getView();
@@ -268,7 +268,7 @@ class MenuAdminController extends ModuleController
          */
         // now loop over all menu values and prepare the temporary array to insert later
         foreach ($menu as $key => $value) {
-            #Clansuite_Debug::printR($value);
+            #\Koch\Debug\Debug::printR($value);
 
             // fetch activerecord of the adminmenu
             $adminmenu = new \Entity\CsAdminmenu;

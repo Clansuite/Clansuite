@@ -193,7 +193,7 @@ class Helper
         // array_unique
         $model_dirs = array_keys(array_flip($model_dirs));
 
-        #Clansuite_Debug::printR($model_dirs);
+        #\Koch\Debug\Debug::printR($model_dirs);
 
         return $model_dirs;
     }

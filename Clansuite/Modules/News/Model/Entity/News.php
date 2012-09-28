@@ -1,8 +1,6 @@
 <?php
 namespace Entity;
 
-//use Doctrine\ORM\Mapping as ORM; // we are currently not using @ORM annotions
-
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**

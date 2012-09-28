@@ -133,7 +133,7 @@ class SysteminfoAdminController extends ModuleController
 
         // get PDO Object from Doctrine
         $pdo = $this->doctrine_em->getConnection()->getWrappedConnection();
-        #Clansuite_Debug::printR($pdo);
+        #\Koch\Debug\Debug::printR($pdo);
         // fetch PDO::getAttributes and store them in
         $sysinfos['pdo']['driver_name']        = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
         $sysinfos['pdo']['server_version']     = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);

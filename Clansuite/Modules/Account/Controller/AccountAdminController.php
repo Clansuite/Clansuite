@@ -132,13 +132,13 @@ class AccountAdminController extends ModuleController
 
         $form = new Clansuite_Form($settings);
 
-        #Clansuite_Debug::printR($form);
+        #\Koch\Debug\Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
         // display form html
-        #Clansuite_Debug::printR($form->render());
+        #\Koch\Debug\Debug::printR($form->render());
 
         // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());

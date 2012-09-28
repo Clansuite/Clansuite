@@ -104,7 +104,7 @@ class FileReader
     function FileReader($filename)
     {
         # DEBUG - uncomment for displaying the list of included mo files
-        # Clansuite_Debug::firebug($filename);
+        # \Koch\Debug\Debug::firebug($filename);
 
         if (file_exists($filename))
         {

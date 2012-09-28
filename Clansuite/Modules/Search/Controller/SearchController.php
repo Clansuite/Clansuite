@@ -54,7 +54,7 @@ class SearchController extends ModuleController
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/search/multisearch');
 
-        #Clansuite_Debug::printR( $_POST );
+        #\Koch\Debug\Debug::printR( $_POST );
 
         $qmod = $this->request->getParameterFromPost('qmod');
         $qmodOut = ucwords($qmod);

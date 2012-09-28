@@ -128,7 +128,7 @@ class GuestbookAdminController extends ModuleController
         $form->setElementDecorator('div')->setClass('Forminside');
         $form->setElementDecorator('div')->setClass('Formline');
         #$form->setElementDecorator('description');
-        #Clansuite_Debug::printR($form->getFormelements());
+        #\Koch\Debug\Debug::printR($form->getFormelements());
 
         $form->addElement('textarea')->setCols('70')->setLabel('textarea label');
 
@@ -138,10 +138,10 @@ class GuestbookAdminController extends ModuleController
         $form->addElement('imagebutton')->setValue('Reset')->setLabel('Image Button'); // setSource
 */
         // Debugging Form Object
-        #Clansuite_Debug::printR($form);
+        #\Koch\Debug\Debug::printR($form);
 
         // Debugging Form HTML Output
-        #Clansuite_Debug::printR($form->render());
+        #\Koch\Debug\Debug::printR($form->render());
 
         // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -343,13 +343,13 @@ class GuestbookAdminController extends ModuleController
         $form = new Clansuite_Form($settings);
 
         // display formgenerator object
-        #Clansuite_Debug::printR($form);
+        #\Koch\Debug\Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
         // display form html
-        #Clansuite_Debug::printR($form->render());
+        #\Koch\Debug\Debug::printR($form->render());
 
         // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());

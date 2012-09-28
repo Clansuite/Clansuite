@@ -17,7 +17,7 @@ class ForumCategoryRepository extends EntityRepository
                     FROM Entity\ForumCategory c
                     ');
         $result = $q->getArrayResult();
-        #\Clansuite_Debug::printR($result);
+        #\\Koch\Debug\Debug::printR($result);
 
         return $result;
     }

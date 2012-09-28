@@ -288,7 +288,7 @@ class NewsAdminController extends ModuleController
         // the same as above, but explicitly named entity in the long version
         // $news = $this->doctrine_em->getRepository('Entity\News')->find($data['news_id']);
 
-        #Clansuite_Debug::dump($news);
+        #\Koch\Debug\Debug::dump($news);
 
         // if that news exist, update values and save
         if ($news !== false) {

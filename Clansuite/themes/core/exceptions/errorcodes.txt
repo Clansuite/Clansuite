@@ -33,7 +33,7 @@
   Clansuite Errorcodes
   --------------------
 
-  You can! use PHP's trigger_error() method to trigger one of the follwing errors.
+  You might use PHP's trigger_error() method to trigger one of the follwing errors.
   But this is not recommended! Our advise is to use Exceptions instead.
 
   E_USER_WARNING

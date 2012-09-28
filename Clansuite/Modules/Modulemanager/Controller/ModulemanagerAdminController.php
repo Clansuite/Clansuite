@@ -612,11 +612,11 @@ class ModulemanagerAdminController extends ModuleController
             $modules_info_array = $moduleinfo->getModuleInformations();
             array_pop($modules_info_array);
 
-            #Clansuite_Debug::printR( $modules_info_array );
+            #\Koch\Debug\Debug::printR( $modules_info_array );
 
             foreach ($modules_info_array as $modules_info) {
                 $lastModuleID = self::createModulFirstTime( $modules_info );
-                #Clansuite_Debug::printR( $lastModuleID );
+                #\Koch\Debug\Debug::printR( $lastModuleID );
                 self::createModulAclFirstTime( $modules_info, $lastModuleID );
             }
 
@@ -791,7 +791,7 @@ class ModulemanagerAdminController extends ModuleController
                                 $rule->save();
                             }
                         } else {
-                            //Clansuite_Debug::printR( $val );
+                            //\Koch\Debug\Debug::printR( $val );
                             $rule = new CsAclRules();
                             switch ($val) {
                                 case 'r': $rule->role_id = 1;

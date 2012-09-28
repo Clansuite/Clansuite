@@ -47,7 +47,7 @@ class StaticpagesAdminController extends ModuleController
 
         $model = $this->getModel()->findAll();
 
-        Clansuite_Debug::firebug($model);
+        \Koch\Debug\Debug::firebug($model);
 
         $view = $this->getView();
         $view->assign( 'staticpages', $model);
@@ -172,7 +172,7 @@ class StaticpagesAdminController extends ModuleController
             if ($entity === null) {
                 throw new Clansuite_Exception('Unable to find the requested Page: ' . $slug);
             }
-            Clansuite_Debug::firebug($entity);
+            \Koch\Debug\Debug::firebug($entity);
             #$page = Doctrine::getTable('CsStaticPages')->findOneBy('title', $title);
 
             if ( is_array( $page ) and $info['orig_title'] != $info['title'] ) {
@@ -226,13 +226,13 @@ class StaticpagesAdminController extends ModuleController
         $form = new Clansuite_Form($settings);
 
         // display formgenerator object
-        #Clansuite_Debug::printR($form);
+        #\Koch\Debug\Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
         // display form html
-        #Clansuite_Debug::printR($form->render());
+        #\Koch\Debug\Debug::printR($form->render());
 
         // assign the html of the form to the view
         $this->getView()->assign('form', $form->render());

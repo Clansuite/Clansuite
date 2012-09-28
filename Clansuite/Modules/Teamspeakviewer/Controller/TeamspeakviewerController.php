@@ -92,14 +92,14 @@ class TeamspeakviewerController extends ModuleController
 
         $ts3 = new Clansuite_Teamspeak3_ServerQueryInterface($server_ip, $server_queryport, $vserver_id);
         $ts3->selectVirtualServer(1);
-        #Clansuite_Debug::printR($ts3->serverViewer());
-        #Clansuite_Debug::printR($ts3->version()); // ok
-        #Clansuite_Debug::printR($ts3->channellist());
-        #Clansuite_Debug::printR($ts3->instanceinfo()); // ok
-        #Clansuite_Debug::printR($ts3->serverinfo()); // ??? what is wrong here?? no return values
+        #\Koch\Debug\Debug::printR($ts3->serverViewer());
+        #\Koch\Debug\Debug::printR($ts3->version()); // ok
+        #\Koch\Debug\Debug::printR($ts3->channellist());
+        #\Koch\Debug\Debug::printR($ts3->instanceinfo()); // ok
+        #\Koch\Debug\Debug::printR($ts3->serverinfo()); // ??? what is wrong here?? no return values
         #$ts3->close();
 
-        #Clansuite_Debug::printR($serverinfo);
+        #\Koch\Debug\Debug::printR($serverinfo);
 
         $view->assign('serverinfo', $serverinfo);
     }

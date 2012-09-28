@@ -381,7 +381,7 @@ class Application
              *
              * If Clansuite is in DEBUG Mode an additional class is loaded, providing some
              * helper methods for profiling, tracing and enhancing the debug displays.
-             * @see clansuite_debug::printR() and clansuite_debug::firebug()
+             * @see \Koch\Debug\Debug::printR() and \Koch\Debug\Debug::firebug()
              */
             include KOCH_FRAMEWORK . 'Debug/Debug.php';
 

@@ -15,7 +15,7 @@ class ForumBoardsRepository extends EntityRepository
                     FROM Entity\ForumBoards b
                     ');
         $result = $q->getArrayResult();
-        #\Clansuite_Debug::printR($result);
+        #\\Koch\Debug\Debug::printR($result);
 
         return $result;
     }
@@ -33,7 +33,7 @@ class ForumBoardsRepository extends EntityRepository
                     ');
         $q->setParameter('bid', $bid);
         $result = $q->getArrayResult();
-        #\Clansuite_Debug::printR($result);
+        #\\Koch\Debug\Debug::printR($result);
 
         return $result;
     }

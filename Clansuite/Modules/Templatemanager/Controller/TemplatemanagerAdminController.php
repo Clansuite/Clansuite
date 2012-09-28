@@ -170,14 +170,14 @@ class TemplatemanagerAdminController extends ModuleController
         $view->assign('templateeditor_textarea',    htmlentities($templateContent));
         $view->assign('templateeditor_newfile',     $templateeditor_newfile);
 
-        #Clansuite_Debug::dump($view->getTemplateVars());
+        #\Koch\Debug\Debug::dump($view->getTemplateVars());
 
         $this->display();
     }
 
     public function action_admin_save()
     {
-        #Clansuite_Debug::printR($this->getHttpRequest());
+        #\Koch\Debug\Debug::printR($this->getHttpRequest());
 
         $filename    = (string) $this->request->getParameter('templateeditor_absolute_filename');
         $modulename  = (string) $this->request->getParameter('templateeditor_modulename');

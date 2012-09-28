@@ -481,7 +481,7 @@ class Datagrid extends Base
         $result = $query->getArrayResult();
 
         // Debug
-        #Clansuite_Debug::printR($result);
+        #\Koch\Debug\Debug::printR($result);
 
         /**
          * The data set is an array.
@@ -638,10 +638,10 @@ class Datagrid extends Base
      */
     private function setColumnSets($_columnSets = array())
     {
-        #Clansuite_Debug::firebug($_columnSets);
+        #\Koch\Debug\Debug::firebug($_columnSets);
 
         foreach ($_columnSets as $key => $columnSet) {
-            #Clansuite_Debug::firebug($key);
+            #\Koch\Debug\Debug::firebug($key);
             // No alias given
             self::checkColumnKeyExist($columnSet, 'Alias');
              // No resultset given
@@ -793,7 +793,7 @@ class Datagrid extends Base
 
             foreach ($_ArrayStructure as $_LevelKey) {
                 if ( false === is_array($_TmpArrayHandler) or false === isset($_TmpArrayHandler[$_LevelKey]) ) {
-                    #Clansuite_Debug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
+                    #\Koch\Debug\Debug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
                     $_TmpArrayHandler = '';
                     break;
                 }
@@ -941,7 +941,7 @@ class Datagrid extends Base
          */
         $query = $this->queryBuilder->getQuery();
         #$query->setFirstResult( $offset )->setMaxResults( $resultsPerPage );
-        #Clansuite_Debug::printR($query->getArrayResult());
+        #\Koch\Debug\Debug::printR($query->getArrayResult());
 
         // Step 1 - count total results
         $count = Paginate::getTotalQueryResults($query);
@@ -951,7 +951,7 @@ class Datagrid extends Base
         $paginateQuery = Paginate::getPaginateQuery($query, $offset, $resultsPerPage);
 
         // fetching the paginated results set
-        #Clansuite_Debug::printR($paginateQuery->getArrayResult());
+        #\Koch\Debug\Debug::printR($paginateQuery->getArrayResult());
 
         return $paginateQuery;
     }

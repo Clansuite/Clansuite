@@ -108,19 +108,14 @@ class StaticpagesController extends ModuleController
     public function action_list()
     {
         // Set Pagetitle and Breadcrumbs
-        \Koch\View\Helper\Breadcrumb::add( _('List'), '/staticpages/overview');
+        \Koch\View\Helper\Breadcrumb::add(_('List'), '/staticpages/list');
 
         // get all static pages without page content
-        $result = Doctrine_Query::create()
-                ->select('id,title,description')
-                ->from('CsStaticPages')
-                ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                ->execute();
+        $dql = 'SELECT id, title, description FROM \Entity\Staticpages';
+        $results = $this->doctrine_em->createQuery($dql)->getResult();
 
-        if ( is_array($result) ) {
-            // Get Render Engine
+        if (is_array($result)) {
             $this->getView()->assign('overview', $result);
-            $view->setTemplate('overview.tpl');
         } else {
             echo _('No static pages found.');
         }

@@ -13,8 +13,10 @@
  */
 
 namespace Repository;
+
 use Doctrine\ORM\EntityRepository;
-use DoctrineExtensions\Paginate\Paginate;
+
+#use DoctrineExtensions\Paginate\Paginate;
 
 class NewsRepository extends EntityRepository
 {
@@ -44,7 +46,7 @@ class NewsRepository extends EntityRepository
         #$count = Paginate::getTotalQueryResults($query);
         #$paginateQuery = Paginate::getPaginateQuery($query, 0, $resultsPerPage);
         #$result = $paginateQuery->getArrayResult();
-        #\Clansuite_Debug::printR( $result );
+        #\\Koch\Debug\Debug::printR( $result );
 
         foreach ($result as $row) {
             if (count($row['comments'] > 0)) {
@@ -55,7 +57,7 @@ class NewsRepository extends EntityRepository
             $aResult[] = $row;
         }
 
-        #\Clansuite_Debug::printR( $aResult );
+        #\\Koch\Debug\Debug::printR( $aResult );
 
          return $aResult;
     }
@@ -90,7 +92,7 @@ class NewsRepository extends EntityRepository
             $aResult[] = $row;
         }
 
-        #\Clansuite_Debug::printR( $aResult );
+        #\\Koch\Debug\Debug::printR( $aResult );
 
          return $aResult[0];
     }
@@ -109,7 +111,7 @@ class NewsRepository extends EntityRepository
         $q->setParameter('news_id', $news_id);
 
         $result = $q->getArrayResult();
-        #\Clansuite_Debug::printR( $result );
+        #\\Koch\Debug\Debug::printR( $result );
 
          return $result[0];
     }
@@ -146,7 +148,7 @@ class NewsRepository extends EntityRepository
             exit('News Id not found.');
         }
 
-        #\Clansuite_Debug::printR($r);
+        #\\Koch\Debug\Debug::printR($r);
 
         return $r['0'];
     }
@@ -177,7 +179,7 @@ class NewsRepository extends EntityRepository
         $latestnews = $query->getArrayResult();
 
         // bah, get class from global space ;)
-        #\Clansuite_Debug::printR($latestnews);
+        #\\Koch\Debug\Debug::printR($latestnews);
 
         return $latestnews;
     }
@@ -196,7 +198,7 @@ class NewsRepository extends EntityRepository
                         WHERE c.module_id = 7
                         GROUP BY c.name');
         $r = $q->getArrayResult();
-        #\Clansuite_Debug::printR($r);
+        #\\Koch\Debug\Debug::printR($r);
 
         return $r;
     }
@@ -213,7 +215,7 @@ class NewsRepository extends EntityRepository
                                     GROUP BY c.name');
         $r = $q->getArrayResult();
         $r = \Clansuite_Functions::map_array_keys_to_values($r, 'cat_id', 'name');
-        #\Clansuite_Debug::printR($r);
+        #\\Koch\Debug\Debug::printR($r);
 
         return $r;
     }
@@ -227,7 +229,7 @@ class NewsRepository extends EntityRepository
                                     ORDER BY n.created_at ASC'
         );
         $r = $q->getArrayResult();
-        #\Clansuite_Debug::printR($r);
+        #\\Koch\Debug\Debug::printR($r);
 
         return $r;
     }

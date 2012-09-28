@@ -72,7 +72,7 @@ class ForumController extends ModuleController
         $view = $this->getView();
 
         $resultCategory = $this->getModel( 'Entity\ForumCategory' )->findAllCategories();
-        #Clansuite_Debug::printR( $resultCategory );
+        #\Koch\Debug\Debug::printR( $resultCategory );
 
         if ( count($resultCategory) >1 ) {
             $view->assign('withcat', true);
@@ -80,7 +80,7 @@ class ForumController extends ModuleController
         } else {
             $view->assign('withcat', false);
             $resultBoards = $this->getModel( 'Entity\ForumBoards' )->findBoards();
-            #Clansuite_Debug::printR( $resultBoards );
+            #\Koch\Debug\Debug::printR( $resultBoards );
 
             foreach ($resultBoards as $board) {
                 $aBoards = $board;
@@ -98,7 +98,7 @@ class ForumController extends ModuleController
                 $AllBoards[] = $aBoards;
             }
 
-            #Clansuite_Debug::printR( $AllBoards );
+            #\Koch\Debug\Debug::printR( $AllBoards );
 
             $view->assign('boards', $AllBoards);
 
