@@ -1,0 +1,15 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\netbeans]
+"URL Protocol"=""
+@="URL:Netbeans Protocol"
+
+[HKEY_CLASSES_ROOT\netbeans\DefaultIcon]
+@="\"C:\\Program Files\\NetBeans 7.1.1\\bin\\netbeans.exe,1\""
+
+[HKEY_CLASSES_ROOT\netbeans\shell]
+
+[HKEY_CLASSES_ROOT\netbeans\shell\open]
+
+[HKEY_CLASSES_ROOT\netbeans\shell\open\command]
+@="\"C:\\Windows\\netbeans.bat\" \"C:\\Program Files\\NetBeans 7.1.1\\bin\\netbeans.exe\" \"%1\""
