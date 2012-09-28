@@ -17,4 +17,3 @@ apigen \
 --colors yes \
 --tree yes \
 --todo yes \
-
