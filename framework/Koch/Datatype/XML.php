@@ -100,8 +100,7 @@ class XML
             }
         }
 
-        if ( is_a($xml, 'SimpleXMLElement') ) { // works (no longer deprecated as of php 5.3.0)
-        #if ($xml instanceof SimpleXMLElement) {  <= fails with php 5.3.5
+        if ( is_a($xml, 'SimpleXMLElement') ) { 
             // Get a copy of the simpleXmlElementObject
             $copy_of_xml_object = $xml;
             // Get the object variables in the SimpleXmlElement object for us to iterate.
