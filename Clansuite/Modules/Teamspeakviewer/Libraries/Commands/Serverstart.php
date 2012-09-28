@@ -1,5 +1,5 @@
 <?php
-class Teamspeak3_ServerQueryCommand_servercreate extends Clansuite_Teamspeak3_ServerQueryInterface
+class Teamspeak3_ServerQueryCommand_Serverstart extends Clansuite_Teamspeak3_ServerQueryInterface
 {
     /**
      * serverStart

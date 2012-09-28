@@ -1,5 +1,5 @@
 <?php
-class Teamspeak3_ServerQueryCommand_servercreate extends Clansuite_Teamspeak3_ServerQueryInterface
+class Teamspeak3_ServerQueryCommand_Serverstop extends Clansuite_Teamspeak3_ServerQueryInterface
 {
     /**
      * serverStop: stops a server on the selected instance<br>
