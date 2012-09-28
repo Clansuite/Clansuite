@@ -76,8 +76,8 @@ class NewsController extends ModuleController
 
         // import array variables into the current symbol table
         //extract($newsQuery);
-        //unset($newsQuery);        
-        $news = $newsQuery;        
+        //unset($newsQuery);
+        $news = $newsQuery;
         #\Koch\Debug\Debug::printR($news);
 
         // Get Render Engine

@@ -30,7 +30,7 @@ namespace Koch\Form\Generators;
  *
  * Purpose: automatic form generation from an array.
  */
-class AssocArray extends Form implements FormGeneratorInterface
+class Array extends Form implements FormGeneratorInterface
 {
     public function __construct(array $form_array = null, $form_object = null)
     {

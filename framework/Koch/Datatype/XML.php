@@ -100,7 +100,7 @@ class XML
             }
         }
 
-        if ( is_a($xml, 'SimpleXMLElement') ) { 
+        if ( is_a($xml, 'SimpleXMLElement') ) {
             // Get a copy of the simpleXmlElementObject
             $copy_of_xml_object = $xml;
             // Get the object variables in the SimpleXmlElement object for us to iterate.
