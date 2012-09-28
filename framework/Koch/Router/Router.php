@@ -108,7 +108,7 @@ class Router implements RouterInterface, \ArrayAccess
         // get URI from request, clean it and set it as a class property
         $this->uri = self::prepareRequestURI($request->getRequestURI());
 
-        //$this->abspath   = dirname($_SERVER['SCRIPT_FILENAME'] . '/');
+        //$this->abspath   = dirname($_SERVER['SCRIPT_FILENAME']);
         //$this->url       = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->abspath);
         //$this->fragments = explode('/', $_SERVER['REQUEST_URI']);
         //$this->domain    = explode('.', $_SERVER['SERVER_NAME']);
@@ -138,7 +138,9 @@ class Router implements RouterInterface, \ArrayAccess
     {
         // if Xdebug loaded, remove xdebug_session_start parameter from routing process
         if (function_exists('xdebug_break') === true) {
-            $uri = str_replace('?xdebug_session_start=netbeans-xdebug', '', $uri);
+            $uri = str_replace('xdebug_session_start=netbeans-xdebug', '', $uri);
+            // remove trailing '?' or '&'
+            $uri = rtrim($uri, '?&');
         }
 
         // subtract PHP_SELF from uri
@@ -146,6 +148,9 @@ class Router implements RouterInterface, \ArrayAccess
             $url_directory_prefix_length = strlen(dirname($_SERVER['PHP_SELF']));
             $uri = substr($uri, $url_directory_prefix_length);
         }
+
+        $url_directory_prefix_length = strlen($_SERVER['SCRIPT_NAME']);
+        $uri = substr($uri, $url_directory_prefix_length);
 
         // add slash in front + remove slash at the end
         if ($uri !== "/") {
@@ -433,24 +438,25 @@ class Router implements RouterInterface, \ArrayAccess
          * Dispatch to the default route, which is defined in configuration.
          */
         if (empty($this->uri) or $this->uri === '/') {
-            self::dispatchToDefaultRoute();
+            return $this->dispatchToDefaultRoute();
         }
-
-        // attach more routes to this object via the event "onInitializeRoutes"
-        #Clansuite_CMS::triggerEvent('onInitializeRoutes', $this);
 
         // initalize Routes
         $this->loadDefaultRoutes();
 
         // map match uri
+        // results: route is "dispatchable" or no target route found
         return $this->match();
-
-        // results: route is "dispatchable" or route to "404"
     }
 
-    public static function dispatchToDefaultRoute()
+    public function dispatchToDefaultRoute()
     {
-       return TargetRoute::getInstance();
+        $targetRoute = TargetRoute::getInstance();
+        if ($targetRoute::dispatchable() === true) {
+            $this->request->setRoute($targetRoute);
+
+            return $targetRoute;
+        }
     }
 
     public static function dispatchTo404()
@@ -459,19 +465,19 @@ class Router implements RouterInterface, \ArrayAccess
         #TargetRoute::setAction('routenotfound');
         #TargetRoute::setParameters('');
     }
-    
+
     /**
      * Renameds URL shorthands like "mod" to "module".
      * This is needed, because routing might be noRewrite.
      * So the uri segments array might contain something like "mod" => "news".
      * We need this to be "module" => "news" for setting it to the TargetRoute.
-     * 
-     * @param $array 
+     *
+     * @param $array
      * @return $array
      */
     public static function fixNoRewriteShorthands($array)
     {
-        if(isset($array['mod']) === true) {
+        if (isset($array['mod']) === true) {
             $array['module'] = $array['mod'];
             unset($array['mod']);
         }
@@ -494,9 +500,6 @@ class Router implements RouterInterface, \ArrayAccess
             throw new \OutOfBoundsException(_('The routes lookup table is empty. Define some routes.'));
         }
 
-        // get URI from request, clean it and set it as a class property
-        $this->uri = self::prepareRequestURI($this->uri);
-
         /**
          * Detects if Mod_Rewrite engine is active and
          * calls the proper URL Parser/Segmentizer method for the extraction of uri segments.
@@ -507,11 +510,14 @@ class Router implements RouterInterface, \ArrayAccess
         } else {
             $this->uri_segments = $this->parseUrl_noRewrite($this->uri);
 
+            /**
+             * Handle the noRewrite URL segments by inserting them into a TargetRoute.
+             */
             $this->uri_segments = self::fixNoRewriteShorthands($this->uri_segments);
-            // return the TargetRoute object
             $targetRoute = TargetRoute::setSegmentsToTargetRoute($this->uri_segments);
-            if ($targetRoute::dispatchable() === true) { 
+            if ($targetRoute::dispatchable() === true) {
                 $this->request->setRoute($targetRoute);
+
                 return $targetRoute;
             }
         }
@@ -756,11 +762,11 @@ class Router implements RouterInterface, \ArrayAccess
             return true;
         }
 
-        if(isset($this->config['router']['mod_rewrite']) === true) {
+        if (isset($this->config['router']['mod_rewrite']) === true) {
             $bool = (true === (bool) $this->config['router']['mod_rewrite']) ? true : false;
-            
+
             define('REWRITE_ENGINE_ON', $bool);
-            
+
             return $bool;
         }
     }
