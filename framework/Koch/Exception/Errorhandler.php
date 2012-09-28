@@ -243,13 +243,13 @@ class Errorhandler
         // table row 1 - header
         $html .= '<tr><th width="2%">Callstack</th><th>Function</th><th width="46%">Location</th></tr>';
 
-        $backtraces_count = count($trace)-1;
+        $backtraces_counter_i = count($trace)-1;
 
-        for ($i = 0; $i <= $backtraces_count; $i++) {
+        for ($i = 0; $i <= $backtraces_counter_i; $i++) {
             $html .= '<tr>';
 
             // Position in the Callstack
-            $html .= '<td align="center">'.(($backtraces_count-$i)+1).'</td>';
+            $html .= '<td align="center">'.(($backtraces_counter_i-$i)+1).'</td>';
 
             if (isset($trace[$i]['class']) === false) {
                 $html .= '<td>[A PHP Core Function Call]</td>';
@@ -321,6 +321,7 @@ class Errorhandler
                 break;
             case 'string':
                 $args .= '<span>string</span> "';
+                $backtraceArgument =  htmlentities($backtraceArgument, ENT_QUOTES, 'UTF-8');
                 $args .= \Koch\Functions\Functions::shortenString($backtraceArgument);
                 $args .= '"';
                 break;

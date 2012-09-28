@@ -128,13 +128,21 @@ class Exception extends \Exception
          * 1. catch Smarty "Template Syntax" Errors
          * 2. provide link to templateeditor (file:line) to fix the error
          */
-        #$smartyError = (false !== stristr($this->message, 'Syntax Error in template')) ? true : false;
+        /*$smartyTemplateError = (false !== stristr($this->message, 'Syntax Error in template')) ? true : false;
+        if ($smartyTemplateError) {
+            include_once __DIR__ . '/Renderer/SmartyTemplateError.php';
+            echo \Koch\Exception\Renderer\SmartyTemplateError::render(
+                    $this->message, $this->string, $this->code,
+                    $this->file, $this->line, $this->trace
+            );
+        }*/
 
         /**
          * @todo
          * 1. catch Smarty "Unable to load template file" Errors
          * 2. provide link to templatefilemanager (module:file)
          */
+
         include_once __DIR__ . '/Renderer/YellowScreenOfDeath.php';
         echo \Koch\Exception\Renderer\YellowScreenOfDeath::renderException(
                 $this->message, $this->string, $this->code,
