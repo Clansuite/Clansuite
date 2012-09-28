@@ -59,7 +59,7 @@ class XML
         $json = '';
 
         // convert the XML structure into PHP array structure.
-        $array = Koch_XML::toArray($xml);
+        $array = XML::toArray($xml);
 
         if (($array != null) and (sizeof($array) > 0)) {
             $json = json_encode($array);
