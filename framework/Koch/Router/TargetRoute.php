@@ -55,9 +55,9 @@ class TargetRoute extends Mapper
     );
 
     /**
-     * TargetRoute is a Singleton
+     * Get singleton instance of TargetRoute.
      *
-     * @return instance of Koch_TargetRoute class
+     * @return \Koch\Router\TargetRoute
      */
     public static function instantiate()
     {
