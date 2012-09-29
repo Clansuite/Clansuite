@@ -36,7 +36,7 @@ You can find more information about Clansuite on the official website http://cla
 Documentation is available in ASCIIDOC format in the /docs/manuals directory.
 In particular, open any of the asciidoc files (*.asciidoc) to see the clansuite manual.
 
-The [Documentation](http://docs.clansuite.com) is also available on our website.
+The http://docs.clansuite.com[Documentation] is also available on our website.
 
 == Authors
 
@@ -46,7 +46,7 @@ Clansuite is written and developed by the Clansuite Development Team.
 This software consists of voluntary contributions made by many individuals.
 
 For detailed contributor informations and to get an overview of the
-people involved here, look at link:/https://github.com/Clansuite/Clansuite/contributors[the List of Contributors]
+people involved here, look at https://github.com/Clansuite/Clansuite/contributors[the List of Contributors]
 
 == Credits
 
@@ -62,7 +62,16 @@ Clansuite's Documentation is licensed under the "GNU Free Documentation License"
 
 If you find any bugs, please do one of the following things:
 
-* visit the link:/http://forum.clansuite.com/[support-forum] to report them
-* submit them to the link:/http://trac.clansuite.com/[bugtracker]
+* visit the http://forum.clansuite.com/[support-forum] to report them
+* submit them to the http://trac.clansuite.com/[bugtracker]
 
 More information can be found on the official website.
+
+## Contributing
+
+If you are a developer, we need your help. Growing this project means lot's of stuff to do. Some developers are contributing with new features, others with bug fixes. You might also dedicate yourself to refactoring the current codebase and improving what we already have. This is very important, we want the project to be a state-of-the-art application, and we need your help for that.
+
+* https://github.com/Clansuite/Clansuite/blob/develop/CONTRIBUTE.md[How to contribute]
+* Examine possible bugs, suboptimal code, duplicated code, overcomplicated expressions and unused code with in our CI server
+* Try to fix any https://travis-ci.org/#!/Clansuite/Clansuite[violations] reported
+* Improve the test coverage by creating unit and functional tests
