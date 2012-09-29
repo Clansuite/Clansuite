@@ -25,6 +25,9 @@
 
 namespace Koch\Form\Elements;
 
+use Koch\Form\Elements\Select;
+use Koch\Form\FormElementInterface;
+
 class SelectCountry extends Select implements FormElementInterface
 {
     public function __construct()

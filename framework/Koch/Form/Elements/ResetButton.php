@@ -25,13 +25,9 @@
 
 namespace Koch\Form\Elements;
 
-/**
- *  Koch_Formelement
- *  |
- *  \- Koch_Formelement_Input
- *     |
- *     \- Koch_Formelement_Resetbutton
- */
+use Koch\Form\Elements\Input;
+use Koch\Form\FormElementInterface;
+
 class ResetButton extends Input implements FormElementInterface
 {
     public function __construct()

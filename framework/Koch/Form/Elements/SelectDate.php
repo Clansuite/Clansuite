@@ -25,13 +25,9 @@
 
 namespace Koch\Form\Elements;
 
-/**
- *  Koch\Formelement
- *  |
- *  \- Koch\Formelement\Input
- *     |
- *     \- Koch\Formelement\SelectDate
- */
+use Koch\Form\Elements\Input;
+use Koch\Form\FormElementInterface;
+
 class SelectDate extends Input implements FormElementInterface
 {
     public function __construct()

@@ -25,13 +25,9 @@
 
 namespace Koch\Form\Elements;
 
-/**
- *  Koch_Formelement
- *  |
- *  \- Koch_Formelement_Captcha
- *      |
- *      \- Koch_Formelement_ReCaptcha
- */
+
+use Koch\Form\FormElementInterface;
+
 class ReCaptcha extends Captcha implements FormElementInterface
 {
     /**

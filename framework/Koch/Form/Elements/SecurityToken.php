@@ -25,6 +25,8 @@
 
 namespace Koch\Form\Elements;
 
+use Koch\Form\FormElementInterface;
+
 class SecurityToken extends Hidden implements FormElementInterface
 {
     public function __construct()

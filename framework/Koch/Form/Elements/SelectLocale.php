@@ -25,6 +25,9 @@
 
 namespace Koch\Form\Elements;
 
+use Koch\Form\Elements\Select;
+use Koch\Form\FormElementInterface;
+
 class SelectLocale extends Select implements FormElementInterface
 {
     /**
