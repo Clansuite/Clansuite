@@ -25,6 +25,8 @@
 
 namespace Koch\Form\Elements;
 
+use Koch\Form\FormElementInterface;
+
 /**
  * Formelement_Wysiwygtinymce
  *

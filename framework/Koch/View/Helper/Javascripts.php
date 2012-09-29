@@ -27,7 +27,7 @@ namespace Koch\View\Helper;
 
 /**
  * Koch Framework - Class for initializing JS and CSS libraries.
- * 
+ *
  * Javascripts is a (View) Helper Library and Service Gateway for all
  * the Javascript and CSS Libraries utilized.
  *

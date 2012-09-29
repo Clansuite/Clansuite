@@ -25,7 +25,6 @@
 
 namespace Koch\Form\Elements;
 
-
 use Koch\Form\FormElementInterface;
 
 class ReCaptcha extends Captcha implements FormElementInterface

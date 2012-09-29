@@ -25,6 +25,7 @@
 
 namespace Koch\Form\Elements;
 
+use Koch\Form\Elements\File;
 use Koch\Form\FormElementInterface;
 
 class Uploadify extends File implements FormElementInterface

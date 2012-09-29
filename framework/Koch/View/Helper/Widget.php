@@ -29,7 +29,6 @@ use Koch\Mvc\Mapper;
 
 /**
  * Koch Framework - Class for handling of Widgets.
- * 
  */
 class Widget
 {
