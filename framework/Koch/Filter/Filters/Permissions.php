@@ -25,6 +25,7 @@
 
 namespace Koch\Filter\Filters;
 
+use Koch\Filter\FilterInterface;
 use Koch\Http\HttpRequestInterface;
 use Koch\Http\HttpResponseInterface;
 
