@@ -26,7 +26,7 @@
 namespace Koch\View\Helper;
 
 /**
- * Interface for all Nodes (Leaf-Objects)
+ * Koch Framework - Interface for all Nodes (Leaf-Objects)
  *
  * Each node (leaf-object) has to provide a method...
  */

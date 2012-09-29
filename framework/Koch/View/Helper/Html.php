@@ -26,7 +26,7 @@
 namespace Koch\View\Helper;
 
 /**
- * HTML
+ * Koch Framework - Class for rendering HTML output.
  *
  * The class provides helper methods to output html-tag elements.
  *

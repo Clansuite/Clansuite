@@ -26,7 +26,7 @@
 namespace Koch\Localization;
 
 /**
- * Gettext
+ * Koch Framework - Class for handling Gettext Extraction.
  *
  * 1. Gettext extraction is normally performed by the "xgettext" tool.
  *    http://www.gnu.org/software/hello/manual/gettext/xgettext-Invocation.html

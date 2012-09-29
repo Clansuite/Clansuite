@@ -26,7 +26,7 @@
 namespace Koch\Doctrine;
 
 /**
- * Koch Framework - Class for the Initialization of Doctrine 2
+ * Koch Framework - Class for the Initialization of Doctrine 2.
  *
  * @category    Koch
  * @package     Core

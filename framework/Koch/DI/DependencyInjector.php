@@ -31,7 +31,7 @@ use Koch\DI\Exception\CannotDetermineImplementation;
 use Koch\DI\Exception\MissingDependency;
 
 /**
- * Phemto - A Dependency Injector by Markus Baker.
+ * Koch Framework - Dependency Injector (Phemto by Markus Baker).
  *
  * Version: 0.1_alpha10 - SVN-Revision: 90
  *

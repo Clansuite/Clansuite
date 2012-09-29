@@ -26,7 +26,7 @@
 namespace Koch\View\Helper;
 
 /**
- * Koch Framework - Class for BBCode Handling (Wrapper) and Syntax Highlighting
+ * Koch Framework - Class for BBCode Handling (Wrapper) and Syntax Highlighting.
  *
  * It's a wrapper class for
  * a) GeShi Code/Syntax Highligther

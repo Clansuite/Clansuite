@@ -26,7 +26,7 @@
 namespace Koch\Localization;
 
 /**
- * Koch Framework - UTF8
+ * Koch Framework - Class for Initalizing UTF8 (fallbacks).
  *
  * Koch Framework relies on mbstring.
  * This class allows running the application without the mbstring extension.

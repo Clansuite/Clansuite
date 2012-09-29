@@ -26,7 +26,7 @@
 namespace Koch\Image;
 
 /**
- * Koch Framework - Class for Image Thumbnailing
+ * Koch Framework - Class for Image Thumbnailing.
  *
  * @package     Koch
  * @subpackage  Core

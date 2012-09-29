@@ -26,7 +26,7 @@
 namespace Koch\View\Helper;
 
 /**
- * Koch FrameworkBlockcontainer
+ * Koch Framework - Class is a Container for Blocks.
  *
  * @category    Koch
  * @package     Core

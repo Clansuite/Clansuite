@@ -26,7 +26,7 @@
 namespace Koch\Config\Adapter;
 
 /**
- * Koch Framework - Config Handler for CSV Format
+ * Koch Framework - Config Handler for CSV Format.
  *
  * @category    Koch
  * @package     Core

@@ -24,7 +24,7 @@
  */
 
 /**
- * Koch FrameworkMB_STRING Wrapper Methods
+ * Koch Framework - Class provides MB_STRING Wrapper Methods.
  *
  * Koch Frameworkrelies on mb_string functions.
  * If the mbstring extension is not loaded, the mb_string functions are not available.

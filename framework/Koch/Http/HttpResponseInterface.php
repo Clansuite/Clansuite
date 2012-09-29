@@ -26,7 +26,7 @@
 namespace Koch\Http;
 
 /**
- * Interface for the Response Object
+ * Koch Framework - Interface for the Response Object.
  *
  * @category    Koch
  * @package     Core

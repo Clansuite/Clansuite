@@ -26,7 +26,7 @@
 namespace Koch\Logger;
 
 /**
- * Logger
+ * Koch Framework - Class provides a compositum for loggers.
  *
  * This class represents a compositum for all registered loggers.
  * Another name for this class would be MultiLog.

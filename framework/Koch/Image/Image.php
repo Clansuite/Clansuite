@@ -26,7 +26,7 @@
 namespace Koch\Image;
 
 /**
- * Koch Framework - Class for Image Handling
+ * Koch Framework - Class for Image Handling.
  *
  * @package     Koch
  * @subpackage  Core

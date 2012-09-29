@@ -26,7 +26,7 @@
 namespace Koch\Event;
 
 /**
- * Interface for Event
+ * Koch Framework - Interface for all Events.
  *
  * Events have to implement at least a execute() method
  *

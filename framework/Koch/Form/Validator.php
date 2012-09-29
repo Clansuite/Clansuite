@@ -25,6 +25,9 @@
 
 namespace Koch\Form;
 
+/**
+ * Koch Framework - Class for Validation of Forms. 
+ */
 abstract class Validator
 {
     /**

@@ -26,7 +26,7 @@
 namespace Koch\Functions;
 
 /**
- * Koch FrameworkFunctions
+ * Koch Framework - Class Library for various static helper Functions.
  *
  * @category    Koch
  * @package     Core

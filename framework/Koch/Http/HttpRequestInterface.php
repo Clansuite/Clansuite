@@ -26,7 +26,7 @@
 namespace Koch\Http;
 
 /**
- * Interface for the Request Object
+ * Koch Framework - Interface for the Request Object.
  *
  * @category    Koch
  * @package     Core

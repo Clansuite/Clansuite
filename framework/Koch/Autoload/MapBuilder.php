@@ -26,12 +26,11 @@
 namespace Koch\Autoload;
 
 /**
- * MapBuilder builds a class map for usage with the autoloader.
+ * Koch Framework - Class for building class maps for the autoloader.
  *
  * A class map is a relationship of classname to filename.
  * The class map is used by the autoloader as a lookup table
  * to determine the file to load.
- *
  */
 class MapBuilder
 {

@@ -26,7 +26,7 @@
 namespace Koch\Config;
 
 /**
- * Koch\Config
+ * Koch Framework - Provides a configuration container.
  *
  * This is a configuration container class.
  * It's build around the $config array, which is the storage container for settings.

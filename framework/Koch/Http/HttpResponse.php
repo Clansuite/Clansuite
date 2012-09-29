@@ -26,7 +26,7 @@
 namespace Koch\Http;
 
 /**
- * Koch Framework - Class for Response Handling
+ * Koch Framework - Class for Response Handling.
  *
  * This class represents the web response object on a request processed by Koch Framework.
  *

@@ -25,8 +25,8 @@
 
 namespace Koch\Form;
 
- /**
- * Interface for a single Koch Framework Formelement
+/**
+ * Koch Framework - Interface for Formelements.
  */
 interface FormElementInterface
 {

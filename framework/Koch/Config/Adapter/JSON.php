@@ -26,7 +26,7 @@
 namespace Koch\Config\Adapter;
 
 /**
- * Koch Framework - Config Handler for Json Format
+ * Koch Framework - Config Handler for Json Format.
  *
  * @category    Koch
  * @package     Core

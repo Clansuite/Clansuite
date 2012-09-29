@@ -26,7 +26,7 @@
 namespace Koch\Form;
 
 /**
- * Koch Framework - Interface for Form
+ * Koch Framework - Interface for the Form handling class.
  */
 interface FormInterface
 {

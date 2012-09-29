@@ -29,7 +29,7 @@ use Koch\Router\TargetRoute;
 use Koch\Http\HttpRequest;
 
 /**
- * View_Mapper
+ * Koch Framework - The View Mapper maps the "action" to the "template".
  *
  * By definition a mapper sets up a communication between two independent objects.
  * View_Mapper is a "class action" to "template" mapper.

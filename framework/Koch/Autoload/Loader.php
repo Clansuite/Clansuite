@@ -26,7 +26,7 @@
 namespace Koch\Autoload;
 
 /**
- * Koch Loader
+ * Koch Framework - Class for Autoloading of Files by Classname.
  *
  * This Loader overwrites the Zend Engines _autoload() with our own user defined loading functions.
  * The main function of this class is autoload().

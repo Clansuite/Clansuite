@@ -26,7 +26,7 @@
 namespace Koch\Event;
 
 /**
- * Represents an Event
+ * Koch Framework - Class represents an Event.
  *
  * @category    Koch
  * @package     Core

@@ -26,7 +26,7 @@
 namespace Koch\Image;
 
 /**
- * Koch Framework - Class for Image Watermarking
+ * Koch Framework - Class for Image Watermarking.
  *
  * @package     Koch
  * @subpackage  Core

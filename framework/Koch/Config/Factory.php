@@ -26,7 +26,7 @@
 namespace Koch\Config;
 
 /**
- * Configuration Factory
+ * Koch Framework - A Factory for Configuration Adapters.
  *
  * The static method getConfiguration() includes and instantiates
  * a Configuration Engine Object and injects the configfile.

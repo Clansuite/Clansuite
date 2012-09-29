@@ -26,7 +26,7 @@
 namespace Koch\Config\Adapter;
 
 /**
- * Koch Framework - Config Handler for YAML Format
+ * Koch Framework - Config Handler for YAML Format.
  *
  * Purpose: This Confighandler supports the YAML-Fileformat.
  *

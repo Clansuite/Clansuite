@@ -28,7 +28,7 @@ namespace Koch\Form;
 use Koch\Form\DecoratorInterface;
 
 /**
- * Form_Decorator
+ * Koch Framework - Class for Decorating Forms.
  *
  * The base class for all decorators. It has the same type as Koch_Form itself.
  * The decorator pattern suggests that the decorator implements all public methods of the component which it decorates.

@@ -26,7 +26,7 @@
 namespace Koch\Http;
 
 /**
- * Koch Framework - Class for Browser information
+ * Koch Framework - Class for acquiring Browser information.
  *
  * @category    Koch
  * @package     Tools

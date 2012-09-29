@@ -26,7 +26,7 @@
 namespace Koch\Form;
 
 /**
- * FormElement
+ * Koch Framework - Class for a FormElement.
  *
  * @category    Koch
  * @package     Core

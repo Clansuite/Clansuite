@@ -26,7 +26,7 @@
 namespace Koch\Mail;
 
 /**
- * Koch Framework - Class for Mail Handling with SwiftMailer
+ * Koch Framework - Class for Mail Handling with SwiftMailer.
  *
  * This is a simple wrapper for SwiftMailer.
  * @link http://swiftmailer.org/

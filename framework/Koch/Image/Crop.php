@@ -26,7 +26,7 @@
 namespace Koch\Image;
 
 /**
- * Koch Framework - Class for Image Cropping
+ * Koch Framework - Class for Image Cropping.
  *
  * @package     Koch
  * @subpackage  Core

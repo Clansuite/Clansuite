@@ -28,7 +28,7 @@ namespace Koch\View\Helper;
 use Koch\Router\TargetRoute;
 
 /**
- * Koch Framework - Class for Breadcrumb Handling
+ * Koch Framework - Class for Breadcrumb Handling.
  *
  * @category    Koch
  * @package     Core

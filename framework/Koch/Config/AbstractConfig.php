@@ -26,7 +26,7 @@
 namespace Koch\Config;
 
 /**
- * Koch Framework - Abstract Base Class for Config
+ * Koch Framework - Abstract Base Class for Config.
  *
  * @category    Koch
  * @package     Core

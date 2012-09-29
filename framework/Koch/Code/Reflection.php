@@ -26,7 +26,7 @@
 namespace Koch\Code;
 
 /**
- * Reflection
+ * Koch Framework - Class for Reflection and Introspection of Classes.
  *
  * Purpose of this class is to reverse-engineer classes,
  * interfaces, functions, methods and extensions.

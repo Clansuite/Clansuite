@@ -26,7 +26,7 @@
 namespace Koch\Form;
 
 /**
- * Formelement_Decorator
+ * Koch Framework - Class for decorating a Formelement.
  *
  * @category    Koch
  * @package     Core

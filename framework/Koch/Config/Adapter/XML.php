@@ -26,7 +26,7 @@
 namespace Koch\Config\Adapter;
 
 /**
- * Koch Framework - Config Handler for XML Format (via SimpleXML)
+ * Koch Framework - Config Handler for XML Format (via SimpleXML).
  *
  * @category    Koch
  * @package     Core

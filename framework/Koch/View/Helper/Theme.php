@@ -28,7 +28,7 @@ namespace Koch\View\Helper;
 use Koch\View\AbstractRenderer;
 
 /**
- * Theme
+ * Koch Framework - Class for handling of Themes.
  *
  * This class provides abstracted (object) access to a theme's theme_info.xml file.
  */

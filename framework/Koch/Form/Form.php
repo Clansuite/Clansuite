@@ -26,7 +26,7 @@
 namespace Koch\Form;
 
 /**
- * Koch Framework - Class for Formular Handling
+ * Koch Framework - Class for creation and handling of HTML Forms.
  *
  * The Formular Object provides methods to deal with the following problem:
  *

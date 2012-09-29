@@ -26,7 +26,7 @@
 namespace Koch\Event;
 
 /**
- * Eventdispatcher
+ * Koch Framework - Class for registering and triggering eventhandlers.
  *
  * Eventdispatcher is a container class for all the EventHandlers.
  * This class is a helper for event-driven development.

@@ -26,7 +26,7 @@
 namespace Koch\View\Helper;
 
 /**
- * Gravatar
+ * Koch Framework - Class for Gravatar Service.
  *
  * This is a service class for accessing the Globally Recognized Avatars as provided
  * by http://www.gravatar.com.

@@ -26,7 +26,7 @@
 namespace Koch\Config;
 
 /**
- * Staging
+ * Koch Framework - Class for Staging (Config overloading based on ServerName).
  *
  * @category    Koch
  * @package     Core

@@ -25,6 +25,9 @@
 
 namespace Koch\Form;
 
+/**
+ * Koch Framework - Interface for FormGenerators.
+ */
 interface FormGeneratorInterface
 {
     public function generate($array);

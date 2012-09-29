@@ -26,7 +26,7 @@
 namespace Koch\Config\Adapter;
 
 /**
- * Koch Framework - Config Handler for PHP Format
+ * Koch Framework - Config Handler for PHP Format.
  *
  * @category    Koch
  * @package     Core

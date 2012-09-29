@@ -26,7 +26,7 @@
 namespace Koch\Event;
 
 /**
- * Eventloader
+ * Koch Framework - Class for loading of Events from Config files.
  *
  * Purpose:
  * Eventloader handles the loading and registering of events by using event configuration files.

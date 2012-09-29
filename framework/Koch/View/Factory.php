@@ -26,7 +26,7 @@
 namespace Koch\View;
 
 /**
- * Renderer Factory
+ * Koch Framework - Class is a Renderer Factory.
  *
  * The static method getRenderer() returns the included and instantiated
  * Rendering Engine Object - which is the View in MVC!

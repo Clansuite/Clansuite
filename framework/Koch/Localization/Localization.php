@@ -28,7 +28,7 @@ namespace Koch\Localization;
 use Koch\Config\Config;
 
 /**
- * Koch Framework - Class for Localization (l10n) & Internationalization (i18n) Handling
+ * Koch Framework - Class for Localization (l10n) & Internationalization (i18n) Handling.
  *
  * @category    Koch
  * @package     Core

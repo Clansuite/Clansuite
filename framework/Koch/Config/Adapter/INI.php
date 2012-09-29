@@ -26,7 +26,7 @@
 namespace Koch\Config\Adapter;
 
 /**
- * Koch Framework - Config Handler for INI Format
+ * Koch Framework - Config Handler for INI Format.
  *
  * @category    Koch
  * @package     Core

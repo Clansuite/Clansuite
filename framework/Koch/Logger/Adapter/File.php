@@ -28,7 +28,7 @@ namespace Koch\Logger\Adapter;
 use Koch\Logger\LoggerInterface;
 
 /**
- * Koch Framework - Log to file.
+ * Koch Framework - Log to File.
  *
  * This class is a service wrapper for logging messages to a logfile.
  *
