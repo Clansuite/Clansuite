@@ -243,6 +243,7 @@ class Errorhandler
         // table row 1 - header
         $html .= '<tr><th width="2%">Callstack</th><th>Function</th><th width="46%">Location</th></tr>';
 
+        // the number of backtraces
         $backtraces_counter_i = count($trace)-1;
 
         for ($i = 0; $i <= $backtraces_counter_i; $i++) {
@@ -259,27 +260,40 @@ class Errorhandler
 
                 // Method Arguments
                 if (true === isset($trace[$i]['args']) and empty($trace[$i]['args']) === false) {
+                    // the number of arguments (method parameters)
                     $backtrace_counter_j = count($trace[$i]['args']) - 1;
 
-                    // render an arguments table
+                    // use reflection to get the method parameters (we want to display names later)
+                    $reflected_method = new \ReflectionMethod($trace[$i]['class'], $trace[$i]['function']);
+                    /* @var $reflected_params \ReflectionParameter */
+                    $reflected_params = $reflected_method->getParameters();
+
+                    // render table with method parameters
                     // argument position | name | type | value
                     // @todo
                     $html .= '<table style="border-collapse: collapse;">';
-                    $html .= '<tr><th colspan="4">Arguments</th></tr>';
-                    $html .= '<tr><td>Pos</td><td>Name</td><td>Type</td><td>Value</td></tr>';
+                    $html .= '<tr><th style="line-height: 0.8em;" colspan="4">Parameters</th></tr>';
+                    $html .= '<tr style="line-height: 0.8em;"><th>Pos</th><th>Name = Default Value</th><th>Type</th><th>Value</th></tr>';
 
+                    // loop over all arguments
                     for ($j = 0; $j <= $backtrace_counter_j; $j++) {
-
+                        // fetch data for this argument
                         $data = self::formatBacktraceArgument($trace[$i]['args'][$j]);
+                        // fetch current reflection parameter object
+                        $parameter = $reflected_params[$j];
+                        // get just the parameter name and it's default value
+                        preg_match('/\[ ([^[]+) \]/', $parameter, $matches);
+
+                        $html .= '<tr>';
 
                         // pos
-                        $html .= '<tr><td>'.($j+1).'</td>';
+                        $html .= '<td>'.($j+1).'</td>';
                         // name
-                        $html .= '<td>Name</td>';
+                        $html .= '<td>'.$matches['1'].'</td>';
                         // type
                         $html .= '<td>'.$data['type'].'</td>';
                         // value
-                        $html .= '<td>'.$data['arg'].'</td>';
+                        $html .= '<td>'.$data['arg'].' '.$defaultValue.'</td>';
                     }
                     $html .= '</tr></table>';
                 }
@@ -333,7 +347,7 @@ class Errorhandler
                 break;
             case 'double':
                 $type .= '<span>double</span>';
-                $arg .=  $backtraceArgument;
+                $arg .= $backtraceArgument;
                 break;
             case 'string':
                 $type .= '<span>string</span>';
@@ -342,15 +356,15 @@ class Errorhandler
                 break;
             case 'array':
                 $type .= '<span>array</span>';
-                $arg .= ' ('.count($backtraceArgument).')';
+                $arg .= count($backtraceArgument);
                 break;
             case 'object':
                 $type .= '<span>object</span>';
-                $arg .= '('.get_class($backtraceArgument).')';
+                $arg .= get_class($backtraceArgument);
                 break;
             case 'resource':
                 $type .= '<span>resource</span>';
-                $arg .= '('.mb_strstr($backtraceArgument, '#').' - '. get_resource_type($backtraceArgument) .')';
+                $arg .= mb_strstr($backtraceArgument, '#').' - '. get_resource_type($backtraceArgument);
                 break;
             case 'NULL':
                 $type .= '<span>null</span>';
