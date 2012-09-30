@@ -209,14 +209,14 @@ class HttpResponse implements HttpResponseInterface
 
         // activateOutputCompression when not in debugging mode
         if (XDEBUG === false and DEBUG === false) {
-            Koch_ResponseEncode::start_outputbuffering('7');
+            \Koch\Http\ResponseEncode::start_outputbuffering('7');
         }
 
         // Send the status line
         self::addHeader('HTTP/1.1', self::$statusCode.' '.self::getStatusCodeDescription(self::$statusCode));
 
         // Set X-Powered-By Header to Clansuite Signature
-        self::addHeader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ http://clansuite.com ]');
+        self::addHeader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ http://clansuite.com/ ]');
 
         // Suppress Framesets
         self::addHeader('X-Frame-Options', 'deny'); // not SAMEORIGIN
@@ -241,7 +241,7 @@ class HttpResponse implements HttpResponseInterface
 
         // Flush Compressed Buffer
         if (XDEBUG === false and DEBUG === false) {
-            \Koch\Mvc\ResponseEncode::end_outputbuffering();
+            \Koch\Http\ResponseEncode::end_outputbuffering();
 
             // send response and do some more php processing afterwards
             if (is_callable('fastcgi_finish_request') === true) {
