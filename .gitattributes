@@ -10,3 +10,5 @@ tests/ export-ignore
 
 # do not git export the following files
 .travis.yml export-ignore
+.php_cs export-ignore
+.editorconfig export-ignore
