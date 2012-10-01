@@ -36,5 +36,5 @@ script:
 notifications:
   email: false
   irc:
-    - "irc.freenode.org#clansuite"
+    - "irc.freenode.org#koch"
     - "irc.quakenet.org#clansuite"
