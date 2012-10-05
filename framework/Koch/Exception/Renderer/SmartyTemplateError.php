@@ -58,7 +58,7 @@ class SmartyTemplateError
         $html = '';
         $html .= '<span>';
         $html .= '<h4><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h4>';
-        #$html .= '<u>' . $errorname . ' (' . $errno . '): </u><br/>';
+        $html .= '<u>' . $errorname . ' (' . $errno . '): </u><br/>';
         $html .= '<b>' . wordwrap($errstr, 50, "\n") . '</b><br/>';
         $html .= 'File: ' . $errfile . '<br/>Line: ' . $errline;
         $html .= Errorhandler::getTemplateEditorLink($errfile, $errline, $errcontext);

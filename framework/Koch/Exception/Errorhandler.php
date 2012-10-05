@@ -63,20 +63,17 @@ class Errorhandler
      */
     public static function errorhandler( $errno, $errstr, $errfile, $errline, $errcontext = null )
     {
-        /**
-         * do just return, if the error is suppressed,
-         * due to (@)silencing-operator
-         */
+        // do just return, if the error is suppressed. maybe due to silencing-operator (@).
         if (error_reporting() === 0) {
             return;
         }
 
         /**
-         * Assemble the error informations
+         * Let's start assembling the error informations
          */
 
         /**
-         * Definition of PHP Errortypes Array - with names for all the php error codes
+         * Definition of PHP Errortypes Array. So we can lookup an error name by its php error code.
          * @link http://php.net/manual/de/errorfunc.constants.php
          */
         $errorTypes = array (
@@ -102,10 +99,10 @@ class Errorhandler
             32767 => 'E_ALL 32767 PHP6'       // all errors and warnings - E_ALL of PHP Version 6
         );
 
-        // get the errorname from the array via $errornumber
+        // lookup error name by php error code
         $errorname = isset($errorTypes[$errno]) ? $errorTypes[$errno] : '';
 
-        // Handling the ErrorType via Switch
+        // enhance the errorname a bit
         switch ($errorname) {
             // This one is handled by register_shutdown_function + catchFatalErrorsShutdownHandler
             case 'E_ERROR':
@@ -132,7 +129,7 @@ class Errorhandler
                 $errorname .= ' [PHP Strict]';
                 break;
             case 'E_RECOVERABLE_ERROR':
-                $errorname .= ' [php not-unstable]';
+                $errorname .= ' [PHP NOT-UNSTABLE]';
                 break;
             // when it's not in there, its an unknown errorcode
             default:
