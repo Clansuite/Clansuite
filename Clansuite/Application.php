@@ -119,12 +119,14 @@ class Application
 
     /**
      * Sets the PHP memory limit
-     *
+     * 
+     * In general the memory limit is determined by php.ini.
+     * It's only raised if lower 32MB and not -1.
+     * 
      * @param string $memory_limit The memory limit in megabytes, e.g. '32' or '128'.
      */
     private static function setMemoryLimit($limit = '32')
     {
-        // in general the memory limit is determined by php.ini, it's only raised if lower 32MB and not -1
         $memory_limit = intval(ini_get('memory_limit'));
         if ($memory_limit != -1 and $memory_limit < (int) $limit ) {
             ini_set('memory_limit', $limit + 'M');
@@ -205,7 +207,7 @@ class Application
         define('ROOT_LOGS', ROOT . 'Logs/');
 
         /**
-         * @var ROOT_MOD Root path of the modules directory (with trailing slash)
+         * @var Root path of the modules directory (with trailing slash)
          */
         define('ROOT_MOD', ROOT . 'Modules/');
 
@@ -218,7 +220,7 @@ class Application
         define('ROOT_THEMES_CORE', ROOT_THEMES . 'core/');
 
         /**
-         * @var Root path of the upload directory (with trailing slash)
+         * @var ROOT_UPLOAD Root path of the upload directory (with trailing slash)
          */
         define('ROOT_UPLOAD', ROOT . 'Uploads/');
 
@@ -259,7 +261,7 @@ class Application
      */
     public static function initialize_ConstantsAndPaths()
     {
-        // ensure that apc is loaded as extension
+        /* @var APC const True, if APC extension is loaded */
         define('APC', (bool) extension_loaded('apc'));
 
         // try to load constants from APC

@@ -129,12 +129,8 @@ class Exception extends \Exception
          * 2. provide link to templateeditor (file:line) to fix the error
          */
         /*$smartyTemplateError = (false !== stristr($this->message, 'Syntax Error in template')) ? true : false;
-        if ($smartyTemplateError) {
-            include_once __DIR__ . '/Renderer/SmartyTemplateError.php';
-            echo \Koch\Exception\Renderer\SmartyTemplateError::render(
-                    $this->message, $this->string, $this->code,
-                    $this->file, $this->line, $this->trace
-            );
+        if ($smartyTemplateError === true) {
+            throw new SmartyTemplateException($exception);            
         }*/
 
         /**
