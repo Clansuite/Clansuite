@@ -130,7 +130,7 @@ class Exception extends \Exception
          */
         /*$smartyTemplateError = (false !== stristr($this->message, 'Syntax Error in template')) ? true : false;
         if ($smartyTemplateError === true) {
-            throw new SmartyTemplateException($exception);            
+            throw new SmartyTemplateException($exception);
         }*/
 
         /**
