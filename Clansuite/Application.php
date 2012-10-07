@@ -119,10 +119,10 @@ class Application
 
     /**
      * Sets the PHP memory limit
-     * 
+     *
      * In general the memory limit is determined by php.ini.
      * It's only raised if lower 32MB and not -1.
-     * 
+     *
      * @param string $memory_limit The memory limit in megabytes, e.g. '32' or '128'.
      */
     private static function setMemoryLimit($limit = '32')
