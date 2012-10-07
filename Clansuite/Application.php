@@ -419,7 +419,14 @@ class Application
     {
         include KOCH_FRAMEWORK . 'Autoload/Loader.php';
 
-        new \Koch\Autoload\Loader();
+        $autoloader = new \Koch\Autoload\Loader();
+        $autoloader->setClassMapFile(ROOT_CACHE . 'autoloader.classmap.php');
+
+        // define autoloading inclusions map
+        $classmap = array(
+            'Clansuite\Module\Controller' => KOCH_FRAMEWORK . 'module\controller.php',
+        );
+        $autoloader->setInclusionsClassMap($classmap);
 
         /**
          * Composer Autoloading
