@@ -3,12 +3,12 @@
 ::
 :: php-cs-fixer - PHP Coding Style Fixer
 ::
-:: This will analyzes the PHP source code and fix the coding standards violation.
+:: This will analyze the PHP source code and fix coding standard violations.
 :: Fixing "--level=all" is used to ensure compatibility with PSR-0, PSR-1 and PSR-2.
 ::
-:: Not fixable violations will logged to the file "php-cs-fixer.report.txt".
+:: Not fixable violations will be logged to the file "php-cs-fixer.report.txt".
 ::
-:: The tool takes the file "..\.phpcs" into account, where directory excludes are defined.
+:: The tool takes the file "..\.php_cs" into account, where directory excludes are defined.
 ::
 
 if "%PHPBIN%" == "" call::no_phpcommand_found
