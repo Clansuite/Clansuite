@@ -37,10 +37,11 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->object->setVersionInformation();
 
         $this->assertTrue(
-            defined('CLANSUITE_VERSION') &&
-            defined('CLANSUITE_VERSION_NAME') &&
-            defined('CLANSUITE_VERSION_STATE') &&
-            defined('CLANSUITE_URL')
+            defined('APPLICATION_NAME') &&
+            defined('APPLICATION_VERSION') &&
+            defined('APPLICATION_VERSION_NAME') &&
+            defined('APPLICATION_VERSION_STATE') &&
+            defined('APPLICATION_URL')
         );
     }
 
