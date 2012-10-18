@@ -66,8 +66,8 @@ date_default_timezone_set('Europe/Berlin');
 
 $paths = array(
     // add the TEST SUBJECT dir
-    realpath(dirname(__DIR__) . '/framework'),      // /trunk/framework
-    realpath(dirname(__DIR__) . '/Clansuite'),    // /trunk/Clansuite
+    realpath(dirname(__DIR__) . '/vendoor/framework'),      // /trunk/framework
+    realpath(dirname(__DIR__) . '/Clansuite'),      // /trunk/Clansuite
     realpath(dirname(__DIR__)),                     // /trunk
     // adjust include path to TESTS dir
     realpath(__DIR__),                  // /trunk/tests
@@ -86,8 +86,8 @@ if (empty($_SERVER['SERVER_NAME'])) {
 
 //  acquire clansuite path constants
 include dirname(__DIR__) . '/Clansuite/Application.php';
-\Clansuite\Application::define_ConstantsAndPaths();
-\Clansuite\Application::initialize_Loader();
+\Clansuite\Application::defineConstantsAndPaths();
+\Clansuite\Application::initializeLoader();
 
 \Koch\Localization\Utf8::initialize();
 

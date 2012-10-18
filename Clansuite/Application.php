@@ -56,12 +56,12 @@ class Application
     /**
      * @var array Static Array with all prefilter classnames
      */
-    private static $prefilter_classes;
+    private static $prefilterClasses;
 
     /**
      * @var array Static Array with all postfilter classnames
      */
-    private static $postfilter_classes;
+    private static $postfilterClasses;
 
     public static function run()
     {
@@ -70,22 +70,22 @@ class Application
          */
         define('STARTTIME', microtime(1));
 
-        self::perform_startup_checks();
-        self::initialize_ConstantsAndPaths();
-        self::initialize_Version();
-        self::initialize_Loader();
-        self::initialize_DependencyInjection();
-        self::initialize_Config();
-        self::initialize_Logger();
-        self::initialize_UTF8();
-        self::initialize_Debug();
-        self::initialize_Timezone();
-        self::initialize_Eventdispatcher();
-        self::initialize_Errorhandling();
-        self::register_DI_Core();
-        self::register_DI_Filters();
-        self::initialize_Database();
-        self::start_Session();
+        self::performStartupChecks();
+        self::initializeConstantsAndPaths();
+        self::initializeVersion();
+        self::initializeLoader();
+        self::initializeDependencyInjection();
+        self::initializeConfig();
+        self::initializeLogger();
+        self::initializeUTF8();
+        self::initializeDebug();
+        self::initializeTimezone();
+        self::initializeEventdispatcher();
+        self::initializeErrorhandling();
+        self::registerDICore();
+        self::registerDIFilters();
+        self::initializeDatabase();
+        self::startSession();
         self::executeFrontController();
         self::shutdown();
     }
@@ -95,7 +95,7 @@ class Application
      *     Startup Checks
      *  ================================================
      */
-    private static function perform_startup_checks()
+    private static function performStartupChecks()
     {
         /**
          * PHP Version Check
@@ -147,7 +147,7 @@ class Application
      *   3. Setup include_path for 3th party libraries
      *  ------------------------------------------------
      */
-    public static function define_ConstantsAndPaths()
+    public static function defineConstantsAndPaths()
     {
         /**
          * 1) Shorthands and Syntax Declarations
@@ -182,11 +182,6 @@ class Application
         define('ROOT_CONFIG', ROOT . 'Configuration/');
 
         /**
-         * @var Root path of the framework directory (with trailing slash)
-         */
-        define('KOCH_FRAMEWORK', dirname(ROOT) . '/framework/Koch/');
-
-        /**
          * @var Root path of the languages directory (with trailing slash)
          */
         define('ROOT_LANGUAGES', ROOT . 'languages/');
@@ -197,11 +192,6 @@ class Application
         define('ROOT_LIBRARIES', dirname(ROOT) .'/libraries/');
 
         /**
-         * @var Root path of the vendors directory (with trailing slash)
-         */
-        define('ROOT_VENDOR', dirname(ROOT) .'/vendor/');
-
-        /**
          * @var Root path of the logs directory (with trailing slash)
          */
         define('ROOT_LOGS', ROOT . 'Logs/');
@@ -210,7 +200,17 @@ class Application
          * @var Root path of the modules directory (with trailing slash)
          */
         define('ROOT_MOD', ROOT . 'Modules/');
-
+        
+        /**
+         * @var Root path of the vendors directory (with trailing slash)
+         */
+        define('VENDOR_PATH', dirname(ROOT) .'/vendor/');
+        
+        /**
+         * @var Root path of the framework directory (with trailing slash)
+         */
+        define('KOCH_FRAMEWORK', VENDOR_PATH . '/ksst/kf/framework/Koch/');
+        
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
@@ -259,7 +259,7 @@ class Application
     /**
      * Load Constants from APC
      */
-    public static function initialize_ConstantsAndPaths()
+    public static function initializeConstantsAndPaths()
     {
         /* @var APC const True, if APC extension is loaded */
         define('APC', (bool) extension_loaded('apc'));
@@ -274,7 +274,7 @@ class Application
         // if apc is on, but apc_load_constants did not retrieve any constants yet (first run)
         // then define constants
         if (APC === false or defined('NL') == false) {
-            self::define_ConstantsAndPaths();
+            self::defineConstantsAndPaths();
 
             /**
              * Store Constants to APC (on first run)
@@ -308,7 +308,7 @@ class Application
         $paths = array(
             dirname(KOCH_FRAMEWORK),
             dirname(ROOT),
-            ROOT_VENDOR, // composer dir
+            VENDOR_PATH, // composer dir
             ROOT_LIBRARIES,
             ROOT_LIBRARIES . 'PEAR/'
         );
@@ -325,7 +325,7 @@ class Application
      *     Clansuite Version Information
      *  ================================================
      */
-    private static function initialize_Version()
+    private static function initializeVersion()
     {
         include __DIR__ . '/Version.php';
 
@@ -338,7 +338,7 @@ class Application
      *     Initialize UTF8 via mbstring or fallback
      *  ================================================
      */
-    private static function initialize_UTF8()
+    private static function initializeUTF8()
     {
         \Koch\Localization\Utf8::initialize();
     }
@@ -357,7 +357,7 @@ class Application
      * For more info visit:  http://www.php.net/error_reporting
      * @note: in php6 e_strict will be moved into e_all
      */
-    private static function initialize_Debug()
+    private static function initializeDebug()
     {
         /**
          * @var Debug-Mode Constant is set via config setting ['error']['debug']
@@ -415,9 +415,9 @@ class Application
      * Registers our own autoloader on the first position of the spl autoloading stack
      * and throws an exception if autoload fails on class/interface loading.
      */
-    public static function initialize_Loader()
+    public static function initializeLoader()
     {
-        #include KOCH_FRAMEWORK . 'Autoload/Loader.php';
+        include KOCH_FRAMEWORK . 'Autoload/Loader.php';
 
         $autoloader = new \Koch\Autoload\Loader();
         $autoloader->setClassMapFile(ROOT_CACHE . 'autoloader.classmap.php');
@@ -439,19 +439,19 @@ class Application
          * After making sure that "vendors" were installed, the file is included.
          * That initializes the autoloading of Composer managed "vendors".
          */
-        /*if (!is_file(ROOT_VENDOR . 'autoload.php')) {
+        if (!is_file(VENDOR_PATH . 'autoload.php')) {
             $msg = _("Vendor dependencies are missing.\nPlease use Composer and 'install' the dependencies:\n");
             $msg .= "\$>cd /path/to/clansuite/bin\n\$>composer-install.bat";
             throw new \Koch\Exception\Exception($msg);
         }
 
-        include ROOT_VENDOR . 'autoload.php';*/
+        include VENDOR_PATH . 'autoload.php';
     }
 
     /**
      * Initialize Logger
      */
-    private static function initialize_Logger()
+    private static function initializeLogger()
     {
         $loggers = new \Koch\Logger\Compositum();
         $firebug = new \Koch\Logger\Adapter\Firebug();
@@ -461,7 +461,7 @@ class Application
     /**
      * Initialize Eventdispatcher
      */
-    private static function initialize_Eventdispatcher()
+    private static function initializeEventdispatcher()
     {
         \Koch\Event\Dispatcher::instantiate();
         \Koch\Event\Loader::loadEvents();
@@ -470,7 +470,7 @@ class Application
     /**
      * Initialize the custom Exception- and Errorhandlers
      */
-    private static function initialize_Errorhandling()
+    private static function initializeErrorhandling()
     {
         set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
         set_error_handler('\Koch\Exception\Errorhandler::errorhandler');
@@ -482,7 +482,7 @@ class Application
      *   Initializes the Dependency Injector Phemto
      *  ============================================
      */
-    private static function initialize_DependencyInjection()
+    private static function initializeDependencyInjection()
     {
         self::$injector = new \Koch\DI\DependencyInjector();
     }
@@ -497,7 +497,7 @@ class Application
      * 3. Maintenance check
      * 4. Alter php.ini settings
      */
-    private static function initialize_Config()
+    private static function initializeConfig()
     {
         // 1. load the main clansuite configuration file
         $clansuite_cfg_cached = false;
@@ -575,7 +575,7 @@ class Application
     /**
      * Register the Clansuite Core Classes at the Dependency Injector
      */
-    private static function register_DI_Core()
+    private static function registerDICore()
     {
         // define the core classes to load
         static $core_classes = array(
@@ -600,10 +600,10 @@ class Application
     /**
      * Register the Pre- and Postfilters Classes at the Dependency Injector
      */
-    private static function register_DI_Filters()
+    private static function registerDIFilters()
     {
         // define prefilters to load
-        self::$prefilter_classes = array(
+        self::$prefilterClasses = array(
             'Koch\Filter\Filters\GetUser',
             #'Koch\Filter\Filters\SessionSecurity',
             'Koch\Filter\Filters\LanguageViaGet',
@@ -614,7 +614,7 @@ class Application
         );
 
         // define postfilters to load
-        self::$postfilter_classes = array(
+        self::$postfilterClasses = array(
             #'Koch\Filter\HtmlTidy',
             'Koch\Filter\Filters\SmartyMoves'
         );
@@ -625,7 +625,7 @@ class Application
         }
 
         // combine pre- and postfilters
-        $filter_classes = self::$prefilter_classes + self::$postfilter_classes;
+        $filter_classes = self::$prefilterClasses + self::$postfilterClasses;
 
         // register all filters at the dependency injector
         foreach ($filter_classes as $class) {
@@ -655,7 +655,7 @@ class Application
          * Prefilters are executed before the requested Module Action is executed.
          * Examples: caching checks, theme selection.
          */
-        foreach (self::$prefilter_classes as $class) {
+        foreach (self::$prefilterClasses as $class) {
             $clansuite->addPrefilter(self::$injector->instantiate($class));
         }
 
@@ -665,7 +665,7 @@ class Application
          * Postfilters are executed after the action, but before view rendering.
          * Examples: output compression, character set modifications, html tidy, breadcrumbs.
          */
-        foreach (self::$postfilter_classes as $class) {
+        foreach (self::$postfilterClasses as $class) {
             $clansuite->addPostfilter(self::$injector->instantiate($class));
         }
 
@@ -679,7 +679,7 @@ class Application
      * Note: Doctrine must be initialize before "session start",
      * because the session depends on writting to the database.
      */
-    private static function initialize_Database()
+    private static function initializeDatabase()
     {
         self::$doctrine_em = \Koch\Doctrine\Doctrine::init(self::$config);
     }
@@ -687,7 +687,7 @@ class Application
     /**
      * Starts a new Session and User
      */
-    private static function start_Session()
+    private static function startSession()
     {
         // Initialize Session
         self::$injector->create('\Koch\Session\Session');
@@ -706,7 +706,7 @@ class Application
      * @link http://php.net/manual/en/timezones.php
      * @todo make $timezone configurable by user (small dropdown) or autodetected from user
      */
-    private static function initialize_Timezone()
+    private static function initializeTimezone()
     {
         // apply timezone defensivly
         if (isset(self::$config['locale']['timezone']) === true) {
