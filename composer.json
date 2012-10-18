@@ -32,5 +32,6 @@
         "psr-0": {
             "Koch\\": "framework/Koch/"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
