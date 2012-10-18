@@ -417,7 +417,7 @@ class Application
      */
     public static function initialize_Loader()
     {
-        include KOCH_FRAMEWORK . 'Autoload/Loader.php';
+        #include KOCH_FRAMEWORK . 'Autoload/Loader.php';
 
         $autoloader = new \Koch\Autoload\Loader();
         $autoloader->setClassMapFile(ROOT_CACHE . 'autoloader.classmap.php');
