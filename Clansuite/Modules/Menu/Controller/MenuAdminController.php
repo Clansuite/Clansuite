@@ -362,7 +362,6 @@ class MenuAdminController extends ModuleController
      * Watch out, this is a recursive method!
      *
      * @param $menu
-     * @access public
      *
      * @return Returns a HTML String (Div Menu)
      */
@@ -670,7 +669,6 @@ class MenuAdminController extends ModuleController
      * @param  $result = ''
      * @param  $parent = 0
      * @param  $level = 0
-     * @access public
      *
      * @return Returns array_values of the Menu read from Database.
      *

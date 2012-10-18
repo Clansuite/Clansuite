@@ -20,28 +20,27 @@ use Doctrine\ORM\EntityRepository;
 
 class NewsRepository extends EntityRepository
 {
-    public function findAllNews($currentPage, $resultsPerPage)
+    public function findAllNews($currentPage = '0', $resultsPerPage = '3')
     {
         $result = $aResult = array();
 
         $q = $this->_em->createQueryBuilder();
-        $q->select('
-                            n,
-                            partial u.{user_id, nick, email, country},
-                            partial c.{cat_id, name, description, image, icon, color},
-                            nc,
-                            partial ncu.{user_id, nick, email, country}
-                        ');
-        $q->from( 'Entity\News', 'n' );
-        $q->leftJoin( 'n.news_authored_by', 'u' );
-        $q->leftJoin( 'n.category', 'c' );
-        $q->leftJoin( 'n.comments', 'nc' );
-        $q->leftJoin( 'nc.comment_authored_by', 'ncu' );
-        $q->where( 'c.module_id = 7' );
-        $q->orderBy( 'n.news_id', 'ASC' );
+        $q->select('n,
+                    partial u.{user_id, nick, email, country},
+                    partial c.{cat_id, name, description, image, icon, color},
+                    nc,
+                    partial ncu.{user_id, nick, email, country}');
+        $q->from('Entity\News', 'n');
+        $q->leftJoin('n.news_authored_by', 'u');
+        $q->leftJoin('n.category', 'c');
+        $q->leftJoin('n.comments', 'nc');
+        $q->leftJoin('nc.comment_authored_by', 'ncu');
+        $q->where('c.module_id = 7');
+        $q->orderBy('n.news_id', 'ASC');
 
         $query = $q->getQuery();
         $result = $query->getArrayResult();
+        var_dump($result);
 
         #$count = Paginate::getTotalQueryResults($query);
         #$paginateQuery = Paginate::getPaginateQuery($query, 0, $resultsPerPage);

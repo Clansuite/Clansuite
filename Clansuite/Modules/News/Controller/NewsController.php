@@ -67,6 +67,10 @@ class NewsController extends ModuleController
         $currentPage = (int) $this->request->getParameterFromGet('page');
         $category    = (int) $this->request->getParameterFromGet('cat');
 
+        echo $resultsPerPage;
+        echo $currentPage;
+        echo $category;
+
         // if cat is no set, we need a query to show all news regardless which category,
         if (empty($category)) {
             $newsQuery = $this->getModel()->findAllNews($currentPage, $resultsPerPage);
@@ -78,19 +82,10 @@ class NewsController extends ModuleController
         //extract($newsQuery);
         //unset($newsQuery);
         $news = $newsQuery;
-        #\Koch\Debug\Debug::printR($news);
+        \Koch\Debug\Debug::printR($news);
 
-        // Get Render Engine
         $view = $this->getView();
 
-        // UTF8 to HTML
-        /*$nr_news = count($news);
-        for ($i = 0; $i < $nr_news; $i++) {
-            $news[$i]['news_title'] = mb_convert_encoding( $news[$i]['news_title'] , 'UTF-8', 'HTML-ENTITIES');
-            $news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
-        }*/
-
-        // Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
         $view->assignGlobal('pager', $pager);
         $view->assignGlobal('pager_layout', $pager_layout);

@@ -37,10 +37,6 @@ use Clansuite\Core\Mvc\ModuleController;
  */
 class ControlcenterController extends ModuleController
 {
-    public function _initializeModule()
-    {
-    }
-
     public function action_list()
     {
         // Get Render Engine
