@@ -45,10 +45,10 @@ final class Version
         /**
          * Define Clansuite software version, version name and state for usage throughout the system
          */
-        define('CLANSUITE_VERSION',         '0.2.1');
-        define('CLANSUITE_VERSION_NAME',    'Trajan');
-        define('CLANSUITE_VERSION_STATE',   'alpha-dev');
-        define('CLANSUITE_URL',             'http://www.clansuite.com');
+        define('APPLICATION_VERSION',         '0.2.1');
+        define('APPLICATION_VERSION_NAME',    'Trajan');
+        define('APPLICATION_VERSION_STATE',   'alpha-dev');
+        define('APPLICATION_URL',             'http://www.clansuite.com');
     }
 
     /**
