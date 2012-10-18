@@ -20,7 +20,6 @@ before_install:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-  # install composer
   - composer install --dev
 
 # execute !!!
