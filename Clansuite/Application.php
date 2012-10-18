@@ -200,17 +200,17 @@ class Application
          * @var Root path of the modules directory (with trailing slash)
          */
         define('ROOT_MOD', ROOT . 'Modules/');
-        
+
         /**
          * @var Root path of the vendors directory (with trailing slash)
          */
         define('VENDOR_PATH', dirname(ROOT) .'/vendor/');
-        
+
         /**
          * @var Root path of the framework directory (with trailing slash)
          */
         define('KOCH_FRAMEWORK', VENDOR_PATH . '/ksst/kf/framework/Koch/');
-        
+
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
