@@ -21,8 +21,7 @@ before_install:
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
   # install composer
-  #- curl -s http://getcomposer.org/installer | php
-  #- php composer.phar install
+  - composer install --dev
 
 # execute !!!
 script:
@@ -30,7 +29,7 @@ script:
  # run unit-tests
  - php ./tests/runAllTests.php
  # ensure that encoding of framework files is UTF8
- - ./build-tools/checkEncodingUTF8.sh framework
+ # - ./build-tools/checkEncodingUTF8.sh framework
 
 # configure notifications (email, irc etc)
 notifications:
