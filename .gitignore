@@ -46,6 +46,7 @@ cache
 
 # PHPUnit
 phpunit.xml
+phpunit.xml.dist export-ignore
 
 # PHP composer related
 composer.lock
