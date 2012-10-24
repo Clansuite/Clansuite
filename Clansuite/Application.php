@@ -209,7 +209,7 @@ class Application
         /**
          * @var Root path of the framework directory (with trailing slash)
          */
-        define('KOCH_FRAMEWORK', VENDOR_PATH . '/ksst/kf/framework/Koch/');
+        define('KOCH_FRAMEWORK', VENDOR_PATH . 'ksst/kf/framework/Koch/');
 
         /**
          * @var Root path of the themes directory (with trailing slash)
