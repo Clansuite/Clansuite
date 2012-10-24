@@ -17,8 +17,8 @@ cd..
 :: always run a self-update
 "%PHPBIN%" "bin\composer\composer.phar" "self-update"
 
-:: update dependencies (if lock and json are out of sync)
-"%PHPBIN%" "bin\composer\composer.phar" "update"
+::update dependencies (if lock and json are out of sync)
+::"%PHPBIN%" "bin\composer\composer.phar" "update"
 
 :: then install the vendor packages
 "%PHPBIN%" "bin\composer\composer.phar" "install"
