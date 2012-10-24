@@ -166,45 +166,44 @@ class Application
          */
 
         /**
-         * ROOT is the APPLICATION PATH
          * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
          */
-        define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
+        define('APPLICATION_PATH', __DIR__ . DIRECTORY_SEPARATOR);
+        
+        /**
+         * @var Root path of the modules directory (with trailing slash)
+         */
+        define('APPLICATION_MODULES_PATH', APPLICATION_PATH . 'Modules/');
 
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE', ROOT . 'Cache/');
+        define('ROOT_CACHE', APPLICATION_PATH . 'Cache/');
 
         /**
          * @var Root path of the config directory (with trailing slash)
          */
-        define('ROOT_CONFIG', ROOT . 'Configuration/');
+        define('ROOT_CONFIG', APPLICATION_PATH . 'Configuration/');
 
         /**
          * @var Root path of the languages directory (with trailing slash)
          */
-        define('ROOT_LANGUAGES', ROOT . 'languages/');
-
-        /**
-         * @var Root path of the libraries directory (with trailing slash)
-         */
-        define('ROOT_LIBRARIES', dirname(ROOT) .'/libraries/');
+        define('ROOT_LANGUAGES', APPLICATION_PATH . 'languages/');
 
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS', ROOT . 'Logs/');
-
+        define('ROOT_LOGS', APPLICATION_PATH . 'Logs/');
+        
         /**
-         * @var Root path of the modules directory (with trailing slash)
+         * @var Root path of the libraries directory (with trailing slash)
          */
-        define('APPLICATION_MODULES_PATH', ROOT . 'Modules/');
+        define('ROOT_LIBRARIES', dirname(APPLICATION_PATH) .'/libraries/');
 
         /**
          * @var Root path of the vendors directory (with trailing slash)
          */
-        define('VENDOR_PATH', dirname(ROOT) .'/vendor/');
+        define('VENDOR_PATH', dirname(APPLICATION_PATH) .'/vendor/');
 
         /**
          * @var Root path of the framework directory (with trailing slash)
@@ -214,7 +213,7 @@ class Application
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . 'themes/');
+        define('ROOT_THEMES', APPLICATION_PATH . 'themes/');
         define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend/');
         define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend/');
         define('ROOT_THEMES_CORE', ROOT_THEMES . 'core/');
@@ -222,7 +221,7 @@ class Application
         /**
          * @var ROOT_UPLOAD Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD', ROOT . 'Uploads/');
+        define('ROOT_UPLOAD', APPLICATION_PATH . 'Uploads/');
 
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
@@ -307,7 +306,7 @@ class Application
          */
         $paths = array(
             dirname(KOCH_FRAMEWORK),
-            dirname(ROOT),
+            dirname(APPLICATION_PATH),
             VENDOR_PATH, // composer dir
             ROOT_LIBRARIES,
             ROOT_LIBRARIES . 'PEAR/'
@@ -508,7 +507,7 @@ class Application
         }
 
         if ($clansuite_cfg_cached === false) {
-            self::$config = \Koch\Config\Adapter\INI::readConfig(ROOT . 'Configuration/clansuite.php');
+            self::$config = \Koch\Config\Adapter\INI::readConfig(APPLICATION_PATH . 'Configuration/clansuite.php');
             if (APC === true) {
                 apc_add('clansuite.config', self::$config);
             }
