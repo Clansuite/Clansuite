@@ -19,8 +19,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "ksst/kf": "dev-master",
-        "ezyang/htmlpurifier" : "dev-master"
+        "ksst/kf": "dev-master"
     },
     "suggest": {
         "ext-intl" : "*",
