@@ -84,7 +84,7 @@ class IndexController extends ModuleController //implements Koch\Module\ModuleIn
         #$view->setTemplate('index/show.tpl');
         // OR
         // b) directly call template in module path
-        #$view->setTemplate( ROOT_MOD . 'index/view/show.tpl' );
+        #$view->setTemplate( APPLICATION_MODULES_PATH . 'index/view/show.tpl' );
 
         // Starting the View
         #$this->setView($this->getRenderEngine());

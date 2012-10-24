@@ -45,8 +45,8 @@ class LanguagesAdminController extends ModuleController
 
     public static function createLanguagesDirIfNotExistant($module = '')
     {
-        if (false == is_dir(ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages')) {
-            mkdir(ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages', 0777, true);
+        if (false == is_dir(APPLICATION_MODULES_PATH . $module . DIRECTORY_SEPARATOR . 'languages')) {
+            mkdir(APPLICATION_MODULES_PATH . $module . DIRECTORY_SEPARATOR . 'languages', 0777, true);
         }
     }
 
@@ -61,7 +61,7 @@ class LanguagesAdminController extends ModuleController
          */
 
         // path to gettext messages folder
-        $path = ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'LC_MESSAGES';
+        $path = APPLICATION_MODULES_PATH . $module . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'LC_MESSAGES';
 
         if (false === is_dir($path)) {
             // create dir
@@ -107,8 +107,8 @@ class LanguagesAdminController extends ModuleController
         }
 
         $gettext_extractor = new Clansuite_Gettext_Extractor();
-        $gettext_extractor->multiScan( ROOT_MOD . $module );
-        $gettext_extractor->save( ROOT_MOD . $module . '/languages/en_GB/LC_MESSAGES/'. $module . '.po' );
+        $gettext_extractor->multiScan( APPLICATION_MODULES_PATH . $module );
+        $gettext_extractor->save( APPLICATION_MODULES_PATH . $module . '/languages/en_GB/LC_MESSAGES/'. $module . '.po' );
     }
 
     /**
@@ -410,7 +410,7 @@ class LanguagesAdminController extends ModuleController
      */
     public function getModulePOFilename($module, $locale)
     {
-        return ROOT_MOD . $module. DIRECTORY_SEPARATOR .'languages'. DIRECTORY_SEPARATOR .$locale. DIRECTORY_SEPARATOR .'LC_MESSAGES'. DIRECTORY_SEPARATOR .$module.'.po';
+        return APPLICATION_MODULES_PATH . $module. DIRECTORY_SEPARATOR .'languages'. DIRECTORY_SEPARATOR .$locale. DIRECTORY_SEPARATOR .'LC_MESSAGES'. DIRECTORY_SEPARATOR .$module.'.po';
     }
 
     public function preparePODataForView($po_data)
@@ -431,7 +431,7 @@ class LanguagesAdminController extends ModuleController
             $module = $this->request->getParameter('module', 'GET');
             $locale = $this->request->getParameter('locale', 'GET');
 
-            $directory = ROOT_MOD . $module . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR;
+            $directory = APPLICATION_MODULES_PATH . $module . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR;
 
             #Clansuite_Logger::log('Deleted language '.$directory.' of module '.$module, 'adminaction', INFO);
 

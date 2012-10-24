@@ -95,7 +95,7 @@ class DoctrineAdminController extends ModuleController
      * Returns the doctrine paths array for models, yaml, sql, fixtures, migration data.
      *
      * You can select between paths for the core or for a module via parameter.
-     * The core path is basically ROOT.'doctrine', while the module path is ROOT_MOD.
+     * The core path is basically ROOT.'doctrine', while the module path is APPLICATION_MODULES_PATH.
      * $modulename followed by the specific data dir.
      *
      * This is also useable as configuration array for the Doctrine Command Line Interface (CLI).
@@ -110,7 +110,7 @@ class DoctrineAdminController extends ModuleController
 
         // path to models of a module
         if (isset($modulename)) {
-            $path = ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
+            $path = APPLICATION_MODULES_PATH . $modulename . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
         }
 
         // compose the paths accordingly

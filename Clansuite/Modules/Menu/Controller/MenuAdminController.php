@@ -116,7 +116,7 @@ class MenuAdminController extends ModuleController
         // get modulename
         $modulename = $this->request->getParameter('module');
 
-        $modulenavigation_file = ROOT_MOD. $modulename . DIRECTORY_SEPARATOR . $modulename . '.menu.php';
+        $modulenavigation_file = APPLICATION_MODULES_PATH. $modulename . DIRECTORY_SEPARATOR . $modulename . '.menu.php';
 
         // read module menu file
         if ( is_file($modulenavigation_file) ) {

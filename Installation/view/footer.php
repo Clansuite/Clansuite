@@ -3,7 +3,7 @@
             <br />
             <?php
             date_default_timezone_set('Europe/Berlin');
-            $version = CLANSUITE_VERSION . ' - ' . date('l, jS F Y', getlastmod()); ?>
+            $version = APPLICATION_VERSION . ' - ' . date('l, jS F Y', getlastmod()); ?>
             Clansuite Installation v<?php echo $version; ?>
             <br />
             &copy; 2005-<?php echo date('Y'); ?> by <a href="http://www.jens-andre-koch.de" target="_blank">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team.

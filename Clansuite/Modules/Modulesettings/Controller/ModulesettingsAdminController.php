@@ -71,10 +71,10 @@ class ModulesettingsAdminController extends ModuleController
             // get parameter for module data
             $configfile = $this->request->getParameter('mod_settings_configfile');
 
-            if ( !is_writeable( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' ) ) {
+            if ( !is_writeable( APPLICATION_MODULES_PATH.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' ) ) {
                 $error['mod_config_not_writeable'] = true;
             } else {
-                file_put_contents(ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php', utf8_decode($configfile) );
+                file_put_contents(APPLICATION_MODULES_PATH.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php', utf8_decode($configfile) );
                 $success['mod_config_success'] = true;
             }
 
@@ -86,8 +86,8 @@ class ModulesettingsAdminController extends ModuleController
         // --------------------------------------------
         //  read module config file
         // --------------------------------------------
-        if ( file_exists( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' )) {
-            $configfile = file_get_contents( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' );
+        if ( file_exists( APPLICATION_MODULES_PATH.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' )) {
+            $configfile = file_get_contents( APPLICATION_MODULES_PATH.$modulename. DIRECTORY_SEPARATOR .$modulename.'.config.php' );
         } else {
             $configfile = '';
         }
@@ -96,8 +96,8 @@ class ModulesettingsAdminController extends ModuleController
         // --------------------------------------------
         //  read module info file
         // --------------------------------------------
-        if ( file_exists( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' )) {
-            $infofile = file_get_contents( ROOT_MOD.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' );
+        if ( file_exists( APPLICATION_MODULES_PATH.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' )) {
+            $infofile = file_get_contents( APPLICATION_MODULES_PATH.$modulename. DIRECTORY_SEPARATOR .$modulename.'.info.php' );
         } else {
             $infofile = '';
         }

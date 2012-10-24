@@ -51,7 +51,7 @@ class Application
     /**
      * @var object \Doctrine\ORM\EntityManager
      */
-    public static $doctrine_em;
+    public static $doctrineEntityManager;
 
     /**
      * @var array Static Array with all prefilter classnames
@@ -199,7 +199,7 @@ class Application
         /**
          * @var Root path of the modules directory (with trailing slash)
          */
-        define('ROOT_MOD', ROOT . 'Modules/');
+        define('APPLICATION_MODULES_PATH', ROOT . 'Modules/');
 
         /**
          * @var Root path of the vendors directory (with trailing slash)
@@ -395,7 +395,7 @@ class Application
             // If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if (XDEBUG == true) {
                 include KOCH_FRAMEWORK . 'Debug/Xdebug.php';
-                \Koch\Debug\XDebug::start_xdebug();
+                \Koch\Debug\XDebug::startXdebug();
             }
         } else { // application is in live/production mode. errors are not shown, but logged to file!
             // enable error_logging
@@ -431,10 +431,10 @@ class Application
         /**
          * Composer Autoloading
          *
-         * The Autoloading of dependencies from the "vendor" folder is managed by Composer.
-         * The "vendors" are described in the "/composer.json" configugration file.
-         * When these dependencies are installed with Composer, Composer will create a
-         * "/vendor/autoload.php" file.
+         * The autoloading of dependencies from the "vendor" folder is managed by Composer.
+         * The "vendors" are described in the "/composer.json" configuration file.
+         * When these dependencies are installed or updated with Composer,
+         * a file "/vendor/autoload.php" is created.
          *
          * After making sure that "vendors" were installed, the file is included.
          * That initializes the autoloading of Composer managed "vendors".
@@ -472,7 +472,7 @@ class Application
      */
     private static function initializeErrorhandling()
     {
-        set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
+        set_exception_handler(array(new \Koch\Exception\Exception, 'exceptionHandler'));
         set_error_handler('\Koch\Exception\Errorhandler::errorhandler');
         register_shutdown_function('\Koch\Exception\Errorhandler::catchFatalErrorsShutdownHandler');
     }
@@ -515,30 +515,7 @@ class Application
         }
         unset($clansuite_cfg_cached);
 
-        // 2. Maintenance check
-        if( isset(self::$config['maintenance']['enabled']) and
-            true === (bool) self::$config['maintenance']['enabled'] )
-        {
-            $token = false;
-
-            // incoming maintenance token via GET
-            if ($_GET['mnt'] !== null) {
-                $tokenstring = $name = filter_var($_GET['mnt'], FILTER_SANITIZE_STRING);
-                $token = Clansuite_Securitytoken::ckeckToken($tokenstring);
-            }
-
-            // if token is false (or not valid) show maintenance
-            if (false === $token) {
-                Clansuite_Maintenance::show(self::$config);
-            } else {
-                self::$config['maintenance']['enabled'] = 0;
-                \Koch\Config\Ini::writeConfig(ROOT . 'Configuration/clansuite.php', self::$config);
-                // redirect to remove the token from url
-                header('Location: ' . SERVER_URL);
-            }
-        }
-
-        // 3. load staging configuration (overloading clansuite.php)
+        // merge config with a staging configuration
         if ( true === (bool) self::$config['config']['staging'] ) {
             self::$config = \Koch\Config\Staging::overloadWithStagingConfig(self::$config);
         }
@@ -547,9 +524,9 @@ class Application
          * Deny service, if the system load is too high.
          */
         if (defined('DEBUG') and DEBUG == false) {
-            $max_load = isset(self::$config['load']['max']) ? (float) self::$config['load']['max'] : 80;
+            $maxServerLoad = isset(self::$config['load']['max']) ? (float) self::$config['load']['max'] : 80;
 
-            if (\Koch\Functions::get_server_load() > $max_load) {
+            if (\Koch\Functions\Functions::getServerLoad() > $maxServerLoad) {
                 $retry = (int) mt_rand(45, 90);
                 header ('Retry-After: '.$retry);
                 header('HTTP/1.1 503 Too busy, try again later');
@@ -643,11 +620,12 @@ class Application
         // Get request and response objects for Filter and Request processing
         $request  = self::$injector->instantiate('Koch\Http\HttpRequest');
         $response = self::$injector->instantiate('Koch\Http\HttpResponse');
+        $router   = new \Koch\Router\Router($request, self::$config);
 
         /**
          * Setup Frontcontroller and pass Request and Response
          */
-        $clansuite = new \Koch\Mvc\FrontController($request, $response);
+        $clansuite = new \Koch\Mvc\FrontController($request, $response, $router);
 
         /**
          * Add the Prefilters and Postfilters to the Frontcontroller
@@ -681,7 +659,7 @@ class Application
      */
     private static function initializeDatabase()
     {
-        self::$doctrine_em = \Koch\Doctrine\Doctrine::init(self::$config);
+        self::$doctrineEntityManager = \Koch\Doctrine\Doctrine::init(self::$config);
     }
 
     /**
@@ -689,7 +667,7 @@ class Application
      */
     private static function startSession()
     {
-        // Initialize Session
+         // Initialize Session
         self::$injector->create('\Koch\Session\Session');
 
         // register the session-depending user object manually
@@ -743,7 +721,7 @@ class Application
      */
     public static function getEntityManager()
     {
-        return self::$doctrine_em;
+        return self::$doctrineEntityManager;
     }
 
     /**

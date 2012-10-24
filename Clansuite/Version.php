@@ -83,7 +83,7 @@ final class Version
     public static function setVersionInformationToCaches()
     {
         if (APC === true) {
-            define('DEPLOY_VERSION', CLANSUITE_VERSION);
+            define('DEPLOY_VERSION', APPLICATION_VERSION);
 
             /**
              * APC

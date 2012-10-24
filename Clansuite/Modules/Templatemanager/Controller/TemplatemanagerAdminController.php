@@ -117,7 +117,7 @@ class TemplatemanagerAdminController extends ModuleController
          * We edit either a module or a theme file.
          */
         if (isset($module)) {
-            $file_absolute = ROOT_MOD . $module;
+            $file_absolute = APPLICATION_MODULES_PATH . $module;
 
             $view->assign('templateeditor_modulename', ucfirst(stripslashes($module)));
 

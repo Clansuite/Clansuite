@@ -144,7 +144,7 @@ class ModulemanagerAdminController extends ModuleController
         $module_dirs = Clansuite_ModuleInfoController::getModuleDirectories();
 
         foreach ($module_dirs as $key => $value) {
-            $existing_modules_js .= '"' . str_replace(strtolower(ROOT_MOD), '', strtolower($value)) . '",';
+            $existing_modules_js .= '"' . str_replace(strtolower(APPLICATION_MODULES_PATH), '', strtolower($value)) . '",';
         }
         $existing_modules_js = preg_replace( '#,$#', ']', $existing_modules_js);
 
@@ -194,20 +194,20 @@ class ModulemanagerAdminController extends ModuleController
             /**
              * Frontend Header
              */
-            $frontend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend.tpl');
+            $frontend = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_frontend.tpl');
             $view->assign( 'frontend', geshi_highlight($frontend,'php-brief', '',true ) );
 
             /**
              * Frontend Method
              */
-            $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
+            $frontend_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_frontend_method.tpl');
             $view->assign( 'frontend_methods',  $frontend_methods);
 
             /**
              * Widget Method (Module integrated)
              */
             if ( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1) {
-                $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
+                $widget_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_widget_method.tpl');
                 $view->assign( 'widget_methods',  $widget_methods);
             }
         }
@@ -220,13 +220,13 @@ class ModulemanagerAdminController extends ModuleController
             /**
              * Admin Module Header
              */
-            $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
+            $backend = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_backend.tpl');
             $view->assign( 'backend', geshi_highlight( $backend ,'php-brief', '',true ) );
 
             /**
              * Admin Module Method
              */
-            $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
+            $backend_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_backend_method.tpl');
             $view->assign( 'backend_methods',  $backend_methods );
         }
 
@@ -234,7 +234,7 @@ class ModulemanagerAdminController extends ModuleController
          * CONFIG - Module Configuration File
          */
         if ( isset($mod['config']['checked']) && $mod['config']['checked'] == 1) {
-            $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
+            $config = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_config.tpl');
             $view->assign( 'config', geshi_highlight($config,'php-brief', '',true ) );
         }
 
@@ -244,7 +244,7 @@ class ModulemanagerAdminController extends ModuleController
         /**
          * Folder's writeable?
          */
-        if ( !is_writable( ROOT_MOD ) ) {
+        if ( !is_writable( APPLICATION_MODULES_PATH ) ) {
             $err['mod_folder_not_writeable'] = 1;
         }
 
@@ -269,17 +269,17 @@ class ModulemanagerAdminController extends ModuleController
             $mod = unserialize(base64_decode($mod));
 
             // Check if the Modules folder is writeable
-            if ( !is_writable( ROOT_MOD ) ) {
+            if ( !is_writable( APPLICATION_MODULES_PATH ) ) {
                 $err['mod_folder_not_writeable'] = 1;
             }
 
             // Check if the Module directory is not already existing
-            if (!is_dir(ROOT_MOD .  $mod['modulename'])) {
+            if (!is_dir(APPLICATION_MODULES_PATH .  $mod['modulename'])) {
                 // CREATE DIRECTORIES
-                mkdir( ROOT_MOD .  $mod['modulename'], fileperms(ROOT_MOD) );
-                mkdir( ROOT_MOD .  $mod['modulename'] . DIRECTORY_SEPARATOR . 'view', fileperms(ROOT_MOD .  $mod['modulename']) );
+                mkdir( APPLICATION_MODULES_PATH .  $mod['modulename'], fileperms(APPLICATION_MODULES_PATH) );
+                mkdir( APPLICATION_MODULES_PATH .  $mod['modulename'] . DIRECTORY_SEPARATOR . 'view', fileperms(APPLICATION_MODULES_PATH .  $mod['modulename']) );
             } else {
-                echo 'The Module folder already exists: '. ROOT_MOD .  $mod['modulename'];
+                echo 'The Module folder already exists: '. APPLICATION_MODULES_PATH .  $mod['modulename'];
                 #exit;
             }
 
@@ -290,14 +290,14 @@ class ModulemanagerAdminController extends ModuleController
             if ( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1) {
                 // WIDGETS
                 if ( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1) {
-                    $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
+                    $widget_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_widget_method.tpl');
                     $view->assign( 'widget_methods',  $widget_methods);
                 }
 
-                $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
+                $frontend_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_frontend_method.tpl');
                 $view->assign( 'frontend_methods',  $frontend_methods);
                 $frontend = $smarty->fetch('module_frontend.tpl');
-                file_put_contents(ROOT_MOD .  $mod['modulename'] . DIRECTORY_SEPARATOR . $mod['modulename'] . '.module.php', $frontend );
+                file_put_contents(APPLICATION_MODULES_PATH .  $mod['modulename'] . DIRECTORY_SEPARATOR . $mod['modulename'] . '.module.php', $frontend );
             }
 
             /**
@@ -305,10 +305,10 @@ class ModulemanagerAdminController extends ModuleController
              * It is an submodule with the name modulename.admin.php.
              */
             if ( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1) {
-                $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
+                $backend_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_backend_method.tpl');
                 $view->assign( 'backend_methods',  $backend_methods );
-                $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
-                file_put_contents(ROOT_MOD .  $mod['modulename'] . DIRECTORY_SEPARATOR . $mod['modulename'] . '.admin.php', $backend );
+                $backend = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_backend.tpl');
+                file_put_contents(APPLICATION_MODULES_PATH .  $mod['modulename'] . DIRECTORY_SEPARATOR . $mod['modulename'] . '.admin.php', $backend );
             }
 
             // Config
@@ -368,12 +368,12 @@ class ModulemanagerAdminController extends ModuleController
         $view = $this->getView();
 
         // load scaffolding template
-        $config = $smarty->fetch( ROOT_MOD . 'scaffolding/module_config.tpl');
+        $config = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_config.tpl');
 
         // inject modifications
 
         // save to file
-        file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php' , $config);
+        file_put_contents( APPLICATION_MODULES_PATH . $modulename . DIRECTORY_SEPARATOR . $modulename . '.config.php' , $config);
      }
 
      /**
@@ -387,12 +387,12 @@ class ModulemanagerAdminController extends ModuleController
         $view = $this->getView();
 
         // load scaffolding template
-        $menu_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');
+        $menu_template_content = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_menu.tpl');
 
         // inject modifications
 
         // save to file
-        file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.menu.php', $menu_template_content);
+        file_put_contents( APPLICATION_MODULES_PATH . $modulename . DIRECTORY_SEPARATOR . $modulename . '.menu.php', $menu_template_content);
      }
 
     /**
@@ -404,12 +404,12 @@ class ModulemanagerAdminController extends ModuleController
         $view = $this->getView();
 
         // load scaffolding template
-        $setup = $smarty->fetch( ROOT_MOD . 'scaffolding/module_setup.tpl');
+        $setup = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_setup.tpl');
 
         // inject modifications
 
         // save to file
-        file_put_contents( ROOT_MOD . $modulename . DIRECTORY_SEPARATOR . $modulename . '.setup.php' , $setup);
+        file_put_contents( APPLICATION_MODULES_PATH . $modulename . DIRECTORY_SEPARATOR . $modulename . '.setup.php' , $setup);
     }
 
     /**
@@ -420,7 +420,7 @@ class ModulemanagerAdminController extends ModuleController
         if ( isset( $module_frontend_data['checked']) && $module_frontend_data['checked'] == 1 ) {
             foreach ($module_frontend_data['frontend_methods'] as $key => $value) {
                 if ( isset( $module_frontend_data['frontend_tpls'][$key] ) ) {
-                    file_put_contents(ROOT_MOD . $module_name . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
+                    file_put_contents(APPLICATION_MODULES_PATH . $module_name . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
         }
@@ -436,7 +436,7 @@ class ModulemanagerAdminController extends ModuleController
         if ( isset( $module_backend_data['checked']) && $module_backend_data['checked'] == 1 ) {
             foreach ($module_backend_data['backend_methods'] as $key => $value) {
                 if ( isset( $module_backend_data['backend_tpls'][$key] ) ) {
-                    file_put_contents(ROOT_MOD . $module_name . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
+                    file_put_contents(APPLICATION_MODULES_PATH . $module_name . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
         }
@@ -458,7 +458,7 @@ class ModulemanagerAdminController extends ModuleController
         if ( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1) {
             foreach ($mod['widget']['widget_methods'] as $key => $value) {
                 if ( isset($mod['widget']['widget_tpls'][$key]) ) {
-                    file_put_contents(ROOT_MOD .  $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
+                    file_put_contents(APPLICATION_MODULES_PATH .  $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $value . '.tpl', '');
                 }
             }
         }
@@ -476,10 +476,10 @@ class ModulemanagerAdminController extends ModuleController
             // get some moduleinfos from module_info.xml
 
             // fill the documentation template with the moduleinfo data
-            $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_documentation.tpl');
+            $documentation_template_content = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_documentation.tpl');
 
             // write the documentation file to the moduledir
-            file_put_contents( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . $module . '_documentation.asc', $documentation_template_content);
+            file_put_contents( APPLICATION_MODULES_PATH .  $module . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . $module . '_documentation.asc', $documentation_template_content);
         }
     }
 
@@ -492,7 +492,7 @@ class ModulemanagerAdminController extends ModuleController
     public function createModuleMenunavigationTemplateFromTemplate($module)
     {
         // check, if the modulename.menu.php file exists, if not create menu from template
-        if ( is_file( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . $module . '.menu.asc') == false ) {
+        if ( is_file( APPLICATION_MODULES_PATH .  $module . DIRECTORY_SEPARATOR . $module . '.menu.asc') == false ) {
             // get some moduleinfos from module_info.xml
 
             // one menu entry
@@ -506,10 +506,10 @@ class ModulemanagerAdminController extends ModuleController
                     )*/
 
             // fill the documentation template with the moduleinfo data
-            $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');
+            $documentation_template_content = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_menu.tpl');
 
             // write the documentation file to the moduledir
-            file_put_contents( ROOT_MOD .  $module . DIRECTORY_SEPARATOR . '.menu.asc', $documentation_template_content);
+            file_put_contents( APPLICATION_MODULES_PATH .  $module . DIRECTORY_SEPARATOR . '.menu.asc', $documentation_template_content);
         }
     }
 

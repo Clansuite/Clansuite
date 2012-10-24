@@ -233,7 +233,7 @@ class NewsController extends ModuleController
          * Valid $feed_format strings are:
          * RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated), MBOX, OPML, ATOM, ATOM0.3, HTML, JS
          */
-        $rss->saveFeed($feed_format, ROOT_MOD . 'news/newsfeed-'.$feed_items.'.xml');
+        $rss->saveFeed($feed_format, APPLICATION_MODULES_PATH . 'news/newsfeed-'.$feed_items.'.xml');
     }
 
     /**
