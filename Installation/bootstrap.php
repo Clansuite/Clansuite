@@ -41,7 +41,8 @@ define('INSTALLATION_ROOT', __DIR__ . DS);
 define('ROOT', dirname(INSTALLATION_ROOT) . DS);
 define('ROOT_APP', ROOT . 'Clansuite/');
 define('ROOT_CACHE', ROOT_APP . 'Cache/');
-define('KOCH_FRAMEWORK', ROOT . 'framework/Koch/');
+define('VENDOR_PATH', ROOT . 'vendor/');
+define('KOCH_FRAMEWORK', VENDOR_PATH . 'ksst/kf/framework/Koch/');
 define('PROTOCOL', 'http://');
 define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
 define('WWW_ROOT', SERVER_URL . '/Clansuite/Clansuite/');
@@ -60,7 +61,7 @@ ini_set('display_errors', true);
 
 require KOCH_FRAMEWORK . 'Exception/Exception.php';
 require KOCH_FRAMEWORK . 'Exception/Errorhandler.php';
-set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
+set_exception_handler(array(new \Koch\Exception\Exception, 'exceptionHandler'));
 
 if (DEBUG) {
     echo 'SESSION: ';

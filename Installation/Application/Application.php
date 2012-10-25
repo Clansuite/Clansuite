@@ -89,12 +89,9 @@ class Application
 
     public function loadDoctrine()
     {
-        // Initialize Doctrine2 Autoloader
-        require ROOT . 'libraries/Doctrine/Common/ClassLoader.php';
         $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', realpath(ROOT . 'libraries/'));
         $classLoader->register();
 
-        // Register "Doctrine Extensions" with the Autoloader
         $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', realpath(ROOT . 'libraries/'));
         $classLoader->register();
     }

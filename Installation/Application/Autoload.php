@@ -30,7 +30,10 @@ class Autoload
 {
     public function __construct()
     {
+        // our autoloader first
         spl_autoload_register('self::autoload');
+        // composer vendor autoloader
+        include VENDOR_PATH . 'autoload.php';
     }
 
     private static function autoload($classname)
