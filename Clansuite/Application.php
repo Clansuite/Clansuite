@@ -517,7 +517,7 @@ class Application
         // merge config with a staging configuration
         if ( true === (bool) self::$config['config']['staging'] ) {
             self::$config = \Koch\Config\Staging::overloadWithStagingConfig(self::$config);
-        }
+        }        
 
         /**
          * Deny service, if the system load is too high.
@@ -545,7 +545,7 @@ class Application
         self::setMemoryLimit('32');
         if (false === gc_enabled()) {
             gc_enable();
-        }
+        }        
     }
 
     /**
@@ -554,7 +554,7 @@ class Application
     private static function registerDICore()
     {
         // define the core classes to load
-        static $core_classes = array(
+        static $coreClasses = array(
             'Koch\Config\Config',
             #'Koch\Http\HttpRequest',
             #'Koch\Http\HttpResponse',
@@ -568,7 +568,7 @@ class Application
         );
 
         // register them to the DI as singletons
-        foreach ($core_classes as $class) {
+        foreach ($coreClasses as $class) {
             self::$injector->register($class);
         }
     }
@@ -619,12 +619,11 @@ class Application
         // Get request and response objects for Filter and Request processing
         $request  = self::$injector->instantiate('Koch\Http\HttpRequest');
         $response = self::$injector->instantiate('Koch\Http\HttpResponse');
-        $router   = new \Koch\Router\Router($request, self::$config);
 
         /**
          * Setup Frontcontroller and pass Request and Response
          */
-        $clansuite = new \Koch\Mvc\FrontController($request, $response, $router);
+        $clansuite = new \Koch\Mvc\FrontController($request, $response);
 
         /**
          * Add the Prefilters and Postfilters to the Frontcontroller
@@ -666,10 +665,10 @@ class Application
      */
     private static function startSession()
     {
-         // Initialize Session
+        // Initialize Session
         self::$injector->create('\Koch\Session\Session');
 
-        // register the session-depending user object manually
+        // register the session-depending user object
         self::$injector->instantiate('\Koch\User\User');
     }
 
