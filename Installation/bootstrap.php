@@ -77,19 +77,22 @@ if (DEBUG) {
 define('REQUIRED_PHP_VERSION', '5.3.0');
 if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<=') === true) {
     throw new Installation_Exception(
-            'Your PHP Version is <b>' . PHP_VERSION . '</b>. Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b>.', 1);
+        'Your PHP Version is <b>' . PHP_VERSION . '</b>.'
+        . ' Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b>.',
+        1
+    );
 }
 
 // PDO extension must be available
 if (false === class_exists('PDO')) {
     throw new Installation_Exception(
-            '"<i>PHP_PDO</i>" extension not enabled. The extension is needed for accessing the database.', 2);
+        '"<i>PHP_PDO</i>" extension not enabled. The extension is needed for accessing the database.', 2);
 }
 
 // php_pdo_mysql driver must be available
 if (false === in_array('mysql', \PDO::getAvailableDrivers())) {
     throw new Installation_Exception(
-            '"<i>php_pdo_mysql</i>" driver not enabled. The extension is needed for accessing the database.', 3);
+        '"<i>php_pdo_mysql</i>" driver not enabled. The extension is needed for accessing the database.', 3);
 }
 
 require __DIR__ . '/Application/Autoload.php';
