@@ -178,7 +178,7 @@ class Application
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE', APPLICATION_PATH . 'Cache/');
+        define('APPLICATION_CACHE_PATH', APPLICATION_PATH . 'Cache/');
 
         /**
          * @var Root path of the config directory (with trailing slash)
@@ -419,7 +419,7 @@ class Application
         include KOCH_FRAMEWORK . 'Autoload/Loader.php';
 
         $autoloader = new \Koch\Autoload\Loader();
-        $autoloader->setClassMapFile(ROOT_CACHE . 'autoloader.classmap.php');
+        $autoloader->setClassMapFile(APPLICATION_CACHE_PATH . 'autoloader.classmap.php');
 
         // define autoloading inclusions map
         $classmap = array(
@@ -491,52 +491,16 @@ class Application
      *          Load Configuration
      *  ==========================================
      *
-     * 1. Load clansuite.config.php
-     * 2. Load specific staging configuration (overloading clansuite.config.php)
-     * 3. Maintenance check
-     * 4. Alter php.ini settings
+     * 1. Load Application Configuration + Staging Config   
+     * 2. Alter php.ini settings
      */
     private static function initializeConfig()
     {
-        // 1. load the main clansuite configuration file
-        $clansuite_cfg_cached = false;
+        // 1) load application config
+        $cfg = new \Koch\Config\Config;
+        self::$config = $cfg->getApplicationConfig();
 
-        if (APC === true and apc_exists('clansuite.config')) {
-            self::$config = apc_fetch('clansuite.config');
-            $clansuite_cfg_cached = true;
-        }
-
-        if ($clansuite_cfg_cached === false) {
-            self::$config = \Koch\Config\Adapter\INI::readConfig(APPLICATION_PATH . 'Configuration/clansuite.php');
-            if (APC === true) {
-                apc_add('clansuite.config', self::$config);
-            }
-        }
-        unset($clansuite_cfg_cached);
-
-        // merge config with a staging configuration
-        if ( true === (bool) self::$config['config']['staging'] ) {
-            self::$config = \Koch\Config\Staging::overloadWithStagingConfig(self::$config);
-        }        
-
-        /**
-         * Deny service, if the system load is too high.
-         */
-        if (defined('DEBUG') and DEBUG == false) {
-            $maxServerLoad = isset(self::$config['load']['max']) ? (float) self::$config['load']['max'] : 80;
-
-            if (\Koch\Functions\Functions::getServerLoad() > $maxServerLoad) {
-                $retry = (int) mt_rand(45, 90);
-                header ('Retry-After: '.$retry);
-                header('HTTP/1.1 503 Too busy, try again later');
-                die('HTTP/1.1 503 Server too busy. Please try again later.');
-            }
-        }
-        /**
-         *  ================================================
-         *          4. Alter php.ini settings
-         *  ================================================
-         */
+        // 2) alter php.ini settings
         set_time_limit(0);
         ini_set('short_open_tag', 'off');
         ini_set('arg_separator.input', '&amp;');
@@ -619,7 +583,7 @@ class Application
         // Get request and response objects for Filter and Request processing
         $request  = self::$injector->instantiate('Koch\Http\HttpRequest');
         $response = self::$injector->instantiate('Koch\Http\HttpResponse');
-
+        
         /**
          * Setup Frontcontroller and pass Request and Response
          */
