@@ -158,7 +158,6 @@
             "suggest": {
                 "symfony/console": "to run the migration from the console"
             },
-            "time": "1350643044",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -185,7 +184,8 @@
             "keywords": [
                 "database",
                 "migrations"
-            ]
+            ],
+            "time": "1350643044"
         },
         {
             "name": "doctrine/orm",
@@ -271,7 +271,6 @@
                 "reference": "c26d972dcb28fd483fa193512091df7b3c85e450",
                 "shasum": ""
             },
-            "time": "1338250094",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -291,7 +290,8 @@
                 }
             ],
             "description": "Traditional FirePHPCore library for sending PHP variables to the browser.",
-            "homepage": "https://github.com/firephp/firephp-core"
+            "homepage": "https://github.com/firephp/firephp-core",
+            "time": "1338250094"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -299,12 +299,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "fbf4a3ea7b2b561d90923878083ef5140a7952fb"
+                "reference": "3033d7ecc6633b20bec3e9bcc2336219f3818068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/l3pp4rd/DoctrineExtensions/zipball/fbf4a3ea7b2b561d90923878083ef5140a7952fb",
-                "reference": "fbf4a3ea7b2b561d90923878083ef5140a7952fb",
+                "url": "https://github.com/l3pp4rd/DoctrineExtensions/zipball/3033d7ecc6633b20bec3e9bcc2336219f3818068",
+                "reference": "3033d7ecc6633b20bec3e9bcc2336219f3818068",
                 "shasum": ""
             },
             "require": {
@@ -315,7 +315,7 @@
                 "doctrine/orm": ">=2.1",
                 "doctrine/mongodb-odm": "*"
             },
-            "time": "1351018399",
+            "time": "1351156694",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -359,12 +359,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KSST/KF.git",
-                "reference": "6d9b3d664b6549a17c565b00ea83e27f55fbecdd"
+                "reference": "166fdf54495948d67d41cbc1d7016c97370b6e7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KSST/KF/zipball/6d9b3d664b6549a17c565b00ea83e27f55fbecdd",
-                "reference": "6d9b3d664b6549a17c565b00ea83e27f55fbecdd",
+                "url": "https://github.com/KSST/KF/zipball/166fdf54495948d67d41cbc1d7016c97370b6e7c",
+                "reference": "166fdf54495948d67d41cbc1d7016c97370b6e7c",
                 "shasum": ""
             },
             "require": {
@@ -373,12 +373,13 @@
                 "doctrine/migrations": "dev-master",
                 "gedmo/doctrine-extensions": "dev-master",
                 "smarty/smarty": "v3.1.12",
-                "swiftmailer/swiftmailer": "v4.2.1",
                 "simplepie/simplepie": "dev-master",
                 "doctrine/dbal": "2.3.0",
                 "doctrine/common": "2.3.0",
                 "firephp/firephp-core": "dev-master",
-                "php-gettext/php-gettext": "1.0.*"
+                "php-gettext/php-gettext": "1.0.11",
+                "beberlei/doctrineextensions": "dev-master",
+                "swiftmailer/swiftmailer": "v4.2.2"
             },
             "require-dev": {
                 "mikey179/vfsstream": "*",
@@ -392,7 +393,7 @@
                 "ext-json": "*",
                 "ext-yaml": "*"
             },
-            "time": "1351092965",
+            "time": "1351183099",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -454,7 +455,6 @@
             "require": {
                 "php": ">=5.2.0"
             },
-            "time": "1350117523",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -489,7 +489,8 @@
                 "atom",
                 "rss",
                 "feeds"
-            ]
+            ],
+            "time": "1350117523"
         },
         {
             "name": "smarty/smarty",
@@ -600,7 +601,6 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1351093287",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -627,7 +627,8 @@
                 }
             ],
             "description": "Symfony Console Component",
-            "homepage": "http://symfony.com"
+            "homepage": "http://symfony.com",
+            "time": "1351093287"
         }
     ],
     "packages-dev": null,
