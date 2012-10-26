@@ -169,7 +169,7 @@ class Application
          * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
          */
         define('APPLICATION_PATH', __DIR__ . DIRECTORY_SEPARATOR);
-        
+
         /**
          * @var Root path of the modules directory (with trailing slash)
          */
@@ -194,7 +194,7 @@ class Application
          * @var Root path of the logs directory (with trailing slash)
          */
         define('ROOT_LOGS', APPLICATION_PATH . 'Logs/');
-        
+
         /**
          * @var Root path of the libraries directory (with trailing slash)
          */
@@ -491,7 +491,7 @@ class Application
      *          Load Configuration
      *  ==========================================
      *
-     * 1. Load Application Configuration + Staging Config   
+     * 1. Load Application Configuration + Staging Config
      * 2. Alter php.ini settings
      */
     private static function initializeConfig()
@@ -509,7 +509,7 @@ class Application
         self::setMemoryLimit('32');
         if (false === gc_enabled()) {
             gc_enable();
-        }        
+        }
     }
 
     /**
@@ -583,7 +583,7 @@ class Application
         // Get request and response objects for Filter and Request processing
         $request  = self::$injector->instantiate('Koch\Http\HttpRequest');
         $response = self::$injector->instantiate('Koch\Http\HttpResponse');
-        
+
         /**
          * Setup Frontcontroller and pass Request and Response
          */
