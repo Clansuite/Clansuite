@@ -2,6 +2,32 @@
     "hash": "39319fc925b41e2d8f19ad7e0bf63043",
     "packages": [
         {
+            "name": "beberlei/DoctrineExtensions",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/DoctrineExtensions.git",
+                "reference": "v0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/beberlei/DoctrineExtensions/zipball/v0.1",
+                "reference": "v0.1",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "*"
+            },
+            "time": "1337151874",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "DoctrineExtensions": "lib/"
+                }
+            }
+        },
+        {
             "name": "doctrine/common",
             "version": "2.3.0",
             "source": {
@@ -299,12 +325,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "3033d7ecc6633b20bec3e9bcc2336219f3818068"
+                "reference": "b2b7ba1b812d61fcd1d23d975614ffae0d72976b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/l3pp4rd/DoctrineExtensions/zipball/3033d7ecc6633b20bec3e9bcc2336219f3818068",
-                "reference": "3033d7ecc6633b20bec3e9bcc2336219f3818068",
+                "url": "https://github.com/l3pp4rd/DoctrineExtensions/zipball/b2b7ba1b812d61fcd1d23d975614ffae0d72976b",
+                "reference": "b2b7ba1b812d61fcd1d23d975614ffae0d72976b",
                 "shasum": ""
             },
             "require": {
@@ -315,7 +341,7 @@
                 "doctrine/orm": ">=2.1",
                 "doctrine/mongodb-odm": "*"
             },
-            "time": "1351156694",
+            "time": "1351319772",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -359,12 +385,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KSST/KF.git",
-                "reference": "166fdf54495948d67d41cbc1d7016c97370b6e7c"
+                "reference": "3603acd71b3d4c05ca4c0c8d10ddb92dd4add990"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KSST/KF/zipball/166fdf54495948d67d41cbc1d7016c97370b6e7c",
-                "reference": "166fdf54495948d67d41cbc1d7016c97370b6e7c",
+                "url": "https://github.com/KSST/KF/zipball/3603acd71b3d4c05ca4c0c8d10ddb92dd4add990",
+                "reference": "3603acd71b3d4c05ca4c0c8d10ddb92dd4add990",
                 "shasum": ""
             },
             "require": {
@@ -393,7 +419,7 @@
                 "ext-json": "*",
                 "ext-yaml": "*"
             },
-            "time": "1351183099",
+            "time": "1351288679",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -444,17 +470,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplepie/simplepie.git",
-                "reference": "75baa9651ee04c8c7d57702a8d5f1b7b6eb58605"
+                "reference": "800aada04b36d76c1f727131f45c21d3b7512b78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/simplepie/simplepie/zipball/75baa9651ee04c8c7d57702a8d5f1b7b6eb58605",
-                "reference": "75baa9651ee04c8c7d57702a8d5f1b7b6eb58605",
+                "url": "https://github.com/simplepie/simplepie/zipball/800aada04b36d76c1f727131f45c21d3b7512b78",
+                "reference": "800aada04b36d76c1f727131f45c21d3b7512b78",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
             },
+            "time": "1351481355",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -489,8 +516,7 @@
                 "atom",
                 "rss",
                 "feeds"
-            ],
-            "time": "1350117523"
+            ]
         },
         {
             "name": "smarty/smarty",
@@ -536,22 +562,22 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v4.2.1",
+            "version": "v4.2.2",
             "source": {
                 "type": "git",
                 "url": "git://github.com/swiftmailer/swiftmailer.git",
-                "reference": "v4.2.1"
+                "reference": "v4.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/swiftmailer/swiftmailer/zipball/v4.2.1",
-                "reference": "v4.2.1",
+                "url": "https://github.com/swiftmailer/swiftmailer/zipball/v4.2.2",
+                "reference": "v4.2.2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-07-13 09:46:37",
+            "time": "2012-10-25 01:30:40",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -590,17 +616,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "3cbedb831164d5ce9e58995333e70a913864374e"
+                "reference": "d5e62dff72532a192561eac2b6ea1082dfb5de2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/zipball/3cbedb831164d5ce9e58995333e70a913864374e",
-                "reference": "3cbedb831164d5ce9e58995333e70a913864374e",
+                "url": "https://github.com/symfony/Console/zipball/d5e62dff72532a192561eac2b6ea1082dfb5de2d",
+                "reference": "d5e62dff72532a192561eac2b6ea1082dfb5de2d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "time": "1351466734",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -627,8 +654,7 @@
                 }
             ],
             "description": "Symfony Console Component",
-            "homepage": "http://symfony.com",
-            "time": "1351093287"
+            "homepage": "http://symfony.com"
         }
     ],
     "packages-dev": null,
