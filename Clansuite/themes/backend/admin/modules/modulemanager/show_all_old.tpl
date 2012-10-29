@@ -255,7 +255,7 @@
             <tr><td><strong>{t}Imagename:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][image_name]" value="{$wert.image_name|escape:"html"}"></td></tr>
             <tr><td><strong>{t}Module Version:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][module_version]" value="{$wert.module_version|escape:"html"}"></td></tr>
             <tr><td><strong>{t}Subs:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][subs]" value="{$wert.subs|escape:"html"}"></td></tr>
-            <tr><td><strong>{t}Clansuite Version:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][clansuite_version]" value="{$wert.clansuite_version|escape:"html"}"></td></tr>
+            <tr><td><strong>{t}Clansuite Version:{/t}</strong></td><td><input class="input_text" type="text" name="info[{$wert.name}][application_version]" value="{$wert.application_version|escape:"html"}"></td></tr>
             <tr><td><strong>{t}Enabled?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.name}][enabled]" value="1"></td></tr>
             <tr><td><strong>{t}Core?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.name}][core]" value="1"></td></tr>
             <tr><td><strong>{t}Add?{/t}</strong></td><td><input type="checkbox" name="info[{$wert.name}][add]" value="1" checked></td></tr>

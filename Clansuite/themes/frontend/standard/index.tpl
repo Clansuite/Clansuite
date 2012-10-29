@@ -33,7 +33,7 @@
     <meta http-equiv="reply-to" content="{$meta.email}" />
     <meta name="description" content="{$meta.description}" />
     <meta name="keywords" content="{$meta.keywords}" />
-    <meta name="generator" content="Clansuite - just an eSports CMS. Version {$clansuite_version}" />
+    <meta name="generator" content="Clansuite - just an eSports CMS. Version {$application_version}" />
 
     {* Favicon *}
 

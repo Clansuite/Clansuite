@@ -1,1 +1,1 @@
-<!-- Clansuite {$smarty.const.CLANSUITE_VERSION} - http://www.clansuite.com/ -->
+<!-- Clansuite {$smarty.const.APPLICATION_VERSION} - http://www.clansuite.com/ -->

@@ -23,7 +23,7 @@
             <br /><br />
             Autor: {$theme.author}
             <br />
-            Clansuite Version required: {$theme.required_clansuite_version}
+            Clansuite Version required: {$theme.required_application_version}
             <br />
             Creation Date: {if isset($theme.date)}{$theme.date}{/if}
             <br />

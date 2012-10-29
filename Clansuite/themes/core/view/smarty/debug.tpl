@@ -1,4 +1,4 @@
-{* Clansuite - Smarty Debug Console *}
+{* Smarty Debug Console *}
 
 {capture name='_smarty_debug_style' assign=debug_style}
 

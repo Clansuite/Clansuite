@@ -5,7 +5,7 @@
  </a>
 
   <p class="left">
-    Powered by <a href="?mod=controlcenter&amp;action=about" title="Clansuite - just an eSport CMS" target="_blank"><strong>Clansuite {$smarty.const.CLANSUITE_VERSION}</strong></a>
+    Powered by <a href="?mod=controlcenter&amp;action=about" title="Clansuite - just an eSport CMS" target="_blank"><strong>Clansuite {$smarty.const.APPLICATION_VERSION}</strong></a>
     <br />
     By <a style="text-decoration:none; font-weight: normal;" href="http://www.jens-andre-koch.de/">Jens-Andr&#233; Koch</a> &amp; Clansuite Development Team.
   </p>
