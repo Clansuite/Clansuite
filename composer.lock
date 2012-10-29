@@ -385,12 +385,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KSST/KF.git",
-                "reference": "3603acd71b3d4c05ca4c0c8d10ddb92dd4add990"
+                "reference": "a40a2280411977663cf2bc821fc58aa9e7f72760"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KSST/KF/zipball/3603acd71b3d4c05ca4c0c8d10ddb92dd4add990",
-                "reference": "3603acd71b3d4c05ca4c0c8d10ddb92dd4add990",
+                "url": "https://github.com/KSST/KF/zipball/a40a2280411977663cf2bc821fc58aa9e7f72760",
+                "reference": "a40a2280411977663cf2bc821fc58aa9e7f72760",
                 "shasum": ""
             },
             "require": {
@@ -405,7 +405,8 @@
                 "firephp/firephp-core": "dev-master",
                 "php-gettext/php-gettext": "1.0.11",
                 "beberlei/doctrineextensions": "dev-master",
-                "swiftmailer/swiftmailer": "v4.2.2"
+                "swiftmailer/swiftmailer": "v4.2.2",
+                "marijnh/codemirror": "2.35"
             },
             "require-dev": {
                 "mikey179/vfsstream": "*",
@@ -419,7 +420,7 @@
                 "ext-json": "*",
                 "ext-yaml": "*"
             },
-            "time": "1351288679",
+            "time": "1351521891",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -445,6 +446,18 @@
                 "cmf",
                 "full-stack"
             ]
+        },
+        {
+            "name": "marijnh/CodeMirror",
+            "version": "2.35",
+            "dist": {
+                "type": "zip",
+                "url": "http://codemirror.net/codemirror-2.35.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "installation-source": "dist"
         },
         {
             "name": "php-gettext/php-gettext",
