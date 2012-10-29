@@ -295,8 +295,7 @@ class Application
         /**
          * SET INCLUDE PATHS
          *
-         * We set INCLUDE PATHS for PEAR and other 3th party Libraries by defining an paths array first.
-         * We are not setting the clansuite core path here, because files located there are handled via autoloading.
+         * We set INCLUDE PATHS for vendor Libraries by defining an paths array first.
          *
          * The $paths array is set to the php environment with set_include_path().
          * Note, that for set_include_path() to work properly the path order is important!
@@ -308,14 +307,12 @@ class Application
             dirname(KOCH_FRAMEWORK),
             dirname(APPLICATION_PATH),
             VENDOR_PATH, // composer dir
-            ROOT_LIBRARIES,
-            ROOT_LIBRARIES . 'PEAR/'
+            ROOT_LIBRARIES
         );
 
         // attach original include paths
         set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
-        //var_dump(get_include_path());
-
+     
         unset($paths);
     }
 
