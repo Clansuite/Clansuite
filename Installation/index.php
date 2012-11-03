@@ -28,7 +28,4 @@ namespace Clansuite\Installation;
 
 require 'bootstrap.php';
 
-/**
- * Start Installation Application
- */
 new Application\Application;
