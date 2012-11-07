@@ -312,7 +312,7 @@ class Application
 
         // attach original include paths
         set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
-     
+
         unset($paths);
     }
 
