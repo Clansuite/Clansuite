@@ -8,21 +8,21 @@
     in the statement below)
 
     ```sh
-    % git clone http://github.com/<username>/Clansuite.git
-    % cd Clansuite
+    git clone http://github.com/<username>/Clansuite.git
+    cd Clansuite
     ```
 
  4. Add a remote to the canonical Clansuite repository, so you can keep your fork
     up-to-date:
 
     ```sh
-    % git remote add upstream http://github.com/Clansuite/Clansuite.git
+    git remote add upstream http://github.com/Clansuite/Clansuite.git
     ```
 
  5. Fetch and merge the latest remote changes in your local branch
 
     ```sh
-    % git pull upstream develop
+    git pull upstream develop
     ```
 
 ## Working on Clansuite
@@ -38,14 +38,14 @@ A typical work flow will then consist of the following:
     (This step can be combined with the previous step with the use of)
 
     ```sh
-    % git checkout -b <branchname>
+    git checkout -b <branchname>
     ```
 
  3. Do some work, commit, repeat as necessary.
  4. Push the local branch to your remote repository.
 
     ```sh
-    % git push origin <branchname>:<branchname>
+    git push origin <branchname>:<branchname>
     ```
 
  5. Send a pull request.
@@ -56,8 +56,8 @@ Periodically, you should update your fork or personal repository to match the ca
 In the above setup, we have added a remote to the Clansuite repository, which allows you to do the following.
 
 ```sh
-% git checkout develop
-% git pull upstream develop
+git checkout develop
+git pull upstream develop
 - OPTIONALLY, to keep your remote up-to-date -
-% git push origin develop:develop
+git push origin develop:develop
 ```
