@@ -158,6 +158,9 @@ class Application
         }
     }
 
+    /**
+     * Loads a language by selected locale and stores it into the session.
+     */
     public function loadLanguage()
     {
         // Load Language File
@@ -172,7 +175,7 @@ class Application
      * Returns the total number of installations steps
      * by counting the number of classes named "\Clansuite\Installation_StepX".
      *
-     * @return int Total number of install steps. $_SESSION['total_steps']
+     * @return int Total number of install steps ($_SESSION['total_steps']).
      */
     public function getTotalNumberOfInstallationSteps()
     {
@@ -193,11 +196,11 @@ class Application
     }
 
     /**
-     * Handles Installation Steps and Calculates Installation Progress Bar
+     * Handles Installation Steps
      *
-     * Procedure Notice:
-     * If a STEP is successful,
-     * proceed to the next, else return to the same STEP and display error.
+     * Workflow:
+     * If a STEP is successful, proceed to the next,
+     * else return to the same STEP and display error(s).
      */
     public function determineCurrentStep()
     {
@@ -233,14 +236,19 @@ class Application
         unset($_SESSION['step_forward'], $_SESSION['step_backward'], $_SESSION['submitted_step']);
     }
 
+    /**
+     * Helper method for Calculating the Progress Percentage and storing in Session.
+     */
     public function calculateInstallationProgress()
     {
-        /**
-         * Calculate Progress Percentage
-         */
         $_SESSION['progress'] = Helper::calculateProgress($this->step, $this->total_steps);
     }
 
+    /**
+     * Accept Values from the last finished step and validates them.
+     *
+     * @return ?
+     */
     public function processPreviousStep()
     {
         // there isn't a controller before step 1
@@ -291,14 +299,11 @@ class Application
         }
     }
 
+    /**
+     * renderStep switches to the next installation STEP.
+     */
     public function renderStep()
     {
-        /**
-         * =========================================================
-         *      SWITCH to the next Installation STEP
-         * =========================================================
-         */
-
         $step_class = '\Clansuite\Installation\Steps\Step' . $this->step;
 
         if (class_exists($step_class)) {
@@ -315,6 +320,9 @@ class Application
         }
     }
 
+    /**
+     * Application Shutdown Function Callback
+     */
     public static function shutdown()
     {
         if (true == session_id()) {

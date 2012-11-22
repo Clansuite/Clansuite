@@ -46,7 +46,7 @@ class Page
     {
         /**
          * Fetch class variables into the local scope.
-         * The just seem to be unused, in fact they are used by the included files.
+         * They just seem to be unused - in fact they are used by the included files.
          */
         $language       = $this->language;
         $error          = $this->error;
