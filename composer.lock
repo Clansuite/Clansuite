@@ -18,7 +18,7 @@
             "require": {
                 "doctrine/orm": "*"
             },
-            "time": "1337151874",
+            "time": "2012-05-16 07:04:34",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -211,7 +211,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "1350643044"
+            "time": "2012-10-19 10:37:24"
         },
         {
             "name": "doctrine/orm",
@@ -317,7 +317,7 @@
             ],
             "description": "Traditional FirePHPCore library for sending PHP variables to the browser.",
             "homepage": "https://github.com/firephp/firephp-core",
-            "time": "1338250094"
+            "time": "2012-05-29 00:08:14"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -325,12 +325,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "b2b7ba1b812d61fcd1d23d975614ffae0d72976b"
+                "reference": "446425919b7b27e521f846dfcab9eb493d3bb8b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/l3pp4rd/DoctrineExtensions/zipball/b2b7ba1b812d61fcd1d23d975614ffae0d72976b",
-                "reference": "b2b7ba1b812d61fcd1d23d975614ffae0d72976b",
+                "url": "https://github.com/l3pp4rd/DoctrineExtensions/archive/446425919b7b27e521f846dfcab9eb493d3bb8b5.zip",
+                "reference": "446425919b7b27e521f846dfcab9eb493d3bb8b5",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "doctrine/orm": ">=2.1",
                 "doctrine/mongodb-odm": "*"
             },
-            "time": "1351319772",
+            "time": "2012-11-16 20:36:30",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -360,7 +360,7 @@
             "authors": [
                 {
                     "name": "Gediminas Morkevicius",
-                    "email": "gediminas.morkevicius@gmail"
+                    "email": "gediminas.morkevicius@gmail.com"
                 }
             ],
             "description": "Doctrine2 behavioral extensions",
@@ -385,42 +385,44 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KSST/KF.git",
-                "reference": "a40a2280411977663cf2bc821fc58aa9e7f72760"
+                "reference": "10cbee61bb1871b0fa8461f4fdd589f5c2f329fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KSST/KF/zipball/a40a2280411977663cf2bc821fc58aa9e7f72760",
-                "reference": "a40a2280411977663cf2bc821fc58aa9e7f72760",
+                "url": "https://github.com/KSST/KF/archive/10cbee61bb1871b0fa8461f4fdd589f5c2f329fc.zip",
+                "reference": "10cbee61bb1871b0fa8461f4fdd589f5c2f329fc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
                 "doctrine/orm": "2.3.0",
-                "doctrine/migrations": "dev-master",
-                "gedmo/doctrine-extensions": "dev-master",
-                "smarty/smarty": "v3.1.12",
-                "simplepie/simplepie": "dev-master",
                 "doctrine/dbal": "2.3.0",
                 "doctrine/common": "2.3.0",
+                "doctrine/migrations": "dev-master",
+                "beberlei/doctrineextensions": "dev-master",
+                "gedmo/doctrine-extensions": "dev-master",
                 "firephp/firephp-core": "dev-master",
                 "php-gettext/php-gettext": "1.0.11",
-                "beberlei/doctrineextensions": "dev-master",
+                "simplepie/simplepie": "dev-master",
+                "smarty/smarty": "v3.1.12",
                 "swiftmailer/swiftmailer": "v4.2.2",
-                "marijnh/codemirror": "2.35"
+                "marijnh/codemirror": "2.35",
+                "mpdf/mpdf": "dev-master",
+                "tcpdf/tcpdf": "dev-master"
             },
             "require-dev": {
                 "mikey179/vfsstream": "*",
                 "phpunit/phpunit": "3.7.*"
             },
             "suggest": {
-                "ext-intl": "*",
                 "ext-apc": "*",
-                "ext-mbstring": "*",
                 "ext-gettext": "*",
+                "ext-intl": "*",
                 "ext-json": "*",
+                "ext-mbstring": "*",
                 "ext-yaml": "*"
             },
-            "time": "1351521891",
+            "time": "2012-11-18 11:32:08",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -439,7 +441,6 @@
                 }
             ],
             "description": "Koch Framework",
-            "homepage": "http://clansuite.com/",
             "keywords": [
                 "framework",
                 "cms",
@@ -483,18 +484,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplepie/simplepie.git",
-                "reference": "800aada04b36d76c1f727131f45c21d3b7512b78"
+                "reference": "748a3e2780d7c25d79010695fd156d1de2e3118e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/simplepie/simplepie/zipball/800aada04b36d76c1f727131f45c21d3b7512b78",
-                "reference": "800aada04b36d76c1f727131f45c21d3b7512b78",
+                "url": "https://github.com/simplepie/simplepie/archive/748a3e2780d7c25d79010695fd156d1de2e3118e.zip",
+                "reference": "748a3e2780d7c25d79010695fd156d1de2e3118e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
             },
-            "time": "1351481355",
+            "time": "2012-11-21 12:56:26",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -629,18 +630,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "d5e62dff72532a192561eac2b6ea1082dfb5de2d"
+                "reference": "003a487a674175a1d2e62f205ecd91ffe85554b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/zipball/d5e62dff72532a192561eac2b6ea1082dfb5de2d",
-                "reference": "d5e62dff72532a192561eac2b6ea1082dfb5de2d",
+                "url": "https://github.com/symfony/Console/archive/003a487a674175a1d2e62f205ecd91ffe85554b1.zip",
+                "reference": "003a487a674175a1d2e62f205ecd91ffe85554b1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1351466734",
+            "time": "2012-11-19 12:58:52",
             "type": "library",
             "extra": {
                 "branch-alias": {
