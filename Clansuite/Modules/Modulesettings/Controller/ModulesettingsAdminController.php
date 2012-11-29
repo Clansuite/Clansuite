@@ -45,12 +45,12 @@ class ModulesettingsAdminController extends ModuleController
     /**
      * Show the modulemanager
      */
-    public function action_admin_list()
+    public function actionList()
     {
         $success = $error = array();
 
         // Permission check
-        #$Clansuite_ACL::checkPermission('modulesettings.action_admin_show');
+        #$Clansuite_ACL::checkPermission('modulesettings.actionshow');
 
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/modulesettings/admin/show');

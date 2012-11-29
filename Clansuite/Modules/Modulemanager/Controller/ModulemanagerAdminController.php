@@ -45,7 +45,7 @@ class ModulemanagerAdminController extends ModuleController
     /**
      * Show the modulemanager
      */
-    public function action_admin_show()
+    public function actionShow()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/modulemanager/admin/show');
@@ -64,12 +64,12 @@ class ModulemanagerAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_edit()
+    public function actionEdit()
     {
         $this->display();
     }
 
-    public function action_admin_edit_info()
+    public function actionEditInfo()
     {
          // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Edit Info'), '/modulemanager/admin/edit_info');
@@ -86,7 +86,7 @@ class ModulemanagerAdminController extends ModuleController
     /**
      * Install new modules
      */
-    public function action_admin_install()
+    public function actionInstall()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/modulemanager/admin/install_new');
@@ -101,7 +101,7 @@ class ModulemanagerAdminController extends ModuleController
     /**
      * Export a module
      */
-    public function action_admin_export()
+    public function actionExport()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Export'), '/modulemanager/admin/export');
@@ -116,7 +116,7 @@ class ModulemanagerAdminController extends ModuleController
     /**
      * Import/Export of Modules
      */
-    public function action_admin_imexport()
+    public function actionImportExport()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Import & Export'), '/modulemanager/admin/imexport');
@@ -135,7 +135,7 @@ class ModulemanagerAdminController extends ModuleController
     /**
      * Shows the module builder
      */
-    public function action_admin_builder()
+    public function actionBuilder()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Builder'), '/modulemanager/admin/builder');
@@ -160,7 +160,7 @@ class ModulemanagerAdminController extends ModuleController
      *
      * @todo convention ajaxaction_
      */
-    public function action_admin_preview()
+    public function actionPreview()
     {
         $view = $this->getView();
 
@@ -257,7 +257,7 @@ class ModulemanagerAdminController extends ModuleController
      *
      * a) RAD: &modulename=language&classname=module_language_admin
      */
-    public function action_admin_create()
+    public function actionCreate()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Create'), '/modulemanager/admin/create');
@@ -350,7 +350,7 @@ class ModulemanagerAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_createconfig()
+    public function actionCreateConfig()
     {
         $view = $this->getView();
 
@@ -582,12 +582,12 @@ class ModulemanagerAdminController extends ModuleController
 
     /*
      * -----------------------------------------------------------------------------------------------------------
-     * action_admin_installmodulefirsttime
+     * actioninstallmodulefirsttime
      * -----------------------------------------------------------------------------------------------------------
      * WARNING: Nur verwenden fï¿½r die erstmalige Erfassung aller Module
      * hierzu mï¿½ssen die Tabellen: cs_modules, cs_acl_actions, cs_acl_rules geleert werden
      */
-    public function action_admin_firsttimeinstall()
+    public function actionFirstTimeInstall()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/modulemanager/admin/firsttimeinstall');

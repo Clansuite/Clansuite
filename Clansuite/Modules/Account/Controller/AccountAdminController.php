@@ -40,7 +40,7 @@ class AccountAdminController extends ModuleController
         $this->getModuleConfig();
     }
 
-    public function action_admin_avatar_edit()
+    public function actionavatar_edit()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Add Avatar'), '/users/admin/addavatar');
@@ -62,17 +62,17 @@ class AccountAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_avatar_delete()
+    public function actionavatar_delete()
     {
 
     }
 
-    public function action_admin_userpicture_edit()
+    public function actionuserpicture_edit()
     {
 
     }
 
-    public function action_admin_userpicture_remove()
+    public function actionuserpicture_remove()
     {
 
     }
@@ -82,7 +82,7 @@ class AccountAdminController extends ModuleController
      *
      * Shows own Profil, Messages, Personal Geustbooks, Abonnenments from the Form, Next Events and Matches, Votes etc.
      */
-    public function action_admin_usercenter()
+    public function actionusercenter()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Usercenter'), '/users/admin/usercenter');
@@ -102,17 +102,17 @@ class AccountAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_usercenter_edit()
+    public function actionusercenter_edit()
     {
 
     }
 
-    public function action_admin_usercenter_update()
+    public function actionusercenterUpdate()
     {
 
     }
 
-    public function action_admin_settings()
+    public function actionSettings()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/account/admin/settings');
@@ -121,7 +121,7 @@ class AccountAdminController extends ModuleController
 
         $settings['form'] = array('name'   => 'account_settings',
                                   'method' => 'POST',
-                                  'action' => '/account/admin/settings_update');
+                                  'action' => '/account/admin/settingsUpdate');
 
         $settings['account'][] = array( 'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
@@ -146,7 +146,7 @@ class AccountAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings_update()
+    public function actionSettingsUpdate()
     {
         // Incomming Data
         // @todo get post via request object, sanitize

@@ -37,7 +37,7 @@ use Clansuite\Core\Mvc\ModuleController;
  */
 class GuestbookController extends ModuleController
 {
-    public function action_list()
+    public function actionList()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/guestbook/show');

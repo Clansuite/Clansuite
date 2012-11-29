@@ -46,7 +46,7 @@ class TeamspeakviewerController extends ModuleController
         include ROOT_LIBRARIES . 'libacts2/Absurd.php';
     }
 
-    public function action_list()
+    public function actionList()
     {
         $server = '';
         $starttime = '';

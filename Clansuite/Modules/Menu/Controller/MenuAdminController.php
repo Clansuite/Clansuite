@@ -41,18 +41,18 @@ class MenuAdminController extends ModuleController
     {
     }
 
-    public function action_admin_list()
+    public function actionList()
     {
         // Assign Icon Filenames to View
         $this->getView()->assign('icons', self::fetchIcons());
 
-        $this->display(array('content_template' => 'action_admin_menueditor.tpl'));
+        $this->display(array('content_template' => 'actionmenueditor.tpl'));
     }
 
     /**
      * Shows the Editor for the Adminmenu
      */
-    public function action_admin_menueditor()
+    public function actionmenueditor()
     {
         // Assign Icon Filenames to View
         $this->getView()->assign('icons', self::fetchIcons());
@@ -111,7 +111,7 @@ class MenuAdminController extends ModuleController
         return $tree->fetchRoots();
     }
 
-    public function action_admin_modulemenu_edit()
+    public function actionmodulemenu_edit()
     {
         // get modulename
         $modulename = $this->request->getParameter('module');
@@ -142,7 +142,7 @@ class MenuAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_modulemenueditor()
+    public function actionmodulemenueditor()
     {
         $modulenames = Clansuite_ModuleInfoController::getModuleNames(false, true);
 
@@ -161,7 +161,7 @@ class MenuAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_menueditor2()
+    public function actionmenueditor2()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Adminmenu Editor II'), '/menu/admin/menueditor2');
@@ -228,7 +228,7 @@ class MenuAdminController extends ModuleController
      * 3) clear adminmenu
      * 4) insert menu into adminmenu table
      */
-    public function action_admin_update()
+    public function actionUpdate()
     {
         // fetch the container variable from post
         $menu = $this->request->getParameter('container','POST');

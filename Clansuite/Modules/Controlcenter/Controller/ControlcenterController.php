@@ -37,7 +37,7 @@ use Clansuite\Core\Mvc\ModuleController;
  */
 class ControlcenterController extends ModuleController
 {
-    public function action_list()
+    public function actionList()
     {
         // Get Render Engine
         $view = $this->getView();
@@ -144,7 +144,7 @@ class ControlcenterController extends ModuleController
         $settings['form']   = array(
             'name' => 'controlcenter_settings',
             'method' => 'POST',
-            'action' => '/controlcenter/settings_update');
+            'action' => '/controlcenter/settingsUpdate');
 
         $settings['controlcenter'][] = array(
                 'id' => 'show_box_shortcuts',
@@ -191,7 +191,7 @@ class ControlcenterController extends ModuleController
         $this->display();
     }
 
-    public function action_settings_update()
+    public function actionSettingsUpdate()
     {
         // Incomming Data
         // @todo get post via request object, sanitize

@@ -55,7 +55,7 @@ class NewsActionAdminSettingsForm extends Form
 
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
-                                        'action' => '/news/admin/settings_update');
+                                        'action' => '/news/admin/settingsUpdate');
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
@@ -121,7 +121,7 @@ class NewsActionAdminSettingsForm extends Form
      * Sets up the Form by adding some additional form properties or elements.
      * Then finally returns the form.
      *
-     * @return Clansuite_Form_News_Action_admin_settings
+     * @return Clansuite_Form_News_actionSettings
      */
     public function setupForm()
     {

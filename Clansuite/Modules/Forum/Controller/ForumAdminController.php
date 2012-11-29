@@ -42,7 +42,7 @@ class ForumAdminController extends ModuleController
         $this->getModuleConfig();
     }
 
-    public function action_admin_show()
+    public function actionshow()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/forum/show');
@@ -53,7 +53,7 @@ class ForumAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_create_category()
+    public function actionCreate_category()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Create Category'), '/forum/create_category');
@@ -64,7 +64,7 @@ class ForumAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_create_board()
+    public function actionCreate_board()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Create Board'), '/forum/create_board');
@@ -75,7 +75,7 @@ class ForumAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_edit_category()
+    public function actionEdit_category()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Edit Category'), '/forum/edit_category');
@@ -86,7 +86,7 @@ class ForumAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_edit_board()
+    public function actionEdit_board()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Edit Board'), '/forum/edit_board');
@@ -97,7 +97,7 @@ class ForumAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_delete_category()
+    public function actionDelete_category()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Delete Category'), '/forum/delete_category');
@@ -108,7 +108,7 @@ class ForumAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_delete_board()
+    public function actionDelete_board()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Delete Board'), '/forum/delete_board');
@@ -119,7 +119,7 @@ class ForumAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings ()
+    public function actionSettings ()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/forum/admin/settings');
@@ -128,7 +128,7 @@ class ForumAdminController extends ModuleController
 
         $settings['form']   = array(    'name' => 'forum_settings',
                                         'method' => 'POST',
-                                        'action' => '/forum/admin/settings_update');
+                                        'action' => '/forum/admin/settingsUpdate');
 
         $settings['forum'][] = array(
                                         'id' => 'list_max',
@@ -182,7 +182,7 @@ class ForumAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings_update()
+    public function actionSettingsUpdate()
     {
         // Incomming Data
         // @todo get post via request object, sanitize

@@ -38,7 +38,7 @@ use Clansuite\Core\Mvc\ModuleController;
 class TestunitController extends ModuleController
 {
 
-    public function action_show()
+    public function actionShow()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), 'testunit/show');

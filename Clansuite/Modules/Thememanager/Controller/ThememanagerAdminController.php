@@ -49,7 +49,7 @@ class ThememanagerAdminController extends ModuleController
         #$this->getModuleConfig();
     }
 
-    public function action_admin_list()
+    public function actionList()
     {
         $view = $this->getView();
         $view->assign('themes', $this->getThemesList());
@@ -57,7 +57,7 @@ class ThememanagerAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_delete()
+    public function actionDelete()
     {
         $theme_to_delete  = (string) $this->request->getParameterFromGet('theme');
 
@@ -215,7 +215,7 @@ class ThememanagerAdminController extends ModuleController
     /**
      * CssBuilder
      */
-    public function action_admin_cssbuilder()
+    public function actionCSSBuilder()
     {
         $config = array();
         $htmlout = '';

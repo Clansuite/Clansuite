@@ -37,7 +37,7 @@ use Clansuite\Core\Mvc\ModuleController;
  */
 class SettingsAdminController extends ModuleController
 {
-    public function action_admin_list()
+    public function actionList()
     {
         $view = $this->getView();
 
@@ -56,7 +56,7 @@ class SettingsAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_easylist()
+    public function actioneasylist()
     {
         $view = $this->getView();
 
@@ -74,7 +74,7 @@ class SettingsAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_update()
+    public function actionUpdate()
     {
         // Incomming Data
         // @todo sanitize

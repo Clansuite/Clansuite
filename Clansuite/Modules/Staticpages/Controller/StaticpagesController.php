@@ -45,7 +45,7 @@ class StaticpagesController extends ModuleController
 
     //  Show a specific static page
 
-    public function action_show()
+    public function actionShow()
     {
         $page = (string) $this->request->getParameterFromGet('page');
 
@@ -105,7 +105,7 @@ class StaticpagesController extends ModuleController
     /**
      * Show all static pages
      */
-    public function action_list()
+    public function actionList()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add(_('List'), '/staticpages/list');

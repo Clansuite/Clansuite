@@ -86,7 +86,7 @@ class DoctrineAdminController extends ModuleController
         self::$options += self::getDoctrineOptions();
     }
 
-    public function action_admin_list()
+    public function actionList()
     {
         $this->display();
     }
@@ -177,7 +177,7 @@ class DoctrineAdminController extends ModuleController
      *
      * @see Doctrine_Core::generateModelsFromDb
      */
-    public function action_admin_db2models()
+    public function actiondb2models()
     {
         Doctrine_Core::generateModelsFromDb( DOCTRINE_MODELS_PATH , array(), self::$options);
 
@@ -193,7 +193,7 @@ class DoctrineAdminController extends ModuleController
      *
      * This generates YAML schema files from Database.
      */
-    public function action_admin_db2yaml()
+    public function actiondb2yaml()
     {
         // load sfYAML (it's somehow not loaded by doctrine autoload)
         include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
@@ -210,7 +210,7 @@ class DoctrineAdminController extends ModuleController
      *
      * @see Doctrine_Core::generateSqlFromModels()
      */
-    public function action_admin_models2sql()
+    public function actionmodels2sql()
     {
         $sql = Doctrine_Core::generateSqlFromModels();
         $sqlSchemaFile = DOCTRINE_SQL_PATH . DIRECTORY_SEPARATOR . DB_PREFIX . '_sqlschema_backup_'.date('dmY_His').'.sql';
@@ -231,7 +231,7 @@ class DoctrineAdminController extends ModuleController
      *
      * @see Doctrine_Core::generateSqlFromYaml()
      */
-    public function action_admin_models2yaml()
+    public function actionmodels2yaml()
     {
         // load sfYAML (it's somehow not loaded by doctrine autoload)
         include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
@@ -254,7 +254,7 @@ class DoctrineAdminController extends ModuleController
      *
      * @see Doctrine_Core::generateModelsFromYaml
      */
-    public function action_admin_yaml2models()
+    public function actionyaml2models()
     {
         // load sfYAML (it's somehow not loaded by doctrine autoload)
         include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';

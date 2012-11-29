@@ -40,8 +40,8 @@ module_id =
 ; properties_acl
 ;----------------------------------------
 [properties_acl]
-action_show = 'r|a'
-action_admin_show = 'r|a'
+actionShow = 'r|a'
+actionshow = 'r|a'
 
 ; widgets
 widget_search = 'r|a|m|g'

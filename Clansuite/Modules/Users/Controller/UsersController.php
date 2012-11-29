@@ -45,7 +45,7 @@ class UsersController extends ModuleController
     /**
      * Displayes Overview of all registered Users
      */
-    public function action_list()
+    public function actionList()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/users/show');

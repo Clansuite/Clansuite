@@ -37,7 +37,7 @@ use Clansuite\Core\Mvc\ModuleController;
  */
 class IndexController extends ModuleController //implements Koch\Module\ModuleInterface
 {
-    public function action_list()
+    public function actionList()
     {
         // Set Pagetitle and Breadcrumbs
         $this->addBreadcrumb( _('List'), '/index/index');
@@ -98,10 +98,7 @@ class IndexController extends ModuleController //implements Koch\Module\ModuleIn
         $this->display();
     }
 
-    /**
-    * Makes the blocks moveable
-    */
-    public function action_edit()
+    public function actionEdit()
     {
         // Set Pagetitle and Breadcrumbs
         $this->addBreadcrumb( _('Show'), '/index/show');
@@ -113,7 +110,7 @@ class IndexController extends ModuleController //implements Koch\Module\ModuleIn
         $this->display();
     }
 
-    public function action_about()
+    public function actionAbout()
     {
         $this->setRenderMode('NOLAYOUT');
         $this->display();
@@ -122,12 +119,12 @@ class IndexController extends ModuleController //implements Koch\Module\ModuleIn
     /**
      * Widget for displaying pieces of information about clansuite
      */
-    public function widget_about()
+    public function widgetAbout()
     {
         // nothing to assign, it a pure template widget
     }
 
-    public function widget_toolbox()
+    public function widgetToolbox()
     {
         // nothing to assign, it a pure template widget
     }

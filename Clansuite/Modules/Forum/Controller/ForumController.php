@@ -61,7 +61,7 @@ class ForumController extends ModuleController
      * Display Categories and Boards
      * if exist only one category, will display the boards for this category widthout the category
      */
-    public function action_show()
+    public function actionShow()
     {
         $subboards = array();
 

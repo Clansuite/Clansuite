@@ -54,6 +54,6 @@ module_id =
 ; properties_acl
 ;----------------------------------------
 [properties_acl]
-action_show = 'all'
+actionShow = 'all'
 
 ; DO NOT REMOVE THIS LINE */ ?>

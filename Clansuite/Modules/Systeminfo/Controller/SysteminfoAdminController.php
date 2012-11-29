@@ -42,7 +42,7 @@ class SysteminfoAdminController extends ModuleController
         $this->getModuleConfig();
     }
 
-    public function action_admin_list()
+    public function actionList()
     {
         // Set Pagetitle and Breadcrumbs - not needed
         // \Koch\View\Helper\Breadcrumb::add( _('Show'), '/sysinfo/show');
@@ -151,7 +151,7 @@ class SysteminfoAdminController extends ModuleController
     }
 
     /**
-     * action_admin_return_ofc_hitrates()
+     * actionreturn_ofc_hitrates()
      *
      * the function returns dynamic data (hitrate of apc) and visualizes an piechart with ofc.
      * function consists of 4 segments:
@@ -162,7 +162,7 @@ class SysteminfoAdminController extends ModuleController
      *
      * @return dynamic data for an open flash chart
      */
-    public function action_admin_return_ofc_hitrates()
+    public function actionreturn_ofc_hitrates()
     {
         /**
          * (1) get DATA for Visualization
@@ -220,9 +220,9 @@ class SysteminfoAdminController extends ModuleController
     }
 
     /**
-     * The action_admin_show method for the sysinfo module
+     * The actionshow method for the sysinfo module
      */
-    public function action_admin_show_apc()
+    public function actionshow_apc()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Alternative PHP Cache'), '/sysinfo/showapc');
@@ -239,7 +239,7 @@ class SysteminfoAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_show_logfiles()
+    public function actionshow_logfiles()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/sysinfo/showapc');

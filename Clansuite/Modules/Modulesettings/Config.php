@@ -40,6 +40,6 @@ module_id =
 ; properties_acl
 ;----------------------------------------
 [properties_acl]
-action_admin_show = 'r|a'
+actionshow = 'r|a'
 
 ; DO NOT REMOVE THIS LINE */ ?>

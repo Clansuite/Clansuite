@@ -37,7 +37,7 @@ use Clansuite\Core\Mvc\ModuleController;
  */
 class StatisticsAdminController extends ModuleController
 {
-    public function action_admin_list()
+    public function actionList()
     {
         $view = $this->getView();
 
@@ -46,7 +46,7 @@ class StatisticsAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings()
+    public function actionSettings()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/statistics/admin/settings');
@@ -55,7 +55,7 @@ class StatisticsAdminController extends ModuleController
 
         $settings['form']   = array(    'name' => 'statistic_settings',
                                         'method' => 'POST',
-                                        'action' => '/statistics/admin/settings_update');
+                                        'action' => '/statistics/admin/settingsUpdate');
 
         $settings['statistics'][] = array(        'id' => 'deleteTimeWho',
                                                   'name' => 'deleteTimeWho',
@@ -83,7 +83,7 @@ class StatisticsAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings_update()
+    public function actionSettingsUpdate()
     {
         // Incomming Data
         // @todo get post via request object, sanitize

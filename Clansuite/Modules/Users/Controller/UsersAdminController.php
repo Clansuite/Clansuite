@@ -41,16 +41,16 @@ class UsersAdminController extends ModuleController
     {
     }
 
-    public function action_admin_banuser()
+    public function actionBanUser()
     {
     }
 
-    public function action_admin_removebanuser()
+    public function actionRemoveBanUser()
     {
 
     }
 
-    public function action_admin_list()
+    public function actionList()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/users/admin/show');
@@ -123,7 +123,7 @@ class UsersAdminController extends ModuleController
     /**
      * Create a new user
      */
-    public function action_admin_create()
+    public function actionCreate()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Create New Useraccount'), '/users/admin/create');
@@ -131,7 +131,7 @@ class UsersAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_edit_standard()
+    public function actionEditStandard()
     {
         $view = $this->getView();
 
@@ -141,7 +141,7 @@ class UsersAdminController extends ModuleController
     /**
      * Advanced User-Search
      */
-    public function action_admin_search()
+    public function actionSearch()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Search'), '/users/admin/search');
@@ -151,7 +151,7 @@ class UsersAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_delete()
+    public function actionDelete()
     {
         $aDelete = (array) $this->request->getParameterFromPost('delete');
 
@@ -172,7 +172,7 @@ class UsersAdminController extends ModuleController
     /**
      * Action for displaying the Settings of a Module Users
      */
-    public function action_admin_settings()
+    public function actionSettings()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/users/admin/settings');
@@ -181,7 +181,7 @@ class UsersAdminController extends ModuleController
 
         $settings['form']   = array(    'name' => 'users_settings',
                                         'method' => 'POST',
-                                        'action' => '/users/admin/settings_update');
+                                        'action' => '/users/admin/settingsUpdate');
 
         $settings['users'][] = array(   'id' => 'items_lastregisteredusers',
                                         'name' => 'items_lastregisteredusers',
@@ -201,7 +201,7 @@ class UsersAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings_update()
+    public function actionSettingsUpdate()
     {
         // Incomming Data
         $data = $this->request->getParameter('users_settings');

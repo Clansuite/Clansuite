@@ -41,7 +41,7 @@ class GuestbookAdminController extends ModuleController
     {
     }
 
-    public function action_admin_show()
+    public function actionshow()
     {
         // Incoming Variables
         $currentPage    = (int) $this->request->getParameter('page');
@@ -87,7 +87,7 @@ class GuestbookAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_testformgenerator()
+    public function actiontestformgenerator()
     {
         // Create a new form
         $form = new Clansuite_Form('news_create_form', 'POST', 'upload-file.php');
@@ -183,7 +183,7 @@ class GuestbookAdminController extends ModuleController
         #$this->suppress_wrapper = true;
     }
 
-    public function action_admin_edit()
+    public function actionEdit()
     {
         // Permissions check
         if ( $perms->check('cc_edit_gb', 'no_redirect') == true ) {
@@ -233,7 +233,7 @@ class GuestbookAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_delete()
+    public function actionDelete()
     {
         $submit     = $this->request->getParameterFromPOST('submit');
         $confirm    = $this->request->getParameterFromPOST('confirm');
@@ -300,7 +300,7 @@ class GuestbookAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_show_single()
+    public function actionshow_single()
     {
         $id = $this->request->getParameterFromGet('id');
 
@@ -322,7 +322,7 @@ class GuestbookAdminController extends ModuleController
     /**
      * Action for displaying the Settings
      */
-    public function action_admin_settings()
+    public function actionSettings()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/guestbook/admin/settings');
@@ -331,7 +331,7 @@ class GuestbookAdminController extends ModuleController
 
         $settings['form']   = array(    'name' => 'guestbook_settings',
                                         'method' => 'POST',
-                                        'action' => '/guestbook/admin/settings_update');
+                                        'action' => '/guestbook/admin/settingsUpdate');
 
         $settings['guestbook'][] = array(
                                         'id' => 'guestbook_resultsPerPage',
@@ -357,7 +357,7 @@ class GuestbookAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings_update()
+    public function actionSettingsUpdate()
     {
         // Incomming Data
         // @todo get post via request object, sanitize

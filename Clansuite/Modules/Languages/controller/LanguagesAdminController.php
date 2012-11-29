@@ -135,7 +135,7 @@ class LanguagesAdminController extends ModuleController
      *  - "type" (frontend/backend)
      *  - "name" (themename)
      */
-    public function action_admin_scanTheme()
+    public function actionscanTheme()
     {
         // name is the themename
         $theme_name = $this->request->getParameter('name', 'GET');
@@ -189,7 +189,7 @@ class LanguagesAdminController extends ModuleController
         $gettext_extractor->save( $path );
     }
 
-    public function action_admin_list()
+    public function actionList()
     {
         // get themes
         $themes = Clansuite_Theme::getThemeDirectories();
@@ -210,7 +210,7 @@ class LanguagesAdminController extends ModuleController
     /**
      * Scans php/tpl files of a module and collects data into a gettext PO file
      */
-    public function action_admin_scanmodule()
+    public function actionscanmodule()
     {
         $module = $this->request->getParameter('modulename', 'GET');
 
@@ -231,7 +231,7 @@ class LanguagesAdminController extends ModuleController
     /**
      * Scans php/tpl files of all modules and collects the data into gettext PO files
      */
-    public function action_admin_scanallmodules()
+    public function actionscanallmodules()
     {
         // scan modules and buffer the log output
         ob_start();
@@ -252,7 +252,7 @@ class LanguagesAdminController extends ModuleController
      * English   => Target Language
      *
      */
-    public function action_admin_edit()
+    public function actionEdit()
     {
         if ($this->request->getRequestMethod() == 'GET') {
             // get "module" and target "locale" for editing
@@ -338,11 +338,11 @@ class LanguagesAdminController extends ModuleController
 
         // update
         if ($this->request->getRequestMethod() == 'POST') {
-            $this->action_admin_update();
+            $this->actionUpdate();
         }
     }
 
-    public function action_admin_update()
+    public function actionUpdate()
     {
         if (false === ($this->request->getRequestMethod() == 'POST')) {
             return;
@@ -425,7 +425,7 @@ class LanguagesAdminController extends ModuleController
         return $po_data;
     }
 
-    public function action_admin_delete()
+    public function actionDelete()
     {
         if ($this->request->getRequestMethod() == 'GET') {
             $module = $this->request->getParameter('module', 'GET');
@@ -443,7 +443,7 @@ class LanguagesAdminController extends ModuleController
     /**
      *
      */
-    public function action_admin_new()
+    public function actionNew()
     {
         \Koch\View\Helper\Breadcrumb::add( _('Add language'), '/languages/admin/new');
 
@@ -471,7 +471,7 @@ class LanguagesAdminController extends ModuleController
     /**
      *
      */
-    public function action_admin_insert()
+    public function actioninsert()
     {
         // Handle Post Request
         if($this->request->getRequestMethod() == 'POST' and
@@ -498,7 +498,7 @@ class LanguagesAdminController extends ModuleController
      * @link http://code.google.com/intl/de-DE/apis/ajaxlanguage/documentation/reference.html
      * @deprecated This API is deprecated by Google. Need to find other API translate service.
      */
-    public function ajax_action_admin_translate_google()
+    public function ajax_actiontranslate_google()
     {
         // get the incomming string to translate
         $message = htmlspecialchars($_POST['message']); // msgid

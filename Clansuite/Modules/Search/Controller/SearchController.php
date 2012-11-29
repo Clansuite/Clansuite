@@ -44,7 +44,7 @@ class SearchController extends ModuleController
         $this->getModuleConfig();
     }
 
-    public function action_show()
+    public function actionShow()
     {
         $this->display();
     }

@@ -37,7 +37,7 @@ use Clansuite\Core\Mvc\ModuleController;
  */
 class CategoriesAdminController extends ModuleController
 {
-    public function action_admin_list()
+    public function actionList()
     {
         //--------------------------
         // Datagrid configuration
@@ -118,7 +118,7 @@ class CategoriesAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_create()
+    public function actionCreate()
     {
         /**
          * Create a new form
@@ -147,7 +147,7 @@ class CategoriesAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_edit()
+    public function actionEdit()
     {
         // get id
         $cat_id = $this->request->getParameter('id');
@@ -185,7 +185,7 @@ class CategoriesAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_delete()
+    public function actionDelete()
     {
         $delete  = $this->request->getParameter('delete', 'POST');
 
@@ -197,7 +197,7 @@ class CategoriesAdminController extends ModuleController
         }
     }
 
-    public function action_admin_insert()
+    public function actionInsert()
     {
         // get incoming data
         $data = $this->request->getParameter('cat_form');
@@ -215,7 +215,7 @@ class CategoriesAdminController extends ModuleController
         $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been created.'));
     }
 
-    public function action_admin_update()
+    public function actionUpdate()
     {
         // get incoming data
         $data = $this->request->getParameter('cat_form');
@@ -244,7 +244,7 @@ class CategoriesAdminController extends ModuleController
 
     }
 
-    public function action_admin_settings()
+    public function actionSettings()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/categories/admin/settings');
@@ -253,7 +253,7 @@ class CategoriesAdminController extends ModuleController
 
         $settings['form']   = array(    'name' => 'categories_settings',
                                         'method' => 'POST',
-                                        'action' => '/categories/admin/settings_update');
+                                        'action' => '/categories/admin/settingsUpdate');
 
         $settings['categories'][] = array(  'id' => 'items_resultsPerPage',
                                             'name' => 'items_resultsPerPage',
@@ -279,7 +279,7 @@ class CategoriesAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings_update()
+    public function actionSettingsUpdate()
     {
         // Incomming Data
         // @todo get post via request object, sanitize

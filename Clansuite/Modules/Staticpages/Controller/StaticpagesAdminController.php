@@ -38,9 +38,9 @@ use Clansuite\Core\Mvc\ModuleController;
 class StaticpagesAdminController extends ModuleController
 {
     /**
-     * action_admin_show()
+     * actionshow()
      */
-    public function action_admin_show()
+    public function actionshow()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Overview'), '/staticpages/admin/show');
@@ -206,7 +206,7 @@ class StaticpagesAdminController extends ModuleController
     /**
      * Action for displaying the Settings of a Module Staticpages
      */
-    public function action_admin_settings()
+    public function actionSettings()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/staticpages/admin/settings');
@@ -215,7 +215,7 @@ class StaticpagesAdminController extends ModuleController
 
         $settings['form']   = array(    'name' => 'staticpages_settings',
                                         'method' => 'POST',
-                                        'action' => '/staticpages/admin/settings_update');
+                                        'action' => '/staticpages/admin/settingsUpdate');
 
         $settings['staticpages'][] = array(    'id' => 'items_resultsPerPage',
                                         'name' => 'items_resultsPerPage',
@@ -240,7 +240,7 @@ class StaticpagesAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings_update()
+    public function actionSettingsUpdate()
     {
         // Incomming Data
         $data = $this->request->getParameter('staticpages_settings');

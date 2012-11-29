@@ -42,7 +42,7 @@ class TemplatemanagerAdminController extends ModuleController
         $this->getModuleConfig();
     }
 
-    public function action_admin_list()
+    public function actionList()
     {
         // fetch modulenames as numeric indexed array
         $modules = Clansuite_ModuleInfoController::getModuleNames(false, true);
@@ -72,7 +72,7 @@ class TemplatemanagerAdminController extends ModuleController
     /**
      * Show all templates for a certain module
      */
-    public function action_admin_showmoduletemplates()
+    public function actionshowmoduletemplates()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Editor'), '/templatemanager/admin/showmoduletemplates');
@@ -87,12 +87,12 @@ class TemplatemanagerAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_new()
+    public function actionNew()
     {
-        $this->action_admin_edit();
+        $this->actionEdit();
     }
 
-    public function action_admin_edit()
+    public function actionEdit()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Edit'), '/templatemanager/admin/edit');
@@ -175,7 +175,7 @@ class TemplatemanagerAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_save()
+    public function actionsave()
     {
         #\Koch\Debug\Debug::printR($this->getHttpRequest());
 
@@ -193,7 +193,7 @@ class TemplatemanagerAdminController extends ModuleController
         $this->redirect('/templatemanager/admin', 0, 201, 'success#' . $message);
     }
 
-    public function action_admin_settings()
+    public function actionSettings()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/templatemanager/admin/settings');

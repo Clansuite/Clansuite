@@ -42,7 +42,7 @@ class MibbitircController extends ModuleController
         $this->getModuleConfig();
     }
 
-    public function action_list()
+    public function actionList()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/mibbitirc/show');

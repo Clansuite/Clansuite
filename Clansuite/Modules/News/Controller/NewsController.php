@@ -47,7 +47,7 @@ class NewsController extends ModuleController
     }
 
     /**
-     * module news action_show()
+     * module news actionShow()
      *
      * 1. Get news with nick of author and category
      * 2. Add general data of comments for each news
@@ -55,7 +55,7 @@ class NewsController extends ModuleController
      *
      * @output: $news ( array for smarty template output )
      */
-    public function action_list()
+    public function actionList()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('List'), '/news/show');
@@ -101,7 +101,7 @@ class NewsController extends ModuleController
     /**
       * Show one single news with comments
       */
-     public function action_show($params)
+     public function actionShow($params)
      {
         // Get Render Engine
         $view = $this->getView();

@@ -51,12 +51,12 @@ class NewsAdminController extends ModuleController
     }
 
     /**
-     * Clansuite_Module_News_Admin -> action_admin_index()
+     * Clansuite_Module_News_Admin -> actionIndex()
      *
      * Show all news entries and give the possibility to edit/delete
      * Show DropDown with possibility to select the news category
      */
-    public function action_admin_index()
+    public function actionIndex()
     {
         // Get Render Engine
         $view = $this->getView();
@@ -191,9 +191,9 @@ class NewsAdminController extends ModuleController
     }
 
     /**
-     * action_admin_new
+     * actionNew
      */
-    public function action_admin_new()
+    public function actionNew()
     {
         // Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
@@ -232,7 +232,7 @@ class NewsAdminController extends ModuleController
      *
      * @todo autoloader/di for forms
      */
-    public function action_admin_edit()
+    public function actionEdit()
     {
         // get id
         $news_id = $this->request->getParameter('id');
@@ -274,7 +274,7 @@ class NewsAdminController extends ModuleController
      *
      * @todo validation
      */
-    public function action_admin_update()
+    public function actionUpdate()
     {
         // get incoming data
         $data = $this->request->getParameter('news_form');
@@ -315,7 +315,7 @@ class NewsAdminController extends ModuleController
         $this->response->redirectNoCache('/news/admin', 2, 302, _('The news has been edited.'));
     }
 
-    public function action_admin_create()
+    public function actionCreate()
     {
         $news = new Entities/News;
         $news->setNewsTitle($data['news_title']);
@@ -337,7 +337,7 @@ class NewsAdminController extends ModuleController
     /**
      * Deletes News
      */
-    public function action_admin_delete()
+    public function actionDelete()
     {
         $aDelete  = $this->request->getParameter('Checkbox');
 
@@ -362,7 +362,7 @@ class NewsAdminController extends ModuleController
     /**
      * Action for displaying the Settings of a Module News
      */
-    public function action_admin_settings()
+    public function actionSettings()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Settings'), '/news/admin/settings');
@@ -371,7 +371,7 @@ class NewsAdminController extends ModuleController
         $this->display();
     }
 
-    public function action_admin_settings_update()
+    public function actionSettingsUpdate()
     {
         $data = $this->request->getParameter('news_settings');
 

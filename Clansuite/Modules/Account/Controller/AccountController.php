@@ -46,7 +46,7 @@ class AccountController extends ModuleController
         $this->getModuleConfig();
     }
 
-    public function action_show()
+    public function actionShow()
     {
         // internal forward
         $this->action_login();
@@ -803,7 +803,7 @@ class AccountController extends ModuleController
     /**
      *  form to update profiledata
      */
-    public function action_profile_update()
+    public function action_profileUpdate()
     {
         $this->display();
     }

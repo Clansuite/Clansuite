@@ -41,7 +41,7 @@ class LanguagesController extends ModuleController
     {
     }
 
-    public function action_show()
+    public function actionShow()
     {
         $view = $this->getView();
 

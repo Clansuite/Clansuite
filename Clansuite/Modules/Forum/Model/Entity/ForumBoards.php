@@ -43,7 +43,7 @@ class ForumBoards
     /**
      * @Column(name="post_id_updated", type="integer")
      */
-    protected $post_id_updated;
+    protected $post_idUpdated;
 
     /**
      * @Column(name="groups", type="string")
