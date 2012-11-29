@@ -581,6 +581,9 @@ class Application
         $request  = self::$injector->instantiate('Koch\Http\HttpRequest');
         $response = self::$injector->instantiate('Koch\Http\HttpResponse');
 
+        // transfer application namespace to the framework
+        \Koch\Mvc\Mapper::setApplicationNamespace(__NAMESPACE__);
+
         /**
          * Setup Frontcontroller and pass Request and Response
          */
@@ -614,7 +617,7 @@ class Application
      * Checks initializes Doctrine 2
      *
      * Note: Doctrine must be initialize before "session start",
-     * because the session depends on writting to the database.
+     * because the session depends on writing to the database.
      */
     private static function initializeDatabase()
     {
