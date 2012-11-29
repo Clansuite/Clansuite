@@ -1,10 +1,8 @@
-Modul Template - Module Index - Show
 <br />
-<strong>{t}Hello{/t}</strong><br />
-<strong>{t}Welcome{/t}</strong><br />
+<strong>{t}Hello{/t} {t}Welcome{/t}</strong><br />
 <p>
 <br />
-<strong>This demonstrates gettext-Support with Locales</strong>
+<strong>This demonstrates Gettext-Support:</strong>
 <br /><br />
 {t}Hello World{/t}
 <br />
