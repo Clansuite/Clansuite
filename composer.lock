@@ -325,12 +325,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "446425919b7b27e521f846dfcab9eb493d3bb8b5"
+                "reference": "2c26c26e77d1bbbc3e714ed53797d6426db38af9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/l3pp4rd/DoctrineExtensions/archive/446425919b7b27e521f846dfcab9eb493d3bb8b5.zip",
-                "reference": "446425919b7b27e521f846dfcab9eb493d3bb8b5",
+                "url": "https://github.com/l3pp4rd/DoctrineExtensions/archive/2c26c26e77d1bbbc3e714ed53797d6426db38af9.zip",
+                "reference": "2c26c26e77d1bbbc3e714ed53797d6426db38af9",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "doctrine/orm": ">=2.1",
                 "doctrine/mongodb-odm": "*"
             },
-            "time": "2012-11-16 20:36:30",
+            "time": "2012-11-29 07:16:27",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -354,6 +354,7 @@
                     "Gedmo": "lib/"
                 }
             },
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -385,12 +386,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KSST/KF.git",
-                "reference": "10cbee61bb1871b0fa8461f4fdd589f5c2f329fc"
+                "reference": "10458bd2ac7da4099678e0c7be5b1f7b7d63fb49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KSST/KF/archive/10cbee61bb1871b0fa8461f4fdd589f5c2f329fc.zip",
-                "reference": "10cbee61bb1871b0fa8461f4fdd589f5c2f329fc",
+                "url": "https://github.com/KSST/KF/archive/10458bd2ac7da4099678e0c7be5b1f7b7d63fb49.zip",
+                "reference": "10458bd2ac7da4099678e0c7be5b1f7b7d63fb49",
                 "shasum": ""
             },
             "require": {
@@ -422,7 +423,7 @@
                 "ext-mbstring": "*",
                 "ext-yaml": "*"
             },
-            "time": "2012-11-18 11:32:08",
+            "time": "2012-11-28 18:30:29",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -459,6 +460,48 @@
             },
             "type": "library",
             "installation-source": "dist"
+        },
+        {
+            "name": "mpdf/mpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/finwe/mpdf.git",
+                "reference": "v5.5.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/finwe/mpdf/archive/v5.5.1.zip",
+                "reference": "v5.5.1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=4.3.10"
+            },
+            "time": "2012-11-20 20:28:17",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "classmap": [
+                    "mpdf.php",
+                    "classes"
+                ]
+            },
+            "license": [
+                "GPL-1.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ian Back"
+                }
+            ],
+            "description": "A PHP class to generate PDF files from HTML with Unicode/UTF-8 and CJK support",
+            "homepage": "http://www.mpdf1.com/mpdf/index.php",
+            "keywords": [
+                "php",
+                "pdf",
+                "utf-8"
+            ]
         },
         {
             "name": "php-gettext/php-gettext",
@@ -669,6 +712,61 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com"
+        },
+        {
+            "name": "tcpdf/tcpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://tcpdf.git.sourceforge.net/gitroot/tcpdf/tcpdf",
+                "reference": "f2aa41dd8252ad6321bad88776889b75b127a60c"
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "2012-09-25 18:17:00",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config/lang",
+                    "config",
+                    "2dbarcodes.php",
+                    "barcodes.php",
+                    "datamatrix.php",
+                    "encodings_maps.php",
+                    "htmlcolors.php",
+                    "pdf417.php",
+                    "qrcode.php",
+                    "spotcolors.php",
+                    "tcpdf.php",
+                    "tcpdf_filters.php",
+                    "tcpdf_parser.php",
+                    "unicode_data.php"
+                ]
+            },
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "pdf",
+                "TCPDF",
+                "qrcode",
+                "PDFD32000-2008",
+                "datamatrix",
+                "pdf417",
+                "barcodes"
+            ]
         }
     ],
     "packages-dev": null,
