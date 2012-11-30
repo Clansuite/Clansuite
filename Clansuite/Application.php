@@ -468,8 +468,8 @@ class Application
      */
     private static function initializeErrorhandling()
     {
-        set_exception_handler(array(new \Koch\Exception\Exception, 'exceptionHandler'));
-        set_error_handler('\Koch\Exception\Errorhandler::errorhandler');
+        set_exception_handler(array(new \Koch\Exception\Exception, 'handle'));
+        set_error_handler('\Koch\Exception\Errorhandler::handle');
         register_shutdown_function('\Koch\Exception\Errorhandler::catchFatalErrorsShutdownHandler');
     }
 
