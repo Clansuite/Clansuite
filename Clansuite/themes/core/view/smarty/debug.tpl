@@ -117,29 +117,32 @@ Template: {$template_name|var_dump}
 {* Stop - Assign the above content to Variable debug_content *}
 {/capture}
 
-{$config = get_object_vars($assigned_vars.config)}
+{if isset($assigned_vars.config) === true}
 
-{if $config.value.error.debug_popup == 0}
-    {move_to target="pre_head_close"}
-    {$debug_style}
-    {/move_to}
+    {$config = get_object_vars($assigned_vars.config)}
 
-    {* Capture the above content ($debug_output) and append it to the html document *}
-    {$debug_output}
-{else}
-    {* Popup Window for Smarty Console *}
-    <script type="text/javascript">
-    {$id = $template_name|default:''|md5}
-    var _csuite_console;
-    	_csuite_console = window.open("","Smarty_Console_{$id}","width=800,height=600,resizable,scrollbars=yes");
-     _csuite_console.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
-     _csuite_console.document.write('<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">');
-  {* @todo figure out why using the <head> tag does not work.. *}
-  {* _csuite_console.document.write('<head><title>Clansuite - Smarty Debug Console</title>'); *}
-     _csuite_console.document.write(' {$debug_style|escape:'javascript'} ');
-  {* _csuite_console.document.write(' </head> '); *}
-     _csuite_console.document.write(' {$debug_output|escape:'javascript'} ');
-    	_csuite_console.document.write('</body></html>');
-    	_csuite_console.document.close();
-    </script>
+    {if $config.value.error.debug_popup == 0}
+        {move_to target="pre_head_close"}
+        {$debug_style}
+        {/move_to}
+
+        {* Capture the above content ($debug_output) and append it to the html document *}
+        {$debug_output}
+    {else}
+        {* Popup Window for Smarty Console *}
+        <script type="text/javascript">
+        {$id = $template_name|default:''|md5}
+        var _csuite_console;
+            _csuite_console = window.open("","Smarty_Console_{$id}","width=800,height=600,resizable,scrollbars=yes");
+         _csuite_console.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
+         _csuite_console.document.write('<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">');
+      {* @todo figure out why using the <head> tag does not work.. *}
+      {* _csuite_console.document.write('<head><title>Clansuite - Smarty Debug Console</title>'); *}
+         _csuite_console.document.write(' {$debug_style|escape:'javascript'} ');
+      {* _csuite_console.document.write(' </head> '); *}
+         _csuite_console.document.write(' {$debug_output|escape:'javascript'} ');
+            _csuite_console.document.write('</body></html>');
+            _csuite_console.document.close();
+        </script>
+    {/if}
 {/if}
