@@ -177,8 +177,7 @@ class NewsRepository extends EntityRepository
         $query->getMaxResults($numberNews);
         $latestnews = $query->getArrayResult();
 
-        // bah, get class from global space ;)
-        #\\Koch\Debug\Debug::printR($latestnews);
+        #\Koch\Debug\Debug::printR($latestnews);
 
         return $latestnews;
     }

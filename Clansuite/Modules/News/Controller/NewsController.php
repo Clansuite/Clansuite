@@ -47,13 +47,11 @@ class NewsController extends ModuleController
     }
 
     /**
-     * module news actionShow()
+     * actionList
      *
      * 1. Get news with nick of author and category
      * 2. Add general data of comments for each news
      * 3. Paginate
-     *
-     * @output: $news ( array for smarty template output )
      */
     public function actionList()
     {
@@ -377,7 +375,7 @@ class NewsController extends ModuleController
          */
         $numberNews = self::getConfigValue('items_newswidget', $numberNews, '8');
 
-        $this->getView()->assign(__METHOD__, $this->getModel()->fetchLatestNews($numberNews));
+        $this->getView()->assign(__FUNCTION__, $this->getModel()->fetchLatestNews($numberNews));
     }
 
     /**
@@ -385,7 +383,7 @@ class NewsController extends ModuleController
      */
     public function widgetNewsCategoriesList()
     {
-        $this->getView()->assign(__METHOD__, $this->getModel()->fetchUsedNewsCategories());
+        $this->getView()->assign(__FUNCTION__, $this->getModel()->fetchUsedNewsCategories());
     }
 
     /**
@@ -393,7 +391,7 @@ class NewsController extends ModuleController
      */
     public function widgetNewsCategoriesDropdown()
     {
-        $this->getView()->assign(__METHOD__, $this->getModel()->fetchUsedNewsCategories());
+        $this->getView()->assign(__FUNCTION__, $this->getModel()->fetchUsedNewsCategories());
     }
 
      /**
@@ -411,8 +409,8 @@ class NewsController extends ModuleController
         // loop over all entries
         foreach ($widget_archive as $entry) {
             // extract year and month from created_at
-            $year  = date('Y',strtotime($entry['created_at']));
-            $month = date('M',strtotime($entry['created_at']));
+            $year = date('Y', strtotime($entry['created_at']));
+            $month = date('M', strtotime($entry['created_at']));
 
             // use extracted year and month to build up the new array
             // and reassign the entry itself
@@ -422,7 +420,7 @@ class NewsController extends ModuleController
         }
 
         // assign the fetched news to the view
-        $this->getView()->assign(__METHOD__, $archive);
+        $this->getView()->assign(__FUNCTION__, $archive);
     }
 
     /**

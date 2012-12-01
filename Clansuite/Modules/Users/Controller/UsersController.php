@@ -127,7 +127,7 @@ class UsersController extends ModuleController
         $last_registered_users = $this->getModel('Entity\User')->getLastRegisteredUsers($numberUsers);
 
         // assign data to view
-        $this->getView()->assign(__METHOD__, $last_registered_users);
+        $this->getView()->assign(__FUNCTION__, $last_registered_users);
     }
 
     /**
@@ -157,8 +157,6 @@ class UsersController extends ModuleController
      */
     public function widgetRandomUser()
     {
-        $view = $this->getView();
-
         $random_user = $this->doctrine_em->createQuery('
                 SELECT u.user_id, u.nick, u.email, u.country, u.joined, RAND() rand
                 FROM Entity\User u
@@ -166,13 +164,11 @@ class UsersController extends ModuleController
                 ->setMaxResults(1)
                 ->getArrayResult();
 
-        $view->assign(__METHOD__, $random_user['0']);
+       $this->getView()->assign(__FUNCTION__, $random_user['0']);
     }
 
     public function widgetUserCenter()
     {
-        $view = $this->getView();
-
-        $view->assign(__METHOD__, 'some personal items');
+        $this->getView()->assign(__FUNCTION__, 'some personal items');
     }
 }
