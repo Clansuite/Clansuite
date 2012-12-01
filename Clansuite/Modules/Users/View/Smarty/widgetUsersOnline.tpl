@@ -1,4 +1,4 @@
-{* Debug: {$usersonline|var_dump} *}
+{* Debug: {$UsersOnline|var_dump} *}
 
 <!-- Start: widget_usersonline @ module users // -->
 
@@ -9,7 +9,8 @@
     <tr>
         <td class="cell1">
 
-            {$usersonline}
+            {$UsersOnline}
+            {$Guests}
 
 
             {*    {$usersonline.number_guests}

@@ -127,7 +127,7 @@ class UsersController extends ModuleController
         $last_registered_users = $this->getModel('Entity\User')->getLastRegisteredUsers($numberUsers);
 
         // assign data to view
-        $this->getView()->assign('last_registered_users', $last_registered_users);
+        $this->getView()->assign(__METHOD__, $last_registered_users);
     }
 
     /**
@@ -140,8 +140,8 @@ class UsersController extends ModuleController
         $usersonline = 0;
         $guests = 0;
 
-        $this->getView()->assign('usersonline', $usersonline);
-        $this->getView()->assign('guests', $guests);
+        $this->getView()->assign('UsersOnline', $usersonline);
+        $this->getView()->assign('Guests', $guests);
 
     }
 
@@ -166,13 +166,13 @@ class UsersController extends ModuleController
                 ->setMaxResults(1)
                 ->getArrayResult();
 
-        $view->assign('random_user', $random_user['0']);
+        $view->assign(__METHOD__, $random_user['0']);
     }
 
     public function widgetUserCenter()
     {
         $view = $this->getView();
 
-        $view->assign('usercenter', 'some personal items');
+        $view->assign(__METHOD__, 'some personal items');
     }
 }

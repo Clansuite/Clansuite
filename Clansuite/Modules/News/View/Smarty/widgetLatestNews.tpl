@@ -1,4 +1,4 @@
-{* {$widget_latestnews|var_dump} *}
+{* {$widgetLatestNews|var_dump} *}
 
 <!-- Start News Widget from Module News -->
 
@@ -12,7 +12,7 @@
         <td class="menu_header_small">Titel</td>
         <td class="menu_header_small" width="70">Datum</td>
     </tr>
-    {foreach item=news_item from=$widget_latestnews}
+    {foreach item=news_item from=$widgetLatestNews}
     <tr>
         <td class="cell1" ><a href="index.php?mod=news&action=showone&id={$news_item.news_id}">{$news_item.news_title}</a></td>
         <td class="cell2" width="70">{$news_item.created_at|date_format}</td>

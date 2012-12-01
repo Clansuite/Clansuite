@@ -1,6 +1,6 @@
-{* {$last_registered_users|var_dump} *}
+{* {$lastRegisteredUsers|var_dump} *}
 
-<!-- Start: last_registered_users widget @ Standard Theme // -->
+<!-- Start: lastRegisteredUsers widget @ Standard Theme // -->
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
     <tr>
@@ -8,7 +8,7 @@
     </tr>
     <tr>
         <td class="cell1">
-            {foreach item=lastuser from=$last_registered_users}
+            {foreach item=lastuser from=$lastRegisteredUsers}
                 {* {$lastuser.user_id} *}
                 {$lastuser.nick}
                 {* {$lastuser.email} *}
@@ -21,4 +21,4 @@
 
 </table>
 
-<!-- End: last_registered_users widget // -->
+<!-- End: lastRegisteredUsers widget // -->

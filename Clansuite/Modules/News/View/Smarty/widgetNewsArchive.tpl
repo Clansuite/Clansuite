@@ -1,4 +1,4 @@
-{* {$widget_archive|var_dump} *}
+{* {$widgetNewsArchive|var_dump} *}
 
 <!-- Start News Archiv Widget from Module News -->
 
@@ -9,7 +9,7 @@
     <div class="cell1">
 
     {* Years *}
-    {foreach key=year item=year_archiv from=$widget_archive}
+    {foreach key=year item=year_archiv from=$widgetNewsArchive}
     <a href="{$smarty.server.PHP_SELF}?mod=news&action=archive&date={$year}">{$year}</a>
 
         {* Months *}

@@ -93,7 +93,7 @@ class NewsController extends ModuleController
         $this->display();
     }
 
-    public function action_new()
+    public function actionCreate()
     {
 
     }
@@ -138,7 +138,7 @@ class NewsController extends ModuleController
      *
      * URL-Parameters: ?items=15 or 30
      */
-    public function action_getfeed()
+    public function actionGetFeed()
     {
         // Load Feedcreator Class
         if (false === class_exists('UniversalFeedCreator', false)) {
@@ -249,7 +249,7 @@ class NewsController extends ModuleController
      *      ??? 4: archive
      *
      */
-    public function action_archive()
+    public function actionArchive()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Archive'), '/news/archive');
@@ -309,7 +309,7 @@ class NewsController extends ModuleController
      *      ??? 4: archive
      *
      */
-    public function action_fullarchive()
+    public function actionFullArchive()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Archiv'), '/news/fullarchive');
@@ -359,7 +359,7 @@ class NewsController extends ModuleController
      *
      * Displayes the specified number of news in the latestnews_widget.tpl.
      * This is called from template-side by adding:
-     * {load_module name="news" action="widget_news" items="2"}
+     * {load_module name="news" action="widgetNews" items="2"}
      *
      * @param $numberNews Number of Newsitems to fetch
      * @param $smarty Smarty Render Engine Object
@@ -377,9 +377,7 @@ class NewsController extends ModuleController
          */
         $numberNews = self::getConfigValue('items_newswidget', $numberNews, '8');
 
-        $latestnews = $this->getModel()->fetchLatestNews($numberNews);
-
-        $this->getView()->assign('widget_latestnews', $latestnews);
+        $this->getView()->assign(__METHOD__, $this->getModel()->fetchLatestNews($numberNews));
     }
 
     /**
@@ -387,9 +385,7 @@ class NewsController extends ModuleController
      */
     public function widgetNewsCategoriesList()
     {
-        $newscategories_list = $this->getModel()->fetchUsedNewsCategories();
-
-        $this->getView()->assign('widget_newscategories_list', $newscategories_list);
+        $this->getView()->assign(__METHOD__, $this->getModel()->fetchUsedNewsCategories());
     }
 
     /**
@@ -397,15 +393,13 @@ class NewsController extends ModuleController
      */
     public function widgetNewsCategoriesDropdown()
     {
-        $newscategories_dropdown = $this->getModel()->fetchUsedNewsCategories();
-
-        $this->getView()->assign('widget_newscategories_dropdown', $newscategories_dropdown);
+        $this->getView()->assign(__METHOD__, $this->getModel()->fetchUsedNewsCategories());
     }
 
      /**
      * Widget Archive
      */
-    public function widgetNewsAchive()
+    public function widgetNewsArchive()
     {
         // fetch all newsentries, ordered by creation date ASCENDING
         // get catdropdown options from database
@@ -428,7 +422,7 @@ class NewsController extends ModuleController
         }
 
         // assign the fetched news to the view
-        $this->getView()->assign('widget_archive', $archive);
+        $this->getView()->assign(__METHOD__, $archive);
     }
 
     /**

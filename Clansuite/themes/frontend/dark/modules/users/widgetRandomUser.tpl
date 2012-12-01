@@ -1,4 +1,4 @@
-{* {$random_user|var_dump} *}
+{* {$randomUser|var_dump} *}
 
 <!-- Start: widget_randomuser @ module users // -->
 

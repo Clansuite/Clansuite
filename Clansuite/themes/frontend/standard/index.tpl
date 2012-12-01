@@ -74,7 +74,7 @@
                 <!-- Left Widget Bar -->
                 <td id="csTableleft" class="cell1 size9">
                     <div class="widget size9" id="widget_menu">{load_module name="Menu" action="widgetMenu"}</div>
-                    <div class="widget size9" id="widget_latestnews">{load_module name="News" action="widgetLatestMews"}</div>
+                    <div class="widget size9" id="widget_latestnews">{load_module name="News" action="widgetLatestNews"}</div>
                     <div class="widget size9" id="widget_newscategories_list">{load_module name="News" action="widgetNewsCategoriesList"}</div>
                     <div class="widget size9" id="widget_newscategories_dropdown">{load_module name="News" action="widgetNewsCategoriesDropdown"}</div>
                     <div class="widget size9" id="widget_newsfeeds">{load_module name="News" action="widgetNewsFeeds"}</div>

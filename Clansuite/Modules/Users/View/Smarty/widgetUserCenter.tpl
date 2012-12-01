@@ -1,4 +1,4 @@
-{* Debug: {$usercenter|var_dump} *}
+{* Debug: {$widgetUserCenter|var_dump} *}
 
 <!-- Start: widget_usercenter @ module users // -->
 
@@ -10,7 +10,7 @@
         <td class="cell1">
             User-Menu
             <br />
-            {$usercenter}
+            {$widgetUserCenter}
         </td>
     </tr>
 
