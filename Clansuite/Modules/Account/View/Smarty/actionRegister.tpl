@@ -144,7 +144,7 @@
             <tr>
                 <td>{t}Captcha:{/t}</td>
                 <td>
-                    {* {load_module name="Recaptcha" action="display_recaptcha"} *}
+                    {* {load_module name="Recaptcha" action="displayReCaptcha"} *}
 
                     {* {else}
                         <!-- <img src="{$captcha_url}" style="border:thin solid black;">

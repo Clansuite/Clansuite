@@ -73,12 +73,12 @@
             <tr>
                 <!-- Left Widget Bar -->
                 <td id="csTableleft" class="cell1 size9">
-                    <div class="widget size9" id="widget_menu">{load_module name="Menu" action="widget_menu"}</div>
-                    <div class="widget size9" id="widget_latestnews">{load_module name="News" action="widget_latestnews"}</div>
-                    <div class="widget size9" id="widget_newscategories_list">{load_module name="News" action="widget_newscategories_list"}</div>
-                    <div class="widget size9" id="widget_newscategories_dropdown">{load_module name="News" action="widget_newscategories_dropdown"}</div>
-                    <div class="widget size9" id="widget_newsfeeds">{load_module name="News" action="widget_newsfeeds"}</div>
-                    <div class="widget size9" id="widget_newsarchive">{load_module name="News" action="widget_archive"}</div>
+                    <div class="widget size9" id="widget_menu">{load_module name="Menu" action="widgetMenu"}</div>
+                    <div class="widget size9" id="widget_latestnews">{load_module name="News" action="widgetLatestMews"}</div>
+                    <div class="widget size9" id="widget_newscategories_list">{load_module name="News" action="widgetNewsCategoriesList"}</div>
+                    <div class="widget size9" id="widget_newscategories_dropdown">{load_module name="News" action="widgetNewsCategoriesDropdown"}</div>
+                    <div class="widget size9" id="widget_newsfeeds">{load_module name="News" action="widgetNewsFeeds"}</div>
+                    <div class="widget size9" id="widget_newsarchive">{load_module name="News" action="widgetNewsArchive"}</div>
                 </td>
 
                 <!-- Middle + Center = Main Content -->
@@ -94,15 +94,15 @@
 
      {* User not 0 (guest) as id and is authed *}
                     {if $smarty.session.user.user_id != 0 and $smarty.session.user.authed == 1}
-                    <div class="widget size9" id="widget_usercenter">{load_module name="Users" action="widget_usercenter"}</div>
+                    <div class="widget size9" id="widget_usercenter">{load_module name="Users" action="widgetUserCenter"}</div>
                     {else}
-                    <div class="widget size9" id="widget_login">{load_module name="Account" action="widget_login"}</div>
+                    <div class="widget size9" id="widget_login">{load_module name="Account" action="widgetLogin"}</div>
                     {/if}
 
-                    <div class="widget size9" id="widget_ts3viewer">{load_module name="Teamspeakviewer" action="widget_ts3viewer"}</div>
-                    <div class="widget size9" id="widget_about">{load_module name="Index" action="widget_about"}</div>
-                    {if true == {check_permission name="toolbox.widget_toolbox"}}
-                    <div class="widget size9" id="widget_cssbuilder">{load_module name="Index" action="widget_toolbox"}</div>
+                    <div class="widget size9" id="widget_ts3viewer">{load_module name="Teamspeakviewer" action="widgetTeamspeak3Viewer"}</div>
+                    <div class="widget size9" id="widget_about">{load_module name="Index" action="widgetAbout"}</div>
+                    {if true == {check_permission name="toolbox.widgetToolbox"}}
+                    <div class="widget size9" id="widget_cssbuilder">{load_module name="Index" action="widgetToolbox"}</div>
                     {/if}
                 </td>
             </tr>
@@ -118,25 +118,25 @@
 
                 <div class="grid20l " id="widget_lastregistered">
                     <div class="gridcontent">
-                        {load_module name="Users" action="widget_lastregisteredusers"}
+                        {load_module name="Users" action="widgetLastRegisteredUsers"}
                     </div>
                 </div>
 
                 <div class="grid20l" id="widget_randomuser">
                     <div class="gridcontent">
-                        {load_module name="Users" action="widget_randomuser"}
+                        {load_module name="Users" action="widgetRandomUser"}
                     </div>
                 </div>
 
                 <div class="grid20l" id="widget_usersonline">
                     <div class="gridcontent">
-                        {load_module name="Users" action="widget_usersonline"}
+                        {load_module name="Users" action="widgetUsersOnline"}
                     </div>
                 </div>
 
                 <div class="grid20r" id="widget_stats">
                     <div class="gridcontent">
-                       {* {load_module name="Statistics" action="widget_statistics"} *}
+                       {* {load_module name="Statistics" action="widgetStatistics"} *}
                     </div>
                 </div>
             </div>

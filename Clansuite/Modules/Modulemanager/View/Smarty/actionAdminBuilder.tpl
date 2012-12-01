@@ -117,7 +117,7 @@
                 });
                 checkSlide.hide();
 
-                // checkboxen mit slider verknüpfen
+                // checkboxen mit slider verknï¿½pfen
                 check.addEvent('click', function(){
 
                     if( check.checked )
@@ -350,7 +350,7 @@
                         <tfoot>
                             <tr>
                                 <td class="cell2">
-                                    <div style="float: left"><b>{t}Create widget methods?{/t}</b></div><div style="float: right;"><img src="{$www_root_themes_core}images/icons/help.png" title="Widgets are methods that can be called from a Smarty template file. For example:<br />load_module name='News' action='widget_news' items='2'" /></div>
+                                    <div style="float: left"><b>{t}Create widget methods?{/t}</b></div><div style="float: right;"><img src="{$www_root_themes_core}images/icons/help.png" title="Widgets are methods that can be called from a Smarty template file. For example:<br />load_module name='News' action='widgetNews' items='2'" /></div>
                                 </td>
                                 <td class="cell1" colspan="10">
                                     <input type="checkbox" name="m[widget][checked]" id="widget_module" class="check_below" value="1" />

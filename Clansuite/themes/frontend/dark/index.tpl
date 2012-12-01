@@ -51,7 +51,7 @@
 
 {* ------------ Begin: csToolbar ------------ *}
 <div id="csToolbar">
-	<div class="widget" id="widget_toolbar">{load_module name="Toolbox" action="widget_toolbar"}</div>
+	<div class="widget" id="widget_toolbar">{load_module name="Toolbox" action="widgetToolbar"}</div>
 </div>
 {* ------------  End: csToolbar ------------ *}
 
@@ -62,7 +62,7 @@
 
 		{* ------------ Begin: csHeader ------------ *}
 		<div id="csHeader">
-			<div id="multiSearchForm">{load_module name="Search" action="widget_multisearch"}</div>
+			<div id="multiSearchForm">{load_module name="Search" action="widgetMultiSearch"}</div>
 			<img alt="Clansuite Header" src="{$www_root_theme}images/logo/clansuite_light.png" width="313" height="77" />
 		</div>
 		{* ------------  End: csHeader ------------ *}
@@ -82,9 +82,9 @@
 			<div id="csCol1">
 				<div id="csCol1_content" class="clearfix">
 					<div class="widget-bar left">
-						<div id="widget_menu">{load_module name="Menu" action="widget_menu"}</div>
+						<div id="widget_menu">{load_module name="Menu" action="widgetMenu"}</div>
 						{* <div id="widget_latestnews">{load_module name="News" action="widget_latestnews"}</div> *}
-						<div id="widget_cssbuilder">{load_module name="Index" action="widget_toolbox"}</div>
+						<div id="widget_cssbuilder">{load_module name="Index" action="widgetToolbox"}</div>
 					</div>
 				</div>
 			</div>
@@ -93,9 +93,9 @@
 			<div id="csCol2">
 				<div id="csCol2_content" class="clearfix">
 					<div class="widget-bar right">
-						<div id="widget_login">{load_module name="Account" action="widget_login"}</div>
-						<div id="widget_ts3viewer">{load_module name="Teamspeakviewer" action="widget_ts3viewer"}</div>
-						<div id="widget_about">{load_module name="Index" action="widget_about"}</div>
+						<div id="widget_login">{load_module name="Account" action="widgetLogin"}</div>
+						<div id="widget_ts3viewer">{load_module name="Teamspeakviewer" action="widgetTeamspeak3Viewer"}</div>
+						<div id="widget_about">{load_module name="Index" action="widgetAbout"}</div>
 						<div align="right">{addtoany}</div>
 					</div>
 				</div>
@@ -122,25 +122,25 @@
 
 				<div class="grid20l " id="widget_lastregistered">
 					<div class="gridcontent">
-						{load_module name="Users" action="widget_lastregisteredusers"}
+						{load_module name="Users" action="widgetLastRegisteredUsers"}
 					</div>
 				</div>
 
 				<div class="grid20l" id="widget_randomuser">
 					<div class="gridcontent">
-						{load_module name="Users" action="widget_randomuser"}
+						{load_module name="Users" action="widgetRandomUser"}
 					</div>
 				</div>
 
 				<div class="grid20l" id="widget_usersonline">
 					<div class="gridcontent">
-						{load_module name="Users" action="widget_usersonline"}
+						{load_module name="Users" action="widgetUsersOnline"}
 					</div>
 				</div>
 
 				<div class="grid20r" id="widget_stats">
 					<div class="gridcontent">
-						{* {load_module name="Statistics" action="widget_statistics"} *}
+						{* {load_module name="Statistics" action="widgetStatistics"} *}
 					</div>
 				</div>
 
