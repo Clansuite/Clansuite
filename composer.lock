@@ -386,12 +386,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KSST/KF.git",
-                "reference": "0c333c4468e777a831dc421e8031f6b18c285c06"
+                "reference": "e18f39256a2c8f193617137b3252dfaa98e717a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KSST/KF/archive/0c333c4468e777a831dc421e8031f6b18c285c06.zip",
-                "reference": "0c333c4468e777a831dc421e8031f6b18c285c06",
+                "url": "https://github.com/KSST/KF/archive/e18f39256a2c8f193617137b3252dfaa98e717a4.zip",
+                "reference": "e18f39256a2c8f193617137b3252dfaa98e717a4",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "ext-mbstring": "*",
                 "ext-yaml": "*"
             },
-            "time": "2012-12-01 13:24:03",
+            "time": "2012-12-01 23:06:51",
             "type": "library",
             "installation-source": "source",
             "autoload": {
