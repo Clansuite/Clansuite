@@ -19,6 +19,6 @@ datestamp =
 uniqueid =
 
 [statistics_widgets]
-widget_statistics
+widgetStatistics
 
 ; DO NOT REMOVE THIS LINE */ ?>

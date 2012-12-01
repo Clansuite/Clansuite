@@ -37,7 +37,7 @@ use Clansuite\Core\Mvc\ModuleController;
  */
 class RssreaderController extends ModuleController
 {
-    public function widget_rssreader()
+    public function widgetRssReader()
     {
         // fetch the google group clansuite for latest news
         $feeditems = Clansuite_Feed::fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');

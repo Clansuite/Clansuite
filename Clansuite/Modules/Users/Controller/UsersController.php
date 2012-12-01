@@ -106,17 +106,17 @@ class UsersController extends ModuleController
     }
 
     /**
-     * widget_lastregisteredusers
+     * widgetLastRegisteredUsers
      *
      * Displayes the specified number of last registered Users in the lastregisteredusers_widget.tpl.
      * This is called from template-side by adding:
-     * {load_module name="users" action="widget_users" items="3"}
+     * {load_module name="users" action="widgetLastRegisteredUsers" items="3"}
      *
      * @param $numberUser Number of Users to fetch
      * @param $smarty Smarty Render Engine Object
      * @returns content of users_widget.tpl
      */
-    public function widget_lastregisteredusers($numberUsers)
+    public function widgetLastRegisteredUsers($numberUsers)
     {
         // set cfg value,
         // or set the the incomming value
@@ -133,9 +133,9 @@ class UsersController extends ModuleController
     /**
      * widget_useronline
      *
-     * @returns content of widget_usersonline.tpl
+     * @returns content of widgetUsersOnline.tpl
      */
-    public function widget_usersonline()
+    public function widgetUsersOnline()
     {
         $usersonline = 0;
         $guests = 0;
@@ -148,14 +148,14 @@ class UsersController extends ModuleController
     /**
      * widget RandomUser
      *
-     * Displayes a random user  widget_randomuser.tpl.
+     * Displayes a random user  widgetRandomUser.tpl.
      * This is called from template-side by adding:
-     * {load_module name="users" action="widget_randomuser"}
+     * {load_module name="users" action="widgetRandomUser"}
      *
      * @param $smarty Smarty Render Engine Object
      * @returns direct smarty assign of randomuser data
      */
-    public function widget_randomuser()
+    public function widgetRandomUser()
     {
         $view = $this->getView();
 
@@ -169,7 +169,7 @@ class UsersController extends ModuleController
         $view->assign('random_user', $random_user['0']);
     }
 
-    public function widget_usercenter()
+    public function widgetUserCenter()
     {
         $view = $this->getView();
 

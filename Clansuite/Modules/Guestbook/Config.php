@@ -18,5 +18,4 @@ active = true
 module_section =
 module_id =
 
-
 ; DO NOT REMOVE THIS LINE */ ?>

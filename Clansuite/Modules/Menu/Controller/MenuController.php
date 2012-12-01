@@ -45,15 +45,15 @@ class MenuController extends ModuleController
     }
 
     /**
-     * widget_menu
+     * widgetMenu
      *
      * Displayes the menu for the frontpage
-     * {load_module name="news" action="widget_menu"}
+     * {load_module name="news" action="widgetMenu"}
      *
      * @param void
      * @returns void
      */
-    public function widget_menu($item)
+    public function widgetMenu($item)
     {
 
     }

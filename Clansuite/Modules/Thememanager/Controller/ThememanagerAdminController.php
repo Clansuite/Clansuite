@@ -202,12 +202,12 @@ class ThememanagerAdminController extends ModuleController
 
     }
 
-    public static function widget_frontend_themechooser()
+    public static function widgetThemeSelectorFrontend()
     {
 
     }
 
-    public static function widget_backend_themechooser()
+    public static function widgetThemeSelectorBackend()
     {
 
     }

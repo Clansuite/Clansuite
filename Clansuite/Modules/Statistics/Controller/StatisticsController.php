@@ -83,7 +83,7 @@ class StatisticsController extends ModuleController
         return $stats;
     }
 
-    public function widget_statistics($params)
+    public function widgetStatistics($params)
     {
         $this->getView()->assign('stats', self::fetch_statistic());
     }

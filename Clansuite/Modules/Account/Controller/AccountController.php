@@ -55,10 +55,8 @@ class AccountController extends ModuleController
     /**
      * Login Block
      */
-    public function widget_login($item)
+    public function widgetLogin($item)
     {
-        // @todo assign not the whole config, only the parameters need
-
         // Get Render Engine & Assign vars
         $this->getView()->assign('config', $this->getClansuiteConfig());
     }

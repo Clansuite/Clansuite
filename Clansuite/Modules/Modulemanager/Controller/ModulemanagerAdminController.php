@@ -194,20 +194,20 @@ class ModulemanagerAdminController extends ModuleController
             /**
              * Frontend Header
              */
-            $frontend = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_frontend.tpl');
+            $frontend = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/moduleFrontend.tpl');
             $view->assign( 'frontend', geshi_highlight($frontend,'php-brief', '',true ) );
 
             /**
              * Frontend Method
              */
-            $frontend_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_frontend_method.tpl');
+            $frontend_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/moduleFrontendMethod.tpl');
             $view->assign( 'frontend_methods',  $frontend_methods);
 
             /**
              * Widget Method (Module integrated)
              */
             if ( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1) {
-                $widget_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_widget_method.tpl');
+                $widget_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/moduleWidgetMethod.tpl');
                 $view->assign( 'widget_methods',  $widget_methods);
             }
         }
@@ -220,13 +220,13 @@ class ModulemanagerAdminController extends ModuleController
             /**
              * Admin Module Header
              */
-            $backend = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_backend.tpl');
+            $backend = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/moduleBackend.tpl');
             $view->assign( 'backend', geshi_highlight( $backend ,'php-brief', '',true ) );
 
             /**
              * Admin Module Method
              */
-            $backend_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_backend_method.tpl');
+            $backend_methods = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/moduleBackendMethod.tpl');
             $view->assign( 'backend_methods',  $backend_methods );
         }
 
@@ -234,7 +234,7 @@ class ModulemanagerAdminController extends ModuleController
          * CONFIG - Module Configuration File
          */
         if ( isset($mod['config']['checked']) && $mod['config']['checked'] == 1) {
-            $config = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/module_config.tpl');
+            $config = $smarty->fetch( APPLICATION_MODULES_PATH . 'scaffolding/moduleConfig.tpl');
             $view->assign( 'config', geshi_highlight($config,'php-brief', '',true ) );
         }
 

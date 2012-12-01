@@ -19,6 +19,6 @@ datestamp =
 uniqueid =
 
 [teamspeakviewer_widgets]
-widget_teamspeakviewer
+widgetTeamspeakViewer
 
 ; DO NOT REMOVE THIS LINE */ ?>

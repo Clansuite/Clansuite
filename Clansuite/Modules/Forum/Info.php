@@ -19,6 +19,6 @@ datestamp =
 uniqueid =
 
 [forum_widgets]
-widget_forum
+widgetForum
 
 ; DO NOT REMOVE THIS LINE */ ?>

@@ -355,7 +355,7 @@ class NewsController extends ModuleController
     }
 
     /**
-     * widget_latestnews
+     * widgetLatestNews
      *
      * Displayes the specified number of news in the latestnews_widget.tpl.
      * This is called from template-side by adding:
@@ -365,7 +365,7 @@ class NewsController extends ModuleController
      * @param $smarty Smarty Render Engine Object
      * @returns content of news_widget.tpl
      */
-    public function widget_latestnews($numberNews)
+    public function widgetLatestNews($numberNews)
     {
         /**
          * get the incomming value for the number of items to display
@@ -385,7 +385,7 @@ class NewsController extends ModuleController
     /**
      * Widget for displaying used NewsCategories in List-Style
      */
-    public function widget_newscategories_list()
+    public function widgetNewsCategoriesList()
     {
         $newscategories_list = $this->getModel()->fetchUsedNewsCategories();
 
@@ -395,7 +395,7 @@ class NewsController extends ModuleController
     /**
      * Widget for displaying used NewsCategories in Dropdown-Style
      */
-    public function widget_newscategories_dropdown()
+    public function widgetNewsCategoriesDropdown()
     {
         $newscategories_dropdown = $this->getModel()->fetchUsedNewsCategories();
 
@@ -405,7 +405,7 @@ class NewsController extends ModuleController
      /**
      * Widget Archive
      */
-    public function widget_archive()
+    public function widgetNewsAchive()
     {
         // fetch all newsentries, ordered by creation date ASCENDING
         // get catdropdown options from database
@@ -434,7 +434,7 @@ class NewsController extends ModuleController
     /**
      * Widget Newsfeeds
      */
-    public function widget_newsfeeds()
+    public function widgetNewsFeeds()
     {
         // nothing to assign, it a pure template widget
     }
@@ -442,7 +442,7 @@ class NewsController extends ModuleController
     /**
      * Widget Newsfeeds
      */
-    public function widget_newspublish($params)
+    public function widgetNewsPublish($params)
     {
 
         if ( is_array($params) and !empty($params)) {

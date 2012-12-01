@@ -19,6 +19,6 @@ datestamp =
 uniqueid =
 
 [news_widgets]
-widget_news
+widgetNews
 
 ; DO NOT REMOVE THIS LINE */ ?>

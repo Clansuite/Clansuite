@@ -49,7 +49,7 @@ class SearchController extends ModuleController
         $this->display();
     }
 
-    public function action_multisearch()
+    public function actionMultiSearch()
     {
         // Set Pagetitle and Breadcrumbs
         \Koch\View\Helper\Breadcrumb::add( _('Show'), '/search/multisearch');
@@ -73,7 +73,7 @@ class SearchController extends ModuleController
         $this->display();
     }
 
-    public function widget_multisearch()
+    public function widgetMultiSearch()
     {
     }
 

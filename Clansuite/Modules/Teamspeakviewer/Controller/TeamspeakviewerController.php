@@ -77,7 +77,7 @@ class TeamspeakviewerController extends ModuleController
         $this->display();
     }
 
-    public function widget_ts3ministatus($params)
+    public function widgetTeamspeak3MiniStatus($params)
     {
         $view = $this->getView();
 
@@ -104,7 +104,7 @@ class TeamspeakviewerController extends ModuleController
         $view->assign('serverinfo', $serverinfo);
     }
 
-    public function widget_ts2ministatus($params)
+    public function widgetTeamspeak2MiniStatus($params)
     {
         $view = $this->getView();
 
@@ -152,7 +152,7 @@ class TeamspeakviewerController extends ModuleController
         $view->assign('serverinfo', $serverinfo);
     }
 
-    public function widget_ts2viewer($params)
+    public function widgetTeamspeak2Viewer($params)
     {
         $view = $this->getView();
 
@@ -171,7 +171,7 @@ class TeamspeakviewerController extends ModuleController
         $view->assign('serverinfo', $serverinfo);
     }
 
-    public function widget_ts3viewer($params)
+    public function widgetTeamspeak3Viewer($params)
     {
         $view = $this->getView();
 
