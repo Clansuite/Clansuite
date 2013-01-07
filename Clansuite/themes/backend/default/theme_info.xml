@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE theme SYSTEM "http://schemas.clansuite.com/dtd/theme_info.dtd">
 <theme>
-    <name>Clansuite Admin - Control Center Theme</name>
-    <description><![CDATA[The Layout for the Clansuite Control Center.]]></description>
+    <name>Default Backend Theme</name>
+    <description><![CDATA[The default backend theme.]]></description>
     <author>
         <name>Jens-André Koch</name>
         <homepage>http://www.clansuite.com/</homepage>
         <email>vain@clansuite.com</email>
-    </author>
-    <author>
-        <name>Florian Wolf</name>
-        <homepage>http://www.xsigndll.de/</homepage>
-        <email>xsign.dll@clansuite.com</email>
     </author>
     <theme_version>0.1</theme_version>
     <license>GNU/GPL v2+</license>
