@@ -57,7 +57,7 @@
 
             {* Header Table *}
         <div id="csHeader">
-            <img alt="Clansuite Header" src="{$www_root_themes_frontend}standard/images/clansuite-header.png" width="760" height="175" />
+            <img alt="Clansuite Header" src="{$www_root_themes_frontend}default/images/clansuite-header.png" width="760" height="175" />
         </div>
 
         <!-- Main Table -->
