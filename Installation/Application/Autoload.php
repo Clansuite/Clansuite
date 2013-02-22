@@ -30,18 +30,25 @@ class Autoload
 {
     public function __construct()
     {
-        // our autoloader first
-        spl_autoload_register('self::autoload');
-        // composer vendor autoloader
+        // register composer's autoloader
         include VENDOR_PATH . 'autoload.php';
+
+        include KOCH_FRAMEWORK . 'Autoload/Loader.php';
+        \Koch\Autoload\Loader::register(APPLICATION_PATH . '/Configuration/kf_classmap.php');
+
+        // then register our autoloader on top of the autoloading stack
+        spl_autoload_register('self::autoload', false, true);
     }
 
     private static function autoload($classname)
     {
-        // return early, as we don't handle loading Doctrine stuff
-        if (strpos($classname, 'Doctrine') !== false) {
+        // return early, as we don't handle loading vendor stuff
+        if (strpos($classname, 'Doctrine') !== false or
+            strpos($classname, 'Koch') !== false) {
             return;
         }
+
+
 
         // remove namespace
         $filename = str_replace('Clansuite\Installation\\', '', $classname);

@@ -39,8 +39,8 @@ define('DEBUG', false);
 define('DS', DIRECTORY_SEPARATOR);
 define('INSTALLATION_ROOT', __DIR__ . DS);
 define('ROOT', dirname(INSTALLATION_ROOT) . DS);
-define('ROOT_APP', ROOT . 'Clansuite/');
-define('ROOT_CACHE', ROOT_APP . 'Cache/');
+define('APPLICATION_PATH', ROOT . 'Clansuite/');
+define('ROOT_CACHE', APPLICATION_PATH . 'Cache/');
 define('VENDOR_PATH', ROOT . 'vendor/');
 define('KOCH_FRAMEWORK', VENDOR_PATH . 'ksst/kf/framework/Koch/');
 define('PROTOCOL', 'http://');
@@ -51,7 +51,7 @@ define('NL', '<br />' . PHP_EOL);
 define('CR', "\n");
 
 // load Clansuite Version constants
-require ROOT_APP . 'Version.php';
+require APPLICATION_PATH . 'Version.php';
 \Clansuite\Version::setVersionInformation();
 
 // Error Reporting Level
@@ -61,7 +61,7 @@ ini_set('display_errors', true);
 
 require KOCH_FRAMEWORK . 'Exception/Exception.php';
 require KOCH_FRAMEWORK . 'Exception/Errorhandler.php';
-set_exception_handler(array(new \Koch\Exception\Exception, 'exceptionHandler'));
+set_exception_handler(array(new \Koch\Exception\Exception, 'handle'));
 
 if (DEBUG) {
     echo 'SESSION: ';

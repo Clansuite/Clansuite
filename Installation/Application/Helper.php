@@ -60,7 +60,7 @@ class Helper
         $data_array = array_merge_recursive($data_array, $installer_config);
 
         // write Config File to the APPLICATION/configuration folder
-        if (false === \Koch\Config\Adapter\INI::writeConfig(ROOT_APP . 'Configuration/clansuite.php', $data_array)) {
+        if (false === \Koch\Config\Adapter\INI::writeConfig(APPLICATION_PATH . 'Configuration/clansuite.php', $data_array)) {
             // config not written
             return false;
         }
@@ -167,7 +167,7 @@ class Helper
         /**
          * All Module Entites
          */
-        $dirs = glob(ROOT_APP . '/Modules/' . '[a-zA-Z]*', GLOB_ONLYDIR);
+        $dirs = glob(APPLICATION_PATH . '/Modules/' . '[a-zA-Z]*', GLOB_ONLYDIR);
 
         foreach ($dirs as $key => $dir_path) {
             // Entity Path
@@ -188,7 +188,7 @@ class Helper
         /**
          * Core Entities
          */
-        $model_dirs[] = ROOT_APP . 'Doctrine';
+        $model_dirs[] = APPLICATION_PATH . 'Doctrine';
 
         // array_unique
         $model_dirs = array_keys(array_flip($model_dirs));
@@ -205,7 +205,7 @@ class Helper
                 include KOCH_FRAMEWORK . 'Config/Adapter/INI.php';
 
                 // get clansuite config
-                $clansuite_config = \Koch\Config\Adapter\INI::readConfig(ROOT_APP . 'Configuration/clansuite.php');
+                $clansuite_config = \Koch\Config\Adapter\INI::readConfig(APPLICATION_PATH . 'Configuration/clansuite.php');
 
                 // reduce config array to the dsn/connection settings
                 $connectionParams = $clansuite_config['database'];
@@ -224,7 +224,7 @@ class Helper
 
             // add Table Prefix
             $prefix = $connectionParams['prefix'];
-            $tablePrefix = new \DoctrineExtensions\TablePrefix\TablePrefix($prefix);
+            $tablePrefix = new \Koch\Doctrine\TablePrefix($prefix);
             $event->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
             // setup Cache
@@ -232,7 +232,7 @@ class Helper
             $config->setMetadataCacheImpl($cache);
 
             // setup Proxy Dir
-            $config->setProxyDir(realpath(ROOT_APP . 'Doctrine'));
+            $config->setProxyDir(realpath(APPLICATION_PATH . 'Doctrine'));
             $config->setProxyNamespace('proxies');
 
             // setup Annotation Driver

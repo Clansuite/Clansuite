@@ -89,11 +89,10 @@ class Application
 
     public function loadDoctrine()
     {
-        $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', realpath(ROOT . 'libraries/'));
+        $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', realpath(KOCH_FRAMEWORK . '/libraries/'));
         $classLoader->register();
 
-        $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', realpath(ROOT . 'libraries/'));
-        $classLoader->register();
+        include realpath(KOCH_FRAMEWORK . 'Doctrine/TablePrefix.php');
     }
 
     /**

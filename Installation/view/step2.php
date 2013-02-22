@@ -156,14 +156,14 @@
                     // Permissions Check: write to \Clansuite root folder
                     $required['is_writable_clansuite_root']['label']    = $language['IS_WRITABLE_CLANSUITE_ROOT'];
                     $required['is_writable_clansuite_root']['expected'] = 'w';
-                    $required['is_writable_clansuite_root']['state']    = is_writable(ROOT_APP);
+                    $required['is_writable_clansuite_root']['state']    = is_writable(APPLICATION_PATH);
                     $required['is_writable_clansuite_root']['actual']   = $required['is_writable_clansuite_root']['state'] ? 'w' : '---';
                     $required['is_writable_clansuite_root']['status']   = $required['is_writable_clansuite_root']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
                     // Permissions Check: write to \Clansuite\Uploads folder
                     $required['is_writable_uploads']['label']    = $language['IS_WRITABLE_UPLOADS'];
                     $required['is_writable_uploads']['expected'] = 'w';
-                    $required['is_writable_uploads']['state']    = is_writable(ROOT_APP . 'Uploads');
+                    $required['is_writable_uploads']['state']    = is_writable(APPLICATION_PATH . 'Uploads');
                     $required['is_writable_uploads']['actual']   = $required['is_writable_uploads']['state'] ? 'w' : '---';
                     $required['is_writable_uploads']['status']   = $required['is_writable_uploads']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
@@ -177,7 +177,7 @@
                     // Permissions Check: write to \Clansuite\Configuration folder
                     $required['is_writable_configuration']['label']    = $language['IS_WRITABLE_CONFIGURATION'];
                     $required['is_writable_configuration']['expected'] = 'w';
-                    $required['is_writable_configuration']['state']    = is_writable(ROOT_APP . 'Configuration');
+                    $required['is_writable_configuration']['state']    = is_writable(APPLICATION_PATH . 'Configuration');
                     $required['is_writable_configuration']['actual']   = $required['is_writable_configuration']['state'] ? 'w' : '---';
                     $required['is_writable_configuration']['status']   = $required['is_writable_configuration']['state'] ? SETTING_TRUE : SETTING_FALSE;
 
