@@ -14,7 +14,7 @@
 <p>&nbsp;</p>
 <p><b>Clansuite Role and User Based Access Control Management:</b></p>
 <p>&nbsp;&nbsp;&nbsp;-&nbsp;
-   {if true == {check_permission name="index.action_show"}}
+   {if true == {is_authorized name="index.action_show"}}
     <font color=blue>Der User hat das Recht auf: index.action_show</font>
    {else}
     <font color=red>Der User hat <u>kein</u> Recht auf: index.action_show</font>

@@ -101,7 +101,7 @@
 
                     <div class="widget size9" id="widget_ts3viewer">{load_module name="Teamspeakviewer" action="widgetTeamspeak3Viewer"}</div>
                     <div class="widget size9" id="widget_about">{load_module name="Index" action="widgetAbout"}</div>
-                    {if true == {check_permission name="toolbox.widgetToolbox"}}
+                    {if true == {is_authorized name="toolbox.widgetToolbox"}}
                     <div class="widget size9" id="widget_cssbuilder">{load_module name="Index" action="widgetToolbox"}</div>
                     {/if}
                 </td>
