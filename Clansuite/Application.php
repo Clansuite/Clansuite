@@ -630,7 +630,7 @@ class Application
     private static function startSession()
     {
         // Initialize Session
-        self::$injector->create('\Koch\Session\Session');
+        self::$injector->instantiate('\Koch\Session\Storage\DoctrineSession');
 
         // register the session-depending user object
         self::$injector->instantiate('\Koch\User\User');
