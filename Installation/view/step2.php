@@ -78,7 +78,7 @@
                        $value = (int) iniFlag($phpvar);
 
                        #echo $phpvar .' - '.$value .' - ist:'. ini_get($phpvar) .'- soll: '. $expected_value .'<br />';
-                       
+
                        if ($return_type === 'int') {
                            return $value;
                        }
