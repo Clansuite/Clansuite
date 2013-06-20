@@ -78,7 +78,7 @@
                        $value = (int) iniFlag($phpvar);
 
                        #echo $phpvar .' - '.$value .' - ist:'. ini_get($phpvar) .'- soll: '. $expected_value .'<br />';
-
+                       
                        if ($return_type === 'int') {
                            return $value;
                        }
@@ -88,12 +88,12 @@
                        }
 
                        if ($return_type === 'img') {
-                           if ($expected_value === true) {
-                               return $value ? SETTING_TRUE : SETTING_FALSE;
-                           } else {
-                               return $value ? SETTING_FALSE : SETTING_TRUE;
-                           }
-                       }
+                            if ($expected_value === true) {
+                            return $value ? SETTING_TRUE : SETTING_FALSE;
+                            } else {
+                            return $value ? SETTING_FALSE : SETTING_TRUE;
+                            }
+                        }
                     }
 
                     /**
