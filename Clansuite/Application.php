@@ -614,7 +614,7 @@ class Application
     }
 
     /**
-     * Checks initializes Doctrine 2
+     * Initializes Doctrine 2
      *
      * Note: Doctrine must be initialize before "session start",
      * because the session depends on writing to the database.
