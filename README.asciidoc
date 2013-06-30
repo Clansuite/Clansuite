@@ -8,9 +8,9 @@ Based on PHP5, Doctrine2, Smarty3, Ajax. - Easy, comfortable, fast, flexible.
 [cols="4,1", width="70%"]
 |===
 | *Website* | http://clansuite.com/
-| *Issues* | http://trac.clansuite.com/
+| *Issues* | https://github.com/Clansuite/Clansuite/issues/
 | *Forum* | http://forum.clansuite.com/
-| *Contributors* | https://github.com/Clansuite/Clansuite/graphs/contributors
+| *Contributors* | https://github.com/Clansuite/Clansuite/graphs/contributors/
 |===
 
 === What is it?
