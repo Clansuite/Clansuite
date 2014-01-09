@@ -1,19 +1,16 @@
 == Clansuite - just an eSports CMS
-image::https://secure.travis-ci.org/Clansuite/Clansuite.png?branch=master[CI Status master]
-image::https://secure.travis-ci.org/Clansuite/Clansuite.png?branch=develop[CI Status develop]
+[![Build Status](https://secure.travis-ci.org/Clansuite/Clansuite.png?branch=master)](https://travis-ci.org/Clansuite/Clansuite)
+[![Build Status](https://secure.travis-ci.org/Clansuite/Clansuite.png?branch=develop](https://travis-ci.org/Clansuite/Clansuite)
 
 Clansuite is a Free Content Management System especially for Clans and eSports Teams.
 Based on PHP5, Doctrine2, Smarty3, Ajax. - Easy, comfortable, fast, flexible.
 
-[cols="4,1", width="70%"]
-|===
-| *Website* | http://clansuite.com/
-| *Issues* | https://github.com/Clansuite/Clansuite/issues/
-| *Forum* | http://forum.clansuite.com/
-| *Contributors* | https://github.com/Clansuite/Clansuite/graphs/contributors/
-|===
+*Website* | http://clansuite.com/
+*Issues* | https://github.com/Clansuite/Clansuite/issues/
+*Forum* | http://forum.clansuite.com/
+*Contributors* | https://github.com/Clansuite/Clansuite/graphs/contributors/
 
-=== What is it?
+### What is it?
 
 Clansuite is a CMS developed for Clans and eSports Teams to setup their gaming websites.
 It aims to be state-of-the-art, has a modular design approach, feature-richness and easy-maintainance.
@@ -30,14 +27,14 @@ If you notice compliance oversights, please send a patch via pull request.
 
 You can find more information about Clansuite on the official website http://clansuite.com/.
 
-== Documentation
+### Documentation
 
 Documentation is available in ASCIIDOC format in the /docs/manuals directory.
 In particular, open any of the asciidoc files (*.asciidoc) to see the clansuite manual.
 
 The http://docs.clansuite.com[Documentation] is also available on our website.
 
-== Authors
+### Authors
 
 Clansuite is maintained by Jens-Andre Koch <jakoch[at]web.de>.
 
@@ -47,22 +44,14 @@ This software consists of voluntary contributions made by many individuals.
 For detailed contributor informations and to get an overview of the
 people involved here, look at https://github.com/Clansuite/Clansuite/contributors[the List of Contributors]
 
-== Credits
-
-Few third party libraries and classes, scripts and graphics and icons are bundled to Clansuite.
-The details are noted in the files "doc/THIRD-PARTY-LIBRARIES".
-
-== Licensing
+### Licensing
 
 Clansuite is licensed under GPL version 2 and any later version.
 Clansuite's Documentation is licensed under the "GNU Free Documentation License".
 
-== Bugs
+### Bugs
 
-If you find any bugs, please do one of the following things:
-
-* visit the http://forum.clansuite.com/[support-forum] to report them
-* submit them to the http://trac.clansuite.com/[bugtracker]
+If you find any bugs, please submit them to the https://github.com/Clansuite/Clansuite/issues[bugtracker]
 
 More information can be found on the official website.
 
