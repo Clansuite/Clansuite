@@ -47,7 +47,7 @@ If you find any bugs, please submit them to the [bugtracker](https://github.com/
 
 More information can be found on the official website.
 
-== Contributing
+### Contributing
 
 If you are a developer, we need your help. Growing this project means lot's of stuff to do. Some developers are contributing with new features, others with bug fixes. You might also dedicate yourself to refactoring the current codebase and improving what we already have. This is very important, we want the project to be a state-of-the-art application, and we need your help for that.
 
