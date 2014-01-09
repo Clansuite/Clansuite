@@ -1,10 +1,15 @@
 ; https://github.com/editorconfig/
+
 ; top-most EditorConfig file
 root = true
 
-; Unix-style newlines
+# General
 [*]
-end_of_line = LF
+charset = utf-8
+; Unix-style newlines
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
 
 [*.php]
 indent_style = space
@@ -17,3 +22,7 @@ indent_size = 2
 [*.css]
 indent_style = space
 indent_size = 2
+
+[*.xml]
+indent_style = space
+indent_size = 4
