@@ -15,15 +15,3 @@
   |--+ de_DE                - Directory for the German Language (de_DE)
      |-- LC_MESSAGES        - Directory for LC_MESSAGES
          |--clansuite.mo    - Clansuite German Language File
-
-  Last Words
-  ----------
-
-    Thanks for using Clansuite!
-
-      Best Regards,
-
-        Jens-André Koch
-        Clansuite Maintainer
-
-  Version: $Id$
