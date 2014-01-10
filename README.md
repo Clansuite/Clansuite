@@ -51,7 +51,7 @@ More information can be found on the official website.
 
 If you are a developer, we need your help. Growing this project means lot's of stuff to do. Some developers are contributing with new features, others with bug fixes. You might also dedicate yourself to refactoring the current codebase and improving what we already have. This is very important, we want the project to be a state-of-the-art application, and we need your help for that.
 
-* [How to contribute](https://github.com/Clansuite/Clansuite/blob/develop/CONTRIBUTE.md)
+* [How to contribute](https://github.com/Clansuite/Clansuite/blob/develop/CONTRIBUTING.md)
 * Examine possible bugs, suboptimal code, duplicated code, overcomplicated expressions and unused code with in our CI server
 * Try to fix any [errors](https://travis-ci.org/#!/Clansuite/Clansuite) reported
 * Improve the test coverage by creating unit and functional tests
