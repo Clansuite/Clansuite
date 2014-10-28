@@ -38,15 +38,11 @@ class Helper
      * @return BOOLEAN true, if clansuite.config.php could be written to the INSTALLATION_ROOT
      */
     public static function write_config_settings($data_array)
-    {
-        // Read/Write Handler for config files
-        include KOCH_FRAMEWORK . 'Config/Adapter/INI.php';
-
-        // the base class is needed for \Koch\Config\Adpater\Ini
-        if (false === class_exists('AbstractConfig', false)) {
-            require KOCH_FRAMEWORK . 'Config/AbstractConfig.php';
-        }
-
+    { 
+        // load INI config adapter
+        include KOCH_FRAMEWORK . 'Config/Adapter/AdapterInterface.php';
+        include KOCH_FRAMEWORK . 'Config/Adapter/INI.php'; 
+        
         // throw not needed setting out, before data_array gets written to file
         unset($data_array['step_forward']);
         unset($data_array['lang']);
@@ -202,7 +198,9 @@ class Helper
     {
         try {
             if (is_array($connectionParams) === false) {
-                include KOCH_FRAMEWORK . 'Config/Adapter/INI.php';
+                // load INI config adapter
+                include KOCH_FRAMEWORK . 'Config/Adapter/AdapterInterface.php';
+                include KOCH_FRAMEWORK . 'Config/Adapter/INI.php'; 
 
                 // get clansuite config
                 $clansuite_config = \Koch\Config\Adapter\INI::read(APPLICATION_PATH . 'Configuration/clansuite.php');
