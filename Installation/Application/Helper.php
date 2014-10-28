@@ -54,13 +54,13 @@ class Helper
 
         // read skeleton settings, which are the minimum settings for initial startup
         // (these are not asked from user during installation)
-        $installer_config = \Koch\Config\Adapter\INI::readConfig(INSTALLATION_ROOT . 'config.skeleton.ini');
+        $installer_config = \Koch\Config\Adapter\INI::read(INSTALLATION_ROOT . 'config.skeleton.ini');
 
         // array merge: overwrite the array to the left, with the array to the right, when keys identical
         $data_array = array_merge_recursive($data_array, $installer_config);
 
         // write Config File to the APPLICATION/configuration folder
-        if (false === \Koch\Config\Adapter\INI::writeConfig(APPLICATION_PATH . 'Configuration/clansuite.php', $data_array)) {
+        if (false === \Koch\Config\Adapter\INI::write(APPLICATION_PATH . 'Configuration/clansuite.php', $data_array)) {
             // config not written
             return false;
         }
@@ -205,7 +205,7 @@ class Helper
                 include KOCH_FRAMEWORK . 'Config/Adapter/INI.php';
 
                 // get clansuite config
-                $clansuite_config = \Koch\Config\Adapter\INI::readConfig(APPLICATION_PATH . 'Configuration/clansuite.php');
+                $clansuite_config = \Koch\Config\Adapter\INI::read(APPLICATION_PATH . 'Configuration/clansuite.php');
 
                 // reduce config array to the dsn/connection settings
                 $connectionParams = $clansuite_config['database'];

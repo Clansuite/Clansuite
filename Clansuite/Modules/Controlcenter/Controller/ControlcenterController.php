@@ -201,7 +201,7 @@ class ControlcenterController extends ModuleController
         $config = $this->getInjector()->instantiate('Clansuite_Config');
 
         // write config
-        $config->writeConfig( APPLICATION_MODULES_PATH . 'controlcenter/controlcenter.config.php', $data);
+        $config->write( APPLICATION_MODULES_PATH . 'controlcenter/controlcenter.config.php', $data);
 
         // clear the cache / compiled tpls
         $this->getView()->clearCache();

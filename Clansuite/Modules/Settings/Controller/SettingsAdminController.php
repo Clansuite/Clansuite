@@ -82,7 +82,7 @@ class SettingsAdminController extends ModuleController
 
         // Get Configuration from Injector and main clansuite configuration file
         $config = $this->getInjector()->instantiate('Clansuite_Config');
-        $config->writeConfig(ROOT_CONFIG . 'clansuite.config.php', $data);
+        $config->write(ROOT_CONFIG . 'clansuite.config.php', $data);
 
         $this->getView()->clearCache();
 
